@@ -26,7 +26,7 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
         const H = document.documentElement, q = s => document.querySelector(s), vis = e => !!e && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden';
         return {
           sfui: !!window.SFUI, css: !!q('#sf-css, style#sf-ui-css'), hd: H.classList.contains('sf-hd-on') || vis(q('.sf-mh')),
-          ft: vis(q('#doz_footer_wrap')), wide: H.scrollWidth - innerWidth, tab: !m || vis(q('.sf-tabbar'))
+          ft: vis(q('#doz_footer_wrap')), wide: H.scrollWidth - innerWidth, tab: !m || H.classList.contains('sf-auth-on') || vis(q('.sf-tabbar'))  // 로그인·가입 화면은 일부러 탭바를 숨김
         };
       }, mobile).catch(e => ({ err: String(e) }));
       const p = [];
