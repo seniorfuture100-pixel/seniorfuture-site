@@ -185,20 +185,20 @@
   outline-offset:2px;
 }
 #cocoaModal.modal_site_join_policy .modal-dialog,
-#cocoaModal:has(.modal_article.login) .modal-dialog {
+#cocoaModal:not(.sf-authm):has(.modal_article.login) .modal-dialog {
   max-width:480px;
   width:calc(100% - 32px);
   margin:48px auto;
 }
 #cocoaModal.modal_site_join_policy .modal-content,
-#cocoaModal:has(.modal_article.login) .modal-content {
+#cocoaModal:not(.sf-authm):has(.modal_article.login) .modal-content {
   border:0;
   border-radius:20px;
   overflow:hidden;
   background:#fff;
   box-shadow:0 16px 48px rgba(0,0,0,.16);
 }
-#cocoaModal .modal_article.login {
+#cocoaModal:not(.sf-authm) .modal_article.login {
   padding:40px 32px 32px!important;
   background:#fff;
   font-family:var(--sf-font);
@@ -290,6 +290,88 @@
   background:var(--sf-dark)!important;
   color:#fff!important;
 }
+/* 팝업 로그인·가입 선택 창: 창 자체가 카드, 안쪽은 여백만 */
+#cocoaModal.sf-authm .modal-dialog {
+  max-width:440px;
+  width:calc(100% - 32px);
+  margin:48px auto;
+}
+#cocoaModal.sf-authm .modal-content {
+  border:0;
+  border-radius:20px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 16px 48px rgba(0,0,0,.16);
+  height:auto!important;
+  min-height:0!important;
+}
+#cocoaModal.sf-authm .sf-auth {
+  position:relative;
+}
+#cocoaModal.sf-authm .modal-header,
+#cocoaModal.sf-authm article.modal_article>h2 {
+  display:none!important;
+}
+#cocoaModal.sf-authm article.modal_article:not(.sf-auth) {
+  position:relative;
+  padding:0!important;
+}
+#cocoaModal.sf-authm .sf-auth {
+  max-width:none;
+  margin:0;
+  padding:48px 32px 32px!important;
+  border-radius:0;
+  box-shadow:none;
+}
+#cocoaModal.sf-authm .sf-auth>.divider,
+#cocoaModal.sf-authm .sf-auth>p.txt_c.mb20 {
+  display:none!important;
+}
+#cocoaModal.sf-authm .sf-auth--join .divider {
+  display:flex!important;
+}
+#cocoaModal.sf-authm button.close {
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:2;
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  margin:0;
+  opacity:.6;
+  font-size:20px;
+}
+#cocoaModal.sf-authm .sf-auth .input_block {
+  border:0!important;
+}
+#cocoaModal.sf-authm .sf-auth .input_form {
+  border:0!important;
+}
+#cocoaModal.sf-authm .sf-auth .input_form input {
+  width:100%;
+  border:0!important;
+  box-shadow:inset 0 0 0 1px var(--sf-border)!important;
+}
+#cocoaModal.sf-authm .sf-auth .input_form input:focus {
+  box-shadow:inset 0 0 0 2px var(--sf-text)!important;
+}
+#cocoaModal.sf-authm .sf-auth form .btn-primary {
+  width:100%;
+  text-align:center!important;
+  justify-content:center!important;
+  align-items:center;
+  border-radius:12px!important;
+  background:var(--sf-dark)!important;
+}
+#cocoaModal.sf-authm .sf-auth__links {
+  display:flex!important;
+}
+#cocoaModal.sf-authm .sf-auth__links a {
+  float:none!important;
+}
 @media (max-width:767.98px) {
   :root .sf-auth {
     max-width:none;
@@ -307,10 +389,16 @@
     margin-top:1px;
   }
   #cocoaModal.modal_site_join_policy .modal-dialog,
-  #cocoaModal:has(.modal_article.login) .modal-dialog {
+  #cocoaModal:not(.sf-authm):has(.modal_article.login) .modal-dialog {
     margin:16px auto;
   }
-  #cocoaModal .modal_article.login {
+  #cocoaModal:not(.sf-authm) .modal_article.login {
     padding:32px 20px 24px!important;
+  }
+  #cocoaModal.sf-authm .modal-dialog {
+    margin:16px auto;
+  }
+  #cocoaModal.sf-authm .sf-auth {
+    padding:44px 20px 24px!important;
   }
 }
