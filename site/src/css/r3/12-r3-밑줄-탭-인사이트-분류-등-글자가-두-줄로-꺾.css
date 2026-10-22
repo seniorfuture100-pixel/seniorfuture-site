@@ -1,0 +1,23 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 밑줄 탭(인사이트 분류 등): 글자가 두 줄로 꺾이지 않게, 넘치면 옆으로 밀기
+   함께 들어 있음: r3 · 인사이트 탭: '이번 주 많이 읽은 인사이트' 모바일 2×2 (홈 인사이트는 한 줄 스와이프 그대로) */
+:root body .sf-utabs>* {
+  flex:none;
+  white-space:nowrap;
+}
+:root body .sf-utabs {
+  scrollbar-width:none;
+}
+:root body .sf-utabs::-webkit-scrollbar {
+  display:none;
+}
+@media (max-width:767.98px) {
+  :root.r2-ins body .sf-cards4.sf-cards4--ins {
+    grid-auto-flow:row;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-auto-columns:auto;
+    gap:24px 12px;
+    overflow:visible;
+    margin-right:0;
+    padding-right:0;
+  }
+}

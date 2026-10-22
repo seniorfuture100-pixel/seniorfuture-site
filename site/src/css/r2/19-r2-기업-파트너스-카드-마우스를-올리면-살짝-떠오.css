@@ -1,0 +1,29 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 기업·파트너스 카드: 마우스를 올리면 살짝 떠오름
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root body .r2-mo .sf-ap-ben>*,
+:root body .r2-mo .sf-ap-dark>*,
+:root body .r2-mo .sf-ap-ways>*,
+:root body .r2-mo .sf-need-cards>*,
+:root body .r2-mo .sf-pt-cmp>*,
+:root body .r2-mo .sf-pt-ex>*,
+:root body .r2-mo .sf-why>* {
+  transition:opacity .6s var(--sf-ease) calc(var(--i,0)*.08s),transform .6s var(--sf-ease) calc(var(--i,0)*.08s),box-shadow .25s var(--sf-ease);
+}
+:root body .r2-mo .r2-stag.r2-in.sf-ap-ben>:hover,
+:root body .r2-mo .r2-stag.r2-in.sf-ap-dark>:hover,
+:root body .r2-mo .r2-stag.r2-in.sf-ap-ways>:hover,
+:root body .r2-mo .r2-stag.r2-in.sf-need-cards>:hover,
+:root body .r2-mo .r2-stag.r2-in.sf-pt-ex>:hover,
+:root body .r2-mo .r2-stag.r2-in.sf-why>:hover {
+  transform:translateY(-4px);
+  transition-delay:0s;
+}
+:root body .r2-mo .r2-stag.r2-in.sf-why>:hover {
+  box-shadow:0 12px 28px rgba(0,0,0,.35);
+}
+:root.r2-help body [data-widget-type=board] ._table_top,
+:root.r2-help body [data-widget-type=board] .board-head .tools,
+:root.r2-nfolded body .r2-ntable .r2-nfold,
+:root.r2-nfolded body [data-widget-type=board] .pagination {
+  display:none!important;
+}

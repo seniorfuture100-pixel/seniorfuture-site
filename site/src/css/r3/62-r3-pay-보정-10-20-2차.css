@@ -1,0 +1,18 @@
+/* 화면 묶음: payment | 원본: src/r3-pay.css · 보정(10/20 2차) */
+html.r3pay-on body .r3pay-bg {
+  background:#fff!important;
+}
+html.r3pay-on body .r3pay-srclist {
+  display:none!important;
+}
+html.r3pay-on body .r3pay-left .r3pay-box {
+  padding-bottom:0!important;
+}
+html.r3pay-on body .r3pay-box--terms {
+  display:flex!important;
+  flex-direction:column;
+}
+html.r3pay-on body .r3pay-box--terms button[type=submit] {
+  order:-1;
+  margin:0 0 12px!important;
+}

@@ -1,0 +1,28 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 모바일 알림(🔔) 버튼 + 펼침 판
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root body .r3-bell {
+  position:relative;
+}
+:root body .r3-bell svg {
+  width:24px;
+  height:24px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+:root body .r3-bell__dot {
+  position:absolute;
+  top:8px;
+  right:8px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#ff3b30;
+  box-shadow:0 0 0 2px #fff;
+}
+:root body .r3-bell__dot[hidden],
+:root body .r3-bellp[hidden] {
+  display:none;
+}

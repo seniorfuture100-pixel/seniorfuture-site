@@ -1,0 +1,27 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · PC(1200px~) 첫 화면 카드 4장: 겹쳐 쌓여 '임직원 시니어 고객 교육' 글자가 가려지던 것 → 2×2 격자(가로 28px·세로 36px 간격), */
+:root .sf-carousel--peek .sf-track>.is-current {
+  opacity:1;
+}
+:root .sf-carousel--peek .sf-peek-pager {
+  position:absolute;
+  right:calc((100% - min(800px,100% - 48px))/2 + 20px);
+  bottom:44px;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 6px;
+  border-radius:999px;
+  background:rgba(0,0,0,.35);
+  color:#fff;
+  font:700 12px var(--sf-font);
+}
+:root .sf-peek-pager button {
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:50%;
+  background:0 0;
+  color:#fff;
+  cursor:pointer;
+  font-size:14px;
+}

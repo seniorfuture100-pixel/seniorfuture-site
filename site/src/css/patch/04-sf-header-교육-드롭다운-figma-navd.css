@@ -1,0 +1,32 @@
+/* 화면 묶음: common | 원본: src/sf-header.css · 교육 드롭다운: Figma NavDropdown/Education 429px · r12 · 그림자
+   함께 들어 있음: r2 · 글 카드 움직임: BEST 카드와 같게 (썸네일 살짝 떠오름·그림자, 제목 주황, 사진 부드럽게 나타남) */
+:root .sf-navdrop small {
+  display:block;
+  margin-bottom:12px;
+  color:var(--sf-text-3);
+  font:700 12px/1.4 var(--sf-font);
+}
+:root .sf-navdrop__grid a,
+:root .sf-navdrop__main a {
+  color:var(--sf-text);
+  font:700 16px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+  text-decoration:none;
+}
+:root .sf-navdrop,
+:root .sf-navdrop__grid {
+  display:flex;
+  gap:40px;
+}
+:root .sf-navdrop__grid div {
+  display:grid;
+  gap:12px;
+}
+:root .sf-navdrop__grid a {
+  color:var(--sf-text-2);
+  font:500 14px/1.5 var(--sf-font);
+}
+:root .sf-navdrop a:focus-visible,
+:root .sf-navdrop a:hover {
+  color:var(--sf-text-brand);
+}

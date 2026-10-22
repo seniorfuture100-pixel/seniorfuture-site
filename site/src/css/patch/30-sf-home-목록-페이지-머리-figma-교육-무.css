@@ -1,0 +1,40 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · 목록 페이지 머리 (Figma 교육·무료 라이브·인사이트·커뮤니티 목록): 제목 34 · 설명 · 안내 상자 · 밑줄 탭 · 칩 줄
+   함께 들어 있음: sf-board · 인사이트 BEST 카드 · 뉴스레터 구독 상자 (Figma 인사이트 목록) */
+:root .sf-page {
+  max-width:1200px;
+  margin:0 auto;
+  padding:56px 0 24px;
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+}
+:root .sf-page h1 {
+  margin:0 0 8px;
+  color:var(--sf-text);
+  font:700 34px/1.35 var(--sf-font);
+  letter-spacing:-.01em;
+}
+:root .sf-page__sub,
+:root .sf-utabs button {
+  color:var(--sf-text-3);
+  letter-spacing:-.02em;
+}
+:root .sf-page__sub {
+  margin:0;
+  font:400 16px/1.5 var(--sf-font);
+}
+:root .sf-notice-box {
+  display:grid;
+  gap:4px;
+  margin-top:24px;
+  padding:20px 24px;
+  border-radius:12px;
+  background:var(--sf-brand-tint);
+}
+:root .sf-notice-box strong {
+  font:700 16px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+}
+:root .sf-notice-box span {
+  color:var(--sf-text-2);
+  font:400 13px/1.5 var(--sf-font);
+}

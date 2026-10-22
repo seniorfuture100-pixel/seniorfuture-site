@@ -1,0 +1,30 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · How we work — 6단계
+   함께 들어 있음: sf-layout · 최근 검색어, sf-biz · How we work — 6단계 */
+:root [data-sf-step-panel] h3 {
+  margin:6px 0 10px;
+}
+:root [data-sf-step-panel] .sf-out {
+  padding:20px 24px;
+  border-radius:16px;
+  background:var(--sf-surface);
+}
+:root [data-sf-step-panel] .sf-out b {
+  display:block;
+  margin:6px 0 10px;
+  font-size:16px;
+}
+:root [data-sf-step-next],
+:root [data-sf-step-panel] .sf-out small {
+  color:var(--sf-text-3);
+  font-size:14px;
+  font-weight:700;
+}
+:root [data-sf-step-next] {
+  color:var(--sf-text-2);
+  text-decoration:none;
+}
+:root .sf-note {
+  margin-top:24px;
+  color:var(--sf-text-3);
+  font-size:14px;
+}

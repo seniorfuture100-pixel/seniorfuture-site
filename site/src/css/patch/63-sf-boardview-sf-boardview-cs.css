@@ -1,0 +1,61 @@
+/* 화면 묶음: insight | 원본: src/sf-boardview.css · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741
+   함께 들어 있음: r3 · 기업·공공기관 협업 보강 (10/20): 대상별 협업 · 3단계 연결 · 로고 벽 · 두 갈래 문의 */
+:root .sf-bv-kakao:active,
+:root .sf-bv-link:active {
+  transform:scale(.97);
+}
+html.sf-bv-on body .sf-bv-sum {
+  display:flex;
+  justify-content:flex-end;
+  margin:8px 0 0!important;
+  padding:0!important;
+  border:0!important;
+}
+html.sf-bv-on body .sf-bv-sum .tools.txt a {
+  color:var(--sf-text-3);
+  font-size:12px;
+}
+html.sf-bv-on body .board_view .board_txt_area {
+  color:var(--sf-text)!important;
+  font:400 16px/1.8 var(--sf-font)!important;
+  letter-spacing:-.01em;
+  word-break:keep-all;
+}
+html.sf-bv-on body .board_view .board_txt_area p {
+  margin:0 0 16px;
+}
+html.sf-bv-on body .board_view .board_txt_area img {
+  border-radius:12px;
+}
+html.sf-bv-on body .board_view .board_txt_area :is(h2,
+h3) {
+  margin:40px 0 12px;
+  font:700 20px/1.45 var(--sf-font)!important;
+}
+html.sf-bv-on body .board_view .board_txt_area blockquote {
+  margin:24px 0;
+  padding:4px 0 4px 16px;
+  border-left:3px solid var(--sf-primary);
+  font:700 18px/1.6 var(--sf-font);
+}
+html.sf-bv-on body .board_view .board_txt_area ol,
+html.sf-bv-on body .board_view .board_txt_area ul {
+  margin:0 0 16px;
+  padding-left:20px;
+}
+:root .sf-bv-tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:24px 0 0!important;
+}
+:root .sf-bv-tags a {
+  padding:4px 10px;
+  border-radius:9999px;
+  color:var(--sf-text-2);
+  font:500 13px/1.5 var(--sf-font);
+}
+:root .sf-bv-tags a:hover {
+  background:var(--sf-brand-tint);
+  color:var(--sf-text-brand);
+}

@@ -1,0 +1,89 @@
+/* 화면 묶음: share | 원본: src/sf-share.css · 창
+   함께 들어 있음: r2 · 프로필 설정 (핵심 항목만), sf-share · 창, r2 · 검색: PC는 헤더 아래 패널 (월부식) · 최근 / 인기 2칸, sf-chrome · sf-chrome.css — 아임웹 기본 헤더·푸터 모양 (site-chrome.js 와 짝) */
+:root .sf-rw-kakao,
+:root .sf-rw-ok {
+  min-height:56px;
+  border:0;
+  border-radius:12px;
+  font:700 18px var(--sf-font);
+  cursor:pointer;
+}
+:root .sf-rw-kakao {
+  background:#fee500;
+  color:#191919;
+}
+:root .sf-rw-ok {
+  background:var(--sf-surface);
+  color:var(--sf-text);
+}
+:root .sf-rw-done {
+  max-width:480px;
+  justify-items:center;
+  padding-top:40px;
+}
+:root .sf-rw-done>button {
+  width:100%;
+}
+:root .sf-rw-done>.sf-rw-kakao {
+  margin-top:8px;
+}
+:root .sf-rw-star {
+  font-size:64px;
+  line-height:1;
+  color:#ffc633;
+}
+:root .sf-rw-done p {
+  margin:0;
+}
+:root .sf-rw-guide-link {
+  color:var(--sf-text-brand);
+  font-size:14px;
+  font-weight:700;
+  text-decoration:none;
+}
+@media (max-width:767.98px) {
+  :root .sf-rw {
+    align-items:flex-end;
+    padding:0;
+  }
+  :root .sf-rw-box {
+    max-width:none;
+    gap:16px;
+    padding:24px 20px calc(28px + env(safe-area-inset-bottom));
+    border-radius:20px 20px 0 0;
+  }
+  :root .sf-rw-box h2 {
+    font-size:20px;
+  }
+  :root .sf-rw-kakao,
+  :root .sf-rw-ok {
+    min-height:52px;
+    font-size:16px;
+  }
+  :root .sf-rw-done {
+    align-self:center;
+    width:calc(100% - 48px);
+    margin-bottom:auto;
+    margin-top:auto;
+    border-radius:20px;
+  }
+  :root .sf-rw-star {
+    font-size:52px;
+  }
+}
+:root .sf-hd-partner {
+  display:inline-flex;
+  align-items:center;
+  height:40px;
+  margin-right:12px;
+  padding-right:12px;
+  border-right:1px solid var(--sf-border);
+  color:var(--sf-text-2);
+  font:600 15px var(--sf-font);
+  text-decoration:none;
+  vertical-align:middle;
+}
+:root .sf-hd-partner:focus-visible,
+:root .sf-hd-partner:hover {
+  color:var(--sf-text);
+}

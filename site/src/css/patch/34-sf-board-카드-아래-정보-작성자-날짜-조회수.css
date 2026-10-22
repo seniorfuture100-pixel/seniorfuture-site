@@ -1,0 +1,27 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · 카드 아래 정보: 작성자 · 날짜 (조회수는 숨김) — Figma Card/Review 메타 */
+:is(.list-style-gallery,
+.list-style.type_grid) .card-summary .avatar {
+  display:flex;
+}
+:is(.list-style-gallery,
+.list-style.type_grid) .card-summary .img_wrap,
+:is(.list-style-gallery,
+.list-style.type_grid) .card-summary .tools small:not(.date) {
+  display:none!important;
+}
+:is(.list-style-gallery,
+.list-style.type_grid) .card-summary .tools {
+  display:flex!important;
+  align-items:center;
+  gap:0;
+}
+:is(.list-style-gallery,
+.list-style.type_grid) .card-summary .writer {
+  color:var(--sf-text-3);
+  font:400 13px/1.5 var(--sf-font);
+}
+:is(.list-style-gallery,
+.list-style.type_grid) .card-summary .writer+.date::before {
+  content:"·";
+  margin:0 6px;
+}

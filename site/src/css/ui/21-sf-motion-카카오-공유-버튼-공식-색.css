@@ -1,0 +1,49 @@
+/* 화면 묶음: common | 원본: src/sf-motion.css · 카카오 공유 버튼 공식 색
+   함께 들어 있음: sf-motion · 띠배너 (Figma TopBanner): 차콜 → 주황 그라데이션, 흰 글씨, sf-motion · 강의 카드 태그 (Figma 01 디자인시스템 'Tag') — SEED: 브랜드색은 carrot 하나 + semantic + neutral, sf-biz · Solutions */
+@media (max-width:767.98px) {
+  html.sf-has-tabbar .sf-toast {
+    bottom:calc(80px + env(safe-area-inset-bottom));
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root .sf-carousel--peek .sf-track>*,
+  :root .sf-toast {
+    transition:none;
+  }
+}
+:root .sf-topbanner {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 56px;
+  position:relative;
+  text-decoration:none;
+}
+:root .sf-topbanner [data-sf-close] {
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+  border-radius:6px;
+}
+:root .sf-topbanner [data-sf-close]:focus-visible {
+  outline:2px solid #fff;
+}
+@media (max-width:767.98px) {
+  :root .sf-topbanner {
+    min-height:40px;
+    padding:0 44px 0 16px;
+    font-size:13px;
+    justify-content:flex-start;
+  }
+}
+:root .sf-tag--meet {
+  background:#e6f5fd;
+  color:#00699e;
+}
+:root .sf-tag--event {
+  background:#e8f6f1;
+  color:#0f7a57;
+}

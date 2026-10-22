@@ -1,0 +1,26 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 프로필 설정: 아임웹 창을 숨긴 채 불러오고, 그동안 칸 모양 뼈대 */
+:root.r2-prof-wait body .modal-backdrop,
+:root.r2-prof-wait body .modal_site_join {
+  opacity:0!important;
+  pointer-events:none!important;
+}
+:root.r2-prof-wait body {
+  overflow:auto!important;
+}
+:root body .r2-prof-skel {
+  display:grid;
+  gap:14px;
+}
+:root body .r2-prof-skel i {
+  display:block;
+  height:52px;
+  border-radius:10px;
+  background:linear-gradient(90deg,#f2f3f6 25%,#e9ebef 50%,#f2f3f6 75%);
+  background-size:200% 100%;
+  animation:r3sk 1.2s linear infinite;
+}
+:root body .r2-prof-skel i.is-av {
+  width:88px;
+  height:88px;
+  border-radius:50%;
+}

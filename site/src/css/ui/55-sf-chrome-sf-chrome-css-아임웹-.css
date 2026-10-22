@@ -1,0 +1,45 @@
+/* 화면 묶음: common | 원본: src/sf-chrome.css · sf-chrome.css — 아임웹 기본 헤더·푸터 모양 (site-chrome.js 와 짝)
+   함께 들어 있음: sf-chrome · 아임웹 입력폼을 코드 위젯 자리(.sf-form-slot)에 옮겼을 때 모양 (form-slot.js 와 짝), r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root #doz_footer.sf-ft-on .footer-section .inside {
+  max-width:1200px;
+  margin:0 auto;
+  padding:24px 20px 40px;
+}
+:root #doz_footer.sf-ft-on .footer-company-info,
+:root #doz_footer.sf-ft-on .footer-company-info * {
+  color:#868b94!important;
+  font:13px/1.7 var(--sf-font)!important;
+  text-align:left!important;
+}
+:root #doz_footer.sf-ft-on .footer-company-info p {
+  display:flex;
+  flex-wrap:wrap;
+  gap:0 12px;
+  margin:0;
+}
+@media (max-width:767.98px) {
+  :root .sf-hd-partner {
+    display:none;
+  }
+  :root .sf-ft {
+    padding-top:36px;
+  }
+  :root .sf-ft-in {
+    gap:28px 40px;
+  }
+  :root .sf-ft-cs {
+    margin-left:0;
+    width:100%;
+  }
+}
+:root .sf-form-slot {
+  padding:40px;
+  border-radius:24px;
+  background:#fff;
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+  text-align:left;
+}
+:root .sf-form-slot:not(.is-filled) {
+  display:none;
+}

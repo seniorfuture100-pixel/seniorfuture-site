@@ -1,0 +1,32 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 기업·공공기관 카드: 올라오며 나타나기 · 호버 · 카드 전체 클릭
+   함께 들어 있음: r3 · 파트너스 카드 호버 */
+:root .sf-biz .r3-aud>li.is-link {
+  cursor:pointer;
+}
+:root .sf-biz .r3-aud>li.is-in:hover {
+  transform:translateY(-4px);
+  box-shadow:inset 0 0 0 1px #ffd2b8,0 14px 32px rgba(255,107,26,.12);
+  transition-delay:0s!important;
+}
+:root .sf-biz .r3-aud>li a {
+  transition:gap .2s;
+}
+@media (prefers-reduced-motion:reduce) {
+  :root .r3-rv {
+    opacity:1;
+    transform:none;
+    transition:none;
+  }
+}
+:root .sf-pt .sf-pt-ex>article,
+:root .sf-pt .sf-pt-steps>li,
+:root .sf-pt .sf-pt-who>li {
+  transition:opacity .6s var(--sf-ease,ease),transform .4s var(--sf-ease,ease),box-shadow .25s var(--sf-ease,ease);
+}
+:root .sf-pt .sf-pt-ex>article:hover,
+:root .sf-pt .sf-pt-steps>li:hover,
+:root .sf-pt .sf-pt-who>li:hover {
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(17,24,39,.08);
+  transition-delay:0s!important;
+}

@@ -1,0 +1,11 @@
+/* 화면 묶음: common | 원본: src/sf-header.css · 교육 드롭다운: Figma NavDropdown/Education 429px · r12 · 그림자 */
+@keyframes sf-drop {
+  0% {
+    opacity:0;
+    transform:translateY(-6px);
+  }
+  to {
+    opacity:1;
+    transform:none;
+  }
+}

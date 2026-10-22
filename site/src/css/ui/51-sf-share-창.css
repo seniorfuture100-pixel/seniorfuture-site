@@ -1,0 +1,46 @@
+/* 화면 묶음: share | 원본: src/sf-share.css · 창
+   함께 들어 있음: r3-partner · 3. 걱정 → 답 (말풍선) */
+:root .sf-rw-login {
+  gap:12px;
+  max-width:480px;
+}
+:root .sf-rw-desc,
+:root .sf-rw-done p {
+  margin:0 0 8px;
+  color:var(--sf-text-2);
+  font-size:16px;
+  line-height:1.6;
+}
+:root .sf-rw-social {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:52px;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:700;
+  text-decoration:none;
+}
+:root .sf-rw-social i {
+  display:inline-flex;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  font:700 15px/1 var(--sf-font);
+  font-style:normal;
+}
+:root .sf-rw-social.is-kakao {
+  background:#fee500;
+  color:#191919;
+}
+:root .sf-rw-social.is-kakao i {
+  background:#191919;
+}
+:root .sf-rw-social.is-naver {
+  background:#03c75a;
+  color:#fff;
+}
+:root .sf-rw-social.is-naver i {
+  background:#fff;
+}

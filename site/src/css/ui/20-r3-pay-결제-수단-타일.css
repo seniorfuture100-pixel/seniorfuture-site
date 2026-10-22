@@ -1,0 +1,25 @@
+/* 화면 묶음: payment | 원본: src/r3-pay.css · 결제 수단 타일 */
+:root .sf-share-kakao:focus-visible,
+:root .sf-share-link:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:2px;
+}
+:root .sf-toast {
+  position:fixed;
+  left:50%;
+  bottom:32px;
+  z-index:60;
+  transform:translate(-50%,16px);
+  padding:12px 20px;
+  border-radius:10px;
+  background:#1a1c20;
+  color:#fff;
+  font:400 14px var(--sf-font);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s var(--sf-ease),transform .2s var(--sf-ease);
+}
+:root .sf-toast.is-on {
+  opacity:1;
+  transform:translate(-50%,0);
+}

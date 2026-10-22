@@ -1,0 +1,39 @@
+/* 화면 묶음: partner | 원본: src/sf-partners.css · 마케팅 파트너스 (/partners) — Figma 02 PC · 03 모바일 '10' 섹션
+   함께 들어 있음: sf-apply · 파트너 지원 (/partner · /partner/apply) — Figma 02 PC · 03 모바일 '11' 섹션 */
+:root .sf-pt-code {
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  margin-top:24px;
+  padding:12px 12px 12px 24px;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+}
+:root .sf-pt-code small {
+  color:var(--sf-text-3);
+  font-weight:700;
+}
+:root .sf-pt-code b {
+  font-size:24px;
+  color:var(--sf-text-brand);
+  letter-spacing:.5px;
+}
+:root .sf-pt-who {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin:40px 0 0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-pt-who li {
+  display:grid;
+  gap:8px;
+  padding:28px;
+  border-radius:20px;
+  background:var(--sf-surface);
+}
+:root .sf-pt-who b {
+  font-size:18px;
+}

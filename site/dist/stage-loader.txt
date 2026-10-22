@@ -1,0 +1,86 @@
+<link rel="expect" href="#doz_footer_wrap" blocking="render" id="sf-expect">
+<script id="sf-config" data-sf-stage>/* sf-config.js — 사이트 설정 (공통 코드 Header 맨 위 <script id="sf-config">). 다른 코드보다 먼저 읽혀야 해요.
+   모든 주소·수치는 공식 채널(apply.seniorfuture.kr · 링크트리)에서 확인한 값이에요. (2026-10-19) */
+window.SF_SITE = Object.assign(window.SF_SITE || {}, {
+  kakao: 'https://pf.kakao.com/_ZYaLG/chat',
+  topbanner: { key: '2026-10-membership', text: '시니어퓨처 멤버십 모집 중 · 뉴스레터 · 심층 콘텐츠 · 웨비나 · 네트워킹', href: 'https://seniorfuturemembership.netlify.app/' },
+  sns: {
+    instagram: 'https://www.instagram.com/senior_future/',
+    youtube: 'https://www.youtube.com/@seniorfuture',
+    blog: 'https://blog.naver.com/senior_future',
+    kakao: 'https://pf.kakao.com/_ZYaLG'
+  },
+  channels: [
+    ['뉴스레터 무료 구독', 'https://walla.my/v/HdUG9uCe2rRx9tw1X91u'],
+    ['멤버십', 'https://seniorfuturemembership.netlify.app/'],
+    ['네이버 카페', 'https://cafe.naver.com/seniorfuture2311'],
+    ['네이버 프리미엄콘텐츠', 'https://contents.premium.naver.com/seniorfuture/seniorfutureinsight'],
+    ['스레드', 'https://www.threads.com/@senior_future'],
+    ['인스타그램', 'https://www.instagram.com/senior_future/'],
+    ['유튜브', 'https://www.youtube.com/@seniorfuture'],
+    ['네이버 블로그', 'https://blog.naver.com/senior_future'],
+    ['카카오톡 채널', 'https://pf.kakao.com/_ZYaLG'],
+    ['네트워킹 오픈채팅', 'https://open.kakao.com/o/gatyJ8hh']
+  ],
+  company: {
+    name: '시니어퓨처 (SeniorFuture)', ceo: '정동호', biz: '858-27-01782', report: '2026-서울관악-0090',
+    tel: '010-3237-4502', mail: 'seniorfuture100@gmail.com', addr: '서울특별시 관악구 남부순환로170길 66-4, 1동 2층 202호 (신림동, 디딤하우스)'
+  },
+  pressHref: 'https://apply.seniorfuture.kr/press',
+  press: [
+    { o: '머니투데이', t: '"돌봄 공백, 기술로 메운다"…경기도 창업 \'에이지테크\'로 회춘', d: '2026-10-14', href: 'https://n.news.naver.com/mnews/article/008/0005426331', g: 'g-o' },
+    { o: '여성경제신문', t: '대학 강좌부터 민간 커뮤니티까지···시니어 창업 교육, 실제 협업으로 이어질까', d: '2026-09-17', href: 'https://www.womaneconomy.co.kr/news/articleView.html?idxno=258837', g: 'g-b' },
+    { o: '브라보마이라이프', t: '시니어퓨처, 내달 부산서 \'에이지테크 포럼\' 개최', d: '2026-08-24', href: 'https://bravo.etoday.co.kr/view/atc_view/19889', g: 'g-g' },
+    { o: '여성경제신문', t: '"65세만 보고 덤볐다간 망한다"···시니어 지갑은 어떻게 열리나', d: '2026-08-02', href: 'https://www.womaneconomy.co.kr/news/articleView.html?idxno=256800', g: 'g-d' },
+    { o: '브라보마이라이프', t: '"복지 넘어 산업으로"… AI 시대 시니어 비즈니스 해법', d: '2026-03-23', href: 'https://bravo.etoday.co.kr/view/atc_view/18837', g: 'g-o' },
+    { o: '서울경제', t: '"에이지테크부터 창업까지…커리어로 잇는 시니어 산업 함께해요"', d: '2026-01-12', href: 'https://www.sedaily.com/NewsView/2K79WADYVP', g: 'g-b' },
+    { o: '서울경제', t: '"초고령사회는 위기이자 기회…AI·실행력 갖춘 청년이 시니어 산업 주역"', d: '2025-12-17', href: 'https://n.news.naver.com/mnews/article/011/0004568306', g: 'g-g' },
+    { o: '서울경제', t: '청년, AI로 초고령사회 해법 찾다… \'시니어퓨처 아이디어톤\' 성료', d: '2025-07-28', href: 'https://n.news.naver.com/mnews/article/011/0004514156', g: 'g-d' },
+    { o: '브라보마이라이프', t: '시니어 비즈니스, 청년이 이끈다… MYSC·시니어퓨처 MOU 체결', d: '2025-07-03', href: 'https://bravo.etoday.co.kr/view/atc_view/16568', g: 'g-o' },
+    { o: '매일경제', t: '"시니어 비즈니스 지금이 기회" 기업과 청년의 새로운 전장으로', d: '2025-04-30', href: 'https://n.news.naver.com/article/030/0003308822', g: 'g-b' }
+  ]
+});
+</script>
+<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.0/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
+<style id="sf-patch-css" data-sf-stage></style>
+<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.0/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
+<script id="sf-early" data-sf-stage>/* sf-early.js — 첫 화면부터 꾸민 모습 (아임웹 원본이 한 번도 그려지지 않게)
+   배치: 공통 코드 Header Code 맨 끝, 꾸밈 JS 묶음(sf-ui-js · sf-patch-js · sf-r2-js · sf-r3-js) 바로 뒤.
+   ① 본문: MutationObserver 콜백은 화면을 그리기 전에 실행돼요. 본문·푸터를 다 읽은 순간 꾸밈을 한 번 돌려요.
+      (모든 모듈은 두 번 돌아도 결과가 같아서 DOMContentLoaded 때 한 번 더 돌며 아임웹이 늦게 그린 부분을 맞춰요 — 10/19 확인)
+   ② 상품 목록(아임웹이 나중에 그림자 DOM 안에 그리는 카드): 그림자 안이 바뀌면 곧바로 shop-list 꾸밈을 불러요.
+      혹시 늦어도 원본 카드가 보이지 않게, 꾸밈이 끝날 때까지 목록 자리만 투명하게 두고(자리는 그대로), 4초 뒤엔 무조건 보여요. */
+(function (d, w) {
+  if (!w.SFUI || !w.MutationObserver) return;
+  var html = d.documentElement;
+
+  // ② 상품 목록 자리: 꾸밈 전엔 투명하게
+  var st = d.createElement('style'); st.id = 'sf-early-css';
+  st.textContent = 'html:not(.sf-shop-free) div.js-custom-widget-container:not([data-sf-shop]){visibility:hidden!important}';
+  (d.head || html).appendChild(st);
+  setTimeout(function () { html.classList.add('sf-shop-free'); }, 4000);
+  var A = w.Element && Element.prototype.attachShadow;
+  if (A && !A.__sf) {
+    var kick = function () { var c = d.createComment('sf'); (d.body || html).appendChild(c); c.parentNode.removeChild(c); }; // shop-list 의 본문 감시를 깨워요
+    Element.prototype.attachShadow = function (o) {
+      var sr = A.call(this, o);
+      try { if (this.classList && this.classList.contains('js-custom-widget-container')) new MutationObserver(kick).observe(sr, { childList: true, subtree: true }); } catch (e) {}
+      return sr;
+    };
+    Element.prototype.attachShadow.__sf = 1;
+  }
+
+  // ① 본문
+  var done = false, mo;
+  function ready() { var f = d.getElementById('doz_footer_wrap'); return f && f.nextSibling; }
+  function go() {
+    if (done || !ready()) return;
+    done = true; if (mo) mo.disconnect();
+    w.SFUI.init(d);
+    try { w.performance.mark('sf-early-init'); } catch (e) {}
+  }
+  mo = new MutationObserver(go);
+  mo.observe(html, { childList: true, subtree: true });
+  d.addEventListener('DOMContentLoaded', function () { if (mo) mo.disconnect(); });
+})(document, window);
+</script>

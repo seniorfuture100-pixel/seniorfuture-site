@@ -1,0 +1,177 @@
+/* 화면 묶음: notice | 원본: src/sf-notice.css · sf-notice.css — 공지사항 목록 (notice-list.js 와 짝) — Figma 58:5604
+   함께 들어 있음: sf-boardview · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741, sf-notice · sf-notice.css — 공지사항 목록 (notice-list.js 와 짝) — Figma 58:5604, sf-fixes · 홈 '최신 비즈니스 인사이트'(아임웹 최신글 위젯)를 다른 섹션과 같은 1200 폭에 맞춤, r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, r3-partner · 5. 진행 단계, sf-fixes · 작성자를 숨긴 최신글 위젯에서 날짜 앞 '·' 제거, sf-fixes · '#' 이동 시 고정 헤더에 가리지 않게 */
+html.sf-nl-on body .li_board {
+  border-top:2px solid var(--sf-text);
+  font-family:var(--sf-font);
+}
+html.sf-nl-on body .li_board ul.li_body {
+  display:flex!important;
+  align-items:center;
+  gap:12px;
+  margin:0;
+  padding:16px 14px;
+  border-bottom:1px solid var(--sf-border);
+  list-style:none;
+  transition:background-color .2s var(--sf-ease);
+}
+html.sf-nl-on body .li_board ul.li_body:hover {
+  background:var(--sf-surface);
+}
+html.sf-nl-on body .li_board ul.li_body.is-pin {
+  background:#f7f8fa;
+}
+html.sf-nl-on body .li_board ul.li_body.is-pin .list_text_title {
+  font-weight:700!important;
+}
+html.sf-nl-on body .li_board li.tit {
+  flex:1;
+  display:flex!important;
+  align-items:center;
+  gap:12px;
+  width:auto!important;
+  padding:0!important;
+  text-align:left!important;
+}
+html.sf-nl-on body .li_board .list_text_title {
+  color:var(--sf-text)!important;
+  font:400 15px/1.5 var(--sf-font)!important;
+  text-decoration:none;
+}
+html.sf-nl-on body .li_board li.time {
+  width:auto!important;
+  padding:0!important;
+  color:var(--sf-text-3)!important;
+  font:400 13px/1.5 var(--sf-font)!important;
+}
+:root .sf-nl-chip {
+  flex-shrink:0;
+  display:inline-flex;
+  height:22px;
+  padding:0 8px;
+  align-items:center;
+  border-radius:4px;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text-2);
+  font:500 11px/1 var(--sf-font);
+}
+:root .sf-nl-chip.is-pin {
+  background:var(--sf-dark);
+  box-shadow:none;
+  color:#fff;
+}
+:root .sf-nl-chips {
+  margin:0 0 16px;
+}
+@media (max-width:767.98px) {
+  html.sf-nl-on body .li_board ul.li_body {
+    flex-wrap:wrap;
+    gap:4px 8px;
+    padding:14px 4px;
+  }
+  html.sf-nl-on body .li_board li.time {
+    width:100%!important;
+    padding-left:0!important;
+  }
+}
+html.sf-nl-on body [data-widget-type=board] .board-head .heading header {
+  display:none!important;
+}
+@media (min-width:768px) {
+  html body [data-widget-type=newest]>.widget {
+    max-width:1200px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+html body [data-widget-type=newest] .writer,
+html.sf-done-on body #oms-shop-payment-complete {
+  display:none!important;
+}
+html body [data-widget-type=newest] .writer+.date::before,
+html.sf-pv-on body .comment_num_warp .bt-share::before {
+  content:none!important;
+}
+@media (max-width:767.98px) {
+  :root body .sf-chips,
+  :root body .sf-track {
+    margin-right:-15px;
+    padding-right:15px;
+  }
+  html body [data-widget-type=newest]>.widget {
+    padding-left:16px;
+    padding-right:16px;
+  }
+  html.sf-my-on body .shop-content.mypage {
+    padding:16px 0!important;
+  }
+  html.sf-my-on body .left-menu.hidden-lg,
+  html.sf-my-on body .shop-content.mypage>.container-fluid {
+    padding:0!important;
+  }
+  html.sf-my-on body .shop-content.mypage .row.show-grid {
+    margin:0!important;
+    padding:0!important;
+  }
+  html.sf-my-on body .shop-content.mypage .row.show-grid>* {
+    width:100%!important;
+    max-width:100%;
+    margin:0!important;
+    float:none;
+  }
+  html.sf-my-on body .left-menu.hidden-lg .sf-my-menu {
+    width:100%!important;
+    padding:0!important;
+    background:0 0;
+  }
+  html.sf-my-on body .left-menu.hidden-lg .cart-menu-slide {
+    display:flex!important;
+    gap:8px;
+    width:100%!important;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  html.sf-my-on body .left-menu.hidden-lg .cart-menu-slide::-webkit-scrollbar {
+    display:none;
+  }
+  html.sf-my-on body .left-menu.hidden-lg .cart-menu-slide>li {
+    flex:none;
+    width:auto!important;
+    float:none!important;
+  }
+  html.sf-my-on body .left-menu.hidden-lg .sf-my-menu a {
+    padding:8px 14px!important;
+    border-radius:999px;
+    background:#fff;
+    box-shadow:inset 0 0 0 1px var(--sf-border);
+    white-space:nowrap;
+  }
+  html.sf-my-on body .left-menu.hidden-lg .sf-my-menu a::after {
+    content:none;
+  }
+  html.sf-my-on body .left-menu.hidden-lg .sf-my-menu li.active a {
+    background:var(--sf-dark);
+    box-shadow:none;
+    color:#fff!important;
+    font-weight:700!important;
+  }
+}
+html {
+  scroll-padding-top:96px;
+}
+@media (min-width:768px) {
+  html body .js-custom-widget-container[data-sf-shop],
+  html body [data-widget-type=board]>.widget {
+    max-width:1200px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  :root .sf-home-expert,
+  :root .sf-home-review {
+    box-shadow:0 0 0 100vmax var(--sf-background);
+    clip-path:inset(0-100vmax);
+  }
+  :root .sf-home-review .sf-track {
+    margin-right:calc(50% - 50vw);
+    padding-right:max(24px,calc(50vw - 50% + 64px));
+  }
+}

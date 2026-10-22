@@ -1,0 +1,68 @@
+/* 화면 묶음: common | 원본: src/sf-chrome.css · sf-chrome.css — 아임웹 기본 헤더·푸터 모양 (site-chrome.js 와 짝)
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root #doz_footer.sf-ft-on,
+:root #doz_footer.sf-ft-on .footer-section,
+:root #doz_footer_wrap {
+  background:var(--sf-dark)!important;
+}
+:root .sf-ft {
+  color:#b0b3ba;
+  font-family:var(--sf-font);
+  padding:48px 20px 0;
+}
+:root .sf-ft-in {
+  max-width:1200px;
+  margin:0 auto;
+  padding-bottom:32px;
+  border-bottom:1px solid #3a3a3d;
+  display:flex;
+  flex-wrap:wrap;
+  gap:40px 64px;
+  text-align:left;
+}
+:root .sf-ft-col h3 {
+  margin:0 0 16px;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+}
+:root .sf-ft-col ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:12px;
+}
+:root .sf-ft-col a {
+  color:#b0b3ba;
+  font-size:14px;
+  text-decoration:none;
+}
+:root .sf-ft-col a:focus-visible,
+:root .sf-ft-col a:hover {
+  color:#fff;
+  text-decoration:underline;
+}
+:root .sf-ft-cs {
+  margin-left:auto;
+}
+:root .sf-ft-cs p {
+  margin:0 0 12px;
+  font-size:14px;
+}
+:root .sf-ft-col .sf-ft-kakao {
+  display:inline-flex;
+  align-items:center;
+  min-height:40px;
+  padding:0 16px;
+  border-radius:999px;
+  background:#fff;
+  color:#1e1e1e;
+  font-weight:700;
+  text-decoration:none;
+}
+:root #doz_footer.sf-ft-on .custom-text,
+:root #doz_footer.sf-ft-on .foot-foot-nav,
+:root #doz_footer.sf-ft-on .foot-sociallink {
+  display:none!important;
+}

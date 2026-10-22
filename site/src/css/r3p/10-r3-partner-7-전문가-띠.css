@@ -1,0 +1,40 @@
+/* 화면 묶음: partner | 원본: src/r3-partner.css · 7. 전문가 띠 */
+:root body .r3ap .r3ap-experts {
+  padding:100px 16px 40px;
+  background:#fff;
+}
+:root body .r3ap .r3ap-band {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  padding:48px 56px;
+  border-radius:32px;
+  background:linear-gradient(120deg,#fff3ea,#ffe6d4);
+}
+:root body .r3ap .r3ap-band h2 {
+  font-size:36px;
+  letter-spacing:-1px;
+}
+:root body .r3ap .r3ap-band p,
+:root body .sf-ap-apply #apply-box>p {
+  margin:14px 0 0;
+  color:var(--sf-text-2,#4d5159);
+  font-size:17px;
+  line-height:1.6;
+  word-break:keep-all;
+}
+:root body .r3ap .r3ap-ghost {
+  flex:none;
+  height:56px;
+  padding:0 28px;
+  border-radius:999px;
+  background:#fff!important;
+  color:var(--sf-text,#1a1c20)!important;
+  font-size:17px;
+  font-weight:700;
+  box-shadow:0 0 0 1px #ffc9a3;
+}
+:root body .r3ap .r3ap-ghost:hover {
+  box-shadow:0 0 0 2px var(--r3ap-o);
+}

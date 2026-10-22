@@ -1,0 +1,21 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · sf-product.css — 교육 상세(아임웹 상품 상세) Figma 'PC/교육 상세' (product-view.js 와 짝) */
+:root .sf-pv__side {
+  align-self:start;
+  position:sticky;
+  top:calc(var(--sf-header-h, 72px) + 24px);
+}
+:root .sf-pv .goods_thumbs_wrap {
+  width:100%!important;
+  float:none!important;
+  padding:0!important;
+}
+:root .sf-pv .goods_thumbs,
+:root .sf-pv .goods_thumbs img {
+  border-radius:12px;
+  overflow:hidden;
+}
+:root .sf-pv .goods_form_wrap {
+  width:100%!important;
+  float:none!important;
+  padding:0!important;
+}

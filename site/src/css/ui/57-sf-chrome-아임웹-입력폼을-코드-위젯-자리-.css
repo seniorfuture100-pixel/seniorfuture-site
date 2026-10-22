@@ -1,0 +1,70 @@
+/* 화면 묶음: common | 원본: src/sf-chrome.css · 아임웹 입력폼을 코드 위젯 자리(.sf-form-slot)에 옮겼을 때 모양 (form-slot.js 와 짝)
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, sf-biz · Contact + form, r3-pay · 결제 수단 타일, sf-chrome · 아임웹 입력폼을 코드 위젯 자리(.sf-form-slot)에 옮겼을 때 모양 (form-slot.js 와 짝), r2 · 프로필 설정 (핵심 항목만) */
+:root .sf-form-slot .form-control:focus {
+  outline:0;
+  box-shadow:inset 0 0 0 2px var(--sf-primary);
+}
+:root .sf-form-slot .radio-styled {
+  display:inline-block;
+  margin:0 8px 8px 0;
+  padding:0;
+}
+:root .sf-form-slot .radio-styled label {
+  position:relative;
+  margin:0;
+  padding:0;
+  cursor:pointer;
+}
+:root .sf-form-slot .radio-styled input {
+  position:absolute;
+  inset:0;
+  opacity:0;
+  margin:0;
+  cursor:pointer;
+}
+:root .sf-form-slot .radio-styled span {
+  display:inline-flex;
+  align-items:center;
+  min-height:40px;
+  padding:0 16px;
+  border-radius:999px;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text-2);
+  font:500 14px var(--sf-font);
+}
+:root .sf-form-slot .radio-styled span::after,
+:root .sf-form-slot .radio-styled span::before {
+  display:none!important;
+}
+:root .sf-form-slot .radio-styled input:checked+span {
+  background:var(--sf-dark);
+  color:#fff;
+  box-shadow:none;
+  font-weight:700;
+}
+:root .sf-form-slot .radio-styled input:focus-visible+span {
+  outline:3px solid var(--sf-primary);
+  outline-offset:2px;
+}
+:root .sf-form-slot .privacy .form-control {
+  max-height:120px;
+  overflow:auto;
+  padding:12px 16px;
+  border-radius:10px;
+  background:var(--sf-surface);
+  box-shadow:none;
+  color:var(--sf-text-3);
+  font-size:13px;
+  line-height:1.6;
+}
+:root .sf-form-slot .checkbox-styled label {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0;
+  color:var(--sf-text);
+  font:500 15px var(--sf-font);
+}
+:root .sf-form-slot .form.text-center {
+  margin-top:8px;
+}

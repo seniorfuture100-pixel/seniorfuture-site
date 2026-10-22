@@ -1,0 +1,110 @@
+/* 화면 묶음: course-detail | 원본: src/r3-options.css · 10/21 768~1023px(좁은 PC 창) 상세: 본문 최대 720px 가운데 + 아래 고정 신청 줄 (모바일·PC는 그대로)
+   함께 들어 있음: r3-options · 10/21 모바일 신청 창 간격: 아래 버튼 줄(약 76px)에 '상품 금액' 줄이 살짝 가려지던 것 · 카드↔구분선 간격을 구분선↔금액과 같게 */
+@media (min-width:768px) and (max-width:1023.98px) {
+  :root body .sf-pv {
+    max-width:752px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+  :root body .sf-pv-related .sf-pv-related__in {
+    max-width:720px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  :root body .r3-tbar {
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:9990;
+    padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    background:#fff;
+    box-shadow:0-1px 0 var(--sf-border),0-8px 24px rgba(17,24,39,.06);
+    transform:translateY(110%);
+    transition:transform .25s var(--sf-ease,ease);
+  }
+  :root body .r3-tbar.is-on {
+    transform:none;
+  }
+  :root body .r3-tbar__in {
+    display:flex;
+    align-items:center;
+    gap:16px;
+    max-width:720px;
+    margin:0 auto;
+  }
+  :root body .r3-tbar__t {
+    flex:1;
+    min-width:0;
+  }
+  :root body .r3-tbar__t b {
+    display:block;
+    overflow:hidden;
+    color:var(--sf-text);
+    font:700 15px/1.4 var(--sf-font);
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  :root body .r3-tbar__t span {
+    color:var(--sf-text-2);
+    font:700 15px/1.4 var(--sf-font);
+  }
+  :root body .r3-tbar__btn {
+    flex:none;
+    min-width:200px;
+    height:52px;
+    padding:0 24px;
+    border:0;
+    border-radius:12px;
+    background:var(--sf-primary,#ff6b1a);
+    color:#fff;
+    font:700 16px/1 var(--sf-font);
+    cursor:pointer;
+  }
+  :root body .r3-tbar__btn:focus-visible {
+    outline:3px solid var(--sf-text);
+    outline-offset:2px;
+  }
+  :root body.r3-tbar-pad {
+    padding-bottom:76px;
+  }
+}
+@media (max-width:767.98px),(min-width:1024px) {
+  :root body .r3-tbar {
+    display:none!important;
+  }
+}
+@media (min-width:768px) and (max-width:1023.98px) {
+  :root body.r3-tbar-on .sf-fab,
+  :root body.r3-tbar-on .sf-top {
+    bottom:116px!important;
+    transition:bottom .25s var(--sf-ease,ease);
+  }
+  :root body.r3-tbar-on .sf-top {
+    bottom:180px!important;
+  }
+}
+@media (max-width:767.98px) {
+  :root body .sf-pv .opt-group {
+    padding-bottom:calc(96px + env(safe-area-inset-bottom))!important;
+  }
+  :root body .sf-pv .opt-group .r3-sheet__item {
+    margin-bottom:16px!important;
+  }
+  :root body .sf-pv .opt-group .opt_block.total {
+    padding-top:16px!important;
+    padding-bottom:0!important;
+  }
+  :root body .shop-content.open .sf-pv .opt-group.opt-group,
+  :root body .shop-content.open:not(.detail-regularly) .sf-pv .opt-group {
+    padding-bottom:calc(96px + env(safe-area-inset-bottom))!important;
+  }
+}
+html.r3pay-on body #oms-shop-payment {
+  max-width:1120px;
+  margin:0 auto!important;
+  padding:40px 20px 80px!important;
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+  box-sizing:border-box;
+}

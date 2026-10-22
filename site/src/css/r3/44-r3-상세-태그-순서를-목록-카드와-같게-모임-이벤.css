@@ -1,0 +1,142 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 상세 태그 순서를 목록 카드와 같게(모임/이벤트 먼저) · PC 찜한 하트도 모바일처럼 주황
+   함께 들어 있음: r3 · 푸터 여백을 줄일 때 위 칸의 빈 흰 영역(위치 지정된 칸)이 푸터 윗부분을 덮던 문제 (마이페이지 PC), r3 · 찜한 내역: 제목을 메뉴 이름과 같게 '찜한 내역', 모바일에서도 보이게, r3 · 10/21 ③ 홈 전문가 칸(모바일): 3명씩 아래로 등록된 수만큼, 순서는 PC와 같게, 제목과 20px 띄움, r3 · 공지 글 안 정책 안내(환불 규정 등) 디자인 (10/20) — 게시판 본문에 class="r3-pol" 로 넣어요, r3 · 고객센터: 모바일에서도 '기업·기관 문의' 카드 (PC와 같게) · 약관 탭 줄 회색 스크롤바 숨김, r3 · 768~1023px 홈 인사이트(아임웹 최신글): 2칸이 415px씩이라 칸 밖으로 넘치던 것 → 다른 섹션처럼 4칸, r3 · 무료 라이브 목록 등: 아임웹 칸(15px 여백) 밖에 놓인 페이지는 768~1240px에서 제목이 화면 끝에 붙던 것, r3 · 10/21 모바일 카드 크기 통일: 가로로 넘기는 카드 줄은 홈과 같은 260px · 간격 12px, 게시판 목록(수강평)은 인사이트처럼 2칸, 찜한 내역도 목록과 같은 카드 폭 */
+:root body .sf-pv .sf-pv-tags .sf-tag--event,
+:root body .sf-pv .sf-pv-tags .sf-tag--meet {
+  order:-1;
+}
+html.sf-pv-on body .buy_btns.pc .like_box.active i,
+html.sf-pv-on body .buy_btns.pc .like_box.active i::before {
+  color:var(--sf-primary,#ff6b1a)!important;
+}
+@media (max-width:767.98px) {
+  :root body .sf-ft .sf-ft-in {
+    border-bottom:0!important;
+  }
+}
+:root body #doz_footer_wrap {
+  position:relative;
+  z-index:2;
+}
+:root body .table-wrap.wish>h6 {
+  display:flex!important;
+  align-items:center;
+  gap:8px;
+  margin:0 0 4px!important;
+}
+@media (max-width:767.98px) {
+  :root body .sf-scope .sf-experts10 {
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    grid-template-rows:none!important;
+    grid-auto-flow:row!important;
+    grid-auto-columns:auto!important;
+    gap:20px 10px!important;
+    overflow:visible!important;
+    margin:20px 0 0!important;
+    padding:0!important;
+    scroll-snap-type:none!important;
+  }
+  :root body .sf-scope .sf-expert10 a {
+    gap:8px;
+  }
+  :root body .sf-scope .sf-expert10__ph {
+    border-radius:12px;
+  }
+  :root body .sf-scope .sf-expert10 strong {
+    font-size:14px;
+    line-height:1.4;
+  }
+  :root body .sf-scope .sf-expert10__c {
+    margin-top:2px;
+    font-size:12px;
+    line-height:1.45;
+    display:-webkit-box!important;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    overflow:hidden;
+  }
+  :root body .sf-topbanner {
+    justify-content:center!important;
+    padding:0 44px!important;
+    text-align:center;
+  }
+  :root body .sf-topbanner>a {
+    text-align:center;
+  }
+  :root body .sf-topbanner [data-sf-close] {
+    right:6px!important;
+  }
+}
+:root body .sf-pv-sec h2,
+:root body .sf-pv-sub,
+:root body .sf-scope .sf-sec-head h2,
+:root body .sf-scope .sf-sec-head p,
+:root body .sf-scope h1,
+:root body .sf-scope h2,
+:root body .sf-scope h3 {
+  word-break:keep-all;
+}
+@media (max-width:767.98px) {
+  :root body .sf-help-card.is-biz {
+    display:flex!important;
+  }
+}
+:root body .sf-tm-tabs {
+  scrollbar-width:none;
+}
+@media (min-width:768px) and (max-width:1023.98px) {
+  :root body [data-widget-type=newest] .list-style-gallery.type_grid {
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+  :root body [data-widget-type=newest] .list-style-gallery.type_grid ._card_wrap {
+    display:block!important;
+  }
+}
+@media (min-width:768px) and (max-width:1240px) {
+  :root body .sf-scope>.sf-page {
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+  :root body .col-dz .sf-scope>.sf-page {
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+}
+@media (max-width:767.98px) {
+  :root body .sf-bv-more__list,
+  :root body .sf-pv-more,
+  :root body .sf-pv-related .sf-cards4 {
+    grid-auto-columns:260px!important;
+    column-gap:12px!important;
+  }
+  :root body .widget.board .list-style.type_grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    column-gap:12px!important;
+  }
+  :root body .table-wrap.wish .r3-wish {
+    margin-left:-15px!important;
+    margin-right:-15px!important;
+  }
+  :root body .table-wrap.wish .r3-wish .r3-wish__grid {
+    gap:24px 12px!important;
+  }
+  :root body .widget.board .list-style.type_grid ._card_wrap,
+  :root body .widget.board .list-style.type_grid .ma-item {
+    width:auto!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  :root body .widget.board .list-style.type_grid ._card_summary {
+    display:block!important;
+    width:auto!important;
+    min-width:0!important;
+  }
+  :root body .widget.board .list-style.type_grid ._card_wrap .avatar {
+    display:block!important;
+    width:auto!important;
+    overflow:hidden;
+  }
+  :root body .widget.board .list-style.type_grid ._card_wrap .avatar * {
+    min-width:0;
+  }
+}

@@ -1,0 +1,132 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 주황 버튼(협업 문의하기 등): 당근 SEED 기준 — 주황 바탕 + 흰 글씨 (링크 글자색 규칙에 덮여 검은 글씨였음), 누르면 한 톤 진하게
+   함께 들어 있음: r3 · 솔루션 카드 화살표(모바일): 사진 높이가 16:9로 바뀌며 사진 위에 걸리던 것 → 사진 아래 '01 …' 줄 오른쪽에 붙게, r3 · 기업 첫 화면 카드 4장(태블릿·모바일): 가만히 있어도 살짝 떠오르는 움직임, 카드마다 박자 다르게, r3 · 10/21 기업 첫 화면 중간 폭(768~1199px) 깨짐 수정, r3 · PC(1200px~) 첫 화면 카드 4장: 겹쳐 쌓여 '임직원 시니어 고객 교육' 글자가 가려지던 것 → 2×2 격자(가로 28px·세로 36px 간격), */
+:root body .sf-scope .sf-btn--primary:visited,
+:root body .sf-scope a.sf-btn--primary,
+:root body a.sf-btn.sf-btn--primary,
+:root body button.sf-btn.sf-btn--primary {
+  color:#fff!important;
+}
+:root body .sf-btn.sf-btn--primary:hover {
+  background:var(--sf-primary)!important;
+  filter:brightness(.94);
+}
+:root body .sf-btn.sf-btn--primary:active {
+  filter:brightness(.88);
+}
+@media (max-width:767.98px) {
+  :root body .sf-biz .sf-sol {
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:"img img""body go";
+  }
+  :root body .sf-biz .sf-sol__img {
+    grid-area:img;
+  }
+  :root body .sf-biz .sf-sol__body {
+    grid-area:body;
+    min-width:0;
+  }
+  :root body .sf-biz .sf-sol__go {
+    grid-area:go;
+    position:static!important;
+    align-self:start;
+    margin:8px 16px 0 0!important;
+  }
+}
+@media (max-width:1023.98px) {
+  :root body .sf-biz .r2-float .r2-fc {
+    animation:r3fcIdle 4.8s ease-in-out infinite!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc--1 {
+    animation-delay:-1.2s!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc--2 {
+    animation-delay:-2.4s!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc--3 {
+    animation-delay:-3.6s!important;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root body .sf-biz .r2-float .r2-fc {
+    animation:none!important;
+  }
+}
+@media (min-width:768px) and (max-width:1199.98px) {
+  :root body .sf-biz .sf-hero-grid {
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:8px!important;
+  }
+  :root body .sf-scope .sf-biz h1 {
+    font-size:56px!important;
+    letter-spacing:-1.5px;
+  }
+  :root body .sf-biz .sf-hero-grid .sf-lead {
+    max-width:720px;
+  }
+  :root body .sf-biz .r2-float {
+    height:auto!important;
+    margin:28px 0 0!important;
+    padding:8px 0 16px!important;
+    overflow:visible!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+  }
+  :root body .sf-biz .r2-float .r3-fl-track {
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:14px!important;
+    width:auto!important;
+    padding:0!important;
+    animation:none!important;
+  }
+  :root body .sf-biz .r2-float .r3-fl-dup {
+    display:none!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc {
+    position:relative!important;
+    inset:auto!important;
+    width:auto!important;
+    height:auto!important;
+    min-height:132px;
+    flex:none!important;
+    padding:18px!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc b {
+    font-size:17px;
+  }
+}
+@media (min-width:1200px) {
+  :root body .sf-biz .r2-float {
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:28px;
+    row-gap:36px;
+    height:auto!important;
+    padding:0 8px 48px;
+  }
+  :root body .sf-biz .r2-float .r2-fc {
+    position:relative!important;
+    inset:auto!important;
+    width:auto!important;
+    height:auto!important;
+    min-height:168px;
+    padding:24px!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc--1,
+  :root body .sf-biz .r2-float .r2-fc--3 {
+    top:48px!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc--0 {
+    --r:-3deg;
+  }
+  :root body .sf-biz .r2-float .r2-fc--1 {
+    --r:3deg;
+  }
+  :root body .sf-biz .r2-float .r2-fc--2 {
+    --r:2deg;
+  }
+  :root body .sf-biz .r2-float .r2-fc--3 {
+    --r:-2deg;
+  }
+}

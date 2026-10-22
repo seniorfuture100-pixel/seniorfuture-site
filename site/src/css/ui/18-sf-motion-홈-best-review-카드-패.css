@@ -1,0 +1,106 @@
+/* 화면 묶음: common | 원본: src/sf-motion.css · 홈 BEST REVIEW 카드 (패스트캠퍼스형, 별점 없음)
+   함께 들어 있음: r2 · 고객센터: 탭별로 하나만 · 공지사항 표 (클래스101식), sf-apply · 4가지 분야 — 카드 전체가 신청서 링크 */
+:root .sf-review {
+  display:flex;
+  flex-direction:column;
+  width:588px;
+  background:#fff;
+  border:1px solid var(--sf-border);
+  border-radius:16px;
+  overflow:hidden;
+  color:inherit;
+  text-decoration:none;
+  font-family:var(--sf-font);
+}
+:root .sf-review__course {
+  padding:20px 28px;
+  background:var(--sf-dark);
+  color:#fff;
+  font-size:18px;
+  font-weight:700;
+  line-height:1.45;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+:root .sf-review__top {
+  display:flex;
+  gap:24px;
+  margin:0 28px;
+  padding:28px 0 24px;
+  border-bottom:1px solid var(--sf-border);
+}
+:root .sf-review__top img {
+  width:180px;
+  height:135px;
+  object-fit:cover;
+  border-radius:8px;
+  flex-shrink:0;
+  background:var(--sf-surface);
+}
+:root .sf-review__body,
+:root .sf-review__quote {
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+:root .sf-review__quote {
+  margin:0;
+  font-size:20px;
+  font-weight:700;
+  line-height:1.45;
+  color:var(--sf-text);
+  -webkit-line-clamp:3;
+}
+:root .sf-review__body {
+  margin:0 28px;
+  padding:20px 0 24px;
+  border-bottom:1px solid var(--sf-border);
+  font-size:16px;
+  line-height:1.6;
+  color:var(--sf-text-2);
+  -webkit-line-clamp:4;
+}
+:root .sf-review__more {
+  padding:18px 28px;
+  text-align:right;
+  font-size:16px;
+  font-weight:700;
+  color:var(--sf-text);
+}
+:root .sf-review:hover .sf-review__more {
+  text-decoration:underline;
+}
+:root .sf-review:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:3px;
+}
+@media (max-width:767.98px) {
+  :root .sf-review {
+    width:300px;
+  }
+  :root .sf-review__course {
+    padding:16px 20px;
+    font-size:16px;
+  }
+  :root .sf-review__top {
+    margin:0 20px;
+    padding:20px 0 16px;
+    gap:14px;
+  }
+  :root .sf-review__top img {
+    width:88px;
+    height:66px;
+  }
+  :root .sf-review__quote {
+    font-size:17px;
+  }
+  :root .sf-review__body {
+    margin:0 20px;
+    font-size:15px;
+  }
+  :root .sf-review__more {
+    padding:16px 20px;
+  }
+}

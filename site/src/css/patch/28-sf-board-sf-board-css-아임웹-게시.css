@@ -1,0 +1,59 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · sf-board.css — 아임웹 게시판 갤러리·최신글 위젯을 Figma Card/Insight 로 (인사이트·수강평·홈 최신글)
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, sf-board · sf-board.css — 아임웹 게시판 갤러리·최신글 위젯을 Figma Card/Insight 로 (인사이트·수강평·홈 최신글), sf-board · 목록 머리(Figma 페이지 머리)가 있으면 게시판 기본 제목·검색은 숨겨요 (글쓰기 버튼은 그대로) */
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-summary .date,
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-summary .tools {
+  padding:0!important;
+  margin:0!important;
+  color:var(--sf-text-3)!important;
+  font:400 13px/1.5 var(--sf-font)!important;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) ._card .holder:focus-visible {
+  outline:3px solid var(--sf-text-brand);
+  outline-offset:4px;
+  border-radius:8px;
+}
+@media (max-width:767.98px) {
+  :root :is(.list-style-gallery,
+  .list-style.type_grid) {
+    margin:-6px -6px 0!important;
+  }
+  :root :is(.list-style-gallery,
+  .list-style.type_grid) .ma-item {
+    padding:6px!important;
+  }
+  :root :is(.list-style-gallery,
+  .list-style.type_grid) .card-body .title {
+    font-size:15px!important;
+  }
+  :root :is(.list-style-gallery,
+  .list-style.type_grid) .card-body .text {
+    font-size:13px!important;
+  }
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) ._post_item_wrap.sf-hidden,
+:root :is(.list-style-gallery,
+.list-style.type_grid) .addon-badge,
+:root :is(.list-style-gallery,
+.list-style.type_grid) .notice-block {
+  display:none!important;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) .post_link_wrap {
+  display:flex;
+  flex-direction:column;
+  color:inherit;
+  text-decoration:none;
+}
+html.sf-has-page-head [data-widget-type=board] .board-head .heading header,
+html.sf-has-page-head [data-widget-type=board] .board-head .tools {
+  display:none!important;
+}
+html.sf-has-page-head [data-widget-type=board] .board-head {
+  min-height:0;
+  padding:0;
+  border:0;
+}

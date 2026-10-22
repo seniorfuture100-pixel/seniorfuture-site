@@ -1,0 +1,100 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 모바일 알림(🔔) 버튼 + 펼침 판 */
+@media (min-width:768px) {
+  :root body .r3-bell {
+    display:none!important;
+  }
+}
+:root body .r3-bellp {
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  background:rgba(0,0,0,.35);
+}
+:root body .r3-bellp__in {
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  max-height:80vh;
+  overflow:auto;
+  padding:12px 20px 20px;
+  border-radius:0 0 16px 16px;
+  background:#fff;
+  font-family:var(--sf-font);
+}
+:root body .r3-bellp__h {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:44px;
+}
+:root body .r3-bellp__h b {
+  font:700 18px/1 var(--sf-font);
+}
+:root body .r3-bellp__x {
+  width:40px;
+  height:40px;
+  border:0;
+  background:0 0;
+  color:var(--sf-text);
+  font-size:26px;
+  line-height:1;
+}
+:root body .r3-bellp section {
+  padding:14px 0;
+  border-top:1px solid var(--sf-border);
+}
+:root body .r3-bellp h3 {
+  margin:0 0 8px;
+  color:var(--sf-text-3);
+  font:700 13px/1.4 var(--sf-font);
+}
+:root body .r3-bellp ul {
+  display:grid;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root body .r3-bellp li a {
+  display:grid;
+  gap:2px;
+  padding:10px 0;
+  color:var(--sf-text)!important;
+  text-decoration:none;
+}
+:root body .r2-my-recent small,
+:root body .r3-bellp li small {
+  color:var(--sf-text-brand);
+  font:700 12px/1.4 var(--sf-font);
+}
+:root body .r3-bellp li span {
+  font:500 15px/1.45 var(--sf-font);
+}
+:root body .r3-bellp__empty {
+  padding:10px 0;
+  color:var(--sf-text-3);
+  font-size:14px;
+}
+:root body .r3-bellp__empty a {
+  color:var(--sf-text-brand)!important;
+}
+:root body .r3-bellp__more {
+  display:inline-block;
+  margin-top:6px;
+  color:var(--sf-text-2)!important;
+  font-size:14px;
+  text-decoration:none;
+}
+@media (max-width:767.98px) {
+  :root.r2-my body .shop-content.mypage .col-md-10>.r2-my-acct.r2-my-acct.r2-my-acct,
+  :root.r2-my-own body .shop-content.mypage .col-md-10>.r2-my-acct.r2-my-acct.r2-my-acct {
+    display:grid!important;
+  }
+  :root.r2-my body .shop-content.mypage .row.show-grid>.col-md-10 {
+    display:flex!important;
+    flex-direction:column;
+  }
+  :root.r2-my body .shop-content.mypage .col-md-10>.r2-my-acct.r2-my-acct {
+    order:99;
+  }
+}

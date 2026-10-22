@@ -1,0 +1,50 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · 인사이트 BEST 카드 · 뉴스레터 구독 상자 (Figma 인사이트 목록)
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root .sf-newsletter .sf-form-slot .privacy .checkbox-styled label {
+  font-size:12px;
+  color:var(--sf-text-3);
+}
+:root .sf-newsletter .sf-form-slot .form_row {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+:root .sf-newsletter .sf-form-slot .form_one_btn {
+  flex:1;
+  padding-right:0!important;
+}
+:root .sf-newsletter .sf-form-slot input.form-control {
+  height:44px;
+  min-height:44px;
+  padding:0 18px;
+  border-radius:9999px;
+  background:#fff;
+  font-size:15px;
+}
+:root .sf-newsletter .sf-form-slot .btn-primary {
+  width:auto;
+  height:44px;
+  padding:0 20px;
+  border-radius:9999px;
+  background:var(--sf-dark)!important;
+  font-size:14px;
+  flex-shrink:0;
+}
+@media (max-width:767.98px) {
+  :root .sf-newsletter {
+    flex-direction:column;
+    align-items:stretch;
+    gap:12px;
+    padding:20px;
+  }
+  :root .sf-newsletter>svg {
+    display:none;
+  }
+  :root .sf-newsletter .sf-form-slot {
+    width:100%;
+  }
+}
+:is(.list-style-gallery,
+.list-style.type_grid) .card-body .title em.notice-block {
+  display:none!important;
+}

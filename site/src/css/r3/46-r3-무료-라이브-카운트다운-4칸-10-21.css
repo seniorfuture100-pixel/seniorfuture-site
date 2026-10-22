@@ -1,0 +1,193 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 무료 라이브 카운트다운 4칸 (10/21)
+   함께 들어 있음: r3 · 상단 띠: 단어 중간에서 줄이 끊기지 않게, r3 · 공유는 제목 옆 아이콘 하나로 (라이브 '공유하기' 버튼 중복 제거), r3 · 모집·신청 마감된 상세: 모든 신청 버튼 회색, r3 · 제목은 단어 중간에서 줄이 끊기지 않게 (긴 영문·주소는 넘치지 않게 끊김), r3 · 결제 내역·강의실 카드: 상태 배지는 글자 크기만큼 (가로로 늘어나지 않게), r3 · PC: 헤더(로고·메뉴)와 본문 왼쪽 끝을 같은 선에 (본문 1200px 기준), r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, r3 · 모바일·태블릿 상단 띠: 닫기(X)를 오른쪽 끝에 고정해서 글자가 화면 정가운데에 오게 (10/21), r3 · 태블릿(768~1023): 기업 페이지 문의 폼이 620px 고정 칸이라 화면 밖으로 16px 넘치던 것 → 한 줄 배치 (10/21), r3 · 읽기 쉬운 색 (10/21 사장님 결정): 보조 회색·주황 글씨 진하게(대비 4.5↑), 주요 버튼 주황 한 단계 진하게, r3 · 주요 버튼 주황은 원래 #ff6f0f로 되돌림 (10/21 사장님 결정) */
+:root body .sf-pv-cd .sf-pv-cd__t.r3-cd {
+  display:grid!important;
+  width:100%;
+  box-sizing:border-box;
+  align-self:stretch;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:6px;
+  margin-top:8px;
+}
+:root body .sf-pv-cd .r3-cd-cell {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  padding:8px 0;
+  border-radius:10px;
+  background:#fff;
+}
+:root body .sf-pv-cd .r3-cd-cell b {
+  margin:0!important;
+  color:var(--sf-text);
+  font:700 22px/1.2 var(--sf-font)!important;
+  font-variant-numeric:tabular-nums;
+}
+:root body .sf-pv-cd .r3-cd-cell small {
+  color:var(--sf-text-2);
+  font:500 12px/1.3 var(--sf-font);
+}
+:root body .sf-pv-cd [data-sf-countdown-label] {
+  font-size:14px!important;
+  font-weight:600!important;
+}
+@media (max-width:767.98px) {
+  :root body .sf-pv-cd {
+    padding:14px 12px!important;
+  }
+  :root body .sf-pv-cd .r3-cd-cell b {
+    font-size:24px!important;
+  }
+  :root body .sf-pv-cd .r3-cd-cell small {
+    font-size:13px;
+  }
+  :root body .sf-pv-when {
+    font-size:15px!important;
+    margin-bottom:20px!important;
+  }
+  :root body .sf-pv-allreview,
+  :root body .sf-pv-teacher a {
+    display:inline-flex!important;
+    align-items:center;
+    min-height:44px;
+  }
+  :root body .sf-ccard__thumb .sf-wish {
+    width:40px!important;
+    height:40px!important;
+    top:4px!important;
+    right:4px!important;
+  }
+  :root body .sf-pv-crumb {
+    padding-top:12px;
+    padding-bottom:12px;
+    margin-top:-12px;
+    margin-bottom:-12px;
+  }
+  :root body .sf-bv-crumb a,
+  :root body .sf-help-refundlink a,
+  :root body .sf-hub-help a,
+  :root body .sf-pv-crumb a {
+    display:inline-block;
+    padding-top:12px;
+    padding-bottom:12px;
+    margin-top:-12px;
+    margin-bottom:-12px;
+  }
+  :root body .r3-ord__detail {
+    display:inline-block;
+    padding-top:6px;
+    padding-bottom:14px;
+    margin-top:-6px;
+    margin-bottom:-14px;
+  }
+}
+:root body .sf-topbanner {
+  word-break:keep-all;
+}
+:root body .sf-pv .sf-pv-sharebtn {
+  display:none!important;
+}
+:root body .buy_btns.mobile .btn.r3-closed-btn.r3-closed-btn.r3-closed-btn,
+:root body .buy_btns.mobile .r3-closed-btn,
+:root body .r3-closed .r3-tbar__btn,
+:root body .sf-pv .buy_btns.mobile .buy.r3-closed-btn.r3-closed-btn,
+:root body .sf-pv .buy_btns.pc .r3-closed-btn {
+  background:#eaebee!important;
+  border-color:#eaebee!important;
+  color:#868b94!important;
+  box-shadow:none!important;
+  cursor:default;
+  pointer-events:none;
+}
+@media (max-width:767.98px) {
+  :root body .sf-pv-related .sf-cards4 {
+    margin-right:-15px;
+    padding-right:15px;
+  }
+  :root body .sf-pv .sf-pv-tabs {
+    margin-left:-15px;
+    margin-right:-15px;
+  }
+  html.r3pay-hasm body .sf-top {
+    bottom:calc(150px + env(safe-area-inset-bottom))!important;
+  }
+  :root body .paging-block .pagination a,
+  :root body .r3-deck,
+  :root body .sf-bv-tags a,
+  :root body .sf-topbanner [data-sf-close] {
+    position:relative;
+  }
+  :root body .sf-topbanner [data-sf-close]::after {
+    content:"";
+    position:absolute;
+    inset:-7px;
+  }
+  :root body .paging-block .pagination a::after,
+  :root body .r3-deck::after,
+  :root body .sf-bv-tags a::after {
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    top:-8px;
+    bottom:-8px;
+  }
+  :root body .r3-nobr br {
+    display:none;
+  }
+}
+:root body :is(h1,
+h2,
+h3,
+h4,
+h5,
+[class*=title],
+[class*=__tit]) {
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+:root body .sf-hub-side>.sf-badge {
+  justify-self:start;
+  width:auto;
+}
+@media (min-width:992px) {
+  html.sf-hd-on body #doz_header .inline-section-wrap .inline-inside {
+    max-width:1230px!important;
+  }
+  :root body main.sf-help {
+    max-width:1200px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+:root body .sf-pt-need,
+:root body .sf-pt-stats,
+:root body .sf-tm-note {
+  display:none!important;
+}
+@media (max-width:991.98px) {
+  :root body .sf-topbanner {
+    position:relative;
+  }
+  :root body .sf-topbanner>[data-sf-close] {
+    position:absolute!important;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    margin:0!important;
+  }
+}
+@media (max-width:1023.98px) {
+  :root body .sf-biz .sf-contact {
+    grid-template-columns:1fr!important;
+    gap:32px;
+  }
+}
+:root body {
+  --sf-text-3:#6b7280;
+  --sf-text-brand:#c94400;
+}
+:root body .sf-tag--closed {
+  color:#5b616e;
+}

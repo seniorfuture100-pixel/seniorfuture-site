@@ -1,0 +1,17 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root .sf-pv--live .buy_btns.pc .like_box,
+:root .sf-pv--live .comment_num_warp,
+:root .sf-pv--live .goods_form header .pay_detail,
+:root .sf-pv--live .opt_block.total {
+  display:none!important;
+}
+:root .sf-pv--live .goods_form header .view_tit {
+  grid-column:1/-1;
+  font-size:20px!important;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--sf-border);
+}
+:root .sf-pv .goods_form header .sf-pv-cd {
+  grid-column:1/-1;
+  grid-row:auto;
+}

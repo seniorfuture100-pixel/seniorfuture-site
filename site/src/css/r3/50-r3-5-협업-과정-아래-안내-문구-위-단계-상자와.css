@@ -1,0 +1,61 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 5) 협업 과정 아래 안내 문구: 위 단계 상자와 같은 왼쪽 선에서 시작 + 안내 표시
+   함께 들어 있음: r3 · PC 헤더 검색칸 '검색' 글자: 연회색(#aaa, 대비 2.1) → 읽히는 회색, r3 · PC 파트너 '이런 고민' 대화 카드: 4칸은 말풍선이 좁아 2칸으로, r3 · 마이페이지 › 열람 내역: PC·태블릿은 찜한 내역처럼 카드 3칸(16:9 사진 위, 이름 아래) — 모바일은 기존 목록 그대로 */
+:root body .sf-biz .sf-note {
+  display:flex;
+  gap:6px;
+  align-items:flex-start;
+  line-height:1.6;
+}
+:root body .sf-biz .sf-note::before {
+  content:"ⓘ";
+  flex:none;
+  color:var(--sf-text-3);
+}
+@media (max-width:767.98px) {
+  :root body .sf-biz .sf-note {
+    margin:16px 0 0 56px!important;
+    font-size:13px;
+  }
+}
+:root body #doz_header_wrap .r2-sq.r2-sq {
+  color:#6b7280!important;
+}
+@media (min-width:1024px) {
+  :root body .sf-ap-grid.r3-qa {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:20px;
+  }
+  :root body .sf-ap-grid.r3-qa>div {
+    padding:26px 28px!important;
+  }
+}
+@media (min-width:768px) {
+  :root body .r2-my-recent {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:32px 20px;
+  }
+  :root body .r2-my-recent a {
+    grid-template-columns:1fr;
+    gap:12px;
+    align-items:start;
+  }
+  :root body .r2-my-recent__th {
+    border-radius:12px;
+    transition:transform .25s var(--sf-ease,ease);
+  }
+  :root body .r2-my-recent a:hover .r2-my-recent__th {
+    transform:translateY(-3px);
+  }
+  :root body .r2-my-recent small {
+    font-size:13px;
+    margin-bottom:4px;
+  }
+  :root body .r2-my-recent b {
+    font-size:16px;
+    line-height:1.45;
+  }
+  :root body .r2-my-recent a:hover b {
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+}

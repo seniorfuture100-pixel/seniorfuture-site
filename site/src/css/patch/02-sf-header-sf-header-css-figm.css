@@ -1,0 +1,23 @@
+/* 화면 묶음: common | 원본: src/sf-header.css · sf-header.css — Figma Header/PC·Mobile, NavDropdown, 전체 메뉴, 검색 (site-header.js 와 짝) */
+:root .sf-logo {
+  font:700 20px/1.4 var(--sf-font);
+  color:var(--sf-text);
+  letter-spacing:0;
+  white-space:nowrap;
+}
+:root .sf-logo b {
+  color:var(--sf-brand);
+  font-weight:700;
+}
+html.sf-hd-on #doz_header_wrap .logo_title a {
+  display:inline-flex!important;
+  align-items:center;
+  text-decoration:none;
+}
+:root .sf-topbanner {
+  min-height:48px;
+  background:linear-gradient(90deg,#1a1c20 0,#3b2417 60%,#ff6f0f 100%);
+  color:#fff;
+  font:700 14px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+}

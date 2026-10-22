@@ -1,0 +1,122 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 글 카드 움직임: BEST 카드와 같게 (썸네일 살짝 떠오름·그림자, 제목 주황, 사진 부드럽게 나타남)
+   함께 들어 있음: sf-boardview · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741, sf-product · 구매 박스, r2 · 알림 서랍 (월부식): 아임웹 알림 패널을 오른쪽에서 넓게, r2 · 검색: PC는 헤더 아래 패널 (월부식) · 최근 / 인기 2칸, sf-sitemotion · 버튼 누름 · 칩 · 탭, r3 · 소개 프로젝트 링크 화살표: 네모 테두리 칸 안 →, r3-partner · CONTACT: 바로 옆에 문의 폼이 있어서 버튼 두 개는 빼요, sf-sitemotion · LIVE 배지 깜빡임, sf-sitemotion · 맨 위로 버튼 */
+:root .sf-bv-more__list a:hover .sf-bv-more__th,
+:root .sf-ccard:hover .sf-ccard__thumb,
+:root .sf-review:hover {
+  transform:translateY(-4px);
+  box-shadow:0 10px 24px rgba(0,0,0,.08);
+}
+:root .sf-bv-more__list a:hover strong,
+:root .sf-ccard:hover strong,
+:root .sf-ex-card:hover strong,
+:root .sf-lcard:hover strong,
+:root .sf-mcard:hover strong {
+  color:var(--sf-text-brand);
+}
+:root .sf-bv-more__list strong,
+:root .sf-ccard strong,
+:root .sf-ex-card strong,
+:root .sf-lcard strong,
+:root .sf-mcard strong {
+  transition:color .2s var(--sf-ease);
+}
+:root .sf-review:hover {
+  box-shadow:0 12px 28px rgba(0,0,0,.08);
+}
+:root :is(.sf-btn,
+.sf-chip,
+.sf-pv-share__btn,
+.sf-pv-sharebtn,
+.sf-ex-cta a,
+.sf-arrow,
+.sf-sec-more,
+.sf-page__cta,
+.sf-hd-search,
+.sf-mh__btn) {
+  transition:transform .15s var(--sf-ease),background-color .2s var(--sf-ease),color .2s var(--sf-ease),box-shadow .2s var(--sf-ease);
+}
+:root :is(.sf-btn,
+.sf-chip,
+.sf-pv-share__btn,
+.sf-pv-sharebtn,
+.sf-ex-cta a,
+.sf-arrow,
+.sf-page__cta):active {
+  transform:scale(.97);
+}
+:root .sf-btn--primary:hover,
+:root .sf-page__cta:hover {
+  filter:brightness(.95);
+}
+:root .sf-chip:not(.is-active):hover {
+  background:var(--sf-surface);
+}
+:root .sf-tab,
+:root .sf-tm-tabs a,
+:root .sf-utabs button {
+  transition:color .2s var(--sf-ease),border-color .2s var(--sf-ease);
+}
+:root .sf-tab:hover,
+:root .sf-tm-tabs a:hover,
+:root .sf-utabs button:hover {
+  color:var(--sf-text);
+}
+:root .sf-sec-more svg {
+  transition:transform .2s var(--sf-ease);
+}
+:root .sf-sec-more:hover svg {
+  transform:translateX(3px);
+}
+:root .sf-badge--live {
+  position:relative;
+}
+:root [data-status=live] .sf-badge--live::before {
+  content:"";
+  display:inline-block;
+  width:6px;
+  height:6px;
+  margin-right:4px;
+  border-radius:50%;
+  background:currentColor;
+  vertical-align:middle;
+  animation:sf-pulse 1.2s ease-in-out infinite;
+}
+:root .sf-top {
+  position:fixed;
+  right:24px;
+  bottom:88px;
+  z-index:45;
+  width:48px;
+  height:48px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 0 1px var(--sf-border),0 6px 16px rgba(0,0,0,.08);
+  color:var(--sf-text);
+  cursor:pointer;
+  opacity:0;
+  transform:translateY(12px);
+  pointer-events:none;
+  transition:opacity .25s var(--sf-ease),transform .25s var(--sf-ease);
+}
+:root .sf-top.is-on {
+  opacity:1;
+  transform:none;
+  pointer-events:auto;
+}
+:root .sf-top:hover {
+  background:var(--sf-surface);
+}
+:root .sf-top svg {
+  width:22px;
+  height:22px;
+  stroke:currentColor;
+  stroke-width:2;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}

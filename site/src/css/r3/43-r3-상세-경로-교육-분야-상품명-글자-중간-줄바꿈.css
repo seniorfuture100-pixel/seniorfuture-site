@@ -1,0 +1,87 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 상세 경로(교육 › 분야 › 상품명): 글자 중간 줄바꿈 없이 한 줄, 길면 상품명만 …
+   함께 들어 있음: r3 · 홈 BEST TOP 5: 모바일도 PC처럼 한 줄 소개 + 태그 (예전 하드코딩 가격·개강일 숨김), r3 · 상세(PC): 옵션 없는 상품은 '총 상품금액(1개)' 줄이 위 가격과 같아서 숨김, r3 · 무료 라이브: 모바일 아래 줄의 찜(♡)은 PC에 없어서 숨김 · 가로 목록 스크롤바 숨김, r3 · 밑줄 탭(인사이트 분류 등): 글자가 두 줄로 꺾이지 않게, 넘치면 옆으로 밀기, r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root body .sf-pv-crumb {
+  flex-wrap:nowrap!important;
+  min-width:0;
+}
+:root body .sf-pv-crumb>* {
+  flex:none!important;
+  white-space:nowrap!important;
+}
+:root body .sf-pv-crumb>:last-child {
+  flex:1 1 auto!important;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+@media (max-width:767.98px) {
+  :root body .sf-pv .sf-pv__main {
+    overflow-x:clip;
+  }
+}
+:root body .sf-top5 .sf-ccard__meta,
+:root body .sf-top5 .sf-ccard__price {
+  display:none!important;
+}
+@media (max-width:767.98px) {
+  :root body .sf-top5 .sf-ccard p {
+    display:-webkit-box!important;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:1;
+    overflow:hidden;
+    margin:0;
+  }
+  :root body .sf-top5 .sf-ccard .sf-tags {
+    display:flex!important;
+  }
+  :root body .r3-ft-co>i,
+  :root body .sf-scope .sf-sec-mbtn {
+    display:none!important;
+  }
+  :root body .sf-pv-teacher {
+    flex-direction:row!important;
+    align-items:flex-start!important;
+    gap:14px!important;
+  }
+  :root body .sf-pv-teacher__photo {
+    width:56px!important;
+    height:56px!important;
+  }
+  :root body .sf-pv-related {
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  :root body .sf-ft .sf-ft-in {
+    display:grid!important;
+    grid-template-columns:1fr 1fr;
+    gap:28px 16px;
+  }
+  :root body .sf-ft .sf-ft-in>.sf-ft-cs {
+    grid-column:1/-1;
+  }
+  :root body .r3-ft-co {
+    flex-direction:column;
+    align-items:flex-start!important;
+    gap:2px!important;
+  }
+}
+@media (min-width:768px) {
+  html.r3-noopt body .sf-pv .opt_block.total {
+    display:none!important;
+  }
+}
+:root body.shop_view .sf-pv--live~* .sf-mwish,
+html.sf-pv-on body .sf-pv--live .sf-mwish {
+  display:none!important;
+}
+:root body .sf-bv-more__list,
+:root body .sf-pv-more,
+:root body .sf-pv-related .sf-cards4 {
+  scrollbar-width:none;
+}
+:root body .sf-bv-more__list::-webkit-scrollbar,
+:root body .sf-pv-more::-webkit-scrollbar,
+:root body .sf-pv-related .sf-cards4::-webkit-scrollbar,
+:root body .sf-tm-tabs::-webkit-scrollbar {
+  display:none;
+}

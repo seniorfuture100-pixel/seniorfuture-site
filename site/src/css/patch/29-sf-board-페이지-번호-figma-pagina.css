@@ -1,0 +1,38 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · 페이지 번호: Figma Pagination (현재 페이지 검정 r8) */
+:root [data-widget-type=board] .pagination {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:4px;
+  margin:40px 0 0;
+}
+:root [data-widget-type=board] .pagination>li>a,
+:root [data-widget-type=board] .pagination>li>span {
+  min-width:30px;
+  height:30px;
+  padding:0 6px;
+  border:0!important;
+  border-radius:8px!important;
+  background:0 0;
+  color:var(--sf-text-2);
+  font:500 14px/30px var(--sf-font);
+  text-align:center;
+}
+:root [data-widget-type=board] .pagination>.active>a,
+:root [data-widget-type=board] .pagination>.active>span {
+  background:var(--sf-dark)!important;
+  color:#fff!important;
+  font-weight:700;
+}
+:root .sf-board-empty {
+  margin:24px 0 0;
+  padding:48px 16px;
+  border-radius:12px;
+  background:var(--sf-surface);
+  color:var(--sf-text-3);
+  font:500 15px/1.5 var(--sf-font);
+  text-align:center;
+}
+:root .sf-shop .iw-shop-product-count {
+  display:inline-flex;
+}

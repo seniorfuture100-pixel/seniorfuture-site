@@ -1,0 +1,42 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 1:1 문의 버튼 (월부식 알약)
+   함께 들어 있음: r2 · 인사이트: 빈칸 없는 격자 · 분야 탭이면 BEST 숨김 · 구독 띠·글쓰기 없음 */
+:root body .sf-fab.r2-fab {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  right:40px;
+  bottom:40px;
+  width:auto;
+  min-width:100px;
+  height:52px;
+  padding:0 22px;
+  border-radius:999px;
+  background:var(--sf-dark);
+  color:#fff;
+  font:700 16px/1 var(--sf-font);
+  letter-spacing:-.02em;
+  box-shadow:0 6px 16px rgba(0,0,0,.18);
+}
+:root body .sf-fab.r2-fab:hover {
+  background:#000;
+}
+@media (max-width:767.98px) {
+  :root body .sf-fab.r2-fab {
+    display:inline-flex;
+    right:16px;
+    bottom:calc(76px + env(safe-area-inset-bottom));
+    min-width:88px;
+    height:44px;
+    padding:0 18px;
+    font-size:14px;
+  }
+  :root.sf-pv-on body .sf-fab.r2-fab {
+    bottom:calc(88px + env(safe-area-inset-bottom));
+  }
+}
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  margin:0!important;
+  gap:40px 24px;
+}

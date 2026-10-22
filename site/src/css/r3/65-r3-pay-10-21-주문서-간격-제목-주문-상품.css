@@ -1,0 +1,14 @@
+/* 화면 묶음: payment | 원본: src/r3-pay.css · 10/21 주문서 간격: 제목↔'주문 상품' 60px → PC 32 · 모바일 24, 결제 수단 타일은 개수만큼 꽉 채움, 768~1023은 본문 720 가운데 */
+html.r3pay-on body .r3pay-titlewrap {
+  margin-bottom:0!important;
+}
+html.r3pay-on body .r3pay-tiles {
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr))!important;
+}
+@media (min-width:768px) and (max-width:1023.98px) {
+  html.r3pay-on body #oms-shop-payment {
+    max-width:752px!important;
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+}

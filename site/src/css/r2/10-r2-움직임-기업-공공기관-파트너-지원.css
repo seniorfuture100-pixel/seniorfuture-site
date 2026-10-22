@@ -1,0 +1,58 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 움직임 (기업·공공기관 / 파트너 지원)
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root body .r2-eyebrow {
+  display:inline-flex!important;
+  align-items:center;
+  gap:8px;
+  height:34px;
+  margin:0 0 24px!important;
+  padding:0 14px!important;
+  border-radius:999px;
+  background:var(--sf-brand-tint);
+  color:var(--sf-text-brand)!important;
+  font:700 15px/1 var(--sf-font)!important;
+  letter-spacing:-.02em;
+}
+:root body .r2-eyebrow::before {
+  flex:none;
+}
+:root body .r2-lines .r2-ln {
+  display:block;
+  overflow:hidden;
+  padding-bottom:.06em;
+}
+:root body .r2-lines .r2-ln>span {
+  display:inline-block;
+  transform:translateY(105%);
+  transition:transform .8s cubic-bezier(.2,.7,.2,1) var(--d,0s);
+}
+:root body .r2-lines.r2-in .r2-ln>span {
+  transform:none;
+}
+:root body .r2-hero .r2-lines .r2-ln>span {
+  transform:none;
+  transition:none;
+  animation:r2up .9s cubic-bezier(.2,.7,.2,1) var(--d,0s) both;
+}
+:root body .r2-hero .r2-float,
+:root body .r2-hero .sf-kw,
+:root body .r2-hero .sf-lead,
+:root body .r2-hero .sf-pt-lead,
+:root body .r2-hero .sf-pt-stats,
+:root body .r2-hero .sf-row,
+:root body .r2-hero>.sf-wrap>.sf-btn {
+  animation:r2fade .8s var(--sf-ease) .35s both;
+}
+:root body .r2-stag>* {
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .6s var(--sf-ease) calc(var(--i,0)*.08s),transform .6s var(--sf-ease) calc(var(--i,0)*.08s);
+}
+:root body .r2-stag.r2-in>* {
+  opacity:1;
+  transform:none;
+}
+:root body .r2-off,
+:root body .sf-logos.r2-mq {
+  display:none!important;
+}

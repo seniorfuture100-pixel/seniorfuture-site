@@ -1,0 +1,19 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · 페이지 머리 + 오른쪽 버튼 (Figma 수강평 목록: 제목 왼쪽 · 수강평 쓰기 오른쪽) */
+:root .sf-page--action {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+}
+:root .sf-page__cta {
+  flex-shrink:0;
+  height:44px;
+  padding:0 20px;
+  border-radius:9999px;
+  font:700 15px/1 var(--sf-font);
+}
+html:has(.sf-page--review) [data-widget-type="board"] .list-style.type_grid {
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px 0;
+}

@@ -1,0 +1,46 @@
+/* 화면 묶음: partner | 원본: src/r3-partner.css · 5. 진행 단계 */
+:root body .r3ap .r3ap-steps {
+  background:#fff;
+  text-align:center;
+}
+:root body .r3ap .r3ap-steps ol {
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:20px;
+  margin:56px 0 0;
+  text-align:left;
+  counter-reset:none;
+}
+:root body .r3ap .r3ap-steps li {
+  position:relative;
+  display:grid;
+  gap:10px;
+  align-content:start;
+  padding:28px 24px;
+  border-radius:24px;
+  background:var(--sf-surface,#f7f8fa);
+}
+:root body .r3ap .r3ap-steps li::before {
+  content:none!important;
+}
+:root body .r3ap .r3ap-steps li:not(:last-child)::after {
+  content:"";
+  position:absolute;
+  right:-16px;
+  top:44px;
+  width:12px;
+  height:12px;
+  border-top:2px solid #ffb27a;
+  border-right:2px solid #ffb27a;
+  transform:rotate(45deg);
+  z-index:1;
+}
+:root body .r3ap .r3ap-steps i {
+  font-style:normal;
+  color:var(--r3ap-o);
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+:root body .r3ap .r3ap-steps b {
+  font-size:22px;
+}

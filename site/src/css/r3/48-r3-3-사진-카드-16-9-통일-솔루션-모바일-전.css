@@ -1,0 +1,47 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 3) 사진 카드 16:9 통일 — 솔루션(모바일 전체 폭 / 태블릿·PC 왼쪽 320×180), PROJECT STORIES
+   함께 들어 있음: r3 · 4) HOW WE CONNECT 화살표: 카드 사이 가운데에 동그란 표시로, 위아래 간격 같게 */
+:root body .sf-biz .sf-case__img {
+  aspect-ratio:16/9!important;
+  height:auto!important;
+}
+@media (max-width:767.98px) {
+  :root body .sf-biz .sf-sol__img {
+    height:auto!important;
+    aspect-ratio:16/9;
+  }
+}
+@media (min-width:768px) {
+  :root body .sf-biz .sf-sol {
+    flex-direction:row!important;
+    align-items:center!important;
+    gap:28px!important;
+    padding:16px 28px 16px 16px!important;
+  }
+  :root body .r2-sticky .sf-sol__img,
+  :root body .sf-biz .sf-sol__img {
+    flex:0 0 320px!important;
+    width:320px!important;
+    height:180px!important;
+    aspect-ratio:auto;
+    border-radius:14px!important;
+  }
+}
+@media (max-width:767.98px) {
+  :root body .sf-biz .r3-flow {
+    gap:36px!important;
+  }
+  :root body .sf-biz .r3-flow li+li:before {
+    top:-29px!important;
+    left:50%!important;
+    width:22px;
+    height:22px;
+    margin-left:-11px!important;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 0 1px var(--sf-border);
+    color:var(--sf-text-3);
+    font-size:12px!important;
+    line-height:22px;
+    text-align:center;
+  }
+}

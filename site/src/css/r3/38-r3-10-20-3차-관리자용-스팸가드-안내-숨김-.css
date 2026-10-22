@@ -1,0 +1,69 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 10/20 3차 ─ 관리자용 스팸가드 안내 숨김 · 하단 글꼴 · 공지 개수 · 768~991 헤더 · 회사 소개 버튼 줄 · 라이브 공유 · 복사 완료 창
+   함께 들어 있음: r3-pay · 오른쪽 결제 금액, r3 · 10/20 3차 ─ 관리자용 스팸가드 안내 숨김 · 하단 글꼴 · 공지 개수 · 768~991 헤더 · 회사 소개 버튼 줄 · 라이브 공유 · 복사 완료 창, r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+@media (min-width:768px) and (max-width:991.98px) {
+  html.sf-hd-on #inline_header_mobile,
+  html.sf-hd-on #mobile_carousel_menu {
+    display:none!important;
+  }
+  html.sf-hd-on #doz_header_wrap {
+    position:sticky!important;
+    top:0;
+    z-index:30;
+    background:#fff;
+  }
+  html.sf-hd-on #doz_header_wrap.is-stuck {
+    box-shadow:0 1px 0 var(--sf-border);
+  }
+  html.sf-hd-on .sf-mh {
+    display:flex!important;
+    align-items:center;
+    gap:16px;
+    height:64px;
+    padding:0 24px;
+    background:#fff;
+  }
+  html.sf-hd-on .sf-mh__logo {
+    margin-right:auto;
+    text-decoration:none;
+  }
+}
+:root body .sf-scope .sf-ab .sf-ab-vcard {
+  display:flex;
+  flex-direction:column;
+}
+:root body .sf-scope .sf-ab .sf-ab-vcard ul {
+  margin-bottom:32px;
+}
+:root body .sf-scope .sf-ab .sf-ab-vcard .sf-ab-btn {
+  margin-top:auto!important;
+  height:56px;
+}
+:root body .sf-pv.sf-pv--live .goods_form header .comment_num_warp {
+  display:block!important;
+}
+:root body .sf-pv.sf-pv--live .goods_form header .pay_detail {
+  display:contents!important;
+}
+:root body .sf-pv.sf-pv--live .goods_form header .pay_detail>:not(.comment_num_warp) {
+  display:none!important;
+}
+:root .sf-rw-done,
+:root .sf-rw-done *,
+:root body #doz_header_wrap .sf-hd-search,
+:root body #doz_header_wrap .sf-hd-search * {
+  font-family:var(--sf-font)!important;
+}
+:root .sf-rw-done {
+  display:flex!important;
+  flex-direction:column;
+  align-items:center;
+  gap:0!important;
+  padding:40px 32px 28px!important;
+  text-align:center;
+}
+:root .sf-rw-done[hidden],
+:root body .table-wrap.wish.r3-wish-on .r3-wish-src,
+:root.r3-out body #doz_header_wrap .viewport-nav [data-widget-type=inline_login_btn],
+:root.r3-out body #doz_header_wrap [data-widget-type=inline_login_btn] {
+  display:none!important;
+}

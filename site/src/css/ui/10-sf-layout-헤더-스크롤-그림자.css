@@ -1,0 +1,27 @@
+/* 화면 묶음: common | 원본: src/sf-layout.css · 헤더 스크롤 그림자
+   함께 들어 있음: r2 · 움직임 (기업·공공기관 / 파트너 지원) */
+:root [data-sf-sticky-header] {
+  position:sticky;
+  top:0;
+  z-index:30;
+  background:var(--sf-canvas);
+  transition:box-shadow .15s var(--sf-ease);
+}
+:root [data-sf-sticky-header].is-stuck {
+  box-shadow:0 1px 0 var(--sf-border);
+}
+:root [data-sf-reveal] {
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .7s var(--sf-ease),transform .7s var(--sf-ease);
+}
+:root [data-sf-lines].is-in .sf-line,
+:root [data-sf-reveal].is-in {
+  opacity:1;
+  transform:none;
+}
+:root [data-sf-lines] .sf-line {
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .6s var(--sf-ease),transform .6s var(--sf-ease);
+}

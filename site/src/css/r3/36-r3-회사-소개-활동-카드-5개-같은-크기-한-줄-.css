@@ -1,0 +1,38 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 회사 소개: 활동 카드 5개 같은 크기(한 줄 3개, 마지막 줄 가운데) */
+:root body .sf-scope .sf-ab .sf-ab-svcs {
+  display:flex!important;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+}
+:root body .sf-scope .sf-ab .sf-ab-svc,
+:root body .sf-scope .sf-ab .sf-ab-svc.is-wide {
+  flex:0 0 calc((100% - 40px)/3);
+  grid-column:auto;
+}
+:root body .sf-scope .sf-ab .sf-ab-svc .sf-ab-ph,
+:root body .sf-scope .sf-ab .sf-ab-svc.is-wide .sf-ab-ph {
+  aspect-ratio:16/10;
+}
+:root body .sf-scope .sf-ab .sf-ab-svc b {
+  font-size:21px;
+}
+@media (max-width:1023.98px) and (min-width:768px) {
+  :root body .sf-scope .sf-ab .sf-ab-svc,
+  :root body .sf-scope .sf-ab .sf-ab-svc.is-wide {
+    flex-basis:calc((100% - 20px)/2);
+  }
+}
+@media (max-width:767.98px) {
+  :root body .sf-scope .sf-ab .sf-ab-svcs {
+    gap:12px;
+  }
+  :root body .sf-scope .sf-ab .sf-ab-svc,
+  :root body .sf-scope .sf-ab .sf-ab-svc.is-wide {
+    flex-basis:100%;
+  }
+  :root body .sf-scope .sf-ab .sf-ab-why .sf-ab-big {
+    margin:24px 0 28px;
+    font-size:16px;
+  }
+}

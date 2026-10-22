@@ -1,0 +1,39 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · 2차 수정: 연한 주황 섹션 · 고민 카드 3+3 · V 연결 · 가로 솔루션 카드 · 클릭 카드 · 로고
+   함께 들어 있음: sf-apply · 파트너 지원 (/partner · /partner/apply) — Figma 02 PC · 03 모바일 '11' 섹션 */
+:root .sf-case__body {
+  display:grid;
+  gap:12px;
+  padding:28px 32px 32px;
+}
+:root .sf-case__k {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  font-weight:700;
+  color:var(--sf-text-brand);
+}
+:root .sf-case__k span {
+  flex:1;
+  color:var(--sf-text-2);
+}
+:root .sf-case__go {
+  width:44px;
+  height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:var(--sf-dark);
+  color:#fff;
+  font-style:normal;
+  font-size:18px;
+}
+:root .sf-case strong {
+  font-size:24px;
+  line-height:1.4;
+}
+:root .sf-case__msg {
+  color:var(--sf-text-2);
+  line-height:1.6;
+}

@@ -1,0 +1,20 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 찜한 강의: 홈 카드 그대로 (10/21) */
+:root body .table-wrap.wish .r3-wish {
+  margin-top:16px;
+}
+:root body .table-wrap.wish .r3-wish .r3-wish__grid {
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:32px 20px!important;
+  margin:0!important;
+  padding:0!important;
+  list-style:none;
+}
+:root body .table-wrap.wish .r3-wish .sf-ccard__thumb {
+  position:relative;
+}
+@media (max-width:767.98px) {
+  :root body .table-wrap.wish .r3-wish .r3-wish__grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}

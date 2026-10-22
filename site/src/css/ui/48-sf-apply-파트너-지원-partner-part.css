@@ -1,0 +1,28 @@
+/* 화면 묶음: apply | 원본: src/sf-apply.css · 파트너 지원 (/partner · /partner/apply) — Figma 02 PC · 03 모바일 '11' 섹션 */
+:root .sf-ap-grid>div {
+  display:grid;
+  gap:12px;
+  align-content:start;
+  padding:28px;
+  border-radius:20px;
+  background:var(--sf-surface);
+}
+:root .sf-ap-grid b {
+  font-size:18px;
+}
+:root .sf-ap-grid p {
+  color:var(--sf-text-2);
+  line-height:1.6;
+}
+:root .sf-ap-ways {
+  grid-template-columns:1fr 1fr;
+}
+:root .sf-ap-ways a {
+  gap:14px;
+  align-content:start;
+  background:#fff;
+  color:inherit;
+  text-decoration:none;
+  box-shadow:inset 0 0 0 1px transparent;
+  transition:box-shadow .2s,transform .2s;
+}

@@ -1,0 +1,23 @@
+# 올릴 때마다: 원본을 다시 묶어서 dist/ 와 똑같은지, 코드에 문법 오류가 없는지 확인
+name: build-check
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund acorn@8.19.0 css-tree@3.0.1 terser@5.36.0
+      - name: 원본 → 묶음
+        run: |
+          node tools/site/jsbuild.js
+          node tools/site/cssbuild.js
+          node tools/site/bundle.js "$(cat dist/VERSION)"
+      - name: 문법 확인
+        run: node -e "new Function(require('fs').readFileSync('dist/sf.min.js','utf8')); require('css-tree').parse(require('fs').readFileSync('dist/sf.min.css','utf8')); console.log('ok')"
+      - name: dist 가 원본과 같은지(원본만 고치고 묶음을 안 만들었으면 실패)
+        run: git diff --exit-code -- dist site/dist

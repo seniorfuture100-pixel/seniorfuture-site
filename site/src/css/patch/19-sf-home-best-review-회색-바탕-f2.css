@@ -1,0 +1,12 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · BEST REVIEW: 회색 바탕 #f2f3f6 · 카드 588 · 오른쪽 화살표 */
+:root .sf-home-review {
+  background:var(--sf-background);
+}
+:root .sf-home-review .sf-sec {
+  padding:72px 0;
+}
+:root .sf-home-review .sf-track {
+  margin-top:32px;
+  gap:24px;
+  overflow-x:auto;
+}

@@ -1,0 +1,22 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 무료 라이브 공유 아이콘: 뱃지 줄 오른쪽 끝에 맞춤 (10/21) */
+:root body .sf-pv.sf-pv--live .goods_form header .sf-pv-tags {
+  grid-column:1!important;
+  grid-row:1!important;
+  align-self:center;
+}
+:root body .sf-pv.sf-pv--live .goods_form header .comment_num_warp {
+  grid-column:2!important;
+  grid-row:1!important;
+  align-self:center!important;
+  justify-self:end;
+  margin:0!important;
+  transform:none!important;
+  translate:none!important;
+  top:auto!important;
+}
+:root body .sf-pv.sf-pv--live .goods_form header .comment_num_warp .comment_num {
+  width:36px!important;
+  height:36px!important;
+  margin:0!important;
+  transform:none!important;
+}

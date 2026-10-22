@@ -1,0 +1,50 @@
+/* 화면 묶음: partner | 원본: src/r3-partner.css · 3. 걱정 → 답 (말풍선)
+   함께 들어 있음: sf-shop · sf-shop.css — 아임웹 상품 목록(그림자 DOM 안)을 Figma 카드로 (shop-list.js 가 이 CSS를 그림자 DOM에 복사해 넣어요), r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, sf-boardview · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741 */
+:root .sf-ft-sns__a:hover {
+  background:#fff;
+}
+:root .sf-shop {
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+  --iw-shop-align:left;
+}
+:root .sf-shop .iw-shop-grid {
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:40px 24px!important;
+}
+:root .sf-shop .iw-shop-card {
+  gap:0;
+  font-size:14px;
+}
+:root .sf-shop .iw-shop-card.sf-hidden {
+  display:none!important;
+}
+:root .sf-shop .iw-shop-media {
+  aspect-ratio:16/9!important;
+  border-radius:8px!important;
+  background:var(--sf-border)!important;
+  isolation:isolate;
+}
+:root .sf-shop .iw-shop-thumbnail {
+  transition:transform .4s var(--sf-ease);
+}
+:root .sf-shop .iw-shop-card:hover .iw-shop-thumbnail[data-image-index="0"] {
+  transform:scale(1.04);
+}
+:root .sf-shop .iw-shop-wishlist {
+  position:absolute!important;
+  top:8px!important;
+  right:8px!important;
+  left:auto!important;
+  width:32px;
+  height:32px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  border:0;
+  background:0 0!important;
+  color:#fff!important;
+  cursor:pointer;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));
+}

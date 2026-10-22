@@ -1,0 +1,350 @@
+[
+ {
+  "file": "01-sf-motion-시니어퓨처-소개-움직임-about.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 3
+ },
+ {
+  "file": "02-r3-pay-r3-pay-css-주문서-월부식-r3.css",
+  "screen": "payment",
+  "src": "r3-pay",
+  "rules": 8
+ },
+ {
+  "file": "03-sf-ui-버튼.css",
+  "screen": "common",
+  "src": "sf-ui",
+  "rules": 18
+ },
+ {
+  "file": "04-sf-ui-배지.css",
+  "screen": "common",
+  "src": "sf-ui",
+  "rules": 13
+ },
+ {
+  "file": "05-sf-layout-탭-상세-페이지.css",
+  "screen": "common",
+  "src": "sf-layout",
+  "rules": 7
+ },
+ {
+  "file": "06-sf-layout-카운트다운.css",
+  "screen": "common",
+  "src": "sf-layout",
+  "rules": 5
+ },
+ {
+  "file": "07-sf-layout-폼-오류.css",
+  "screen": "common",
+  "src": "sf-layout",
+  "rules": 7
+ },
+ {
+  "file": "08-sf-layout-드로어.css",
+  "screen": "common",
+  "src": "sf-layout",
+  "rules": 5
+ },
+ {
+  "file": "09-sf-layout-최근-검색어.css",
+  "screen": "common",
+  "src": "sf-layout",
+  "rules": 4
+ },
+ {
+  "file": "10-sf-layout-헤더-스크롤-그림자.css",
+  "screen": "common",
+  "src": "sf-layout",
+  "rules": 5
+ },
+ {
+  "file": "11-sf-motion-시니어퓨처-소개-움직임-about.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 12
+ },
+ {
+  "file": "12-sf-motion-강의실-classroom-js.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 11
+ },
+ {
+  "file": "13-sf-motion-강의실-classroom-js.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 11
+ },
+ {
+  "file": "14-sf-motion-강의-카드-태그-figma-01-.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 8
+ },
+ {
+  "file": "15-r3-partner-contact-바로-옆에-문의-.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 3
+ },
+ {
+  "file": "16-r3-pc-1200px-첫-화면-카드-4장-겹쳐-쌓.css",
+  "screen": "pages-r3",
+  "src": "r3",
+  "rules": 3
+ },
+ {
+  "file": "17-sf-motion-메인-배너-월부형-양옆-슬라이드-.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 4
+ },
+ {
+  "file": "18-sf-motion-홈-best-review-카드-패.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 11
+ },
+ {
+  "file": "19-sf-motion-공유-버튼-토스트-share-js.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 3
+ },
+ {
+  "file": "20-r3-pay-결제-수단-타일.css",
+  "screen": "payment",
+  "src": "r3-pay",
+  "rules": 3
+ },
+ {
+  "file": "21-sf-motion-카카오-공유-버튼-공식-색.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 8
+ },
+ {
+  "file": "22-sf-motion-커뮤니티-카드-태그-종류-연한-색.css",
+  "screen": "common",
+  "src": "sf-motion",
+  "rules": 3
+ },
+ {
+  "file": "23-sf-biz-기업-공공기관-business-페이지-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 6
+ },
+ {
+  "file": "24-sf-biz-기업-공공기관-business-페이지-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 10
+ },
+ {
+  "file": "25-sf-biz-hero.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 9
+ },
+ {
+  "file": "26-sf-biz-customer-needs-탭.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 6
+ },
+ {
+  "file": "27-sf-biz-how-we-work-6단계.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 5
+ },
+ {
+  "file": "28-sf-biz-how-we-work-6단계.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 10
+ },
+ {
+  "file": "29-sf-biz-how-we-work-6단계.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 6
+ },
+ {
+  "file": "30-sf-biz-why-metrics.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 9
+ },
+ {
+  "file": "31-sf-biz-contact-form.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 6
+ },
+ {
+  "file": "32-sf-biz-2차-수정-연한-주황-섹션-고민-카드-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 10
+ },
+ {
+  "file": "33-sf-biz-2차-수정-연한-주황-섹션-고민-카드-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 6
+ },
+ {
+  "file": "34-sf-biz-2차-수정-연한-주황-섹션-고민-카드-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 4
+ },
+ {
+  "file": "35-sf-biz-2차-수정-연한-주황-섹션-고민-카드-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 12
+ },
+ {
+  "file": "36-sf-biz-2차-수정-연한-주황-섹션-고민-카드-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 6
+ },
+ {
+  "file": "37-sf-biz-2차-수정-연한-주황-섹션-고민-카드-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 6
+ },
+ {
+  "file": "38-sf-biz-6단계-버튼을-더-크게-눌리게.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 5
+ },
+ {
+  "file": "39-sf-biz-기업-공공기관-business-페이지-.css",
+  "screen": "biz",
+  "src": "sf-biz",
+  "rules": 10
+ },
+ {
+  "file": "40-sf-partners-마케팅-파트너스-partner.css",
+  "screen": "partner",
+  "src": "sf-partners",
+  "rules": 8
+ },
+ {
+  "file": "41-sf-partners-마케팅-파트너스-partner.css",
+  "screen": "partner",
+  "src": "sf-partners",
+  "rules": 10
+ },
+ {
+  "file": "42-sf-apply-파트너-지원-partner-part.css",
+  "screen": "apply",
+  "src": "sf-apply",
+  "rules": 3
+ },
+ {
+  "file": "43-sf-partners-마케팅-파트너스-partner.css",
+  "screen": "partner",
+  "src": "sf-partners",
+  "rules": 5
+ },
+ {
+  "file": "44-sf-partners-마케팅-파트너스-partner.css",
+  "screen": "partner",
+  "src": "sf-partners",
+  "rules": 7
+ },
+ {
+  "file": "45-sf-partners-마케팅-파트너스-partner.css",
+  "screen": "partner",
+  "src": "sf-partners",
+  "rules": 6
+ },
+ {
+  "file": "46-sf-partners-마케팅-파트너스-partner.css",
+  "screen": "partner",
+  "src": "sf-partners",
+  "rules": 8
+ },
+ {
+  "file": "47-sf-partners-마케팅-파트너스-partner.css",
+  "screen": "partner",
+  "src": "sf-partners",
+  "rules": 5
+ },
+ {
+  "file": "48-sf-apply-파트너-지원-partner-part.css",
+  "screen": "apply",
+  "src": "sf-apply",
+  "rules": 5
+ },
+ {
+  "file": "49-sf-apply-4가지-분야-카드-전체가-신청서-링.css",
+  "screen": "apply",
+  "src": "sf-apply",
+  "rules": 28
+ },
+ {
+  "file": "50-sf-share-창.css",
+  "screen": "share",
+  "src": "sf-share",
+  "rules": 9
+ },
+ {
+  "file": "51-sf-share-창.css",
+  "screen": "share",
+  "src": "sf-share",
+  "rules": 8
+ },
+ {
+  "file": "52-sf-share-창.css",
+  "screen": "share",
+  "src": "sf-share",
+  "rules": 5
+ },
+ {
+  "file": "53-sf-share-창.css",
+  "screen": "share",
+  "src": "sf-share",
+  "rules": 12
+ },
+ {
+  "file": "54-sf-chrome-sf-chrome-css-아임웹-.css",
+  "screen": "common",
+  "src": "sf-chrome",
+  "rules": 11
+ },
+ {
+  "file": "55-sf-chrome-sf-chrome-css-아임웹-.css",
+  "screen": "common",
+  "src": "sf-chrome",
+  "rules": 6
+ },
+ {
+  "file": "56-sf-chrome-아임웹-입력폼을-코드-위젯-자리-.css",
+  "screen": "common",
+  "src": "sf-chrome",
+  "rules": 7
+ },
+ {
+  "file": "57-sf-chrome-아임웹-입력폼을-코드-위젯-자리-.css",
+  "screen": "common",
+  "src": "sf-chrome",
+  "rules": 11
+ },
+ {
+  "file": "58-sf-chrome-아임웹-입력폼을-코드-위젯-자리-.css",
+  "screen": "common",
+  "src": "sf-chrome",
+  "rules": 4
+ }
+]

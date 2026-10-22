@@ -1,0 +1,27 @@
+/* 화면 묶음: payment | 원본: src/r3-pay.css · 모바일 아래 고정 결제 줄 (10/21) */
+html.r3pay-on body .r3pay-mbtn {
+  width:100%!important;
+  height:52px!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:var(--sf-primary,#ff6b1a)!important;
+  color:#fff!important;
+  font:700 17px/1 var(--sf-font)!important;
+}
+html.r3pay-on body .r3pay-mbar {
+  font-family:var(--sf-font);
+}
+html.r3pay-on body .r3pay-mbar .r3pay-agree--m {
+  margin:8px 0 0!important;
+  text-align:center;
+  font-size:12px;
+}
+html.r3pay-on.r3pay-hasm body .r3pay-right .r3pay-agree:not(.r3pay-agree--m) {
+  display:none!important;
+}
+@media (max-width:767.98px) {
+  html.r3pay-on body .r3pay-titlewrap {
+    display:block!important;
+    margin-top:0!important;
+  }
+}

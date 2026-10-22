@@ -1,0 +1,15 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 무료 라이브 상세 (Figma 22:1451) · 모임 상세 (28:2452) */
+:root .sf-tag--dday {
+  background:var(--sf-dark);
+  color:#fff;
+}
+:root .sf-tag--free {
+  background:#f2f3f6;
+  color:var(--sf-text-2);
+}
+:root .sf-pv--live .sf-pv__side .goods_form {
+  padding:24px!important;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border),0 4px 16px rgba(0,0,0,.04);
+}

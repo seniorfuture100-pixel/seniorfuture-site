@@ -1,0 +1,40 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · sf-board.css — 아임웹 게시판 갤러리·최신글 위젯을 Figma Card/Insight 로 (인사이트·수강평·홈 최신글)
+   함께 들어 있음: r3-pay · 오른쪽 결제 금액 */
+:root :is(.list-style-gallery,
+.list-style.type_grid) {
+  margin:-12px -12px 0!important;
+  font-family:var(--sf-font);
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) .ma-item {
+  padding:12px!important;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) ._card {
+  background:0 0!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) ._card .holder {
+  display:flex;
+  flex-direction:column;
+  color:inherit;
+  text-decoration:none;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card_wrapper {
+  border-radius:8px;
+  overflow:hidden;
+  background-color:var(--sf-border);
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-head {
+  height:auto!important;
+  aspect-ratio:16/9;
+  transition:transform .4s var(--sf-ease);
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) ._card:hover .card_wrapper {
+  filter:brightness(.96);
+}

@@ -1,0 +1,112 @@
+/* 화면 묶음: common | 원본: src/sf-fixes.css · 아이디·비밀번호 찾기 창
+   함께 들어 있음: sf-fixes · 교육 상세(모바일): 아래 고정 신청줄 = ♡ + 넓은 신청 버튼, 본문에 상품 금액 보이기, 상세 설명 속 교환·반품 안내는 작은 글씨, sf-board · 카드 아래 정보: 작성자 · 날짜 (조회수는 숨김) — Figma Card/Review 메타 */
+:root .modal_site_find_password .modal_article {
+  border-radius:16px!important;
+  overflow:hidden;
+  font-family:var(--sf-font)!important;
+}
+:root .modal_site_find_password .find_tit {
+  color:var(--sf-text)!important;
+  font:700 20px/50px var(--sf-font)!important;
+}
+:root .modal_site_find_password .tab_wrap {
+  display:flex;
+  padding:4px;
+  border-radius:12px;
+  background:var(--sf-surface);
+}
+:root .modal_site_find_password .btn_find {
+  flex:1;
+  height:40px!important;
+  border:0!important;
+  border-radius:9px!important;
+  background:0 0!important;
+  color:var(--sf-text-3)!important;
+  font:500 14px/1 var(--sf-font)!important;
+}
+:root .modal_site_find_password .btn_find.active {
+  background:#fff!important;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);
+  color:var(--sf-text)!important;
+  font-weight:700!important;
+}
+:root .modal_site_find_password .choice {
+  color:var(--sf-text-2)!important;
+  font:400 14px/1.5 var(--sf-font)!important;
+}
+:root .modal_site_find_password .form-control {
+  height:48px!important;
+  padding:0 14px!important;
+  border:1px solid var(--sf-border)!important;
+  border-radius:10px!important;
+  box-shadow:none!important;
+  font:400 15px/1 var(--sf-font)!important;
+}
+:root .modal_site_find_password .form-control:focus {
+  border-color:var(--sf-text)!important;
+}
+:root .modal_site_find_password .btn-primary {
+  height:52px!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:var(--sf-primary)!important;
+  color:#fff!important;
+  font:700 16px/1 var(--sf-font)!important;
+}
+:root .sf-scope section.is-tint {
+  box-shadow:0 0 0 100vmax #fff5f0;
+  clip-path:inset(0-100vmax);
+}
+:root .sf-scope section.is-dark {
+  box-shadow:0 0 0 100vmax #1a1c20;
+  clip-path:inset(0-100vmax);
+}
+:root .sf-scope section.is-soft {
+  box-shadow:0 0 0 100vmax #f7f8fa;
+  clip-path:inset(0-100vmax);
+}
+@media (max-width:767.98px) {
+  html.sf-pv-on body ._mobile_action_btn_wrap .pay-box {
+    gap:8px;
+  }
+  html.sf-pv-on body ._mobile_action_btn_wrap .pay-box>a.buy:not(.opt) {
+    flex:1 1 auto!important;
+    width:auto!important;
+    height:52px!important;
+    border-radius:12px!important;
+    font:700 16px/1 var(--sf-font)!important;
+  }
+  html.sf-pv-on body ._mobile_action_btn_wrap .sf-mwish {
+    flex:none;
+    display:flex;
+    width:52px;
+    height:52px;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    border:1px solid var(--sf-border);
+    border-radius:12px;
+    background:#fff;
+  }
+  html.sf-pv-on body ._mobile_action_btn_wrap .sf-mwish svg {
+    width:22px;
+    height:22px;
+    fill:none;
+    stroke:var(--sf-text);
+    stroke-width:2;
+  }
+  html.sf-pv-on body ._mobile_action_btn_wrap .sf-mwish[aria-pressed=true] svg {
+    fill:#ff6f0f;
+    stroke:#ff6f0f;
+  }
+}
+html.sf-pv-on body .sf-pv-own p {
+  color:var(--sf-text-3);
+  font-size:13px!important;
+  line-height:1.6!important;
+}
+:root .sf-rv-course::before,
+:root .sf-rv-course~.date::before {
+  content:"·";
+  margin:0 6px;
+}

@@ -1,0 +1,52 @@
+/* 화면 묶음: partner | 원본: src/sf-partners.css · 마케팅 파트너스 (/partners) — Figma 02 PC · 03 모바일 '10' 섹션
+   함께 들어 있음: r3-partner · 3. 걱정 → 답 (말풍선) */
+:root .sf-pt-lead {
+  margin-top:20px!important;
+  font-size:18px;
+  line-height:1.6;
+  color:var(--sf-text-2);
+}
+:root .sf-pt-pill {
+  display:inline-block;
+  margin-bottom:20px;
+  padding:6px 14px;
+  border-radius:999px;
+  background:#fff;
+  color:var(--sf-text-brand);
+  font-size:14px;
+  font-weight:700;
+}
+:root .sf-pt-stats {
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin:32px 0 0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-pt-stats li {
+  padding:24px 40px;
+  border-radius:20px;
+  background:#fff;
+}
+:root .sf-pt-stats b {
+  display:block;
+  font-size:28px;
+}
+:root .sf-pt-stats span {
+  color:var(--sf-text-2);
+  font-size:14px;
+}
+:root .sf-pt-need {
+  display:inline-block;
+  margin-top:16px;
+  padding:4px 8px;
+  border-radius:6px;
+  background:var(--sf-brand-tint);
+  color:var(--sf-text-brand);
+  font-size:12px;
+  font-weight:700;
+}
+:root .is-tint .sf-pt-need {
+  background:#fff;
+}

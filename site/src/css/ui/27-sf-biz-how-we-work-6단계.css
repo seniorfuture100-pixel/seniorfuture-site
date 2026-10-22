@@ -1,0 +1,38 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · How we work — 6단계
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root .sf-steps>li {
+  display:contents;
+}
+:root .sf-steps [data-sf-step] {
+  grid-row:1;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+  border:0;
+  background:0 0;
+  text-align:left;
+  font:inherit;
+  color:var(--sf-text-2);
+  cursor:pointer;
+}
+:root .sf-steps [data-sf-step]::after {
+  content:"";
+  position:absolute;
+  right:0;
+  height:2px;
+  background:var(--sf-border-strong);
+}
+:root .sf-steps>li:last-child [data-sf-step]::after {
+  display:none;
+}
+:root .sf-step__no {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:inset 0 0 0 1.5px var(--sf-border-strong);
+  font-weight:700;
+}

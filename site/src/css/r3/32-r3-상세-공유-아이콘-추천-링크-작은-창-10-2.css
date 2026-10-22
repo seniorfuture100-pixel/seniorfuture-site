@@ -1,0 +1,43 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 상세 공유 아이콘 · 추천 링크 작은 창 (10/20)
+   함께 들어 있음: r3-options · 모바일 '수강 옵션' 시트 (r3-sheet.js) */
+:root .r3-spop__head {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+:root .r3-spop__head h3 {
+  margin:0;
+  font:700 19px/1.4 var(--sf-font);
+  letter-spacing:-.02em;
+  word-break:keep-all;
+}
+:root .r3-spop__x {
+  position:relative;
+  flex:none;
+  width:36px;
+  height:36px;
+  margin:-6px -8px 0 0;
+  padding:0;
+  border:0;
+  border-radius:8px;
+  background:0 0;
+  cursor:pointer;
+}
+:root .r3-spop__x::after,
+:root .r3-spop__x::before {
+  content:"";
+  position:absolute;
+  left:9px;
+  top:17px;
+  width:18px;
+  height:2px;
+  border-radius:1px;
+  background:var(--sf-text-2,#555);
+}
+:root .r3-spop__x::before {
+  transform:rotate(45deg);
+}
+:root .r3-spop__x::after {
+  transform:rotate(-45deg);
+}

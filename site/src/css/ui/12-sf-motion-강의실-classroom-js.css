@@ -1,0 +1,61 @@
+/* 화면 묶음: common | 원본: src/sf-motion.css · 강의실 (classroom.js)
+   함께 들어 있음: sf-biz · Contact + form, r2 · 글 카드 움직임: BEST 카드와 같게 (썸네일 살짝 떠오름·그림자, 제목 주황, 사진 부드럽게 나타남) */
+:root .sf-class-list {
+  list-style:none;
+  margin:0;
+  padding:4px 24px;
+  background:var(--sf-canvas);
+  border:1px solid var(--sf-border);
+  border-radius:16px;
+}
+:root .sf-class-row {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:18px 0;
+  border-bottom:1px solid var(--sf-border);
+}
+:root .sf-class-row:last-child {
+  border-bottom:0;
+}
+:root .sf-class-row__info {
+  flex:1;
+  display:grid;
+  grid-template-columns:64px 1fr;
+  column-gap:12px;
+  row-gap:2px;
+  font-family:var(--sf-font);
+}
+:root .sf-class-row__no {
+  grid-row:span 2;
+  font-weight:700;
+  color:var(--sf-text-2);
+}
+:root .sf-class-row__title {
+  font-size:16px;
+  color:var(--sf-text);
+}
+:root .sf-class-row__date {
+  font-size:14px;
+  color:var(--sf-text-3);
+}
+:root .sf-class-row__actions {
+  display:flex;
+  gap:6px;
+  align-items:center;
+  flex-shrink:0;
+}
+:root .sf-class-row.is-ended .sf-class-row__title {
+  color:var(--sf-text-2);
+}
+:root .sf-class-row.is-open,
+:root .sf-class-row.is-today {
+  background:var(--sf-brand-tint);
+  margin:0-12px;
+  padding:18px 12px;
+  border-radius:12px;
+}
+:root .sf-class-row.is-open .sf-class-row__no,
+:root .sf-class-row.is-today .sf-class-row__no {
+  color:var(--sf-text-brand);
+}

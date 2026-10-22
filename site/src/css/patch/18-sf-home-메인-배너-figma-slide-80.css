@@ -1,0 +1,80 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · 메인 배너: Figma Slide 800×340 r20 · 사진 300×276 r16 · 페이저 반투명 알약
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root .sfw-banner {
+  padding:0;
+}
+:root .sfw-banner .sf-track {
+  padding-top:24px;
+  padding-bottom:24px;
+}
+:root .sfw-banner__slide {
+  display:flex;
+  align-items:center;
+  gap:24px;
+  height:340px;
+  padding:32px 32px 32px 56px;
+  border-radius:20px;
+  background:var(--bg, #fff1e6);
+  color:var(--sf-text);
+  text-decoration:none;
+  overflow:hidden;
+  box-sizing:border-box;
+}
+:root .sfw-banner__copy {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+}
+:root .sfw-banner__copy strong {
+  font:700 34px/1.35 var(--sf-font);
+  color:var(--sf-text);
+}
+:root .sfw-banner__copy>span:not(.sf-badge) {
+  color:var(--sf-text-2);
+  font:400 16px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+}
+:root .sfw-banner__copy em {
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  padding-top:8px;
+  color:var(--sf-text);
+  font:700 16px/1.5 var(--sf-font);
+  font-style:normal;
+}
+:root .sfw-banner__copy em svg {
+  width:18px;
+  height:18px;
+  stroke:currentColor;
+  stroke-width:2;
+  fill:none;
+}
+:root .sfw-banner__slide img {
+  width:300px;
+  height:276px;
+  flex-shrink:0;
+  object-fit:cover;
+  border-radius:16px;
+  background:var(--sf-border);
+}
+:root .sfw-banner .sf-peek-pager {
+  background:rgba(0,0,0,.35);
+  border-radius:999px;
+  padding:4px 6px;
+  gap:4px;
+  color:#fff;
+  font:700 12px/1.4 var(--sf-font);
+}
+:root .sfw-banner .sf-peek-pager [data-sf-pager] {
+  padding:4px 6px;
+}
+:root .sfw-banner .sf-peek-pager button {
+  width:28px;
+  height:24px;
+}
+:root .sfw-banner__all {
+  display:none;
+}

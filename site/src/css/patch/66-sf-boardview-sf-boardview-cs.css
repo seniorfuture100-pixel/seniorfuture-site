@@ -1,0 +1,74 @@
+/* 화면 묶음: insight | 원본: src/sf-boardview.css · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741
+   함께 들어 있음: r2 · 움직임 (기업·공공기관 / 파트너 지원), sf-sitemotion · sf-sitemotion.css — 사이트 전체 움직임·반응 (site-motion.js 와 짝), r3 · PC(1200px~) 첫 화면 카드 4장: 겹쳐 쌓여 '임직원 시니어 고객 교육' 글자가 가려지던 것 → 2×2 격자(가로 28px·세로 36px 간격),, r3 · 전문가 네트워크 카드: 상품 카드처럼 또렷한 호버(위로 뜨고 그림자) · 이름 색은 그대로 (10/19) */
+:root .sf-bv-progress {
+  position:fixed;
+  left:0;
+  right:0;
+  top:0;
+  z-index:40;
+  height:3px;
+  background:var(--sf-primary);
+  transform-origin:0 50%;
+  transform:scaleX(0);
+  pointer-events:none;
+}
+@media (max-width:767.98px) {
+  html.sf-bv-on body .board_view {
+    padding:20px 16px 48px;
+  }
+  :root .sf-bv-head h1 {
+    font-size:24px;
+  }
+  :root .sf-bv-by {
+    flex-wrap:wrap;
+  }
+  :root .sf-bv-share {
+    width:100%;
+  }
+  :root .sf-bv-share button {
+    flex:1;
+  }
+  :root .sf-bv-course {
+    flex-wrap:wrap;
+  }
+  :root .sf-bv-course img {
+    width:96px;
+  }
+  :root .sf-bv-course b {
+    width:100%;
+    justify-content:center;
+  }
+  :root .sf-bv-more {
+    padding:40px 16px 56px;
+  }
+  :root .sf-bv-more__list,
+  :root .sf-bv-more__list.is-3 {
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:240px;
+    overflow-x:auto;
+    gap:12px;
+  }
+}
+:root .sf-rv {
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .6s var(--sf-ease) var(--sf-rv-delay, 0ms),transform .6s var(--sf-ease) var(--sf-rv-delay, 0ms);
+}
+:root .sf-rv.is-in {
+  opacity:1;
+  transform:none;
+}
+:root img.sf-fade {
+  opacity:0;
+  transition:opacity .4s var(--sf-ease);
+}
+:root img.sf-fade.is-loaded {
+  opacity:1;
+}
+:root .sf-bv-more__th,
+:root .sf-ccard .sf-ccard__thumb,
+:root .sf-ex-ph,
+:root .sf-review {
+  transition:transform .25s var(--sf-ease),box-shadow .25s var(--sf-ease);
+}

@@ -1,0 +1,32 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 홈 최신 인사이트: 강의 카드와 같은 격자 (PC 4칸 282px · 태블릿 2칸 · 모바일 2칸 간격 12px)
+   함께 들어 있음: r2 · 홈 리뷰 줄: 스크롤바 폭 때문에 생기던 가로 스크롤 없앰 (100vw 대신 실제 화면 폭), r2 · 홈 커뮤니티 모임·이벤트: 강의 카드와 같은 16:9 */
+:root body [data-widget-type=newest].r2-bgrid .type_grid.type_grid {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:40px 24px;
+  margin:0!important;
+  padding:0!important;
+}
+:root body [data-widget-type=newest].r2-bgrid .type_grid.type_grid ._post_row {
+  display:contents!important;
+}
+:root body [data-widget-type=newest].r2-bgrid .type_grid.type_grid ._card_wrap {
+  width:auto!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  float:none!important;
+}
+@media (max-width:991.98px) {
+  :root body [data-widget-type=newest].r2-bgrid .type_grid.type_grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media (min-width:768px) {
+  :root body .sf-home-review .sf-track {
+    margin-right:calc(50% - var(--r2-vw,100vw)/2);
+  }
+}
+:root body .sf-mcard .sf-ccard__thumb {
+  aspect-ratio:16/9;
+}

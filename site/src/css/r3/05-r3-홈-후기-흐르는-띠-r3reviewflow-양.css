@@ -1,0 +1,51 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 홈 후기 흐르는 띠 (r3ReviewFlow) — 양쪽 화면 끝까지
+   함께 들어 있음: r2 · 움직임 (기업·공공기관 / 파트너 지원), r3 · 홈 후기 흐르는 띠 (r3ReviewFlow) — 양쪽 화면 끝까지, r3 · 수강평 페이지: 수강평 쓰기 버튼 숨김 (강의 상세·마이페이지의 후기 쓰기는 그대로), r3 · 처음 들어갈 때 아임웹 원래 모양이 잠깐 보이지 않게: 꾸밈이 끝날 때까지 본문·푸터를 가렸다가 부드럽게 보여 줘요 (헤더는 그대로), r3-pay · 10/21: 첫 화면 깜빡임 없애기 · 할인 가격 · 결제하기 아래 동의 문구 */
+:root body .sf-home-review .r3-flow::-webkit-scrollbar {
+  display:none;
+}
+:root body .sf-home-review .r3-flow__row {
+  display:flex;
+  gap:24px;
+  width:max-content;
+  padding:4px 0 12px;
+}
+:root body .sf-home-review .r3-flow__row>.sf-review {
+  flex:0 0 588px;
+  width:588px;
+}
+:root body .sf-home-review .r3-flow.is-held .r3-flow__row,
+:root body .sf-home-review .r3-flow:focus-within .r3-flow__row,
+:root body .sf-home-review .r3-flow:hover .r3-flow__row {
+  animation-play-state:paused;
+}
+@media (max-width:767.98px) {
+  :root body .sf-home-review .r3-flow {
+    margin-top:20px;
+  }
+  :root body .sf-home-review .r3-flow__row {
+    gap:12px;
+  }
+  :root body .sf-home-review .r3-flow__row>.sf-review {
+    flex-basis:300px;
+    width:300px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root body .sf-home-review .r3-flow {
+    overflow-x:auto;
+  }
+  :root body .sf-home-review .r3-flow__row {
+    animation:none;
+  }
+}
+:root body .sf-page--review .sf-page__cta {
+  display:none!important;
+}
+:root body>#doz_footer_wrap,
+:root body>.section_wrap {
+  transition:opacity .2s ease;
+}
+html.sf-preload body>#doz_footer_wrap,
+html.sf-preload body>.section_wrap {
+  opacity:0!important;
+}

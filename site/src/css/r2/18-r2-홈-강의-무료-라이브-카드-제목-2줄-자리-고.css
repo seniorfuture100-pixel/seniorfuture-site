@@ -1,0 +1,27 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 홈 강의·무료 라이브 카드: 제목 2줄 자리 고정, 버튼은 맨 아래 한 줄 */
+:root body .sf-cards4>li {
+  display:flex;
+}
+:root body .sf-cards4>li>.sf-ccard,
+:root body .sf-cards4>li>.sf-lcard {
+  flex:1 1 auto;
+  min-width:0;
+}
+:root body .sf-cards4 .sf-lcard {
+  display:flex;
+  flex-direction:column;
+}
+:root body .sf-cards4 .sf-lcard>.sf-ccard {
+  flex:0 0 auto;
+}
+:root body .sf-cards4 .sf-lcard>.sf-tags {
+  margin-bottom:12px;
+}
+:root body .sf-cards4 .sf-ccard__body strong {
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  overflow:hidden;
+  min-height:0;
+  line-height:1.45!important;
+}

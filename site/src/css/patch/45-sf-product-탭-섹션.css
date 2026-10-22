@@ -1,0 +1,36 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 탭 · 섹션
+   함께 들어 있음: r2 · 홈 배너 PC (월부식): 사진이 카드 오른쪽을 채우고 왼쪽 배경색으로 자연스럽게 이어짐 · 조작 버튼은 카드 안 오른쪽 아래, sf-boardview · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741 */
+:root .sf-pv-chapters [data-sf-acc-item] {
+  border:1px solid var(--sf-border);
+  border-top:0;
+}
+:root .sf-pv-chapters {
+  border:0;
+}
+:root .sf-pv-chapters [data-sf-acc-item]:first-child {
+  border-top:1px solid var(--sf-border);
+  border-radius:12px 12px 0 0;
+}
+:root .sf-pv-chapters [data-sf-acc-item]:last-child {
+  border-radius:0 0 12px 12px;
+}
+:root .sf-pv-chapters [data-sf-acc-trigger] {
+  gap:16px;
+  padding:16px 20px;
+  font-size:16px;
+  font-weight:500;
+}
+:root .sf-pv-chapters [data-sf-acc-trigger] b {
+  flex-shrink:0;
+  color:var(--sf-text-brand);
+  font:700 14px/1.5 var(--sf-font);
+}
+:root .sf-pv-chapters [data-sf-acc-trigger] span,
+:root .sf-pv-faq [data-sf-acc-trigger] span {
+  flex:1;
+}
+:root .sf-pv-chapters [data-sf-acc-trigger] em {
+  color:var(--sf-text-3);
+  font:400 13px/1.5 var(--sf-font);
+  font-style:normal;
+}

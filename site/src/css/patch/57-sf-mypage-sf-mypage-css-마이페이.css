@@ -1,0 +1,141 @@
+/* 화면 묶음: mypage | 원본: src/sf-mypage.css · sf-mypage.css — 마이페이지 (mypage-view.js 와 짝) — Figma PC/마이페이지 30:2799 */
+html.sf-my-on body .section_wrap:has(.shop-content.mypage) {
+  background:var(--sf-surface)!important;
+}
+html.sf-my-on body .shop-content.mypage {
+  max-width:1200px;
+  margin:0 auto;
+  padding:32px 0 64px;
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+}
+html.sf-my-on body .shop-content.mypage .row.show-grid {
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+  margin:0;
+}
+html.sf-my-on body .sf-my-side {
+  flex:0 0 260px;
+  width:260px!important;
+  padding:0!important;
+  display:grid;
+  gap:8px;
+}
+html.sf-my-on body .sf-my-profile {
+  margin:0!important;
+  padding:20px!important;
+  border:0!important;
+  border-radius:12px;
+  background:#fff!important;
+}
+html.sf-my-on body .sf-my-profile .mypage-summary__name strong {
+  font:700 16px/1.5 var(--sf-font);
+}
+html.sf-my-on body .sf-my-profile .mypage-summary__description {
+  color:var(--sf-text-3);
+  font:400 12px/1.5 var(--sf-font);
+}
+html.sf-my-on body .sf-my-menu {
+  margin:0!important;
+  padding:8px 0!important;
+  border-radius:12px;
+  background:#fff;
+  list-style:none;
+}
+html.sf-my-on body .sf-my-menu li {
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+}
+html.sf-my-on body .sf-my-menu a {
+  position:relative;
+  display:block;
+  padding:10px 40px 10px 16px!important;
+  color:var(--sf-text-2)!important;
+  font:400 14px/1.5 var(--sf-font)!important;
+  text-decoration:none!important;
+}
+html.sf-my-on body .sf-my-menu a::after {
+  content:"›";
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--sf-text-3);
+  font-size:16px;
+}
+html.sf-my-on body .sf-my-menu a:hover,
+html.sf-my-on body .sf-my-menu li.on a {
+  background:var(--sf-surface);
+  color:var(--sf-text)!important;
+  font-weight:700!important;
+}
+html.sf-my-on body .sf-my-menu .sf-my-leave a {
+  color:var(--sf-text-3)!important;
+  font-size:12px!important;
+}
+html.sf-my-on body .sf-my-menu .sf-my-leave a::after {
+  content:none;
+}
+html.sf-my-on body .sf-my-main {
+  flex:1;
+  min-width:0;
+  width:auto!important;
+  padding:24px!important;
+  border-radius:16px;
+  background:#fff;
+}
+html.sf-my-on body .sf-my-main .im-body-size-140 {
+  font:700 24px/1.35 var(--sf-font)!important;
+}
+:root .sf-my-strip {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:24px;
+  padding:14px 16px;
+  border-radius:12px;
+  background:var(--sf-brand-tint);
+  color:var(--sf-text-2);
+  font:400 14px/1.5 var(--sf-font);
+  text-decoration:none;
+}
+:root .sf-my-strip strong {
+  margin-right:8px;
+  color:var(--sf-text);
+  font-weight:700;
+}
+:root .sf-my-strip b {
+  flex-shrink:0;
+  color:var(--sf-text-brand);
+  font-weight:700;
+}
+@media (max-width:991.98px) {
+  html.sf-my-on body .shop-content.mypage {
+    padding:16px;
+  }
+  html.sf-my-on body .sf-my-main {
+    padding:20px 16px!important;
+    border-radius:12px;
+  }
+  :root .sf-my-strip {
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+@media (max-width:991.98px) {
+  html.sf-my-on body .shop-content.mypage .row.show-grid {
+    flex-direction:column;
+    gap:12px;
+  }
+  html.sf-my-on body .sf-my-side {
+    display:block!important;
+    flex:none;
+    width:100%!important;
+  }
+  html.sf-my-on body .sf-my-side .sf-my-menu {
+    display:none;
+  }
+}

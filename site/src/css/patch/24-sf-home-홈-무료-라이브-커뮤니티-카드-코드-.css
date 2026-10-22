@@ -1,0 +1,62 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · 홈 무료 라이브·커뮤니티 카드 (코드 카드 — 상품 목록 위젯은 페이지당 1개라서): Figma Card/Live · Card/Meetup
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root .sf-mcard strong {
+  -webkit-line-clamp:1;
+}
+:root .sf-mcard__meta {
+  display:grid;
+  gap:8px;
+  margin-top:2px;
+  color:var(--sf-text-2);
+  font:400 13px/1.5 var(--sf-font);
+  letter-spacing:-.01em;
+}
+:root .sf-mcard__meta span {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+}
+:root .sf-mcard__meta svg {
+  width:14px;
+  height:14px;
+  flex-shrink:0;
+  stroke:var(--sf-text-3);
+  stroke-width:2;
+  fill:none;
+}
+:root .sf-mcard[data-status=closed] .sf-ccard__thumb {
+  opacity:.5;
+}
+:root .sf-sec--cards {
+  padding-top:0;
+  padding-bottom:0;
+}
+:root .sf-shop .iw-shop-brand-name,
+:root .sf-shop .iw-shop-review-count {
+  display:none!important;
+}
+@media (max-width:767.98px) {
+  :root .sf-cards4 {
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:290px;
+    gap:12px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    margin-right:-16px;
+    padding-right:16px;
+  }
+  :root .sf-cards4--meet {
+    grid-auto-columns:260px;
+  }
+  :root .sf-cards4::-webkit-scrollbar {
+    display:none;
+  }
+  :root .sf-cards4>li {
+    scroll-snap-align:start;
+  }
+  :root .sf-sec--cards {
+    padding:0 16px;
+  }
+}

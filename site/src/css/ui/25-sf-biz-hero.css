@@ -1,0 +1,62 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · Hero */
+:root .sf-hero-grid {
+  display:grid;
+  grid-template-columns:1fr 480px;
+  gap:40px;
+  align-items:center;
+}
+:root .sf-hero-grid .sf-lead {
+  margin:28px 0;
+}
+:root .sf-kw {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 32px;
+  padding:0;
+  list-style:none;
+}
+:root .sf-kw li {
+  padding:8px 14px;
+  border-radius:999px;
+  background:var(--sf-surface);
+}
+:root .sf-diagram {
+  position:relative;
+  aspect-ratio:1;
+  border-radius:32px;
+  background:var(--sf-surface);
+}
+:root .sf-diagram svg {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+:root .sf-diagram span {
+  position:absolute;
+  transform:translate(-50%,-50%);
+  padding:12px 18px;
+  border-radius:999px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  font-size:16px;
+  font-weight:700;
+  white-space:nowrap;
+}
+:root .sf-diagram .sf-diagram__center {
+  width:150px;
+  height:150px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  background:var(--sf-primary);
+  color:#fff;
+  box-shadow:none;
+  font-size:18px;
+}
+:root .sf-diagram .sf-diagram__center small {
+  font-size:12px;
+}

@@ -1,0 +1,131 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 알림 서랍 (월부식): 아임웹 알림 패널을 오른쪽에서 넓게 */
+:root body #site_alarm_slidemenu {
+  width:420px!important;
+  max-width:100vw;
+  font-family:var(--sf-font)!important;
+  box-shadow:-12px 0 32px rgba(0,0,0,.12);
+}
+:root body #site_alarm_slidemenu_backdrop {
+  background:rgba(0,0,0,.4)!important;
+}
+:root body #site_alarm_slidemenu ._alarm_header {
+  display:flex!important;
+  align-items:center;
+  gap:8px;
+  height:64px!important;
+  padding:0 20px 0 12px!important;
+  border-bottom:1px solid var(--sf-border);
+}
+:root body #site_alarm_slidemenu ._alarm_header .goback {
+  display:none!important;
+}
+:root body #site_alarm_slidemenu #site_alarm_title {
+  position:static!important;
+  flex:1;
+  margin:0!important;
+  padding:0!important;
+  color:var(--sf-text)!important;
+  font:700 20px/1 var(--sf-font)!important;
+  text-align:left!important;
+}
+:root body #site_alarm_slidemenu ._alarm_header .text-btn {
+  position:static!important;
+  color:var(--sf-text-3)!important;
+  font:500 13px/1 var(--sf-font)!important;
+}
+:root body .r2-alarm-x {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  padding:0;
+  border:0;
+  border-radius:10px;
+  background:0 0;
+  cursor:pointer;
+}
+:root body .r2-alarm-x:hover {
+  background:var(--sf-surface);
+}
+:root body .r2-alarm-x svg {
+  width:22px;
+  height:22px;
+  fill:none;
+  stroke:var(--sf-text);
+  stroke-width:2;
+  stroke-linecap:round;
+}
+:root body #site_alarm_tab {
+  padding:8px 0!important;
+}
+:root body #site_alarm_tab a.tile {
+  display:block!important;
+  width:auto!important;
+  margin:0!important;
+  padding:16px 20px!important;
+  border:0!important;
+  border-bottom:1px solid var(--sf-border)!important;
+  background:#fff!important;
+  text-decoration:none!important;
+  transition:background .15s var(--sf-ease);
+}
+:root body #site_alarm_tab a.tile:hover {
+  background:var(--sf-surface)!important;
+}
+:root body #site_alarm_tab .tile-content {
+  display:flex!important;
+  gap:14px;
+  width:auto!important;
+  height:auto!important;
+}
+:root body #site_alarm_tab .tile-icon {
+  position:static!important;
+  top:auto!important;
+  left:auto!important;
+  margin:0!important;
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  flex:none;
+  width:40px!important;
+  height:40px!important;
+  border-radius:50%;
+  background:var(--sf-brand-tint);
+}
+:root body #site_alarm_tab .tile-icon img {
+  width:20px!important;
+  height:20px!important;
+}
+:root body #site_alarm_tab .tile-text {
+  flex:1;
+  min-width:0;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  color:var(--sf-text)!important;
+  font:500 15px/1.5 var(--sf-font)!important;
+}
+:root body #site_alarm_tab .bodytext,
+:root body #site_alarm_tab .tile-body {
+  margin-top:4px;
+  color:var(--sf-text-2)!important;
+  font:400 14px/1.5 var(--sf-font)!important;
+}
+:root body #site_alarm_tab .text-gray-bright {
+  order:-1;
+  margin-top:6px;
+  color:var(--sf-text-3)!important;
+  font:400 13px/1.4 var(--sf-font)!important;
+}
+:root body .r2-alarm-empty {
+  padding:80px 20px;
+  color:var(--sf-text-3);
+  font:500 15px/1.5 var(--sf-font);
+  text-align:center;
+}
+@media (max-width:767.98px) {
+  :root body #site_alarm_slidemenu {
+    width:100%!important;
+  }
+}

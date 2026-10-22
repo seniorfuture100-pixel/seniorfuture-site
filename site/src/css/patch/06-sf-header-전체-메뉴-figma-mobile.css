@@ -1,0 +1,88 @@
+/* 화면 묶음: common | 원본: src/sf-header.css · 전체 메뉴: Figma Mobile/전체 메뉴 (화면 전체 흰 배경) */
+:root .sf-drawer--full .sf-drawer__panel {
+  width:100%;
+  max-width:420px;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  font-family:var(--sf-font);
+}
+:root .sf-menu__head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:56px;
+  padding:0 16px;
+  flex-shrink:0;
+}
+:root .sf-menu__auth {
+  display:flex;
+  gap:8px;
+  padding:8px 16px 16px;
+  border-bottom:8px solid var(--sf-background);
+}
+:root .sf-menu__auth .sf-btn {
+  flex:1;
+  height:40px;
+}
+:root .sf-menu__list {
+  padding:8px 16px 16px;
+  flex:1;
+}
+:root .sf-menu__item,
+:root .sf-menu__sub a {
+  display:flex;
+  align-items:center;
+  letter-spacing:-.02em;
+}
+:root .sf-menu__item {
+  justify-content:space-between;
+  gap:8px;
+  width:100%;
+  min-height:56px;
+  padding:16px 0;
+  border:0;
+  background:0 0;
+  color:var(--sf-text);
+  font:700 16px/1.5 var(--sf-font);
+  text-align:left;
+  text-decoration:none;
+  cursor:pointer;
+}
+:root .sf-menu__item svg {
+  width:18px;
+  height:18px;
+  stroke:var(--sf-text-3);
+  stroke-width:2;
+  fill:none;
+  transition:transform .2s var(--sf-ease);
+}
+:root .sf-menu__group.is-open .sf-menu__item svg {
+  transform:rotate(180deg);
+}
+:root .sf-menu__sub {
+  display:grid;
+  padding:0 0 8px 12px;
+  background:none!important;
+  border-radius:0;
+}
+:root .sf-menu__sub a {
+  min-height:37px;
+  padding:8px 0;
+}
+:root .sf-menu__sub a.is-all {
+  color:var(--sf-text);
+  font-weight:500;
+}
+:root .sf-menu__foot {
+  display:grid;
+  gap:12px;
+  padding:16px 16px 24px;
+  background:var(--sf-surface);
+}
+:root .sf-menu__foot a,
+:root .sf-menu__sub a {
+  color:var(--sf-text-2);
+  font:400 14px/1.5 var(--sf-font);
+  text-decoration:none;
+}

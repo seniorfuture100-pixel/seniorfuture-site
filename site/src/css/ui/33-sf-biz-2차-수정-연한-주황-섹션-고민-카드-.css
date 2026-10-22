@@ -1,0 +1,31 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · 2차 수정: 연한 주황 섹션 · 고민 카드 3+3 · V 연결 · 가로 솔루션 카드 · 클릭 카드 · 로고
+   함께 들어 있음: sf-apply · 신청서 */
+:root .sf-biz .sf-bridge__title {
+  font-size:34px;
+  font-weight:700;
+  letter-spacing:-1px;
+}
+:root .sf-biz .sf-bridge__sub {
+  margin-top:12px;
+  font-size:18px;
+  color:var(--sf-text-2);
+}
+:root .sf-biz .sf-sol-sec {
+  padding-top:100px;
+}
+:root .sf-sol-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+  margin-bottom:32px;
+}
+:root .sf-biz .sf-sol-head h2 {
+  font-size:34px;
+  margin:0;
+  letter-spacing:-1px;
+}
+:root .sf-sol-head>p {
+  color:var(--sf-text-3);
+  font-size:14px;
+}

@@ -1,0 +1,53 @@
+/* 화면 묶음: common | 원본: src/sf-layout.css · 탭(상세 페이지)
+   함께 들어 있음: sf-layout · 아코디언, r3 · 아래 계정 메뉴: 로그아웃 · 회원탈퇴 (작게) */
+:root .sf-tabs {
+  display:flex;
+  gap:24px;
+  border-bottom:1px solid var(--sf-border);
+  background:var(--sf-canvas);
+  position:sticky;
+  top:var(--sf-header-h);
+  z-index:5;
+}
+:root .sf-tab {
+  padding:12px 4px;
+  color:var(--sf-text-3);
+  text-decoration:none;
+  font:400 16px/1.5 var(--sf-font);
+  border-bottom:2px solid transparent;
+}
+:root .sf-tab.is-active {
+  color:var(--sf-text);
+  font-weight:700;
+  border-bottom-color:var(--sf-dark);
+}
+:root [data-sf-acc-trigger] {
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:16px 0;
+  background:0 0;
+  border:0;
+  text-align:left;
+  font:700 16px/1.5 var(--sf-font);
+  color:var(--sf-text);
+  cursor:pointer;
+}
+:root [data-sf-acc-trigger]::after {
+  color:var(--sf-text-3);
+  transition:transform .25s var(--sf-ease);
+}
+:root [data-sf-acc-panel] {
+  padding:16px;
+  margin-bottom:16px;
+  background:var(--sf-surface);
+  border-radius:var(--sf-radius-md);
+  color:var(--sf-text-2);
+  font-size:14px;
+  line-height:1.5;
+}
+:root [data-sf-acc-item] {
+  border-bottom:1px solid var(--sf-border);
+}

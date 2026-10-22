@@ -1,0 +1,46 @@
+/* 화면 묶음: payment | 원본: src/r3-pay.css · r3-pay.css — 주문서 월부식 (r3-pay.js 와 짝)
+   함께 들어 있음: r3-options · r3-options.css — 수강 옵션 카드 · 선택한 옵션 줄 (r3-options.js 와 짝), sf-ui · 버튼, sf-share · 창 */
+:root .sf-scope,
+:root .sf-scope * {
+  box-sizing:border-box;
+}
+:root .sf-scope {
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+  letter-spacing:-.02em;
+}
+:root .sf-scope :focus {
+  outline:0;
+}
+:root .sf-scope :focus-visible {
+  outline:3px solid var(--sf-text-brand);
+  outline-offset:2px;
+}
+:root .sf-btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  height:40px;
+  padding:0 16px;
+  border:0;
+  border-radius:9999px;
+  font:700 14px/1 var(--sf-font);
+  cursor:pointer;
+  text-decoration:none;
+  transition:background-color .15s var(--sf-ease),opacity .15s var(--sf-ease);
+}
+:root .sf-btn--l {
+  height:48px;
+  padding:0 24px;
+  font-size:16px;
+}
+:root .sf-btn--s {
+  height:32px;
+  padding:0 12px;
+  font-size:13px;
+  font-weight:500;
+}
+:root .sf-btn--block {
+  width:100%;
+}

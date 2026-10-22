@@ -1,0 +1,94 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 모바일 푸터 (롱라이프랩식) */
+:root body .r3-ft-brand {
+  display:none;
+}
+@media (max-width:767.98px) {
+  :root body .sf-ft .r3-ft-brand {
+    display:block;
+    padding:8px 0 28px;
+  }
+  :root body .r3-ft-logo {
+    color:#fff!important;
+    font:800 22px/1 var(--sf-font);
+    letter-spacing:.06em;
+    text-decoration:none;
+  }
+  :root body .r3-ft-logo b {
+    margin-right:.32em;
+    color:var(--sf-primary,#ff6f0f);
+    font-weight:800;
+  }
+  :root body .r3-ft-brand p {
+    margin:14px 0 0;
+    color:#b0b3ba;
+    font:400 15px/1.65 var(--sf-font);
+  }
+  :root body .r3-ft-sns {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:20px;
+  }
+  :root body .r3-ft-sns a {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:46px;
+    height:46px;
+    border-radius:12px;
+    background:rgba(255,255,255,.1);
+    color:#fff!important;
+  }
+  :root body .r3-ft-sns svg {
+    width:22px;
+    height:22px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  :root body .sf-ft .sf-ft-col {
+    display:block;
+    padding:0 0 28px;
+    margin:0;
+  }
+  :root body .sf-ft .sf-ft-col h3 {
+    margin:0 0 6px!important;
+    color:#8b8f98!important;
+    font:700 14px/1.4 var(--sf-font)!important;
+  }
+  :root body .sf-ft .sf-ft-col ul {
+    display:block;
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+  :root body .sf-ft .sf-ft-col li a {
+    display:block;
+    padding:10px 0;
+    color:#f2f3f5!important;
+    font:500 17px/1.4 var(--sf-font)!important;
+    text-decoration:none;
+  }
+  :root body .sf-ft .sf-ft-cs p {
+    color:#b0b3ba!important;
+    font-size:15px!important;
+  }
+  :root body .sf-ft .r3-ft-ch {
+    display:none!important;
+  }
+  :root body .sf-ft .r3-ft-co {
+    padding-top:20px;
+    border-top:1px solid rgba(255,255,255,.12);
+  }
+}
+@media (min-width:768px) {
+  :root body .sf-ft .r3-ft-more {
+    display:none;
+  }
+}
+:root body .r3-od .r3-od__t {
+  font-size:16px!important;
+  font-weight:700!important;
+}

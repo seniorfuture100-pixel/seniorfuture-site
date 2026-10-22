@@ -1,0 +1,76 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 홈 배너 예시 그림 대체 배경 (글씨 없는 그라데이션) — 실제 사진을 올리면 사라져요
+   함께 들어 있음: r2 · 헤더 칸 배분: 로고 칸은 로고만큼, 메뉴는 한 줄, 오른쪽 버튼 간격 8px · */
+:root body .sfw-banner__slide.r2-ph img {
+  visibility:hidden;
+}
+:root body .sfw-banner__slide.r2-ph {
+  background:radial-gradient(circle at 82% 30%,rgba(255,255,255,.16)0 18%,transparent 18.2%),radial-gradient(circle at 68% 88%,rgba(255,255,255,.1)0 14%,transparent 14.2%),linear-gradient(120deg,#1d3f94 0,#2f6fe0 100%)!important;
+}
+:root body .sfw-banner__slide.r2-ph:nth-child(3n+1) {
+  background:radial-gradient(circle at 82% 30%,rgba(255,255,255,.16)0 18%,transparent 18.2%),radial-gradient(circle at 68% 88%,rgba(255,255,255,.1)0 14%,transparent 14.2%),linear-gradient(120deg,#11603f 0,#1f9a6c 100%)!important;
+}
+:root body .sfw-banner__slide.r2-ph:nth-child(3n+2) {
+  background:radial-gradient(circle at 82% 30%,rgba(255,255,255,.16)0 18%,transparent 18.2%),radial-gradient(circle at 68% 88%,rgba(255,255,255,.1)0 14%,transparent 14.2%),linear-gradient(120deg,#b83f00 0,#ff7a2e 100%)!important;
+}
+:root body .sfw-banner__slide.r2-ph::after {
+  background:linear-gradient(90deg,rgba(0,0,0,.28)0,transparent 70%)!important;
+}
+:root body .sfw-banner__slide.r2-ph>.sfw-banner__copy+* {
+  display:none;
+}
+@media (min-width:768px) {
+  :root body #doz_header_wrap .sf-hd-partner.r2-pill,
+  :root body #doz_header_wrap .sf-hd-search.r2-sbox {
+    display:inline-flex!important;
+    align-items:center;
+    border:0!important;
+    box-shadow:inset 0 0 0 1px var(--sf-border);
+  }
+  :root body #doz_header_wrap .sf-hd-search.r2-sbox {
+    width:auto!important;
+  }
+  :root body #doz_header_wrap .sf-hd-search.r2-sbox svg {
+    flex:none;
+  }
+  :root body #doz_header_wrap .sf-hd-partner.r2-pill {
+    height:44px;
+    border-radius:12px;
+    background:#fff;
+    color:var(--sf-text)!important;
+    font:700 15px/1 var(--sf-font)!important;
+    text-decoration:none!important;
+    transition:box-shadow .2s var(--sf-ease);
+  }
+  :root body #doz_header_wrap .sf-hd-partner.r2-pill:hover {
+    box-shadow:inset 0 0 0 1px var(--sf-border-strong);
+  }
+  :root body #doz_header_wrap .sf-hd-partner.r2-pill::after {
+    content:none!important;
+  }
+  :root body #doz_header_wrap .inline-col-group-left {
+    width:auto!important;
+    padding-right:16px!important;
+  }
+  :root body #doz_header_wrap .inline-col-group-right {
+    width:auto!important;
+  }
+  :root body #doz_header_wrap .viewport-nav.desktop>li>a {
+    white-space:nowrap!important;
+  }
+  :root body #doz_header_wrap .r2-acct,
+  :root body #doz_header_wrap .r2-bell,
+  :root body #doz_header_wrap .sf-hd-partner.r2-pill {
+    margin-left:0!important;
+  }
+  :root body #doz_header_wrap .sf-hd-partner.r2-pill {
+    font-size:14px!important;
+  }
+}
+@media (min-width:1400px) {
+  :root body #doz_header_wrap .inline-col-group-left {
+    padding-right:40px!important;
+  }
+  :root body #doz_header_wrap .sf-hd-actions {
+    margin-left:24px;
+  }
+}

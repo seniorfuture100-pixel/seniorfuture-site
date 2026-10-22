@@ -1,0 +1,57 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 1) 기업 첫 화면 카드 4장: 태블릿·모바일에서는 한 줄로 천천히 흐르게 (PC는 그대로 떠 있는 배치) */
+@media (min-width:1024px) {
+  :root body .r2-float .r3-fl-track {
+    display:contents;
+  }
+  :root body .r2-float .r3-fl-dup {
+    display:none;
+  }
+}
+@media (max-width:1023.98px) {
+  :root body .sf-biz .r2-float {
+    height:auto!important;
+    margin:28px 0 0!important;
+  }
+  :root body .sf-biz .r2-float:active .r3-fl-track,
+  :root body .sf-biz .r2-float:hover .r3-fl-track {
+    animation-play-state:paused;
+  }
+  :root body .sf-biz .r2-float .r2-fc {
+    position:relative!important;
+    inset:auto!important;
+    padding:18px!important;
+    box-shadow:0 12px 24px rgba(0,0,0,.12);
+  }
+  :root body .sf-biz .r2-float .r2-fc b {
+    font-size:16px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root body .sf-biz .r2-float .r3-fl-track {
+    animation:none;
+  }
+  :root body .sf-biz .r2-float {
+    overflow-x:auto;
+  }
+}
+@media (max-width:767.98px) {
+  :root .sf-ab .r3-logowall,
+  :root .sf-scope .r3-logowall {
+    overflow:hidden;
+  }
+  :root .sf-scope .r3-logowall__rows {
+    display:none!important;
+  }
+  :root .sf-scope .r3-logowall__img {
+    display:block!important;
+    width:100%;
+    object-position:0 50%;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root .sf-scope .r3-logowall__img {
+    animation:none!important;
+    object-fit:contain!important;
+    height:auto!important;
+  }
+}

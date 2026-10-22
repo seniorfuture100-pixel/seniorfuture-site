@@ -1,0 +1,39 @@
+/* 화면 묶음: partner | 원본: src/sf-partners.css · 마케팅 파트너스 (/partners) — Figma 02 PC · 03 모바일 '10' 섹션
+   함께 들어 있음: sf-biz · Solutions, sf-apply · 4가지 분야 — 카드 전체가 신청서 링크 */
+:root .sf-pt-who span {
+  color:var(--sf-text-2);
+  font-size:14px;
+}
+:root .sf-pt-ben {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-top:40px;
+}
+:root .sf-ap-ways a,
+:root .sf-pt-ben div,
+:root .sf-pt-cmp div {
+  display:grid;
+  padding:40px;
+  border-radius:24px;
+}
+:root .sf-pt-ben div {
+  gap:12px;
+  background:#26282d;
+}
+:root .sf-pt-ben small {
+  color:#b0b3ba;
+  font-size:16px;
+  font-weight:700;
+}
+:root .sf-pt-ben b {
+  color:#ff9e66;
+  font-size:56px;
+  line-height:1.2;
+}
+:root .sf-pt-ben p {
+  color:#e8e9ec;
+}
+:root .sf-pt-faq {
+  margin-top:32px;
+}

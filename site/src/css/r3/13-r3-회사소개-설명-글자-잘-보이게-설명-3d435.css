@@ -1,0 +1,65 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 회사소개 설명 글자 잘 보이게: 설명 #3D4350 · 작은 출처 #6B7280 · 연회색 큰 문단은 #555D6D(강조 굵은 글자는 검정 그대로)
+   함께 들어 있음: r3 · 나의 강의실: 탭에서 숨긴 목록(지난 강의)이 함께 보이던 문제, r3 · 나의 강의실 카드 썸네일(주문 상품 사진), r3 · QA: 검정 버튼 글자가 회색으로 묻히던 문제(모바일 메뉴 '마이페이지' 등), r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, r3 · QA: 모바일 아래 '수강 신청하기' 글자가 버튼 위쪽에 붙던 문제 → 가운데, r3 · 홈 모바일: 가로로 넘기는 카드 폭을 인사이트(260px)에 맞춰 통일 (가장 주목받는 강의·무료 라이브·TOP5·영상) */
+:root body .sf-scope .sf-ab {
+  --sf-text-2:#3d4350;
+  --sf-text-3:#6b7280;
+}
+:root body .sf-scope .sf-ab .sf-ab-why .sf-ab-big {
+  max-width:860px;
+  margin:32px 0 40px;
+  color:var(--sf-text-2,#3d4350);
+  font-size:18px;
+  font-weight:400;
+  line-height:1.75;
+  letter-spacing:-.01em;
+}
+:root body .sf-scope .sf-ab .sf-ab-why .sf-ab-big b {
+  color:var(--sf-text);
+  font-weight:600;
+}
+@media (max-width:767.98px) {
+  :root body .sf-scope .sf-ab .sf-ab-2col p,
+  :root body .sf-scope .sf-ab .sf-ab-ceo p,
+  :root body .sf-scope .sf-ab .sf-ab-cta p,
+  :root body .sf-scope .sf-ab .sf-ab-head p,
+  :root body .sf-scope .sf-ab .sf-ab-lead,
+  :root body .sf-scope .sf-ab .sf-ab-svc p {
+    font-size:16px;
+    line-height:1.7;
+  }
+}
+:root body .sf-hub-list[hidden] {
+  display:none!important;
+}
+:root body .sf-hub-card .sf-hub-thumb {
+  background-color:#f2f3f6;
+}
+:root body .sf-btn.sf-btn--dark,
+:root body .sf-btn.sf-btn--dark:visited {
+  color:#fff!important;
+  opacity:1;
+}
+:root #doz_footer.sf-ft-on .footer-company-info,
+:root #fo_board_spam_guard_notice,
+:root .r2-nmore span,
+:root body .goods_select .option_title {
+  display:none!important;
+}
+:root body .buy_btns a.btn.buy {
+  line-height:48px!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+  text-align:center;
+}
+@media (max-width:767.98px) {
+  :root body .sf-cards4.sf-cards4--grid,
+  :root body .sf-cards4:has(>li>.sf-lcard) {
+    grid-auto-columns:260px!important;
+  }
+  :root body .sf-experts10 {
+    padding-top:8px!important;
+    padding-bottom:20px!important;
+    margin-top:-8px!important;
+    overflow-y:hidden;
+  }
+}

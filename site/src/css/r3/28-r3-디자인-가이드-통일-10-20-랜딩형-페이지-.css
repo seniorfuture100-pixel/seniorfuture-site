@@ -1,0 +1,22 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 디자인 가이드 통일 (10/20): 랜딩형 페이지(회사 소개·기업·파트너·마케팅 파트너스) 제목 크기 한 단계로 */
+:root body .sf-scope .sf-ab h1 {
+  font-size:72px;
+}
+:root body .sf-scope .sf-ab h2 {
+  font-size:56px;
+}
+@media (max-width:767.98px) {
+  :root body .sf-scope .sf-ab h1,
+  :root body .sf-scope .sf-biz h1,
+  :root body .sf-scope .sf-pt h1 {
+    font-size:34px;
+  }
+  :root body .sf-scope .sf-ab h2,
+  :root body .sf-scope .sf-biz h2,
+  :root body .sf-scope .sf-pt h2 {
+    font-size:26px;
+  }
+  :root body .sf-scope .sf-help h1 {
+    font-size:24px;
+  }
+}

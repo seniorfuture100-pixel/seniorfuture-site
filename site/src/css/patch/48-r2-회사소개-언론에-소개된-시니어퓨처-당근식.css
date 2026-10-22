@@ -1,0 +1,71 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 회사소개: 언론에 소개된 시니어퓨처 (당근식)
+   함께 들어 있음: r2 · 전체 글 카드: BEST 카드와 같은 규격 (16:9 썸네일 · 제목/요약 2줄 고정), r2 · BEST 카드도 같은 자리(제목·요약 2줄)로 고정 → 두 묶음의 줄이 맞아요 */
+:root .sf-pv-qna .prod_detail_badge {
+  display:none;
+}
+@media (max-width:991.98px) {
+  :root .sf-pv {
+    grid-template-columns:1fr;
+    gap:24px;
+    padding:0 16px;
+  }
+  :root .sf-pv__main {
+    display:contents;
+  }
+  :root .sf-pv__side {
+    position:static;
+    order:1;
+  }
+  :root .sf-pv__main>.sf-pv-secs,
+  :root .sf-pv__main>.sf-pv-tabs {
+    order:2;
+    min-width:0;
+  }
+  :root .sf-pv-crumb {
+    margin:16px 16px 12px;
+  }
+}
+@media (max-width:767.98px) {
+  :root .sf-pv .view_tit {
+    font-size:20px!important;
+  }
+  :root .sf-pv .pay_detail .real_price {
+    font-size:24px!important;
+  }
+  :root .sf-pv .buy_btns.mobile .cart.opt,
+  :root .sf-pv .buy_btns.mobile .defualt-cart,
+  :root .sf-pv .buy_btns.pc,
+  :root .sf-pv .categorize-mobile.buy_btns {
+    display:none!important;
+  }
+  :root .sf-pv-tabs {
+    margin-top:8px;
+    overflow-x:auto;
+  }
+  :root .sf-pv-points {
+    grid-template-columns:1fr;
+  }
+  :root .sf-pv-teacher {
+    flex-direction:column;
+    gap:12px;
+    padding:20px;
+  }
+  :root .sf-pv-reviews .sf-review {
+    flex-basis:290px;
+    width:290px;
+  }
+  :root .sf-pv-arrows {
+    display:none;
+  }
+}
+:root .sf-pv .goods_form,
+:root .sf-pv .goods_form header {
+  padding:0!important;
+}
+:root .sf-pv .goods_form header .pay_detail {
+  display:contents!important;
+}
+:root .sf-pv .goods_form header .pay_detail>*,
+:root .sf-pv .goods_form header>* {
+  grid-column:1/-1;
+}

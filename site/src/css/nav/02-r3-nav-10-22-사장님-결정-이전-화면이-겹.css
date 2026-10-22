@@ -1,0 +1,23 @@
+/* 화면 묶음: common | 원본: src/r3-nav.css · 10/22 사장님 결정: 이전 화면이 겹쳐 보이지 않게 — 본문은 섞지 않고 새 화면으로 바로 바뀜 */
+::view-transition-old(root) {
+  animation:none;
+  display:none;
+}
+::view-transition-new(root) {
+  animation:none;
+}
+::view-transition-group(sf-hd),
+::view-transition-group(sf-tab),
+::view-transition-old(sf-hd),
+::view-transition-new(sf-hd),
+::view-transition-old(sf-tab),
+::view-transition-new(sf-tab) {
+  animation-duration:0s;
+}
+@media (prefers-reduced-motion:reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation:none!important;
+  }
+}

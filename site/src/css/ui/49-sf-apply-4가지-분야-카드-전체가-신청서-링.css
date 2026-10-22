@@ -1,0 +1,178 @@
+/* 화면 묶음: apply | 원본: src/sf-apply.css · 4가지 분야 — 카드 전체가 신청서 링크
+   함께 들어 있음: sf-apply · 주요 혜택 5 (3 + 2), sf-apply · 파트너 지원 (/partner · /partner/apply) — Figma 02 PC · 03 모바일 '11' 섹션, r3-pay · 결제 수단 타일 */
+:root .sf-ap-ways a:hover {
+  box-shadow:inset 0 0 0 2px var(--sf-primary);
+  transform:translateY(-2px);
+}
+:root .sf-ap-ways a:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:3px;
+}
+:root .sf-ap-ways small {
+  justify-self:start;
+  padding:4px 10px;
+  border-radius:6px;
+  background:var(--sf-background);
+  color:var(--sf-text-2);
+  font-size:13px;
+  font-weight:700;
+}
+:root .sf-ap-ways b {
+  font-size:34px;
+  letter-spacing:-.5px;
+}
+:root .sf-ap-ways p {
+  color:var(--sf-text-2);
+  font-size:18px;
+  line-height:1.6;
+}
+:root .sf-ap-ways em {
+  font-style:normal;
+  color:var(--sf-text-3);
+  font-size:14px;
+}
+:root .sf-ap-ways span {
+  color:var(--sf-text-brand);
+  font-weight:700;
+  font-size:18px;
+}
+:root .sf-ap-dark {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:40px;
+}
+:root .sf-ap-dark div {
+  gap:12px;
+  padding:36px;
+  background:#26282d;
+}
+:root .sf-ap-dark small {
+  color:#ff9e66;
+  font-size:18px;
+  font-weight:700;
+}
+:root .sf-ap-ben b,
+:root .sf-ap-dark b {
+  font-size:24px;
+}
+:root .sf-ap-dark p {
+  color:#e8e9ec;
+  line-height:1.6;
+}
+:root .sf-pt .is-dark .sf-pt-lead {
+  color:#b0b3ba;
+}
+:root .sf-ap-steps {
+  grid-template-columns:repeat(4,1fr)!important;
+}
+:root .sf-ap-stories {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:40px;
+}
+:root .sf-ap-ben li,
+:root .sf-ap-dark div,
+:root .sf-ap-stories figure {
+  display:grid;
+  align-content:start;
+  border-radius:24px;
+}
+:root .sf-ap-stories figure {
+  gap:16px;
+  margin:0;
+  padding:0 0 28px;
+  background:#fff;
+  overflow:hidden;
+}
+:root .sf-ap-stories .ph {
+  aspect-ratio:16/9;
+  background:var(--sf-background);
+}
+:root .sf-ap-stories blockquote {
+  margin:0;
+  padding:0 28px;
+  font-size:18px;
+  line-height:1.6;
+}
+:root .sf-ap-stories figcaption {
+  padding:0 28px;
+  color:var(--sf-text-3);
+  font-size:14px;
+}
+:root .sf-pt-cta .sf-btn,
+:root .sf-pt-hero .sf-btn {
+  margin-top:32px;
+}
+:root .sf-ap-ben {
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:20px;
+  margin:40px 0 0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-ap-ben li {
+  grid-column:span 2;
+  gap:12px;
+  padding:32px;
+  background:var(--sf-surface);
+}
+:root .sf-ap-ben li.is-tint {
+  grid-column:span 3;
+  background:var(--sf-brand-tint);
+}
+:root .sf-ap-ben small {
+  color:var(--sf-text-brand);
+  font-size:18px;
+  font-weight:700;
+}
+:root .sf-ap-ben p {
+  color:var(--sf-text-2);
+  line-height:1.6;
+}
+@media (max-width:767.98px) {
+  :root .sf-ap-ben {
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  :root .sf-ap-ben li,
+  :root .sf-ap-ben li.is-tint {
+    grid-column:auto;
+    padding:20px;
+  }
+  :root .sf-ap-ben b {
+    font-size:18px;
+  }
+  :root .sf-ap-dark,
+  :root .sf-ap-grid,
+  :root .sf-ap-steps,
+  :root .sf-ap-stories,
+  :root .sf-ap-ways {
+    grid-template-columns:1fr!important;
+    gap:12px;
+  }
+  :root .sf-ap-dark div,
+  :root .sf-ap-grid>div,
+  :root .sf-ap-ways a {
+    padding:20px;
+  }
+  :root .sf-ap-ways b {
+    font-size:24px;
+  }
+  :root .sf-ap-ways p {
+    font-size:16px;
+  }
+  :root .sf-ap-dark b {
+    font-size:18px;
+  }
+  :root .sf-pt-cta .sf-btn {
+    width:100%;
+  }
+}
+:root .sf-rw-box a:focus-visible,
+:root .sf-rw-box button:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:2px;
+}

@@ -1,0 +1,140 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 글 하단 '주소 복사'·'카카오톡 공유' 버튼 사이 간격 (기존 규칙이 잘못 걸려 붙어 있었음)
+   함께 들어 있음: r3 · 인사이트·공지 글: '글쓰기' 대신 '파트너 지원', r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, r3 · 글 아래 '이 글과 관련된 강의' 카드: PC는 사진·글자 크게, r3 · 기업 첫 화면 카드 4장: 태블릿·모바일도 흐르지 않고 4장을 한 번에 (모바일 2×2, 태블릿 4칸), r3 · 파트너스 마지막 신청 띠: 모바일 버튼 사이 간격 좁게, r3 · 파트너스 신청서: 보상 방식 칸 숨김(값은 적립금으로 자동), 연락처 3칸 넓게 */
+html.sf-bv-on body .r3-share .r3-share__btns {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:center;
+}
+html.sf-bv-on body .r3-share .r3-share__btns button {
+  min-width:150px;
+}
+@media (max-width:767.98px) {
+  html.sf-bv-on body .r3-share .r3-share__btns {
+    width:100%;
+    gap:10px;
+  }
+  html.sf-bv-on body .r3-share .r3-share__btns button {
+    flex:1 1 0;
+    min-width:0;
+  }
+}
+html.sf-bv-on body .table_bottom a.r3-to-partner {
+  display:inline-flex!important;
+  align-items:center;
+  gap:6px;
+}
+:root body #doz_header_wrap .sf-hd-search.sf-hd-search,
+:root body .sf-hd-search,
+:root body .sf-mh>.sf-mh__btn[aria-label*=검색],
+html body #doz_header .sf-hd-search.r2-sbox.r2-sbox {
+  display:none!important;
+}
+@media (min-width:768px) {
+  :root body .sf-bv-course {
+    gap:24px!important;
+    padding:20px 24px!important;
+    border-radius:16px!important;
+  }
+  :root body .sf-bv-course img {
+    width:220px!important;
+    border-radius:10px!important;
+  }
+  :root body .sf-bv-course small {
+    font-size:13px!important;
+  }
+  :root body .sf-bv-course strong {
+    font-size:18px!important;
+    line-height:1.45;
+  }
+  :root body .sf-bv-course em {
+    font-size:14px!important;
+  }
+  :root body .sf-bv-course b {
+    height:44px!important;
+    padding:0 22px!important;
+    font-size:15px!important;
+  }
+}
+:root body .r3-deck,
+:root body .sf-form-slot .r3-hide-pay,
+:root body .sf-pv-map {
+  display:none!important;
+}
+@media (max-width:1023.98px) {
+  :root body .sf-biz .r2-float {
+    overflow:visible!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+    padding:8px 0 16px!important;
+  }
+  :root body .sf-biz .r2-float .r3-fl-track {
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:14px!important;
+    width:auto!important;
+    padding:0!important;
+    animation:none!important;
+  }
+  :root body .sf-biz .r2-float .r3-fl-dup {
+    display:none!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc {
+    width:auto!important;
+    height:auto!important;
+    min-height:120px;
+    flex:none!important;
+    transform:rotate(calc(var(--r,0deg)*.35));
+  }
+}
+@media (max-width:767.98px) {
+  :root body .sf-biz .r2-float .r3-fl-track {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc {
+    min-height:112px;
+    padding:16px!important;
+  }
+  :root body .sf-biz .r2-float .r2-fc b {
+    font-size:15px;
+  }
+  :root .sf-scope .r3-logowall__img {
+    height:auto!important;
+    object-fit:contain!important;
+    animation:none!important;
+    transition:transform .3s var(--sf-ease,ease);
+  }
+  :root .sf-scope .r3-logowall:active .r3-logowall__img,
+  :root .sf-scope .r3-logowall:hover .r3-logowall__img {
+    transform:scale(1.04);
+  }
+  :root .sf-ab .r3-logowall,
+  :root .sf-scope .r3-logowall {
+    padding:16px 12px!important;
+  }
+}
+@media (max-width:767.98px) {
+  :root body .sf-pt-cta .sf-row {
+    gap:10px!important;
+    margin-top:24px!important;
+  }
+  :root body .sf-pt-cta .sf-row .sf-btn {
+    margin:0!important;
+  }
+}
+:root body .sf-form-slot .phonenumber_wrap {
+  display:flex!important;
+  align-items:center;
+  gap:6px;
+  width:100%!important;
+}
+:root body .sf-form-slot .phonenumber_wrap input {
+  flex:1 1 0;
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  padding:12px 6px!important;
+  text-align:center;
+  font-size:16px!important;
+}

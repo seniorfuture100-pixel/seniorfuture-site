@@ -1,0 +1,102 @@
+/* 화면 묶음: common | 원본: src/sf-ui.css · 버튼
+   함께 들어 있음: r2 · 알림 서랍 (월부식): 아임웹 알림 패널을 오른쪽에서 넓게, sf-ui · 버튼, sf-product · 무료 라이브 상세 (Figma 22:1451) · 모임 상세 (28:2452), sf-ui · 칩, sf-home · sf-home.css — Figma 01 홈 섹션 공통 (SectionHeader · 칩 · 메인 배너 · BEST REVIEW · TOP 5 · 전문가 풀), sf-biz · 기업·공공기관(/business) 페이지 (biz.js) — Figma 02 PC · 03 모바일 '06 기업 · 공공기관', sf-ui · 배지, r3 · 기업·공공기관 협업 보강 (10/20): 대상별 협업 · 3단계 연결 · 로고 벽 · 두 갈래 문의 */
+:root .sf-btn--m {
+  height:40px;
+}
+:root .sf-btn--text {
+  background:0 0;
+  color:var(--sf-text-2);
+  padding:0 8px;
+}
+:root .sf-btn--text:hover {
+  color:var(--sf-text);
+  background:var(--sf-surface);
+}
+:root .sf-btn--primary {
+  background:var(--sf-primary);
+  color:#fff;
+}
+:root .sf-btn--primary:hover {
+  background:var(--sf-primary-hover);
+}
+:root .sf-btn--outline {
+  background:var(--sf-canvas);
+  color:var(--sf-text);
+  box-shadow:inset 0 0 0 1px var(--sf-border-strong);
+}
+:root .sf-btn--outline:hover {
+  background:var(--sf-surface);
+}
+:root .sf-btn--neutral {
+  background:var(--sf-background);
+  color:var(--sf-text);
+}
+:root .sf-btn--dark {
+  background:var(--sf-dark);
+  color:#fff;
+}
+:root .sf-btn--dark:hover {
+  opacity:.88;
+}
+:root .sf-btn.is-disabled,
+:root .sf-btn[disabled] {
+  background:var(--sf-border);
+  color:var(--sf-text-disabled);
+  box-shadow:none;
+  cursor:default;
+  pointer-events:none;
+}
+:root .sf-chip {
+  display:inline-flex;
+  align-items:center;
+  height:36px;
+  padding:0 16px;
+  border-radius:9999px;
+  white-space:nowrap;
+  background:var(--sf-canvas);
+  color:var(--sf-text-2);
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  font:500 14px/1 var(--sf-font);
+  cursor:pointer;
+  border:0;
+}
+:root .sf-chip:hover {
+  background:var(--sf-surface);
+}
+:root .sf-chip.is-active,
+:root .sf-chip[aria-pressed=true] {
+  background:var(--sf-dark);
+  color:#fff;
+  font-weight:700;
+  box-shadow:none;
+}
+:root .sf-chips {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+@media (max-width:767.98px) {
+  :root .sf-chips {
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    scrollbar-width:none;
+    margin-right:-16px;
+    padding-right:16px;
+  }
+  :root .sf-chips::-webkit-scrollbar {
+    display:none;
+  }
+}
+:root .sf-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  height:22px;
+  padding:0 8px;
+  border-radius:var(--sf-radius-sm);
+  font:700 12px/1 var(--sf-font);
+}
+:root .sf-badge--brand {
+  background:var(--sf-brand-tint);
+  color:var(--sf-text-brand);
+}

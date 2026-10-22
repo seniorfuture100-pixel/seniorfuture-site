@@ -1,0 +1,44 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · 이달의 BEST 강의 TOP 5: 순위 숫자(주황 32 Bold) + 강의 카드 224
+   함께 들어 있음: r3-pay · 10/21: 첫 화면 깜빡임 없애기 · 할인 가격 · 결제하기 아래 동의 문구, sf-home · 이달의 BEST 강의 TOP 5: 순위 숫자(주황 32 Bold) + 강의 카드 224, r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식), sf-board · sf-board.css — 아임웹 게시판 갤러리·최신글 위젯을 Figma Card/Insight 로 (인사이트·수강평·홈 최신글), sf-home · BEST REVIEW: 회색 바탕 #f2f3f6 · 카드 588 · 오른쪽 화살표 */
+:root .sf-ccard__body {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+:root .sf-ccard strong {
+  font:700 16px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+:root .sf-ccard p {
+  margin:0;
+  color:var(--sf-text-2);
+  font:400 14px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+:root .sf-ccard .sf-tags {
+  margin-top:0;
+}
+:root .sf-ccard .sf-tag {
+  height:25px;
+  padding:4px 8px;
+  line-height:17px;
+}
+:root .sf-ccard__meta,
+:root .sf-ccard__price {
+  display:none;
+}
+:root .sf-ccard:focus-visible {
+  outline:3px solid var(--sf-text-brand);
+  outline-offset:4px;
+  border-radius:8px;
+}
+:root .sf-home-expert {
+  background:var(--sf-background);
+}

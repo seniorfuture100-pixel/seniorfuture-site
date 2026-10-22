@@ -1,0 +1,13 @@
+/* 화면 묶음: common | 원본: src/sf-motion.css · 커뮤니티 카드 태그: 종류 = 연한 색, 상태 = 칠한 색 */
+:root .sf-tag--recruit {
+  background:#c23f00;
+  color:#fff;
+}
+:root .sf-tag--soon {
+  background:#c41a10;
+  color:#fff;
+}
+:root .sf-tag--closed {
+  background:#eaebee;
+  color:#868b94;
+}

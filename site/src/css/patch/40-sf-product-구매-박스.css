@@ -1,0 +1,21 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 구매 박스
+   함께 들어 있음: sf-header · 검색: Figma PC/검색 - 입력 중 · Mobile/검색 - 입력 중 */
+:root .sf-pv #goods_wrap {
+  padding:0!important;
+  border:0!important;
+}
+:root .sf-pv .goods_select:not(:empty) {
+  margin:0 0 20px;
+}
+:root .sf-pv .opt_block.total {
+  margin:0!important;
+  padding:20px 0!important;
+  border-top:1px solid var(--sf-border)!important;
+  background:0 0!important;
+}
+:root .sf-pv .opt_block.total p,
+:root .sf-pv-share {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}

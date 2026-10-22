@@ -1,0 +1,75 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · 수강평 목록: 3열 (아임웹 4개씩 줄 묶음을 풀어 그리드로) · 아래 글쓰기 버튼 숨김
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, sf-fixes · 고객센터(모바일) 좌우 16px, 회사소개 MISSION 라벨 위 정렬, sf-board · 수강평 목록: 3열 (아임웹 4개씩 줄 묶음을 풀어 그리드로) · 아래 글쓰기 버튼 숨김, sf-product · sf-product.css — 교육 상세(아임웹 상품 상세) Figma 'PC/교육 상세' (product-view.js 와 짝), r2 · 검색: PC는 헤더 아래 패널 (월부식) · 최근 / 인기 2칸, sf-biz · Contact + form, r3 · 마이페이지 개편 (10/19): 월부식 프로필 · 바로가기 4칸 · 계정 메뉴 · 열람 내역 */
+html:has(.sf-page--review) [data-widget-type="board"] .list-style.type_grid ._post_row {
+  display:contents!important;
+}
+html:has(.sf-page--review) [data-widget-type="board"] .list-style.type_grid .list-style-card {
+  width:auto!important;
+  max-width:none!important;
+}
+html:has(.sf-page--review) [data-widget-type="board"] .list-style.type_grid .list-style-card:not(:has(._post_item_wrap)) {
+  display:none!important;
+}
+html:has(.sf-page--action) [data-widget-type="board"] ._list_bottom .btn-block-right,
+html:has(.sf-page--action) [data-widget-type="board"] .btn-write {
+  display:none!important;
+}
+@media (max-width:767.98px) {
+  :root .sf-page--action {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  :root .sf-page__cta {
+    height:40px;
+    font-size:14px;
+  }
+  html:has(.sf-page--review) [data-widget-type="board"] .list-style.type_grid {
+    grid-template-columns:1fr;
+  }
+}
+:is(.list-style-gallery,
+.list-style.type_grid) .card-body .title em.addon-badge {
+  display:none!important;
+}
+html:has(.sf-page--review) [data-widget-type="board"] .list-style.type_grid {
+  align-items:start;
+}
+html:has(.sf-page--review) [data-widget-type="board"] .card-body {
+  flex:none!important;
+}
+html.sf-pv-on .shop-content>.clearfix>.goods_wrapper[hidden],
+html.sf-pv-on .shop_view .shop_sub_depth,
+html.sf-pv-on .shop_view .sub_depth {
+  display:none!important;
+}
+:root .sf-pv-crumb {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  max-width:1200px;
+  margin:32px auto 16px;
+  color:var(--sf-text-3);
+  font:400 13px/1.5 var(--sf-font);
+}
+:root .sf-pv-crumb a {
+  text-decoration:none;
+}
+:root .sf-pv,
+:root .sf-pv-crumb a:hover {
+  color:var(--sf-text);
+}
+:root .sf-pv-crumb [aria-current] {
+  color:var(--sf-text-2);
+}
+:root .sf-pv {
+  display:grid;
+  grid-template-columns:minmax(0,776px) 384px;
+  justify-content:space-between;
+  gap:40px;
+  max-width:1200px;
+  margin:0 auto 80px;
+  font-family:var(--sf-font);
+}
+:root .sf-pv__main {
+  min-width:0;
+}

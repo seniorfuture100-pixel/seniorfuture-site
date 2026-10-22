@@ -1,0 +1,98 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 프로필 설정 (핵심 항목만)
+   함께 들어 있음: r3 · 마이페이지 개편 (10/19): 월부식 프로필 · 바로가기 4칸 · 계정 메뉴 · 열람 내역 */
+:root body .r2-my-recent small {
+  display:block;
+}
+:root body .r2-my-recent b,
+:root body .r3-bellp li span {
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+}
+:root body .r2-my-recent b {
+  color:var(--sf-text);
+  font:600 15px/1.45 var(--sf-font);
+}
+:root body .r2-my-note {
+  margin:20px 0 0;
+  color:var(--sf-text-3);
+  font-size:13px;
+}
+@media (max-width:767.98px) {
+  :root body .r2-my-mob .r2-my-card {
+    display:flex!important;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:10px;
+    padding:8px 0 4px!important;
+  }
+  :root body .r2-my-mob .r2-my-av {
+    width:88px;
+    height:88px;
+  }
+  :root body .r2-my-mob .r2-my-av svg {
+    width:44px;
+    height:44px;
+  }
+  :root body .r2-my-mob .r2-my-who b {
+    font-size:20px;
+  }
+  :root body .r2-my-mob .r2-my-intro {
+    white-space:normal;
+    font-size:14px;
+  }
+  :root body .r2-my-mob .r2-my-edit {
+    width:100%;
+    max-width:240px;
+    margin-top:6px;
+  }
+  :root body .r2-my-quick {
+    display:grid;
+  }
+  :root body .r2-my-acct a,
+  :root body .r2-my-quick a {
+    display:flex;
+    align-items:center;
+    color:var(--sf-text)!important;
+    text-decoration:none;
+  }
+  :root body .r2-my-quick a {
+    flex-direction:column;
+  }
+  :root body .r2-my-quick svg {
+    fill:none;
+    stroke-width:1.7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  :root body .r2-my-acct {
+    display:grid;
+    margin:40px 0 0;
+    border-top:8px solid var(--sf-surface,#f7f8fa);
+  }
+  :root body .r2-my-acct a {
+    justify-content:space-between;
+    height:52px;
+    padding:0 4px;
+    border-bottom:1px solid var(--sf-border);
+    font:500 15px/1 var(--sf-font);
+  }
+  :root body .r2-my-acct a::after {
+    content:"›";
+    color:var(--sf-text-3);
+    font-size:20px;
+  }
+  :root body .r2-my-acct a[data-k=out] {
+    color:var(--sf-text-3)!important;
+    border-bottom:0;
+  }
+  :root body .r2-my-acct a[data-k=out]::after {
+    content:none;
+  }
+  :root body .r2-my-recent a {
+    grid-template-columns:104px 1fr;
+    gap:12px;
+  }
+}

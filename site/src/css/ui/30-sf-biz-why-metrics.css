@@ -1,0 +1,50 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · Why + metrics
+   함께 들어 있음: sf-apply · 4가지 분야 — 카드 전체가 신청서 링크, sf-biz · Why + metrics */
+:root .sf-why {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-bottom:56px;
+}
+:root .sf-why article {
+  padding:36px;
+  border-radius:24px;
+  background:#26282d;
+}
+:root .sf-why b {
+  display:block;
+  color:#ff9e66;
+  font-size:24px;
+  margin-bottom:12px;
+}
+:root .sf-why p {
+  color:#b0b3ba;
+  line-height:1.6;
+  margin-top:12px;
+}
+:root .sf-metrics {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin:20px 0 0;
+}
+:root .sf-metrics div {
+  padding:28px;
+  border-radius:20px;
+  border:1px dashed #3a3d44;
+}
+:root .sf-metrics dt {
+  color:#b0b3ba;
+}
+:root .sf-metrics dd {
+  margin:8px 0 0;
+  font-size:28px;
+  font-weight:700;
+}
+:root .sf-metrics small {
+  display:block;
+  margin-top:6px;
+  color:#868b94;
+  font-size:13px;
+  font-weight:400;
+}

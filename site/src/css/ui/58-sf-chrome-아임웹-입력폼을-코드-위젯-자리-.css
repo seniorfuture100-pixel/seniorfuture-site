@@ -1,0 +1,26 @@
+/* 화면 묶음: common | 원본: src/sf-chrome.css · 아임웹 입력폼을 코드 위젯 자리(.sf-form-slot)에 옮겼을 때 모양 (form-slot.js 와 짝) */
+:root .sf-form-slot .btn-primary {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:52px;
+  border:0;
+  border-radius:999px;
+  background:var(--sf-primary)!important;
+  color:#fff!important;
+  font:700 16px var(--sf-font);
+  text-decoration:none;
+}
+:root .sf-form-slot .btn-primary:hover {
+  background:var(--sf-primary-hover)!important;
+}
+:root .sf-pt-cta .sf-form-slot {
+  max-width:640px;
+  margin:40px auto 0;
+}
+@media (max-width:767.98px) {
+  :root .sf-form-slot {
+    padding:24px 20px;
+  }
+}

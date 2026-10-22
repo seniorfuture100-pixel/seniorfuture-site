@@ -1,0 +1,90 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · 2차 수정: 연한 주황 섹션 · 고민 카드 3+3 · V 연결 · 가로 솔루션 카드 · 클릭 카드 · 로고
+   함께 들어 있음: sf-apply · 4가지 분야 — 카드 전체가 신청서 링크 */
+:root .sf-sol__img {
+  flex:0 0 340px;
+  height:200px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:16px;
+  background:#e9ebee;
+  color:var(--sf-text-3);
+  font-size:14px;
+}
+:root .sf-sol__body {
+  flex:1;
+  display:grid;
+  gap:12px;
+}
+:root .sf-sol__name {
+  font-size:16px;
+  font-weight:700;
+  color:var(--sf-text-2);
+}
+:root .sf-sol__name em {
+  font-style:normal;
+  color:var(--sf-text-brand);
+  font-size:20px;
+  margin-right:10px;
+}
+:root .sf-case__tags,
+:root .sf-sol__tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+:root .sf-case__tags span,
+:root .sf-sol__tags span {
+  padding:6px 12px;
+  border-radius:999px;
+  background:#fff;
+  font-size:14px;
+  font-weight:700;
+  color:var(--sf-text-2);
+}
+:root .sf-sol__go {
+  flex:0 0 56px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:var(--sf-primary);
+  color:#fff;
+  font-size:20px;
+  font-weight:700;
+}
+:root .sf-cases {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-case {
+  display:block;
+  overflow:hidden;
+  border-radius:24px;
+  background:var(--sf-surface);
+  color:inherit;
+  text-decoration:none;
+  transition:transform .2s var(--sf-ease),box-shadow .2s var(--sf-ease);
+}
+:root .sf-case:hover {
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(0,0,0,.08);
+}
+:root .sf-case:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:3px;
+}
+:root .sf-case__img {
+  aspect-ratio:588/280;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e9ebee;
+  color:var(--sf-text-3);
+  font-size:14px;
+}

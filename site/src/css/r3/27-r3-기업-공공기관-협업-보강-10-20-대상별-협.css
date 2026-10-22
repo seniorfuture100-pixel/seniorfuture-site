@@ -1,0 +1,128 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 기업·공공기관 협업 보강 (10/20): 대상별 협업 · 3단계 연결 · 로고 벽 · 두 갈래 문의
+   함께 들어 있음: r3 · 약관 및 정책: 모바일에선 조항 목록을 가로로 넘기는 칩 한 줄로 (본문이 바로 보이게, 10/20) */
+:root .sf-biz .r3-contact-2 {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:8px;
+}
+:root .sf-biz .r3-deck {
+  display:inline-block;
+  margin-top:16px;
+  color:var(--sf-text-2);
+  font-size:15px;
+  font-weight:600;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+@media (max-width:1100px) and (min-width:768px) {
+  :root .sf-biz .r3-aud {
+    grid-template-columns:1fr 1fr;
+  }
+}
+@media (max-width:767.98px) {
+  :root .sf-biz .r3-aud,
+  :root .sf-biz .r3-flow {
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  :root .sf-biz .r3-aud>li,
+  :root .sf-biz .r3-flow li {
+    padding:20px;
+    border-radius:16px;
+    gap:8px;
+  }
+  :root .sf-biz .r3-aud h3,
+  :root .sf-biz .r3-flow h3 {
+    font-size:18px;
+  }
+  :root .sf-biz .r3-aud ul li,
+  :root .sf-biz .r3-aud>li>p,
+  :root .sf-biz .r3-flow p {
+    font-size:14px;
+  }
+  :root .sf-biz .r3-aud ul {
+    padding-top:12px;
+    gap:6px;
+  }
+  :root .sf-biz .r3-flow__lead {
+    margin:-8px 0 24px;
+    font-size:15px;
+  }
+  :root .sf-biz .r3-flow li+li:before {
+    content:"↓";
+    left:50%;
+    top:-14px;
+    margin-left:-7px;
+    font-size:14px;
+  }
+  :root .sf-biz .r3-flow__no {
+    font-size:20px;
+  }
+  :root .sf-scope .r3-logowall {
+    margin:16px -20px 0;
+    padding:16px 0;
+    border-radius:0;
+  }
+  :root .sf-scope .r3-logowall__rows {
+    gap:4px;
+  }
+  :root .sf-scope .r3-logowall__rows i {
+    display:block;
+    height:56px;
+    background:url(https://oopy.lazyrockets.com/api/v2/notion/image?src=attachment%3A728f3d67-b376-40c1-8543-bce194ab9ebb%3A%EC%8B%9C%EB%8B%88%EC%96%B4%ED%93%A8%EC%B2%98_%EB%A1%9C%EA%B3%A0_%EC%95%95%EC%B6%95.png&blockId=37634a84-148b-80e3-9943-d4ceb0c6ef17)0 var(--y)/1024px 460px repeat-x;
+    animation:r3LogoRun var(--d,40s) linear infinite;
+  }
+  :root .sf-scope .r3-logowall__rows i:nth-child(even) {
+    animation-direction:reverse;
+  }
+  :root .sf-biz .r3-contact-2 .sf-btn {
+    flex:1 1 100%;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root .sf-scope .r3-logowall__rows i {
+    animation:none;
+  }
+}
+:root .sf-ab .r3-logowall {
+  margin-top:32px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+}
+@media (max-width:767.98px) {
+  :root .sf-ab .r3-logowall {
+    margin:20px -16px 0;
+    box-shadow:none;
+  }
+  :root body .sf-tm .sf-tm-side {
+    gap:10px;
+    padding:12px;
+    margin:0-16px;
+    border-radius:0;
+  }
+  :root body .sf-tm .sf-tm-side nav {
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    white-space:nowrap;
+    padding-bottom:2px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  :root body .sf-tm .sf-tm-side nav::-webkit-scrollbar {
+    display:none;
+  }
+  :root body .sf-tm .sf-tm-side nav a {
+    flex:none;
+    padding:6px 12px;
+    border-radius:999px;
+    background:#fff;
+    box-shadow:inset 0 0 0 1px var(--sf-border);
+    font-size:13px;
+    line-height:1.4;
+  }
+}
+:root body .sf-tm .sf-tm-note {
+  margin:0 0 28px;
+}

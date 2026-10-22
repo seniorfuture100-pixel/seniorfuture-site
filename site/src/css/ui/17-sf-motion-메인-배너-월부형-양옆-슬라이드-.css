@@ -1,0 +1,27 @@
+/* 화면 묶음: common | 원본: src/sf-motion.css · 메인 배너 (월부형: 양옆 슬라이드 살짝 보이기) — carousel.js data-peek */
+:root .sf-peek-pager button:focus-visible {
+  outline:2px solid #fff;
+  outline-offset:1px;
+}
+:root .sf-peek-pager [data-sf-pause]::before {
+  content:"❚❚";
+  font-size:10px;
+  letter-spacing:1px;
+}
+:root .sf-peek-pager [data-sf-pause].is-paused::before {
+  content:"▶";
+}
+@media (max-width:767.98px) {
+  :root .sf-carousel--peek .sf-track {
+    gap:8px;
+    padding:16px 24px;
+  }
+  :root .sf-carousel--peek .sf-peek-pager {
+    right:36px;
+    bottom:28px;
+  }
+  :root .sf-peek-pager button[data-sf-next],
+  :root .sf-peek-pager button[data-sf-prev] {
+    display:none;
+  }
+}

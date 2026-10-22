@@ -1,0 +1,99 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 마우스로 끄는 중엔 글자 선택·링크 끌기 막기
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, r3 · 인사이트·수강평 글 공유: [주소 복사] [카카오톡 공유] 두 버튼, r3-partner · 5. 진행 단계 */
+:root .r3-dragging {
+  cursor:grabbing!important;
+  user-select:none;
+}
+:root .r3-dragging * {
+  pointer-events:none;
+}
+@media (max-width:767.98px) {
+  :root body .sf-top5 {
+    display:grid;
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:260px;
+    gap:12px;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    margin-right:-16px;
+    padding-right:16px;
+  }
+  :root body .sf-top5::-webkit-scrollbar {
+    display:none;
+  }
+  :root body .sf-top5>li {
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    scroll-snap-align:start;
+  }
+  :root body .sf-top5>li::before {
+    width:auto;
+    text-align:left;
+    font-size:28px;
+    line-height:36px;
+  }
+  :root body .sf-top5 .sf-ccard {
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+  }
+  :root body .sf-top5 .sf-ccard__thumb {
+    width:100%;
+    border-radius:8px;
+  }
+  :root body .sf-cards4.sf-cards4--grid {
+    grid-template-rows:none;
+    row-gap:0;
+  }
+  :root body .sf-home-video .sf-cards4.sf-cards4--grid {
+    grid-auto-columns:260px;
+  }
+  :root body .sf-home-video .sf-sec {
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+  :root body .sf-home-video .sf-sec:first-child {
+    padding-top:48px!important;
+    padding-bottom:20px!important;
+  }
+  :root body .sf-home-video .sf-sec--cards {
+    padding-bottom:64px!important;
+  }
+  :root body .sf-home-expert .sf-sec-mbtn {
+    display:none!important;
+  }
+  :root.r2-ins body [data-widget-type=board] .list-style.type_grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:28px 12px!important;
+  }
+}
+html body .sf-bv-by .tools,
+html body .sf-bv-head .tools,
+html body .sf-bv-sum .tools {
+  display:none!important;
+}
+html.sf-bv-on body .r3-share.r3-share button {
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  width:auto!important;
+  height:44px!important;
+  padding:0 18px!important;
+  border:0;
+  border-radius:8px!important;
+  font:700 15px/1 var(--sf-font)!important;
+  font-size:15px!important;
+  letter-spacing:-.01em;
+  white-space:nowrap;
+  background-image:none!important;
+  overflow:visible!important;
+}
+html.sf-bv-on body .r3-share.r3-share button::after,
+html.sf-bv-on body .r3-share.r3-share button::before {
+  content:none!important;
+}

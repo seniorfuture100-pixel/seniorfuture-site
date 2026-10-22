@@ -1,0 +1,85 @@
+/* 화면 묶음: common | 원본: src/r3-nav.css · 첫 화면(맨 위 섹션) 움직임은 들어오자마자 바로 시작 — 스크립트·스크롤을 기다리지 않고 화면이 그려지는 순간 CSS로 움직여요
+   함께 들어 있음: r3-nav · 파트너 지원 첫 화면은 처음부터 완성된 모습으로(10/22 사장님 결정 — 움직임이 '예전 화면이 떴다 바뀌는' 것처럼 보였음), r3-nav · 상세 페이지(강의·라이브·모임·글)는 내용이 처음부터 다 보이게 — 스크롤 나타나기 효과 끔(10/22 사장님 결정) */
+@keyframes sfNowIn {
+  from {
+    opacity:0;
+    transform:translateY(18px);
+  }
+  to {
+    opacity:1;
+    transform:none;
+  }
+}
+@keyframes sfNowUp {
+  from {
+    transform:translateY(105%);
+  }
+  to {
+    transform:none;
+  }
+}
+:root body .sf-scope main>section:first-of-type [data-sf-reveal],
+:root body .sf-scope main>section:first-of-type [data-sf-lines] .sf-line,
+:root body .sf-scope main>section:first-of-type .r3-rv,
+:root body .sf-scope main>section:first-of-type .r3ap-rv,
+:root body .r2-hero .sf-lead,
+:root body .r2-hero .sf-pt-lead,
+:root body .r2-hero .sf-kw,
+:root body .r2-hero .sf-row,
+:root body .r2-hero>.sf-wrap>.sf-btn,
+:root body .r2-hero .sf-pt-stats,
+:root body .r2-hero .r2-float {
+  transition:none!important;
+  animation:sfNowIn .7s cubic-bezier(.2,.7,.2,1) .12s both!important;
+}
+:root body .r2-hero .r2-lines .r2-ln>span {
+  transition:none!important;
+  animation:sfNowUp .75s cubic-bezier(.2,.7,.2,1) var(--d,0s) both!important;
+}
+:root body .sf-scope main>section:first-of-type [data-sf-lines] .sf-line:nth-child(2),
+:root body .r2-hero .sf-kw,
+:root body .r2-hero .sf-pt-lead {
+  animation-delay:.2s!important;
+}
+:root body .sf-scope main>section:first-of-type [data-sf-lines] .sf-line:nth-child(3),
+:root body .r2-hero .sf-row,
+:root body .r2-hero>.sf-wrap>.sf-btn {
+  animation-delay:.28s!important;
+}
+:root body .sf-scope main>section:first-of-type [data-sf-lines] .sf-line:nth-child(n+4),
+:root body .r2-hero .r2-float,
+:root body .r2-hero .sf-pt-stats {
+  animation-delay:.36s!important;
+}
+@media (prefers-reduced-motion:reduce) {
+  :root body .sf-scope main>section:first-of-type *,
+  :root body .r2-hero * {
+    animation:none!important;
+    opacity:1!important;
+    transform:none!important;
+  }
+}
+:root body .r3ap .r2-hero .r2-lines .r2-ln>span,
+:root body .r3ap .r2-hero .sf-lead,
+:root body .r3ap .r2-hero .sf-pt-lead,
+:root body .r3ap .r2-hero .sf-kw,
+:root body .r3ap .r2-hero .sf-row,
+:root body .r3ap .r2-hero>.sf-wrap>.sf-btn,
+:root body .r3ap .r2-hero .sf-pt-stats,
+:root body .r3ap .r2-hero .r2-float,
+:root body .r3ap .r2-hero [data-sf-reveal],
+:root body .r3ap .r2-hero .r3ap-rv {
+  animation:none!important;
+  opacity:1!important;
+  transform:none!important;
+  transition:none!important;
+}
+html.sf-detail body .sf-rv,
+html.sf-detail body .r3-rv,
+html.sf-detail body [data-sf-reveal],
+html.sf-detail body [data-sf-lines] .sf-line {
+  opacity:1!important;
+  transform:none!important;
+  transition:none!important;
+  animation:none!important;
+}

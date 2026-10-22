@@ -1,0 +1,14 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 당근처럼 스크롤에 맞춰 채워지는 제목 글자 */
+:root body .r3-fill .r3-w {
+  color:#c7cad1;
+  transition:color .35s ease;
+}
+:root body .r3-fill--dark .r3-w {
+  color:#4d515a;
+}
+:root body .r3-fill .r3-w.is-on,
+:root body .r3-fill b .r3-w.is-on,
+:root body .r3-fill em .r3-w.is-on,
+:root body .r3-fill strong .r3-w.is-on {
+  color:inherit;
+}

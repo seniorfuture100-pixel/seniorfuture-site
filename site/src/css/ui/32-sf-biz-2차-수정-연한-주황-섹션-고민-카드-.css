@@ -1,0 +1,64 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · 2차 수정: 연한 주황 섹션 · 고민 카드 3+3 · V 연결 · 가로 솔루션 카드 · 클릭 카드 · 로고
+   함께 들어 있음: sf-apply · 파트너 지원 (/partner · /partner/apply) — Figma 02 PC · 03 모바일 '11' 섹션, sf-biz · 2차 수정: 연한 주황 섹션 · 고민 카드 3+3 · V 연결 · 가로 솔루션 카드 · 클릭 카드 · 로고, r3-partner · 3. 걱정 → 답 (말풍선) */
+:root .sf-biz .is-tint {
+  background:var(--sf-brand-tint);
+}
+:root .sf-biz .sf-group {
+  display:inline-block;
+  margin:24px 0 16px;
+  padding:6px 12px;
+  border-radius:999px;
+  background:var(--sf-dark);
+  color:#fff;
+  font-size:14px;
+  letter-spacing:0;
+}
+:root .sf-need-cards {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-need-cards li {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:32px;
+  border-radius:24px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px #ffe2cf;
+}
+:root .sf-need-ic {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:var(--sf-brand);
+  color:#fff;
+  font-size:18px;
+  font-weight:700;
+}
+:root .sf-need-cards b {
+  font-size:18px;
+  line-height:1.5;
+}
+:root .sf-need-cards p {
+  color:var(--sf-text-2);
+  line-height:1.6;
+}
+:root .sf-biz .sf-needs-sec {
+  padding-bottom:100px;
+}
+:root .sf-bridge {
+  text-align:center;
+}
+:root .sf-bridge__v {
+  display:block;
+  width:min(880px,90%);
+  height:120px;
+  margin:48px auto 24px;
+}

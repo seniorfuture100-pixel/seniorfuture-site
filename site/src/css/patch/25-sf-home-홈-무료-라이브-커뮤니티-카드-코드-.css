@@ -1,0 +1,41 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · 홈 무료 라이브·커뮤니티 카드 (코드 카드 — 상품 목록 위젯은 페이지당 1개라서): Figma Card/Live · Card/Meetup */
+:root .sf-sec--grid {
+  padding-top:24px;
+  padding-bottom:0;
+}
+:root .sf-cards4--grid {
+  row-gap:40px;
+}
+:root .sf-filter-empty {
+  margin:0;
+  padding:48px 16px;
+  border-radius:12px;
+  background:var(--sf-surface);
+  color:var(--sf-text-3);
+  font:500 15px/1.5 var(--sf-font);
+  text-align:center;
+}
+@media (max-width:767.98px) {
+  :root .sf-cards4--grid {
+    grid-auto-flow:row;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:24px 12px;
+    overflow:visible;
+    margin-right:0;
+    padding-right:0;
+  }
+  :root .sf-cards4--grid .sf-ccard strong {
+    font-size:15px;
+  }
+  :root .sf-cards4--grid .sf-ccard p {
+    font-size:13px;
+  }
+  :root .sf-cards4--grid .sf-tag {
+    height:22px;
+    padding:2px 6px;
+    font-size:11px;
+  }
+  :root .sf-sec--grid {
+    padding:20px 16px 0;
+  }
+}

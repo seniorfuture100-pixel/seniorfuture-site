@@ -1,0 +1,10 @@
+/* 화면 묶음: common | 원본: src/r3-nav.css · 페이지 이동을 앱처럼 (10/22) — 헤더·하단 탭은 그대로 두고 본문만 짧게 바뀌어요(크롬 126+ View Transitions). */
+@view-transition {
+  navigation:auto;
+}
+:root body #doz_header_wrap {
+  view-transition-name:sf-hd;
+}
+:root body .sf-tabbar {
+  view-transition-name:sf-tab;
+}

@@ -1,0 +1,22 @@
+/* 화면 묶음: common | 원본: src/sf-motion.css · 공유 버튼 · 토스트 (share.js) */
+:root .sf-share-kakao,
+:root .sf-share-link {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  height:44px;
+  padding:0 16px;
+  border-radius:999px;
+  font:700 14px var(--sf-font);
+  cursor:pointer;
+}
+:root .sf-share-link {
+  background:#fff;
+  color:var(--sf-text);
+  border:1px solid var(--sf-border);
+}
+:root .sf-share-kakao {
+  background:#fee500;
+  color:#191919;
+  border:0;
+}

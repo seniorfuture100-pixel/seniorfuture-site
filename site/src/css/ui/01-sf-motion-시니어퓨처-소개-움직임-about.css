@@ -1,0 +1,39 @@
+/* 화면 묶음: common | 원본: src/sf-motion.css · 시니어퓨처 소개 움직임 (about-motion.js) */
+@keyframes sf-hero-zoom {
+  0% {
+    scale:1.12;
+  }
+  to {
+    scale:1;
+  }
+}
+:root {
+  --sf-brand:#ff9652;
+  --sf-primary:#ff6f0f;
+  --sf-primary-hover:#ff9e66;
+  --sf-brand-tint:#fff5f0;
+  --sf-dark:#1e1e1e;
+  --sf-canvas:#ffffff;
+  --sf-background:#f2f3f6;
+  --sf-surface:#f7f8fa;
+  --sf-text:#212124;
+  --sf-text-2:#555d6d;
+  --sf-text-3:#868b94;
+  --sf-text-disabled:#b0b3ba;
+  --sf-text-brand:#e14d00;
+  --sf-border:#eaebee;
+  --sf-border-strong:#b0b3ba;
+  --sf-danger:#fa2314;
+  --sf-success:#1aa174;
+  --sf-radius-sm:6px;
+  --sf-radius-md:8px;
+  --sf-radius-lg:12px;
+  --sf-header-h:72px;
+  --sf-ease:cubic-bezier(0.4, 0, 0.2, 1);
+  --sf-font:"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+}
+@media (max-width:767.98px) {
+  :root {
+    --sf-header-h:56px;
+  }
+}

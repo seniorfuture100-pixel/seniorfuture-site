@@ -1,0 +1,39 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · 2차 수정: 연한 주황 섹션 · 고민 카드 3+3 · V 연결 · 가로 솔루션 카드 · 클릭 카드 · 로고 */
+:root .sf-biz .sf-logos-title {
+  margin-top:56px;
+  color:#fff;
+  font-size:24px;
+}
+:root .sf-logos-title small {
+  margin-left:8px;
+  color:#868b94;
+  font-size:14px;
+  font-weight:400;
+}
+:root .sf-logos {
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+  margin:16px 0 0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-logos li,
+:root .sf-pt-steps li::before {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+:root .sf-logos li {
+  height:88px;
+  border-radius:16px;
+  background:#26282d;
+  color:#868b94;
+  font-size:14px;
+}
+:root .sf-logos img {
+  max-width:70%;
+  max-height:40px;
+  filter:grayscale(1) brightness(1.8);
+}

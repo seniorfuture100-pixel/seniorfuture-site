@@ -1,0 +1,38 @@
+/* 화면 묶음: search | 원본: src/sf-search.css · sf-search.css — 검색 결과 (search-view.js 와 짝) — Figma PC/검색 결과 33:3579 · 결과 없음 33:3820 */
+:root .sf-sr-pop .sf-chips {
+  justify-content:center;
+}
+:root .sf-sr-pop .sf-chip {
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text-2);
+  text-decoration:none;
+  font:500 14px/1 var(--sf-font);
+}
+@media (max-width:767.98px) {
+  html.sf-sr-on body .search_widget_v2 {
+    padding:16px 16px 56px;
+  }
+  html.sf-sr-on body .sw2-search {
+    height:46px;
+    margin-bottom:20px!important;
+  }
+  :root .sf-sr-title {
+    font-size:20px;
+  }
+  html.sf-sr-on body .sw2-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:24px 12px!important;
+  }
+  html.sf-sr-on body .sw2-card-name {
+    font-size:15px!important;
+  }
+  :root .sf-sr-pop .sf-chips {
+    flex-wrap:wrap;
+    margin:0;
+    padding:0;
+  }
+}
+html.sf-sr-on body .sw2-top {
+  display:block!important;
+}

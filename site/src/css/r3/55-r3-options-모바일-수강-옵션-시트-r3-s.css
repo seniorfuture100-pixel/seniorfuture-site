@@ -1,0 +1,51 @@
+/* 화면 묶음: course-detail | 원본: src/r3-options.css · 모바일 '수강 옵션' 시트 (r3-sheet.js)
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root body .r3-sheet-h {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0 0 16px;
+}
+:root body .r3-sheet-h b {
+  color:var(--sf-text);
+  font:700 20px/1.4 var(--sf-font);
+  letter-spacing:-.02em;
+}
+:root body .r3-sheet-x {
+  position:relative;
+  flex:none;
+  width:44px;
+  height:44px;
+  margin:-8px -10px -8px 0;
+  padding:0;
+  border:0;
+  border-radius:10px;
+  background:0 0;
+  cursor:pointer;
+}
+:root body .r3-sheet-x::after,
+:root body .r3-sheet-x::before {
+  content:"";
+  position:absolute;
+  left:12px;
+  top:21px;
+  width:20px;
+  height:2px;
+  border-radius:1px;
+  background:var(--sf-text-2,#555);
+}
+:root body .r3-sheet-x::before {
+  transform:rotate(45deg);
+}
+:root body .r3-sheet-x::after {
+  transform:rotate(-45deg);
+}
+:root body .r3-sheet-x:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:-3px;
+}
+:root body .sf-pv .opt-group .r3-sheet__item,
+:root body .sf-pv .opt-group>.r3-sheet-h {
+  display:none;
+}

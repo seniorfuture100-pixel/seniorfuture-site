@@ -1,0 +1,32 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 구매 박스
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root .sf-pv .opt_block.total .body_font_color_70 {
+  color:var(--sf-text)!important;
+  font:700 18px/1.45 var(--sf-font)!important;
+}
+:root .sf-pv .opt_block.total .total_price {
+  color:var(--sf-text)!important;
+  font:700 24px/1.35 var(--sf-font)!important;
+}
+:root .sf-pv .buy_btns.pc {
+  display:flex!important;
+  gap:8px;
+  margin:0!important;
+}
+:root .sf-pv .buy_btns.pc .like_box {
+  order:-1;
+  flex:0 0 58px;
+  width:58px!important;
+  height:46px!important;
+  margin:0!important;
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--sf-border)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+}
+:root .sf-pv .buy_btns.pc .like_box .prod_detail_wish_count,
+:root .sf-pv-own.is-empty .shop_view_body {
+  display:none;
+}

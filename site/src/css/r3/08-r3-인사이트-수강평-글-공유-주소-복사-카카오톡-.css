@@ -1,0 +1,107 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 인사이트·수강평 글 공유: [주소 복사] [카카오톡 공유] 두 버튼
+   함께 들어 있음: r3 · 협업 6단계 (모바일): 모두 펼침 + 왼쪽 선 이어짐 + 스크롤로 차례로 켜짐 */
+html.sf-bv-on body .r3-share.r3-share [data-sf-share-link] {
+  background:#fff!important;
+  box-shadow:inset 0 0 0 1px #d5d9e0!important;
+  color:#1a1c20!important;
+}
+html.sf-bv-on body .r3-share.r3-share [data-sf-share-kakao] {
+  background:#fee500!important;
+  box-shadow:none!important;
+  color:#191919!important;
+}
+html.sf-bv-on body .r3-share.r3-share button svg {
+  width:18px;
+  height:18px;
+  flex:none;
+}
+html.sf-bv-on body .r3-share.r3-share [data-sf-share-link] svg {
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+}
+html.sf-bv-on body .r3-share.r3-share [data-sf-share-kakao] svg {
+  fill:#191919;
+  stroke:none;
+}
+html.sf-bv-on body .sf-bv-shareline.r3-share.r3-share {
+  flex-direction:column;
+  gap:14px;
+  margin:48px 0 32px;
+}
+html.sf-bv-on body .r3-share.r3-share__btns {
+  display:flex;
+  gap:8px;
+  justify-content:center;
+}
+html.sf-bv-on body .r3-share.r3-share__btns button {
+  min-width:150px;
+}
+@media (max-width:767.98px) {
+  html.sf-bv-on body .sf-bv-share.r3-share.r3-share {
+    width:100%;
+    margin-top:12px;
+  }
+  html.sf-bv-on body .r3-share.r3-share__btns button,
+  html.sf-bv-on body .sf-bv-share.r3-share.r3-share button {
+    flex:1 1 0;
+    min-width:0;
+  }
+  html.sf-bv-on body .r3-share.r3-share__btns {
+    width:100%;
+  }
+  :root body .r3-steps [data-sf-step-panel][hidden] {
+    display:block!important;
+  }
+  :root body .r3-steps [data-sf-step-next],
+  :root body .r3-steps [data-sf-step]::after {
+    display:none!important;
+  }
+  :root body .r3-steps>li {
+    position:relative;
+  }
+  :root body .r3-steps>li:not(:last-child)::before {
+    content:"";
+    position:absolute;
+    left:21px;
+    top:52px;
+    bottom:-6px;
+    width:2px;
+    background:var(--sf-border-strong,#d5d9e0);
+  }
+  :root body .r3-steps>li:not(:last-child)::after {
+    content:"";
+    position:absolute;
+    left:21px;
+    top:52px;
+    bottom:-6px;
+    width:2px;
+    background:var(--sf-primary);
+    transform:scaleY(0);
+    transform-origin:top;
+    transition:transform .6s ease;
+  }
+  :root body .r3-steps>li.r3-in::after {
+    transform:scaleY(1);
+  }
+  :root body .r3-steps>li .sf-step__no {
+    transition:background .3s,color .3s,box-shadow .3s;
+  }
+  :root body .r3-steps>li.r3-in .sf-step__no {
+    background:var(--sf-primary);
+    box-shadow:none;
+    color:#fff;
+  }
+  :root body .r3-steps>li [data-sf-step-panel] {
+    box-shadow:inset 0 0 0 1px var(--sf-border,#e5e7eb);
+    opacity:.35;
+    transform:translateY(12px);
+    transition:opacity .5s ease,transform .5s ease,box-shadow .5s;
+  }
+  :root body .r3-steps>li.r3-in [data-sf-step-panel] {
+    box-shadow:inset 0 0 0 2px var(--sf-primary);
+    opacity:1;
+    transform:none;
+  }
+}

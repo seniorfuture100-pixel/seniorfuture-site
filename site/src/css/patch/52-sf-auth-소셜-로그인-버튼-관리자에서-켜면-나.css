@@ -1,0 +1,35 @@
+/* 화면 묶음: login-join | 원본: src/sf-auth.css · 소셜 로그인 버튼(관리자에서 켜면 나타나요)
+   함께 들어 있음: r2 · 홈 강의·무료 라이브 카드: 제목 2줄 자리 고정, 버튼은 맨 아래 한 줄 */
+:root .sf-auth [class*=kakao] .btn,
+:root .sf-auth a[class*=kakao],
+:root .sf-auth button[class*=kakao] {
+  height:48px;
+  border:0!important;
+  border-radius:8px!important;
+  background:#fee500!important;
+  color:#191600!important;
+  font:700 15px/48px var(--sf-font)!important;
+}
+:root .sf-auth [class*=naver] .btn,
+:root .sf-auth a[class*=naver],
+:root .sf-auth button[class*=naver] {
+  height:48px;
+  border:0!important;
+  border-radius:8px!important;
+  background:#03c75a!important;
+  color:#fff!important;
+  font:700 15px/48px var(--sf-font)!important;
+}
+:root .sf-auth [class*=google] .btn,
+:root .sf-auth a[class*=google],
+:root .sf-auth button[class*=google] {
+  height:48px;
+  border-radius:8px!important;
+  background:#fff!important;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text)!important;
+  font:700 15px/48px var(--sf-font)!important;
+}
+:root .sf-auth #agree_form .input-block {
+  margin-bottom:12px;
+}

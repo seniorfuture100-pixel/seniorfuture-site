@@ -1,0 +1,21 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 마이페이지 개편 (10/19): 월부식 프로필 · 바로가기 4칸 · 계정 메뉴 · 열람 내역 */
+:root body .r2-my-recent {
+  display:grid;
+  gap:12px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root body .r2-my-recent a {
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:14px;
+  align-items:center;
+  color:inherit!important;
+  text-decoration:none;
+}
+:root body .r2-my-recent__th {
+  aspect-ratio:16/9;
+  border-radius:8px;
+  background:#f2f3f6 center/cover no-repeat;
+}

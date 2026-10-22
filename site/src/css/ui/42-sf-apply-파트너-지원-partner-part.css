@@ -1,0 +1,12 @@
+/* 화면 묶음: apply | 원본: src/sf-apply.css · 파트너 지원 (/partner · /partner/apply) — Figma 02 PC · 03 모바일 '11' 섹션 */
+:root .sf-pt-ex b {
+  font-size:18px;
+}
+:root .sf-pt-ex p {
+  font-size:14px;
+  white-space:pre-line;
+}
+:root .sf-pt-ex mark {
+  background:0 0;
+  font-weight:700;
+}

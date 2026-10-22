@@ -1,0 +1,43 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · Customer needs — 탭
+   함께 들어 있음: r3-pay · 결제 수단 타일, sf-biz · Solutions */
+:root .sf-segment {
+  display:inline-flex;
+  gap:4px;
+  padding:4px;
+  border-radius:999px;
+  background:var(--sf-background);
+  margin-bottom:40px;
+}
+:root .sf-segment [role=tab] {
+  min-height:44px;
+  padding:0 28px;
+  border:0;
+  border-radius:999px;
+  background:0 0;
+  color:var(--sf-text-3);
+  font:700 16px var(--sf-font);
+  cursor:pointer;
+}
+:root .sf-segment [role=tab][aria-selected=true] {
+  background:#fff;
+  color:var(--sf-text);
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+:root .sf-segment [role=tab]:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:2px;
+}
+:root .sf-contact ul li::before {
+  content:"✓ ";
+  color:var(--sf-text-brand);
+  font-weight:700;
+}
+:root .sf-steps {
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  column-gap:0;
+  row-gap:32px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}

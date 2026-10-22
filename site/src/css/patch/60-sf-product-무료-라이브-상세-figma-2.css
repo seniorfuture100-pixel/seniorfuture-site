@@ -1,0 +1,209 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 무료 라이브 상세 (Figma 22:1451) · 모임 상세 (28:2452)
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식), r2 · 프로필 설정 (핵심 항목만), sf-mypage · sf-mypage.css — 마이페이지 (mypage-view.js 와 짝) — Figma PC/마이페이지 30:2799, sf-sitemotion · LIVE 배지 깜빡임, r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root .sf-pv-cd {
+  padding:12px;
+  border-radius:12px;
+  background:var(--sf-brand-tint);
+  text-align:center;
+}
+:root .sf-pv-cd [data-sf-countdown-label] {
+  display:block;
+  color:var(--sf-text-brand);
+  font:500 13px/1.5 var(--sf-font);
+}
+:root .sf-pv-cd__t,
+:root .sf-pv-when {
+  color:var(--sf-text-2);
+  font:400 13px/1 var(--sf-font);
+}
+:root .sf-pv-cd__t b {
+  margin:0 2px 0 6px;
+  color:var(--sf-text);
+  font:700 24px/1.35 var(--sf-font);
+}
+:root .sf-pv-when {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0 0 16px;
+  font:400 14px/1.5 var(--sf-font);
+}
+:root .sf-pv-infobox svg,
+:root .sf-pv-when svg {
+  width:16px;
+  height:16px;
+}
+:root .sf-pv-infobox svg,
+:root .sf-pv-map svg,
+:root .sf-pv-when svg {
+  flex-shrink:0;
+  stroke:var(--sf-text-3);
+  stroke-width:2;
+  fill:none;
+}
+:root .sf-pv-guide,
+:root .sf-pv-sharebtn {
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+}
+:root .sf-pv-sharebtn {
+  width:100%;
+  height:40px;
+  margin-top:16px;
+  border:0;
+  border-radius:9999px;
+  background:#fff;
+  color:var(--sf-text);
+  font:700 14px/1 var(--sf-font);
+  cursor:pointer;
+}
+:root .sf-pv .buy_btns.pc ._btn_buy.is-disabled {
+  background:var(--sf-border)!important;
+  color:var(--sf-text-3)!important;
+  pointer-events:none;
+}
+:root .sf-pv-guide {
+  margin:0;
+  padding:20px;
+  border-radius:12px;
+  display:grid;
+  gap:12px;
+}
+:root .sf-pv-guide div {
+  display:grid;
+  grid-template-columns:96px 1fr;
+  gap:0;
+}
+:root .sf-pv-guide dd,
+:root .sf-pv-guide dt {
+  color:var(--sf-text-3);
+  font:400 14px/1.5 var(--sf-font);
+}
+:root .sf-pv-guide dd {
+  margin:0;
+  color:var(--sf-text);
+}
+:root .sf-pv-guide--rows {
+  padding:0;
+  gap:0;
+}
+:root .sf-pv-guide--rows div {
+  padding:16px 20px;
+  border-top:1px solid var(--sf-border);
+}
+:root .sf-pv-guide--rows div:first-child {
+  border-top:0;
+}
+:root .sf-pv-guide--rows dt {
+  color:var(--sf-text);
+  font-weight:700;
+}
+:root .sf-pv-more {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,282px));
+  gap:24px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-pv-teacher--s {
+  align-items:center;
+}
+:root .sf-pv-teacher--s .sf-pv-teacher__photo {
+  width:64px;
+  height:64px;
+}
+:root .sf-pv-teacher--s p {
+  margin:4px 0 0;
+}
+:root .sf-pv-meetinfo {
+  padding-top:32px;
+}
+:root .sf-pv-infobox {
+  display:grid;
+  gap:12px;
+  padding:24px;
+  border-radius:12px;
+  background:var(--sf-surface);
+}
+:root .sf-pv-infobox p {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0;
+  font:400 14px/1.5 var(--sf-font);
+}
+:root .sf-pv-infobox b {
+  width:34px;
+  color:var(--sf-text-3);
+  font-weight:400;
+}
+:root .sf-pv-lead {
+  margin:0 0 16px;
+  color:var(--sf-text);
+  font:400 16px/1.6 var(--sf-font);
+}
+:root .sf-pv-map {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:240px;
+  margin-bottom:16px;
+  border-radius:12px;
+  background:var(--sf-surface);
+}
+:root .sf-pv-map svg {
+  width:32px;
+  height:32px;
+}
+@media (max-width:767.98px) {
+  :root .sf-pv--live .sf-pv__side .goods_form {
+    padding:0!important;
+    box-shadow:none;
+  }
+  :root .sf-pv-more {
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:260px;
+    overflow-x:auto;
+  }
+  :root .sf-pv-guide div {
+    grid-template-columns:80px 1fr;
+  }
+}
+:root .sf-pv--live .goods_form header .sf-pv-cd {
+  grid-row:2;
+}
+:root .sf-pv--live .goods_form header .view_tit {
+  grid-row:3;
+}
+:root .sf-pv--live .sf-pv-tabs,
+:root .sf-pv--meet .sf-pv-tabs {
+  display:none;
+}
+:root .sf-pv--live .sf-pv-secs,
+:root .sf-pv--meet .sf-pv-secs {
+  margin-top:8px;
+}
+html.sf-my-on body .sf-my-menu li,
+html.sf-my-on body .sf-my-menu li a {
+  border:0!important;
+}
+@keyframes sf-pulse {
+  0%,
+  to {
+    opacity:1;
+    transform:scale(1);
+  }
+  50% {
+    opacity:.35;
+    transform:scale(.7);
+  }
+}
+html.sf-bv-on body .sf-bv-hide,
+html.sf-bv-on body .sf-bv-sum .avatar,
+html.sf-bv-on body .sf-bv-sum .board_name,
+html.sf-bv-on body .sf-bv-sum .date,
+html.sf-bv-on body .sf-bv-sum .hit-count,
+html.sf-bv-on body .sf-bv-sum .write {
+  display:none!important;
+}

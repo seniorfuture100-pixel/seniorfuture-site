@@ -1,0 +1,80 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 마이페이지 2차 (10/19): 흰 배경 · 결제 내역 카드 · 바로 입장 창 · 프로필 뼈대 · 알림 단추 */
+:root.r2-my body,
+:root.r2-my body #doz_body,
+:root.r2-my body .shop-content.mypage {
+  background:#fff!important;
+}
+:root body .r2-my-mob .r2-my-card {
+  background:#fff;
+}
+:root body .r3-ord-list {
+  display:grid;
+  gap:16px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root body .r3-ord-list .sf-hub-card {
+  display:grid;
+  grid-template-columns:200px 1fr auto;
+  gap:20px;
+  align-items:center;
+  padding:18px;
+  border-radius:16px;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  background:#fff;
+  font-family:var(--sf-font);
+}
+:root body .r3-ord-list .sf-hub-thumb {
+  aspect-ratio:16/9;
+  border-radius:10px;
+}
+:root body .r3-ord-list small {
+  color:var(--sf-text-brand);
+  font:700 13px/1.4 var(--sf-font);
+}
+:root body .r3-ord-list h2 {
+  margin:4px 0 6px;
+  color:var(--sf-text);
+  font:700 17px/1.45 var(--sf-font)!important;
+  letter-spacing:-.02em;
+}
+:root body .r3-enter__acc ol,
+:root body .r3-ord-list p {
+  margin:0;
+  color:var(--sf-text-2);
+  font-size:14px;
+}
+:root body .r3-ord-list .sf-hub-side {
+  display:grid;
+  gap:8px;
+  justify-items:end;
+}
+:root body .r3-ord-list .is-cancel {
+  opacity:.6;
+}
+:root body .r3-ord__go {
+  min-width:140px;
+  cursor:pointer;
+  border:0;
+}
+:root body .r3-ord__detail {
+  color:var(--sf-text-3)!important;
+  font-size:13px;
+  text-decoration:none;
+}
+@media (max-width:767.98px) {
+  :root body .r3-ord-list .sf-hub-card {
+    grid-template-columns:1fr;
+    gap:12px;
+    padding:14px;
+  }
+  :root body .r3-ord-list .sf-hub-side {
+    justify-items:stretch;
+    text-align:center;
+  }
+  :root body .r3-ord__go {
+    width:100%;
+    height:48px;
+  }
+}

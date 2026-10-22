@@ -1,0 +1,28 @@
+/* 화면 묶음: common | 원본: src/sf-layout.css · 최근 검색어 */
+:root .sf-recent-item {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin:0 8px 8px 0;
+  padding:7px 8px 7px 12px;
+  border-radius:9999px;
+  background:var(--sf-surface);
+  font-size:14px;
+}
+:root .sf-recent-item a {
+  color:var(--sf-text-2);
+  text-decoration:none;
+}
+:root .sf-recent-item button {
+  border:0;
+  background:0 0;
+  color:var(--sf-text-3);
+  cursor:pointer;
+  min-width:24px;
+  min-height:24px;
+}
+:root [data-sf-recent-list] {
+  list-style:none;
+  padding:0;
+  margin:0;
+}

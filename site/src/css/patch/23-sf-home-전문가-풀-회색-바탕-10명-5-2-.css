@@ -1,0 +1,222 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · 전문가 풀: 회색 바탕 · 10명 5×2 · 사진 1:1 r24 · 이름 18 · 경력 14 2줄
+   함께 들어 있음: sf-home · 홈 무료 라이브·커뮤니티 카드 (코드 카드 — 상품 목록 위젯은 페이지당 1개라서): Figma Card/Live · Card/Meetup, r2 · 프로필 설정 (핵심 항목만), r3 · 마우스로 끄는 중엔 글자 선택·링크 끌기 막기, r3-pay · 10/21: 첫 화면 깜빡임 없애기 · 할인 가격 · 결제하기 아래 동의 문구 */
+:root .sf-home-expert .sf-sec {
+  padding:64px 0;
+}
+:root .sf-experts10 {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:40px 20px;
+  margin:32px 0 0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-expert10 a {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  color:inherit;
+  text-decoration:none;
+}
+:root .sf-expert10__ph {
+  aspect-ratio:1;
+  border-radius:24px;
+  overflow:hidden;
+  background:var(--sf-border);
+}
+:root .sf-expert10 strong {
+  color:var(--sf-text);
+  font:700 18px/1.45 var(--sf-font);
+  letter-spacing:-.01em;
+}
+:root .sf-expert10__c {
+  display:block;
+  margin-top:6px;
+  color:var(--sf-text-2);
+  font:400 14px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+}
+:root .sf-expert10 a:focus-visible {
+  outline:3px solid var(--sf-text-brand);
+  outline-offset:4px;
+  border-radius:24px;
+}
+@media (max-width:767.98px) {
+  :root .sf-sec {
+    padding:48px 16px 20px;
+  }
+  :root .sf-sec-head h2,
+  :root .sfw-banner__copy strong {
+    font-size:20px;
+    line-height:1.4;
+  }
+  :root .sf-expert10__c,
+  :root .sf-sec-head p {
+    font-size:13px;
+  }
+  :root .sf-sec-head .sf-sec-arrows,
+  :root .sf-top5 .sf-ccard .sf-tags,
+  :root .sf-top5 .sf-ccard p,
+  :root .sfw-banner .sf-peek-pager button,
+  :root .sfw-banner__copy em {
+    display:none;
+  }
+  :root .sf-sec .sf-chips {
+    margin-top:20px;
+    margin-right:-16px;
+    padding-right:16px;
+  }
+  :root .sf-sec-mbtn {
+    display:flex;
+    margin:20px 16px 0;
+  }
+  :root .sfw-banner .sf-track {
+    padding:16px 24px;
+    gap:8px;
+  }
+  :root .sfw-banner__slide {
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    height:360px;
+    padding:24px 24px 0;
+    border-radius:16px;
+  }
+  :root .sfw-banner__copy {
+    gap:8px;
+  }
+  :root .sfw-banner__copy>span:not(.sf-badge) {
+    font-size:14px;
+  }
+  :root .sfw-banner__slide img {
+    width:100%;
+    height:170px;
+    margin-top:auto;
+    border-radius:12px 12px 0 0;
+  }
+  :root .sfw-banner .sf-peek-pager {
+    right:36px;
+    bottom:28px;
+    padding:4px 10px;
+    gap:6px;
+  }
+  :root .sfw-banner__all {
+    display:inline;
+    color:#fff;
+    font:500 12px/1.4 var(--sf-font);
+    text-decoration:none;
+  }
+  :root .sf-home-review .sf-sec {
+    padding:40px 16px;
+  }
+  :root .sf-home-review .sf-track {
+    margin-top:20px;
+    gap:12px;
+  }
+  :root .sf-home-review .sf-review {
+    flex-basis:300px;
+    width:300px;
+  }
+  :root .sf-review__thumb {
+    width:88px;
+    height:66px;
+  }
+  :root .sf-top5 {
+    grid-template-columns:1fr;
+    gap:16px;
+    margin-top:16px;
+  }
+  :root .sf-top5 .sf-ccard,
+  :root .sf-top5>li {
+    flex-direction:row;
+    align-items:center;
+    gap:12px;
+  }
+  :root .sf-top5>li::before {
+    width:20px;
+    flex-shrink:0;
+    text-align:center;
+    font-size:22px;
+    line-height:32px;
+  }
+  :root .sf-top5 .sf-ccard {
+    flex:1;
+  }
+  :root .sf-top5 .sf-ccard__thumb {
+    width:96px;
+    flex-shrink:0;
+    border-radius:6px;
+  }
+  :root .sf-top5 .sf-ccard strong {
+    font-size:14px;
+  }
+  :root .sf-top5 .sf-ccard__meta {
+    display:block;
+    color:var(--sf-text-3);
+    font:400 13px/1.5 var(--sf-font);
+  }
+  :root .sf-top5 .sf-ccard__price {
+    display:block;
+    color:var(--sf-text);
+    font:700 14px/1.5 var(--sf-font);
+  }
+  :root .sf-home-expert .sf-sec {
+    padding:48px 16px 40px;
+  }
+  :root .sf-experts10 {
+    grid-template-columns:none;
+    grid-template-rows:repeat(2,auto);
+    grid-auto-flow:column;
+    grid-auto-columns:148px;
+    gap:24px 12px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    margin:20px -16px 0 0;
+    padding-right:16px;
+  }
+  :root .sf-experts10::-webkit-scrollbar {
+    display:none;
+  }
+  :root .sf-expert10 {
+    scroll-snap-align:start;
+  }
+  :root .sf-expert10__ph {
+    border-radius:16px;
+  }
+  :root .sf-expert10 strong {
+    font-size:16px;
+  }
+}
+:root .sf-cards4 {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:24px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-lcard {
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+:root .sf-lcard .sf-tags {
+  margin-top:8px;
+}
+:root .sf-lcard [data-sf-live-btn] {
+  width:100%;
+  height:40px;
+  margin-top:12px;
+  font:700 14px/1 var(--sf-font);
+  letter-spacing:-.02em;
+}
+:root .sf-lcard [data-sf-live-btn].is-disabled {
+  pointer-events:none;
+}
+:root .sf-mcard .sf-ccard__thumb {
+  aspect-ratio:4/3;
+}
+:root .sf-mcard .sf-tags {
+  margin-top:0;
+}

@@ -1,0 +1,21 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 홈 후기 흐르는 띠 (r3ReviewFlow) — 양쪽 화면 끝까지 */
+:root .sf-home-review .sf-review {
+  flex:0 0 588px;
+  width:588px;
+}
+:root .sf-review__thumb {
+  width:180px;
+  flex-shrink:0;
+  border-radius:8px;
+  object-fit:cover;
+  background:var(--sf-border);
+}
+:root .sf-top5 {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:20px;
+  margin:24px 0 0;
+  padding:0;
+  list-style:none;
+  counter-reset:rank;
+}

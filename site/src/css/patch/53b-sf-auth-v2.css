@@ -1,0 +1,316 @@
+/* 화면 묶음: login-join | 10/22 새 디자인(sf-auth v2) — 로그인·회원가입 선택·약관 동의 창을 한 장의 카드 느낌으로
+   가운데 로고 → 혜택 한 줄 → 노란 카카오 버튼 → 동그란 소셜 아이콘 → 입력칸 → 검정 버튼 → 아래 링크 (auth-view.js 와 짝) */
+:root .sf-auth {
+  max-width:440px;
+  padding:48px 40px 40px!important;
+  border-radius:20px;
+  box-shadow:0 8px 32px rgba(0,0,0,.06);
+}
+:root .sf-auth .sf-auth__head {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:28px;
+  text-align:center;
+}
+:root .sf-auth .sf-auth__head .sf-logo {
+  margin-bottom:16px;
+  font-size:24px;
+}
+:root .sf-auth__sr {
+  position:absolute!important;
+  width:1px;
+  height:1px;
+  margin:-1px!important;
+  padding:0!important;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  white-space:nowrap;
+  border:0;
+}
+:root .sf-auth .sf-auth__promo {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin:0;
+  padding:8px 14px;
+  border-radius:9999px;
+  background:var(--sf-brand-tint);
+  color:var(--sf-text);
+  font:600 13px/1.45 var(--sf-font);
+  word-break:keep-all;
+}
+:root .sf-auth .sf-auth__promo svg {
+  flex:none;
+  width:16px;
+  height:16px;
+  color:var(--sf-primary);
+}
+:root .sf-auth .sns_login_form p {
+  margin:0!important;
+}
+:root .sf-auth a.sf-auth__kakao {
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  height:52px;
+  padding:0 16px;
+  border:0!important;
+  border-radius:12px!important;
+  background:#fee500!important;
+  color:#191600!important;
+  font:700 16px/52px var(--sf-font)!important;
+  letter-spacing:-.01em;
+  text-decoration:none;
+  transition:filter .15s;
+}
+:root .sf-auth a.sf-auth__kakao:hover {
+  filter:brightness(.97);
+}
+:root .sf-auth .sf-auth__kicon {
+  width:22px;
+  height:22px;
+}
+:root .sf-auth__social {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin:16px 0 4px;
+}
+:root .sf-auth a.sf-auth__round,
+:root .sf-auth button.sf-auth__round {
+  display:inline-block!important;
+  width:44px!important;
+  height:44px!important;
+  min-width:0;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:#fff center/22px no-repeat!important;
+  box-shadow:inset 0 0 0 1px var(--sf-border)!important;
+  font-size:0!important;
+}
+:root .sf-auth .sf-auth__round--naver {
+  background:#03c75a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M15.6 12.6 8.1 2H2v20h6.4V11.4L15.9 22H22V2h-6.4z'/%3E%3C/svg%3E") center/18px no-repeat!important;
+  box-shadow:none!important;
+}
+:root .sf-auth .sf-auth__round--google {
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234285F4' d='M22.5 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2.1-1.9 3.3-4.7 3.3-8z'/%3E%3Cpath fill='%2334A853' d='M12 23c3 0 5.5-1 7.3-2.7l-3.5-2.7c-1 .7-2.3 1.1-3.8 1.1-2.9 0-5.4-2-6.3-4.6H2.1v2.8A11 11 0 0 0 12 23z'/%3E%3Cpath fill='%23FBBC05' d='M5.7 14.1a6.6 6.6 0 0 1 0-4.2V7.1H2.1a11 11 0 0 0 0 9.8z'/%3E%3Cpath fill='%23EA4335' d='M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2A11 11 0 0 0 2.1 7.1l3.6 2.8C6.6 7.3 9.1 5.4 12 5.4z'/%3E%3C/svg%3E")!important;
+}
+:root .sf-auth .sf-auth__round--apple {
+  background:#000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M16.4 12.6c0-2.4 2-3.6 2.1-3.7a4.6 4.6 0 0 0-3.6-2c-1.5-.2-3 .9-3.7.9s-2-.9-3.2-.8A4.8 4.8 0 0 0 4 9.4c-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4a10 10 0 0 0 1.4-2.8 4.3 4.3 0 0 1-2.6-3.8zM14 5.3A4.3 4.3 0 0 0 15 2a4.4 4.4 0 0 0-2.9 1.5 4.1 4.1 0 0 0-1 3.1A3.6 3.6 0 0 0 14 5.3z'/%3E%3C/svg%3E") center/20px no-repeat!important;
+  box-shadow:none!important;
+}
+:root .sf-auth--login form {
+  margin-top:24px;
+  padding-top:24px;
+  border-top:1px solid var(--sf-border);
+}
+:root .sf-auth--login .input_block {
+  gap:10px!important;
+}
+:root .sf-auth .input_form input {
+  height:52px!important;
+  border-radius:12px!important;
+}
+:root .sf-auth .input_form .right-icons {
+  bottom:16px;
+}
+:root .sf-auth form .btn-primary {
+  height:52px!important;
+  margin-top:20px;
+  border-radius:12px!important;
+  font:700 16px/52px var(--sf-font)!important;
+  transition:background .15s;
+}
+:root .sf-auth form .btn-primary:hover {
+  background:#000!important;
+}
+:root .sf-auth .cheak_article .agree_tit {
+  font-size:13px;
+}
+:root .sf-auth__links {
+  gap:0;
+  margin-top:20px;
+  font:400 13px/1.5 var(--sf-font);
+  color:var(--sf-text-3);
+}
+:root .sf-auth__links>span {
+  margin-right:8px;
+}
+:root .sf-auth__links>span+a {
+  font-weight:700;
+  color:var(--sf-text)!important;
+}
+:root .sf-auth--join .divider {
+  display:flex!important;
+  align-items:center;
+  gap:12px;
+  margin:20px 0!important;
+  color:var(--sf-text-3);
+  font:400 13px/1 var(--sf-font);
+}
+:root .sf-auth--join .divider .border {
+  position:static!important;
+  flex:1;
+  width:auto!important;
+  height:1px;
+  border:0!important;
+  background:var(--sf-border);
+}
+:root .sf-auth a.sf-auth__mail {
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  height:52px;
+  margin:0;
+  padding:0!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text)!important;
+  font:700 15px/1 var(--sf-font)!important;
+  text-align:center;
+  text-decoration:none;
+}
+:root .sf-auth a.sf-auth__mail:hover {
+  box-shadow:inset 0 0 0 1px var(--sf-text);
+}
+:root .sf-auth a:focus-visible,
+:root .sf-auth button:focus-visible {
+  outline:2px solid var(--sf-primary);
+  outline-offset:2px;
+}
+#cocoaModal.modal_site_join_policy .modal-dialog,
+#cocoaModal:has(.modal_article.login) .modal-dialog {
+  max-width:480px;
+  width:calc(100% - 32px);
+  margin:48px auto;
+}
+#cocoaModal.modal_site_join_policy .modal-content,
+#cocoaModal:has(.modal_article.login) .modal-content {
+  border:0;
+  border-radius:20px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 16px 48px rgba(0,0,0,.16);
+}
+#cocoaModal .modal_article.login {
+  padding:40px 32px 32px!important;
+  background:#fff;
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+}
+#cocoaModal .modal_article.login h2 {
+  margin:0 0 24px;
+  text-align:center;
+  font:700 22px/1.35 var(--sf-font);
+  letter-spacing:-.02em;
+}
+#cocoaModal .modal_article.login .all-check {
+  margin-bottom:16px;
+  padding:14px 16px;
+  border-radius:12px;
+  background:var(--sf-surface);
+}
+#cocoaModal .modal_article.login .all-check .check,
+#cocoaModal .modal_article.login .all-check .checkbox {
+  margin:0!important;
+  padding:0!important;
+}
+#cocoaModal .modal_article.login .all-check .agree_tit {
+  font-weight:700;
+}
+#cocoaModal .modal_article.login .agree_tit,
+#cocoaModal .modal_article.login .form-label>span {
+  font:400 14px/1.5 var(--sf-font);
+  color:var(--sf-text);
+}
+#cocoaModal .modal_article.login em.alert {
+  margin-left:4px;
+  padding:0;
+  color:var(--sf-primary);
+  font-style:normal;
+}
+#cocoaModal .modal_article.login .form-group.privacy>div {
+  height:88px!important;
+  border:0!important;
+  border-radius:10px!important;
+  background:var(--sf-surface)!important;
+  color:var(--sf-text-2)!important;
+  font:400 12px/1.6 var(--sf-font);
+}
+#cocoaModal .modal_article.login input[type=checkbox] {
+  accent-color:var(--sf-dark);
+}
+#cocoaModal .modal_article.login input[type=text],
+#cocoaModal .modal_article.login input[type=email],
+#cocoaModal .modal_article.login input[type=tel],
+#cocoaModal .modal_article.login input[type=password] {
+  height:52px;
+  padding:0 16px;
+  border:0!important;
+  border-radius:12px!important;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  font:400 15px/1.5 var(--sf-font);
+}
+#cocoaModal .modal_article.login input[type=text]:focus,
+#cocoaModal .modal_article.login input[type=email]:focus,
+#cocoaModal .modal_article.login input[type=tel]:focus,
+#cocoaModal .modal_article.login input[type=password]:focus {
+  box-shadow:inset 0 0 0 2px var(--sf-text);
+  outline:0;
+}
+#cocoaModal .modal_article.login .btn-block {
+  display:flex;
+  gap:8px;
+  margin-top:24px;
+}
+#cocoaModal .modal_article.login .btn-block .btn {
+  flex:1;
+  float:none!important;
+  width:auto!important;
+  height:52px;
+  margin:0!important;
+  padding:0!important;
+  border-radius:12px!important;
+  font:700 16px/52px var(--sf-font)!important;
+}
+#cocoaModal .modal_article.login .btn-default {
+  border:0!important;
+  background:#fff!important;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text)!important;
+}
+#cocoaModal .modal_article.login .btn-primary {
+  border:0!important;
+  background:var(--sf-dark)!important;
+  color:#fff!important;
+}
+@media (max-width:767.98px) {
+  :root .sf-auth {
+    max-width:none;
+    padding:40px 20px 32px!important;
+    border-radius:0;
+    box-shadow:none;
+  }
+  :root .sf-auth .sf-auth__promo {
+    align-items:flex-start;
+    border-radius:12px;
+    font-size:12px;
+    text-align:left;
+  }
+  :root .sf-auth .sf-auth__promo svg {
+    margin-top:1px;
+  }
+  #cocoaModal.modal_site_join_policy .modal-dialog,
+  #cocoaModal:has(.modal_article.login) .modal-dialog {
+    margin:16px auto;
+  }
+  #cocoaModal .modal_article.login {
+    padding:32px 20px 24px!important;
+  }
+}

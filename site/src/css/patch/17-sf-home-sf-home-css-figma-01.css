@@ -1,0 +1,25 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · sf-home.css — Figma 01 홈 섹션 공통 (SectionHeader · 칩 · 메인 배너 · BEST REVIEW · TOP 5 · 전문가 풀)
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root .sf-arrow--pill {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:22px;
+  height:40px;
+  padding:0;
+  border-radius:9999px;
+  font-size:0;
+}
+:root .sf-arrow--pill svg {
+  width:20px;
+  height:20px;
+  stroke:var(--sf-text);
+  stroke-width:2;
+  fill:none;
+}
+:root .sf-arrow--pill[disabled] svg {
+  stroke:var(--sf-text-disabled);
+}
+:root .sf-sec-mbtn {
+  display:none;
+}

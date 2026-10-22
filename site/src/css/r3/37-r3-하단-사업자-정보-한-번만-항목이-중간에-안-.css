@@ -1,0 +1,15 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 하단: 사업자 정보 한 번만 · 항목이 중간에 안 끊기게 */
+:root body .r3-ft-co {
+  display:flex!important;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:4px 0;
+}
+:root body .r3-ft-co>span {
+  white-space:nowrap;
+}
+:root body .r3-ft-co>i {
+  margin:0 8px;
+  font-style:normal;
+  opacity:.5;
+}

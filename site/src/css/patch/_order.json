@@ -1,0 +1,465 @@
+[
+ {
+  "file": "01-sf-header-교육-드롭다운-figma-navd.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 1
+ },
+ {
+  "file": "02-sf-header-sf-header-css-figm.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 4
+ },
+ {
+  "file": "03-sf-header-띠배너-figma-topbanne.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 5
+ },
+ {
+  "file": "04-sf-header-교육-드롭다운-figma-navd.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 6
+ },
+ {
+  "file": "05-sf-header-pc-오른쪽-묶음-검색-24-파트.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 12
+ },
+ {
+  "file": "06-sf-header-전체-메뉴-figma-mobile.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 14
+ },
+ {
+  "file": "07-sf-header-검색-figma-pc-검색-입력-.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 9
+ },
+ {
+  "file": "08-sf-header-검색-figma-pc-검색-입력-.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 14
+ },
+ {
+  "file": "09-r2-글-카드-움직임-best-카드와-같게-썸네일-.css",
+  "screen": "pages-r2",
+  "src": "r2",
+  "rules": 3
+ },
+ {
+  "file": "10-sf-header-카톡-상담-버튼-figma-flo.css",
+  "screen": "common",
+  "src": "sf-header",
+  "rules": 5
+ },
+ {
+  "file": "11-r3-partner-3-걱정-답-말풍선.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 9
+ },
+ {
+  "file": "12-sf-shop-sf-shop-css-아임웹-상품-목.css",
+  "screen": "course-list",
+  "src": "sf-shop",
+  "rules": 7
+ },
+ {
+  "file": "13-sf-shop-sf-shop-css-아임웹-상품-목.css",
+  "screen": "course-list",
+  "src": "sf-shop",
+  "rules": 10
+ },
+ {
+  "file": "14-sf-shop-목록-머리-총-n개-정렬-와-페이지-.css",
+  "screen": "course-list",
+  "src": "sf-shop",
+  "rules": 24
+ },
+ {
+  "file": "15-sf-home-홈-무료-라이브-커뮤니티-카드-코드-.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 5
+ },
+ {
+  "file": "16-sf-home-sf-home-css-figma-01.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 16
+ },
+ {
+  "file": "17-sf-home-sf-home-css-figma-01.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 4
+ },
+ {
+  "file": "18-sf-home-메인-배너-figma-slide-80.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 13
+ },
+ {
+  "file": "19-sf-home-best-review-회색-바탕-f2.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 3
+ },
+ {
+  "file": "20-r3-홈-후기-흐르는-띠-r3reviewflow-양.css",
+  "screen": "pages-r3",
+  "src": "r3",
+  "rules": 3
+ },
+ {
+  "file": "21-sf-home-이달의-best-강의-top-5-순위.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 6
+ },
+ {
+  "file": "22-sf-home-이달의-best-강의-top-5-순위.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 8
+ },
+ {
+  "file": "23-sf-home-전문가-풀-회색-바탕-10명-5-2-.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 15
+ },
+ {
+  "file": "24-sf-home-홈-무료-라이브-커뮤니티-카드-코드-.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 8
+ },
+ {
+  "file": "25-sf-home-홈-무료-라이브-커뮤니티-카드-코드-.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 4
+ },
+ {
+  "file": "26-sf-board-sf-board-css-아임웹-게시.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 7
+ },
+ {
+  "file": "27-sf-board-sf-board-css-아임웹-게시.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 6
+ },
+ {
+  "file": "28-sf-board-sf-board-css-아임웹-게시.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 7
+ },
+ {
+  "file": "29-sf-board-페이지-번호-figma-pagina.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 5
+ },
+ {
+  "file": "30-sf-home-목록-페이지-머리-figma-교육-무.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 7
+ },
+ {
+  "file": "31-sf-home-목록-페이지-머리-figma-교육-무.css",
+  "screen": "home",
+  "src": "sf-home",
+  "rules": 12
+ },
+ {
+  "file": "32-sf-board-인사이트-best-카드-뉴스레터-구.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 12
+ },
+ {
+  "file": "33-sf-board-인사이트-best-카드-뉴스레터-구.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 7
+ },
+ {
+  "file": "34-sf-board-카드-아래-정보-작성자-날짜-조회수.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 5
+ },
+ {
+  "file": "35-sf-board-페이지-머리-오른쪽-버튼-figma.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 3
+ },
+ {
+  "file": "36-sf-board-수강평-목록-3열-아임웹-4개씩-줄.css",
+  "screen": "insight",
+  "src": "sf-board",
+  "rules": 15
+ },
+ {
+  "file": "37-sf-product-sf-product-css-교육.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 4
+ },
+ {
+  "file": "38-sf-product-구매-박스.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 5
+ },
+ {
+  "file": "39-sf-product-구매-박스.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 10
+ },
+ {
+  "file": "40-sf-product-구매-박스.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 4
+ },
+ {
+  "file": "41-sf-product-구매-박스.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 5
+ },
+ {
+  "file": "42-sf-product-구매-박스.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 6
+ },
+ {
+  "file": "43-sf-product-탭-섹션.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 6
+ },
+ {
+  "file": "44-sf-product-탭-섹션.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 11
+ },
+ {
+  "file": "45-sf-product-탭-섹션.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 8
+ },
+ {
+  "file": "46-sf-product-탭-섹션.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 14
+ },
+ {
+  "file": "47-sf-product-탭-섹션.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 8
+ },
+ {
+  "file": "48-r2-회사소개-언론에-소개된-시니어퓨처-당근식.css",
+  "screen": "pages-r2",
+  "src": "r2",
+  "rules": 6
+ },
+ {
+  "file": "49-sf-product-구매-박스-정렬-보정-아임웹-기.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 7
+ },
+ {
+  "file": "50-sf-auth-sf-auth-css-로그인-회원가입.css",
+  "screen": "login-join",
+  "src": "sf-auth",
+  "rules": 16
+ },
+ {
+  "file": "51-sf-auth-sf-auth-css-로그인-회원가입.css",
+  "screen": "login-join",
+  "src": "sf-auth",
+  "rules": 5
+ },
+ {
+  "file": "52-sf-auth-소셜-로그인-버튼-관리자에서-켜면-나.css",
+  "screen": "login-join",
+  "src": "sf-auth",
+  "rules": 4
+ },
+ {
+  "file": "53-sf-auth-회원가입-약관-동의.css",
+  "screen": "login-join",
+  "src": "sf-auth",
+  "rules": 7
+ },
+ {
+  "file": "53b-sf-auth-v2.css",
+  "screen": "login-join",
+  "src": "sf-auth",
+  "rules": 0,
+  "note": "10/22 새 디자인"
+ },
+ {
+  "file": "54-sf-search-sf-search-css-검색-결.css",
+  "screen": "search",
+  "src": "sf-search",
+  "rules": 14
+ },
+ {
+  "file": "55-sf-search-sf-search-css-검색-결.css",
+  "screen": "search",
+  "src": "sf-search",
+  "rules": 14
+ },
+ {
+  "file": "56-sf-search-sf-search-css-검색-결.css",
+  "screen": "search",
+  "src": "sf-search",
+  "rules": 4
+ },
+ {
+  "file": "57-sf-mypage-sf-mypage-css-마이페이.css",
+  "screen": "mypage",
+  "src": "sf-mypage",
+  "rules": 21
+ },
+ {
+  "file": "58-sf-product-무료-라이브-상세-figma-2.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 3
+ },
+ {
+  "file": "59-r2-로그인-상태-헤더-월부식-알림-사진-내-강의실.css",
+  "screen": "pages-r2",
+  "src": "r2",
+  "rules": 3
+ },
+ {
+  "file": "60-sf-product-무료-라이브-상세-figma-2.css",
+  "screen": "course-detail",
+  "src": "sf-product",
+  "rules": 37
+ },
+ {
+  "file": "61-sf-boardview-sf-boardview-cs.css",
+  "screen": "insight",
+  "src": "sf-boardview",
+  "rules": 9
+ },
+ {
+  "file": "62-sf-boardview-sf-boardview-cs.css",
+  "screen": "insight",
+  "src": "sf-boardview",
+  "rules": 8
+ },
+ {
+  "file": "63-sf-boardview-sf-boardview-cs.css",
+  "screen": "insight",
+  "src": "sf-boardview",
+  "rules": 12
+ },
+ {
+  "file": "64-sf-boardview-sf-boardview-cs.css",
+  "screen": "insight",
+  "src": "sf-boardview",
+  "rules": 32
+ },
+ {
+  "file": "65-sf-boardview-sf-boardview-cs.css",
+  "screen": "insight",
+  "src": "sf-boardview",
+  "rules": 5
+ },
+ {
+  "file": "66-sf-boardview-sf-boardview-cs.css",
+  "screen": "insight",
+  "src": "sf-boardview",
+  "rules": 7
+ },
+ {
+  "file": "67-r2-글-카드-움직임-best-카드와-같게-썸네일-.css",
+  "screen": "pages-r2",
+  "src": "r2",
+  "rules": 18
+ },
+ {
+  "file": "68-sf-sitemotion-모바일-하단-탭-숨김.css",
+  "screen": "common",
+  "src": "sf-sitemotion",
+  "rules": 13
+ },
+ {
+  "file": "69-sf-notice-sf-notice-css-공지사항.css",
+  "screen": "notice",
+  "src": "sf-notice",
+  "rules": 19
+ },
+ {
+  "file": "70-r2-검색-pc는-헤더-아래-패널-월부식-최근-인기.css",
+  "screen": "pages-r2",
+  "src": "r2",
+  "rules": 10
+ },
+ {
+  "file": "71-sf-fixes-교육-상세-신청-버튼-글자-가운데-.css",
+  "screen": "common",
+  "src": "sf-fixes",
+  "rules": 4
+ },
+ {
+  "file": "72-sf-fixes-인사이트-상세-본문-위-여백-인용-.css",
+  "screen": "common",
+  "src": "sf-fixes",
+  "rules": 7
+ },
+ {
+  "file": "73-sf-fixes-아임웹-알림창-입력폼-안내-확인-창.css",
+  "screen": "common",
+  "src": "sf-fixes",
+  "rules": 7
+ },
+ {
+  "file": "74-sf-fixes-아이디-비밀번호-찾기-창.css",
+  "screen": "common",
+  "src": "sf-fixes",
+  "rules": 15
+ },
+ {
+  "file": "75-sf-fixes-수강평-목록-메타-이름-가림-강의명.css",
+  "screen": "common",
+  "src": "sf-fixes",
+  "rules": 7
+ },
+ {
+  "file": "76-sf-fixes-무료-라이브-신청-완료-카드-fig.css",
+  "screen": "common",
+  "src": "sf-fixes",
+  "rules": 18
+ }
+]

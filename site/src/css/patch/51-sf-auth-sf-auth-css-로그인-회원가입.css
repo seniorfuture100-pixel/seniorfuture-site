@@ -1,0 +1,36 @@
+/* 화면 묶음: login-join | 원본: src/sf-auth.css · sf-auth.css — 로그인·회원가입 카드 (auth-view.js 와 짝) — Figma PC/로그인 29:2839·29:2930, PC/회원가입 29:3025
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root .sf-auth form .btn-primary {
+  height:48px!important;
+  margin-top:20px;
+  border:0!important;
+  border-radius:9999px!important;
+  background:var(--sf-dark)!important;
+  color:#fff!important;
+  font:700 16px/48px var(--sf-font)!important;
+  padding:0!important;
+}
+:root .sf-auth__links {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:0;
+  margin-top:16px;
+}
+:root .sf-auth__links a {
+  color:var(--sf-text-2)!important;
+  text-decoration:none;
+}
+:root .sf-auth__links a+a::before {
+  content:"";
+  display:inline-block;
+  width:1px;
+  height:10px;
+  margin:0 12px;
+  background:var(--sf-border);
+  vertical-align:middle;
+}
+:root .sf-auth>.divider,
+:root .sf-auth>p.txt_c.mb20 {
+  display:none!important;
+}

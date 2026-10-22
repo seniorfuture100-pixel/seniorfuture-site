@@ -1,0 +1,37 @@
+/* 화면 묶음: partner | 원본: src/r3-partner.css · 2. 숫자 */
+:root body .r3ap .r3ap-nums ul {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  max-width:880px;
+  margin:-56px auto 0;
+  padding:0;
+  list-style:none;
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 1px 0 rgba(0,0,0,.04),0 20px 48px rgba(30,20,10,.08);
+}
+:root body .r3ap .r3ap-nums li {
+  display:grid;
+  gap:6px;
+  justify-items:center;
+  padding:32px 12px;
+  text-align:center;
+}
+:root body .r3ap .r3ap-nums li+li {
+  box-shadow:inset 1px 0 0 var(--sf-border,#e5e7eb);
+}
+:root body .r3ap .r3ap-nums b {
+  font-size:40px;
+  line-height:1.15;
+  letter-spacing:-1px;
+}
+:root body .r3ap .r3ap-nums span {
+  color:var(--sf-text-2,#4d5159);
+  font-size:16px;
+}
+:root body .r3ap .r3ap-note {
+  margin:14px 0 0;
+  text-align:center;
+  color:var(--sf-text-3,#80848c);
+  font-size:13px;
+}

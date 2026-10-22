@@ -1,0 +1,97 @@
+/* 화면 묶음: partner | 원본: src/sf-partners.css · 마케팅 파트너스 (/partners) — Figma 02 PC · 03 모바일 '10' 섹션 */
+:root .sf-pt-faq [data-sf-acc-trigger] {
+  padding:24px 0;
+  font-size:18px;
+  font-weight:700;
+}
+:root .sf-pt-cta .sf-row {
+  justify-content:center;
+  margin-top:32px;
+}
+@media (max-width:767.98px) {
+  :root .sf-pt section {
+    padding:56px 20px;
+  }
+  :root .sf-pt h1 {
+    font-size:34px;
+    letter-spacing:-1px;
+  }
+  :root .sf-pt h2 {
+    font-size:24px;
+    letter-spacing:-.5px;
+  }
+  :root .sf-pt-lead {
+    font-size:16px;
+  }
+  :root .sf-pt-hero .sf-btn {
+    width:100%;
+  }
+  :root .sf-pt-stats {
+    gap:8px;
+  }
+  :root .sf-pt-stats li {
+    flex:1;
+    padding:14px 8px;
+  }
+  :root .sf-pt-stats b {
+    font-size:18px;
+  }
+  :root .sf-pt-stats span {
+    font-size:12px;
+  }
+  :root .sf-pt-story {
+    grid-template-columns:1fr;
+  }
+  :root .sf-pt-ben,
+  :root .sf-pt-cmp,
+  :root .sf-pt-ex,
+  :root .sf-pt-steps {
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  :root .sf-pt-story {
+    gap:24px;
+  }
+  :root .sf-pt-chat {
+    padding:20px;
+  }
+  :root .sf-pt-who {
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  :root .sf-pt-who li {
+    padding:16px;
+  }
+  :root .sf-pt-ben div,
+  :root .sf-pt-cmp div,
+  :root .sf-pt-ex article,
+  :root .sf-pt-steps li {
+    padding:20px;
+  }
+  :root .sf-pt-ben b,
+  :root .sf-pt-cmp b {
+    font-size:32px;
+  }
+  :root .sf-pt-steps b {
+    font-size:18px;
+  }
+  :root .sf-pt-code {
+    display:flex;
+  }
+  :root .sf-pt-code b {
+    flex:1;
+    font-size:20px;
+  }
+  :root .sf-pt-cta .sf-row .sf-btn {
+    flex:1 1 100%;
+  }
+}
+:root .sf-ap-grid,
+:root .sf-ap-ways {
+  display:grid;
+  gap:20px;
+  margin-top:40px;
+}
+:root .sf-ap-grid {
+  grid-template-columns:repeat(4,1fr);
+}

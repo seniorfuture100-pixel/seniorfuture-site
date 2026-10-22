@@ -1,0 +1,54 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · sf-board.css — 아임웹 게시판 갤러리·최신글 위젯을 Figma Card/Insight 로 (인사이트·수강평·홈 최신글)
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-body {
+  padding:12px 0 0!important;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-body .title {
+  max-height:calc(13px*1.5 + 8px + 16px*1.5*2);
+  overflow:hidden;
+  color:var(--sf-text)!important;
+  font:700 16px/1.5 var(--sf-font)!important;
+  letter-spacing:-.02em;
+  white-space:normal!important;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-body .title em {
+  display:block!important;
+  margin-bottom:8px;
+  padding:0!important;
+  color:var(--sf-text-brand)!important;
+  font:500 13px/1.5 var(--sf-font);
+  font-style:normal;
+  letter-spacing:-.01em;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-body .text {
+  display:-webkit-box!important;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  margin:0!important;
+  color:var(--sf-text-2)!important;
+  font:400 14px/1.5 var(--sf-font)!important;
+  letter-spacing:-.02em;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-summary {
+  padding:8px 0 0!important;
+  border:0!important;
+}
+:root :is(.list-style-gallery,
+.list-style.type_grid) ._card_foot,
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-summary .avatar .name,
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-summary .avatar img,
+:root :is(.list-style-gallery,
+.list-style.type_grid) .card-summary .avatar strong {
+  display:none!important;
+}

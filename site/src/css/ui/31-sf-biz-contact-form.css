@@ -1,0 +1,121 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · Contact + form */
+:root .sf-contact {
+  display:grid;
+  grid-template-columns:1fr 620px;
+  gap:56px;
+  align-items:start;
+}
+:root .sf-contact .sf-lead {
+  margin:24px 0;
+}
+:root .sf-contact ul {
+  margin:24px 0 0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:10px;
+  color:var(--sf-text-2);
+  font-size:14px;
+}
+:root .sf-metrics dt {
+  font-size:14px;
+  font-weight:700;
+}
+@media (max-width:767.98px) {
+  :root .sf-biz section {
+    padding:72px 20px;
+  }
+  :root .sf-biz h1 {
+    font-size:34px;
+    letter-spacing:-1px;
+  }
+  :root .sf-biz h2 {
+    font-size:24px;
+    letter-spacing:-.5px;
+    margin-bottom:20px;
+  }
+  :root .sf-biz h3 {
+    font-size:20px;
+  }
+  :root .sf-lead {
+    font-size:16px;
+  }
+  :root .sf-cases,
+  :root .sf-contact,
+  :root .sf-hero-grid,
+  :root .sf-why {
+    grid-template-columns:1fr;
+  }
+  :root .sf-diagram {
+    display:none;
+  }
+  :root .sf-hero-grid .sf-row .sf-btn {
+    flex:1 1 100%;
+  }
+  :root .sf-segment {
+    display:flex;
+  }
+  :root .sf-segment [role=tab] {
+    flex:1;
+    padding:0 8px;
+    font-size:14px;
+  }
+  :root .sf-steps {
+    grid-template-columns:1fr;
+    row-gap:0;
+  }
+  :root .sf-steps>li {
+    display:block;
+    position:relative;
+    padding-left:0;
+  }
+  :root .sf-steps [data-sf-step] {
+    flex-direction:row;
+    align-items:center;
+    gap:12px;
+    width:100%;
+  }
+  :root .sf-steps [data-sf-step]::after {
+    right:auto;
+    width:2px;
+    height:calc(100% - 44px);
+  }
+  :root .sf-step__label {
+    display:none;
+  }
+  :root .sf-step__name {
+    font-size:16px;
+  }
+  :root [data-sf-step-panel] {
+    display:block;
+    margin:4px 0 12px 56px;
+    padding:16px;
+    border-radius:12px;
+  }
+  :root [data-sf-step-panel] .sf-out {
+    margin-top:12px;
+    padding:14px;
+  }
+  :root .sf-why {
+    gap:12px;
+    margin-bottom:32px;
+  }
+  :root .sf-why article {
+    padding:20px;
+  }
+  :root .sf-metrics {
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  :root .sf-metrics div {
+    padding:14px;
+  }
+  :root .sf-metrics dd {
+    font-size:18px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root .sf-biz * {
+    transition:none!important;
+  }
+}

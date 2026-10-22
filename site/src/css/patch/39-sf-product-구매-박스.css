@@ -1,0 +1,58 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 구매 박스
+   함께 들어 있음: r3-pay · 10/21: 첫 화면 깜빡임 없애기 · 할인 가격 · 결제하기 아래 동의 문구, sf-product · 구매 박스, r3-partner · CONTACT: 바로 옆에 문의 폼이 있어서 버튼 두 개는 빼요, r2 · 알림 서랍 (월부식): 아임웹 알림 패널을 오른쪽에서 넓게, r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root .sf-pv .pay_detail .real_price {
+  color:var(--sf-text)!important;
+  font:700 28px/1.4 var(--sf-font)!important;
+  letter-spacing:-.02em;
+}
+:root .sf-pv-was {
+  display:flex;
+  gap:6px;
+  font:500 16px/1.5 var(--sf-font);
+}
+:root .sf-pv-was b {
+  color:var(--sf-text-brand);
+  font-weight:700;
+}
+:root .sf-pv-crumb a,
+:root .sf-pv-was s {
+  color:var(--sf-text-3);
+}
+:root .sf-pv .comment_num_warp {
+  position:absolute;
+  top:45px;
+  right:0;
+}
+:root .sf-pv .goods_form {
+  position:relative;
+}
+:root .sf-pv .comment_num {
+  width:44px;
+  height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9999px!important;
+  background:0 0!important;
+  color:var(--sf-text)!important;
+}
+:root .sf-pv .comment_num:hover {
+  background:var(--sf-surface)!important;
+}
+:root .sf-pv #prod_deliv_setting,
+:root .sf-pv ._today_arrival_wrap,
+:root .sf-pv .buy_btns.pc ._btn_cart,
+:root .sf-pv .categorize-mobile.buy_btns,
+:root .sf-pv .goods_summary,
+:root .sf-pv .item_detail,
+:root .sf-pv .opt-group-bg,
+:root .sf-pv .order_quantity_area,
+:root .sf-pv .prod-detail-coupon-container-style-a {
+  display:none!important;
+}
+:root .sf-pv .opt-group {
+  position:static!important;
+  padding:0!important;
+  background:0 0!important;
+  box-shadow:none!important;
+}

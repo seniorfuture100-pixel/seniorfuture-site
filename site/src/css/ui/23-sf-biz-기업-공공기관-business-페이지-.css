@@ -1,0 +1,26 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · 기업·공공기관(/business) 페이지 (biz.js) — Figma 02 PC · 03 모바일 '06 기업 · 공공기관'
+   함께 들어 있음: r2 · 알림 서랍 (월부식): 아임웹 알림 패널을 오른쪽에서 넓게, sf-biz · 기업·공공기관(/business) 페이지 (biz.js) — Figma 02 PC · 03 모바일 '06 기업 · 공공기관', r2 · 검색: PC는 헤더 아래 패널 (월부식) · 최근 / 인기 2칸 */
+:root .sf-biz {
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+}
+:root .sf-biz section {
+  padding:140px 16px;
+}
+:root .sf-biz .sf-wrap {
+  max-width:1200px;
+  margin:0 auto;
+}
+:root .sf-biz .is-soft {
+  background:var(--sf-surface);
+}
+:root .sf-biz .is-dark {
+  background:#1a1c20;
+  color:#fff;
+}
+:root .sf-biz h1,
+:root .sf-biz h2,
+:root .sf-biz h3,
+:root .sf-biz p {
+  margin:0;
+}

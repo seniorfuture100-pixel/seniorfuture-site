@@ -1,0 +1,31 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 상세 공유 아이콘 · 추천 링크 작은 창 (10/20)
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+html.sf-pv-on body .comment_num_warp .bt-share {
+  width:20px!important;
+  height:20px!important;
+  background:no-repeat center/20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e1e1e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='2.6'/%3E%3Ccircle cx='6' cy='12' r='2.6'/%3E%3Ccircle cx='18' cy='19' r='2.6'/%3E%3Cpath d='M8.3 10.8l7.4-4.3M8.3 13.2l7.4 4.3'/%3E%3C/svg%3E")!important;
+}
+html.sf-pv-on body .comment_num_warp .comment_num {
+  width:44px!important;
+  height:44px!important;
+  border-radius:10px!important;
+}
+@media (max-width:767.98px) {
+  html.sf-pv-on body .sf-pv .goods_form header .comment_num_warp {
+    display:block!important;
+  }
+}
+:root .r3-spop {
+  position:absolute;
+  z-index:9997;
+  box-sizing:border-box;
+  padding:24px;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 12px 40px rgba(17,24,39,.18),0 0 0 1px rgba(17,24,39,.06);
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+}
+:root .r3-spop[hidden] {
+  display:none;
+}

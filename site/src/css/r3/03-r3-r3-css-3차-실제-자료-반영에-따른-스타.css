@@ -1,0 +1,38 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · r3.css — 3차: 실제 자료 반영에 따른 스타일 (공통 코드 Header 끝 <style id="sf-r3-css">) */
+:root body .r3-ft-ch {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  max-width:1200px;
+  margin:28px auto 0;
+}
+:root body .r3-ft-ch a {
+  display:inline-flex;
+  align-items:center;
+  height:32px;
+  padding:0 12px;
+  border-radius:999px;
+  background:#2b2b2e;
+  color:#d4d6da!important;
+  font:500 13px/1 var(--sf-font);
+  text-decoration:none!important;
+  transition:background .2s var(--sf-ease),color .2s var(--sf-ease);
+}
+:root body .r3-ft-ch a:hover {
+  background:#fff;
+  color:#191919!important;
+}
+:root body .r3-ft-co {
+  max-width:1200px;
+  margin:20px auto 0;
+  color:#868b94;
+  font:400 12px/1.8 var(--sf-font);
+}
+:root body .r3-ft-co i {
+  margin:0 8px;
+  font-style:normal;
+  opacity:.5;
+}
+:root body .r3-ft-co a {
+  color:#b0b3ba!important;
+}

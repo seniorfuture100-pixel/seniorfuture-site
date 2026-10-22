@@ -1,0 +1,66 @@
+/* 화면 묶음: common | 원본: src/sf-sitemotion.css · 모바일 하단 탭 숨김
+   함께 들어 있음: sf-product · 함께 보면 좋은 강의 (product-related.js), sf-biz · 기업·공공기관(/business) 페이지 (biz.js) — Figma 02 PC · 03 모바일 '06 기업 · 공공기관', sf-auth · sf-auth.css — 로그인·회원가입 카드 (auth-view.js 와 짝) — Figma PC/로그인 29:2839·29:2930, PC/회원가입 29:3025, r2 · 프로필 설정 (핵심 항목만), r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root [data-sf-tabbar] {
+  transition:transform .25s var(--sf-ease);
+}
+:root [data-sf-tabbar].is-hidden {
+  transform:translateY(110%);
+}
+@media (max-width:767.98px) {
+  :root .sf-top {
+    right:16px;
+    bottom:84px;
+    width:44px;
+    height:44px;
+  }
+  html.sf-tabbar-hidden .sf-top {
+    bottom:20px;
+  }
+}
+@media (prefers-reduced-motion:no-preference) {
+  html {
+    scroll-behavior:smooth;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root .sf-rv {
+    opacity:1!important;
+    transform:none!important;
+  }
+}
+:root .sf-pv-related {
+  border-top:1px solid var(--sf-border);
+  padding:64px 16px;
+}
+:root .sf-pv-related__in {
+  max-width:1200px;
+  margin:0 auto;
+}
+:root .sf-pv-related .sf-sec-head {
+  margin-bottom:24px;
+}
+@media (max-width:767.98px) {
+  :root .sf-pv-related {
+    padding:40px 16px 96px;
+  }
+}
+html.sf-pv-on body .categorize.review-box[hidden],
+html.sf-pv-on body .detail_review_wrap[hidden],
+html.sf-pv-on body [hidden].goods_wrapper {
+  display:none!important;
+}
+:root .sf-shop--live .sf-shop-cta {
+  order:11;
+}
+:root .sf-shop--live .iw-shop-product-badges {
+  margin-top:8px;
+}
+html.sf-nl-on body .li_board .icons,
+html.sf-nl-on body .li_board .li_header,
+html.sf-nl-on body .li_board li.count,
+html.sf-nl-on body .li_board li.like,
+html.sf-nl-on body .li_board li.name,
+html.sf-nl-on body .li_board li.read,
+html.sf-nl-on body .li_board ul.li_body[hidden] {
+  display:none!important;
+}

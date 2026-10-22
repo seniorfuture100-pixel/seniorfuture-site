@@ -1,0 +1,95 @@
+/* 화면 묶음: common | 원본: src/sf-fixes.css · 수강평 목록 메타: 이름(가림) · 강의명 · 날짜
+   함께 들어 있음: r2 · 움직임 (기업·공공기관 / 파트너 지원), sf-fixes · 모바일 좌우 여백을 Figma처럼 16px로 통일: 우리 코드·게시판 목록·상품 목록이 있는 구역만 아임웹 칸 여백(15px)을 없애고 콘텐츠가 16px을 가져요, sf-fixes · 고객센터(모바일) 좌우 16px, 회사소개 MISSION 라벨 위 정렬 */
+:root .sf-rv-course {
+  flex:0 1 auto;
+  min-width:0;
+  overflow:hidden;
+  color:var(--sf-text-3);
+  font-size:13px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+:root .sf-rv-course~.date {
+  flex:none;
+  margin-left:0!important;
+}
+:root ._post_item_wrap .tools:has(.sf-rv-course) {
+  justify-content:flex-start!important;
+}
+:root ._post_item_wrap .tools:has(.sf-rv-course) .writer {
+  flex:none;
+}
+@media (max-width:767.98px) {
+  html body .inside:has(.sf-scope,
+  [data-sf-shop],
+  .li_board,
+  .list-style-gallery,
+  [data-widget-type=newest]):not(:has(.board_view,
+  .sf-pv,
+  .shop-content,
+  .sf-ap-apply,
+  .sf-hub,
+  [data-sf-classroom])) .doz_row {
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+  html body .inside:has(.sf-scope,
+  [data-sf-shop],
+  .li_board,
+  .list-style-gallery,
+  [data-widget-type=newest]):not(:has(.board_view,
+  .sf-pv,
+  .shop-content,
+  .sf-ap-apply,
+  .sf-hub,
+  [data-sf-classroom])),
+  html body .inside:has(.sf-scope,
+  [data-sf-shop],
+  .li_board,
+  .list-style-gallery,
+  [data-widget-type=newest]):not(:has(.board_view,
+  .sf-pv,
+  .shop-content,
+  .sf-ap-apply,
+  .sf-hub,
+  [data-sf-classroom])) .col-dz {
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  html body .inside:has(.sf-scope,
+  [data-sf-shop],
+  .li_board,
+  .list-style-gallery,
+  [data-widget-type=newest]):not(:has(.board_view,
+  .sf-pv,
+  .shop-content,
+  .sf-ap-apply,
+  .sf-hub,
+  [data-sf-classroom])) [data-widget-type=board]>.widget,
+  html body .inside:has([data-sf-shop]):not(:has(.board_view,
+  .sf-pv,
+  .shop-content,
+  .sf-ap-apply,
+  .sf-hub,
+  [data-sf-classroom])) .js-custom-widget-container[data-sf-shop] {
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+  html.sf-pv-on body ._mobile_action_btn_wrap .cart_btn_child {
+    display:none!important;
+  }
+  :root body .sfw-banner .sf-track {
+    margin-right:0;
+    padding-right:0;
+  }
+  html body .sf-scope .sf-help {
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+}
+html body .sf-scope .sf-ab-mission .sf-ab-in {
+  align-items:start;
+}
+html body .sf-scope .sf-ab-mission .sf-ab-eye {
+  margin-top:14px;
+}

@@ -1,0 +1,52 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 마이페이지 개편 (10/19): 월부식 프로필 · 바로가기 4칸 · 계정 메뉴 · 열람 내역
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root body .r2-my-card {
+  grid-template-columns:auto 1fr!important;
+}
+:root body .r2-my-who {
+  min-width:0;
+}
+:root body .r2-my-who b {
+  display:block;
+  color:var(--sf-text);
+  font:700 17px/1.4 var(--sf-font);
+}
+:root body .r2-my-intro {
+  margin:2px 0 0;
+  color:var(--sf-text-2);
+  font:400 13px/1.5 var(--sf-font);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+:root body .r2-my-intro.is-empty {
+  color:var(--sf-text-3);
+}
+:root body .r2-my-av {
+  overflow:hidden;
+}
+:root body .r2-my-av img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+:root body .r2-my-edit {
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:40px;
+  margin-top:4px;
+  border-radius:8px;
+  box-shadow:inset 0 0 0 1px var(--sf-border-strong,#d5d9e0);
+  color:var(--sf-text)!important;
+  font:600 14px/1 var(--sf-font);
+  text-decoration:none;
+}
+:root body .r2-my-edit:hover {
+  background:var(--sf-surface);
+}
+:root body .r2-my-acct,
+:root body .r2-my-quick {
+  display:none;
+}

@@ -1,0 +1,54 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · 기업·공공기관(/business) 페이지 (biz.js) — Figma 02 PC · 03 모바일 '06 기업 · 공공기관'
+   함께 들어 있음: sf-apply · 4가지 분야 — 카드 전체가 신청서 링크, sf-biz · 기업·공공기관(/business) 페이지 (biz.js) — Figma 02 PC · 03 모바일 '06 기업 · 공공기관', r2 · BEST 카드도 같은 자리(제목·요약 2줄)로 고정 → 두 묶음의 줄이 맞아요 */
+:root .sf-biz h1 {
+  font-size:72px;
+  line-height:1.25;
+  letter-spacing:-2px;
+}
+:root .sf-biz h2 {
+  font-size:56px;
+  line-height:1.3;
+  letter-spacing:-1.5px;
+  margin-bottom:40px;
+}
+:root .sf-biz h3,
+:root .sf-sol strong {
+  font-size:28px;
+  line-height:1.4;
+  letter-spacing:-.5px;
+}
+:root .sf-dot,
+:root .sf-kw li {
+  font-size:14px;
+  font-weight:700;
+  color:var(--sf-text-2);
+}
+:root .sf-dot {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:24px;
+}
+:root .sf-dot::before {
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--sf-primary);
+}
+:root .is-dark .sf-dot {
+  color:#b0b3ba;
+}
+:root .sf-lead {
+  font-size:18px;
+  line-height:1.6;
+  color:var(--sf-text-2);
+}
+:root .sf-biz .sf-btn {
+  min-height:48px;
+}
+:root .sf-row {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}

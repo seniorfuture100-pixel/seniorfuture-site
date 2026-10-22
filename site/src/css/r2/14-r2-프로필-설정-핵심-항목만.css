@@ -1,0 +1,166 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 프로필 설정 (핵심 항목만)
+   함께 들어 있음: r2 · 고객센터: 탭별로 하나만 · 공지사항 표 (클래스101식), r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root body .r2-prof .fileupload_profile_img {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin:0 0 28px!important;
+}
+:root body .r2-prof #profile_img2 {
+  width:72px!important;
+  height:72px!important;
+  margin:0!important;
+  border-radius:50%;
+}
+:root body .r2-prof-h {
+  margin:8px 0 20px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--sf-text);
+  color:var(--sf-text);
+  font:700 17px/1.4 var(--sf-font);
+}
+:root body .r2-prof-h small {
+  margin-left:6px;
+  color:var(--sf-text-3);
+  font-size:13px;
+  font-weight:400;
+}
+:root body .r2-prof .input_block {
+  margin:0 0 20px!important;
+}
+:root body .r2-prof .mini-tit {
+  display:block;
+  margin-bottom:8px;
+  color:var(--sf-text);
+  font:700 14px/1.4 var(--sf-font);
+}
+:root body .r2-prof input[type=email],
+:root body .r2-prof input[type=password],
+:root body .r2-prof input[type=tel],
+:root body .r2-prof input[type=text],
+:root body .r2-prof select,
+:root body .r2-prof textarea {
+  height:48px!important;
+  padding:0 14px!important;
+  border:1px solid var(--sf-border-strong)!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  font:400 15px/1 var(--sf-font)!important;
+}
+:root body .r2-prof input[readonly] {
+  background:var(--sf-surface)!important;
+  color:var(--sf-text-2)!important;
+}
+:root body .r2-prof .input_form.brt {
+  margin-top:8px;
+}
+:root body .r2-prof .r2-prof-pw .input_form:not(._uid),
+:root body .r2-prof .r2-prof-pw>span {
+  display:none;
+}
+:root body .r2-prof .r2-prof-pw.is-open .input_form,
+:root body .r2-prof .r2-prof-pw.is-open>span {
+  display:block;
+}
+:root body .r2-prof .r2-prof-cur {
+  margin-top:28px!important;
+  padding-top:20px;
+  border-top:1px solid var(--sf-border);
+}
+:root body .r2-prof .r2-prof-cur .mini-tit small {
+  margin-left:6px;
+  color:var(--sf-text-3);
+  font-size:12px;
+  font-weight:400;
+}
+:root body .r2-prof .r2-prof-cur .input_form {
+  display:block!important;
+  margin:0!important;
+}
+:root body .r2-pw-toggle {
+  height:40px;
+  margin:-4px 0 24px;
+  padding:0 16px;
+  border:0;
+  border-radius:999px;
+  box-shadow:inset 0 0 0 1px var(--sf-border-strong);
+  background:#fff;
+  color:var(--sf-text);
+  font:700 14px/1 var(--sf-font);
+  cursor:pointer;
+}
+:root body .r2-prof .check {
+  display:inline-block!important;
+  margin:0!important;
+}
+:root body .r2-prof .checkbox,
+:root body .r2-prof .radio {
+  display:inline-block;
+  margin:0 6px 8px 0!important;
+  padding:0!important;
+}
+:root body .r2-prof .checkbox label>*,
+:root body .r2-prof .radio label>* {
+  padding:0!important;
+  margin:0!important;
+}
+:root body .r2-prof .checkbox label,
+:root body .r2-prof .radio label {
+  display:inline-flex!important;
+  align-items:center;
+  height:36px;
+  padding:0 14px!important;
+  border-radius:999px;
+  box-shadow:inset 0 0 0 1px var(--sf-border-strong);
+  color:var(--sf-text-2);
+  font:500 14px/1 var(--sf-font);
+  cursor:pointer;
+}
+:root body .r2-prof .checkbox label:has(input:checked),
+:root body .r2-prof .radio label:has(input:checked) {
+  background:var(--sf-text);
+  box-shadow:none;
+  color:#fff;
+}
+:root body .r2-prof .checkbox input,
+:root body .r2-prof .radio input {
+  position:absolute;
+  opacity:0;
+}
+:root body .r2-prof ._join_btn {
+  width:140px!important;
+  height:52px!important;
+  border:0!important;
+  border-radius:999px!important;
+  background:var(--sf-primary)!important;
+  color:#fff!important;
+  font:700 16px/1 var(--sf-font)!important;
+}
+@media (max-width:767.98px) {
+  :root body .r2-prof .modal_article {
+    padding:0!important;
+    box-shadow:none;
+  }
+  :root body .r2-prof ._join_btn {
+    width:100%!important;
+  }
+}
+:root.r2-help body .li_board.r2-ntable>ul.li_header,
+:root.r2-help body .sf-help-tabs {
+  display:flex!important;
+}
+:root.r2-help body .sf-help-refundlink {
+  margin:0 0 56px;
+}
+:root body .r2-ntable .badge,
+:root body .r2-ntable>ul>li,
+:root.r2-help body .sf-help>#notice,
+:root.r2-help body .sf-nl-chip,
+:root.r2-help body .sf-nl-chips,
+:root.r2-help body [data-widget-type=board] .board-head .heading,
+:root.r2-help body [data-widget-type=board] .btn-write,
+:root.r2-help body [data-widget-type=board] a[href*=bmode\=write],
+:root.r2-help-notice body #faq {
+  display:none!important;
+}

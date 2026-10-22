@@ -1,0 +1,13 @@
+/* 화면 묶음: partner | 원본: src/r3-partner.css · 페이지 이동이 "나갔다 들어오는" 느낌(10/21): 아임웹은 탭마다 페이지를 새로 불러와서 그 사이 흰 화면이 1초쯤 보였음 */
+::view-transition-old(root) {
+  animation:r3vtOut .16s ease both;
+}
+::view-transition-new(root) {
+  animation:r3vtIn .22s ease both;
+}
+@media (prefers-reduced-motion:reduce) {
+  ::view-transition-new(root),
+  ::view-transition-old(root) {
+    animation:none;
+  }
+}

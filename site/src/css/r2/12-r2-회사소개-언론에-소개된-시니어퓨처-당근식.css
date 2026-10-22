@@ -1,0 +1,208 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 회사소개: 언론에 소개된 시니어퓨처 (당근식)
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, r2 · 마이페이지 (패스트캠퍼스식) */
+:root body .r2-press {
+  max-width:1200px;
+  margin:0 auto;
+  padding:96px 0 112px;
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+}
+:root body .r2-press__head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:40px;
+}
+:root body .r2-press__head h2 {
+  margin:0;
+  font:700 40px/1.3 var(--sf-font)!important;
+  letter-spacing:-.04em;
+}
+:root body .r2-press__ctl {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+:root body .r2-press__arr {
+  display:flex;
+  height:56px;
+  padding:0 6px;
+  border-radius:999px;
+  box-shadow:inset 0 0 0 1px var(--sf-border-strong);
+}
+:root body .r2-press__arr button {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:56px;
+  padding:0;
+  border:0;
+  background:0 0;
+  color:var(--sf-text);
+  cursor:pointer;
+}
+:root body .r2-press__arr button:disabled {
+  color:var(--sf-text-disabled);
+  cursor:default;
+}
+:root body .r2-press__arr svg {
+  width:22px;
+  height:22px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+}
+:root body .r2-press__all {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  height:56px;
+  padding:0 28px;
+  border-radius:999px;
+  background:var(--sf-dark);
+  color:#fff!important;
+  font:700 17px/1 var(--sf-font);
+  text-decoration:none;
+}
+:root body .r2-press__track {
+  display:grid;
+  grid-auto-flow:column;
+  grid-auto-columns:calc((100% - 48px)/3);
+  gap:24px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+  outline:0;
+}
+:root body .r2-press__track::-webkit-scrollbar {
+  display:none;
+}
+:root body .r2-press__card {
+  scroll-snap-align:start;
+  display:flex;
+  flex-direction:column;
+  color:inherit!important;
+  text-decoration:none;
+}
+:root body .r2-press__thumb {
+  display:block;
+  aspect-ratio:16/9;
+  border-radius:16px;
+  overflow:hidden;
+  background:var(--sf-border);
+}
+:root body .r2-press__thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .4s var(--sf-ease);
+}
+:root body .r2-press__ph {
+  position:relative;
+  display:flex;
+  align-items:center;
+  height:100%;
+  padding:28px;
+  color:#fff;
+  font:700 22px/1.4 var(--sf-font);
+  letter-spacing:-.03em;
+  transition:transform .4s var(--sf-ease);
+}
+:root body .r2-press__ph small {
+  position:absolute;
+  left:28px;
+  bottom:18px;
+  font:500 11px/1 var(--sf-font);
+  opacity:.8;
+}
+:root body .r2-press__card:hover .r2-press__ph,
+:root body .r2-press__card:hover img {
+  transform:scale(1.03);
+}
+:root body .r2-press__card strong {
+  margin-top:20px;
+  font:700 22px/1.45 var(--sf-font);
+  letter-spacing:-.03em;
+}
+:root body .r2-press__card time {
+  margin-top:6px;
+  color:var(--sf-text-2);
+  font:400 18px/1.4 var(--sf-font);
+}
+@media (max-width:767.98px) {
+  :root body .r2-press {
+    display:flex;
+    flex-direction:column;
+    padding:48px 0 60px;
+  }
+  :root body .r2-press__head {
+    display:contents;
+  }
+  :root body .r2-press__head h2 {
+    order:0;
+    margin:0 16px 20px;
+    font-size:24px!important;
+  }
+  :root body .r2-press__track {
+    order:1;
+    grid-auto-columns:78%;
+    gap:12px;
+    padding:0 16px;
+    scroll-padding:0 16px;
+  }
+  :root body .r2-press__ctl {
+    order:2;
+    display:block;
+    margin:24px 16px 0;
+  }
+  :root body .r2-press__arr {
+    display:none;
+  }
+  :root body .r2-press__all {
+    display:flex;
+    justify-content:center;
+    width:100%;
+    height:52px;
+    font-size:16px;
+  }
+  :root body .r2-press__card strong {
+    margin-top:14px;
+    font-size:17px;
+  }
+  :root body .r2-press__card time {
+    font-size:14px;
+  }
+  :root body .r2-press__ph {
+    padding:18px;
+    font-size:17px;
+  }
+}
+:root.r2-my body #mypage-summary,
+:root.r2-my body .sf-my-strip,
+:root.r2-my body .shop-content.mypage .left-menu {
+  display:none!important;
+}
+:root.r2-my body .shop-content.mypage .row.show-grid {
+  display:flex!important;
+  gap:48px;
+  align-items:flex-start;
+  max-width:1200px;
+  margin:0 auto!important;
+  padding:48px 0 120px!important;
+}
+:root.r2-my body .shop-content.mypage .row.show-grid>.col-md-10 {
+  flex:1;
+  min-width:0;
+  width:auto!important;
+  max-width:none!important;
+  float:none!important;
+  padding:0!important;
+  background:0 0!important;
+  box-shadow:none!important;
+}
+:root body #doz_header_wrap .viewport-nav.desktop>li._more_menu:not(:has(li)),
+:root.r2-my-own body .shop-content.mypage .col-md-10>:not(.r2-my-mob):not(.r2-my-pane) {
+  display:none!important;
+}

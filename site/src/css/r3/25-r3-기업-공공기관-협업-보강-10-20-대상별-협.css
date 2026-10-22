@@ -1,0 +1,79 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 기업·공공기관 협업 보강 (10/20): 대상별 협업 · 3단계 연결 · 로고 벽 · 두 갈래 문의
+   함께 들어 있음: r2 · 고객센터: 탭별로 하나만 · 공지사항 표 (클래스101식) */
+:root .sf-biz .r3-aud {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-biz .r3-aud>li,
+:root .sf-biz .r3-flow li {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:32px 28px;
+  border-radius:24px;
+}
+:root .sf-biz .r3-aud>li {
+  background:#fff;
+  box-shadow:inset 0 0 0 1px #ffe2cf;
+}
+:root .sf-biz .r3-aud__k {
+  align-self:flex-start;
+  padding:4px 10px;
+  border-radius:999px;
+  background:var(--sf-brand-tint);
+  color:var(--sf-text-brand);
+  font-size:13px;
+  font-weight:700;
+}
+:root .sf-biz .r3-aud h3 {
+  font-size:20px;
+  line-height:1.4;
+  letter-spacing:-.3px;
+}
+:root .sf-biz .r3-aud>li>p,
+:root .sf-biz .r3-flow p {
+  color:var(--sf-text-2);
+  font-size:15px;
+  line-height:1.6;
+}
+:root .sf-biz .r3-aud ul {
+  display:grid;
+  gap:8px;
+  margin:4px 0 0;
+  padding:16px 0 0;
+  border-top:1px solid var(--sf-border);
+  list-style:none;
+}
+:root .sf-biz .r3-aud ul li {
+  position:relative;
+  padding-left:18px;
+  color:var(--sf-text);
+  font-size:15px;
+  line-height:1.5;
+}
+:root .sf-biz .r3-aud ul li:before {
+  content:"";
+  position:absolute;
+  left:2px;
+  top:.6em;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--sf-primary);
+}
+:root .sf-biz .r3-aud a {
+  margin-top:auto;
+  padding-top:12px;
+  color:var(--sf-text-brand);
+  font-size:15px;
+  font-weight:700;
+  text-decoration:none;
+}
+:root .sf-biz .r3-aud a:hover,
+:root .sf-biz .r3-aud>li:hover a {
+  text-decoration:underline;
+}

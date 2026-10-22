@@ -1,0 +1,38 @@
+/* 화면 묶음: home | 원본: src/sf-home.css · 이달의 BEST 강의 TOP 5: 순위 숫자(주황 32 Bold) + 강의 카드 224
+   함께 들어 있음: r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식), sf-boardview · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741 */
+:root .sf-top5>li {
+  counter-increment:rank;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+:root .sf-top5>li::before {
+  content:counter(rank);
+  color:var(--sf-text-brand);
+  font:700 32px/46px var(--sf-font);
+}
+:root .sf-ccard {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  color:inherit;
+  text-decoration:none;
+}
+:root .sf-ccard__thumb {
+  position:relative;
+  aspect-ratio:16/9;
+  border-radius:8px;
+  overflow:hidden;
+  background:var(--sf-border);
+}
+:root .sf-ccard__thumb img,
+:root .sf-expert10__ph img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .4s var(--sf-ease);
+}
+:root .sf-ccard:hover .sf-ccard__thumb img,
+:root .sf-expert10 a:hover img {
+  transform:scale(1.04);
+}

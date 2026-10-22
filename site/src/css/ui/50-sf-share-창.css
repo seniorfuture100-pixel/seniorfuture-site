@@ -1,0 +1,61 @@
+/* 화면 묶음: share | 원본: src/sf-share.css · 창
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, sf-share · 창, sf-header · 검색: Figma PC/검색 - 입력 중 · Mobile/검색 - 입력 중 */
+html.sf-rw-lock {
+  overflow:hidden;
+}
+:root .sf-rw,
+:root .sf-rw-social i {
+  align-items:center;
+  justify-content:center;
+}
+:root .sf-rw {
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:flex;
+  padding:16px;
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+}
+:root .sf-rw [hidden],
+:root .sf-rw[hidden] {
+  display:none!important;
+}
+:root .sf-rw-dim {
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.5);
+}
+:root .sf-rw-box {
+  position:relative;
+  display:grid;
+  gap:20px;
+  width:100%;
+  max-width:520px;
+  max-height:calc(100vh - 32px);
+  overflow:auto;
+  box-sizing:border-box;
+  padding:32px;
+  border-radius:24px;
+  background:#fff;
+}
+:root .sf-rw-box h2 {
+  margin:0;
+  font-size:24px;
+}
+:root .sf-rw-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+:root .sf-rw-x {
+  width:44px;
+  height:44px;
+  margin:-10px -10px -10px 0;
+  border:0;
+  border-radius:10px;
+  background:0 0;
+  font-size:20px;
+  color:var(--sf-text-2);
+  cursor:pointer;
+}

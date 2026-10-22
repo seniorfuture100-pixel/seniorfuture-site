@@ -1,0 +1,90 @@
+/* 화면 묶음: common | 원본: src/sf-header.css · 검색: Figma PC/검색 - 입력 중 · Mobile/검색 - 입력 중 */
+:root .sf-search__x svg {
+  width:24px;
+  height:24px;
+  stroke:var(--sf-text);
+  stroke-width:2;
+  fill:none;
+}
+:root .sf-search__h button,
+:root .sf-search__x {
+  padding:0;
+  border:0;
+  background:0 0;
+  cursor:pointer;
+}
+:root .sf-search__x {
+  display:inline-flex;
+  width:44px;
+  height:44px;
+  align-items:center;
+  justify-content:center;
+}
+:root .sf-search__body {
+  max-width:800px;
+  margin:0 auto;
+  padding:8px 16px 40px;
+}
+:root .sf-search__sec {
+  padding:16px 0;
+}
+:root .sf-search__sec h2 {
+  margin:0 0 12px;
+  color:var(--sf-text);
+  font:700 14px/1.5 var(--sf-font)!important;
+  letter-spacing:-.02em;
+}
+:root .sf-search__h {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+:root .sf-search__h button {
+  color:var(--sf-text-3);
+  font:500 13px/1.5 var(--sf-font);
+}
+:root .sf-search__recent {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-search__recent .sf-recent-item {
+  margin:0;
+  padding:8px 8px 8px 12px;
+  border-radius:9999px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+}
+:root .sf-search__recent .sf-recent-item button {
+  width:22px;
+  height:22px;
+  padding:0;
+  border:0;
+  background:0 0;
+  color:var(--sf-text-3);
+  cursor:pointer;
+}
+:root .sf-search__empty {
+  margin:0;
+  color:var(--sf-text-3);
+  font-size:14px;
+}
+:root .sf-search__pop {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px 24px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-search__pop a {
+  display:flex;
+  gap:12px;
+  color:var(--sf-text);
+  font:400 14px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+  text-decoration:none;
+}

@@ -1,0 +1,152 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 검색: PC는 헤더 아래 패널 (월부식) · 최근 / 인기 2칸
+   함께 들어 있음: r2 · 교육 펼침: 헤더 아래 넓은 판, 8개 분야 4칸×2줄 */
+:root body .r2-search .sf-search__pop {
+  display:block;
+  counter-reset:none;
+}
+:root body .r2-search .sf-search__pop li {
+  margin:0;
+}
+:root body .r2-search .sf-search__pop a {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  height:44px;
+  font-size:16px;
+}
+:root body .r2-search .sf-search__pop b {
+  width:20px;
+  text-align:center;
+  color:var(--sf-text-3);
+  font-size:17px;
+}
+:root body .r2-search .sf-search__pop .is-top b {
+  color:var(--sf-text);
+}
+:root body .r2-search .sf-search__sec h2 {
+  color:var(--sf-text-3);
+  font-size:15px!important;
+}
+@media (min-width:768px) {
+  :root body .r2-search .sf-search {
+    left:50%;
+    right:auto;
+    top:var(--r2-hb,72px);
+    width:760px;
+    max-width:calc(100% - 48px);
+    max-height:calc(100vh - var(--r2-hb,72px) - 24px);
+    margin-left:-380px;
+    padding:24px 28px 28px;
+    border-radius:0 0 20px 20px;
+    box-shadow:0 16px 40px rgba(0,0,0,.12);
+  }
+  :root body .r2-search .sf-search__head {
+    max-width:none;
+    padding:0;
+    gap:8px;
+  }
+  :root body .r2-search .sf-search__box {
+    height:56px;
+    border-radius:12px;
+    background:#fff;
+    box-shadow:inset 0 0 0 1.5px var(--sf-text);
+  }
+  :root body .r2-search .sf-search__box input {
+    font-size:17px;
+  }
+  :root body .r2-search .sf-search__body {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    max-width:none;
+    padding:20px 0 0;
+  }
+  :root body .r2-search .sf-search__sec {
+    padding:8px 28px 0 4px;
+  }
+  :root body .r2-search .sf-search__sec+.sf-search__sec {
+    padding:8px 4px 0 28px;
+    border-left:1px solid var(--sf-border);
+  }
+  :root body .r2-search .sf-search__recent {
+    display:block;
+  }
+  :root body .r2-search .sf-search__recent .sf-recent-item {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:44px;
+    padding:0;
+    border-radius:0;
+    box-shadow:none;
+    font-size:16px;
+  }
+}
+@media (max-width:767.98px) {
+  :root body .r2-search .sf-search__box {
+    border-radius:10px;
+    background:#fff;
+    box-shadow:inset 0 0 0 1.5px var(--sf-text);
+  }
+  :root body .r2-search .sf-search__pop a {
+    height:42px;
+  }
+}
+@media (min-width:768px) {
+  :root body .sf-nav-edu .sf-navdrop.r2-mega {
+    position:fixed;
+    left:0;
+    right:0;
+    top:var(--r2-hb,72px);
+    display:block;
+    padding:0;
+    border-radius:0;
+    background:#fff;
+    box-shadow:0 1px 0 var(--sf-border) inset,0 12px 24px rgba(0,0,0,.06);
+    white-space:normal;
+  }
+  :root body .r2-mega__in {
+    max-width:1200px;
+    margin:0 auto;
+    padding:20px 0 28px;
+    text-align:left;
+  }
+  :root body .r2-mega__all {
+    display:inline-flex!important;
+    align-items:center;
+    gap:4px;
+    margin:0 0 14px 20px;
+    color:var(--sf-text-brand)!important;
+    font:700 15px/1.5 var(--sf-font)!important;
+    text-decoration:none;
+  }
+  :root body .r2-mega__grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--sf-border);
+    border-left:1px solid var(--sf-border);
+  }
+  :root body .r2-mega__grid a {
+    display:flex!important;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 20px;
+    border-right:1px solid var(--sf-border);
+    border-bottom:1px solid var(--sf-border);
+    color:var(--sf-text)!important;
+    font:700 16px/1.5 var(--sf-font)!important;
+    letter-spacing:-.02em;
+    text-decoration:none;
+    transition:background .15s var(--sf-ease);
+  }
+  :root body .r2-mega__grid a:hover {
+    background:var(--sf-surface);
+    color:var(--sf-text-brand)!important;
+  }
+  :root body .r2-mega svg {
+    width:16px;
+    height:16px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:2;
+  }
+}

@@ -1,0 +1,31 @@
+/* 화면 묶음: common | 원본: src/sf-fixes.css · 교육 상세: 신청 버튼 글자 가운데, 커리큘럼 화살표, 공유 버튼 네모 테두리 */
+html.sf-pv-on body a._btn_buy:not(.opt),
+html.sf-pv-on body a._btn_cart:not(.opt) {
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  padding:0!important;
+  line-height:1!important;
+}
+:root [data-sf-acc-trigger]::after {
+  content:"";
+  flex-shrink:0;
+  width:7px;
+  height:7px;
+  margin:0 4px 4px;
+  border-right:1.5px solid var(--sf-text-3);
+  border-bottom:1.5px solid var(--sf-text-3);
+  transform:rotate(45deg);
+}
+:root .is-open>[data-sf-acc-trigger]::after {
+  margin-bottom:-4px;
+  transform:rotate(-135deg);
+}
+html.sf-pv-on body .comment_num_warp .comment_num {
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  padding:0!important;
+  border:1px solid var(--sf-border)!important;
+  background:#fff;
+}

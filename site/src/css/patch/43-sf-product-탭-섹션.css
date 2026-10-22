@@ -1,0 +1,35 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 탭 · 섹션
+   함께 들어 있음: r3 · 마이페이지 2차 (10/19): 흰 배경 · 결제 내역 카드 · 바로 입장 창 · 프로필 뼈대 · 알림 단추 */
+:root .sf-pv-tabs {
+  margin-top:32px;
+  gap:24px;
+  background:#fff;
+  z-index:6;
+}
+:root .sf-pv-tabs .sf-tab {
+  padding:12px 0;
+  font-size:16px;
+}
+:root .sf-pv-sec {
+  padding-top:40px;
+}
+:root .sf-pv-sec h2 {
+  margin:0 0 16px;
+  color:var(--sf-text);
+  font:700 20px/1.4 var(--sf-font);
+  letter-spacing:-.02em;
+}
+:root .sf-pv-points p,
+:root .sf-pv-sub {
+  margin:-8px 0 16px;
+  color:var(--sf-text-3);
+  font:400 14px/1.5 var(--sf-font);
+}
+:root .sf-pv-points,
+:root .sf-pv-who {
+  display:grid;
+  gap:16px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}

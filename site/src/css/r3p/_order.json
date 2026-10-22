@@ -1,0 +1,92 @@
+[
+ {
+  "file": "01-r3-partner-3d-오브젝트-떠다니기-살짝-회.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 6
+ },
+ {
+  "file": "02-r3-partner-섹션-배경은-화면-끝까지-아임웹.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 9
+ },
+ {
+  "file": "03-r3-partner-1-첫-화면.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 7
+ },
+ {
+  "file": "04-r3-partner-3d-오브젝트-떠다니기-살짝-회.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 10
+ },
+ {
+  "file": "05-r3-partner-2-숫자.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 6
+ },
+ {
+  "file": "06-r3-partner-3-걱정-답-말풍선.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 7
+ },
+ {
+  "file": "07-r3-partner-4-방식-카드.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 14
+ },
+ {
+  "file": "08-r3-partner-5-진행-단계.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 7
+ },
+ {
+  "file": "09-r3-partner-6-얻는-것-어두운-면.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 7
+ },
+ {
+  "file": "10-r3-partner-7-전문가-띠.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 6
+ },
+ {
+  "file": "11-r3-partner-9-마지막.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 7
+ },
+ {
+  "file": "12-r3-partner-신청서-partner-apply.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 15
+ },
+ {
+  "file": "13-r3-partner-contact-바로-옆에-문의-.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 29
+ },
+ {
+  "file": "14-r3-partner-페이지-이동이-나갔다-들어오는-.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 4
+ },
+ {
+  "file": "15-r3-partner-페이지-이동이-나갔다-들어오는-.css",
+  "screen": "partner",
+  "src": "r3-partner",
+  "rules": 3
+ }
+]

@@ -1,0 +1,97 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 전문가 네트워크 카드: 상품 카드처럼 또렷한 호버(위로 뜨고 그림자) · 이름 색은 그대로 (10/19)
+   함께 들어 있음: r3 · 홈 '시니어퓨처 전문가 네트워크' 카드도 전문가 페이지와 같은 호버 (10/19), r3 · 무료 라이브 카드: 모집중·다시보기 표시 없음 (아래 버튼이 상태를 알려줘요) · 버튼은 카드 맨 아래 한 줄 (10/19), r2 · 홈 강의·무료 라이브 카드: 제목 2줄 자리 고정, 버튼은 맨 아래 한 줄, r3 · 인사이트 분야 탭: 눌렀을 때 주황 테두리 없음 (선택된 탭은 밑줄로 표시돼요) (10/19), r3 · 홈 무료 라이브 카드: 설명과 버튼 사이 여유 (버튼은 카드 맨 아래 한 줄), r3 · 상품 상세: 문의 영역·'문의' 탭 숨김 (문의는 1:1 문의 버튼으로) (10/19), r3 · 맨 위로 버튼이 1:1 문의 버튼과 겹치지 않게: 같은 오른쪽 줄, 문의 버튼 바로 위 12px (10/19), r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, r3 · 모바일 강의 상세: 아래 신청 버튼 줄이 있으니 떠 있는 1:1 문의 버튼은 숨김 (공유하기 등 버튼을 가려서) — 1:1 문의는 메뉴·푸터에 있어요 */
+:root body .sf-ex-card .sf-ex-ph,
+:root body .sf-expert10 .sf-expert10__ph {
+  transition:transform .25s var(--sf-ease),box-shadow .25s var(--sf-ease);
+}
+:root body .sf-ex-card:focus-visible .sf-ex-ph,
+:root body .sf-ex-card:hover .sf-ex-ph {
+  transform:translateY(-6px)!important;
+  box-shadow:0 14px 28px rgba(17,24,39,.14);
+}
+:root body .sf-ex-card:hover b,
+:root body .sf-ex-card:hover strong,
+:root body .sf-expert10 a:hover strong {
+  color:inherit!important;
+}
+:root body .sf-topbanner {
+  background:radial-gradient(ellipse 60% 260%at 50% 50%,#e8590c 0,#b8470f 28%,#4a2412 62%,#17181c 100%)!important;
+}
+:root body .sf-expert10 a:focus-visible .sf-expert10__ph,
+:root body .sf-expert10 a:hover .sf-expert10__ph {
+  transform:translateY(-6px);
+  box-shadow:0 14px 28px rgba(17,24,39,.14);
+}
+:root body .sf-lcard .sf-tags {
+  display:none!important;
+}
+:root body .sf-cards4 .sf-lcard>[data-sf-live-btn] {
+  margin-top:auto!important;
+}
+:root body [data-sf-board-filter] [data-cat]:focus {
+  outline:0!important;
+  box-shadow:none!important;
+}
+:root body .sf-home-expert {
+  background:#fff!important;
+  box-shadow:0 0 0 100vmax #fff!important;
+  clip-path:inset(0-100vmax)!important;
+}
+:root body .sf-cards4 .sf-lcard>.sf-ccard {
+  padding-bottom:16px;
+}
+:root body #sf-pv-qna,
+:root body .sf-pv-qna {
+  display:none!important;
+}
+:root body .sf-pv-tabs [href="#sf-pv-qna"],
+:root body .sf-pv-tabs li:has(>[href="#sf-pv-qna"]) {
+  display:none!important;
+}
+:root body .sf-top {
+  right:40px;
+  bottom:104px;
+}
+@media (max-width:767.98px) {
+  :root body .sf-top {
+    right:16px;
+  }
+  :root body .sf-top,
+  :root.sf-tabbar-hidden body .sf-top {
+    bottom:calc(132px + env(safe-area-inset-bottom));
+  }
+}
+:root body .r3-static [data-sf-next],
+:root body .r3-static [data-sf-prev] {
+  display:none!important;
+}
+@media (max-width:767.98px) {
+  :root.sf-pv-on body .sf-fab.r2-fab {
+    display:none!important;
+  }
+  :root.sf-pv-on body .sf-top {
+    bottom:calc(88px + env(safe-area-inset-bottom));
+  }
+  :root body .sf-ab-projlink,
+  :root body .sf-help-refundlink a,
+  :root body .sf-out a,
+  :root body .sf-pv-allreview,
+  :root body .sf-pv-crumb a,
+  :root body .sf-pv-teacher a {
+    position:relative;
+  }
+  :root body .sf-ab-projlink::after,
+  :root body .sf-help-refundlink a::after,
+  :root body .sf-out a::after,
+  :root body .sf-pv-allreview::after,
+  :root body .sf-pv-crumb a::after,
+  :root body .sf-pv-teacher a::after {
+    content:"";
+    position:absolute;
+    top:50%;
+    left:-6px;
+    right:-6px;
+    height:40px;
+    transform:translateY(-50%);
+  }
+}

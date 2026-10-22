@@ -1,0 +1,129 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 공지 글 안 정책 안내(환불 규정 등) 디자인 (10/20) — 게시판 본문에 class="r3-pol" 로 넣어요 */
+:root body .r3-refcode b {
+  color:var(--sf-text-brand,#c2410c);
+}
+:root body .r3-refcode {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:4px 10px;
+  margin:0 0 20px;
+  padding:14px 18px;
+  border-radius:14px;
+  background:var(--sf-brand-tint,#fff3eb);
+  box-shadow:inset 0 0 0 1px #ffd2b8;
+  line-height:1.5;
+  text-align:left;
+}
+:root body .r3-refcode__l {
+  color:var(--sf-text-2,#555);
+  font-size:14px;
+  font-weight:600;
+}
+:root body .r3-refcode b {
+  padding:2px 10px;
+  border-radius:8px;
+  background:#fff;
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:.06em;
+}
+:root body .r3-refcode__d {
+  flex-basis:100%;
+  color:var(--sf-text-3,#777);
+  font-size:13px;
+}
+:root body .sf-pv-share.r3-rsh {
+  gap:12px;
+  padding:12px 12px 12px 16px;
+}
+:root body .r3-rsh__t {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+:root body .r3-rsh__coin {
+  flex:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#ffb020;
+  box-shadow:inset 0 0 0 2px #ffd36b;
+  color:#fff;
+  font:800 12px/1 var(--sf-font);
+  font-style:normal;
+}
+:root body .r3-rsh__t strong {
+  display:block;
+  color:var(--sf-text,#111);
+  font:700 15px/1.45 var(--sf-font);
+}
+:root body .r3-rsh__more {
+  display:inline-block;
+  margin-top:2px;
+  color:var(--sf-text-2,#555);
+  font:400 13px/1.45 var(--sf-font);
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+:root body .r3-rsh__more:hover {
+  color:var(--sf-text-brand,#c2410c);
+}
+:root body .sf-pv-share.r3-rsh .sf-pv-share__btn {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:0 16px;
+}
+:root body .sf-pv-share.r3-rsh .sf-pv-share__btn svg {
+  width:18px;
+  height:18px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+}
+@media (max-width:767.98px) {
+  :root body .sf-pv-share.r3-rsh {
+    margin-top:16px;
+    padding:8px 8px 8px 14px;
+  }
+  :root body .r3-rsh__more {
+    display:none;
+  }
+  :root body .r3-rsh__t strong {
+    font-size:14px;
+  }
+  :root body .sf-pv-share.r3-rsh .sf-pv-share__btn {
+    position:relative;
+    width:44px;
+    height:44px;
+    padding:0;
+    justify-content:center;
+    border-radius:10px;
+    background:#ffe4d5;
+    box-shadow:none;
+  }
+  :root body .sf-pv-share.r3-rsh .sf-pv-share__btn span {
+    position:absolute;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+  }
+  :root body .r3-refcode {
+    padding:14px 16px;
+  }
+}
+:root body .sf-pt :is(h1,
+h2,
+p,
+li,
+span,
+b) {
+  word-break:keep-all;
+}

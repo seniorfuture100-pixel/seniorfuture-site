@@ -1,0 +1,159 @@
+/* 화면 묶음: biz | 원본: src/sf-biz.css · 6단계 버튼을 더 크게 눌리게 */
+:root .sf-steps [data-sf-step] {
+  min-height:96px;
+  padding:4px 16px 12px 0;
+}
+:root .sf-step__no {
+  width:52px;
+  height:52px;
+  font-size:16px;
+}
+:root .sf-steps [data-sf-step]::after {
+  left:52px;
+  top:25px;
+}
+@media (max-width:767.98px) {
+  :root .sf-need-cards {
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  :root .sf-need-cards li {
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:4px 14px;
+    padding:16px;
+    border-radius:16px;
+  }
+  :root .sf-need-ic {
+    width:36px;
+    height:36px;
+    font-size:14px;
+  }
+  :root .sf-need-cards b {
+    flex:1;
+    font-size:16px;
+  }
+  :root .sf-need-cards p {
+    flex-basis:100%;
+    padding-left:50px;
+    font-size:13px;
+  }
+  :root .sf-biz .sf-group {
+    margin:16px 0 10px;
+    font-size:13px;
+  }
+  :root .sf-biz .sf-needs-sec {
+    padding-bottom:48px;
+  }
+  :root .sf-bridge__v {
+    height:70px;
+    margin:24px auto 12px;
+  }
+  :root .sf-biz .sf-bridge__title {
+    font-size:22px;
+  }
+  :root .sf-biz .sf-bridge__sub {
+    font-size:14px;
+  }
+  :root .sf-biz .sf-sol-sec {
+    padding-top:48px;
+  }
+  :root .sf-sol-head {
+    display:block;
+    margin-bottom:16px;
+  }
+  :root .sf-sol-head>p {
+    display:none;
+  }
+  :root .sf-biz .sf-sol-head h2 {
+    font-size:24px;
+  }
+  :root .sf-sol {
+    position:relative;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    padding:0;
+    overflow:hidden;
+    border-radius:16px;
+  }
+  :root .sf-sol__img {
+    flex:none;
+    height:160px;
+    border-radius:0;
+  }
+  :root .sf-sol__body {
+    padding:16px 64px 18px 18px;
+    gap:8px;
+  }
+  :root .sf-case strong,
+  :root .sf-sol strong {
+    font-size:18px;
+  }
+  :root .sf-case__tags span,
+  :root .sf-sol__tags span {
+    font-size:13px;
+    padding:4px 10px;
+  }
+  :root .sf-sol__go {
+    position:absolute;
+    right:16px;
+    top:176px;
+    width:36px;
+    height:36px;
+    flex:none;
+    font-size:16px;
+  }
+  :root .sf-cases {
+    grid-template-columns:1fr;
+  }
+  :root .sf-case__body {
+    padding:18px;
+  }
+  :root .sf-case__go {
+    width:36px;
+    height:36px;
+    font-size:16px;
+  }
+  :root .sf-logos {
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+  :root .sf-logos li {
+    height:56px;
+    border-radius:12px;
+    font-size:13px;
+  }
+  :root .sf-biz .sf-logos-title {
+    margin-top:32px;
+    font-size:18px;
+  }
+  :root .sf-logos-title small {
+    display:block;
+    margin:4px 0 0;
+  }
+  :root .sf-steps [data-sf-step] {
+    min-height:56px;
+    padding:6px 0;
+  }
+  :root .sf-step__no {
+    width:44px;
+    height:44px;
+    font-size:14px;
+  }
+  :root .sf-steps [data-sf-step]::after {
+    left:21px;
+    top:56px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root .sf-case,
+  :root .sf-sol {
+    transition:none;
+  }
+  :root .sf-case:hover,
+  :root .sf-sol:hover {
+    transform:none;
+  }
+}

@@ -1,0 +1,41 @@
+/* 화면 묶음: insight | 원본: src/sf-boardview.css · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741
+   함께 들어 있음: r3-pay · 오른쪽 결제 금액 */
+:root .sf-bv-who {
+  display:grid;
+  flex:1;
+  min-width:0;
+}
+:root .sf-bv-who strong {
+  font:700 14px/1.5 var(--sf-font);
+}
+:root .sf-bv-who small {
+  color:var(--sf-text-3);
+  font:400 12px/1.5 var(--sf-font);
+}
+:root .sf-bv-share {
+  display:flex;
+  gap:8px;
+}
+:root .sf-bv-kakao,
+:root .sf-bv-link {
+  height:36px;
+  padding:0 14px;
+  border:0;
+  border-radius:9999px;
+  font:700 13px/1 var(--sf-font);
+  cursor:pointer;
+  transition:transform .15s var(--sf-ease),filter .15s;
+}
+:root .sf-bv-link {
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text);
+}
+:root .sf-bv-kakao {
+  background:#fee500;
+  color:#191600;
+}
+:root .sf-bv-kakao:hover,
+:root .sf-bv-link:hover {
+  filter:brightness(.96);
+}

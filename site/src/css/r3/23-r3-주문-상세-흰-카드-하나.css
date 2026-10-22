@@ -1,0 +1,34 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 주문 상세: 흰 카드 하나
+   함께 들어 있음: r3-pay · 오른쪽 결제 금액 */
+:root body .r3-od {
+  display:block;
+}
+:root body .r3-od>.r3-od__sec {
+  margin:0!important;
+  border-radius:0!important;
+  box-shadow:inset 1px 0 0 var(--sf-border),inset -1px 0 0 var(--sf-border),inset 0 1px 0 var(--sf-border)!important;
+  background:#fff!important;
+}
+:root body .r3-od>.r3-od__sec.is-first {
+  border-radius:16px 16px 0 0!important;
+}
+:root body .r3-od>.r3-od__sec.is-last {
+  border-radius:0 0 16px 16px!important;
+  box-shadow:inset 0 0 0 1px var(--sf-border)!important;
+}
+:root body .r3-od>.r3-od__sec.is-first.is-last {
+  border-radius:16px!important;
+}
+:root body .r3-od>.r3-od__head {
+  margin-bottom:16px!important;
+}
+:root #doz_footer .r3-ft-ch,
+:root #doz_footer .r3-ft-ch *,
+:root #doz_footer .r3-ft-co,
+:root #doz_footer .r3-ft-co *,
+:root #doz_footer .sf-ft,
+:root #doz_footer .sf-ft *,
+:root body .r3-od,
+:root body .r3-od * {
+  font-family:var(--sf-font)!important;
+}

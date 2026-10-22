@@ -1,0 +1,34 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · BEST 카드도 같은 자리(제목·요약 2줄)로 고정 → 두 묶음의 줄이 맞아요 */
+:root.r2-ins body .sf-icard strong {
+  min-height:48px;
+}
+:root.r2-ins body .sf-icard p {
+  min-height:42px;
+}
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._post_row {
+  display:contents!important;
+}
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap {
+  width:auto!important;
+  max-width:none!important;
+  float:none!important;
+}
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap:has(>._post_item_wrap.sf-hidden) {
+  display:none!important;
+}
+:root.r2-ins body [data-widget-type=board] .btn.float_r,
+:root.r2-ins body [data-widget-type=board] a[href*="bmode=write"] {
+  display:none!important;
+}
+:root body .r2-count {
+  margin-left:8px;
+  color:var(--sf-text-3);
+  font-size:16px;
+  font-weight:400;
+  letter-spacing:0;
+}
+@media (max-width:991.98px) {
+  :root.r2-ins body [data-widget-type=board] .list-style.type_grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}

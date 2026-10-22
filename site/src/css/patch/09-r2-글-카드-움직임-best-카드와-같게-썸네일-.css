@@ -1,0 +1,42 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 글 카드 움직임: BEST 카드와 같게 (썸네일 살짝 떠오름·그림자, 제목 주황, 사진 부드럽게 나타남) */
+:root .sf-search__pop a:hover,
+:root .sf-search__pop b {
+  color:var(--sf-text-brand);
+}
+:root .sf-search__pop b {
+  width:9px;
+  font-weight:700;
+}
+@media (max-width:767.98px) {
+  :root .sf-search {
+    bottom:0;
+  }
+  :root .sf-search__head {
+    padding:8px 12px 8px 4px;
+    gap:4px;
+  }
+  :root .sf-search__box {
+    height:40px;
+  }
+  :root .sf-search__back {
+    display:inline-flex;
+    margin:0;
+  }
+  :root .sf-search__x {
+    display:none;
+  }
+  :root .sf-search__pop {
+    grid-template-columns:1fr;
+  }
+  :root .sf-tabbar {
+    padding-bottom:calc(8px + env(safe-area-inset-bottom));
+    box-shadow:0-1px 0 var(--sf-border);
+    border-top:0;
+  }
+  :root .sf-tabbar span {
+    font:inherit;
+  }
+  :root .sf-tabbar a[aria-current=page] svg {
+    stroke-width:2.2;
+  }
+}

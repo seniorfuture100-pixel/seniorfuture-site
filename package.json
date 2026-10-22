@@ -1,0 +1,15 @@
+{
+  "name": "seniorfuture-site",
+  "private": true,
+  "description": "시니어퓨처(아임웹) 공통 꾸밈 코드 — 원본·묶음·자동 점검",
+  "scripts": {
+    "build": "node tools/site/jsbuild.js && node tools/site/cssbuild.js && node tools/site/bundle.js $(cat dist/VERSION)",
+    "check:daily": "node tools/check/daily.js"
+  },
+  "devDependencies": {
+    "acorn": "8.19.0",
+    "css-tree": "3.0.1",
+    "terser": "5.36.0",
+    "playwright": "1.48.2"
+  }
+}

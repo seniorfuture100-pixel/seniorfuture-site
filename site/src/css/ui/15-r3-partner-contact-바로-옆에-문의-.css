@@ -1,0 +1,15 @@
+/* 화면 묶음: partner | 원본: src/r3-partner.css · CONTACT: 바로 옆에 문의 폼이 있어서 버튼 두 개는 빼요 */
+:root .sf-carousel--peek {
+  position:relative;
+}
+:root .sf-carousel--peek .sf-track {
+  gap:16px;
+  padding:24px calc((100% - min(800px,100% - 48px))/2);
+  scroll-snap-type:x mandatory;
+}
+:root .sf-carousel--peek .sf-track>* {
+  width:min(800px,calc(100vw - 48px));
+  scroll-snap-align:center;
+  opacity:.45;
+  transition:opacity .3s var(--sf-ease);
+}

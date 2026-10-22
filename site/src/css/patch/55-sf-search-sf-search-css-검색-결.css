@@ -1,0 +1,75 @@
+/* 화면 묶음: search | 원본: src/sf-search.css · sf-search.css — 검색 결과 (search-view.js 와 짝) — Figma PC/검색 결과 33:3579 · 결과 없음 33:3820
+   함께 들어 있음: sf-boardview · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741 */
+:root .sf-sr-head a {
+  color:var(--sf-text-2);
+  font:500 13px/1.5 var(--sf-font);
+  text-decoration:none;
+}
+html.sf-sr-on body .sw2-grid {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:32px 24px!important;
+}
+html.sf-sr-on body .sw2-card {
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+}
+html.sf-sr-on body .sw2-card-thumb {
+  aspect-ratio:16/9!important;
+  border-radius:8px;
+  overflow:hidden;
+  background:var(--sf-border);
+}
+html.sf-sr-on body .sw2-card-thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .4s var(--sf-ease);
+}
+html.sf-sr-on body .sw2-card:hover .sw2-card-thumb img {
+  transform:scale(1.04);
+}
+html.sf-sr-on body .sw2-card-info {
+  padding:12px 0 0!important;
+  display:grid;
+  gap:6px;
+}
+html.sf-sr-on body .sw2-card-name {
+  color:var(--sf-text)!important;
+  font:700 16px/1.5 var(--sf-font)!important;
+  letter-spacing:-.02em;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+html.sf-sr-on body .sw2-card .sf-tag {
+  height:25px;
+  padding:4px 8px;
+  line-height:17px;
+}
+html.sf-sr-on body .sw2-empty {
+  margin-top:32px;
+  padding:56px 16px;
+  border-radius:12px;
+  background:var(--sf-surface);
+  text-align:center;
+}
+html.sf-sr-on body .sw2-empty-title {
+  color:var(--sf-text)!important;
+  font:700 18px/1.45 var(--sf-font)!important;
+}
+html.sf-sr-on body .sw2-empty-desc {
+  color:var(--sf-text-3)!important;
+  font:400 14px/1.5 var(--sf-font)!important;
+}
+:root .sf-sr-pop {
+  margin-top:24px;
+  display:grid;
+  gap:12px;
+  justify-items:center;
+}
+:root .sf-sr-pop strong {
+  font:700 14px/1.5 var(--sf-font);
+}

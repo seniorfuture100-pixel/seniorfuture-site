@@ -1,0 +1,88 @@
+/* 화면 묶음: pages-r2 | 원본: src/r2.css · 전체 글 카드: BEST 카드와 같은 규격 (16:9 썸네일 · 제목/요약 2줄 고정) */
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid ._post_item_wrap {
+  padding:0!important;
+  margin:0!important;
+  height:100%;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .card_wrapper {
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  height:0!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0 0 12px!important;
+  padding:56.25%0 0!important;
+  border-radius:8px!important;
+  overflow:hidden!important;
+  background-size:cover!important;
+  background-position:center!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .card-head {
+  position:absolute!important;
+  inset:0;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .card-body {
+  padding:0!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .title {
+  display:block!important;
+  margin:0 0 8px!important;
+  padding:0!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .title>em,
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .title>span:not(.r2-ttl) {
+  display:none!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .r2-icat {
+  margin:0 0 8px;
+  color:var(--sf-text-brand);
+  font:500 13px/19.5px var(--sf-font);
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .r2-ttl {
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  overflow:hidden;
+  min-height:0;
+  color:var(--sf-text);
+  font:700 16px/24px var(--sf-font);
+  letter-spacing:-.02em;
+  white-space:normal;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .text-block {
+  margin:0!important;
+  padding:0!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .text-block span {
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+  min-height:42px;
+  max-height:42px;
+  color:var(--sf-text-2)!important;
+  font:400 14px/21px var(--sf-font)!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .card-summary {
+  margin-top:12px!important;
+  padding:0!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .card-summary .writer {
+  display:inline!important;
+  color:var(--sf-text-3)!important;
+  font:400 13px/1.4 var(--sf-font)!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .card-summary .writer+.date::before {
+  content:"·"!important;
+  display:inline!important;
+  margin:0 6px!important;
+}
+:root body [data-widget-type].r2-bgrid .type_grid.type_grid .card-summary .date {
+  color:var(--sf-text-3)!important;
+  font:400 13px/1.4 var(--sf-font)!important;
+}

@@ -1,0 +1,77 @@
+/* 화면 묶음: common | 원본: src/sf-ui.css · 배지
+   함께 들어 있음: sf-product · 무료 라이브 상세 (Figma 22:1451) · 모임 상세 (28:2452), sf-ui · 배지, r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, sf-layout · 캐러셀 (carousel.js / carousel.css) — CSS scroll-snap, 모바일 스와이프, r2 · 회사소개: 언론에 소개된 시니어퓨처 (당근식) */
+:root .sf-badge--live {
+  background:var(--sf-danger);
+  color:#fff;
+}
+:root .sf-badge--live::before {
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#fff;
+}
+:root .sf-badge--neutral {
+  background:var(--sf-background);
+  color:var(--sf-text-2);
+}
+:root .sf-badge--dark {
+  background:var(--sf-dark);
+  color:#fff;
+}
+:root .sf-badge--outline {
+  background:var(--sf-canvas);
+  color:var(--sf-text-2);
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+}
+:root .sf-hidden {
+  display:none!important;
+}
+@media (prefers-reduced-motion:reduce) {
+  :root .sf-scope * {
+    transition:none!important;
+    animation:none!important;
+    scroll-behavior:auto!important;
+  }
+}
+:root .sf-track {
+  display:flex;
+  gap:24px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+  overscroll-behavior-x:contain;
+}
+:root .sf-track::-webkit-scrollbar {
+  display:none;
+}
+:root .sf-track>* {
+  flex:0 0 auto;
+  scroll-snap-align:start;
+}
+:root .sf-arrow {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:0;
+  background:var(--sf-canvas);
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  cursor:pointer;
+  font-size:20px;
+  color:var(--sf-text);
+}
+:root .sf-arrow[disabled] {
+  color:var(--sf-text-disabled);
+  cursor:default;
+}
+@media (max-width:767.98px) {
+  :root .sf-track {
+    gap:12px;
+    margin-right:-16px;
+    padding-right:16px;
+  }
+  :root .sf-arrow {
+    display:none;
+  }
+}

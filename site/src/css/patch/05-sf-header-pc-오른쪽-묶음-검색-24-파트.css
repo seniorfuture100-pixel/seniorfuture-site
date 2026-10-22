@@ -1,0 +1,119 @@
+/* 화면 묶음: common | 원본: src/sf-header.css · PC 오른쪽 묶음: 검색 24 · 파트너 지원 | 로그인 (14 Medium #555d6d)
+   함께 들어 있음: r2 · 검색: PC는 헤더 아래 패널 (월부식) · 최근 / 인기 2칸, sf-header · PC 오른쪽 묶음: 검색 24 · 파트너 지원 | 로그인 (14 Medium #555d6d), r3-options · r3-options.css — 수강 옵션 카드 · 선택한 옵션 줄 (r3-options.js 와 짝), sf-header · 모바일 헤더: Figma Header/Mobile 56px · 로고 18 · 검색·메뉴 */
+:root .sf-hd-actions {
+  display:inline-flex;
+  align-items:center;
+  gap:16px;
+  margin-right:16px;
+  vertical-align:middle;
+  white-space:nowrap;
+}
+html.sf-hd-on #doz_header .inline-col-group-right {
+  width:auto!important;
+}
+html.sf-hd-on #doz_header .inline-widget:has(>.sf-hd-actions) {
+  display:flex!important;
+  align-items:center;
+  white-space:nowrap;
+}
+:root .sf-hd-search {
+  display:inline-flex;
+  width:40px;
+  height:40px;
+  margin:-8px;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  border:0;
+  background:0 0;
+  cursor:pointer;
+  border-radius:9999px;
+}
+:root .sf-hd-search svg,
+:root .sf-mh__btn svg {
+  width:24px;
+  height:24px;
+  stroke:currentColor;
+  stroke-width:2;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+:root .sf-hd-actions a {
+  display:inline-flex;
+  align-items:center;
+  height:24px;
+  color:var(--sf-text-2);
+  font:500 14px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+  text-decoration:none;
+}
+:root .sf-hd-actions a:hover,
+:root .sf-hd-search {
+  color:var(--sf-text);
+}
+:root .sf-hd-actions a:last-child {
+  padding-right:16px;
+  border-right:1px solid var(--sf-text-2);
+  border-image:linear-gradient(transparent 25%,var(--sf-text-2) 25%,var(--sf-text-2) 75%,transparent 75%)1;
+}
+html.sf-hd-on #doz_header [data-widget-type=inline_login_btn] a,
+html.sf-hd-on #doz_header [data-widget-type=inline_login_btn] span:not(.sr-only) {
+  color:var(--sf-text-2)!important;
+  font:500 14px/1.5 var(--sf-font)!important;
+  letter-spacing:-.02em;
+}
+:root .sf-hd-actions a:focus-visible,
+:root .sf-hd-search:focus-visible,
+:root .sf-mh__btn:focus-visible {
+  outline:3px solid var(--sf-text-brand);
+  outline-offset:2px;
+}
+@media (max-width:767.98px) {
+  html.sf-hd-on #inline_header_mobile,
+  html.sf-hd-on #mobile_carousel_menu {
+    display:none!important;
+  }
+  html.sf-hd-on #doz_header_wrap {
+    position:sticky!important;
+    top:0;
+    z-index:30;
+    background:#fff;
+  }
+  html.sf-hd-on #doz_header_wrap.is-stuck {
+    box-shadow:0 1px 0 var(--sf-border);
+  }
+  :root .sf-mh {
+    display:flex;
+    align-items:center;
+    gap:16px;
+    height:56px;
+    padding:0 16px;
+    background:#fff;
+  }
+  :root .sf-mh__logo {
+    margin-right:auto;
+    text-decoration:none;
+  }
+  :root .sf-menu__head .sf-logo,
+  :root .sf-mh__logo .sf-logo {
+    font-size:18px;
+    letter-spacing:-.01em;
+  }
+  :root .sf-fab {
+    display:none;
+  }
+}
+:root .sf-mh__btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  margin:-10px;
+  padding:0;
+  border:0;
+  background:0 0;
+  color:var(--sf-text);
+  cursor:pointer;
+}

@@ -1,0 +1,80 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 구매 박스 정렬 보정: 아임웹 기본 왼쪽 여백 제거 · 공유(↗) 버튼을 제목 오른쪽에
+   함께 들어 있음: sf-header · PC 헤더: Figma Header/PC 72px · 스크롤해도 위에 고정 (아임웹 헤더 높이 설정 90px 를 덮어써요), r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, sf-fixes · 인사이트 상세: 본문 위 여백, 인용 막대 색, 링크 복사는 동그란 아이콘, 댓글 없음(Figma) */
+:root .sf-pv .goods_form header .view_tit {
+  grid-column:1;
+  grid-row:2;
+}
+:root .sf-pv .goods_form header .comment_num_warp {
+  grid-column:2;
+  grid-row:2;
+  position:static;
+  align-self:start;
+}
+:root .sf-pv .goods_form header .sf-pv-was {
+  margin-bottom:-18px;
+}
+@media (min-width:768px) {
+  html.sf-hd-on #doz_header_wrap {
+    position:sticky!important;
+    top:0;
+    z-index:30;
+  }
+  html.sf-hd-on #inline_header_normal .inline-section-wrap {
+    height:72px!important;
+    min-height:72px!important;
+  }
+  html.sf-hd-on #inline_header_normal .inline-section-wrap :is(.section_bg,
+  .section_bg_color,
+  .inline-inside,
+  .inline-section,
+  .inline-col-group,
+  .inline-col) {
+    height:72px!important;
+  }
+  html.sf-hd-on #inline_header_normal .inline-section-wrap .inline-col {
+    display:flex!important;
+    align-items:center;
+  }
+  html.sf-hd-on #inline_header_normal .inline-col-group-center .inline-col {
+    justify-content:center;
+  }
+  html.sf-hd-on #inline_header_normal .inline-col-group-right .inline-col {
+    justify-content:flex-end;
+  }
+}
+:root .sf-pv .ns-icon,
+:root .sf-pv-own .detail_detail_wrap_mobile {
+  display:none!important;
+}
+@media (max-width:767.98px) {
+  :root .sf-pv {
+    padding:0;
+  }
+  :root .sf-pv .goods_thumbs {
+    margin:0 -15px!important;
+    width:auto!important;
+    border-radius:0;
+  }
+  :root .sf-pv .goods_thumbs img {
+    border-radius:0;
+  }
+  :root .sf-pv-crumb {
+    margin:12px 0;
+  }
+  :root .sf-pv ._categorize_mobile,
+  :root .sf-pv-own .detail_detail_wrap {
+    display:none!important;
+  }
+  :root .sf-pv-own .detail_detail_wrap_mobile {
+    display:block!important;
+  }
+  :root .sf-pv .buy_btns.mobile .buy {
+    border-radius:9999px!important;
+    background:var(--sf-primary)!important;
+    color:#fff!important;
+    font:700 16px/1 var(--sf-font)!important;
+  }
+}
+:root .sf-pv .goods_form {
+  margin:0!important;
+}

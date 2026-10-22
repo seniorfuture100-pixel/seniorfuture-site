@@ -1,0 +1,25 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 바로 입장하기: 아래에서 올라오는 창
+   함께 들어 있음: r3 · 기업·공공기관 협업 보강 (10/20): 대상별 협업 · 3단계 연결 · 로고 벽 · 두 갈래 문의 */
+@keyframes r3up {
+  0% {
+    transform:translateY(40px);
+    opacity:.6;
+  }
+  to {
+    transform:none;
+    opacity:1;
+  }
+}
+@keyframes r3sk {
+  to {
+    background-position:-200%0;
+  }
+}
+@keyframes r3LogoRun {
+  0% {
+    background-position-x:0;
+  }
+  to {
+    background-position-x:-1024px;
+  }
+}

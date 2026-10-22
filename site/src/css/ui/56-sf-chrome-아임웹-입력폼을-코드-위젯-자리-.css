@@ -1,0 +1,42 @@
+/* 화면 묶음: common | 원본: src/sf-chrome.css · 아임웹 입력폼을 코드 위젯 자리(.sf-form-slot)에 옮겼을 때 모양 (form-slot.js 와 짝)
+   함께 들어 있음: r2 · 글 카드 움직임: BEST 카드와 같게 (썸네일 살짝 떠오름·그림자, 제목 주황, 사진 부드럽게 나타남), sf-chrome · 아임웹 입력폼을 코드 위젯 자리(.sf-form-slot)에 옮겼을 때 모양 (form-slot.js 와 짝), sf-biz · Contact + form */
+:root .sf-form-slot>h3 {
+  margin:0 0 20px;
+  font-size:24px;
+}
+:root .sf-form-slot .form-widget {
+  padding:0;
+  margin:0;
+}
+:root .sf-form-slot .form-group {
+  margin:0 0 18px;
+}
+:root .sf-form-slot .control-label {
+  display:block;
+  margin:0 0 8px;
+  padding:0;
+  color:var(--sf-text);
+  font:700 14px/1.5 var(--sf-font);
+  text-align:left;
+}
+:root .sf-form-slot .icon-required {
+  color:var(--sf-text-brand);
+}
+:root .sf-form-slot input.form-control,
+:root .sf-form-slot select.form-control,
+:root .sf-form-slot textarea.form-control {
+  width:100%;
+  height:auto;
+  min-height:48px;
+  padding:12px 16px;
+  border:0;
+  border-radius:10px;
+  box-shadow:inset 0 0 0 1px var(--sf-border-strong);
+  background:#fff;
+  color:var(--sf-text);
+  font:16px/1.5 var(--sf-font);
+}
+:root .sf-form-slot textarea.form-control {
+  min-height:120px;
+  resize:vertical;
+}

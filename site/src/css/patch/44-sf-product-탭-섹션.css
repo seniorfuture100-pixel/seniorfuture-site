@@ -1,0 +1,52 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 탭 · 섹션
+   함께 들어 있음: r3 · 찜한 강의: 홈 카드 그대로 (10/21), sf-fixes · 인사이트 상세: 본문 위 여백, 인용 막대 색, 링크 복사는 동그란 아이콘, 댓글 없음(Figma), sf-boardview · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741 */
+:root .sf-pv-who li {
+  position:relative;
+  padding-left:32px;
+  color:var(--sf-text);
+  font:400 16px/1.5 var(--sf-font);
+}
+:root .sf-pv-who li::before {
+  content:"";
+  position:absolute;
+  left:2px;
+  top:4px;
+  width:14px;
+  height:8px;
+  border-left:2px solid var(--sf-text-brand);
+  border-bottom:2px solid var(--sf-text-brand);
+  transform:rotate(-45deg);
+}
+:root .sf-pv-points {
+  grid-template-columns:repeat(3,1fr);
+}
+:root .sf-pv-points li {
+  padding:20px;
+  border-radius:12px;
+  background:var(--sf-surface);
+}
+:root .sf-pv-points small {
+  font:700 12px/1.4 var(--sf-font);
+}
+:root .sf-pv-points strong {
+  display:block;
+  margin:8px 0;
+  font:700 18px/1.45 var(--sf-font);
+}
+:root .sf-pv-points p {
+  margin:0;
+  color:var(--sf-text-2);
+}
+:root .sf-pv-own {
+  margin-top:16px;
+}
+:root .sf-pv-own .detail_detail_wrap {
+  margin:0!important;
+}
+:root .sf-pv-own .shop_view_body img {
+  border-radius:12px;
+}
+:root .sf-pv-chapters,
+:root .sf-pv-faq {
+  border-top:1px solid var(--sf-border);
+}

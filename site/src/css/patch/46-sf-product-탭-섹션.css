@@ -1,0 +1,67 @@
+/* 화면 묶음: course-detail | 원본: src/sf-product.css · 탭 · 섹션
+   함께 들어 있음: r2 · 검색: PC는 헤더 아래 패널 (월부식) · 최근 / 인기 2칸, sf-boardview · sf-boardview.css — 게시글 보기 (board-view.js 와 짝) — Figma 인사이트 상세 26:2103 · 수강평 상세 104:5634 · 공지 상세 58:5741, sf-product · 탭 · 섹션, sf-apply · 파트너 지원 (/partner · /partner/apply) — Figma 02 PC · 03 모바일 '11' 섹션 */
+:root .sf-pv-chapters [data-sf-acc-panel] {
+  margin:0 20px 16px;
+}
+:root .sf-pv-teacher {
+  display:flex;
+  gap:20px;
+  padding:24px;
+  border-radius:12px;
+  background:var(--sf-surface);
+}
+:root .sf-pv-teacher__photo {
+  flex-shrink:0;
+  width:88px;
+  height:88px;
+  border-radius:50%;
+  background:var(--sf-border);
+}
+:root .sf-pv-teacher strong {
+  display:block;
+  font:700 18px/1.45 var(--sf-font);
+}
+:root .sf-pv-teacher small {
+  display:block;
+  margin:8px 0;
+  color:var(--sf-text-2);
+  font:400 14px/1.5 var(--sf-font);
+}
+:root .sf-pv-refund p,
+:root .sf-pv-teacher p {
+  margin:0 0 8px;
+  color:var(--sf-text-2);
+  font:400 14px/1.5 var(--sf-font);
+}
+:root .sf-pv-teacher a {
+  color:var(--sf-text);
+  text-decoration:none;
+}
+:root .sf-pv-sechead {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+}
+:root .sf-pv-sechead h2 {
+  margin-bottom:6px;
+  font-size:24px;
+}
+:root .sf-pv-sechead .sf-pv-sub {
+  margin:0;
+}
+:root .sf-pv-arrows {
+  display:flex;
+  gap:8px;
+}
+:root .sf-pv-reviews {
+  gap:16px;
+}
+:root .sf-pv-reviews .sf-review {
+  flex:0 0 380px;
+  width:380px;
+}
+:root .sf-pv-reviews .sf-review__quote {
+  font-size:18px;
+}

@@ -1,0 +1,68 @@
+/* 화면 묶음: insight | 원본: src/sf-board.css · 인사이트 BEST 카드 · 뉴스레터 구독 상자 (Figma 인사이트 목록)
+   함께 들어 있음: r2 · 검색: PC는 헤더 아래 패널 (월부식) · 최근 / 인기 2칸, r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침 */
+:root .sf-icat {
+  color:var(--sf-text-brand);
+  font:500 13px/1.5 var(--sf-font);
+  letter-spacing:-.01em;
+}
+:root .sf-icard .sf-ccard__body {
+  gap:8px;
+}
+:root .sf-icard p {
+  white-space:normal!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+:root .sf-newsletter {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:24px 28px;
+  border-radius:16px;
+  background:var(--sf-brand-tint);
+  font-family:var(--sf-font);
+}
+:root .sf-newsletter>svg {
+  width:24px;
+  height:24px;
+  flex-shrink:0;
+  stroke:var(--sf-text-brand);
+  stroke-width:2;
+  fill:none;
+  stroke-linejoin:round;
+}
+:root .sf-newsletter__t {
+  flex:1;
+  display:grid;
+  gap:4px;
+}
+:root .sf-newsletter__t strong {
+  color:var(--sf-text);
+  font:700 16px/1.5 var(--sf-font);
+  letter-spacing:-.02em;
+}
+:root .sf-newsletter__t span {
+  color:var(--sf-text-2);
+  font:400 13px/1.5 var(--sf-font);
+}
+:root .sf-newsletter .sf-form-slot {
+  width:min(420px,100%);
+  margin:0 0 0 auto;
+  padding:0;
+  border-radius:0;
+  background:0 0;
+}
+:root .sf-newsletter .sf-form-slot form {
+  display:flex;
+  flex-direction:column-reverse;
+  gap:6px;
+}
+:root .sf-newsletter .sf-form-slot .form-group {
+  margin:0;
+}
+:root .sf-newsletter .sf-form-slot .privacy>.control-label,
+:root .sf-newsletter .sf-form-slot .privacy>.form-control {
+  display:none!important;
+}

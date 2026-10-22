@@ -1,0 +1,26 @@
+/* 화면 묶음: partner | 원본: src/sf-partners.css · 마케팅 파트너스 (/partners) — Figma 02 PC · 03 모바일 '10' 섹션
+   함께 들어 있음: sf-biz · 2차 수정: 연한 주황 섹션 · 고민 카드 3+3 · V 연결 · 가로 솔루션 카드 · 클릭 카드 · 로고, r2 · 글 카드 움직임: BEST 카드와 같게 (썸네일 살짝 떠오름·그림자, 제목 주황, 사진 부드럽게 나타남) */
+:root .sf-pt-cmp {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-top:40px;
+}
+:root .sf-pt-cmp div {
+  gap:8px;
+  text-align:center;
+}
+:root .sf-pt-cmp .on {
+  background:var(--sf-brand-tint);
+  box-shadow:inset 0 0 0 2px var(--sf-primary);
+}
+:root .sf-pt-cmp small {
+  font-size:16px;
+  font-weight:700;
+  color:var(--sf-text-2);
+}
+:root .sf-pt-cmp .on b,
+:root .sf-pt-cmp .on small,
+:root .sf-pt-ex mark {
+  color:var(--sf-text-brand);
+}

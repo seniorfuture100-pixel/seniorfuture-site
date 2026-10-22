@@ -1,0 +1,12 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 10/21 원래 화면이 먼저 보였다가 바뀌는 깜빡임 막기: 바꿀 준비가 끝날 때까지 자리만 두고 가려요(4초 안전장치) */
+:root body #sf-pv-review [data-sf-track]:not(.r3-rv-ready) {
+  visibility:hidden;
+  animation:r3-show 0s 4s forwards;
+}
+:root body .r2-my-intro {
+  min-height:1.5em;
+}
+:root body .r2-my-intro:empty::before {
+  content:var(--r3-intro,"");
+  color:var(--sf-text-2);
+}

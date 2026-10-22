@@ -1,0 +1,17 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 기업 협업 페이지 섹션 머리: 작은 표시(● PROJECT STORIES 등)와 제목·카드 사이 간격 */
+:root body .sf-biz .sf-dot {
+  margin-bottom:16px!important;
+  font-size:14px;
+}
+:root body .sf-biz #projects h2 {
+  margin-bottom:48px!important;
+}
+@media (max-width:767.98px) {
+  :root body .sf-biz .sf-dot {
+    margin-bottom:12px!important;
+    font-size:13px;
+  }
+  :root body .sf-biz #projects h2 {
+    margin-bottom:28px!important;
+  }
+}

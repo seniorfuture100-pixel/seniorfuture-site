@@ -1,0 +1,102 @@
+/* 화면 묶음: common | 원본: src/sf-header.css · 띠배너: Figma TopBanner 48px · 14 Bold · 그라데이션
+   함께 들어 있음: sf-header · PC 헤더: 72px, 콘텐츠 1200px, 메뉴 16 Bold 간격 32 */
+:root .sf-topbanner a {
+  color:#fff;
+  text-decoration:none;
+}
+:root .sf-topbanner [data-sf-close] {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  padding:0;
+  border:0;
+  background:0 0;
+  color:#fff;
+  cursor:pointer;
+}
+:root .sf-topbanner [data-sf-close] svg {
+  width:20px;
+  height:20px;
+  stroke:currentColor;
+  stroke-width:2;
+  fill:none;
+}
+@media (min-width:768px) {
+  html.sf-hd-on #doz_header_wrap {
+    background:#fff;
+  }
+  html.sf-hd-on #doz_header_wrap.is-stuck {
+    box-shadow:0 1px 0 var(--sf-border);
+  }
+  html.sf-hd-on #doz_header .inline-section-wrap:not(#mobile_carousel_menu) {
+    min-height:72px!important;
+  }
+  html.sf-hd-on #doz_header .inline-section-wrap .inline-inside,
+  html.sf-hd-on #doz_header .inline-section-wrap>.inline-section {
+    max-width:1200px!important;
+    margin:0 auto!important;
+  }
+  html.sf-hd-on #doz_header .viewport-nav.desktop {
+    display:flex!important;
+    align-items:center;
+    gap:32px;
+  }
+  html.sf-hd-on #doz_header .viewport-nav.desktop>li {
+    position:relative;
+    float:none!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  html.sf-hd-on #doz_header .viewport-nav.desktop>li>a {
+    display:inline-flex!important;
+    align-items:center;
+    gap:4px;
+    height:72px;
+    padding:0!important;
+    color:var(--sf-text)!important;
+    font:700 16px/1.5 var(--sf-font)!important;
+    letter-spacing:-.02em!important;
+    opacity:1!important;
+  }
+  html.sf-hd-on #doz_header .viewport-nav.desktop>li>a.active,
+  html.sf-hd-on #doz_header .viewport-nav.desktop>li>a:hover {
+    color:var(--sf-text-brand)!important;
+  }
+  html.sf-hd-on #doz_header .viewport-nav.desktop .dropdown-menu,
+  html.sf-hd-on #doz_header .viewport-nav.desktop>li.sf-nav-home {
+    display:none!important;
+  }
+  :root .sf-nav-caret {
+    display:inline-flex;
+    width:16px;
+    height:16px;
+    transition:transform .2s var(--sf-ease);
+  }
+  :root .sf-nav-caret svg {
+    width:16px;
+    height:16px;
+    stroke:currentColor;
+    stroke-width:2;
+    fill:none;
+  }
+  :root .sf-nav-edu a[aria-expanded=true] .sf-nav-caret {
+    transform:rotate(180deg);
+  }
+  :root .sf-mh {
+    display:none!important;
+  }
+}
+:root .sf-navdrop {
+  position:absolute;
+  top:calc(100% - 8px);
+  left:-24px;
+  z-index:40;
+  padding:24px;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border),0 5px 10px rgba(0,0,0,.05),0 15px 25px rgba(0,0,0,.07);
+  white-space:nowrap;
+  animation:sf-drop .18s var(--sf-ease);
+}

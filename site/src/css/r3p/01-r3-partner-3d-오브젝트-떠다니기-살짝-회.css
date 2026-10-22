@@ -1,0 +1,49 @@
+/* 화면 묶음: partner | 원본: src/r3-partner.css · 3D 오브젝트: 떠다니기 + 살짝 회전
+   함께 들어 있음: r3 · 당근처럼 스크롤에 맞춰 채워지는 제목 글자, r3-partner · 공통 */
+@keyframes r3apFloat {
+  0%,
+  to {
+    transform:translate3d(0,0,0) rotate(var(--rz,0deg));
+  }
+  50% {
+    transform:translate3d(0,-16px,0) rotate(calc(var(--rz,0deg)*-.4));
+  }
+}
+@keyframes r3apSpin {
+  0%,
+  to {
+    transform:translateY(0) rotateY(0) rotate(var(--rz,0deg));
+  }
+  50% {
+    transform:translateY(-14px) rotateY(180deg) rotate(var(--rz,0deg));
+  }
+}
+:root .sf-scope :where(h1,
+h2,
+h3,
+h4,
+h5,
+h6) {
+  font-family:var(--sf-font);
+  font-weight:700;
+}
+:root .sf-scope :where(a) {
+  color:inherit;
+}
+:root body .r3ap {
+  --r3ap-o:var(--sf-primary,#ff6f0f);
+  color:var(--sf-text,#1a1c20);
+  font-family:var(--sf-font);
+}
+:root body .r3ap section {
+  position:relative;
+  width:var(--r2-vw,100vw);
+  max-width:none;
+  margin-left:calc(50% - var(--r2-vw,100vw)/2)!important;
+  margin-right:0!important;
+  padding:120px 16px;
+  box-sizing:border-box;
+  overflow:hidden;
+  box-shadow:none!important;
+  clip-path:none!important;
+}

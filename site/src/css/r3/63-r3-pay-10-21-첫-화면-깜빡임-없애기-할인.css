@@ -1,0 +1,51 @@
+/* 화면 묶음: payment | 원본: src/r3-pay.css · 10/21: 첫 화면 깜빡임 없애기 · 할인 가격 · 결제하기 아래 동의 문구 */
+html:not(.r3pay-ready) body #oms-shop-payment {
+  opacity:0!important;
+}
+html.r3pay-ready body #oms-shop-payment {
+  opacity:1;
+  transition:opacity .15s;
+}
+html.r3pay-on body .r3pay-card__pr {
+  display:grid;
+  gap:2px;
+  margin-top:8px;
+}
+html.r3pay-on body .r3pay-card__off {
+  display:flex;
+  align-items:baseline;
+  gap:6px;
+  font:500 15px/1.4 var(--sf-font);
+  color:var(--sf-text-3);
+}
+html.r3pay-on body .r3pay-card__off b {
+  font-weight:800;
+  color:var(--sf-primary,#ff6b1a);
+}
+html.r3pay-on body .r3pay-card__off s {
+  color:var(--sf-text-3);
+}
+html.r3pay-on body .r3pay-card__pr .r3pay-card__price {
+  margin-top:0;
+}
+html.r3pay-on body .r3pay-terms-quiet {
+  display:none!important;
+}
+html.r3pay-on body .r3pay-agree {
+  margin:0 0 4px!important;
+  padding:0 2px;
+  color:var(--sf-text-3);
+  font:400 13px/1.6 var(--sf-font);
+  word-break:keep-all;
+  text-align:center;
+}
+html.r3pay-on body .r3pay-agree a {
+  color:var(--sf-text-2)!important;
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+@media (max-width:767.98px) {
+  html.r3pay-on body .r3pay-agree {
+    text-align:left;
+  }
+}

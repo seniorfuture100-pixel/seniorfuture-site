@@ -1,0 +1,30 @@
+/* 화면 묶음: common | 원본: src/sf-header.css · 카톡 상담 버튼: Figma FloatingButton 52px · 아이콘 20
+   함께 들어 있음: sf-header · 푸터 SNS 동그라미 (주소를 넣은 것만) */
+:root .sf-fab svg {
+  width:20px;
+  height:20px;
+  stroke:#fff;
+  stroke-width:2;
+  fill:none;
+  stroke-linejoin:round;
+}
+:root .sf-fab {
+  gap:8px;
+  padding:0 20px;
+  transition:transform .2s var(--sf-ease);
+}
+:root .sf-fab:hover {
+  transform:translateY(-2px);
+}
+:root .sf-ft-sns {
+  display:flex;
+  gap:12px;
+  max-width:1200px;
+  margin:24px auto 0;
+}
+:root .sf-ft-sns__a {
+  width:32px;
+  height:32px;
+  border-radius:9999px;
+  background:#3a3a3d;
+}

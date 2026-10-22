@@ -1,0 +1,59 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 교육 상세(10/20): 썸네일은 홈 카드처럼 16:9 틀에 가운데 맞춰 꽉 채움 · 탭은 같은 너비 밑줄형
+   함께 들어 있음: r3 · PC 헤더(992~1099px): 메뉴 간격 32px 때문에 오른쪽 버튼이 화면 밖으로 밀려 가로 스크롤이 생기던 것 → 간격만 줄여요 (10/20) */
+:root body .sf-pv .goods_thumbs,
+:root body .sf-pv .goods_thumbs .holder,
+:root body .sf-pv .goods_thumbs .owl-stage-outer {
+  height:auto!important;
+}
+:root body .sf-pv .goods_thumbs img {
+  display:block;
+  width:100%!important;
+  height:auto!important;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  object-position:50% 50%;
+}
+:root body .sf-pv-tabs {
+  gap:0!important;
+  margin-top:32px;
+  padding:0!important;
+  border-bottom:1px solid var(--sf-border);
+  overflow:visible;
+}
+:root body .sf-pv-tabs .sf-tab {
+  flex:1 1 0;
+  min-width:0;
+  padding:14px 4px 12px!important;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+  color:var(--sf-text-3);
+  font:600 16px/1.5 var(--sf-font)!important;
+  text-align:center;
+  white-space:nowrap;
+}
+:root body .sf-pv-tabs .sf-tab.is-active {
+  color:var(--sf-text);
+  font-weight:700!important;
+  border-bottom-color:var(--sf-text,#111);
+}
+:root body .sf-pv-tabs .sf-tab:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:-3px;
+}
+@media (max-width:767.98px) {
+  :root body .sf-pv-tabs {
+    margin-top:8px;
+    margin-left:-16px;
+    margin-right:-16px;
+    padding:0 4px!important;
+  }
+  :root body .sf-pv-tabs .sf-tab {
+    font-size:15px!important;
+    padding:13px 2px 11px!important;
+  }
+}
+@media (min-width:992px) and (max-width:1099.98px) {
+  :root body .viewport-nav.desktop._main_menu {
+    gap:18px!important;
+  }
+}

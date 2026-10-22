@@ -1,0 +1,37 @@
+/* 화면 묶음: course-list | 원본: src/sf-shop.css · sf-shop.css — 아임웹 상품 목록(그림자 DOM 안)을 Figma 카드로 (shop-list.js 가 이 CSS를 그림자 DOM에 복사해 넣어요)
+   함께 들어 있음: r2 · 로그인 상태 헤더 (월부식): 🔔 알림 + [사진] 내 강의실 → 마이페이지 메뉴 펼침, sf-shop · sf-shop.css — 아임웹 상품 목록(그림자 DOM 안)을 Figma 카드로 (shop-list.js 가 이 CSS를 그림자 DOM에 복사해 넣어요), sf-home · 이달의 BEST 강의 TOP 5: 순위 숫자(주황 32 Bold) + 강의 카드 224 */
+:root .sf-shop .iw-shop-wishlist svg {
+  width:24px;
+  height:24px;
+}
+:root .sf-shop .iw-shop-wishlist[aria-pressed=true] svg path {
+  fill:var(--sf-primary);
+  stroke:var(--sf-primary);
+}
+:root .sf-shop .iw-shop-wishlist-label {
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+}
+:root .sf-shop .iw-card-period:empty,
+:root .sf-shop .iw-card-price,
+:root .sf-shop .iw-shop-add-to-cart,
+:root .sf-shop .iw-shop-color-options {
+  display:none!important;
+}
+:root .sf-shop .iw-card-info-link {
+  display:block;
+  color:inherit;
+  text-decoration:none;
+}
+:root .sf-shop .iw-shop-body {
+  margin-top:12px!important;
+  gap:6px!important;
+}
+:root .sf-shop .iw-card-names {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}

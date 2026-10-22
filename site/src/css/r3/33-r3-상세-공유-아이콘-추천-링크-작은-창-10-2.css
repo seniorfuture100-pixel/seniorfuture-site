@@ -1,0 +1,44 @@
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 상세 공유 아이콘 · 추천 링크 작은 창 (10/20)
+   함께 들어 있음: r3-pay · 결제 수단 타일 */
+:root .r3-spop__p {
+  margin:12px 0 8px;
+  color:var(--sf-text-2);
+  font:400 15px/1.6 var(--sf-font);
+  word-break:keep-all;
+}
+:root .r3-spop__more {
+  color:var(--sf-text-3);
+  font:500 14px/1.5 var(--sf-font);
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+:root .r3-spop__btns {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:20px;
+}
+:root .r3-spop__b {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:56px;
+  padding:8px 12px;
+  border:0;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text);
+  font:600 14px/1.3 var(--sf-font);
+  text-align:left;
+  cursor:pointer;
+  word-break:keep-all;
+}
+:root .r3-spop__b:hover {
+  box-shadow:inset 0 0 0 1.5px var(--sf-text-3,#8b8f98);
+}
+:root .r3-spop__b:focus-visible,
+:root .r3-spop__x:focus-visible {
+  outline:3px solid var(--sf-primary);
+  outline-offset:2px;
+}

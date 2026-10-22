@@ -1,0 +1,55 @@
+/* 화면 묶음: partner | 원본: src/r3-partner.css · 섹션 배경은 화면 끝까지(아임웹 1280px 칸 밖으로), 내용은 sf-wrap 폭 그대로 */
+:root body .r3ap .sf-wrap {
+  position:relative;
+  z-index:1;
+}
+:root body .r3ap h2 {
+  font-size:48px;
+  line-height:1.3;
+  letter-spacing:-1.4px;
+  word-break:keep-all;
+}
+:root body .r3ap .r3ap-lead {
+  margin:20px 0 0;
+  color:var(--sf-text-2,#4d5159);
+  font-size:19px;
+  line-height:1.65;
+  word-break:keep-all;
+}
+:root body .r3ap.r3ap-js .r3ap-rv {
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .7s var(--sf-ease,ease) var(--d,0s),transform .7s var(--sf-ease,ease) var(--d,0s);
+}
+:root body .r3ap.r3ap-js .r3ap-rv.is-in {
+  opacity:1;
+  transform:none;
+}
+:root body .r3ap svg {
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+:root body .r3ap .r3ap-hero {
+  padding:150px 16px 120px;
+  text-align:center;
+  background:radial-gradient(1200px 520px at 50%0,#fff3ea 0,#fff8f3 45%,#fff 100%);
+}
+:root body .r3ap .r3ap-cta,
+:root body .r3ap .r3ap-pill {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border-radius:999px;
+  font-weight:700;
+}
+:root body .r3ap .r3ap-pill {
+  height:40px;
+  padding:0 18px;
+  background:#fff;
+  box-shadow:0 0 0 1px #ffd9bf,0 6px 18px rgba(255,111,15,.12);
+  color:#d94e00;
+  font-size:17px;
+  letter-spacing:-.2px;
+}

@@ -1,0 +1,84 @@
+/* 화면 묶음: login-join | 원본: src/sf-auth.css · sf-auth.css — 로그인·회원가입 카드 (auth-view.js 와 짝) — Figma PC/로그인 29:2839·29:2930, PC/회원가입 29:3025
+   함께 들어 있음: r3-options · r3-options.css — 수강 옵션 카드 · 선택한 옵션 줄 (r3-options.js 와 짝) */
+html.sf-auth-on .section_wrap:has(.sf-auth) {
+  background:var(--sf-surface)!important;
+  padding:40px 16px 64px!important;
+}
+html.sf-auth-on .section_wrap:has(.sf-auth) .section_bg,
+html.sf-auth-on .section_wrap:has(.sf-auth) .section_bg_color {
+  display:none;
+}
+:root .sf-auth {
+  max-width:480px;
+  margin:0 auto;
+  padding:40px!important;
+  border-radius:16px;
+  background:#fff;
+  font-family:var(--sf-font);
+  color:var(--sf-text);
+}
+:root .sf-auth__head {
+  margin-bottom:24px;
+}
+:root .sf-auth__head .sf-logo {
+  display:block;
+  margin-bottom:16px;
+  font-size:20px;
+}
+:root .sf-auth__head h1 {
+  margin:0 0 8px;
+  font:700 24px/1.35 var(--sf-font);
+  letter-spacing:-.02em;
+}
+:root .sf-auth__head p {
+  margin:0;
+  color:var(--sf-text-3);
+  font:400 13px/1.5 var(--sf-font);
+}
+:root .sf-auth .input_block {
+  border:0!important;
+  margin:0!important;
+  display:grid;
+  gap:16px;
+}
+:root .sf-auth .input_form {
+  position:relative;
+  border:0!important;
+  padding:0!important;
+  display:grid;
+  gap:8px;
+}
+:root .sf-auth .input_hidden {
+  display:grid!important;
+}
+:root .sf-auth__label {
+  color:var(--sf-text);
+  font:700 14px/1.5 var(--sf-font);
+}
+:root .sf-auth .input_form input {
+  height:48px!important;
+  padding:0 16px!important;
+  border:0!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  box-shadow:inset 0 0 0 1px var(--sf-border)!important;
+  color:var(--sf-text);
+  font:400 15px/1.5 var(--sf-font)!important;
+}
+:root .sf-auth .input_form input:focus {
+  box-shadow:inset 0 0 0 2px var(--sf-text)!important;
+  outline:0;
+}
+:root .sf-auth .input_form .right-icons {
+  top:auto!important;
+  bottom:14px;
+  right:14px;
+}
+:root .sf-auth .cheak_article {
+  margin:12px 0 0!important;
+}
+:root .sf-auth .cheak_article .agree_tit,
+:root .sf-auth__links a {
+  color:var(--sf-text-3);
+  font:400 13px/1.5 var(--sf-font);
+}
