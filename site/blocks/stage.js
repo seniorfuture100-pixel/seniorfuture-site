@@ -10,6 +10,7 @@
         if (n.nodeType !== 1 || !n.id || !/^sf-/.test(n.id) || n.id === 'sf-stage' || n.hasAttribute('data-sf-stage')) continue;
         if (n.tagName === 'SCRIPT') n.type = 'text/sf-off';          // 저장된 JS는 실행 안 함
         else if (n.tagName === 'STYLE' || n.tagName === 'LINK') n.media = 'not all';           // 저장된 CSS는 끔
+        n.id = n.id + '-off';   // 이름도 바꿔서 새 코드가 옛 블록 내용을 읽어 쓰지 못하게(10/22 상품 카드 CSS 사고 대책)
       }
     });
     mo.observe(document.documentElement, { childList: true, subtree: true });

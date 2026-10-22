@@ -10,6 +10,7 @@
         if (n.nodeType !== 1 || !n.id || !/^sf-/.test(n.id) || n.id === 'sf-stage' || n.hasAttribute('data-sf-stage')) continue;
         if (n.tagName === 'SCRIPT') n.type = 'text/sf-off';          // 저장된 JS는 실행 안 함
         else if (n.tagName === 'STYLE' || n.tagName === 'LINK') n.media = 'not all';           // 저장된 CSS는 끔
+        n.id = n.id + '-off';   // 이름도 바꿔서 새 코드가 옛 블록 내용을 읽어 쓰지 못하게(10/22 상품 카드 CSS 사고 대책)
       }
     });
     mo.observe(document.documentElement, { childList: true, subtree: true });
@@ -62,9 +63,9 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
   ]
 });
 </script>
-<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.1/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'">
+<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.2/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'">
 <style id="sf-patch-css"></style>
-<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.1/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){window.SFUI&&SFUI.init(document)};document.head.appendChild(s)"></script>
+<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.2/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){window.SFUI&&SFUI.init(document)};document.head.appendChild(s)"></script>
 <script id="sf-early">/* sf-early.js — 첫 화면부터 꾸민 모습 (아임웹 원본이 한 번도 그려지지 않게)
    배치: 공통 코드 Header Code 맨 끝, 꾸밈 JS 묶음(sf-ui-js · sf-patch-js · sf-r2-js · sf-r3-js) 바로 뒤.
    ① 본문: MutationObserver 콜백은 화면을 그리기 전에 실행돼요. 본문·푸터를 다 읽은 순간 꾸밈을 한 번 돌려요.

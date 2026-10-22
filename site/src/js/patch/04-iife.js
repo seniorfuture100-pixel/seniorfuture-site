@@ -186,9 +186,9 @@
         }(), d = i.querySelectorAll("li.iw-shop-card"), u = d[0] && l[d[0].getAttribute("data-system-product-id")], f = u && u.type || "course", p = i.querySelector(".widget-sandbox-root") || c.parentNode;
         if (!i.getElementById("sf-shop-css")) {
           var h = document.createElement("style");
-          h.id = "sf-shop-css", h.textContent = (window.SF_SHADOW_CSS || "") + [].map.call(document.querySelectorAll("style#sf-ui-css, style#sf-patch-css"), (function(t) {
+          h.id = "sf-shop-css", h.textContent = ((window.SF_SHADOW_CSS || "") + [].map.call(document.querySelectorAll("style#sf-ui-css, style#sf-patch-css"), (function(t) {
             return t.textContent;
-          })).join("\n").replace(/:root /g, ""), i.appendChild(h), a.push(i);
+          })).join("\n")).replace(/:root /g, ""), i.appendChild(h), a.push(i);
         }
         p.classList.add("sf-shop", "sf-shop--" + f, /^\/(index)?$/.test(location.pathname) ? "sf-shop--home" : "sf-shop--list"), 
         r.setAttribute("data-sf-shop", f), [].forEach.call(d, (function(t) {
