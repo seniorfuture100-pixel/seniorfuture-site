@@ -190,10 +190,12 @@ html.sf-bv-on body .board_view .table_bottom a[hidden] {
     margin-left:0!important;
     margin-right:0!important;
   }
+  html.sf-bv-on body .board_view .tools .comment_num.hidden-xs {
+    display:none!important;
+  }
 }
 
 /* ② CTA 크기 */
-:root body .sf-btn.sf-btn--l,
 :root body .r3ap-cta,
 :root body .r3ap-ghost {
   height:56px!important;
@@ -205,7 +207,6 @@ html.sf-bv-on body .board_view .table_bottom a[hidden] {
   margin-right:auto!important;
 }
 @media (max-width:767.98px) {
-  :root body .sf-btn.sf-btn--l,
   :root body .r3ap-cta,
   :root body .r3ap-ghost {
     height:52px!important;
