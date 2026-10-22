@@ -42,16 +42,14 @@ SFUI.register('siteMotion', function (root) {
   top.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>';
   top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
   document.body.appendChild(top);
-  var lastY = window.scrollY, ticking = false;
+  // 하단 탭바는 항상 보이게(10/21 결정) — 스크롤 때 숨겼다 되살리던 코드는 페이지 전체를 매번 다시 계산하게 해서 PC 휠이 버벅였어요(10/23 삭제)
+  var ticking = false, on = false;
   window.addEventListener('scroll', function () {
     if (ticking) return; ticking = true;
     requestAnimationFrame(function () {
-      var y = window.scrollY, bar = document.querySelector('[data-sf-tabbar]');
-      top.classList.toggle('is-on', y > 600);
-      if (bar) bar.classList.toggle('is-hidden', y > 200 && y > lastY + 4);
-      if (bar && y < lastY - 4) bar.classList.remove('is-hidden');
-      document.documentElement.classList.toggle('sf-tabbar-hidden', !!(bar && bar.classList.contains('is-hidden')));
-      lastY = y; ticking = false;
+      var want = window.scrollY > 600;
+      if (want !== on) { on = want; top.classList.toggle('is-on', on); }
+      ticking = false;
     });
   }, { passive: true });
 })

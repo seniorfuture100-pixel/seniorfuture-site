@@ -21,7 +21,8 @@ SFUI.register('carousel', function (root) {
     function perView() { return Math.max(1, Math.round(track.clientWidth / step())); }
     function index() { return Math.round(track.scrollLeft / step()); }
     // 화면이 움직이지 않게 순간 이동 (CSS scroll-behavior: smooth 를 잠깐 끔)
-    function jump(x) { var b = track.style.scrollBehavior, s = track.style.scrollSnapType; track.style.scrollBehavior = 'auto'; track.style.scrollSnapType = 'none'; track.scrollLeft = x; track.style.scrollSnapType = s; track.style.scrollBehavior = b; }
+    // (10/23) 붙는 위치(scroll-snap)를 껐다 켜면 페이지 전체를 다시 계산해서 PC 휠이 버벅였어요 → 이동 목표가 원래 붙는 위치라 끄지 않아요
+    function jump(x) { if (Math.abs(track.scrollLeft - x) < 1) return; track.scrollTo({ left: x, behavior: 'instant' }); }
     var peek = el.hasAttribute('data-peek') && slides().length > 1;
     var realCount = slides().length;
     if (peek) {

@@ -1,0 +1,206 @@
+/* 화면 묶음: home | 10/23 홈 배너 6장 (home-banner.js 와 짝)
+   장마다 다른 색 바탕 + 흰 굵은 글씨(왼쪽) + 코드로 그린 입체 그림(오른쪽). 지금 보이는 장의 그림만 천천히 떠다녀요. */
+:root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  color:#fff;
+  background:var(--hb-bg);
+}
+:root body .sfw-banner__slide.sf-hb::after {
+  content:none!important;
+}
+:root body .sfw-banner__slide.sf-hb::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:radial-gradient(60% 80% at 85% 20%,rgba(255,255,255,.18),transparent 60%),radial-gradient(50% 60% at 10% 100%,rgba(0,0,0,.18),transparent 70%);
+  pointer-events:none;
+}
+:root body .sfw-banner__slide.sf-hb .sfw-banner__copy {
+  z-index:2;
+}
+:root body .sfw-banner__slide.sf-hb .sfw-banner__copy .sf-badge {
+  background:rgba(255,255,255,.18)!important;
+  color:#fff!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
+  border-radius:999px;
+}
+:root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong {
+  color:#fff;
+  text-shadow:none;
+  word-break:keep-all;
+}
+:root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge) {
+  color:rgba(255,255,255,.88);
+}
+:root body .sfw-banner__slide.sf-hb .sfw-banner__copy em {
+  color:#fff;
+}
+.sf-hb--edu { --hb-bg:linear-gradient(135deg,#d9480f 0%,#f76707 55%,#ff922b 100%); --hb-ac:#fff4e6; }
+.sf-hb--live { --hb-bg:linear-gradient(135deg,#0b1736 0%,#16285c 60%,#1f3b85 100%); --hb-ac:#ff6b6b; }
+.sf-hb--insight { --hb-bg:linear-gradient(135deg,#08513c 0%,#0c6b50 55%,#12936c 100%); --hb-ac:#b2f2bb; }
+.sf-hb--meet { --hb-bg:linear-gradient(135deg,#3f2a8f 0%,#5b3fc4 60%,#7b61e8 100%); --hb-ac:#e5dbff; }
+.sf-hb--partner { --hb-bg:linear-gradient(135deg,#111318 0%,#1c1f27 60%,#2a2e39 100%); --hb-ac:#ff8a3d; }
+.sf-hb--biz { --hb-bg:linear-gradient(135deg,#0f3fb3 0%,#1c5fe0 60%,#3d82f7 100%); --hb-ac:#dbe7ff; }
+
+/* 그림 자리 */
+:root body .sfw-banner__slide.sf-hb .sf-hb__art {
+  position:absolute;
+  z-index:1;
+  top:0;
+  right:0;
+  bottom:0;
+  width:46%;
+  pointer-events:none;
+}
+.sf-hb__art>* {
+  position:absolute;
+  display:block;
+  font-style:normal;
+  font-family:var(--sf-font);
+  will-change:transform;
+}
+.sf-hb.is-current .sf-hb__art>* {
+  animation:sfHbFloat 6s ease-in-out infinite alternate;
+}
+.sf-hb.is-current .sf-hb__art>:nth-child(2n) { animation-delay:-2s; animation-duration:7s; }
+.sf-hb.is-current .sf-hb__art>:nth-child(3n) { animation-delay:-4s; animation-duration:8s; }
+@keyframes sfHbFloat {
+  from { translate:0 -5px; }
+  to { translate:0 6px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .sf-hb.is-current .sf-hb__art>* { animation:none!important; }
+}
+/* 공통 입체 재료: 반짝이는 흰 카드, 유리 구슬 */
+.sf-hb__card, .sf-hb__board, .sf-hb__panel, .sf-hb__bubble, .sf-hb__onair, .sf-hb__tag {
+  border-radius:16px;
+  background:linear-gradient(180deg,#fff 0%,#f3f4f7 100%);
+  color:#191f28;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 18px 30px -12px rgba(0,0,0,.35),0 4px 10px rgba(0,0,0,.12);
+}
+.sf-hb__orb {
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#fff 0 6%,var(--hb-ac) 22%,rgba(255,255,255,.35) 58%,rgba(255,255,255,.08) 100%);
+  box-shadow:inset -10px -14px 24px rgba(0,0,0,.18),0 20px 40px -10px rgba(0,0,0,.35);
+}
+
+/* 교육: 기울어진 강의 카드 3장 */
+.sf-hb--edu .sf-hb__orb { top:18%; right:8%; }
+.sf-hb--edu .sf-hb__card { width:190px; padding:14px 16px; }
+.sf-hb--edu .sf-hb__card b { display:block; font:800 16px/1.3 var(--sf-font); }
+.sf-hb--edu .sf-hb__card small { display:block; margin-top:6px; color:#8b95a1; font:600 12px/1 var(--sf-font); }
+.sf-hb--edu .sf-hb__card::before { content:""; display:block; width:36px; height:6px; margin-bottom:10px; border-radius:3px; background:#f76707; }
+.sf-hb--edu .c1 { top:16%; left:6%; rotate:-8deg; }
+.sf-hb--edu .c2 { top:40%; left:22%; rotate:4deg; z-index:2; }
+.sf-hb--edu .c3 { top:64%; left:4%; rotate:-3deg; }
+.sf-hb--edu .c2::before { background:#12b886; }
+.sf-hb--edu .c3::before { background:#4c6ef5; }
+
+/* 무료 라이브: 재생 버튼 구슬 + LIVE + 말풍선 */
+.sf-hb__play {
+  top:26%;
+  left:28%;
+  width:128px;
+  height:128px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ff8787 0,#fa5252 45%,#c92a2a 100%);
+  box-shadow:inset -12px -16px 28px rgba(0,0,0,.25),inset 8px 10px 18px rgba(255,255,255,.35),0 24px 40px -10px rgba(0,0,0,.5);
+}
+.sf-hb__play i { position:absolute; top:50%; left:54%; width:0; height:0; border-style:solid; border-width:22px 0 22px 36px; border-color:transparent transparent transparent #fff; translate:-50% -50%; }
+.sf-hb__onair { top:14%; right:12%; display:flex; align-items:center; gap:6px; height:32px; padding:0 14px; border-radius:999px; font:800 13px/32px var(--sf-font); letter-spacing:.06em; }
+.sf-hb__onair i { width:8px; height:8px; border-radius:50%; background:#fa5252; box-shadow:0 0 0 4px rgba(250,82,82,.2); }
+.sf-hb__bubble { padding:10px 14px; border-radius:16px 16px 16px 4px; font:700 13px/1.3 var(--sf-font); white-space:nowrap; }
+.sf-hb--live .b1 { top:68%; left:6%; }
+.sf-hb--live .b2 { top:58%; right:6%; border-radius:16px 16px 4px 16px; }
+
+/* 인사이트: 막대그래프 카드 */
+.sf-hb__board { top:20%; left:16%; width:230px; padding:16px 18px 14px; }
+.sf-hb__board small { display:block; color:#8b95a1; font:600 12px/1.2 var(--sf-font); }
+.sf-hb__board b { display:block; margin-top:4px; font:800 26px/1.2 var(--sf-font); color:#0c6b50; }
+.sf-hb__bars { display:flex; align-items:flex-end; gap:10px; height:84px; margin-top:12px; }
+.sf-hb__bars i { flex:1; height:var(--h); border-radius:6px 6px 2px 2px; background:linear-gradient(180deg,#38d9a9,#0ca678); box-shadow:inset -4px 0 0 rgba(0,0,0,.1); }
+.sf-hb__tag { top:12%; right:10%; padding:8px 12px; border-radius:999px; font:800 12px/1 var(--sf-font); color:#0c6b50; }
+
+/* 커뮤니티: 가운데 '함께' + 둘레 관심사 */
+.sf-hb__ring { top:50%; left:50%; width:300px; height:150px; margin:-75px 0 0 -150px; border:1.5px dashed rgba(255,255,255,.35); border-radius:50%; animation:none!important; }
+.sf-hb__hub { top:50%; left:50%; width:96px; height:96px; margin:-48px 0 0 -48px; border-radius:28px; display:grid; place-items:center; background:linear-gradient(160deg,#fff,#ece6ff); color:#5b3fc4; font:800 20px/1 var(--sf-font); box-shadow:0 20px 40px -12px rgba(0,0,0,.45),inset 0 -6px 12px rgba(91,63,196,.15); }
+.sf-hb__node { height:34px; padding:0 14px; border-radius:999px; background:rgba(255,255,255,.95); color:#3f2a8f; font:700 13px/34px var(--sf-font); box-shadow:0 10px 20px -8px rgba(0,0,0,.4); }
+.sf-hb--meet .n0 { top:12%; left:40%; }
+.sf-hb--meet .n1 { top:30%; left:4%; }
+.sf-hb--meet .n2 { top:30%; right:4%; }
+.sf-hb--meet .n3 { bottom:30%; left:6%; }
+.sf-hb--meet .n4 { bottom:30%; right:6%; }
+.sf-hb--meet .n5 { bottom:12%; left:38%; }
+
+/* 파트너 모집: 기울어진 분야 알약 */
+.sf-hb__pill { height:44px; padding:0 20px; border-radius:999px; color:#fff; font:800 15px/44px var(--sf-font); white-space:nowrap; box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 14px 24px -10px rgba(0,0,0,.6); }
+.sf-hb--partner .sf-hb__pill:nth-child(1) { top:8%; left:8%; rotate:-10deg; background:#f76707; }
+.sf-hb--partner .sf-hb__pill:nth-child(2) { top:22%; right:4%; rotate:8deg; background:#4c6ef5; }
+.sf-hb--partner .sf-hb__pill:nth-child(3) { top:38%; left:2%; rotate:6deg; background:#12b886; }
+.sf-hb--partner .sf-hb__pill:nth-child(4) { top:50%; right:8%; rotate:-6deg; background:#ae3ec9; }
+.sf-hb--partner .sf-hb__pill:nth-child(5) { top:64%; left:6%; rotate:-4deg; background:#1098ad; }
+.sf-hb--partner .sf-hb__pill:nth-child(6) { top:30%; left:30%; rotate:10deg; background:#e8590c; }
+
+/* 기업·기관: 할 일 판 + 쌓인 블록 */
+.sf-hb__panel { top:18%; left:12%; width:220px; padding:16px 18px; }
+.sf-hb__panel small { display:block; margin-bottom:8px; color:#8b95a1; font:600 12px/1.2 var(--sf-font); }
+.sf-hb__panel b { display:flex; align-items:center; gap:8px; padding:8px 0; font:700 15px/1.3 var(--sf-font); border-top:1px solid #eef0f3; }
+.sf-hb__panel b:first-of-type { border-top:0; }
+.sf-hb__panel b i { flex:none; width:18px; height:18px; border-radius:50%; background:#1c5fe0; box-shadow:inset 0 -2px 0 rgba(0,0,0,.2); }
+.sf-hb__cube { width:64px; height:64px; border-radius:16px; background:linear-gradient(145deg,#fff 0,#dbe7ff 60%,#a5c0f7 100%); box-shadow:inset -6px -8px 14px rgba(15,63,179,.25),0 18px 30px -10px rgba(0,0,0,.45); }
+.sf-hb--biz .q1 { top:10%; right:8%; rotate:12deg; }
+.sf-hb--biz .q2 { bottom:12%; right:22%; width:48px; height:48px; rotate:-10deg; }
+
+/* PC: 760×340 */
+@media (min-width:768px) {
+  :root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
+    align-items:center!important;
+    padding:0 0 0 56px!important;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy {
+    position:relative;
+    max-width:400px!important;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong {
+    font:800 30px/1.35 var(--sf-font)!important;
+  }
+}
+/* 휴대폰: 글씨는 아래 왼쪽, 그림은 오른쪽 위에 작게 */
+@media (max-width:767.98px) {
+  :root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
+    aspect-ratio:343/220!important;
+  }
+  :root body .sfw-banner__slide.sf-hb .sf-hb__art {
+    width:62%;
+    bottom:auto;
+    height:100%;
+    transform:scale(.62);
+    transform-origin:100% 0;
+    opacity:.95;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy {
+    position:absolute!important;
+    top:auto!important;
+    left:18px!important;
+    right:18px!important;
+    bottom:16px!important;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong {
+    font:800 20px/1.35 var(--sf-font)!important;
+    text-shadow:0 1px 12px rgba(0,0,0,.18)!important;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge) {
+    display:none;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy em {
+    display:none;
+  }
+  .sf-hb--partner .sf-hb__pill:nth-child(6) {
+    display:none;
+  }
+}

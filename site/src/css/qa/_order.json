@@ -4,5 +4,17 @@
   "screen": "common",
   "src": "r3-qa",
   "rules": 9
+ },
+ {
+  "file": "02-1023-ui.css",
+  "screen": "common",
+  "src": null,
+  "note": "10/23 사장님 점검"
+ },
+ {
+  "file": "03-1023-banner.css",
+  "screen": "home",
+  "src": null,
+  "note": "10/23 홈 배너 6장"
  }
 ]

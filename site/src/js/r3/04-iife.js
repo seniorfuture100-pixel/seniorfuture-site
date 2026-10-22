@@ -1495,11 +1495,8 @@
     }
   })), SFUI.register("r3WriteToPartner", (function() {
     /^\/(insight|help)\b/.test(location.pathname) && a("a.btn").forEach((function(t) {
-      if (!t.classList.contains("r3-to-partner") && "글쓰기" === t.textContent.trim()) {
-        var e = document.createElement("a");
-        e.className = t.className + " r3-to-partner", e.href = "/partner", e.textContent = "파트너 지원", 
-        t.parentNode.replaceChild(e, t);
-      }
+      // (10/23 사장님 결정) 글 아래 '글쓰기'를 '파트너 지원'으로 바꿔 두던 것 → 회색 네모 버튼으로 어색하게 보여 아예 숨김(글은 관리자에서 씀)
+      "글쓰기" !== t.textContent.trim() && !t.classList.contains("r3-to-partner") || (t.hidden = !0, t.style.display = "none");
     }));
   })), SFUI.register("r3ShareName", (function() {
     a("button.comment_num[data-sns-share]").forEach((function(t) {

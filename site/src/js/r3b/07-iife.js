@@ -25,6 +25,18 @@
     var fresh = [].filter.call(r.querySelectorAll('.iw-shop-card'), function (c) { return !c.classList.contains('sf-cin') && !c.classList.contains('sf-cin0'); });
     if (!fresh.length) return;
     addSheet(r);                                                     // 목록이 스타일 목록을 갈아 끼워도 다시 붙임
+    // (10/23) 분류 버튼이 켜지며 목록이 카드를 새로 그리면 움직임이 처음부터 한 번 더 돌았음(커뮤니티 '2번')
+    // → 두 번째부터는 첫 움직임이 시작된 시각 기준으로 이어서 재생(이미 끝났으면 바로 보임)
+    var now = Date.now();
+    if (!r.__sfT0) r.__sfT0 = now;
+    else {
+      var gone = now - r.__sfT0;
+      fresh.forEach(function (c) {
+        var i = [].indexOf.call(c.parentNode.children, c), d = Math.min(i, 8) * 70;
+        if (gone > d + 550) c.classList.add('sf-cin0'); else c.style.animationDelay = (d - gone) + 'ms';
+      });
+      fresh = fresh.filter(function (c) { return !c.classList.contains('sf-cin0'); });
+    }
     fresh.forEach(function (c) { c.classList.add('sf-cin'); });
   }
   // fresh: 카드가 아직 화면에 그려지기 전이면 true(차례로 떠오르게), 이미 그려졌을 수 있으면 false(다시 숨기지 않게 — 깜빡임 방지)
