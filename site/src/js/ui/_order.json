@@ -94,5 +94,9 @@
  {
   "file": "23-formSlot.js",
   "stmt": false
+ },
+ {
+  "file": "24-aboutStory.js",
+  "stmt": false
  }
 ]

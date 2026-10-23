@@ -388,5 +388,11 @@
   "screen": "payment",
   "src": "r3-pay",
   "rules": 3
+ },
+ {
+  "file": "66-r3-about-스토리-진행선.css",
+  "screen": "about",
+  "src": "r3-about-story",
+  "rules": 24
  }
 ]
