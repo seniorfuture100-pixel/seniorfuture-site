@@ -68,8 +68,10 @@ SFUI.register('productView', function() {
       }))[0], F = o ? [ "/live", "무료 라이브" ] : p ? [ "/community", "커뮤니티" ] : [ "/course", "교육" ], A = pe("nav", "sf-pv-crumb", '<a href="' + F[0] + '">' + F[1] + "</a>" + (I ? '<span aria-hidden="true">›</span><a href="/course?cat=' + I[0] + '">' + oe(I[1]) + "</a>" : "") + '<span aria-hidden="true">›</span><span aria-current="page">' + oe(l.split(":")[0]) + "</span>");
       A.setAttribute("aria-label", "현재 위치"), S.parentNode.insertBefore(A, S);
       var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
-      c && i.tags && (L = ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.ceil((k - j) / 864e5)) + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
+      var ht = SFUI.takeHashTags && SFUI.takeHashTags(document.querySelector(".goods_summary .fr-view") || document.querySelector(".goods_summary"), n);
+      c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.ceil((k - j) / 864e5)) + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
       p && (L = '<span class="sf-tag sf-tag--' + ("이벤트" === i.kind ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D), 
+      ht && !c && SFUI.tagHtml && (L += SFUI.tagHtml(ht));
       U && L && U.insertBefore(pe("div", "sf-tags sf-pv-tags", L), U.firstChild);
       var N = s.querySelector(".pay_detail");
       if (N) {
@@ -104,8 +106,26 @@ SFUI.register('productView', function() {
         var $ = pe("div", "sf-pv-share", "<div><strong>링크로 구매 시, 최대 " + oe(window.SF_SHARE && SF_SHARE.rate || "00%") + ' 적립</strong><span>친구가 결제하면 적립금이 쌓여요</span></div><button type="button" class="sf-pv-share__btn" data-sf-reward-share data-title="' + oe(l) + '">공유하고 수익받기</button>');
         V && V.parentNode.insertBefore($, V.nextSibling);
       }
-      var G = document.querySelector(".detail_detail_wrap"), J = document.querySelector(".detail_qna_wrap"), W = document.getElementById("prod_detail_body"), X = '<div class="sf-pv-own" data-sf-own></div>', Y = [ [ "sf-pv-intro", "소개" ] ], ee = "";
-      if (c) {
+      function meetInfo() {
+        return '<section class="sf-pv-sec sf-pv-meetinfo"><h2>모임 안내</h2><div class="sf-pv-infobox">' + [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") ], [ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + "까지" : "" ] ].filter((function(e) {
+          return e[2];
+        })).map((function(e) {
+          return "<p>" + e[0] + "<b>" + e[1] + "</b><span>" + oe(e[2]) + "</span></p>";
+        })).join("") + "</div></section>";
+      }
+      var G = document.querySelector(".detail_detail_wrap"), J = document.querySelector(".detail_qna_wrap"), W = document.getElementById("prod_detail_body"), X = '<div class="sf-pv-own" data-sf-own></div>', Y = [ [ "sf-pv-intro", "소개" ] ], ee = "", OW = W && ownSecs(W);
+      if (OW) {
+        // (10/23) 상세 설명에 [제목] 줄이 있으면 예시 내용 대신 사장님이 쓴 글로 탭을 만들어요
+        p && (ee += meetInfo());
+        var hasPre = OW.pre.some((function(e) {
+          return (e.textContent || "").trim() || e.querySelector && e.querySelector("img,iframe,video,table");
+        }));
+        Y = hasPre ? [ [ "sf-pv-intro", "소개" ] ] : [], hasPre && (ee += '<section id="sf-pv-intro" class="sf-pv-sec sf-pv-ownsec" data-sf-own-i="pre"><h2>소개</h2></section>');
+        OW.secs.forEach((function(e, s) {
+          var t = s || hasPre ? "sf-pv-d" + (s + 1) : "sf-pv-intro";
+          Y.push([ t, e.t ]), ee += '<section id="' + t + '" class="sf-pv-sec sf-pv-ownsec" data-sf-own-i="' + s + '"><h2>' + oe(e.t) + "</h2></section>";
+        })), (c || o) && (Y.push([ "sf-pv-review", "후기" ]), ee += ue());
+      } else if (c) {
         Y.push([ "sf-pv-curri", "커리큘럼" ], [ "sf-pv-teacher", "강사" ], [ "sf-pv-review", "후기" ]), 
         ee += '<section id="sf-pv-intro" class="sf-pv-sec"><h2>이런 분께 추천해요</h2>' + he(w.who) + "</section>", 
         ee += '<section class="sf-pv-sec"><h2>이 강의에서 배우는 것</h2><ol class="sf-pv-points">' + w.points.map((function(e, s) {
@@ -133,11 +153,7 @@ SFUI.register('productView', function() {
         })).join("") + "</ul></section>", ee += ue();
       } else {
         Y.push([ "sf-pv-schedule", "일정" ], [ "sf-pv-host", "호스트" ], [ "sf-pv-place", "장소" ]), 
-        ee += '<section class="sf-pv-sec sf-pv-meetinfo"><h2>모임 안내</h2><div class="sf-pv-infobox">' + [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") ], [ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + "까지" : "" ] ].filter((function(e) {
-          return e[2];
-        })).map((function(e) {
-          return "<p>" + e[0] + "<b>" + e[1] + "</b><span>" + oe(e[2]) + "</span></p>";
-        })).join("") + "</div></section>", ee += '<section id="sf-pv-intro" class="sf-pv-sec"><h2>모임 소개</h2><p class="sf-pv-lead">' + oe(w.intro) + "</p>" + he(w.checks) + X + "</section>", 
+        ee += meetInfo(), ee += '<section id="sf-pv-intro" class="sf-pv-sec"><h2>모임 소개</h2><p class="sf-pv-lead">' + oe(w.intro) + "</p>" + he(w.checks) + X + "</section>", 
         ee += '<section id="sf-pv-schedule" class="sf-pv-sec"><h2>일정</h2><dl class="sf-pv-guide sf-pv-guide--rows">' + w.schedule.map((function(e) {
           return "<div><dt>" + oe(e[0]) + "</dt><dd>" + oe(e[1]) + "</dd></div>";
         })).join("") + "</dl></section>", ee += '<section id="sf-pv-host" class="sf-pv-sec"><h2>호스트</h2><div class="sf-pv-teacher sf-pv-teacher--s"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(w.host.name) + "</strong><p>" + oe(w.host.bio) + "</p></div></div></section>", 
@@ -147,7 +163,7 @@ SFUI.register('productView', function() {
       var ae = pe("nav", "sf-tabs sf-pv-tabs", Y.map((function(e, s) {
         return '<a href="#' + e[0] + '" class="sf-tab' + (s ? "" : " is-active") + '">' + e[1] + "</a>";
       })).join(""));
-      ae.setAttribute("data-sf-anchor-tabs", ""), ae.setAttribute("data-offset", "130"), 
+      OW && ae.classList.add("sf-pv-tabs--own"), ae.setAttribute("data-sf-anchor-tabs", ""), ae.setAttribute("data-offset", "130"), 
       ae.setAttribute("aria-label", "상세 내용 바로가기"), x.appendChild(ae);
       var ne = pe("div", "sf-pv-secs", ee);
       x.appendChild(ne);
@@ -159,10 +175,33 @@ SFUI.register('productView', function() {
         var ce = pe("section", "sf-pv-sec sf-pv-qna");
         ce.id = "sf-pv-qna", ce.appendChild(pe("h2", "", "문의")), ce.appendChild(J), ne.appendChild(ce);
       }
+      OW && ([].forEach.call(ne.querySelectorAll("[data-sf-own-i]"), (function(e) {
+        var s = e.getAttribute("data-sf-own-i"), t = pe("div", "sf-pv-ownbody shop_view_body fr-view");
+        ("pre" === s ? OW.pre : OW.secs[+s].n).forEach((function(e) {
+          t.appendChild(e);
+        })), [].forEach.call(t.querySelectorAll("img"), (function(e) {
+          var s = e.getAttribute("data-src") || e.getAttribute("data-original");
+          s && !e.getAttribute("src") && (e.src = s);
+        })), e.appendChild(t);
+      })), G && (G.hidden = !0), re && (re.hidden = !0));
       document.querySelectorAll(".categorize.review-box, .detail_review_wrap").forEach((function(e) {
         e.hidden = !0;
       })), window.SFUI && SFUI.init && SFUI.init(S);
     }
+  }
+  // (10/23) 상세 설명을 [제목] 줄로 나눠요. '[커리큘럼]'·'【강사 소개】'처럼 괄호로 감싼 20자 이내 한 줄만 제목으로 봐요
+  //   첫 제목 앞의 글은 '소개' 칸. 제목 줄이 없으면 null → 예전처럼 예시 내용 + 상세 설명
+  function ownSecs(W) {
+    for (var e = W, s; (s = [].filter.call(e.children, (function(e) {
+      return !/^(STYLE|SCRIPT)$/.test(e.tagName);
+    }))).length === 1 && /^(DIV|SECTION|ARTICLE)$/.test(s[0].tagName); ) e = s[0];
+    var t = [], a = [], n = null;
+    return [].slice.call(e.childNodes).forEach((function(e) {
+      if (1 !== e.nodeType || !/^(STYLE|SCRIPT)$/.test(e.tagName)) {
+        var s = 1 === e.nodeType && !e.querySelector("img,iframe,video,table") && /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/.exec(e.textContent);
+        s ? (n = { t: s[1], n: [] }, t.push(n)) : (n ? n.n : a).push(e);
+      }
+    })), t.length ? { pre: a, secs: t } : null;
   }
   function oe(e) {
     return v.textContent = null == e ? "" : String(e), v.innerHTML.replace(/"/g, f + "#34;");

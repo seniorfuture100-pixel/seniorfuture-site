@@ -1,0 +1,26 @@
+/* 화면 묶음: course-detail | 10/23 상세 설명 [제목] 탭 (product-view.js 의 ownSecs 와 짝)
+   사장님이 관리자 '상품 상세 설명'에 쓴 글을 탭 칸 안에 그대로 보여 줘요. 글 크기·줄 간격만 상세 화면에 맞춰요. */
+:root .sf-pv-ownbody {
+  font-size:17px;
+  line-height:1.75;
+  color:#33353a;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+:root .sf-pv-ownbody p { margin:0 0 12px; }
+:root .sf-pv-ownbody img,
+:root .sf-pv-ownbody video,
+:root .sf-pv-ownbody iframe { max-width:100% !important; height:auto; border-radius:12px; }
+:root .sf-pv-ownbody iframe { aspect-ratio:16/9; width:100%; }
+:root .sf-pv-ownbody table { width:100% !important; border-collapse:collapse; font-size:15px; }
+:root .sf-pv-ownbody td,
+:root .sf-pv-ownbody th { border:1px solid #e3e5e9; padding:10px 12px; }
+:root .sf-pv-ownbody ul,
+:root .sf-pv-ownbody ol { padding-left:22px; margin:0 0 12px; }
+/* 사장님이 정한 탭은 개수·길이가 제각각 → 넘치면 옆으로 밀어 보기(글자 줄바꿈 없음) */
+:root .sf-pv-tabs--own { overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+:root .sf-pv-tabs--own::-webkit-scrollbar { display:none; }
+:root .sf-pv-tabs--own .sf-tab { flex:1 0 auto; white-space:nowrap; padding-left:16px; padding-right:16px; }
+@media (max-width:767px) {
+  :root .sf-pv-ownbody { font-size:16px; }
+}

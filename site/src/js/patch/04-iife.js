@@ -165,9 +165,44 @@
     var k, o = {}, x = window.SF_SITE && SF_SITE.items || {};
     for (k in t) o[k] = t[k];
     for (k in x) o[k] = x[k];
+    for (k in SFUI.__hash) { var q = {}, z; for (z in o[k] || {}) q[z] = o[k][z]; q.tags = SFUI.__hash[k]; o[k] = q; }
     return o;
   };
   SFUI.shopTags = e;
+  // (10/23) 아임웹 상품 '요약 설명' 끝의 #꼬리표 → 카드·상세 꼬리표. 예: '현장 운영자가 알려주는 6주 실무 과정 #BEST #얼리버드'
+  //   BEST·NEW·인기급상승·얼리버드·선착순·마감임박(한글·영문 모두)은 색 꼬리표, 그 밖의 글자는 회색 꼬리표(sf-tag--etc)
+  //   #꼬리표가 하나라도 있으면 위 표(t)의 tags 대신 그걸 써요. 요약 설명 글에서는 #꼬리표 부분을 지워서 보여 줘요
+  var hashAlias = { best: "best", "베스트": "best", new: "new", "신규": "new", "신상품": "new", "신상": "new", hot: "hot", "인기": "hot", "인기급상승": "hot", "얼리버드": "early", "선착순": "first", "마감임박": "closing" };
+  SFUI.__hash = SFUI.__hash || {};
+  SFUI.hashTags = function(text) {
+    var tags = [], rest = String(text || "").replace(/(^|\s)[#＃]([^\s#＃]{1,12})/g, function(m, sp, w) {
+      var k = hashAlias[w.toLowerCase()];
+      tags.push(k || "#" + w);
+      return " ";
+    }).replace(/\s+/g, " ").trim();
+    return { tags: tags, text: rest };
+  };
+  SFUI.tagHtml = function(list) {
+    var d = document.createElement("div");
+    return (list || []).map(function(t) {
+      var x = e[t];
+      if (x) return '<span class="sf-tag sf-tag--' + x[0] + '">' + x[1] + "</span>";
+      if (String(t).charAt(0) !== "#") return "";
+      d.textContent = String(t).slice(1);
+      return '<span class="sf-tag sf-tag--etc">' + d.innerHTML + "</span>";
+    }).join("");
+  };
+  // 요약 설명 칸(el)에서 #꼬리표를 떼어 내고 꼬리표 목록을 돌려줘요(없으면 null)
+  SFUI.takeHashTags = function(el, idx) {
+    if (!el) return null;
+    var h = SFUI.hashTags(el.textContent);
+    if (!h.tags.length) return null;
+    var leaf = el.querySelector("p") || el;
+    leaf.textContent = h.text;
+    if (!h.text) el.hidden = !0;
+    if (idx) SFUI.__hash[idx] = h.tags;
+    return h.tags;
+  };
   function s(t) {
     var e = Date.now(), a = SFUI.parseDate(t.deadline), s = SFUI.parseDate(t.start);
     return s && e >= s || a && e >= a ? [ "closed", "모집 마감" ] : a && a - e <= 2592e5 ? [ "soon", "마감 임박" ] : [ "recruit", "모집중" ];
@@ -198,11 +233,8 @@
           !function(t, a, r) {
             if (!t.getAttribute("data-sf-card")) {
               t.setAttribute("data-sf-card", r);
-              var i = t.querySelector(".iw-card-info-link") || t, n = t.querySelector(".iw-shop-product-badges");
-              if ("course" === r) t.setAttribute("data-category", a.cat || ""), n && a.tags && (n.innerHTML = '<span class="sf-tags">' + a.tags.map((function(t) {
-                var a = e[t];
-                return a ? '<span class="sf-tag sf-tag--' + a[0] + '">' + a[1] + "</span>" : "";
-              })).join("") + "</span>"); else if ("live" === r) {
+              var i = t.querySelector(".iw-card-info-link") || t, n = t.querySelector(".iw-shop-product-badges"), ht = SFUI.takeHashTags(t.querySelector(".iw-shop-product-summary"), t.getAttribute("data-system-product-id")), tg = ht || a.tags;
+              if ("course" === r) t.setAttribute("data-category", a.cat || ""), n && tg && (n.innerHTML = '<span class="sf-tags">' + SFUI.tagHtml(tg) + "</span>"); else if ("live" === r) {
                 var o = (t.querySelector('a[href*="idx="]') || {}).getAttribute ? t.querySelector('a[href*="idx="]').getAttribute("href") : "#";
                 t.setAttribute("data-sf-live", ""), t.setAttribute("data-start", a.start || ""), 
                 t.setAttribute("data-end", a.end || ""), t.setAttribute("data-deadline", a.deadline || ""), 
