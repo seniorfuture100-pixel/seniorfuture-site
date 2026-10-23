@@ -68,11 +68,19 @@ SFUI.register('productView', function() {
       }))[0], F = o ? [ "/live", "무료 라이브" ] : p ? [ "/community", "커뮤니티" ] : [ "/course", "교육" ], A = pe("nav", "sf-pv-crumb", '<a href="' + F[0] + '">' + F[1] + "</a>" + (I ? '<span aria-hidden="true">›</span><a href="/course?cat=' + I[0] + '">' + oe(I[1]) + "</a>" : "") + '<span aria-hidden="true">›</span><span aria-current="page">' + oe(l.split(":")[0]) + "</span>");
       A.setAttribute("aria-label", "현재 위치"), S.parentNode.insertBefore(A, S);
       var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
-      var ht = SFUI.takeHashTags && SFUI.takeHashTags(document.querySelector(".goods_summary .fr-view") || document.querySelector(".goods_summary"), n);
+      // (10/23 2차) 꼬리표 = 목록에서 읽어 둔 아임웹 상품 배지(없으면 아래 badgeFetch 가 목록을 한 번 받아 채워요)
+      var ht = null;
+      try { ht = (SFUI.__hash || {})[n] || JSON.parse(sessionStorage.getItem("sf_badges") || "{}")[n] || null; } catch (x) {}
       c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.ceil((k - j) / 864e5)) + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
       p && (L = '<span class="sf-tag sf-tag--' + ("이벤트" === i.kind ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D), 
       ht && !c && SFUI.tagHtml && (L += SFUI.tagHtml(ht));
       U && L && U.insertBefore(pe("div", "sf-tags sf-pv-tags", L), U.firstChild);
+      ht || badgeFetch(n, (function(e) {
+        if (e && SFUI.tagHtml) {
+          var s = U && U.querySelector(".sf-pv-tags"), t = SFUI.tagHtml(e);
+          c ? s ? s.innerHTML = t : U && U.insertBefore(pe("div", "sf-tags sf-pv-tags", t), U.firstChild) : s && s.insertAdjacentHTML("beforeend", t);
+        }
+      }));
       var N = s.querySelector(".pay_detail");
       if (N) {
         var T = N.querySelector(".real_price"), H = function(e) {
@@ -114,6 +122,10 @@ SFUI.register('productView', function() {
         })).join("") + "</div></section>";
       }
       var G = document.querySelector(".detail_detail_wrap"), J = document.querySelector(".detail_qna_wrap"), W = document.getElementById("prod_detail_body"), X = '<div class="sf-pv-own" data-sf-own></div>', Y = [ [ "sf-pv-intro", "소개" ] ], ee = "", OW = W && ownSecs(W);
+      // (10/23 2차) 예시 내용(가짜 강사·커리큘럼)은 예전부터 있던 상품(코드 표)이나 SF_SITE.details 가 있는 상품만. 새 상품은 쓴 글만 '소개'로
+      !OW && W && !(SFUI.__baseItems || {})[n] && !(a.items || {})[n] && !(a.details || a.courses || {})[n] && (OW = splitRefund({ pre: [].filter.call(W.childNodes, (function(e) {
+        return !(1 === e.nodeType && /^(STYLE|SCRIPT)$/.test(e.tagName));
+      })), secs: [] }));
       if (OW) {
         // (10/23) 상세 설명에 [제목] 줄이 있으면 예시 내용 대신 사장님이 쓴 글로 탭을 만들어요
         p && (ee += meetInfo());
@@ -201,7 +213,37 @@ SFUI.register('productView', function() {
         var s = 1 === e.nodeType && !e.querySelector("img,iframe,video,table") && /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/.exec(e.textContent);
         s ? (n = { t: s[1], n: [] }, t.push(n)) : (n ? n.n : a).push(e);
       }
-    })), t.length ? { pre: a, secs: t } : null;
+    }));
+    return t.length ? splitRefund({ pre: a, secs: t }) : null;
+  }
+  // (10/23 2차) '상품 상세 하단 공통'(교환·반품 안내 '<교환 및 반품 가능 기간>' 등)은 마지막 칸에 섞이지 않게 '교환·환불 안내' 칸으로 떼어 내요
+  function splitRefund(o) {
+    var last = o.secs.length ? o.secs[o.secs.length - 1].n : o.pre, k = -1;
+    last.some((function(e, s) {
+      return /^\s*[<＜〈]\s*(교환|반품|환불)/.test(e.textContent || "") && (k = s, !0);
+    }));
+    k >= 0 && o.secs.push({ t: "교환·환불 안내", n: last.splice(k) });
+    return o;
+  }
+  // 상세 화면에 꼬리표가 아직 없으면(목록을 거치지 않고 바로 들어온 경우) 같은 목록 주소를 한 번 받아 배지를 읽어요
+  function badgeFetch(idx, done) {
+    if (!idx || !SFUI.badgeTags || !window.fetch || !window.DOMParser) return;
+    var pm = /preview_mode=1/.test(location.search) ? "?preview_mode=1" : "";
+    fetch((location.pathname.replace(/\/$/, "") || "/") + pm, { credentials: "same-origin" }).then((function(e) {
+      return e.ok ? e.text() : "";
+    })).then((function(e) {
+      var s = e && new DOMParser().parseFromString(e, "text/html"), a = {}, r = s ? [ s ].concat([].map.call(s.querySelectorAll("template"), (function(e) {
+        return e.content;
+      }))) : [];
+      // 상품 카드는 목록 위젯의 그림자 영역 틀(<template>) 안에 들어 있어요
+      r.forEach((function(s) {
+        [].forEach.call(s.querySelectorAll("li.iw-shop-card[data-system-product-id]"), (function(e) {
+        var s = SFUI.badgeTags(e.querySelector(".iw-shop-product-badges"));
+          s && (a[e.getAttribute("data-system-product-id")] = s, SFUI.saveBadgeTags(e.getAttribute("data-system-product-id"), s));
+        }));
+      }));
+      done(a[idx] || null);
+    }))["catch"]((function() {}));
   }
   function oe(e) {
     return v.textContent = null == e ? "" : String(e), v.innerHTML.replace(/"/g, f + "#34;");

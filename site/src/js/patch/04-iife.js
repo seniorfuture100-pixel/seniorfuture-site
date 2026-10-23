@@ -169,39 +169,32 @@
     return o;
   };
   SFUI.shopTags = e;
-  // (10/23) 아임웹 상품 '요약 설명' 끝의 #꼬리표 → 카드·상세 꼬리표. 예: '현장 운영자가 알려주는 6주 실무 과정 #BEST #얼리버드'
-  //   BEST·NEW·인기급상승·얼리버드·선착순·마감임박(한글·영문 모두)은 색 꼬리표, 그 밖의 글자는 회색 꼬리표(sf-tag--etc)
-  //   #꼬리표가 하나라도 있으면 위 표(t)의 tags 대신 그걸 써요. 요약 설명 글에서는 #꼬리표 부분을 지워서 보여 줘요
-  var hashAlias = { best: "best", "베스트": "best", new: "new", "신규": "new", "신상품": "new", "신상": "new", hot: "hot", "인기": "hot", "인기급상승": "hot", "얼리버드": "early", "선착순": "first", "마감임박": "closing" };
+  // (10/23 2차) 아임웹 상품 편집 '상품 강조 설정 → 상품 배지' 체크칸 → 꼬리표
+  //   베스트→BEST · 신상품→NEW · 주문폭주→인기급상승 · 오늘출발→얼리버드 · MD추천→선착순 한정
+  //   (요약 설명 #꼬리표 방식은 요약 설명이 광고 문구로도 나가서 뺐어요. 대표 이미지 좌상단·하단 배지는 지금 목록 화면에 실려 오지 않아 못 써요)
+  //   체크칸이 하나도 없으면 위 표(t)의 tags 를 그대로 써요. 목록에서 읽은 값은 상세 화면도 쓰도록 sessionStorage 에 남겨요
+  var BADGE = { best: "best", "new": "new", hot: "hot", "today-shipping": "early", md: "limited" };
+  e.limited = [ "first", "선착순 한정" ];
+  SFUI.__baseItems = t;
   SFUI.__hash = SFUI.__hash || {};
-  SFUI.hashTags = function(text) {
-    var tags = [], rest = String(text || "").replace(/(^|\s)[#＃]([^\s#＃]{1,12})/g, function(m, sp, w) {
-      var k = hashAlias[w.toLowerCase()];
-      tags.push(k || "#" + w);
-      return " ";
-    }).replace(/\s+/g, " ").trim();
-    return { tags: tags, text: rest };
+  SFUI.badgeTags = function(box) {
+    var out = [];
+    box && [].forEach.call(box.querySelectorAll(".iw-shop-badge"), function(b) {
+      var m = /iw-shop-badge--([a-z-]+)/.exec(b.className), k = m && BADGE[m[1]];
+      k && out.indexOf(k) < 0 && out.push(k);
+    });
+    return out.length ? out : null;
+  };
+  SFUI.saveBadgeTags = function(idx, tags) {
+    if (!idx || !tags) return;
+    SFUI.__hash[idx] = tags;
+    try { var o = JSON.parse(sessionStorage.getItem("sf_badges") || "{}"); o[idx] = tags; sessionStorage.setItem("sf_badges", JSON.stringify(o)); } catch (x) {}
   };
   SFUI.tagHtml = function(list) {
-    var d = document.createElement("div");
     return (list || []).map(function(t) {
       var x = e[t];
-      if (x) return '<span class="sf-tag sf-tag--' + x[0] + '">' + x[1] + "</span>";
-      if (String(t).charAt(0) !== "#") return "";
-      d.textContent = String(t).slice(1);
-      return '<span class="sf-tag sf-tag--etc">' + d.innerHTML + "</span>";
+      return x ? '<span class="sf-tag sf-tag--' + x[0] + '">' + x[1] + "</span>" : "";
     }).join("");
-  };
-  // 요약 설명 칸(el)에서 #꼬리표를 떼어 내고 꼬리표 목록을 돌려줘요(없으면 null)
-  SFUI.takeHashTags = function(el, idx) {
-    if (!el) return null;
-    var h = SFUI.hashTags(el.textContent);
-    if (!h.tags.length) return null;
-    var leaf = el.querySelector("p") || el;
-    leaf.textContent = h.text;
-    if (!h.text) el.hidden = !0;
-    if (idx) SFUI.__hash[idx] = h.tags;
-    return h.tags;
   };
   function s(t) {
     var e = Date.now(), a = SFUI.parseDate(t.deadline), s = SFUI.parseDate(t.start);
@@ -233,7 +226,8 @@
           !function(t, a, r) {
             if (!t.getAttribute("data-sf-card")) {
               t.setAttribute("data-sf-card", r);
-              var i = t.querySelector(".iw-card-info-link") || t, n = t.querySelector(".iw-shop-product-badges"), ht = SFUI.takeHashTags(t.querySelector(".iw-shop-product-summary"), t.getAttribute("data-system-product-id")), tg = ht || a.tags;
+              var i = t.querySelector(".iw-card-info-link") || t, n = t.querySelector(".iw-shop-product-badges"), ht = SFUI.badgeTags(n), tg = ht || a.tags;
+              SFUI.saveBadgeTags(t.getAttribute("data-system-product-id"), ht);
               if ("course" === r) t.setAttribute("data-category", a.cat || ""), n && tg && (n.innerHTML = '<span class="sf-tags">' + SFUI.tagHtml(tg) + "</span>"); else if ("live" === r) {
                 var o = (t.querySelector('a[href*="idx="]') || {}).getAttribute ? t.querySelector('a[href*="idx="]').getAttribute("href") : "#";
                 t.setAttribute("data-sf-live", ""), t.setAttribute("data-start", a.start || ""), 
@@ -252,6 +246,7 @@
                 d.className = "sf-shop-meta", d.innerHTML = (a.date ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>' + a.date + "</span>" : "") + (a.place ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>' + a.place + "</span>" : ""), 
                 i.appendChild(d);
               }
+              ht && "course" !== r && n && n.insertAdjacentHTML("beforeend", '<span class="sf-tags">' + SFUI.tagHtml(ht) + "</span>");
             }
           }(t, a, a.type || f);
         })), "meet" === f && function(t) {
