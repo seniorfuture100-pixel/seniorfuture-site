@@ -1660,7 +1660,7 @@
   function L() {
     if (S) return S;
     try {
-      var t = JSON.parse(sessionStorage.getItem("r3Rv") || "null");
+      var t = JSON.parse(sessionStorage.getItem("r3Rv2") || "null");
       if (t && t.t > Date.now() - 6e5) return S = Promise.resolve(t.l);
     } catch (t) {}
     return S = fetch("/review", {
@@ -1686,10 +1686,11 @@
           href: o ? o.getAttribute("href") : "/review"
         };
       })).filter((function(t) {
-        return t.title;
+        // (10/23) '예시 수강평…실제 후기로 바꿔 주세요' 글은 빼요(진짜 후기만)
+        return t.title && !/예시 수강평|실제 후기로 바꿔/.test(t.body);
       }));
       try {
-        sessionStorage.setItem("r3Rv", JSON.stringify({
+        sessionStorage.setItem("r3Rv2", JSON.stringify({
           t: Date.now(),
           l: e
         }));

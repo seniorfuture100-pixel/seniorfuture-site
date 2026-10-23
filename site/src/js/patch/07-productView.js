@@ -21,7 +21,7 @@ SFUI.register('productView', function() {
         4: [ "시니어 산업 지도: 2027 시장 구조와 기회 읽기", "숫자로 보는 시니어 시장과 진입 기회", "52414c2f66081.jpg" ],
         6: [ "시니어 고객을 위한 보험·신탁 상품 설계 실무", "연금·보험·신탁 상품 설계 실전", "c44590cd1fc7b.jpg" ],
         10: [ "시니어 비즈니스 창업 부트캠프 8주 과정", "아이템 검증부터 첫 고객까지 8주", "e733c00cd4254.jpg" ]
-      }, m = [ [ "장기요양기관 운영 실무 입문", "“현장에서 바로 쓰는 인력 배치표를 얻었어요”", "요양기관을 처음 맡게 되어 막막했는데, 인력 기준과 수가 구조를 실제 사례로 설명해 주셔서 이해가 빨랐어요. 강의 자료로 받은 체크리스트를 평가 준비에 그대로 쓰고 있습니다." ], [ "2027 시니어 산업 트렌드 (무료 라이브)", "“90분 만에 시장 흐름이 한 장으로 정리됐어요”", "무료 라이브였는데 자료가 너무 좋아서 팀원들과 같이 다시 봤어요. 숫자로 보여 주니 내부 보고 자료로 바로 쓸 수 있었어요." ], [ "시니어 금융상품 설계", "“연금·신탁 상품을 고객 언어로 설명하게 됐어요”", "현장 상담에서 바로 쓸 수 있는 설명 순서를 배웠어요. 어려운 용어를 줄이니 상담 시간이 짧아졌어요." ] ], _ = {
+      }, m = [ [ "9기 · 규동님 (더힐실버타운)", "“산업의 최전선에 계신 분들과 깊이 있게 소통할 수 있는 네트워크였습니다”", "현재 실버타운을 운영하면서 현장에서 마주하는 다양한 고민과 인사이트를 나눌 수 있는 파트너를 찾고 있었습니다. 산업의 최전선에 계신 분들과 깊이 있게 소통하고 서로의 경험을 공유할 수 있는 네트워크였습니다." ], [ "9기 · 민우님 (이노하이 대표)", "“AI 기술이 현장에서 어떻게 쓰일 수 있을지 초석을 다졌습니다”", "AI 기반 시니어 케어 서비스를 직접 개발하며 항상 '현장의 병목 현상'에 대한 갈증이 있었습니다. 국내외 사례를 분석하고 관점을 공유하는 과정에서, 제가 만들고 있는 AI 기술이 실제 현장에서 어떻게 가치 있게 쓰일 수 있을지 초석을 다질 수 있었습니다." ], [ "9기 · 양현님 (논스)", "“대화가 끊이지 않을 정도로 결이 맞는 분들을 만났습니다”", "시니어 시장에 관심 있는 사람들을 밖에서는 만나기 힘들지만, 시니어퓨처 안에서는 대화가 끊이지 않을 정도로 결이 맞는 분들을 쉽게 만날 수 있었습니다. 특히 현장에서 직접 뛰고 있는 전문가들을 만나 얻은 인사이트는 무엇과도 바꿀 수 없는 소중한 자산이 되었습니다." ], [ "7기 · 원석님 (포스코인터내셔널)", "“네트워킹으로 좋은 팀원도 얻고, 아이디어톤 수상도 했습니다”", "시니어 산업 비즈니스 목적으로 들어왔는데 네트워킹으로 좋은 팀원도 얻고, 아이디어톤 수상도 할 수 있었습니다. 이를 기점으로 계속 고도화 해볼 예정입니다." ] ], _ = {
         course: {
           who: [ "장기요양기관을 새로 열었거나 인수를 준비하는 원장님", "평가·인력 기준이 매번 헷갈리는 실무 책임자", "요양 산업으로 커리어를 옮기려는 30~50대 직장인" ],
           points: [ [ "수가 구조", "등급별 수가와 가산 항목을 표 하나로 정리" ], [ "인력 기준", "배치 기준과 대체 인력 운영법" ], [ "평가 대비", "지표별 준비 서류 체크리스트" ] ],
@@ -269,10 +269,11 @@ SFUI.register('productView', function() {
       return s ? '<span class="sf-tag sf-tag--' + s[0] + '">' + s[1] + "</span>" : "";
     })).join("") : "";
   }
+  // (10/23) 상세 '수강생 후기' — 예시 후기 대신 공식 사이트(apply.seniorfuture.kr/reviews)의 실제 멤버 후기. 수강평 게시판에 진짜 후기가 생기면 r3ReviewData 가 그걸로 바꿔요
   function ue() {
-    return '<section id="sf-pv-review" class="sf-pv-sec"><div data-sf-carousel><div class="sf-pv-sechead"><div><h2>수강생 후기</h2><p class="sf-pv-sub">시니어퓨처 강의·라이브를 들은 분들의 후기를 모두 모아 보여 드려요</p></div><div class="sf-pv-arrows"><button type="button" class="sf-arrow" data-sf-prev aria-label="이전 후기">‹</button><button type="button" class="sf-arrow" data-sf-next aria-label="다음 후기">›</button></div></div><div class="sf-track sf-pv-reviews" data-sf-track>' + m.map((function(e) {
-      return '<a class="sf-review sf-slide" href="/review"><span class="sf-review__course">' + oe(e[0]) + '</span><span class="sf-review__top"><span class="sf-review__quote">' + oe(e[1]) + '</span></span><span class="sf-review__body">' + oe(e[2]) + '</span><span class="sf-review__more">후기 자세히 보기 →</span></a>';
-    })).join("") + '</div></div><a class="sf-pv-allreview" href="/review">후기 전체보기 →</a></section>';
+    return '<section id="sf-pv-review" class="sf-pv-sec"><div data-sf-carousel><div class="sf-pv-sechead"><div><h2>수강생 후기</h2><p class="sf-pv-sub">시니어퓨처 스터디·네트워킹에 함께한 멤버들의 후기예요</p></div><div class="sf-pv-arrows"><button type="button" class="sf-arrow" data-sf-prev aria-label="이전 후기">‹</button><button type="button" class="sf-arrow" data-sf-next aria-label="다음 후기">›</button></div></div><div class="sf-track sf-pv-reviews" data-sf-track>' + m.map((function(e) {
+      return '<a class="sf-review sf-slide" href="https://apply.seniorfuture.kr/reviews" target="_blank" rel="noopener"><span class="sf-review__course">' + oe(e[0]) + '</span><span class="sf-review__top"><span class="sf-review__quote">' + oe(e[1]) + '</span></span><span class="sf-review__body">' + oe(e[2].length > 76 ? e[2].slice(0, 76).replace(/\s+\S*$/, "") + "…" : e[2]) + '</span><span class="sf-review__more">후기 자세히 보기 →</span></a>';
+    })).join("") + '</div></div><a class="sf-pv-allreview" href="https://apply.seniorfuture.kr/reviews" target="_blank" rel="noopener">후기 전체보기 →</a></section>';
   }
   function he(e) {
     return '<ul class="sf-pv-who">' + e.map((function(e) {
