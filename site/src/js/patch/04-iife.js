@@ -4,12 +4,12 @@
     3: {
       type: "course",
       cat: "care",
-      tags: [ "best", "early", "new" ]
+      tags: [ "best", "early" ]
     },
     4: {
       type: "course",
       cat: "intro",
-      tags: [ "new" ]
+      tags: []
     },
     5: {
       type: "course",
@@ -29,7 +29,7 @@
     8: {
       type: "course",
       cat: "health",
-      tags: [ "new", "early" ]
+      tags: [ "early" ]
     },
     9: {
       type: "course",
@@ -170,10 +170,11 @@
   };
   SFUI.shopTags = e;
   // (10/23 2차) 아임웹 상품 편집 '상품 강조 설정 → 상품 배지' 체크칸 → 꼬리표
-  //   베스트→BEST · 신상품→NEW · 주문폭주→인기급상승 · 오늘출발→얼리버드 · MD추천→선착순 한정
+  //   베스트→BEST · 주문폭주→인기급상승 · 오늘출발→얼리버드 · MD추천→선착순 한정
   //   (요약 설명 #꼬리표 방식은 요약 설명이 광고 문구로도 나가서 뺐어요. 대표 이미지 좌상단·하단 배지는 지금 목록 화면에 실려 오지 않아 못 써요)
+  //   (10/23) NEW 는 쓰지 않아요 — 새 목록 위젯이 '신상품' 체크를 내보내지 않아 새 상품에 붙일 수 없어서, 예전 상품 표에서도 뺐어요
   //   체크칸이 하나도 없으면 위 표(t)의 tags 를 그대로 써요. 목록에서 읽은 값은 상세 화면도 쓰도록 sessionStorage 에 남겨요
-  var BADGE = { best: "best", "new": "new", hot: "hot", "today-shipping": "early", md: "limited" };
+  var BADGE = { best: "best", hot: "hot", "today-shipping": "early", md: "limited" };
   e.limited = [ "first", "선착순 한정" ];
   SFUI.__baseItems = t;
   SFUI.__hash = SFUI.__hash || {};
