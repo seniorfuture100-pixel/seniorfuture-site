@@ -25,22 +25,26 @@ SFUI.register('carousel', function (root) {
     function jump(x) { if (Math.abs(track.scrollLeft - x) < 1) return; track.scrollTo({ left: x, behavior: 'instant' }); }
     var peek = el.hasAttribute('data-peek') && slides().length > 1;
     var realCount = slides().length;
+    // (10/23 v1.0.13) 끝없이 돌기: 양쪽 끝에 복제를 2장씩 둬요. 1장만 두면 6→1로 넘어가는 순간 옆에 살짝 보이던 다음 배너 자리가
+    // 비었다가 순간 이동 뒤에 채워져서 '끊겨' 보였어요. 이제 넘어가는 동안에도 양옆이 늘 차 있어 한 흐름으로 이어져요
+    // 아주 넓은 화면에서 양옆에 2장 넘게 보이면 그만큼 더 복제해요
+    var CL = peek ? Math.max(2, Math.ceil(perView() / 2) + 1) : 0;
     if (peek) {
-      // 끝없이 돌기: 맨 앞에 '마지막 배너 복제', 맨 뒤에 '첫 배너 복제'를 두고 복제에 닿으면 진짜 배너로 순간 이동해요
       slides().forEach(function (s, i) { s.setAttribute('data-sf-n', i); });
-      var first = track.firstElementChild, last = track.lastElementChild;
-      [[last.cloneNode(true), first], [first.cloneNode(true), null]].forEach(function (p) {
-        var c = p[0]; c.setAttribute('data-sf-clone', ''); c.setAttribute('aria-hidden', 'true'); c.setAttribute('tabindex', '-1');
-        c.querySelectorAll('a, button').forEach(function (x) { x.setAttribute('tabindex', '-1'); });
-        track.insertBefore(c, p[1]);
-      });
-      jump(step());
+      var real = slides(), mk = function (s) {
+        var c = s.cloneNode(true); c.setAttribute('data-sf-clone', ''); c.setAttribute('aria-hidden', 'true'); c.setAttribute('tabindex', '-1');
+        c.querySelectorAll('a, button').forEach(function (x) { x.setAttribute('tabindex', '-1'); }); return c;
+      };
+      var k = Math.min(CL, real.length), head = real[0];
+      for (var a = real.length - k; a < real.length; a++) track.insertBefore(mk(real[a]), head);
+      for (var b = 0; b < k; b++) track.appendChild(mk(real[b]));
+      CL = k; jump(step() * CL);
     }
     function recenter() {
       if (!peek) return;
       var i = index(), s = slides()[i];
       if (!s || !s.hasAttribute('data-sf-clone')) return;
-      jump(i === 0 ? step() * realCount : step());
+      jump(step() * (i < CL ? i + realCount : i - realCount));
     }
     function update() {
       var max = track.scrollWidth - track.clientWidth - 2;
