@@ -22,13 +22,24 @@ SFUI.register('homeBanner', function () {
     bld: '<path d="M4 20.5V6l8-3v17.5M12 9.5l8 2.5v8.5M3 20.5h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 9h2M7 12.5h2M7 16h2M15 14h2M15 17h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
     medal: '<circle cx="12" cy="14" r="6" fill="currentColor"/><path d="M8.5 3.5h3l1.2 5M15.5 3.5h-3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'
   };
+  // (10/23 3차) 교육 장면: 태블릿 화면이 2.2초마다 다른 분야로 바뀌고, 아래 분야 칩 8개 중 지금 분야가 켜져요
+  // [화면 제목, 한 줄, 칩 이름, 밝은 색, 진한 색, 글자 색]
+  var CATS = [
+    ['시니어 산업 이해', '시장 흐름과 기회 지도', '산업 이해', '#fff3bf', '#ffd43b', '#7a4a00'],
+    ['요양·돌봄 실무', '현장 운영의 기본', '요양·돌봄', '#ffe8cc', '#ffc078', '#7c2d12'],
+    ['주거·시니어 타운', '입지와 사업성 검토', '주거·타운', '#d3f9d8', '#8ce99a', '#1f5f2e'],
+    ['금융·보험', '신탁·보험 상품 설계', '금융·보험', '#dbe4ff', '#91a7ff', '#2b3a99'],
+    ['소비·커머스', '5060 고객 이해하기', '소비·커머스', '#ffdeeb', '#faa2c1', '#8c1d44'],
+    ['헬스케어·에이지테크', '현장 도입 사례', '헬스케어', '#c5f6fa', '#66d9e8', '#0b5f6e'],
+    ['여가·교육·일', '액티브 시니어 프로그램', '여가·일', '#f3d9fa', '#da77f2', '#6b1f80'],
+    ['창업·사업개발', '아이디어에서 실행까지', '창업', '#e7f5ff', '#74c0fc', '#1a4f80']
+  ];
   function person(c) { return '<span class="hb-av" style="--c:' + c + '">' + svg(I.user) + '</span>'; }
   var SLIDES = [
-    { k: 'edu', href: '/course', badge: '교육', title: '현장 전문가에게 배우는<br>시니어 산업 실무 교육', sub: '요양·주거·금융·헬스케어 · VOD와 기수제 스터디',
+    { k: 'edu', href: '/course', badge: '교육', title: '현장 전문가에게 배우는<br>시니어 산업 실무 교육', sub: '8개 분야 · VOD와 기수제 스터디',
       art: '<i class="hb-glow"></i>' +
-        '<span class="hb-tablet"><span class="hb-screen"><span class="hb-thumb"><b>요양·돌봄 실무</b><small>3강 · 현장 운영의 기본</small><span class="hb-playbtn">' + svg(I.play) + '</span></span><span class="hb-progress"><i></i></span></span></span>' +
-        '<span class="hb-mini m1"><i class="hb-dot" style="--c:#12b886"></i><b>시니어 주거</b><small>기수제 스터디</small></span>' +
-        '<span class="hb-mini m2"><i class="hb-dot" style="--c:#4c6ef5"></i><b>에이지테크</b><small>현장 사례</small></span>' +
+        '<span class="hb-tablet"><span class="hb-screen"><span class="hb-thumb"><b>' + CATS[0][0] + '</b><small>' + CATS[0][1] + '</small><span class="hb-playbtn">' + svg(I.play) + '</span></span><span class="hb-progress"><i></i></span></span></span>' +
+        '<span class="hb-cats">' + CATS.map(function (c, i) { return '<i' + (i ? '' : ' class="is-on"') + '>' + c[2] + '</i>'; }).join('') + '</span>' +
         '<span class="hb-medal">' + svg(I.check) + '<b>수료</b></span>' },
     { k: 'live', href: '/live', badge: '무료 라이브', title: '매달 열리는 무료 라이브,<br>현장 이야기를 실시간으로', sub: '1~2시간 · 질의응답 · 다시보기 제공',
       art: '<i class="hb-glow"></i>' +
@@ -65,4 +76,17 @@ SFUI.register('homeBanner', function () {
   var pager = el.querySelector('[data-sf-pager]');
   if (pager) pager.textContent = '1 / ' + SLIDES.length;
   el.classList.add('sf-hb-on');
+  // 분야 바꾸기: 진짜 배너와 끝없이 돌기용 복제 배너를 같은 순간에 같이 바꿔서, 넘어갈 때 티가 안 나요
+  var ci = 0;
+  function paint() {
+    var c = CATS[ci];
+    el.querySelectorAll('.sf-hb--edu').forEach(function (sl) {
+      var t = sl.querySelector('.hb-thumb'); if (!t) return;
+      t.style.setProperty('--t1', c[3]); t.style.setProperty('--t2', c[4]); t.style.setProperty('--ink', c[5]);
+      t.querySelector('b').textContent = c[0]; t.querySelector('small').textContent = c[1];
+      t.classList.remove('is-swap'); void t.offsetWidth; t.classList.add('is-swap');
+      sl.querySelectorAll('.hb-cats i').forEach(function (x, j) { x.classList.toggle('is-on', j === ci); });
+    });
+  }
+  setInterval(function () { if (document.hidden) return; ci = (ci + 1) % CATS.length; paint(); }, 2200);
 });

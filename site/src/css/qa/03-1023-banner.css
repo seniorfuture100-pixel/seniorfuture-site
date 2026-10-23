@@ -91,6 +91,7 @@
 }
 @media (prefers-reduced-motion:reduce) {
   .sf-hb.is-current .sf-hb__art>* { animation:none!important; }
+  .hb-thumb.is-swap b, .hb-thumb.is-swap small { animation:none!important; }
 }
 /* 재료 */
 .hb-glow { left:50%; top:50%; width:300px; height:300px; margin:-150px 0 0 -150px; border-radius:50%; background:radial-gradient(circle,var(--hb-glow) 0,transparent 68%); opacity:.35; filter:blur(8px); }
@@ -111,9 +112,18 @@
 /* 1 교육: 태블릿 강의 화면 + 강의 카드 + 수료 메달 */
 .hb-tablet { left:84px; top:44px; width:248px; height:176px; padding:9px; border-radius:24px; background:linear-gradient(160deg,#2b303b,#11141a); box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 30px 44px -18px rgba(0,0,0,.6); rotate:-4deg; }
 .hb-tablet .hb-screen { display:flex; flex-direction:column; height:100%; padding:10px; border-radius:16px; background:#fff; }
-.hb-thumb { position:relative; flex:1; padding:14px; border-radius:12px; background:linear-gradient(135deg,#ffe8cc,#ffc078); color:#7c2d12; }
-.hb-thumb b { display:block; font-size:17px; color:#7c2d12; }
-.hb-thumb small { margin-top:4px; color:#b45309; font-size:11px; }
+.hb-thumb { position:relative; flex:1; padding:14px; border-radius:12px; background:linear-gradient(135deg,var(--t1,#ffe8cc),var(--t2,#ffc078)); color:var(--ink,#7c2d12); }
+.hb-thumb b { display:block; font-size:17px; color:var(--ink,#7c2d12); }
+.hb-thumb small { margin-top:4px; color:var(--ink,#b45309); opacity:.8; font-size:11px; }
+.hb-thumb.is-swap b, .hb-thumb.is-swap small { animation:sfHbSwap .45s ease both; }
+.hb-thumb.is-swap small { animation-delay:.06s; }
+@keyframes sfHbSwap { from { opacity:0; translate:0 6px; } to { opacity:1; translate:0 0; } }
+/* (10/23 3차) 교육 분야 칩 8개: 태블릿 아래 두 줄, 겹치지 않게 */
+.sf-hb--edu .hb-tablet { top:24px; }
+.sf-hb--edu .hb-medal { top:8px; }
+.sf-hb__art>.hb-cats { left:14px; top:212px; width:336px; display:flex; flex-wrap:wrap; gap:6px; }
+.hb-cats i { padding:5px 10px; border-radius:999px; background:rgba(255,255,255,.9); color:#4e5968; font:700 11.5px/1.3 var(--sf-font); font-style:normal; box-shadow:0 6px 12px -8px rgba(0,0,0,.35); transition:background .3s ease,color .3s ease,transform .3s ease; }
+.hb-cats i.is-on { background:#191f28; color:#fff; transform:translateY(-2px); }
 .hb-playbtn { position:absolute; right:14px; bottom:12px; width:44px; height:44px; padding:12px 11px 12px 13px; border-radius:50%; background:#fff; color:#ea580c; box-shadow:0 8px 16px -6px rgba(124,45,18,.5); }
 .hb-progress { height:6px; margin-top:10px; border-radius:3px; background:#eef0f3; overflow:hidden; }
 .hb-progress i { display:block; width:62%; height:100%; border-radius:3px; background:#ea580c; }
@@ -251,6 +261,7 @@
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy em {
     display:none;
   }
+  .sf-hb .hb-cats,
   .sf-hb .hb-bubble.q2, .sf-hb .hb-heart.h3, .sf-hb--biz .k3, .sf-hb--partner .c-time {
     display:none;
   }

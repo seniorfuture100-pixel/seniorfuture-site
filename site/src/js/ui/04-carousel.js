@@ -54,8 +54,10 @@ SFUI.register('carousel', function (root) {
         var no = peek && cur ? Number(cur.getAttribute('data-sf-n')) + 1 : Math.min(index() + 1, total);
         pager.textContent = no + ' / ' + total;
       }
+      // (10/23) 끝없이 돌기: 진짜 배너와 그 복제에 '지금' 표시를 같이 붙여요. 복제→진짜로 순간 이동해도 장면 움직임이 처음부터 다시 시작되지 않아요
+      var curN = cur && cur.getAttribute('data-sf-n');
       if (peek) slides().forEach(function (s) {
-        var on = s === cur; s.classList.toggle('is-current', on);
+        var on = curN != null && s.getAttribute('data-sf-n') === curN; s.classList.toggle('is-current', on);
         if (s.hasAttribute('data-sf-clone')) return;
         s.setAttribute('aria-hidden', on ? 'false' : 'true'); if (on) s.removeAttribute('tabindex'); else s.setAttribute('tabindex', '-1');
       });
