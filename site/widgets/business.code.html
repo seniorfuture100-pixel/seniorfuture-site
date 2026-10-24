@@ -43,12 +43,14 @@
 <style>
 /* 10/24 협업 프로세스 고도화: 진행선 + 번호 원 + 단계 태그 + 산출물 */
 :root body .sf-biz .sf-st6{position:relative;gap:20px!important;margin-top:72px!important}
-:root body .sf-biz .sf-st6::before{content:"";position:absolute;left:28px;right:28px;top:27px;height:2px;background:#f3dccb;z-index:0}
-:root body .sf-biz .sf-st6::after{content:"";position:absolute;left:28px;right:28px;top:27px;height:2px;background:linear-gradient(90deg,#ffb27a,#ff6a0f);transform-origin:0 50%;transform:scaleX(1);z-index:0}
+:root body .sf-biz .sf-st6::before{content:"";position:absolute;left:28px;right:calc((100% - 80px) / 5 - 28px);top:27px;height:2px;background:#f3dccb;z-index:0}
+:root body .sf-biz .sf-st6::after{content:"";position:absolute;left:28px;right:calc((100% - 80px) / 5 - 28px);top:27px;height:2px;background:linear-gradient(90deg,#ffb27a,#ff6a0f);transform-origin:0 50%;transform:scaleX(1);z-index:0}
 @supports (animation-timeline:view()){:root body .sf-biz .sf-st6::after{animation:sfStLine linear both;animation-timeline:view();animation-range:entry 20% cover 55%}}
 @keyframes sfStLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 :root body .sf-biz .sf-st6 li{padding:0!important;background:none!important;box-shadow:none!important;transform:none!important}
 :root body .sf-biz .sf-st6 li::after{display:none!important}
+:root body .sf-biz .sf-st6 li{position:relative}
+:root body .sf-biz .sf-st6 li:not(:last-child)::before{content:"";position:absolute;z-index:2;top:22px;left:calc(100% - 4px);width:10px;height:10px;border-top:2.5px solid #ff6a0f;border-right:2.5px solid #ff6a0f;transform:rotate(45deg);box-sizing:border-box}
 :root body .sf-biz .sf-st5__dot{position:relative;z-index:1;display:flex;width:56px;height:56px;align-items:center;justify-content:center;border-radius:50%;background:#fff;box-shadow:0 0 0 2px #ff8a3d,0 8px 20px rgba(255,106,15,.18);color:#ff6a0f;font-size:18px;font-weight:800;transition:background .25s,color .25s}
 :root body .sf-biz .sf-st6 li:hover .sf-st5__dot{background:#ff6a0f;color:#fff}
 :root body .sf-biz .sf-st5__ph{display:block;margin:28px 0 8px;color:#ff6a0f;font-size:13px;font-weight:700;letter-spacing:.04em}
@@ -61,6 +63,8 @@
 :root body .sf-biz .sf-st6{grid-template-columns:1fr!important;gap:0!important;margin-top:40px!important}
 :root body .sf-biz .sf-st6::before,:root body .sf-biz .sf-st6::after{left:27px;right:auto;top:28px;bottom:28px;width:2px;height:auto}
 :root body .sf-biz .sf-st6::after{transform:none;animation:none}
+:root body .sf-biz .sf-st6::before,:root body .sf-biz .sf-st6::after{bottom:auto;height:calc(100% - 140px)}
+:root body .sf-biz .sf-st6 li:not(:last-child)::before{top:auto;bottom:10px;left:23px;transform:rotate(135deg)}
 :root body .sf-biz .sf-st6 li{display:grid!important;grid-template-columns:56px 1fr;column-gap:18px;padding:0 0 28px!important}
 :root body .sf-biz .sf-st5__dot{grid-row:span 4}
 :root body .sf-biz .sf-st5__ph{margin:6px 0 6px}
