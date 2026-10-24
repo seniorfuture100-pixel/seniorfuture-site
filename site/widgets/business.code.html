@@ -22,55 +22,58 @@
 :root body .sf-biz .sf-st5 li:hover{transform:translateY(-4px);transition:transform .25s}
 @media (max-width:1023.98px){:root body .sf-biz .sf-st5{grid-template-columns:1fr;gap:12px}:root body .sf-biz .sf-st5 li{display:grid;grid-template-columns:64px 1fr;gap:4px 12px;padding:22px 20px}:root body .sf-biz .sf-st5__no{grid-row:span 2;font-size:34px}:root body .sf-biz .sf-st5 b{margin:0;font-size:18px}:root body .sf-biz .sf-st5 li::after{display:none}}
 </style>
+<style>
+/* 10/24 B2B 카피 개편: 과제 카드 4개 한 줄 · 숫자 5개 */
+:root body .sf-biz .sf-needs-lead{max-width:720px;margin:20px 0 0}
+:root body .sf-biz .sf-need-cards.sf-need4{grid-template-columns:repeat(4,1fr)!important;margin-top:48px}
+:root body .sf-biz .sf-need4 b{font-size:22px!important}
+:root body .sf-biz .sf-need4 li:nth-child(4) .sf-need-ic{filter:hue-rotate(140deg) drop-shadow(0 8px 10px rgba(30,20,10,.12))}
+:root body .sf-biz .sf-metrics{grid-template-columns:repeat(5,1fr)!important}
+@media (max-width:1023.98px){:root body .sf-biz .sf-need-cards.sf-need4{grid-template-columns:repeat(2,1fr)!important}:root body .sf-biz .sf-metrics{grid-template-columns:repeat(2,1fr)!important}}
+</style>
 <div class="sf-scope">
 <main class="sf-biz">
   
   <section aria-labelledby="biz-hero">
     <div class="sf-wrap sf-hero-grid">
       <div>
-        <p class="sf-dot">기업 · 공공기관 협업</p>
-        <h1 id="biz-hero">시니어 산업의 기회를,<br>실제 사업의 성과로.</h1>
-        <p class="sf-lead">시니어퓨처는 시니어 산업에 들어오는 사람과 기업을 교육·콘텐츠·커뮤니티로 모으고, 그 네트워크를 협력 프로젝트와 홍보로 잇는 산업 플랫폼이에요.<br>현대자동차·과학기술정보통신부·부산광역시·UN Women·MYSC·KB골든라이프케어 등과 20건+ 협업하며, 기업과 공공기관이 시니어 시장에서 기회를 찾고 성과를 만들 수 있게 함께합니다.</p>
-        <ul class="sf-kw" aria-label="핵심 키워드"><li># 산업 전문성</li><li># 현장 연결</li><li># 프로젝트 실행</li><li># 사업화 기회</li></ul>
-        <div class="sf-row"><a class="sf-btn sf-btn--primary sf-btn--l" href="#contact">협업 문의하기</a><a class="sf-btn sf-btn--outline sf-btn--l" href="#projects">프로젝트 살펴보기</a></div>
+        <p class="sf-dot">FOR BUSINESS &amp; ORGANIZATIONS</p>
+        <h1 id="biz-hero">시니어 시장의 기회를,<br>실행 가능한 비즈니스로.</h1>
+        <p class="sf-lead">시장과 산업에 대한 전문성을 바탕으로 기업 맞춤 교육부터 콘텐츠·행사 기획, 전략적 협업과 공동 프로젝트까지 함께합니다.</p>
+        <div class="sf-row"><a class="sf-btn sf-btn--primary sf-btn--l" href="#contact">협업 문의하기</a><a class="sf-btn sf-btn--outline sf-btn--l" href="#projects">프로젝트 사례 보기</a></div>
       </div>
-      <div class="r2-float" aria-hidden="true"><div class="r2-fc r2-fc--0 g-o"><small>교육</small><b>임직원 시니어 고객 교육</b></div><div class="r2-fc r2-fc--1 g-b"><small>콘텐츠 협업</small><b>시니어 산업 리서치·브랜드 콘텐츠</b></div><div class="r2-fc r2-fc--2 g-g"><small>홍보</small><b>기관·업계 관계자 대상 홍보</b></div><div class="r2-fc r2-fc--3 g-d"><small>프로젝트</small><b>기업·기관 공동 프로젝트</b></div></div>
+      <div class="r2-float" aria-hidden="true"><div class="r2-fc r2-fc--0 g-o"><small>01</small><b>시장·산업 인사이트</b></div><div class="r2-fc r2-fc--1 g-b"><small>02</small><b>기업 맞춤 교육</b></div><div class="r2-fc r2-fc--2 g-g"><small>03</small><b>콘텐츠·행사 협업</b></div><div class="r2-fc r2-fc--3 g-d"><small>04</small><b>비즈니스 파트너십</b></div></div>
     </div>
   </section>
 
   
   <section class="is-tint sf-needs-sec" aria-labelledby="biz-needs">
     <div class="sf-wrap">
-      <p class="sf-dot">CUSTOMER NEEDS</p>
-      <h2 id="biz-needs">시니어 시장에 진입하는 과정,<br>어디서부터 시작해야 할까요?</h2>
-      <h3 class="sf-group">기업과 공공기관의 고민</h3>
-      <ul class="sf-need-cards">
-        <li><span class="sf-need-ic" aria-hidden="true">?</span><b>“어디서부터 시작해야 할지 모르겠어요.”</b><p>시니어 시장에 들어가고 싶지만 고객·현장·규제를 한 번에 이해하기 어려워요.</p></li>
-        <li><span class="sf-need-ic" aria-hidden="true">↗</span><b>“기관과 업계에 우리 제품을 알리고 싶어요.”</b><p>요양·공공기관 관계자와 업계 실무자에게 제품과 서비스를 알릴 방법이 필요해요.</p></li>
-        <li><span class="sf-need-ic" aria-hidden="true">⇄</span><b>“현장과 전문가를 만날 길이 없어요.”</b><p>요양기관이나 산업 전문가와 연결될 네트워크가 필요해요.</p></li>
-      </ul>
-      <ul class="sf-need-cards">
-        <li><span class="sf-need-ic" aria-hidden="true">◎</span><b>“지역 시니어 산업을 키우고 싶어요.”</b><p>지역에 맞는 산업 활성화 프로그램을 기획하기 어려워요.</p></li>
-        <li><span class="sf-need-ic" aria-hidden="true">✎</span><b>“현장에 맞는 교육이 필요해요.”</b><p>현장 수요에 맞춘 전문 교육과 인재 양성을 운영하고 싶어요.</p></li>
-        <li><span class="sf-need-ic" aria-hidden="true">→</span><b>“행사가 행사로 끝나요.”</b><p>네트워킹 행사 뒤 실제 후속 협력으로 이어지지 않아요.</p></li>
+      <p class="sf-dot">BUSINESS CHALLENGES</p>
+      <h2 id="biz-needs">시니어 시장의 새로운 기회,<br>어디서부터 시작해야 할까요?</h2>
+      <p class="sf-lead sf-needs-lead">시장의 변화부터 조직의 전문성, 고객 접점과 협업 기회까지. 기업마다 마주하는 과제는 다릅니다.</p>
+      <ul class="sf-need-cards sf-need4">
+        <li><span class="sf-need-ic" aria-hidden="true">?</span><b>시장 이해</b><p>시니어 시장의 기회를 어떻게 발견할까요?</p></li>
+        <li><span class="sf-need-ic" aria-hidden="true">✎</span><b>전문성 강화</b><p>조직의 시니어 산업 역량을 어떻게 높일까요?</p></li>
+        <li><span class="sf-need-ic" aria-hidden="true">⇄</span><b>시장 접점 확대</b><p>새로운 고객과 파트너를 어떻게 만날까요?</p></li>
+        <li><span class="sf-need-ic" aria-hidden="true">↗</span><b>사업 기회 발굴</b><p>새로운 협업과 사업을 어떻게 구체화할까요?</p></li>
       </ul>
     </div>
     <div class="sf-bridge">
       <svg class="sf-bridge__v" viewBox="0 0 880 120" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="sfv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9652" stop-opacity="0"/><stop offset="1" stop-color="#ff9652" stop-opacity=".75"/></linearGradient></defs><path d="M0 0 C280 10 380 50 440 120 C500 50 600 10 880 0 Z" fill="url(#sfv)"/></svg>
-      <p class="sf-bridge__title">그래서 시니어퓨처는, 이렇게 풀어냅니다</p>
-      <p class="sf-bridge__sub">현장에서 들은 고민을 교육 · 행사 · 콘텐츠 · 홍보 · 공동 프로젝트로 답해요</p>
+      <p class="sf-bridge__title">기업의 과제에 맞춰, 전략부터 실행까지 함께합니다.</p>
     </div>
   </section>
 
   
   <section aria-labelledby="biz-sol" class="sf-sol-sec">
     <div class="sf-wrap">
-      <div class="sf-sol-head"><div><p class="sf-dot">OUR SOLUTIONS</p><h2 id="biz-sol">시니어 산업의 시작부터 실행까지</h2></div><p>카드를 누르면 바로 문의할 수 있어요</p></div>
+      <div class="sf-sol-head"><div><p class="sf-dot">BUSINESS SOLUTIONS</p><h2 id="biz-sol">시니어 산업의 전문성을,<br>기업의 성장에 연결합니다.</h2></div></div>
       <ul class="sf-sol-list">
-        <li><a class="sf-sol" href="#contact" data-sf-prefill="기업 맞춤 교육"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery5.jpg" alt="임직원 대상 시니어 시장 교육 현장" loading="lazy" data-sf-img="sol-1"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>01</em>기업·기관 맞춤 교육</span><strong>시니어 산업의 전문성을,<br>현장에서 필요한 역량으로.</strong><span class="sf-sol__tags"><span># 임직원 교육</span><span># 기관 직무 교육</span><span># 전문가 워크숍</span></span></span></a></li>
-        <li><a class="sf-sol" href="#contact" data-sf-prefill="포럼·행사·네트워킹"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery3.jpg" alt="시니어퓨처 콘서트 네트워킹 행사" loading="lazy" data-sf-img="sol-2"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>02</em>산업 포럼·행사·네트워킹</span><strong>관계자들이 만나<br>새로운 협력 기회를 만듭니다.</strong><span class="sf-sol__tags"><span># 포럼·콘퍼런스</span><span># 네트워킹</span><span># 행사 운영</span></span></span></a></li>
-        <li><a class="sf-sol" href="#contact" data-sf-prefill="콘텐츠·홍보"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery6.jpg" alt="시니어 비즈니스 스터디 세션" loading="lazy" data-sf-img="sol-3"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>03</em>콘텐츠 &amp; 홍보</span><strong>시니어 시장을 깊이 이해하고,<br>필요한 기관·업계에 알립니다.</strong><span class="sf-sol__tags"><span># 산업 리서치</span><span># 브랜드 콘텐츠</span><span># 뉴스레터·SNS</span><span># B2B 홍보</span></span></span></a></li>
-        <li><a class="sf-sol" href="#contact" data-sf-prefill="공동 프로젝트"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery4.jpg" alt="협업 네트워킹 모임" loading="lazy" data-sf-img="sol-4"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>04</em>공동 프로젝트</span><strong>기업·기관과 함께<br>기획하고 실행합니다.</strong><span class="sf-sol__tags"><span># 공동 기획</span><span># 프로그램 운영</span><span># 성과 공유</span></span></span></a></li>
+        <li><a class="sf-sol" href="#contact" data-sf-prefill="시장·산업 인사이트"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery5.jpg" alt="임직원 대상 시니어 시장 교육 현장" loading="lazy" data-sf-img="sol-1"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>01</em>시장·산업 인사이트</span><strong>시니어 시장의 변화와 기업 사례, 산업 정보를 바탕으로<br>새로운 사업 기회를 탐색합니다.</strong><span class="sf-sol__tags"><span># 시장 동향</span><span># 기업 사례</span><span># 산업 정보</span></span></span></span></a></li>
+        <li><a class="sf-sol" href="#contact" data-sf-prefill="기업 맞춤 교육"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery3.jpg" alt="시니어퓨처 콘서트 네트워킹 행사" loading="lazy" data-sf-img="sol-2"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>02</em>기업 맞춤 교육</span><strong>기업과 기관의 목표에 맞춰 현업 전문가 교육,<br>실무 워크숍과 조직 역량 강화 프로그램을 기획합니다.</strong><span class="sf-sol__tags"><span># 전문가 교육</span><span># 실무 워크숍</span><span># 조직 역량 강화</span></span></span></span></a></li>
+        <li><a class="sf-sol" href="#contact" data-sf-prefill="콘텐츠·산업 행사 협업"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery6.jpg" alt="시니어 비즈니스 스터디 세션" loading="lazy" data-sf-img="sol-3"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>03</em>콘텐츠·산업 행사 협업</span><strong>기업의 메시지를 산업 관계자에게 전달하고,<br>네트워킹·포럼·행사 프로그램을 기획하고 운영합니다.</strong><span class="sf-sol__tags"><span># 브랜드 콘텐츠</span><span># 포럼·행사</span><span># 네트워킹</span></span></span></span></a></li>
+        <li><a class="sf-sol" href="#contact" data-sf-prefill="사업개발·공동 프로젝트"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery4.jpg" alt="협업 네트워킹 모임" loading="lazy" data-sf-img="sol-4"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>04</em>사업개발·공동 프로젝트</span><strong>기업과 기관의 수요를 연결하고, 새로운 사업과<br>협력 프로젝트의 기획·실행을 지원합니다.</strong><span class="sf-sol__tags"><span># 수요 연결</span><span># 공동 기획</span><span># 프로젝트 실행</span></span></span></span></a></li>
       </ul>
     </div>
   </section>
@@ -81,14 +84,14 @@
 
   <section class="is-tint" aria-labelledby="biz-how">
     <div class="sf-wrap">
-      <p class="sf-dot">HOW WE WORK</p>
-      <h2 id="biz-how">협력 프로젝트 과정</h2>
-      <ol class="sf-st5" aria-label="협력 프로젝트 5단계">
-        <li><span class="sf-st5__no">01</span><b>과제 진단</b><p>시니어 시장과 고객, 관련 산업 및 현장 환경을 분석합니다.</p></li>
-        <li><span class="sf-st5__no">02</span><b>맞춤형 제안</b><p>사업 목적에 맞는 프로젝트 범위, 추진 방법, 일정, 예산, 기대성과를 협의합니다.</p></li>
-        <li><span class="sf-st5__no">03</span><b>프로젝트 실행</b><p>합의된 계획에 따라 교육, 행사, 콘텐츠·홍보 또는 공동 프로그램을 진행합니다.</p></li>
-        <li><span class="sf-st5__no">04</span><b>성과 측정 및 결과 공유</b><p>참여 실적, 사용자 피드백, 주요 결과와 개선사항을 정리합니다.</p></li>
-        <li><span class="sf-st5__no">05</span><b>후속 협력</b><p>프로젝트 결과를 토대로 추가 협력과 다음 프로젝트를 함께 검토합니다.</p></li>
+      <p class="sf-dot">COLLABORATION PROCESS</p>
+      <h2 id="biz-how">기업의 목표에 맞춰,<br>체계적으로 실행합니다.</h2>
+      <ol class="sf-st5" aria-label="협업 5단계">
+        <li><span class="sf-st5__no">01</span><b>과제·목표 확인</b><p>기업의 현황과 협업 목적을 파악합니다.</p></li>
+        <li><span class="sf-st5__no">02</span><b>산업·전문가 검토</b><p>관련 시장 정보와 전문가·파트너를 검토합니다.</p></li>
+        <li><span class="sf-st5__no">03</span><b>맞춤 프로젝트 설계</b><p>목표에 맞는 추진 방식과 실행 계획을 제안합니다.</p></li>
+        <li><span class="sf-st5__no">04</span><b>프로젝트 실행·운영</b><p>합의한 계획에 따라 프로젝트를 진행합니다.</p></li>
+        <li><span class="sf-st5__no">05</span><b>결과 공유·후속 협의</b><p>수행 결과를 정리하고 다음 협업을 논의합니다.</p></li>
       </ol>
       <p class="sf-note">프로세스는 프로젝트 성격과 일정에 따라 조정될 수 있어요. 모든 프로젝트에 같은 절차를 보장하지는 않아요.</p>
     </div>
@@ -115,9 +118,6 @@
         <li><a class="sf-case" href="https://apply.seniorfuture.kr/expertnetworkservice" target="_blank" rel="noopener" id="case-05"><span class="sf-case__img"><img src="https://oopy.lazyrockets.com/api/v2/notion/image?src=attachment%3Af1e3f0c4-73ad-40d7-8995-9a2794e66b04%3A20260322_150455.jpg&blockId=33a34a84-148b-80b2-bad5-f3c19fa6cd7b&width=1024" alt="코엑스 시니어 산업 컨퍼런스 연사들" loading="lazy" data-sf-img="case-6"></span><span class="sf-case__body">
           <span class="sf-case__k">CASE 05<span>KIMES 2026 · 서울 코엑스</span><i class="sf-case__go" aria-hidden="true">→</i></span><strong>AI 시대, 시니어 산업의 미래와 기회 (2026.03)</strong><span class="sf-case__msg">코엑스 의료기기 전시회 KIMES에서 시니어 산업 포럼을 함께 열었어요. 케어링·포페런츠·케어네이션 대표 등이 연사로 참여했어요.</span>
           <span class="sf-case__tags"><span>포럼 공동 개최</span><span>연사 구성</span><span>기업·기관 네트워킹</span></span></span></a></li>
-        <li><a class="sf-case" href="#contact" data-sf-prefill="기업 맞춤 교육" id="case-06"><span class="sf-case__img"><span class="sf-gfx sf-gfx--dark" data-sf-img="case-7"><b>장기요양기관 실전 아카데미</b><small>2026.12 개강 예정 · 온라인</small></span></span><span class="sf-case__body">
-          <span class="sf-case__k">CASE 06<span>요양 기업 · 법무법인 · 장기요양 전문 언론사 공동</span><i class="sf-case__go" aria-hidden="true">→</i></span><strong>장기요양기관 AI 업무 · 환수 리스크 실전 대비 아카데미</strong><span class="sf-case__msg">국민건강보험공단에서 환수를 10년 다룬 법률 전문가와 한일 양국에서 장기요양 사업을 15년 넘게 해 온 전문가가 함께 가르치는 온라인 실무 과정이에요. 전국 기관이 정원 제약 없이 들을 수 있어요.</span>
-          <span class="sf-case__tags"><span>4자 공동 사업</span><span>커리큘럼 설계</span><span>기관 모집</span></span></span></a></li>
       </ul>
     </div>
   </section>
@@ -128,20 +128,21 @@
       <p class="sf-dot">WHY SENIORFUTURE</p>
       <h2 id="biz-why">시니어 산업을 이해하는 것과,<br>현장에서 실행하는 것은 다릅니다.</h2>
       <div class="sf-why">
-        <article><b>01</b><h3>산업 전문성</h3><p>국내외 시니어 산업 변화와 비즈니스 모델을 꾸준히 분석하고, 콘텐츠와 교육으로 전달합니다.</p></article>
-        <article><b>02</b><h3>산업 관계자 네트워크</h3><p>기업, 스타트업, 전문가, 기관 관계자가 연결된 커뮤니티를 바탕으로 협력 기회를 찾습니다.</p></article>
-        <article><b>03</b><h3>현장 연결 역량</h3><p>요양기관 등 실제 현장을 이해하고, 기업·기관과 함께 현장에 필요한 프로젝트를 추진합니다.</p></article>
-        <article><b>04</b><h3>기획부터 실행까지</h3><p>리서치와 기획에 머무르지 않고 교육, 행사, 콘텐츠, 공동 프로젝트를 직접 실행해 왔습니다.</p></article>
+        <article><b>01</b><h3>산업 특화 전문성</h3><p>시니어 시장의 변화와 트렌드, 다양한 기업 사례에 대한 지속적인 이해</p></article>
+        <article><b>02</b><h3>전문가·기업 네트워크</h3><p>산업 관계자와 현업 전문가가 연결되는 비즈니스 네트워크</p></article>
+        <article><b>03</b><h3>프로젝트 기획·운영 경험</h3><p>기업교육부터 산업 행사와 협력 프로젝트까지 이어지는 실행 경험</p></article>
+        <article><b>04</b><h3>콘텐츠·커뮤니티 기반</h3><p>산업 관계자들과 소통하는 자체 콘텐츠와 커뮤니티 채널</p></article>
       </div>
-      <h3>신뢰 지표 <small style="font-size:14px;color:#868b94;font-weight:400">2026년 10월 · 시니어퓨처 집계</small></h3>
+      <h3>숫자로 확인하는 성장, 협업으로 넓혀가는 가능성 <small style="font-size:14px;color:#868b94;font-weight:400">2023.09 ~ 2026.10 · 시니어퓨처 집계</small></h3>
       
       <dl class="sf-metrics">
-        <div><dt>누적 참여</dt><dd>2,000명+<small>2023.09 시작 · 스터디·강연·행사 합산</small></dd></div>
-        <div><dt>B2B 네트워크</dt><dd>약 650명<small>기업 대표 · 실무자 네트워킹방</small></dd></div><div><dt>기업 · 기관 협업</dt><dd>20건+<small>대기업 · 공공기관 · 대학 · 미디어</small></dd></div>
-        <div><dt>전문가 네트워크</dt><dd>50명+<small>세미나 · 포럼 50회+</small></dd></div>
-        
+        <div><dt>SNS 누적 조회수</dt><dd>200만 회+<small>공식 SNS 채널 콘텐츠 조회수 합산</small></dd></div>
+        <div><dt>누적 참여</dt><dd>2,000명+<small>스터디·강연·행사 참여 합산</small></dd></div>
+        <div><dt>비즈니스 커뮤니티</dt><dd>약 650명<small>기업 대표·실무자 커뮤니티</small></dd></div>
+        <div><dt>기업·기관 협업</dt><dd>20건+<small>대기업·공공기관·대학·미디어</small></dd></div>
+        <div><dt>전문가 세미나·포럼</dt><dd>50회+<small>현업 전문가 세미나·포럼</small></dd></div>
       </dl>
-      <h3 class="sf-logos-title">함께한 기업·기관 <small>대학 · 공공기관 · 기업 · 미디어 50곳+</small></h3>
+      <h3 class="sf-logos-title">다양한 기업·기관과 협력하며 산업의 가능성을 넓혀갑니다. <small>대학 · 공공기관 · 기업 · 미디어 50곳+</small></h3>
       
       <div class="r3-logowall" role="img" aria-label="함께한 기업·기관: 서울대학교, 연세대학교, 고려대학교, 이화여자대학교, 성균관대학교, 경희대학교, 한양대학교, 한림대학교, 현대자동차, UN Women, 서울경제, 매일경제, 한국시니어TV, KB골든라이프, MYSC, 언더독스, 듀오, THK컴퍼니, 조선일보, 전자신문, 옹고잉, 솔닥, 시놀, 오이, 케어네이션, 오뉴, 더뉴그레이, 신한라이프케어, 블루포인트, 케어링, 써드에이지, 매경이코노미, 신이어마켙, 삶의질연구소, 스핀텍, 똑비, 리브라이블리, 포페런츠, 브라보마이라이프, 한국노인인력개발원, 큐리어스, 종로노인종합복지관, 성남시혁신지원센터, 한국정책평가연구원, 미스터마인드, DNX, 아름다운재단, 미션잇, 한국액티브시니어협회, 효돌, KIMES"><img class="r3-logowall__img" src="https://oopy.lazyrockets.com/api/v2/notion/image?src=attachment%3A728f3d67-b376-40c1-8543-bce194ab9ebb%3A%EC%8B%9C%EB%8B%88%EC%96%B4%ED%93%A8%EC%B2%98_%EB%A1%9C%EA%B3%A0_%EC%95%95%EC%B6%95.png&blockId=37634a84-148b-80e3-9943-d4ceb0c6ef17" alt="" loading="lazy" width="2048" height="920"><div class="r3-logowall__rows" aria-hidden="true"><i style="--y:-1px;--d:38s"></i><i style="--y:-47px;--d:44s"></i><i style="--y:-102px;--d:50s"></i><i style="--y:-162px;--d:38s"></i><i style="--y:-215px;--d:44s"></i><i style="--y:-278px;--d:50s"></i><i style="--y:-328px;--d:38s"></i><i style="--y:-386px;--d:44s"></i></div></div>
     </div>
@@ -151,10 +152,10 @@
   <section class="is-tint" id="contact" aria-labelledby="biz-contact">
     <div class="sf-wrap sf-contact">
       <div>
-        <p class="sf-dot">CONTACT</p>
-        <h2 id="biz-contact">시니어 산업에서<br>새로운 기회를<br>찾고 계신가요?</h2>
-        <p class="sf-lead">기업의 신사업부터 공공기관의 산업 활성화 프로젝트까지, 시니어퓨처와 함께 협업 가능성을 논의해 보세요.</p>
-        <div class="r3-contact-2"><a class="sf-btn sf-btn--primary sf-btn--l" href="#contact-form" data-sf-prefill="기업 맞춤 교육">교육 · 행사 협력 문의</a><a class="sf-btn sf-btn--outline sf-btn--l" href="#contact-form" data-sf-prefill="공동 프로젝트">콘텐츠 · 홍보 · 프로젝트 문의</a></div><a class="r3-deck" href="#contact-form" data-sf-prefill="기타 문의" id="ask-deck">서비스 소개서만 먼저 받아 볼게요 →</a>
+        <p class="sf-dot">LET'S WORK TOGETHER</p>
+        <h2 id="biz-contact">새로운 사업 기회,<br>시니어퓨처와<br>함께 시작하세요.</h2>
+        <p class="sf-lead">기업교육, 콘텐츠 협업, 산업 행사, 공동 프로젝트까지. 귀사의 목표와 과제를 들려주시면 적합한 협업 방향을 함께 검토하겠습니다.</p>
+        <div class="r3-contact-2"><a class="sf-btn sf-btn--primary sf-btn--l" href="#contact-form" data-sf-prefill="사업개발·공동 프로젝트">기업·기관 협업 제안하기</a></div>
         <ul><li>문의를 확인한 뒤 이메일이나 전화로 연락드려요</li><li>제휴·협업 문의는 seniorfuture100@gmail.com 으로도 받아요</li></ul>
       </div>
       <div class="sf-form-slot" data-sf-form-slot="biz-contact"><h3>협업 문의하기</h3></div>
