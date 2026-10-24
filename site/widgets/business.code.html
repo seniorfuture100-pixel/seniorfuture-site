@@ -10,6 +10,18 @@
 .sf-scope .sf-biz .sf-logos--names li{color:var(--sf-text);font-size:15px;font-weight:700;letter-spacing:-.02em;text-align:center}
 </style>
 <style>/* 10/24 기업 고민 2번째(홍보) 아이콘: 체크 → 확성기 */:root body .sf-biz .sf-needs-sec .sf-need-cards:nth-of-type(1) li:nth-child(2) .sf-need-ic{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238fe3bd'/%3E%3Cstop offset='.55' stop-color='%2325b07a'/%3E%3Cstop offset='1' stop-color='%2311794f'/%3E%3C/linearGradient%3E%3CradialGradient id='h' cx='.3' cy='.2' r='.7'%3E%3Cstop offset='0' stop-color='%23fff' stop-opacity='.75'/%3E%3Cstop offset='1' stop-color='%23fff' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect x='4' y='6' width='56' height='56' rx='17' fill='%2311794f' opacity='.35'/%3E%3Crect x='4' y='2' width='56' height='56' rx='17' fill='url(%23g)'/%3E%3Crect x='4' y='2' width='56' height='56' rx='17' fill='url(%23h)'/%3E%3Cpath d='M16 26h7l15-9v26l-15-9h-7z' fill='%23fff'/%3E%3Cpath d='M22 35l3 9h5l-2-9' fill='%23fff' opacity='.85'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round'%3E%3Cpath d='M44 24c3 3 3 9 0 12'/%3E%3Cpath d='M48 20c5 5 5 15 0 20'/%3E%3C/g%3E%3C/svg%3E")!important}</style>
+<style>
+/* 10/24 v18 — 고민 카드 6개 한 묶음 · 솔루션 화살표 제거 · 협력 프로젝트 5단계(토스식 번호 카드) */
+:root body .sf-biz .sf-needs-sec .sf-need-cards+.sf-need-cards{margin-top:20px}
+:root body .sf-biz .sf-st5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin:56px 0 0;padding:0;list-style:none;counter-reset:none}
+:root body .sf-biz .sf-st5 li{position:relative;display:flex;flex-direction:column;padding:32px 24px 36px;border-radius:24px;background:#fff;box-shadow:0 0 0 1px #ffe2cf,0 10px 28px rgba(30,20,10,.05)}
+:root body .sf-biz .sf-st5 li:not(:last-child)::after{content:"";position:absolute;top:58px;right:-17px;width:18px;height:2px;background:#ffb27a}
+:root body .sf-biz .sf-st5__no{font-size:44px;font-weight:800;line-height:1;letter-spacing:-.03em;background:linear-gradient(180deg,#ffb27a,#ff6a0f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+:root body .sf-biz .sf-st5 b{margin:20px 0 10px;font-size:21px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
+:root body .sf-biz .sf-st5 p{margin:0;color:#6b7684;font-size:15px;line-height:1.65;word-break:keep-all}
+:root body .sf-biz .sf-st5 li:hover{transform:translateY(-4px);transition:transform .25s}
+@media (max-width:1023.98px){:root body .sf-biz .sf-st5{grid-template-columns:1fr;gap:12px}:root body .sf-biz .sf-st5 li{display:grid;grid-template-columns:64px 1fr;gap:4px 12px;padding:22px 20px}:root body .sf-biz .sf-st5__no{grid-row:span 2;font-size:34px}:root body .sf-biz .sf-st5 b{margin:0;font-size:18px}:root body .sf-biz .sf-st5 li::after{display:none}}
+</style>
 <div class="sf-scope">
 <main class="sf-biz">
   
@@ -31,13 +43,12 @@
     <div class="sf-wrap">
       <p class="sf-dot">CUSTOMER NEEDS</p>
       <h2 id="biz-needs">시니어 시장에 진입하는 과정,<br>어디서부터 시작해야 할까요?</h2>
-      <h3 class="sf-group">기업의 고민</h3>
+      <h3 class="sf-group">기업과 공공기관의 고민</h3>
       <ul class="sf-need-cards">
         <li><span class="sf-need-ic" aria-hidden="true">?</span><b>“어디서부터 시작해야 할지 모르겠어요.”</b><p>시니어 시장에 들어가고 싶지만 고객·현장·규제를 한 번에 이해하기 어려워요.</p></li>
         <li><span class="sf-need-ic" aria-hidden="true">↗</span><b>“기관과 업계에 우리 제품을 알리고 싶어요.”</b><p>요양·공공기관 관계자와 업계 실무자에게 제품과 서비스를 알릴 방법이 필요해요.</p></li>
         <li><span class="sf-need-ic" aria-hidden="true">⇄</span><b>“현장과 전문가를 만날 길이 없어요.”</b><p>요양기관이나 산업 전문가와 연결될 네트워크가 필요해요.</p></li>
       </ul>
-      <h3 class="sf-group">공공기관의 고민</h3>
       <ul class="sf-need-cards">
         <li><span class="sf-need-ic" aria-hidden="true">◎</span><b>“지역 시니어 산업을 키우고 싶어요.”</b><p>지역에 맞는 산업 활성화 프로그램을 기획하기 어려워요.</p></li>
         <li><span class="sf-need-ic" aria-hidden="true">✎</span><b>“현장에 맞는 교육이 필요해요.”</b><p>현장 수요에 맞춘 전문 교육과 인재 양성을 운영하고 싶어요.</p></li>
@@ -56,10 +67,10 @@
     <div class="sf-wrap">
       <div class="sf-sol-head"><div><p class="sf-dot">OUR SOLUTIONS</p><h2 id="biz-sol">시니어 산업의 시작부터 실행까지</h2></div><p>카드를 누르면 바로 문의할 수 있어요</p></div>
       <ul class="sf-sol-list">
-        <li><a class="sf-sol" href="#contact" data-sf-prefill="기업 맞춤 교육"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery5.jpg" alt="임직원 대상 시니어 시장 교육 현장" loading="lazy" data-sf-img="sol-1"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>01</em>기업·기관 맞춤 교육</span><strong>시니어 산업의 전문성을,<br>현장에서 필요한 역량으로.</strong><span class="sf-sol__tags"><span># 임직원 교육</span><span># 기관 직무 교육</span><span># 전문가 워크숍</span></span></span><span class="sf-sol__go" aria-hidden="true">→</span></a></li>
-        <li><a class="sf-sol" href="#contact" data-sf-prefill="포럼·행사·네트워킹"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery3.jpg" alt="시니어퓨처 콘서트 네트워킹 행사" loading="lazy" data-sf-img="sol-2"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>02</em>산업 포럼·행사·네트워킹</span><strong>관계자들이 만나<br>새로운 협력 기회를 만듭니다.</strong><span class="sf-sol__tags"><span># 포럼·콘퍼런스</span><span># 네트워킹</span><span># 행사 운영</span></span></span><span class="sf-sol__go" aria-hidden="true">→</span></a></li>
-        <li><a class="sf-sol" href="#contact" data-sf-prefill="콘텐츠·홍보"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery6.jpg" alt="시니어 비즈니스 스터디 세션" loading="lazy" data-sf-img="sol-3"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>03</em>콘텐츠 &amp; 홍보</span><strong>시니어 시장을 깊이 이해하고,<br>필요한 기관·업계에 알립니다.</strong><span class="sf-sol__tags"><span># 산업 리서치</span><span># 브랜드 콘텐츠</span><span># 뉴스레터·SNS</span><span># B2B 홍보</span></span></span><span class="sf-sol__go" aria-hidden="true">→</span></a></li>
-        <li><a class="sf-sol" href="#contact" data-sf-prefill="공동 프로젝트"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery4.jpg" alt="협업 네트워킹 모임" loading="lazy" data-sf-img="sol-4"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>04</em>공동 프로젝트</span><strong>기업·기관과 함께<br>기획하고 실행합니다.</strong><span class="sf-sol__tags"><span># 공동 기획</span><span># 프로그램 운영</span><span># 성과 공유</span></span></span><span class="sf-sol__go" aria-hidden="true">→</span></a></li>
+        <li><a class="sf-sol" href="#contact" data-sf-prefill="기업 맞춤 교육"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery5.jpg" alt="임직원 대상 시니어 시장 교육 현장" loading="lazy" data-sf-img="sol-1"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>01</em>기업·기관 맞춤 교육</span><strong>시니어 산업의 전문성을,<br>현장에서 필요한 역량으로.</strong><span class="sf-sol__tags"><span># 임직원 교육</span><span># 기관 직무 교육</span><span># 전문가 워크숍</span></span></span></a></li>
+        <li><a class="sf-sol" href="#contact" data-sf-prefill="포럼·행사·네트워킹"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery3.jpg" alt="시니어퓨처 콘서트 네트워킹 행사" loading="lazy" data-sf-img="sol-2"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>02</em>산업 포럼·행사·네트워킹</span><strong>관계자들이 만나<br>새로운 협력 기회를 만듭니다.</strong><span class="sf-sol__tags"><span># 포럼·콘퍼런스</span><span># 네트워킹</span><span># 행사 운영</span></span></span></a></li>
+        <li><a class="sf-sol" href="#contact" data-sf-prefill="콘텐츠·홍보"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery6.jpg" alt="시니어 비즈니스 스터디 세션" loading="lazy" data-sf-img="sol-3"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>03</em>콘텐츠 &amp; 홍보</span><strong>시니어 시장을 깊이 이해하고,<br>필요한 기관·업계에 알립니다.</strong><span class="sf-sol__tags"><span># 산업 리서치</span><span># 브랜드 콘텐츠</span><span># 뉴스레터·SNS</span><span># B2B 홍보</span></span></span></a></li>
+        <li><a class="sf-sol" href="#contact" data-sf-prefill="공동 프로젝트"><span class="sf-sol__img"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery4.jpg" alt="협업 네트워킹 모임" loading="lazy" data-sf-img="sol-4"></span><span class="sf-sol__body"><span class="sf-sol__name"><em>04</em>공동 프로젝트</span><strong>기업·기관과 함께<br>기획하고 실행합니다.</strong><span class="sf-sol__tags"><span># 공동 기획</span><span># 프로그램 운영</span><span># 성과 공유</span></span></span></a></li>
       </ul>
     </div>
   </section>
@@ -72,17 +83,12 @@
     <div class="sf-wrap">
       <p class="sf-dot">HOW WE WORK</p>
       <h2 id="biz-how">협력 프로젝트 과정</h2>
-      <ol class="sf-steps" data-sf-steps aria-label="협력 프로젝트 5단계">
-        <li><button type="button" data-sf-step><span class="sf-step__no">01</span><span class="sf-step__label">STEP 01</span><span class="sf-step__name">과제 진단</span></button>
-          <div data-sf-step-panel><div><span class="sf-step__label">STEP 01 · 지금 단계</span><h3>과제 진단</h3><p class="sf-lead">시니어 시장과 고객, 관련 산업 및 현장 환경을 분석합니다.</p></div><div class="sf-out"><small>산출물 예시</small><b>주요 과제 및 협업 방향 정리</b><a href="#" data-sf-step-next>다음 단계 · 맞춤형 제안 →</a></div></div></li>
-        <li><button type="button" data-sf-step><span class="sf-step__no">02</span><span class="sf-step__label">STEP 02</span><span class="sf-step__name">맞춤형 제안</span></button>
-          <div data-sf-step-panel hidden><div><span class="sf-step__label">STEP 02</span><h3>맞춤형 제안</h3><p class="sf-lead">사업 목적에 맞는 프로젝트 범위, 추진 방법, 일정, 예산, 기대성과를 협의합니다.</p></div><div class="sf-out"><small>산출물 예시</small><b>프로젝트 제안서 및 실행 계획</b><a href="#" data-sf-step-next>다음 단계 · 프로젝트 실행 →</a></div></div></li>
-        <li><button type="button" data-sf-step><span class="sf-step__no">03</span><span class="sf-step__label">STEP 03</span><span class="sf-step__name">프로젝트 실행</span></button>
-          <div data-sf-step-panel hidden><div><span class="sf-step__label">STEP 03</span><h3>프로젝트 실행</h3><p class="sf-lead">합의된 계획에 따라 교육, 행사, 콘텐츠·홍보 또는 공동 프로그램을 진행합니다.</p></div><div class="sf-out"><small>산출물 예시</small><b>프로젝트별 실행 결과물</b><a href="#" data-sf-step-next>다음 단계 · 성과 측정 →</a></div></div></li>
-        <li><button type="button" data-sf-step><span class="sf-step__no">04</span><span class="sf-step__label">STEP 04</span><span class="sf-step__name">성과 측정·결과 공유</span></button>
-          <div data-sf-step-panel hidden><div><span class="sf-step__label">STEP 04</span><h3>성과 측정 및 결과 공유</h3><p class="sf-lead">참여 실적, 사용자 피드백, 주요 결과와 개선사항을 정리합니다.</p></div><div class="sf-out"><small>산출물 예시</small><b>결과보고서, 성과 요약, 후속 과제</b><a href="#" data-sf-step-next>다음 단계 · 후속 협력 →</a></div></div></li>
-        <li><button type="button" data-sf-step><span class="sf-step__no">05</span><span class="sf-step__label">STEP 05</span><span class="sf-step__name">후속 협력</span></button>
-          <div data-sf-step-panel hidden><div><span class="sf-step__label">STEP 05</span><h3>후속 협력</h3><p class="sf-lead">프로젝트 결과를 토대로 추가 협력과 다음 프로젝트를 함께 검토합니다.</p></div><div class="sf-out"><small>산출물 예시</small><b>후속 협력 방안</b></div></div></li>
+      <ol class="sf-st5" aria-label="협력 프로젝트 5단계">
+        <li><span class="sf-st5__no">01</span><b>과제 진단</b><p>시니어 시장과 고객, 관련 산업 및 현장 환경을 분석합니다.</p></li>
+        <li><span class="sf-st5__no">02</span><b>맞춤형 제안</b><p>사업 목적에 맞는 프로젝트 범위, 추진 방법, 일정, 예산, 기대성과를 협의합니다.</p></li>
+        <li><span class="sf-st5__no">03</span><b>프로젝트 실행</b><p>합의된 계획에 따라 교육, 행사, 콘텐츠·홍보 또는 공동 프로그램을 진행합니다.</p></li>
+        <li><span class="sf-st5__no">04</span><b>성과 측정 및 결과 공유</b><p>참여 실적, 사용자 피드백, 주요 결과와 개선사항을 정리합니다.</p></li>
+        <li><span class="sf-st5__no">05</span><b>후속 협력</b><p>프로젝트 결과를 토대로 추가 협력과 다음 프로젝트를 함께 검토합니다.</p></li>
       </ol>
       <p class="sf-note">프로세스는 프로젝트 성격과 일정에 따라 조정될 수 있어요. 모든 프로젝트에 같은 절차를 보장하지는 않아요.</p>
     </div>
