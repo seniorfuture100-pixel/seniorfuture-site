@@ -220,7 +220,7 @@
 .sf-scope .sf-ab .sf-h8 .sf-ab-lead{max-width:900px;margin:30px auto 0;color:rgba(255,255,255,.9);font-size:clamp(18px,1.4vw,22px)!important;font-weight:500;line-height:1.7;text-shadow:0 2px 14px rgba(0,0,0,.7)}
 .sf-scope .sf-ab .sf-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .sf-scope .sf-ab .sf-ab-services,.sf-scope .sf-ab .sf-ab-projects{overflow:hidden}
-@media (min-width:1440px){.sf-scope .sf-ab .sf-w8-col{--R:-960px;--W:156px}.sf-scope .sf-ab .sf-w8{perspective:780px}}
+@media (min-width:1440px){.sf-scope .sf-ab .sf-w8-col{--R:-1200px;--W:188px}.sf-scope .sf-ab .sf-w8{perspective:780px}}
 @media (max-width:1023.98px){.sf-scope .sf-ab .sf-w8-col{--R:-640px;--W:130px}.sf-scope .sf-ab .sf-w8{perspective:460px}}
 @media (max-width:767.98px){.sf-scope .sf-ab .sf-h8{height:440px;min-height:0;overflow:hidden}.sf-scope .sf-ab .sf-w8{perspective:250px;bottom:20%}.sf-scope .sf-ab .sf-w8-col{--R:-320px;--W:108px;gap:6px}.sf-scope .sf-ab .sf-w8-col img{border-radius:5px}.sf-scope .sf-ab .sf-w8-floor{bottom:-30px;height:30%;opacity:.6;background:url(https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/stage-floor.jpg) center top/100% 100% no-repeat;-webkit-mask-image:linear-gradient(transparent,#000 30%);mask-image:linear-gradient(transparent,#000 30%)}.sf-scope .sf-ab .sf-w8-floor::after,.sf-scope .sf-ab .sf-w8-floor::before{display:none}.sf-scope .sf-ab .sf-w8-copy{margin-top:-4%}.sf-scope .sf-ab .sf-h8 h1{font-size:42px!important}.sf-scope .sf-ab .sf-h8 .sf-ab-lead{font-size:17px!important;margin-top:18px}.sf-scope .sf-ab .sf-pc{display:none}}
 @media (prefers-reduced-motion:reduce){.sf-scope .sf-ab .sf-w8-3d,.sf-scope .sf-ab .sf-w8-mask,.sf-scope .sf-ab .sf-w8-col,.sf-scope .sf-ab .sf-h8-grad{animation:none}.sf-scope .sf-ab .sf-w8{transform:none}}
@@ -290,6 +290,21 @@
 .sf-scope .sf-ab .sf-ct-btn{min-width:0;width:100%;height:58px;font-size:17px}
 }
 </style>
+<style>
+/* 10/24 v17 — OUR WAY 카드마다 다른 구성(토스 Culture처럼) · 넓은 화면(1280+) 첫 화면 밝게 */
+.sf-scope .sf-ab .sf-gc.sf-gc-orb{background:radial-gradient(circle at 50% 36%,#fffaf0 0,#ffe2bf 7%,#ffb06b 16%,#ff7a2a 24%,rgba(255,122,42,0) 25.5%),radial-gradient(circle at 50% 38%,rgba(255,140,60,.45) 0,rgba(255,140,60,0) 52%),radial-gradient(ellipse 80% 40% at 50% 100%,#ffd9b8 0,transparent 70%),linear-gradient(180deg,#fff1e4 0,#ffd2ae 100%);justify-content:flex-end;padding-bottom:14px}
+.sf-scope .sf-ab .sf-gc.sf-gc-orb{gap:0;line-height:1.05}.sf-scope .sf-ab .sf-gc.sf-gc-orb i{font-size:19px!important}
+.sf-scope .sf-ab .sf-gc.sf-gc-orb i:nth-child(1){color:#6b2a08}
+.sf-scope .sf-ab .sf-gc.sf-gc-wave{background:repeating-radial-gradient(ellipse 120% 90% at 50% 125%,rgba(255,255,255,0) 0 22px,rgba(255,255,255,.42) 23px 25px),radial-gradient(circle at 78% 22%,rgba(255,214,240,.9) 0,transparent 38%),linear-gradient(160deg,#5b4be0 0,#8f84f0 45%,#f6b8de 100%);align-items:flex-start;padding-left:24px;text-align:left}
+.sf-scope .sf-ab .sf-gc.sf-gc-wave i{color:#fff!important;font-weight:700}
+.sf-scope .sf-ab .sf-gc.sf-gc-wave i:nth-child(2){opacity:.7;font-weight:400}
+@media (min-width:1280px){
+.sf-scope .sf-ab .sf-w8-col img{opacity:.95}
+.sf-scope .sf-ab .sf-w8-vig{background:radial-gradient(18% 28% at 50% 60%,rgba(0,0,0,.4) 0,transparent 100%),linear-gradient(rgba(0,0,0,.25) 0,transparent 16%)}
+.sf-scope .sf-ab .sf-w8-mask{-webkit-mask-image:linear-gradient(90deg,#000 14%,rgba(0,0,0,.85) 22%,rgba(0,0,0,.55) 30%,rgba(0,0,0,.2) 38%,transparent 45%,transparent 55%,rgba(0,0,0,.2) 62%,rgba(0,0,0,.55) 70%,rgba(0,0,0,.85) 78%,#000 86%);mask-image:linear-gradient(90deg,#000 14%,rgba(0,0,0,.85) 22%,rgba(0,0,0,.55) 30%,rgba(0,0,0,.2) 38%,transparent 45%,transparent 55%,rgba(0,0,0,.2) 62%,rgba(0,0,0,.55) 70%,rgba(0,0,0,.85) 78%,#000 86%)}
+.sf-scope .sf-ab .sf-w8-clip{background:radial-gradient(at 50% 18%,#24262b 0,#121316 50%,#0a0a0c 100%)}
+}
+</style>
 <div class="sf-scope">
 <main class="sf-ab">
   <section class="sf-ab-hero sf-h6 sf-h8">
@@ -329,8 +344,8 @@
       <p class="sf-ab-lead" data-sf-reveal>시니어 산업에는 새로운 아이디어와 기술, 좋은 제품과 서비스가 계속 등장하고 있습니다. 그러나 산업의 정보를 얻고, 전문가를 만나고, 협업 기회를 찾는 일은 여전히 쉽지 않습니다. 시니어퓨처는 흩어진 사람과 정보, 기업과 기회를 연결해 산업의 성장을 만들어갑니다.</p>
       <div class="sf-ab-msgs">
         <div class="sf-ab-msg sf-zin" data-sf-reveal><span class="sf-msg-ph"><span class="sf-gc sf-gc--sky is-s" aria-hidden="true"><i>Information</i><i>Into</i><i>Insight</i></span></span><b>정보를 넘어 통찰로</b><p>산업의 변화를 읽고 새로운 기회를 발견합니다.</p></div>
-        <div class="sf-ab-msg sf-zin" data-sf-reveal data-delay="100"><span class="sf-msg-ph"><span class="sf-gc sf-gc--sunset is-s" aria-hidden="true"><i>Learning</i><i>Into</i><i>Growth</i></span></span><b>배움을 넘어 성장으로</b><p>배운 지식이 새로운 역량과 비즈니스로 이어지도록 돕습니다.</p></div>
-        <div class="sf-ab-msg sf-zin" data-sf-reveal data-delay="200"><span class="sf-msg-ph"><span class="sf-gc sf-gc--violet is-s" aria-hidden="true"><i>Meeting</i><i>Into</i><i>Partnership</i></span></span><b>만남을 넘어 협업으로</b><p>좋은 제품과 서비스가 필요한 기업과 사람들에게 연결될 수 있도록 돕습니다.</p></div>
+        <div class="sf-ab-msg sf-zin" data-sf-reveal data-delay="100"><span class="sf-msg-ph"><span class="sf-gc sf-gc--sunset is-s sf-gc-orb" aria-hidden="true"><i>Learning</i><i>Into</i><i>Growth</i></span></span><b>배움을 넘어 성장으로</b><p>배운 지식이 새로운 역량과 비즈니스로 이어지도록 돕습니다.</p></div>
+        <div class="sf-ab-msg sf-zin" data-sf-reveal data-delay="200"><span class="sf-msg-ph"><span class="sf-gc sf-gc--violet is-s sf-gc-wave" aria-hidden="true"><i>Meeting</i><i>Into</i><i>Partnership</i></span></span><b>만남을 넘어 협업으로</b><p>좋은 제품과 서비스가 필요한 기업과 사람들에게 연결될 수 있도록 돕습니다.</p></div>
       </div>
       <p class="sf-ab-ctx" data-sf-reveal>고령화는 단순한 인구구조의 변화가 아니라, 모든 산업의 미래를 바꾸는 거대한 흐름입니다.<br>시니어퓨처는 이 변화 속에서 새로운 기회를 만들어갑니다.</p>
     </div>
