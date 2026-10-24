@@ -75,6 +75,7 @@
 </style>
 <style>
 /* 10/24 모바일 개선 */
+#doz_header_wrap .sf-mh__btn:focus,#doz_header_wrap .sf-mh__btn:focus-visible,#doz_header_wrap button:focus:not(:focus-visible){outline:none!important;box-shadow:none!important;border-color:transparent!important}
 :root body .sf-biz .sf-note--top{margin:16px 0 0!important;color:#8b95a1!important;font-size:14px!important}
 :root body .sf-biz .r2-float .r2-fc{opacity:1!important;visibility:visible!important}
 @media (max-width:767.98px){
@@ -83,7 +84,14 @@
 :root body .sf-biz .sf-hero-grid>div:first-child{display:contents}
 :root body .sf-biz .sf-hero-grid .sf-dot{order:1}:root body .sf-biz .sf-hero-grid h1{order:2}:root body .sf-biz .sf-hero-grid .sf-lead{order:3}
 :root body .sf-biz .r2-float{order:4;margin:28px 0 8px!important;transform:none!important}
-:root body .sf-biz .r2-float .r2-fc{transform:none!important;animation:none!important}
+:root body .sf-biz .r2-float .r2-fc{animation:sfFloatM 4.5s ease-in-out infinite!important}
+:root body .sf-biz .r2-float .r2-fc--1{animation-delay:-1.1s!important}:root body .sf-biz .r2-float .r2-fc--2{animation-delay:-2.2s!important}:root body .sf-biz .r2-float .r2-fc--3{animation-delay:-3.3s!important}
+:root body .sf-biz .r2-hero,:root body .sf-biz>section:first-child{min-height:0!important;padding-top:36px!important;padding-bottom:44px!important}
+:root body .sf-biz .sf-hero-grid .sf-dot{margin:0 0 14px!important}
+:root body .sf-biz .sf-hero-grid h1{margin:0!important;font-size:30px!important;line-height:1.3!important}
+:root body .sf-biz .sf-hero-grid .sf-lead{margin:14px 0 0!important;font-size:15px!important;line-height:1.65!important}
+:root body .sf-biz .r2-float{margin:24px 0 0!important;gap:10px!important}
+:root body .sf-biz .sf-hero-grid .sf-row{margin-top:16px!important}
 :root body .sf-biz .sf-hero-grid .sf-row{order:5;display:grid!important;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;width:100%}
 :root body .sf-biz .sf-hero-grid .sf-row .sf-btn{height:50px!important;min-height:0!important;padding:0 12px!important;font-size:15px!important;border-radius:14px!important;width:auto!important}
 :root body .sf-biz .sf-need-cards.sf-need4{grid-template-columns:1fr!important;gap:12px!important}
@@ -96,6 +104,7 @@
 :root body .sf-biz .sf-st6 .sf-st5__dot{animation:sfStDot linear both;animation-timeline:view();animation-range:cover 30% cover 60%}
 :root body .sf-biz .sf-st6 .sf-st5__out{animation:sfStOut linear both;animation-timeline:view();animation-range:cover 30% cover 60%}
 }
+@keyframes sfFloatM{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes sfStDot{0%,100%{background:#fff;color:#ff6a0f}30%,70%{background:#ff6a0f;color:#fff}}
 @keyframes sfStOut{0%,100%{box-shadow:inset 0 0 0 1px #f3dccb}30%,70%{box-shadow:inset 0 0 0 1.5px #ff9652,0 10px 24px rgba(255,106,15,.12)}}
 }
