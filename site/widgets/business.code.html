@@ -84,7 +84,8 @@
 :root body .sf-biz .sf-hero-grid>div:first-child{display:contents}
 :root body .sf-biz .sf-hero-grid .sf-dot{order:1}:root body .sf-biz .sf-hero-grid h1{order:2}:root body .sf-biz .sf-hero-grid .sf-lead{order:3}
 :root body .sf-biz .r2-float{order:4;margin:28px 0 8px!important;transform:none!important}
-:root body .sf-biz .r2-float .r2-fc{animation:none!important;transform:none!important}
+:root body .sf-biz .r2-float .r2-fc{animation:sfFloatM 4.5s ease-in-out infinite!important;will-change:transform}
+:root body .sf-biz .r2-float .r2-fc--1{animation-delay:-1.1s!important}:root body .sf-biz .r2-float .r2-fc--2{animation-delay:-2.2s!important}:root body .sf-biz .r2-float .r2-fc--3{animation-delay:-3.3s!important}
 :root body .sf-biz .r2-float .r2-fc--1{animation-delay:-1.1s!important}:root body .sf-biz .r2-float .r2-fc--2{animation-delay:-2.2s!important}:root body .sf-biz .r2-float .r2-fc--3{animation-delay:-3.3s!important}
 :root body .sf-biz .r2-hero,:root body .sf-biz>section:first-child{min-height:0!important;padding-top:36px!important;padding-bottom:44px!important}
 :root body .sf-biz .sf-hero-grid .sf-dot{margin:0 0 14px!important}
@@ -98,8 +99,6 @@
 @media (max-width:767.98px){:root body .sf-biz .sf-need-cards.sf-need4{grid-template-columns:1fr!important;gap:12px!important}
 :root body .sf-biz .sf-sol__body{display:flex!important;flex-direction:column}
 :root body .sf-biz .sf-sol__name{order:1}:root body .sf-biz .sf-sol__tags{order:2;margin:2px 0 4px}:root body .sf-biz .sf-sol strong{order:3}
-:root body .sf-biz .sf-st6::before,:root body .sf-biz .sf-st6::after{display:none!important}
-:root body .sf-biz .sf-st6 li:not(:last-child)::before{display:block!important;content:"";position:absolute;left:27px;top:56px;bottom:0;width:1.5px;height:auto;border:0;transform:none;background:#f6d2b6}
 @supports (animation-timeline:view()){
 :root body .sf-biz .sf-st6 .sf-st5__out{animation:sfStOut linear both;animation-timeline:view();animation-range:cover 30% cover 60%}
 }
@@ -119,6 +118,8 @@
 @supports not (animation-timeline:view()){:root body .sf-biz .sf-st6 .sf-st5__dot{color:#ff6a0f;box-shadow:0 0 0 1.5px #ffb27a}:root body .sf-biz .sf-st6 .sf-st5__ph{color:#ff6a0f}}
 @keyframes sfStFill{0%{color:#b0b8c1;box-shadow:0 0 0 1.5px #e5e8eb;background:#fff}100%{color:#ff6a0f;box-shadow:0 0 0 2px #ff8a3d,0 6px 16px rgba(255,106,15,.14);background:#fff}}
 @keyframes sfStPh{0%{color:#b0b8c1}100%{color:#ff6a0f}}
+@media (max-width:1023.98px){:root body .sf-biz .sf-st6::before,:root body .sf-biz .sf-st6::after{display:none!important}:root body .sf-biz .sf-st6 li:not(:last-child)::before{display:block!important;content:"";position:absolute;left:27px;top:56px;bottom:0;width:1.5px;height:auto;border:0;transform:none;background:#f6d2b6}}
+@media (prefers-reduced-motion:reduce){:root body .sf-biz .r2-float .r2-fc{animation:none!important}}
 </style>
 <div class="sf-scope">
 <main class="sf-biz">
