@@ -73,6 +73,32 @@
 
 :root body .sf-biz .sf-st6 li::before{display:none!important}
 </style>
+<style>
+/* 10/24 모바일 개선 */
+:root body .sf-biz .sf-note--top{margin:16px 0 0!important;color:#8b95a1!important;font-size:14px!important}
+:root body .sf-biz .r2-float .r2-fc{opacity:1!important;visibility:visible!important}
+@media (max-width:767.98px){
+:root body .sf-biz .sf-hero-grid{display:flex!important;flex-direction:column}
+:root body .sf-biz .sf-hero-grid>div:first-child{display:contents}
+:root body .sf-biz .sf-hero-grid .sf-dot{order:1}:root body .sf-biz .sf-hero-grid h1{order:2}:root body .sf-biz .sf-hero-grid .sf-lead{order:3}
+:root body .sf-biz .r2-float{order:4;margin:28px 0 8px!important;transform:none!important}
+:root body .sf-biz .r2-float .r2-fc{transform:none!important;animation:none!important}
+:root body .sf-biz .sf-hero-grid .sf-row{order:5;display:grid!important;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+:root body .sf-biz .sf-hero-grid .sf-row .sf-btn{height:50px!important;min-height:0!important;padding:0 12px!important;font-size:15px!important;border-radius:14px!important;width:auto!important}
+:root body .sf-biz .sf-need-cards.sf-need4{grid-template-columns:1fr!important;gap:12px!important}
+:root body .sf-biz .sf-sol__body{display:flex!important;flex-direction:column}
+:root body .sf-biz .sf-sol__name{order:1}:root body .sf-biz .sf-sol__tags{order:2;margin:2px 0 4px}:root body .sf-biz .sf-sol strong{order:3}
+:root body .sf-biz .sf-st6::before,:root body .sf-biz .sf-st6::after{display:none!important}
+:root body .sf-biz .sf-st6 li:not(:last-child)::before{display:block!important;content:"";position:absolute;left:27px;top:56px;bottom:0;width:1.5px;height:auto;border:0;transform:none;background:#f6d2b6}
+:root body .sf-biz .sf-st5__dot{background:#fff!important;color:#ff6a0f!important}
+@supports (animation-timeline:view()){
+:root body .sf-biz .sf-st6 .sf-st5__dot{animation:sfStDot linear both;animation-timeline:view();animation-range:cover 30% cover 60%}
+:root body .sf-biz .sf-st6 .sf-st5__out{animation:sfStOut linear both;animation-timeline:view();animation-range:cover 30% cover 60%}
+}
+@keyframes sfStDot{0%,100%{background:#fff;color:#ff6a0f}30%,70%{background:#ff6a0f;color:#fff}}
+@keyframes sfStOut{0%,100%{box-shadow:inset 0 0 0 1px #f3dccb}30%,70%{box-shadow:inset 0 0 0 1.5px #ff9652,0 10px 24px rgba(255,106,15,.12)}}
+}
+</style>
 <div class="sf-scope">
 <main class="sf-biz">
   
@@ -128,6 +154,7 @@
     <div class="sf-wrap">
       <p class="sf-dot">COLLABORATION PROCESS</p>
       <h2 id="biz-how">기업의 목표에 맞춰,<br>체계적으로 실행합니다.</h2>
+      <p class="sf-note sf-note--top">프로세스는 프로젝트 성격과 일정에 따라 조정될 수 있어요. 모든 프로젝트에 같은 절차를 보장하지는 않아요.</p>
       <ol class="sf-st5 sf-st6" aria-label="협업 5단계">
         <li><span class="sf-st5__dot">01</span><span class="sf-st5__ph">STEP 01 · 진단</span><b>과제·목표 확인</b><p>기업의 현황과 협업 목적을 파악합니다.</p><span class="sf-st5__out"><small>산출물 예시</small>협업 목표·범위 정리</span></li>
         <li><span class="sf-st5__dot">02</span><span class="sf-st5__ph">STEP 02 · 진단</span><b>산업·전문가 검토</b><p>관련 시장 정보와 전문가·파트너를 검토합니다.</p><span class="sf-st5__out"><small>산출물 예시</small>시장 정보·전문가 후보</span></li>
@@ -135,7 +162,6 @@
         <li><span class="sf-st5__dot">04</span><span class="sf-st5__ph">STEP 04 · 실행</span><b>프로젝트 실행·운영</b><p>합의한 계획에 따라 프로젝트를 진행합니다.</p><span class="sf-st5__out"><small>산출물 예시</small>교육·행사·콘텐츠 결과물</span></li>
         <li><span class="sf-st5__dot">05</span><span class="sf-st5__ph">STEP 05 · 성과</span><b>결과 공유·후속 협의</b><p>수행 결과를 정리하고 다음 협업을 논의합니다.</p><span class="sf-st5__out"><small>산출물 예시</small>결과 보고·후속 방향</span></li>
       </ol>
-      <p class="sf-note">프로세스는 프로젝트 성격과 일정에 따라 조정될 수 있어요. 모든 프로젝트에 같은 절차를 보장하지는 않아요.</p>
     </div>
   </section>
 
