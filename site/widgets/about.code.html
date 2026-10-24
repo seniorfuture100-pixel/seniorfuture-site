@@ -192,19 +192,113 @@
 .sf-scope .sf-ab .sf-ct1 .sf-ab-cta>div{padding:28px 24px}
 }
 </style>
+<style>
+/* 10/24 v9 첫 화면 — 패스트캠퍼스 구조 비교 적용: 오목 곡면 사진 벽(정지) · 가로 마스크로 가운데는 글자만 · 바닥 반사 무대 · 비네팅.
+   상시 브랜드 페이지라 자동 전환·반복 움직임 없음(들어올 때 한 번, 스크롤 시 아주 조금 커짐 aboutV7 --hz) */
+.sf-scope .sf-ab .sf-h8{position:relative;height:min(70vh,640px);min-height:520px;padding:0!important;overflow:visible;background:#060607;box-shadow:0 0 0 100vmax #060607;clip-path:inset(0 -100vmax);color:#fff;text-align:center;display:flex;align-items:center;justify-content:center}
+.sf-scope .sf-ab .sf-w8-clip{position:absolute;top:0;bottom:0;left:50%;width:max(100%,100vw - 20px);transform:translateX(-50%);overflow:hidden;background:radial-gradient(at 50% 18%,#1a1b1e 0,#0c0c0e 45%,#060607 100%)}
+.sf-scope .sf-ab .sf-w8-floor{position:absolute;left:0;right:0;bottom:0;height:40%;z-index:1;background:radial-gradient(ellipse 36% 46% at 50% 46%,rgba(255,255,255,.07) 0,rgba(255,255,255,.025) 45%,transparent 72%),linear-gradient(transparent,rgba(0,0,0,.35))}
+.sf-scope .sf-ab .sf-w8-floor::after{content:"";position:absolute;left:50%;top:46%;width:min(820px,62%);height:34%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(255,255,255,.09);box-shadow:0 0 40px rgba(255,150,82,.10),inset 0 0 50px rgba(255,150,82,.06)}
+.sf-scope .sf-ab .sf-w8-mask{position:absolute;inset:0;z-index:2;-webkit-mask-image:linear-gradient(90deg,#000 10%,rgba(0,0,0,.84) 18%,rgba(0,0,0,.5) 26%,rgba(0,0,0,.16) 34%,transparent 43%,transparent 57%,rgba(0,0,0,.16) 66%,rgba(0,0,0,.5) 74%,rgba(0,0,0,.84) 82%,#000 90%);mask-image:linear-gradient(90deg,#000 10%,rgba(0,0,0,.84) 18%,rgba(0,0,0,.5) 26%,rgba(0,0,0,.16) 34%,transparent 43%,transparent 57%,rgba(0,0,0,.16) 66%,rgba(0,0,0,.5) 74%,rgba(0,0,0,.84) 82%,#000 90%);animation:sfW8Fade 1.2s ease both}
+.sf-scope .sf-ab .sf-w8{position:absolute;inset:0 0 22% 0;perspective:620px;perspective-origin:50% 64%;transform:scale(var(--hz,1));transform-origin:50% 50%;-webkit-box-reflect:below 0 linear-gradient(transparent 70%,rgba(255,255,255,.32))}
+.sf-scope .sf-ab .sf-w8-3d{position:absolute;left:50%;top:52%;width:0;height:0;transform-style:preserve-3d;animation:sfW8In 1.6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes sfW8In{from{transform:translateZ(-160px)}to{transform:translateZ(0)}}
+@keyframes sfW8Fade{from{opacity:0}to{opacity:1}}
+.sf-scope .sf-ab .sf-w8-col{--R:-900px;--W:170px;position:absolute;left:calc(var(--W) / -2);top:calc(var(--W) * -2.625 - 30px);width:var(--W);display:flex;flex-direction:column;gap:10px;transform:rotateY(var(--a)) translateZ(var(--R));backface-visibility:hidden}
+.sf-scope .sf-ab .sf-w8-col img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:#1a1b1e;opacity:.85}
+.sf-scope .sf-ab .sf-w8-vig{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(20% 32% at 50% 63.7%,rgba(0,0,0,.45) 0,transparent 100%),linear-gradient(rgba(0,0,0,.35) 0,transparent 18%),linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2))}
+.sf-scope .sf-ab .sf-w8-copy{position:relative;z-index:4;padding:0 20px;margin-top:-7%}
+.sf-scope .sf-ab .sf-h8 h1{margin:0;color:#fff;font-size:clamp(40px,5vw,66px);font-weight:800;line-height:1.22;letter-spacing:-.035em;text-shadow:none;position:relative}
+.sf-scope .sf-ab .sf-h8-grad{background:repeating-linear-gradient(150deg,#ff8a2a 0,#ff5a14 37px,#ffc59a 131px,#ff5a14 226px,#ff8a2a 262px);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* 글자 뒤 어두운 타원(대비) + 2줄 아래 반사(뒤집어 34%로 눌러 흐리게, 검정→짙은 주황) */
+.sf-scope .sf-ab .sf-h8 h1::before{content:"";position:absolute;left:50%;top:50%;width:118%;height:120%;transform:translate(-50%,-50%);border-radius:50%;background:#000;opacity:.5;filter:blur(30px);z-index:-1}
+.sf-scope .sf-ab .sf-h8-l2{position:relative;display:inline-block}
+.sf-scope .sf-ab .sf-h8-l2::after{content:attr(data-t);position:absolute;left:0;right:0;top:0;transform-origin:50% 100%;transform:scaleY(-.34);background:linear-gradient(#000 0,#000 35%,rgba(150,60,10,.5) 80%,rgba(160,70,15,.7) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:blur(8px);opacity:.9;pointer-events:none;-webkit-mask-image:radial-gradient(50% 50% at 50% 45%,#000 0,rgba(0,0,0,.75) 35%,transparent 100%);mask-image:radial-gradient(50% 50% at 50% 45%,#000 0,rgba(0,0,0,.75) 35%,transparent 100%)}
+.sf-scope .sf-ab .sf-h8 .sf-ab-lead{max-width:640px;margin:24px auto 0;color:rgba(255,255,255,.88);font-size:19px;line-height:1.7;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+.sf-scope .sf-ab .sf-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sf-scope .sf-ab .sf-ab-services,.sf-scope .sf-ab .sf-ab-projects{overflow:hidden}
+@media (min-width:1440px){.sf-scope .sf-ab .sf-w8-col{--R:-1200px;--W:210px}.sf-scope .sf-ab .sf-w8{perspective:780px}}
+@media (max-width:1023.98px){.sf-scope .sf-ab .sf-w8-col{--R:-640px;--W:130px}.sf-scope .sf-ab .sf-w8{perspective:460px}}
+@media (max-width:767.98px){.sf-scope .sf-ab .sf-h8{height:440px;min-height:0;overflow:hidden}.sf-scope .sf-ab .sf-w8{perspective:250px;bottom:20%}.sf-scope .sf-ab .sf-w8-col{--R:-320px;--W:108px;gap:6px}.sf-scope .sf-ab .sf-w8-col img{border-radius:5px}.sf-scope .sf-ab .sf-w8-floor{bottom:-30px;height:30%;opacity:.6;background:url(https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/stage-floor.jpg) center top/100% 100% no-repeat;-webkit-mask-image:linear-gradient(transparent,#000 30%);mask-image:linear-gradient(transparent,#000 30%)}.sf-scope .sf-ab .sf-w8-floor::after{display:none}.sf-scope .sf-ab .sf-w8-copy{margin-top:-4%}.sf-scope .sf-ab .sf-h8 h1{font-size:34px}.sf-scope .sf-ab .sf-h8 .sf-ab-lead{font-size:16px;margin-top:16px}.sf-scope .sf-ab .sf-pc{display:none}}
+@media (prefers-reduced-motion:reduce){.sf-scope .sf-ab .sf-w8-3d,.sf-scope .sf-ab .sf-w8-mask{animation:none}.sf-scope .sf-ab .sf-w8{transform:none}}
+</style>
+<style>
+/* 10/24 v14 — 토스식 그라데이션 카드(SERVICES·OUR WAY) · PROOF 어두운 무대 + 큰 숫자 · PARTNERS & PRESS 분리 · TOGETHER 번호 목록 · CTA 버튼 하나 */
+.sf-scope .sf-ab .sf-gc{--a:#3d8ff0;--b:#7aa8ec;--h:#f7b2a6;--g:#ffd36b;--n:#2c2a5e;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:16/10;border-radius:24px;overflow:hidden;
+ background:radial-gradient(ellipse 38% 7% at 50% 52%,var(--g) 0,transparent 75%),radial-gradient(ellipse 30% 5% at 0 52%,var(--n) 0,transparent 80%),radial-gradient(ellipse 30% 5% at 100% 52%,var(--n) 0,transparent 80%),
+ linear-gradient(180deg,var(--a) 0,var(--a) 14%,color-mix(in srgb,var(--a) 55%,#fff) 30%,var(--h) 44%,#ffc79a 51%,var(--h) 58%,color-mix(in srgb,var(--b) 70%,#fff) 74%,var(--b) 100%);
+ font-family:inherit;line-height:1.08;text-align:center;letter-spacing:-.02em}
+.sf-scope .sf-ab .sf-gc::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 120% 60% at 50% 0,rgba(255,255,255,.18),transparent 60%);pointer-events:none}
+.sf-scope .sf-ab .sf-gc i{position:relative;z-index:1;font-style:normal;font-weight:500;font-size:clamp(28px,3.2vw,44px)}
+.sf-scope .sf-ab .sf-gc i:nth-child(1){color:#2b2f8f}
+.sf-scope .sf-ab .sf-gc i:nth-child(2){color:#5a3a2c}
+.sf-scope .sf-ab .sf-gc i:nth-child(3){color:rgba(196,96,110,.85)}
+.sf-scope .sf-ab .sf-gc.is-s{aspect-ratio:16/11;border-radius:0}
+.sf-scope .sf-ab .sf-gc.is-s i{font-size:26px}
+.sf-scope .sf-ab .sf-gc--sunset{--a:#ff8a3d;--b:#ffb98a;--h:#ffd0b0;--g:#fff0a6;--n:#5b2a1a}
+.sf-scope .sf-ab .sf-gc--sunset i:nth-child(1){color:#7a2a08}
+.sf-scope .sf-ab .sf-gc--violet{--a:#7b6cf0;--b:#a79bf2;--h:#f3b7d6;--g:#ffe0a0;--n:#2b2363}
+.sf-scope .sf-ab .sf-gc--mint{--a:#22b58a;--b:#7fd1b4;--h:#f6d9a8;--g:#fff2a8;--n:#0e4a3a}
+.sf-scope .sf-ab .sf-gc--mint i:nth-child(1){color:#0d4a3a}
+.sf-scope .sf-ab .sf-ab-row .sf-gc{border-radius:16px}
+.sf-scope .sf-ab .sf-ab-row:nth-child(even) .sf-gc{order:2}
+.sf-scope .sf-ab .sf-msg-ph{overflow:hidden}
+.sf-scope .sf-ab .sf-msg-ph .sf-gc{transform:scale(1.08);transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.sf-scope .sf-ab .sf-zin.is-in .sf-msg-ph .sf-gc{transform:none}
+/* PROOF: 어두운 무대 + 큰 주황 숫자 */
+.sf-scope .sf-ab .sf-pf{background:#0d0e10;box-shadow:0 0 0 100vmax #0d0e10;clip-path:inset(0 -100vmax);color:#fff}
+.sf-scope .sf-ab .sf-pf *{color:inherit}
+.sf-scope .sf-ab .sf-pf .sf-ab-eye{color:#c9ccd3}
+.sf-scope .sf-ab .sf-pf .sf-ab-head p{color:#9da1aa}
+.sf-scope .sf-ab .sf-pf .sf-ab-stat{background:#17181b!important;box-shadow:inset 0 0 0 1px #26282d!important;border-radius:20px;padding:28px 24px}
+.sf-scope .sf-ab .sf-pf .sf-ab-stat small{color:#9da1aa}
+.sf-scope .sf-ab .sf-pf .sf-ab-stat strong{display:block;margin-top:14px;white-space:nowrap}
+.sf-scope .sf-ab .sf-pf .sf-ab-stat strong b{font-size:clamp(40px,4.4vw,64px);font-weight:800;letter-spacing:-.03em;background:linear-gradient(180deg,#ffc59a,#ff7a1a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sf-scope .sf-ab .sf-pf .sf-ab-stat strong span{margin-left:4px;font-size:18px;color:#e6e7ea}
+.sf-scope .sf-ab .sf-ab-partners2 .r3-logowall{margin:0}
+.sf-scope .sf-ab .sf-ab-partners2 .sf-pp-box{margin-top:40px;padding:40px 32px;border-radius:24px;background:#fff;box-shadow:inset 0 0 0 1px #eceef2}
+.sf-scope .sf-ab .sf-ab-partners2 .sf-ab-press{background:#fff}
+/* TOGETHER: 토스식 번호 목록 */
+.sf-scope .sf-ab .sf-tg{background:#fff;box-shadow:0 0 0 100vmax #fff;clip-path:inset(0 -100vmax)}
+.sf-scope .sf-ab .sf-tg-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.sf-scope .sf-ab .sf-tg-head{position:sticky;top:120px}
+.sf-scope .sf-ab .sf-tg-head h2{font-size:clamp(34px,4vw,52px);line-height:1.25}
+.sf-scope .sf-ab .sf-tg-em{color:var(--sf-text-brand,#e14d00)}
+.sf-scope .sf-ab .sf-tg-list p{display:grid;grid-template-columns:64px 1fr;gap:6px 16px;margin:0;padding:36px 0;border-top:1px solid #eceef2}
+.sf-scope .sf-ab .sf-tg-list p:last-child{border-bottom:1px solid #eceef2}
+.sf-scope .sf-ab .sf-tg-list em{grid-row:span 2;font-style:normal;font-size:28px;font-weight:800;color:inherit}
+.sf-scope .sf-ab .sf-tg-list p.is-lit em{color:var(--sf-text-brand,#e14d00)!important}
+.sf-scope .sf-ab .sf-tg-list b{font-size:clamp(22px,2.2vw,28px);font-weight:800;letter-spacing:-.02em;color:inherit}
+.sf-scope .sf-ab .sf-tg-list span{font-size:17px;line-height:1.7;color:inherit}
+.sf-scope .sf-ab .sf-tg .sf-ab-decl{margin-top:96px}
+.sf-scope .sf-ab .sf-tg .sf-ab-decl strong{font-size:clamp(26px,3vw,40px)}
+/* 마지막 CTA: 제목 + 버튼 하나 */
+.sf-scope .sf-ab .sf-ct1{text-align:center}
+.sf-scope .sf-ab .sf-ct-btn{display:inline-flex;align-items:center;justify-content:center;min-width:320px;height:64px;margin-top:40px;padding:0 40px;border-radius:999px;font-size:19px;font-weight:700}
+@media (max-width:767.98px){
+.sf-scope .sf-ab .sf-ab-row:nth-child(even) .sf-gc{order:0}
+.sf-scope .sf-ab .sf-gc i{font-size:30px}
+.sf-scope .sf-ab .sf-tg-grid{grid-template-columns:1fr;gap:24px}
+.sf-scope .sf-ab .sf-tg-head{position:static}
+.sf-scope .sf-ab .sf-tg-list p{grid-template-columns:44px 1fr;padding:24px 0}
+.sf-scope .sf-ab .sf-tg-list em{font-size:22px}
+.sf-scope .sf-ab .sf-tg-list span{font-size:15px}
+.sf-scope .sf-ab .sf-pf .sf-ab-stat{padding:20px 16px}
+.sf-scope .sf-ab .sf-ct-btn{min-width:0;width:100%;height:58px;font-size:17px}
+}
+</style>
 <div class="sf-scope">
 <main class="sf-ab">
-  <section class="sf-ab-hero sf-h6">
-    <div class="sf-ab-in sf-h6-in">
-      <div class="sf-h6-copy">
-        <p class="sf-ab-eye sf-sr">ABOUT</p>
-        <h1 data-sf-reveal>시니어 산업의 미래를<br><span class="sf-h6-em">설계합니다.</span></h1>
-        <p class="sf-ab-lead" data-sf-reveal data-delay="150">시니어퓨처는 시니어 산업에 도전하는 사람과 기업을 연결하고, 지식과 경험을 공유하며, 새로운 비즈니스의 탄생과 성장을 지원합니다.</p>
-      </div>
-      <div class="sf-h6-media" data-sf-reveal data-delay="200">
-        <div class="sf-h6-frame"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-01.jpg" alt="시니어퓨처 콘서트 단체 사진" class="is-on" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-53.jpg" alt="시니어 비즈니스·에이지테크 포럼 단체 사진" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-07.jpg" alt="AI 기반 시니어 아이디어톤 단체 사진" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-63.jpg" alt="포럼 행사장 전경" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-29.jpg" alt="참가자 단체 사진" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-06.jpg" alt="세미나 행사장" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-46.jpg" alt="참가자 토론 모습" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-54.jpg" alt="네트워킹 행사장 전경" loading="lazy" decoding="async"></div>
-        <div class="sf-h6-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
+  <section class="sf-ab-hero sf-h6 sf-h8">
+    <div class="sf-w8-clip" aria-hidden="true">
+      <div class="sf-w8-floor"></div>
+      <div class="sf-w8-mask"><div class="sf-h6-media sf-w8"><div class="sf-w8-3d"><div class="sf-w8-col" style="--a:-5.0deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-01.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-02.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-03.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-04.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-05.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-06.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-07.jpg" alt="" loading="lazy" decoding="async"></div><div class="sf-w8-col" style="--a:-15.5deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-08.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-09.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-10.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-11.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-12.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-13.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-14.jpg" alt="" loading="lazy" decoding="async"></div><div class="sf-w8-col" style="--a:-26.0deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-15.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-16.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-17.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-18.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-19.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-20.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-21.jpg" alt="" loading="lazy" decoding="async"></div><div class="sf-w8-col" style="--a:-36.5deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-22.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-23.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-24.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-25.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-26.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-27.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-28.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:-47.0deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-29.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-30.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-31.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-32.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-33.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-34.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-35.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:-57.5deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-36.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-37.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-38.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-39.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-40.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-41.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-42.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:-68.0deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-43.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-44.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-45.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-46.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-47.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-48.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-49.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:-78.5deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-50.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-51.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-52.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-53.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-54.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-55.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-56.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:5.0deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-57.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-58.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-59.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-60.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-61.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-62.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-63.jpg" alt="" loading="lazy" decoding="async"></div><div class="sf-w8-col" style="--a:15.5deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-64.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-65.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-66.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-01.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-02.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-03.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-04.jpg" alt="" loading="lazy" decoding="async"></div><div class="sf-w8-col" style="--a:26.0deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-05.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-06.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-07.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-08.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-09.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-10.jpg" alt="" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-11.jpg" alt="" loading="lazy" decoding="async"></div><div class="sf-w8-col" style="--a:36.5deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-12.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-13.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-14.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-15.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-16.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-17.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-18.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:47.0deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-19.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-20.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-21.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-22.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-23.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-24.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-25.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:57.5deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-26.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-27.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-28.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-29.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-30.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-31.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-32.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:68.0deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-33.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-34.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-35.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-36.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-37.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-38.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-39.jpg" alt="" loading="eager" decoding="async"></div><div class="sf-w8-col" style="--a:78.5deg"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-40.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-41.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-42.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-43.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-44.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-45.jpg" alt="" loading="eager" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-46.jpg" alt="" loading="eager" decoding="async"></div></div></div></div>
+      <div class="sf-w8-vig"></div>
+    </div>
+    <div class="sf-ab-in sf-w8-copy">
+      <p class="sf-ab-eye sf-sr">ABOUT</p>
+      <h1 data-sf-reveal data-delay="80"><span class="sf-h8-grad" data-t="시니어 산업의 미래를">시니어 산업의 미래를</span><br><span class="sf-h8-l2" data-t="만들어갑니다.">만들어갑니다.</span></h1>
+      <p class="sf-ab-lead" data-sf-reveal data-delay="150">산업의 전문성과 인사이트를 연결해 <br class="sf-pc">새로운 비즈니스와 혁신의 기회를 창출합니다.</p>
     </div>
   </section>
 
@@ -231,9 +325,9 @@
       <h2 data-sf-reveal>좋은 가능성이,<br>더 큰 기회가 되도록.</h2>
       <p class="sf-ab-lead" data-sf-reveal>시니어 산업에는 새로운 아이디어와 기술, 좋은 제품과 서비스가 계속 등장하고 있습니다. 그러나 산업의 정보를 얻고, 전문가를 만나고, 협업 기회를 찾는 일은 여전히 쉽지 않습니다. 시니어퓨처는 흩어진 사람과 정보, 기업과 기회를 연결해 산업의 성장을 만들어갑니다.</p>
       <div class="sf-ab-msgs">
-        <div class="sf-ab-msg sf-zin" data-sf-reveal><span class="sf-msg-ph"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-36.jpg" alt="전문가 강연 현장" loading="lazy" decoding="async"></span><b>정보를 넘어 통찰로</b><p>산업의 변화를 읽고 새로운 기회를 발견합니다.</p></div>
-        <div class="sf-ab-msg sf-zin" data-sf-reveal data-delay="100"><span class="sf-msg-ph"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-43.jpg" alt="함께 배우는 참가자들" loading="lazy" decoding="async"></span><b>배움을 넘어 성장으로</b><p>배운 지식이 새로운 역량과 비즈니스로 이어지도록 돕습니다.</p></div>
-        <div class="sf-ab-msg sf-zin" data-sf-reveal data-delay="200"><span class="sf-msg-ph"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-52.jpg" alt="참가자들이 교류하는 네트워킹 현장" loading="lazy" decoding="async"></span><b>만남을 넘어 협업으로</b><p>좋은 제품과 서비스가 필요한 기업과 사람들에게 연결될 수 있도록 돕습니다.</p></div>
+        <div class="sf-ab-msg sf-zin" data-sf-reveal><span class="sf-msg-ph"><span class="sf-gc sf-gc--sky is-s" aria-hidden="true"><i>Information</i><i>Into</i><i>Insight</i></span></span><b>정보를 넘어 통찰로</b><p>산업의 변화를 읽고 새로운 기회를 발견합니다.</p></div>
+        <div class="sf-ab-msg sf-zin" data-sf-reveal data-delay="100"><span class="sf-msg-ph"><span class="sf-gc sf-gc--sunset is-s" aria-hidden="true"><i>Learning</i><i>Into</i><i>Growth</i></span></span><b>배움을 넘어 성장으로</b><p>배운 지식이 새로운 역량과 비즈니스로 이어지도록 돕습니다.</p></div>
+        <div class="sf-ab-msg sf-zin" data-sf-reveal data-delay="200"><span class="sf-msg-ph"><span class="sf-gc sf-gc--violet is-s" aria-hidden="true"><i>Meeting</i><i>Into</i><i>Partnership</i></span></span><b>만남을 넘어 협업으로</b><p>좋은 제품과 서비스가 필요한 기업과 사람들에게 연결될 수 있도록 돕습니다.</p></div>
       </div>
       <p class="sf-ab-ctx" data-sf-reveal>고령화는 단순한 인구구조의 변화가 아니라, 모든 산업의 미래를 바꾸는 거대한 흐름입니다.<br>시니어퓨처는 이 변화 속에서 새로운 기회를 만들어갑니다.</p>
     </div>
@@ -244,10 +338,10 @@
       <p class="sf-ab-eye" data-sf-reveal>SERVICES</p>
       <h2 data-sf-reveal>산업을 이해하는 순간부터,<br>사업을 실행하는 순간까지.</h2>
       <div class="sf-ab-rows">
-        <a class="sf-ab-row sf-side is-l" href="/insight"><img class="sf-ab-ph sf-ab-img" src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery6.jpg" alt="시니어퓨처 스터디 세션 현장" loading="lazy"><div><small>01</small><h3>콘텐츠 &amp; 미디어</h3><p>장수경제 트렌드 큐레이션과 국내외 시니어 비즈니스 심층 분석 콘텐츠를 매주 전해요</p></div></a>
-        <a class="sf-ab-row sf-side is-r" href="/course"><img class="sf-ab-ph sf-ab-img" src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery5.jpg" alt="참가자들이 둘러앉아 토론하는 스터디 현장" loading="lazy"><div><small>02</small><h3>교육 프로그램</h3><p>시니어 시장 분석과 사업 모델 설계, 기수제 비즈니스·창업 스터디로 아이디어를 실행까지 잇습니다</p></div></a>
-        <a class="sf-ab-row sf-side is-l" href="/live"><img class="sf-ab-ph sf-ab-img" src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery9.jpg" alt="전문가 강연을 듣는 참가자들" loading="lazy"><div><small>03</small><h3>네트워킹 &amp; 강연</h3><p>커피챗과 현장 탐방으로 업계 사람을 직접 만나고, 돌봄·금융·주거·에이지테크 현업 전문가의 강연을 정기적으로 열어요</p></div></a>
-        <a class="sf-ab-row sf-side is-r" href="/business"><img class="sf-ab-ph sf-ab-img" src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/home%20(1)/home/gallery1.jpg" alt="MYSC와 함께한 AI 기반 시니어 아이디어톤 현장" loading="lazy"><div><small>04</small><h3>기업·기관 협업</h3><p>기업·공공기관에 맞춤 교육·행사·리서치를 제공하고, 조직의 시니어 사업을 함께 설계해요</p></div></a>
+        <a class="sf-ab-row sf-side is-l" href="/insight"><span class="sf-gc sf-gc--sky" aria-hidden="true"><i>Insight</i><i>Into</i><i>Industry</i></span><div><small>01</small><h3>콘텐츠 &amp; 미디어</h3><p>장수경제 트렌드 큐레이션과 국내외 시니어 비즈니스 심층 분석 콘텐츠를 매주 전해요</p></div></a>
+        <a class="sf-ab-row sf-side is-r" href="/course"><span class="sf-gc sf-gc--sunset" aria-hidden="true"><i>Learn</i><i>Into</i><i>Action</i></span><div><small>02</small><h3>교육 프로그램</h3><p>시니어 시장 분석과 사업 모델 설계, 기수제 비즈니스·창업 스터디로 아이디어를 실행까지 잇습니다</p></div></a>
+        <a class="sf-ab-row sf-side is-l" href="/live"><span class="sf-gc sf-gc--violet" aria-hidden="true"><i>People</i><i>Meet</i><i>People</i></span><div><small>03</small><h3>네트워킹 &amp; 강연</h3><p>커피챗과 현장 탐방으로 업계 사람을 직접 만나고, 돌봄·금융·주거·에이지테크 현업 전문가의 강연을 정기적으로 열어요</p></div></a>
+        <a class="sf-ab-row sf-side is-r" href="/business"><span class="sf-gc sf-gc--mint" aria-hidden="true"><i>Build</i><i>It</i><i>Together</i></span><div><small>04</small><h3>기업·기관 협업</h3><p>기업·공공기관에 맞춤 교육·행사·리서치를 제공하고, 조직의 시니어 사업을 함께 설계해요</p></div></a>
       </div>
     </div>
   </section>
@@ -266,7 +360,7 @@
     </div>
   </section>
 
-  <section class="sf-ab-impact sf-bgshift">
+  <section class="sf-ab-impact sf-pf">
     <div class="sf-ab-in">
       <div class="sf-ab-head"><div><p class="sf-ab-eye" data-sf-reveal>PROOF</p><h2 data-sf-reveal>더 많은 연결이,<br>더 큰 가능성이 됩니다.</h2></div><p>2023년 9월 ~ 2026년 10월<br>시니어퓨처 집계</p></div>
       <div class="sf-ab-stats5 sf-ab-stats">
@@ -276,21 +370,28 @@
         <div class="sf-ab-stat" data-sf-reveal data-delay="300"><small>기업 · 기관 협업</small><strong><b data-sf-count="20">20</b><span>건+</span></strong></div>
         <div class="sf-ab-stat" data-sf-reveal data-delay="400"><small>언론 보도</small><strong><b data-sf-count="30">30</b><span>건+</span></strong></div>
       </div>
-      <div class="sf-ab-head sf-pp-head"><div><p class="sf-ab-eye sf-ab-eye--sub" data-sf-reveal>PARTNERS &amp; PRESS</p><h2 data-sf-reveal>더 나은 산업은<br>함께 만들어집니다.</h2></div><p data-sf-reveal>대학 · 대기업 · 공공기관 · 미디어<br>50곳+과 함께했어요.</p></div>
+    </div>
+  </section>
+
+  <section class="sf-ab-partners2 is-soft">
+    <div class="sf-ab-in">
+      <div class="sf-ab-head"><div><p class="sf-ab-eye" data-sf-reveal>PARTNERS &amp; PRESS</p><h2 data-sf-reveal>더 나은 산업은<br>함께 만들어집니다.</h2></div><p data-sf-reveal>대학 · 대기업 · 공공기관 · 미디어<br>50곳+과 함께했어요.</p></div>
       <div class="sf-pp-box" data-sf-reveal><div class="r3-logowall" role="img" aria-label="함께한 기업·기관: 서울대학교, 연세대학교, 고려대학교, 이화여자대학교, 성균관대학교, 경희대학교, 한양대학교, 한림대학교, 현대자동차, UN Women, 서울경제, 매일경제, 한국시니어TV, KB골든라이프, MYSC, 언더독스, 듀오, THK컴퍼니, 조선일보, 전자신문, 옹고잉, 솔닥, 시놀, 오이, 케어네이션, 오뉴, 더뉴그레이, 신한라이프케어, 블루포인트, 케어링, 써드에이지, 매경이코노미, 신이어마켙, 삶의질연구소, 스핀텍, 똑비, 리브라이블리, 포페런츠, 브라보마이라이프, 한국노인인력개발원, 큐리어스, 종로노인종합복지관, 성남시혁신지원센터, 한국정책평가연구원, 미스터마인드, DNX, 아름다운재단, 미션잇, 한국액티브시니어협회, 효돌, KIMES"><img class="r3-logowall__img" src="https://oopy.lazyrockets.com/api/v2/notion/image?src=attachment%3A728f3d67-b376-40c1-8543-bce194ab9ebb%3A%EC%8B%9C%EB%8B%88%EC%96%B4%ED%93%A8%EC%B2%98_%EB%A1%9C%EA%B3%A0_%EC%95%95%EC%B6%95.png&blockId=37634a84-148b-80e3-9943-d4ceb0c6ef17" alt="" loading="lazy" width="2048" height="920"><div class="r3-logowall__rows" aria-hidden="true"><i style="--y:-1px;--d:38s"></i><i style="--y:-47px;--d:44s"></i><i style="--y:-102px;--d:50s"></i><i style="--y:-162px;--d:38s"></i><i style="--y:-215px;--d:44s"></i><i style="--y:-278px;--d:50s"></i><i style="--y:-328px;--d:38s"></i><i style="--y:-386px;--d:44s"></i></div></div></div>
       <div class="sf-ab-press" data-sf-reveal><div><b>언론에 소개된 시니어퓨처</b><span>보도 기사를 한곳에 모았어요</span></div><a href="https://apply.seniorfuture.kr/press" target="_blank" rel="noopener">보도 모음 보러 가기 ↗</a></div>
     </div>
   </section>
 
-  <section class="sf-ab-together is-soft">
+  <section class="sf-ab-together sf-tg">
     <div class="sf-ab-in">
-      <p class="sf-ab-eye" data-sf-reveal>TOGETHER</p>
-      <h2 data-sf-reveal>시니어 산업의 더 큰 미래를,<br>함께.</h2>
-      <div class="sf-ab-phil">
-        <div data-sf-reveal><b>사람의 가능성을 믿습니다.</b><p>새로운 시장에 도전하는 사람들의 시작과 성장을 응원합니다.</p></div>
-        <div data-sf-reveal data-delay="100"><b>연결의 가치를 믿습니다.</b><p>서로 다른 경험과 역량이 만나 더 큰 기회를 만들 수 있다고 믿습니다.</p></div>
-        <div data-sf-reveal data-delay="200"><b>좋은 변화가 확산되도록 돕습니다.</b><p>좋은 제품과 서비스가 더 많은 사람과 기업에 연결되어 실질적인 가치를 만들기를 바랍니다.</p></div>
+      <div class="sf-tg-grid">
+    <div class="sf-tg-head"><p class="sf-ab-eye" data-sf-reveal>TOGETHER</p>
+      <h2 data-sf-reveal>시니어 산업의<br>더 큰 미래를,<br><span class="sf-tg-em">함께.</span></h2></div>
+      <div class="sf-tg-list sf-fill">
+        <p><em>01</em><b>사람의 가능성을 믿습니다.</b><span>새로운 시장에 도전하는 사람들의 시작과 성장을 응원합니다.</span></p>
+        <p><em>02</em><b>연결의 가치를 믿습니다.</b><span>서로 다른 경험과 역량이 만나 더 큰 기회를 만들 수 있다고 믿습니다.</span></p>
+        <p><em>03</em><b>좋은 변화가 확산되도록 돕습니다.</b><span>좋은 제품과 서비스가 더 많은 사람과 기업에 연결되어 실질적인 가치를 만들기를 바랍니다.</span></p>
       </div>
+    </div>
       <div class="sf-ab-decl" data-sf-reveal>
         <p>우리는 시니어 산업의 가능성이 더 큰 기회가 되는 미래를 꿈꿉니다.<br>그 미래를 만드는 사람과 기업이 모이는 곳.</p>
         <strong>시니어퓨처, 산업의 미래를 연결합니다.</strong>
@@ -301,9 +402,7 @@
   <section class="sf-ab-contact sf-ct1">
     <div class="sf-ab-in">
       <h2 data-sf-reveal>다음 변화를<br>함께 만들어갈까요?</h2>
-      <div class="sf-ab-cta">
-        <div class="is-main sf-zoom" data-sf-reveal><b>파트너십 제안</b><p>맞춤 교육·컨설팅·스폰서십·공동 프로젝트, 산업 포럼·행사 기획 운영</p><a class="sf-ab-btn" href="/business#contact">파트너십 제안하기 →</a></div>
-      </div>
+      <a class="sf-ab-btn sf-ct-btn" href="/business#contact" data-sf-reveal data-delay="100">파트너십 제안하기 →</a>
     </div>
   </section>
 </main>
