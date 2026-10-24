@@ -99,15 +99,25 @@
 :root body .sf-biz .sf-sol__name{order:1}:root body .sf-biz .sf-sol__tags{order:2;margin:2px 0 4px}:root body .sf-biz .sf-sol strong{order:3}
 :root body .sf-biz .sf-st6::before,:root body .sf-biz .sf-st6::after{display:none!important}
 :root body .sf-biz .sf-st6 li:not(:last-child)::before{display:block!important;content:"";position:absolute;left:27px;top:56px;bottom:0;width:1.5px;height:auto;border:0;transform:none;background:#f6d2b6}
-:root body .sf-biz .sf-st5__dot{background:#fff!important;color:#ff6a0f!important}
 @supports (animation-timeline:view()){
-:root body .sf-biz .sf-st6 .sf-st5__dot{animation:sfStDot linear both;animation-timeline:view();animation-range:cover 30% cover 60%}
 :root body .sf-biz .sf-st6 .sf-st5__out{animation:sfStOut linear both;animation-timeline:view();animation-range:cover 30% cover 60%}
 }
 @keyframes sfFloatM{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes sfStDot{0%,100%{background:#fff;color:#ff6a0f}30%,70%{background:#ff6a0f;color:#fff}}
 @keyframes sfStOut{0%,100%{box-shadow:inset 0 0 0 1px #f3dccb}30%,70%{box-shadow:inset 0 0 0 1.5px #ff9652,0 10px 24px rgba(255,106,15,.12)}}
 }
+</style>
+<style>
+/* 10/24 프로세스: 처음엔 회색, 스크롤하면 번호·테두리가 하나씩 주황으로 채워짐(채워진 상태 유지) */
+:root body .sf-biz .sf-st6 .sf-st5__dot{background:#fff;color:#b0b8c1;box-shadow:0 0 0 1.5px #e5e8eb}
+:root body .sf-biz .sf-st6 .sf-st5__ph{color:#b0b8c1}
+@supports (animation-timeline:view()){
+:root body .sf-biz .sf-st6 .sf-st5__dot{animation:sfStFill linear both;animation-timeline:view();animation-range:entry 80% cover 50%}
+:root body .sf-biz .sf-st6 .sf-st5__ph{animation:sfStPh linear both;animation-timeline:view();animation-range:entry 80% cover 50%}
+}
+@supports not (animation-timeline:view()){:root body .sf-biz .sf-st6 .sf-st5__dot{color:#ff6a0f;box-shadow:0 0 0 1.5px #ffb27a}:root body .sf-biz .sf-st6 .sf-st5__ph{color:#ff6a0f}}
+@keyframes sfStFill{0%{color:#b0b8c1;box-shadow:0 0 0 1.5px #e5e8eb;background:#fff}100%{color:#ff6a0f;box-shadow:0 0 0 2px #ff8a3d,0 6px 16px rgba(255,106,15,.14);background:#fff}}
+@keyframes sfStPh{0%{color:#b0b8c1}100%{color:#ff6a0f}}
 </style>
 <div class="sf-scope">
 <main class="sf-biz">
