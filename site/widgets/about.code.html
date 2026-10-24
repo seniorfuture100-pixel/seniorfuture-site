@@ -318,6 +318,23 @@
 @media (max-width:767.98px){.sf-scope .sf-ab .sf-ct1 .sf-ct-kicker{margin-bottom:14px;font-size:16px}}
 @media (max-width:767.98px){.sf-scope .sf-ab .sf-tg{padding-bottom:40px!important}.sf-scope .sf-ab .sf-tg .sf-ab-decl{margin-top:40px;padding-top:36px}.sf-scope .sf-ab .sf-ct1{padding:64px 16px 96px!important}}
 </style>
+<style>
+/* 10/24 v20: WHY 문장·사진 한 쌍씩(교체 없음) · 첫 화면 바닥 빛 · STORIES 천천히 위로 · 모바일 줄바꿈 */
+.sf-scope .sf-ab .sf-mo{display:none}
+.sf-scope .sf-ab .sf-w8-floor::after{top:62%;width:min(980px,62%);height:2px;border:0;border-radius:0;box-shadow:0 0 18px 2px rgba(255,140,60,.18);background:linear-gradient(90deg,transparent,rgba(255,190,140,.45) 30%,rgba(255,235,215,.7) 50%,rgba(255,190,140,.45) 70%,transparent)}
+.sf-scope .sf-ab .sf-w8-floor::before{top:72%;width:min(900px,60%);height:44%;filter:blur(28px);background:radial-gradient(ellipse at 50% 30%,rgba(255,122,26,.22) 0,rgba(255,122,26,.06) 50%,transparent 75%)}
+.sf-scope .sf-ab .sf-w9{max-width:none;margin-top:56px}
+.sf-scope .sf-ab .sf-w9-row{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:center;padding:0 0 72px}
+.sf-scope .sf-ab .sf-w9-row:last-child{padding-bottom:0}
+.sf-scope .sf-ab .sf-w9 .sf-w9-row p{margin:0!important;max-width:none;font-size:24px;font-weight:700;line-height:1.6;letter-spacing:-.02em}
+.sf-scope .sf-ab .sf-w9-ph{margin:0;aspect-ratio:16/10;border-radius:24px;overflow:hidden;background:#e9ebef}
+.sf-scope .sf-ab .sf-w9-ph img{display:block;width:100%;height:100%;object-fit:cover;opacity:.35;transform:scale(1.04);transition:opacity .9s ease,transform 1.2s ease}
+.sf-scope .sf-ab .sf-w9-row:has(p.is-lit) .sf-w9-ph img{opacity:1;transform:none}
+.sf-scope .sf-ab .sf-ab-projs .sf-side.is-l,.sf-scope .sf-ab .sf-ab-projs .sf-side.is-r{transform:translateY(56px);transition:opacity 1.4s ease,transform 1.4s cubic-bezier(.16,1,.3,1)}
+.sf-scope .sf-ab .sf-ab-projs .sf-side.is-in{transform:none}
+@media (max-width:767.98px){.sf-scope .sf-ab .sf-mo{display:inline}.sf-scope .sf-ab .sf-w9{margin-top:32px}.sf-scope .sf-ab .sf-w9-row{grid-template-columns:1fr;gap:16px;padding-bottom:40px}.sf-scope .sf-ab .sf-w9 .sf-w9-row p{font-size:19px}.sf-scope .sf-ab .sf-w9-ph{border-radius:16px}.sf-scope .sf-ab .sf-w8-floor::after{width:80%}}
+@media (prefers-reduced-motion:reduce){.sf-scope .sf-ab .sf-w9-ph img{opacity:1;transform:none;transition:none}}
+</style>
 <div class="sf-scope">
 <main class="sf-ab">
   <section class="sf-ab-hero sf-h6 sf-h8">
@@ -329,23 +346,18 @@
     <div class="sf-ab-in sf-w8-copy">
       <p class="sf-ab-eye sf-sr">ABOUT</p>
       <h1 data-sf-reveal data-delay="80"><span class="sf-h8-grad" data-t="시니어 산업의 미래를">시니어 산업의 미래를</span><br><span class="sf-h8-l2" data-t="만들어갑니다.">만들어갑니다.</span></h1>
-      <p class="sf-ab-lead" data-sf-reveal data-delay="150">산업의 전문성과 인사이트를 연결해 <br class="sf-pc">새로운 비즈니스와 혁신의 기회를 창출합니다.</p>
+      <p class="sf-ab-lead" data-sf-reveal data-delay="150">산업의 전문성과 인사이트를 연결해 <br>새로운 비즈니스와 혁신의 <br class="sf-mo">기회를 창출합니다.</p>
     </div>
   </section>
 
   <section class="sf-ab-why2 is-soft sf-w6">
     <div class="sf-ab-in">
       <p class="sf-ab-eye" data-sf-reveal>WHY</p>
-      <div class="sf-w6-grid">
-        <div>
-          <p class="sf-ab-q" data-sf-reveal>“시니어 산업에 도전하려면<br>어디서부터 시작해야 할까요?”</p>
-        <div class="sf-ab-story sf-fill">
-          <p data-sf-reveal>이 질문에서 작은 스터디가 시작되었습니다.</p>
-          <p data-sf-reveal data-delay="100">함께 배우고 고민하던 사람들이 연결되었고, 그 만남은 교육과 커뮤니티, 다양한 기업과의 협업으로 이어졌습니다.</p>
-          <p data-sf-reveal data-delay="200"><b>이제 우리는 더 많은 사람과 기업이 시니어 산업에서 기회를 찾고 함께 성장할 수 있는 생태계를 만들어갑니다.</b></p>
-        </div>
-        </div>
-        <div class="sf-w6-ph" aria-hidden="false"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-13.jpg" alt="작은 스터디 현장" loading="lazy" decoding="async" class="is-on"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-24.jpg" alt="함께 배우는 워크숍 현장" loading="lazy" decoding="async"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-50.jpg" alt="많은 사람이 모인 포럼 현장" loading="lazy" decoding="async"></div>
+      <p class="sf-ab-q" data-sf-reveal>“시니어 산업에 도전하려면<br>어디서부터 시작해야 할까요?”</p>
+      <div class="sf-ab-story sf-fill sf-w9">
+        <div class="sf-w9-row"><p>이 질문에서 작은 스터디가 시작되었습니다.</p><figure class="sf-w9-ph"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-13.jpg" alt="작은 스터디 현장" loading="lazy" decoding="async"></figure></div>
+        <div class="sf-w9-row"><p>함께 배우고 고민하던 사람들이 연결되었고, 그 만남은 교육과 커뮤니티, 다양한 기업과의 협업으로 이어졌습니다.</p><figure class="sf-w9-ph"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-24.jpg" alt="함께 배우는 워크숍 현장" loading="lazy" decoding="async"></figure></div>
+        <div class="sf-w9-row"><p><b>이제 우리는 더 많은 사람과 기업이 시니어 산업에서 기회를 찾고 함께 성장할 수 있는 생태계를 만들어갑니다.</b></p><figure class="sf-w9-ph"><img src="https://raw.githubusercontent.com/seniorfuture100-pixel/gallery/main/about-wall/about-50.jpg" alt="많은 사람이 모인 포럼 현장" loading="lazy" decoding="async"></figure></div>
       </div>
     </div>
   </section>
