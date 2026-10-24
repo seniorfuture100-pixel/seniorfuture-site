@@ -121,6 +121,11 @@
 @media (max-width:1023.98px){:root body .sf-biz .sf-st6::before,:root body .sf-biz .sf-st6::after{display:none!important}:root body .sf-biz .sf-st6 li:not(:last-child)::before{display:block!important;content:"";position:absolute;left:27px;top:56px;bottom:0;width:1.5px;height:auto;border:0;transform:none;background:#f6d2b6}}
 @media (prefers-reduced-motion:reduce){:root body .sf-biz .r2-float .r2-fc{animation:none!important}}
 </style>
+<style>
+/* 10/24 사례 카드 높이 맞춤(같은 줄 카드는 같은 높이) */
+:root body .sf-biz .sf-cases>li{display:flex!important}
+:root body .sf-biz .sf-cases>li>.sf-case{flex:1 1 auto;width:100%;box-sizing:border-box}
+</style>
 <div class="sf-scope">
 <main class="sf-biz">
   
