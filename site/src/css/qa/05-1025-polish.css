@@ -41,3 +41,31 @@
 :root body .r2-press .r2-press__all span[aria-hidden] {
   display:none!important;
 }
+/* 10/25 3차: 마케팅 파트너스 가입 신청서(ui/28-partnersJoin.js 와 짝) */
+:root body .sf-pt .r3-refcode {
+  display:none!important;
+}
+:root body .sf-pj .form-group.sf-hidden {
+  display:none!important;
+}
+:root body .sf-pj .sf-pj-note {
+  margin:6px 0 12px;
+  color:#8b95a1;
+  font-size:14px;
+  line-height:1.6;
+}
+:root body .sf-pj .sf-pj-note a {
+  color:#3182f6!important;
+  text-decoration:underline;
+}
+:root body .sf-pj .sf-pj-agree {
+  display:flex!important;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  padding:16px 18px!important;
+  border:1px solid #e5e8eb;
+  border-radius:14px;
+  box-sizing:border-box;
+  font-weight:700;
+}
