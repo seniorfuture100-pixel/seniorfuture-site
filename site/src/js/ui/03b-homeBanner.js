@@ -62,11 +62,11 @@ SFUI.register('homeBanner', function () {
         '<span class="hb-profile"><span class="hb-pava">' + svg(I.user) + '<i>' + svg(I.check) + '</i></span><b>현장 전문가</b><small>시니어 산업 파트너</small><span class="hb-ptags"><i>강의</i><i>라이브</i><i>기고</i></span></span>' +
         '<i class="hb-pill p1">요양·돌봄</i><i class="hb-pill p2">시니어 주거</i><i class="hb-pill p3">헬스케어</i><i class="hb-pill p4">에이지테크</i>' +
         '<span class="hb-chip c-time">' + svg(I.bolt) + '지원 5분</span>' },
-    { k: 'biz', href: '/business', badge: '기업·기관', title: '기업·공공기관을 위한<br>시니어 비즈니스 파트너', sub: '임직원 교육 · 시장 진입 · 현장 실증',
+    { k: 'biz', href: '/business', badge: '기업·기관', title: '기업·공공기관을 위한<br>시니어 비즈니스 파트너', sub: '맞춤 교육 · 콘텐츠·행사 협업 · 공동 프로젝트',
       art: '<i class="hb-glow"></i>' +
-        '<span class="hb-dash"><span class="hb-dhead">' + svg(I.bld) + '<b>협업 프로그램</b></span><span class="hb-dbars"><i style="--h:38%"></i><i style="--h:56%"></i><i style="--h:48%"></i><i style="--h:72%"></i><i style="--h:90%"></i></span><span class="hb-dchips"><i>교육</i><i>포럼</i><i>실증</i></span></span>' +
-        '<span class="hb-chip c-50"><b>50곳+</b>함께한 기업·기관</span>' +
-        '<span class="hb-check k1">' + svg(I.check) + '임직원 교육</span><span class="hb-check k2">' + svg(I.check) + '시장 진입</span><span class="hb-check k3">' + svg(I.check) + '현장 실증</span>' }
+        '<span class="hb-dash"><span class="hb-dhead">' + svg(I.bld) + '<b>협업 프로그램</b></span><span class="hb-dbars"><i style="--h:38%"></i><i style="--h:56%"></i><i style="--h:48%"></i><i style="--h:72%"></i><i style="--h:90%"></i></span><span class="hb-dchips"><i>교육</i><i>행사</i><i>프로젝트</i></span></span>' +
+        '<span class="hb-chip c-50"><b>50곳+</b>대학·공공기관·기업·미디어</span>' +
+        '<span class="hb-check k1">' + svg(I.check) + '맞춤 교육</span><span class="hb-check k2">' + svg(I.check) + '행사 협업</span><span class="hb-check k3">' + svg(I.check) + '공동 프로젝트</span>' }
   ];
   track.innerHTML = SLIDES.map(function (s) {
     return '<a class="sfw-banner__slide sf-hb sf-hb--' + s.k + '" href="' + s.href + '">' +

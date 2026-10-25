@@ -968,7 +968,7 @@
         o[e] ? c.push([ e, t.href ]) : l.push([ e, t.href ]);
       }));
       var d = document.createElement("div");
-      if (d.className = "r3-ft-brand", d.innerHTML = '<a class="r3-ft-logo" href="/"><b>SENIOR</b> FUTURE</a><p>시니어 산업에 들어오는 사람과 기업을 교육·콘텐츠·커뮤니티로 모으고,<br>현장 실증과 거래로 잇는 곳이에요.</p>' + (c.length ? '<div class="r3-ft-sns">' + c.map((function(t) {
+      if (d.className = "r3-ft-brand", d.innerHTML = '<a class="r3-ft-logo" href="/"><b>SENIOR</b> FUTURE</a><p>시니어 산업에 들어오는 사람과 기업을 교육·콘텐츠·커뮤니티로 모으고,<br>협업과 공동 프로젝트로 잇는 곳이에요.</p>' + (c.length ? '<div class="r3-ft-sns">' + c.map((function(t) {
         return '<a href="' + t[1] + '" target="_blank" rel="noopener" aria-label="' + t[0] + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + o[t[0]] + "</svg></a>";
       })).join("") + "</div>" : ""), t.insertBefore(d, t.firstChild), l.length) {
         var u = document.createElement("nav");
