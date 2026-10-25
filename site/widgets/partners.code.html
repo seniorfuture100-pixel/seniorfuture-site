@@ -157,10 +157,13 @@
 :root body .sf-pt .pt3-faq [data-sf-acc-panel],:root body .sf-pt .pt3-faq [data-sf-acc-panel] *{background:transparent!important;box-shadow:none!important}
 :root body .sf-pt .pt3-faq [data-sf-acc-panel]{padding:0 24px 22px!important;color:#aeb5bf!important;font-size:15px;line-height:1.7}
 /* 7 마지막 신청 */
-:root body .sf-pt .pt3-dark--end{padding:40px 0 100px}
-:root body .sf-pt .pt3-final{position:relative;max-width:1080px;margin:0 auto;padding:72px 24px;border-radius:30px;background:radial-gradient(circle at 92% 12%,rgba(255,255,255,.18),rgba(255,255,255,0) 30%),radial-gradient(circle at 6% 92%,rgba(255,255,255,.14),rgba(255,255,255,0) 26%),linear-gradient(120deg,#ff8a3d,#ff6a0f 55%,#e8590c);overflow:hidden}
+:root body .sf-pt .pt3-dark--end{padding-bottom:100px}
+:root body .sf-pt .pt3-sec--cta{padding-top:0!important}
+:root body .sf-pt .pt3-btn--brand{background:#ff6a0f;color:#fff!important;box-shadow:0 10px 24px rgba(255,106,15,.35)}
+:root body .sf-pt .pt3-btn--ghost{border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff!important}
+:root body .sf-pt .pt3-final{position:relative;max-width:none;margin:0 auto;padding:72px 24px;border-radius:30px;background:radial-gradient(circle at 88% 0%,rgba(255,106,15,.32),rgba(255,106,15,0) 42%),radial-gradient(circle at 8% 100%,rgba(255,138,61,.14),rgba(255,138,61,0) 36%),#191f28;text-align:center;overflow:hidden}
 :root body .sf-pt .pt3-final h2{margin:0;color:#fff!important;font-size:36px;line-height:1.35;font-weight:800;letter-spacing:-.02em}
-:root body .sf-pt .pt3-final p{margin:14px 0 0;color:rgba(255,255,255,.85);font-size:16px}
+:root body .sf-pt .pt3-final p{margin:16px 0 0;color:#d1d6db;font-size:17px;line-height:1.7}
 :root body .sf-pt .pt3-final__btns{display:flex;justify-content:center;gap:12px;margin-top:32px;flex-wrap:wrap}
 :root body .sf-pt .pt3-form{padding:56px 0 100px;background:#fff}
 /* 10/25 정산 신청서는 이 페이지에서 숨김(마이페이지 › 파트너스 › 정산 내역으로 옮길 예정) */
@@ -376,7 +379,16 @@ html:has(.pt2-hero) body{overflow-x:clip}
       </div>
     </div>
   </section>
-  <section class="pt3-dark" aria-labelledby="pt-faq">
+  <section class="pt3-sec pt3-sec--cta" id="apply" aria-labelledby="pt-cta">
+    <div class="sf-wrap">
+      <div class="pt3-final">
+        <h2 id="pt-cta">좋은 강의를 더 많은 사람에게,<br>당신에게는 수익으로</h2>
+        <p>신청 없이, 로그인하면 바로 내 추천 링크를 받을 수 있어요.</p>
+        <div class="pt3-final__btns"><a class="pt3-btn pt3-btn--ghost" href="#pt-steps">이용 가이드 보기</a><a class="pt3-btn pt3-btn--brand" href="/course">지금 바로 시작하기</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="pt3-dark pt3-dark--end" aria-labelledby="pt-faq">
     <div class="sf-wrap">
       <h2 id="pt-faq" class="pt3-h">자주 묻는 질문</h2>
       <div class="sf-pt-faq pt3-faq" data-sf-accordion data-single>
@@ -385,15 +397,6 @@ html:has(.pt2-hero) body{overflow-x:clip}
         <div data-sf-acc-item><button type="button" data-sf-acc-trigger>내가 들은 강의만 추천할 수 있나요?</button><div data-sf-acc-panel>아니요, 모든 유료 강의에 쓸 수 있어요. 다만 직접 들어 본 강의를 추천하면 신뢰가 더 높아요.</div></div>
         <div data-sf-acc-item><button type="button" data-sf-acc-trigger>정산은 언제, 어떻게 받나요?</button><div data-sf-acc-panel>결제한 분의 수강(행사) 시작 뒤 환불 기간이 지나면, 결제 금액의 10%가 수익으로 확정돼요. 적립금으로 받거나, 정해진 절차를 거쳐 수익금으로 정산받을 수 있어요. 환불된 결제는 적립되지 않아요.</div></div>
         <div data-sf-acc-item><button type="button" data-sf-acc-trigger>무료 라이브도 코드가 적용되나요?</button><div data-sf-acc-panel>무료 라이브는 결제 금액이 없어서 수익이 생기지 않아요. 유료 강의에만 적용돼요.</div></div>
-      </div>
-    </div>
-  </section>
-  <section class="pt3-dark pt3-dark--end" id="apply" aria-labelledby="pt-cta">
-    <div class="sf-wrap">
-      <div class="pt3-final">
-        <h2 id="pt-cta">좋은 강의를 더 많은 사람에게,<br>당신에게는 수익으로</h2>
-        <p>신청 없이, 로그인하면 바로 내 추천 링크를 받을 수 있어요.</p>
-        <div class="pt3-final__btns"><a class="pt3-btn pt3-btn--dark" href="#pt-steps">이용 가이드 보기</a><a class="pt3-btn pt3-btn--white" href="/course">지금 바로 시작하기</a></div>
       </div>
     </div>
   </section>
