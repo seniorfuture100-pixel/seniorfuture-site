@@ -1,4 +1,4 @@
-// 원본: v1.0.18 (2026-10-25) 언론 기사 카드 계속 흐르기
+// 원본: v1.0.19 (2026-10-25) 언론 기사 카드 계속 흐르기
 /* pressFlow — 회사 소개 '언론에 소개된 시니어퓨처'(r2Press 가 만든 .r2-press__track)
    - 카드를 한 벌 더 붙여 왼쪽으로 천천히 끊김 없이 흐르게(초당 약 40px)
    - 마우스를 올리거나 손가락을 대면 멈춤, 끌어서 앞뒤로 넘기기 가능(끈 뒤에는 카드 링크가 열리지 않게)
@@ -35,13 +35,18 @@
     });
     window.addEventListener('pointermove', function (e) {
       if (!drag) return;
+      if (e.pointerType === 'mouse' && !e.buttons) { end(); return; }
       var dx = e.clientX - drag.x; moved = Math.max(moved, Math.abs(dx));
       if (moved > 4) tr.classList.add('is-drag');
       off = drag.o - dx;
     }, { passive: true });
     function end() { if (!drag) return; drag = null; tr.classList.remove('is-drag'); }
     window.addEventListener('pointerup', end); window.addEventListener('pointercancel', end);
-    tr.addEventListener('click', function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
+    // 카드를 눌러 기사가 새 탭으로 열리면 손 뗀 신호(pointerup)가 이 창에 안 와서 멈춘 채로 남던 것 → 클릭·창 전환 때도 끝냄
+    function reset() { end(); hover = false; }
+    window.addEventListener('blur', reset);
+    document.addEventListener('visibilitychange', reset);
+    tr.addEventListener('click', function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } moved = 0; end(); }, true);
     tr.addEventListener('dragstart', function (e) { e.preventDefault(); });
     requestAnimationFrame(step);
     return true;

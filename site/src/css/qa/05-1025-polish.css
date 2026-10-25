@@ -27,6 +27,16 @@
 :root body .r2-press--flow .r2-press__track img {
   -webkit-user-drag:none;
 }
+/* 카드를 눌러 새 탭으로 기사를 본 뒤 돌아오면 카드 둘레에 주황 테두리(키보드 위치 표시)가 남던 것 → 흐르는 카드에서는 제목 밑줄로 대신 */
+:root body .r2-press--flow .r2-press__card:focus,
+:root body .r2-press--flow .r2-press__card:focus-visible {
+  outline:none!important;
+  box-shadow:none!important;
+}
+:root body .r2-press--flow .r2-press__card:focus-visible strong {
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
 :root body .r2-press--flow .r2-press__arr,
 :root body .r2-press .r2-press__all span[aria-hidden] {
   display:none!important;
