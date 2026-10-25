@@ -1,4 +1,4 @@
-// 원본: v1.0.24 (2026-10-25) 마이페이지 › 파트너스
+// 원본: v1.0.25 (2026-10-25) 마이페이지 › 파트너스
 /* myPartners — 마이페이지에 '파트너스' 화면 3개를 붙여요 (왼쪽 메뉴 묶음은 r2My 가 만들어요)
    - ?sf=partners  링크 생성하기: /course 목록에서 강의를 읽어 표로(새 강의도 자동) · 분야·검색·정렬 · 홍보 링크 복사(주소?ref=내 코드)
    - ?sf=p-earn    수익 내역: 운영팀 안내(아임웹에 파트너별 수익 화면이 없어 운영팀이 정리해 알려 줘요)
@@ -15,7 +15,7 @@
     var st = document.createElement('style');
     st.textContent = ':root.sf-embed-settle body{background:#fff!important}:root.sf-embed-settle body *{visibility:hidden!important}' +
       ':root.sf-embed-settle body #settle,:root.sf-embed-settle body #settle *{visibility:visible!important}' +
-      ':root.sf-embed-settle body .sf-pt .pt3-form#settle{display:block!important;position:absolute!important;left:0;top:0;width:100%;z-index:99999;padding:4px 0 24px!important;background:#fff}' +
+      ':root.sf-embed-settle body .sf-pt .pt3-form#settle{display:block!important;position:fixed!important;left:0;top:0;width:100%;z-index:2147483000;padding:0 0 24px!important;background:#fff}' +
       ':root.sf-embed-settle body #settle .pt3-join-head{display:none!important}';
     document.head.appendChild(st);
     return;

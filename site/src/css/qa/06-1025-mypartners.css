@@ -18,6 +18,7 @@
 :root body .sf-myp-tb{width:100%;border-collapse:collapse;font-size:14px}
 :root body .sf-myp-tb th{padding:12px 14px;background:#f5f6f8;color:#6b7684;font-weight:600;text-align:left;white-space:nowrap}
 :root body .sf-myp-tb td{padding:12px 14px;border-top:1px solid #f0f1f3;color:#191f28;vertical-align:middle}
+:root body .sf-myp-tb td:first-child{width:48%}
 :root body .sf-myp-c{display:flex;align-items:center;gap:12px;color:#191f28;text-decoration:none}
 :root body .sf-myp-c img,:root body .sf-myp-c i{width:72px;height:40px;flex:none;border-radius:8px;object-fit:cover;background:#f2f3f6}
 :root body .sf-myp-c b{font-weight:600;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -46,7 +47,7 @@
 :root body .sf-myp-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
 :root body .sf-myp-btn{display:inline-flex;align-items:center;height:44px;padding:0 18px;border-radius:12px;background:#ff6a0f;color:#fff!important;font-size:14px;font-weight:700;text-decoration:none}
 :root body .sf-myp-btn.is-line{border:1px solid #d1d6db;background:#fff;color:#333d4b!important}
-:root body .sf-myp-frame{margin-top:16px}
+:root body .sf-myp-frame{margin-top:8px}
 :root body .sf-myp-frame iframe{display:block;width:100%;height:0;border:0;opacity:0;transition:opacity .2s}
 :root body .sf-myp-frame iframe.is-on{opacity:1}
 @media (max-width:767.98px){
