@@ -8,7 +8,7 @@
 :root body .sf-myp-code p{margin:0;flex:1;color:#4e5968;font-size:14px;line-height:1.6}
 :root body .sf-myp-code em{color:#e8590c;font-style:normal;font-weight:800}
 :root body .sf-myp-flt{display:flex;gap:8px;margin:18px 0 12px}
-:root body .sf-myp-flt select,:root body .sf-myp-flt input{height:42px;padding:0 12px;border:1px solid #e5e8eb;border-radius:10px;background:#fff;color:#333d4b;font-size:14px}
+:root body .sf-myp-flt select{min-width:220px;height:42px;padding:0 12px;border:1px solid #e5e8eb;border-radius:10px;background:#fff;color:#333d4b;font-size:14px}
 :root body .sf-myp-flt input{flex:1;min-width:0}
 :root body .sf-myp-flt select:focus,:root body .sf-myp-flt input:focus{outline:0;border-color:#ff6a0f}
 :root body .sf-myp-wrap{border:1px solid #e5e8eb;border-radius:14px;overflow:hidden}

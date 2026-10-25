@@ -1,6 +1,7 @@
-// 원본: v1.0.27 (2026-10-25) 마이페이지 › 파트너스
+// 원본: v1.0.28 (2026-10-25) 마이페이지 › 파트너스
 /* myPartners — 마이페이지 › 파트너스 › 링크 생성하기(?sf=partners) (왼쪽 메뉴 묶음은 r2My 가 만들어요)
-   - /course 목록에서 강의를 읽어 표로(새 강의도 자동) · 분야·검색·정렬 · 홍보 링크 복사(주소?ref=내 코드)
+   - /course 목록에서 강의를 읽어 표로(새 강의도 자동, 최신순) · 분야 선택 · 홍보 링크 복사(주소?ref=내 코드)
+   - 링크 복사는 상품 페이지 '공유하고 수익받기'와 같은 별 창(shareReward)을 띄워요
    - (10/25) 수익 내역·정산 내역 화면은 사장님 요청으로 뺐어요(지금 단계에서는 필요 없음) */
 (function () {
   if (window.__sfMyPartners) return;
@@ -17,11 +18,6 @@
     var t = document.querySelector('.sf-toast');
     if (!t) { t = document.createElement('div'); t.className = 'sf-toast'; t.setAttribute('role', 'status'); t.setAttribute('aria-live', 'polite'); document.body.appendChild(t); }
     t.textContent = msg; t.classList.add('is-on'); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove('is-on'); }, 2500);
-  }
-  function copy(text) {
-    function legacy() { return new Promise(function (ok, fail) { var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy') ? ok() : fail(); } catch (e) { fail(e); } finally { ta.remove(); } }); }
-    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text).catch(legacy);
-    return legacy();
   }
   var LINK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>';
 
@@ -54,33 +50,36 @@
     pane.innerHTML = head() +
       '<div class="sf-myp-code"><div><small>내 추천 코드</small><b>' + esc(c.code || '-') + '</b></div><p>강의 링크 뒤에 내 코드가 붙어요. 이 링크로 들어온 분이 결제하면 결제 금액의 <em>' + c.rate + '%</em>를 수익으로 받을 수 있어요.</p></div>' +
       '<div class="sf-myp-flt"><select aria-label="분야"><option value="">전체 분야</option>' + cats.map(function (k) { return '<option value="' + k[0] + '">' + esc(k[1]) + '</option>'; }).join('') + '</select>' +
-      '<input type="search" placeholder="어떤 강의를 추천해 볼까요?" aria-label="강의 검색">' +
-      '<select aria-label="정렬"><option value="new">최신순</option><option value="earn">예상 수익 높은순</option><option value="low">가격 낮은순</option></select></div>' +
+            '</div>' +
       '<div class="sf-myp-wrap"><table class="sf-myp-tb"><thead><tr><th>강의</th><th>가격</th><th>수익률</th><th>예상 수익</th><th>홍보 링크</th></tr></thead><tbody><tr><td colspan="5" class="sf-myp-msg">강의를 불러오는 중…</td></tr></tbody></table></div>' +
       '<p class="sf-myp-note">예상 수익은 지금 판매 가격 기준이에요. 실제 수익은 결제 금액(쿠폰·적립금 사용 등)에 따라 달라지고, 결제가 취소·환불되면 수익도 취소돼요.</p>';
-    var sel = pane.querySelectorAll('.sf-myp-flt select'), q = pane.querySelector('.sf-myp-flt input'), body = pane.querySelector('tbody'), all = [];
+    var sel = pane.querySelector('.sf-myp-flt select'), body = pane.querySelector('tbody'), all = [];
     function draw() {
-      var cat = sel[0].value, word = q.value.trim().toLowerCase(), sort = sel[1].value;
-      var rows = all.filter(function (x) { return (!cat || (items[x.id] || {}).cat === cat) && (!word || x.name.toLowerCase().indexOf(word) > -1); });
-      rows.sort(sort === 'earn' ? function (a, b) { return b.price - a.price; } : sort === 'low' ? function (a, b) { return a.price - b.price; } : function (a, b) { return b.id - a.id; });
+      var cat = sel.value;
+      var rows = all.filter(function (x) { return !cat || (items[x.id] || {}).cat === cat; });
+      rows.sort(function (a, b) { return b.id - a.id; });
       body.innerHTML = rows.length ? rows.map(function (x) {
         var earn = Math.floor(x.price * c.rate / 100);
         return '<tr><td><a class="sf-myp-c" href="/course/?idx=' + x.id + '">' + (x.img ? '<img src="' + esc(x.img) + '" alt="" loading="lazy">' : '<i></i>') + '<b>' + esc(x.name) + '</b></a></td>' +
           '<td class="sf-myp-pr">' + (x.list && x.list > x.price ? '<s>' + won(x.list) + '</s>' : '') + '<span>' + won(x.price) + '</span></td>' +
           '<td><em class="sf-myp-rate">' + c.rate + '%</em></td><td class="sf-myp-earn"><small>예상 수익</small><strong>' + won(earn) + '</strong></td>' +
-          '<td><button type="button" class="sf-myp-lk" data-id="' + x.id + '" aria-label="' + esc(x.name) + ' 홍보 링크 복사">' + LINK + '<span>링크 복사</span></button></td></tr>';
+          '<td><button type="button" class="sf-myp-lk" data-id="' + x.id + '" data-title="' + esc(x.name) + '" aria-label="' + esc(x.name) + ' 홍보 링크 복사">' + LINK + '<span>링크 복사</span></button></td></tr>';
       }).join('') : '<tr><td colspan="5" class="sf-myp-msg">' + (all.length ? '조건에 맞는 강의가 없어요' : '아직 추천할 수 있는 강의가 없어요') + '</td></tr>';
     }
     loadCourses().then(function (l) { all = l; draw(); }, function () { body.innerHTML = '<tr><td colspan="5" class="sf-myp-msg">강의 목록을 불러오지 못했어요. <a href="/course">교육 페이지</a>에서 강의를 골라 [공유하고 수익받기]를 눌러 주세요.</td></tr>'; });
-    sel[0].addEventListener('change', draw); sel[1].addEventListener('change', draw); q.addEventListener('input', draw);
+    sel.addEventListener('change', draw);
     pane.addEventListener('click', function (e) {
       var b = e.target.closest('.sf-myp-lk'); if (!b) return;
       if (!c.code) { toast('로그인 정보를 확인하지 못했어요. 새로고침 후 다시 눌러 주세요'); return; }
-      var u = location.origin + '/course/?idx=' + b.getAttribute('data-id') + '&ref=' + encodeURIComponent(c.code);
-      copy(u).then(function () {
-        pane.querySelectorAll('.sf-myp-lk.is-on').forEach(function (x) { x.classList.remove('is-on'); });
-        b.classList.add('is-on'); toast('홍보 링크를 복사했어요');
-      }, function () { toast('복사하지 못했어요. 다시 눌러 주세요'); });
+      pane.querySelectorAll('.sf-myp-lk.is-on').forEach(function (x) { x.classList.remove('is-on'); });
+      b.classList.add('is-on');
+      // 상품 페이지와 같은 별 창: 숨은 공유 단추(shareReward)를 거쳐 복사 → '링크를 복사했어요!' 창
+      var h = pane.querySelector('.sf-myp-share');
+      if (!h) { h = document.createElement('button'); h.type = 'button'; h.className = 'sf-myp-share'; h.hidden = true; h.setAttribute('data-sf-reward-share', ''); pane.appendChild(h); }
+      h.setAttribute('data-url', location.origin + '/course/?idx=' + b.getAttribute('data-id'));
+      h.setAttribute('data-title', b.getAttribute('data-title') || '');
+      if (SFUI.init) SFUI.init(pane);
+      h.click();
     });
   }
 
