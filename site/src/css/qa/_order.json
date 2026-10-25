@@ -28,5 +28,11 @@
   "screen": "common",
   "src": null,
   "note": "10/25 단어 단위 줄바꿈·휴대폰 로고"
+ },
+ {
+  "file": "06-1025-mypartners.css",
+  "screen": "mypage",
+  "src": null,
+  "note": "10/25 마이페이지 파트너스"
  }
 ]

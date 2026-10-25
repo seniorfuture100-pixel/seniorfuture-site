@@ -114,5 +114,9 @@
  {
   "file": "28-partnersJoin.js",
   "stmt": false
+ },
+ {
+  "file": "29-myPartners.js",
+  "stmt": false
  }
 ]

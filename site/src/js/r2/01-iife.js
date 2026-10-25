@@ -381,7 +381,7 @@
         var a = r.get("m2") || "", c = r.get("sf") || (a ? "" : "orders"), l = document.getElementById("mypage-summary"), f = l && (l.textContent.match(/([^\s]+)\s*님/) || [])[1] || "", u = (l && (l.textContent.match(/([\d,]+)\s*원/) || [])[1], 
         c ? "sf=" + c : "m2=" + a), p = o(".shop-content.mypage .left-menu a").filter((function(e) {
           return /탈퇴/.test(e.textContent);
-        }))[0], m = p && p.getAttribute("href") || "#", h = [ [ "학습", [ [ "결제 내역", "/shop_mypage/?sf=orders", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "sf=recent" ] ] ], [ "계정", [ [ "로그아웃", "/logout.cm?back_url=Lw==", "out" ], [ "회원탈퇴", m, "leave" ] ] ] ], v = [];
+        }))[0], m = p && p.getAttribute("href") || "#", h = [ [ "학습", [ [ "결제 내역", "/shop_mypage/?sf=orders", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "sf=recent" ] ] ], [ "파트너스", [ [ "링크 생성하기", "/shop_mypage/?sf=partners", "sf=partners" ], [ "수익 내역", "/shop_mypage/?sf=p-earn", "sf=p-earn" ], [ "정산 내역", "/shop_mypage/?sf=p-settle", "sf=p-settle" ] ] ], [ "계정", [ [ "로그아웃", "/logout.cm?back_url=Lw==", "out" ], [ "회원탈퇴", m, "leave" ] ] ] ], v = [];
         h.forEach((function(e) {
           e[1].forEach((function(e) {
             v.push(e);
@@ -391,8 +391,9 @@
           order: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
           wish: '<path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/>',
           bell: '<path d="M6 16V11a6 6 0 0112 0v5l2 2H4z"/><path d="M10 20a2 2 0 004 0"/>',
-          eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'
-        }, y = '<nav class="r2-my-quick" aria-label="바로가기">' + [ [ "결제 내역", "/shop_mypage/?sf=orders", "order", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "wish", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "eye", "sf=recent" ] ].map((function(e) {
+          eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+          link: '<path d="M10 14a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 10a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/>'
+        }, y = '<nav class="r2-my-quick" aria-label="바로가기">' + [ [ "결제 내역", "/shop_mypage/?sf=orders", "order", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "wish", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "eye", "sf=recent" ], [ "파트너스", "/shop_mypage/?sf=partners", "link", "sf=partners" ] ].map((function(e) {
           return '<a href="' + e[1] + '"' + (e[3] === u ? ' aria-current="page"' : "") + '><svg viewBox="0 0 24 24" aria-hidden="true">' + b[e[2]] + "</svg><span>" + e[0] + "</span></a>";
         })).join("") + "</nav>", w = document.createElement("aside");
         w.className = "r2-my-side", w.innerHTML = g + h.map((function(e) {
