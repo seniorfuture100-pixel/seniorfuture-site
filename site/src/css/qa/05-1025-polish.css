@@ -9,3 +9,25 @@
     letter-spacing:-.01em;
   }
 }
+/* 10/25 2차: 회사 소개 '언론에 소개된 시니어퓨처' — 카드가 천천히 계속 흐름(ui/27-pressFlow.js 와 짝). 가로 스크롤·좌우 버튼·글자 화살표 없앰 */
+:root body .r2-press.r2-press--flow {
+  overflow:hidden;
+}
+:root body .r2-press--flow .r2-press__track {
+  overflow:visible!important;
+  scroll-snap-type:none!important;
+  touch-action:pan-y;
+  cursor:grab;
+  will-change:transform;
+  user-select:none;
+}
+:root body .r2-press--flow .r2-press__track.is-drag {
+  cursor:grabbing;
+}
+:root body .r2-press--flow .r2-press__track img {
+  -webkit-user-drag:none;
+}
+:root body .r2-press--flow .r2-press__arr,
+:root body .r2-press .r2-press__all span[aria-hidden] {
+  display:none!important;
+}
