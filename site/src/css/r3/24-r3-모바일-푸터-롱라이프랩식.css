@@ -67,8 +67,8 @@
   :root body .sf-ft .sf-ft-col li a {
     display:block;
     padding:10px 0;
-    color:#f2f3f5!important;
-    font:500 17px/1.4 var(--sf-font)!important;
+    color:#b0b3ba!important; /* 10/25 PC처럼 흐린 회색 */
+    font:500 15px/1.4 var(--sf-font)!important;
     text-decoration:none;
   }
   :root body .sf-ft .sf-ft-cs p {

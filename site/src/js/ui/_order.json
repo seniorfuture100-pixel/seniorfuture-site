@@ -118,5 +118,9 @@
  {
   "file": "29-myPartners.js",
   "stmt": false
+ },
+ {
+  "file": "30-footerReady.js",
+  "stmt": false
  }
 ]

@@ -16,7 +16,7 @@ SFUI.register('aboutMotion', function (root) {
     if (reduce || !hasIO) { fn(); return; }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); fn(); } });
-    }, { threshold: threshold || 0.2, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: threshold || 0, rootMargin: '0px 0px 8% 0px' });
     io.observe(el);
   }
 

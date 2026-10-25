@@ -24,7 +24,7 @@ SFUI.register('siteMotion', function (root) {
       });
       var io = new IntersectionObserver(function (ents) {
         ents.forEach(function (en) { if (en.isIntersecting) { var t = en.target; t.classList.add('is-in'); io.unobserve(t); setTimeout(function () { t.classList.remove('sf-rv', 'is-in'); }, 1300); } });
-      }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+      }, { rootMargin: '0px 0px 8% 0px', threshold: 0 }); // 10/25 화면에 닿기 직전부터
       list.forEach(function (e) { io.observe(e); });
       // 혹시 관찰이 실패해도 4초 뒤엔 모두 보이게
       setTimeout(function () { list.forEach(function (e) { if (e.getBoundingClientRect().top < innerHeight) e.classList.add('is-in'); }); }, 4000);

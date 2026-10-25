@@ -1,18 +1,2 @@
 /* 화면 묶음: partner | 원본: src/r3-partner.css · 페이지 이동이 "나갔다 들어오는" 느낌(10/21): 아임웹은 탭마다 페이지를 새로 불러와서 그 사이 흰 화면이 1초쯤 보였음
-   함께 들어 있음: r3-nav · 10/22 사장님 결정: 이전 화면이 겹쳐 보이지 않게 — 본문은 섞지 않고 새 화면으로 바로 바뀜 */
-#doz_header_wrap {
-  view-transition-name:sf-header;
-}
-.sf-tabbar {
-  view-transition-name:sf-tabbar;
-}
-::view-transition-group(sf-header),
-::view-transition-group(sf-tabbar) {
-  animation:none;
-}
-::view-transition-new(sf-header),
-::view-transition-new(sf-tabbar),
-::view-transition-old(sf-header),
-::view-transition-old(sf-tabbar) {
-  animation:none;
-}
+/* 10/25: 페이지 이동 효과는 nav/01·02 한 곳에서만 정해요(겹치던 규칙 정리) */

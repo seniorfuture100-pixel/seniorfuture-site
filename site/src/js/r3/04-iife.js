@@ -422,6 +422,11 @@
       var e = a(".section_wrap").filter((function(e) {
         return !t.contains(e) && !e.closest("#doz_header_wrap") && e.getBoundingClientRect().height;
       })), n = e[e.length - 1];
+      // 10/25: 우리 위젯(.sf-scope)으로 만든 페이지는 위젯이 아래 여백까지 스스로 정해요 → 아임웹 섹션 아래 여백 0(크기 바꿀 때 흰 띠 안 생기게)
+      if (n && n.querySelector(".sf-scope")) {
+        n.style.setProperty("padding-bottom", "0px", "important"), n.style.setProperty("margin-bottom", "0px", "important");
+        return;
+      }
       if (n) {
         var r = t.getBoundingClientRect().top, s = document.documentElement.clientWidth, i = function(t, e, n) {
           var a = 0, r = getComputedStyle(document.body).backgroundColor;
@@ -603,8 +608,8 @@
               t.isIntersecting && (t.target.classList.add("is-in"), r.unobserve(t.target));
             }));
           }), {
-            threshold: .15,
-            rootMargin: "0px 0px -6% 0px"
+            threshold: 0,
+            rootMargin: "0px 0px 8% 0px"
           });
           t.forEach((function(t) {
             var e = t.closest("section");
@@ -1474,7 +1479,8 @@
         var a = new IntersectionObserver((function(e) {
           e[0].isIntersecting && (t.classList.add("is-in"), a.disconnect());
         }), {
-          threshold: .2
+          threshold: 0,
+          rootMargin: "0px 0px 8% 0px"
         });
         a.observe(t);
       } else t.classList.add("is-in");
@@ -1563,7 +1569,8 @@
           })), e.unobserve(t.target));
         }));
       }), {
-        threshold: .05
+        threshold: 0,
+        rootMargin: "0px 0px 8% 0px"
       });
       setTimeout(r, 300), setTimeout(r, 2e3), window.addEventListener("resize", (function() {
         clearTimeout(t), t = setTimeout(r, 300);

@@ -168,16 +168,3 @@
 :root body #doz_header_wrap ._inline_menu_container {
   visibility:visible!important;
 }
-@keyframes r3vtOut {
-  to {
-    opacity:0;
-  }
-}
-@keyframes r3vtIn {
-  0% {
-    opacity:0;
-  }
-}
-@view-transition {
-  navigation:auto;
-}

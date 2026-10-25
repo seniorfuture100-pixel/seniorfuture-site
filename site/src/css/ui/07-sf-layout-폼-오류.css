@@ -48,7 +48,14 @@
     height:24px;
     stroke:currentColor;
     fill:none;
-    stroke-width:2;
+    stroke-width:1.9;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  /* 무료 라이브 아이콘의 LIVE 점 */
+  :root .sf-tabbar a svg .sf-tab-dot {
+    fill:#f04452;
+    stroke:none;
   }
   :root .sf-tabbar a[aria-current=page] {
     color:var(--sf-text);

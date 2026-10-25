@@ -34,5 +34,11 @@
   "screen": "mypage",
   "src": null,
   "note": "10/25 마이페이지 파트너스"
+ },
+ {
+  "file": "07-1025-launch.css",
+  "screen": "common",
+  "src": null,
+  "note": "10/25 런칭 점검: 상품 목록 늦게 스타일 입던 것"
  }
 ]

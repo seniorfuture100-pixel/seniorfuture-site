@@ -11,7 +11,7 @@
     function show(e) { e.classList.add('is-in'); }
     if (!('IntersectionObserver' in window) || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { els.forEach(show); return; }
     m.classList.add('r3ap-js');
-    var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { show(x.target); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+    var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { show(x.target); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px 8% 0px' });
     els.forEach(function (e, i) { e.style.setProperty('--d', (i % 4) * 0.08 + 's'); io.observe(e); });
     setTimeout(function () { els.forEach(show); }, 4000);
   }

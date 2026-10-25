@@ -330,7 +330,8 @@
   function c() {
     o(), [].forEach.call(document.querySelectorAll("div.js-custom-widget-container"), (function(t) {
       var e = t.shadowRoot;
-      e && e.querySelector("li.iw-shop-card:not([data-sf-card])") && r(t), e && !t.__sfObs && (t.__sfObs = new MutationObserver(d), 
+      e && e.querySelector("li.iw-shop-card:not([data-sf-card])") && r(t), e && !t.hasAttribute("data-sf-ready") && t.setAttribute("data-sf-ready", ""), // 10/25 우리 스타일을 입힌 뒤에 보이게(css qa/07)
+      e && !t.__sfObs && (t.__sfObs = new MutationObserver(d), 
       t.__sfObs.observe(e, {
         childList: !0,
         subtree: !0

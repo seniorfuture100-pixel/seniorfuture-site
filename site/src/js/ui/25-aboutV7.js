@@ -33,7 +33,7 @@ SFUI.register('aboutV7', function () {
   // 사례 카드: 왼쪽·오른쪽 번갈아 들어옴, WAY 사진 확대 해제
   var watch=[].slice.call(root.querySelectorAll('.sf-side,.sf-zin'));
   if('IntersectionObserver' in window&&!reduce){
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -12% 0px'});
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px 8% 0px'});
     watch.forEach(function(el){ io.observe(el); });
   } else watch.forEach(function(el){ el.classList.add('is-in'); });
   tick();

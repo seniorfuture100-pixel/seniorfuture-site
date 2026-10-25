@@ -1,0 +1,65 @@
+/* 화면 묶음: common | 10/25 런칭 전 점검: 아임웹 상품 목록(그림자 DOM)이 우리 스타일 입히기 전 모습으로 잠깐 보였다 바뀌던 것
+   → 상품 목록 칸은 자리를 그대로 두고 투명하게 있다가, patch/04 shopList 가 스타일을 입히면(data-sf-ready) 짧게 나타나요.
+   스크립트가 늦거나 실패해도 2.5초 뒤에는 그대로 보여요. */
+:root body div.js-custom-widget-container:not([data-sf-ready]) {
+  opacity:0;
+  animation:sfReadyLate 0s 2.5s forwards;
+}
+:root body div.js-custom-widget-container[data-sf-ready] {
+  animation:sfReadyIn .2s ease-out both;
+}
+@keyframes sfReadyLate {
+  to {
+    opacity:1;
+  }
+}
+@keyframes sfReadyIn {
+  from {
+    opacity:0;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root body div.js-custom-widget-container[data-sf-ready] {
+    animation:none;
+  }
+}
+
+/* 3번: 아임웹 섹션의 아래 여백(PC 96px 등) 때문에 마지막 위젯과 푸터 사이에 흰 띠가 생기던 것 */
+:root body .section_wrap:has(+ #doz_footer_wrap):has(.sf-scope) {
+  padding-bottom:0!important;
+}
+/* 휴대폰: 하단 탭 자리를 본문(흰색) 대신 푸터 안쪽에 둬서 푸터 아래 흰 공간이 안 보이게 */
+@media (max-width:767.98px) {
+  html.sf-has-tabbar body {
+    padding-bottom:0!important;
+  }
+  html.sf-has-tabbar body #doz_footer_wrap {
+    padding-bottom:calc(64px + env(safe-area-inset-bottom))!important;
+  }  /* 강의 상세: 아래 신청 바(76px) 자리도 푸터 안쪽에 — 아임웹 기본 50px 여백은 흰 띠가 되고 푸터 끝줄도 가렸음 */
+  html.sf-pv-on body {
+    padding-bottom:0!important;
+  }
+  html.sf-pv-on body #doz_footer_wrap {
+    padding-bottom:calc(80px + env(safe-area-inset-bottom))!important;
+  }
+}
+
+/* 목록(수강평·인사이트·장바구니 등)이 늦게 채워질 때 푸터가 화면 가운데 보였다가 밀려나던 것
+   → 내용이 다 불러와질 때까지 푸터는 자리만 지키고 안 보이게(ui/30-footerReady.js). 스크립트가 실패해도 4초 뒤엔 보여요. */
+html:not(.sf-ft-ready) body #doz_footer_wrap {
+  visibility:hidden;
+  animation:sfFtLate 0s 4s forwards;
+}
+@keyframes sfFtLate {
+  to {
+    visibility:visible;
+  }
+}
+
+/* 1·5번: 767~1024px 에서 아임웹이 body 를 85%로 줄여요(custom.cm: body{zoom:.85}).
+   '화면 끝까지 펴기' 폭(--r2-vw)을 스크립트(r3b/07 fixVw)가 나중에 고쳐서, 첫 화면이 좁게 그려졌다가 넓어졌음 → 처음부터 CSS로 같은 값 */
+@media (min-width:767px) and (max-width:1024px) {
+  :root {
+    --r2-vw:calc(100vw / .85);
+  }
+}

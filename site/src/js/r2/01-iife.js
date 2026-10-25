@@ -290,8 +290,8 @@
             })).forEach(h));
           }));
         }), {
-          threshold: .15,
-          rootMargin: "0px 0px -8% 0px"
+          threshold: 0,
+          rootMargin: "0px 0px 8% 0px"
         });
         o(".r2-rv, .r2-stag", e).forEach((function(e) {
           u.observe(e);

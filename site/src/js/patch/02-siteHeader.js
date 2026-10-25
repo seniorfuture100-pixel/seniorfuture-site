@@ -20,7 +20,11 @@ SFUI.register('siteHeader', function () {
     home: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></svg>',
     play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l12 8-12 8z"/></svg>',
     users: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M16 4a4 4 0 010 8M18 14c2.5.5 4 2.5 4 6"/></svg>',
-    user: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>'
+    user: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>',
+    // (10/25) 하단 탭 전용: 교육=학사모, 무료 라이브=카메라+LIVE 점, 커뮤니티=3명
+    edu: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9.5L12 5l9.5 4.5L12 14z"/><path d="M6.5 11.8v4c0 1.6 2.5 3.2 5.5 3.2s5.5-1.6 5.5-3.2v-4"/><path d="M21.5 9.5v5"/></svg>',
+    live: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="13.5" height="12" rx="3"/><path d="M16 10.5l5.5-3v9L16 13.5z"/><circle class="sf-tab-dot" cx="7" cy="10.5" r="1.7"/></svg>',
+    team: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M6.5 19.5c0-3.2 2.5-5.5 5.5-5.5s5.5 2.3 5.5 5.5"/><circle cx="5.3" cy="9.8" r="2.3"/><path d="M1.8 18.2c0-2.5 1.5-4.2 3.7-4.4"/><circle cx="18.7" cy="9.8" r="2.3"/><path d="M22.2 18.2c0-2.5-1.5-4.2-3.7-4.4"/></svg>'
   };
 
   // 로그인 상태: 아임웹 로그인 버튼 안에 '회원 정보' 링크가 있으면 로그인한 상태
@@ -161,8 +165,8 @@ SFUI.register('siteHeader', function () {
   var hideBar = /shop_payment|shop_cart|login|site_join|\/(course|live|community)\/?$/.test(path) && /idx=/.test(location.search) ||
     /shop_payment|shop_cart|login|site_join|shop_view/.test(path);
   if (!hideBar) {
-    var tabs = [['홈', '/', '^/(index)?$', ICON.home], ['교육', '/course', '^/course', ICON.play], ['무료 라이브', '/live', '^/live', ICON.chat],
-      ['커뮤니티', '/community', '^/community', ICON.users], ['MY', loggedIn ? '/classroom' : loginHref, '^/(classroom|class-|shop_mypage)', ICON.user]];
+    var tabs = [['홈', '/', '^/(index)?$', ICON.home], ['교육', '/course', '^/course', ICON.edu], ['무료 라이브', '/live', '^/live', ICON.live],
+      ['커뮤니티', '/community', '^/community', ICON.team], ['MY', loggedIn ? '/classroom' : loginHref, '^/(classroom|class-|shop_mypage)', ICON.user]];
     var nav = el('nav', 'sf-tabbar', tabs.map(function (t) { return '<a href="' + t[1] + '" data-match="' + t[2] + '">' + t[3] + '<span>' + t[0] + '</span></a>'; }).join(''));
     nav.setAttribute('data-sf-tabbar', '');
     nav.setAttribute('aria-label', '주요 메뉴');
