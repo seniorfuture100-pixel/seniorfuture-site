@@ -54,7 +54,10 @@
   :root body .sf-myp-code{flex-direction:column;align-items:flex-start;gap:8px;padding:16px}
   :root body .sf-myp-flt{flex-wrap:wrap}
   :root body .sf-myp-flt input{order:-1;flex-basis:100%}
-  :root body .sf-myp-flt select{flex:1}
+  :root body .sf-myp-flt select{flex:1 1 0;width:auto!important;min-width:0}
+  :root.r2-my body .r2-my-quick{grid-template-columns:repeat(4,1fr)!important}
+  :root body .sf-myp-tb td:first-child{width:auto}
+  :root body .sf-myp-c img,:root body .sf-myp-c i{width:88px;height:50px}
   :root body .sf-myp-wrap{border:0;border-radius:0}
   :root body .sf-myp-tb thead{display:none}
   :root body .sf-myp-tb,:root body .sf-myp-tb tbody{display:block}
