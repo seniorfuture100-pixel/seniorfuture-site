@@ -240,12 +240,14 @@
   :root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
     aspect-ratio:343/228!important;
   }
+  /* 10/25: 장면이 배너 밖으로 밀려 위·오른쪽이 잘리던 것 → 배너 안쪽으로 넣고 조금 작게 */
   :root body .sfw-banner__slide.sf-hb .sf-hb__art {
-    top:-6px;
-    right:-18px;
-    transform:scale(.56);
+    top:10px;
+    right:10px;
+    transform:scale(.5);
     transform-origin:100% 0;
   }
+  .sf-hb--biz .c-50 { right:30px; }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy {
     position:absolute!important;
     top:auto!important;
