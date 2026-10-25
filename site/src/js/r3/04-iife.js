@@ -45,7 +45,7 @@
           t.classList.add("r3-rsh");
           var a = n(".sf-pv-share__btn", t);
           a && (a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13.5a4 4 0 0 0 5.7.3l3-3a4 4 0 0 0-5.7-5.6l-1.2 1.1"/><path d="M14 10.5a4 4 0 0 0-5.7-.3l-3 3a4 4 0 0 0 5.7 5.6l1.1-1.1"/></svg><span>링크 복사</span>', 
-          a.setAttribute("aria-label", "내 추천 링크 복사")), e.className = "r3-rsh__t", e.innerHTML = '<i class="r3-rsh__coin" aria-hidden="true">P</i><div><strong>친구에게 추천하고 적립금 받기</strong><a class="r3-rsh__more" href="/partners">어떻게 받나요? 자세히 보기 ›</a></div>';
+          a.setAttribute("aria-label", "내 추천 링크 복사")), e.className = "r3-rsh__t", e.innerHTML = '<i class="r3-rsh__coin" aria-hidden="true">P</i><div><strong>친구에게 추천하고 수익 받기</strong><a class="r3-rsh__more" href="/partners">어떻게 받나요? 자세히 보기 ›</a></div>';
         }
       }
     }));
@@ -1201,7 +1201,7 @@
     }
     function l() {
       var e = n(".sf-rw-done-p", t);
-      e && (e.innerHTML = "내 링크로 들어온 친구가 강의를 결제하면<br>결제 금액의 <em>" + r(window.SF_SHARE && SF_SHARE.rate || "10%") + "</em>를 적립금으로 받을 수 있어요!");
+      e && (e.innerHTML = "내 링크로 들어온 친구가 강의를 결제하면<br>결제 금액의 <em>" + r(window.SF_SHARE && SF_SHARE.rate || "10%") + "</em>를 수익으로 받을 수 있어요!");
     }
   })), SFUI.register("r3LoginPill", (function() {
     if (!SFUI.loggedIn) {

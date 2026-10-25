@@ -75,7 +75,7 @@ SFUI.register('shareReward', function (root) {
     var c = cfg();
     state.opener = btn; state.title = btn.getAttribute('data-title') || document.title;
     if (!c.member) {
-      loginBox.querySelector('.sf-rw-desc').innerHTML = '로그인하면 내 링크로 친구가 결제할 때<br>결제 금액의 ' + esc(c.rate) + '를 적립금으로 받을 수 있어요.';
+      loginBox.querySelector('.sf-rw-desc').innerHTML = '로그인하면 내 링크로 친구가 결제할 때<br>결제 금액의 ' + esc(c.rate) + '를 수익으로 받을 수 있어요.';
       loginBox.querySelectorAll('[data-rw-login]').forEach(function (a) { a.href = back(c.login[a.getAttribute('data-rw-login')]); });
       show(loginBox, loginBox.querySelector('.sf-rw-x'));
       return;
