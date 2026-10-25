@@ -153,6 +153,35 @@
       end: "2026-09-10T21:00:00+09:00",
       deadline: "2026-09-09T17:00:00+09:00"
     }
+,
+    // (10/26) 지난 행사(idx 29~51, events.json·created.json 에서 생성) — 모집 마감 표시·정렬용
+    29: {"type": "meet", "kind": "세미나", "past": true, "date": "7월 4일 (토)", "start": "2026-07-04T11:00:00+09:00", "place": "공덕역 Front1", "deadline": "2026-07-04T11:00:00+09:00"},
+    30: {"type": "meet", "kind": "세미나", "past": true, "date": "7월 18일 (토)", "start": "2026-07-18T10:40:00+09:00", "place": "공덕역 Front1", "deadline": "2026-07-18T10:40:00+09:00"},
+    31: {"type": "meet", "kind": "세미나", "past": true, "date": "8월 8일 (토)", "start": "2026-08-08T10:40:00+09:00", "place": "공덕역 Front1", "deadline": "2026-08-08T10:40:00+09:00"},
+    32: {"type": "meet", "kind": "웨비나", "past": true, "date": "8월 13일 (목)", "start": "2026-08-13T20:00:00+09:00", "place": "온라인", "deadline": "2026-08-13T20:00:00+09:00"},
+    33: {"type": "meet", "kind": "세미나", "past": true, "date": "8월 29일 (토)", "start": "2026-08-29T10:40:00+09:00", "place": "공덕역 Front1", "deadline": "2026-08-29T10:40:00+09:00"},
+    34: {"type": "meet", "kind": "세미나", "past": true, "date": "2월 21일 (토)", "start": "2026-02-21T00:00:00+09:00", "deadline": "2026-02-21T00:00:00+09:00"},
+    35: {"type": "meet", "kind": "포럼", "past": true, "date": "3월 22일 (일)", "start": "2026-03-22T10:00:00+09:00", "place": "서울 COEX 1F 그랜드볼룸", "deadline": "2026-03-22T10:00:00+09:00"},
+    36: {"type": "meet", "kind": "워크숍", "past": true, "date": "4월 11일 (토)", "start": "2026-04-11T00:00:00+09:00", "deadline": "2026-04-11T00:00:00+09:00"},
+    37: {"type": "meet", "kind": "세미나", "past": true, "date": "4월 18일 (토)", "start": "2026-04-18T15:00:00+09:00", "place": "서울대입구역 DESKER", "deadline": "2026-04-18T15:00:00+09:00"},
+    38: {"type": "meet", "kind": "북토크", "past": true, "date": "5월 13일 (수)", "start": "2026-05-13T15:00:00+09:00", "place": "논현역 이투데이 19F", "deadline": "2026-05-13T15:00:00+09:00"},
+    39: {"type": "meet", "kind": "북토크", "past": true, "start": "2026-01-01T00:00:00+09:00", "deadline": "2026-01-01T00:00:00+09:00"},
+    40: {"type": "meet", "kind": "강연", "past": true, "start": "2026-01-01T00:00:00+09:00", "place": "성남시니어혁신센터", "deadline": "2026-01-01T00:00:00+09:00"},
+    41: {"type": "meet", "kind": "현장 탐방", "past": true, "date": "2월 19일 (목)", "start": "2026-02-19T14:00:00+09:00", "place": "성남시니어산업혁신센터", "deadline": "2026-02-19T14:00:00+09:00"},
+    42: {"type": "meet", "kind": "현장 탐방", "past": true, "date": "6월 11일 (목)", "start": "2026-06-11T09:30:00+09:00", "place": "KB골든라이프빌딩", "deadline": "2026-06-11T09:30:00+09:00"},
+    43: {"type": "meet", "kind": "현장 탐방", "past": true, "start": "2026-01-01T00:00:00+09:00", "place": "KB골든라이프빌딩", "deadline": "2026-01-01T00:00:00+09:00"},
+    44: {"type": "meet", "kind": "네트워킹", "past": true, "date": "7월 4일 (토)", "start": "2026-07-04T09:30:00+09:00", "place": "서울 마포구 공덕역 Front1", "deadline": "2026-07-04T09:30:00+09:00"},
+    45: {"type": "meet", "kind": "현장 탐방", "past": true, "date": "7월 9일 (목)", "start": "2026-07-09T09:30:00+09:00", "place": "경기도 성남시 중원구 양현로 405", "deadline": "2026-07-09T09:30:00+09:00"},
+    46: {"type": "meet", "kind": "네트워킹", "past": true, "date": "8월 1일 (토)", "start": "2026-08-01T09:30:00+09:00", "place": "서울 마포구 공덕역 인근", "deadline": "2026-08-01T09:30:00+09:00"},
+    47: {"type": "meet", "kind": "포럼", "past": true, "date": "9월 9일 (수)", "start": "2026-09-09T13:00:00+09:00", "place": "부산 BEXCO 제1전시장 314~315호", "deadline": "2026-09-09T13:00:00+09:00"},
+    48: {"type": "meet", "kind": "포럼", "past": true, "date": "9월 9일 (수)", "start": "2026-09-09T13:00:00+09:00", "place": "부산 BEXCO 제1전시장 314~315호", "deadline": "2026-09-09T13:00:00+09:00"},
+    49: {"type": "meet", "kind": "현장 탐방", "past": true, "date": "9월 18일 (금)", "start": "2026-09-18T11:00:00+09:00", "place": "종로평창카운티", "deadline": "2026-09-18T11:00:00+09:00"},
+    50: {"type": "meet", "kind": "네트워킹", "past": true, "date": "10월 2일 (금)", "start": "2026-10-02T18:30:00+09:00", "place": "서울 마포구 공덕역 FRONT1", "deadline": "2026-10-02T18:30:00+09:00"},
+    51: {"type": "meet", "kind": "네트워킹", "past": true, "start": "2026-01-01T00:00:00+09:00", "deadline": "2026-01-01T00:00:00+09:00"},
+    // (10/26) 지난 기수(8·9·10기) — 판매 종료
+    52: {"type": "course", "past": true},
+    53: {"type": "course", "past": true},
+    54: {"type": "course", "past": true}
   }, e = {
     best: [ "best", "🔥 BEST" ],
     new: [ "new", "NEW" ],
@@ -240,7 +269,9 @@
                 t.appendChild(c);
               } else if ("meet" === r) {
                 var l = s(a);
-                t.setAttribute("data-status", l[0]), t.setAttribute("data-kind", "이벤트" === a.kind ? "event" : "meet"), 
+                t.setAttribute("data-status", l[0]), t.setAttribute("data-kind", "이벤트" === a.kind ? "event" : "meet"), t.setAttribute("data-start", a.start || ""), 
+                a.past && t.setAttribute("data-past", ""), // (10/26) 지난 행사: 가격 대신 '지난 행사'(css qa/07)
+
                 t.setAttribute("data-place", /온라인/.test(a.place || "") ? "online" : "offline"), 
                 n && (n.innerHTML = '<span class="sf-tags"><span class="sf-tag sf-tag--' + ("이벤트" === a.kind ? "event" : "meet") + '">' + (a.kind || "모임") + '</span><span class="sf-tag sf-tag--' + l[0] + '">' + l[1] + "</span></span>");
                 var d = document.createElement("div");
@@ -252,11 +283,11 @@
           }(t, a, a.type || f);
         })), "meet" === f && function(t) {
           var e = [].slice.call(t.querySelectorAll("li.iw-shop-card"));
-          e.filter((function(t) {
-            return "closed" === t.getAttribute("data-status");
-          })).forEach((function(e) {
-            t.appendChild(e);
-          }));
+          // (10/26) 모집 중은 가까운 날짜 순, 마감·지난 행사는 최근 순으로 뒤에
+          var st = function(x) { return Date.parse(x.getAttribute("data-start") || "") || 0; };
+          var op = e.filter(function(x) { return "closed" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st(x) - st(y); });
+          var cl = e.filter(function(x) { return "closed" === x.getAttribute("data-status"); }).sort(function(x, y) { return st(y) - st(x); });
+          op.concat(cl).forEach(function(x) { t.appendChild(x); });
         }(c), SFUI.init(i), "live" === f && function(g) {
           var o2 = {
             live: 0,

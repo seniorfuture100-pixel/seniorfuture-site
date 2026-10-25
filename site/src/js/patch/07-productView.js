@@ -121,9 +121,14 @@ SFUI.register('productView', function() {
           return "<p>" + e[0] + "<b>" + e[1] + "</b><span>" + oe(e[2]) + "</span></p>";
         })).join("") + "</div></section>";
       }
+      // (10/26) 아임웹이 상세 글을 <template id="prodDetailPC"> 에 두고 늦게 꺼내요 → 비어 있으면 여기서 먼저 꺼내 읽어요
+      (function() {
+        var w0 = document.getElementById("prod_detail_body"), tp = document.getElementById("prodDetailPC") || document.getElementById("prodDetailMobile");
+        w0 && tp && tp.content && !w0.textContent.trim() && w0.appendChild(tp.content.cloneNode(!0));
+      })();
       var G = document.querySelector(".detail_detail_wrap"), J = document.querySelector(".detail_qna_wrap"), W = document.getElementById("prod_detail_body"), X = '<div class="sf-pv-own" data-sf-own></div>', Y = [ [ "sf-pv-intro", "소개" ] ], ee = "", OW = W && ownSecs(W);
       // (10/23 2차) 예시 내용(가짜 강사·커리큘럼)은 예전부터 있던 상품(코드 표)이나 SF_SITE.details 가 있는 상품만. 새 상품은 쓴 글만 '소개'로
-      !OW && W && !(SFUI.__baseItems || {})[n] && !(a.items || {})[n] && !(a.details || a.courses || {})[n] && (OW = splitRefund({ pre: [].filter.call(W.childNodes, (function(e) {
+      !OW && W && (!(SFUI.__baseItems || {})[n] || SFUI.__baseItems[n].past) && !(a.items || {})[n] && !(a.details || a.courses || {})[n] && (OW = splitRefund({ pre: [].filter.call(W.childNodes, (function(e) {
         return !(1 === e.nodeType && /^(STYLE|SCRIPT)$/.test(e.tagName));
       })), secs: [] }));
       if (OW) {

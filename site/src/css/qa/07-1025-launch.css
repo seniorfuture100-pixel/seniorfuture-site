@@ -63,3 +63,8 @@ html:not(.sf-ft-ready) body #doz_footer_wrap {
     --r2-vw:calc(100vw / .85);
   }
 }
+
+/* (10/26) 지난 행사·지난 기수 상세: 추천 수익 상자 숨김(ui/31-pastProduct.js) */
+html.sf-pv-past body .sf-pv-share {
+  display:none!important;
+}

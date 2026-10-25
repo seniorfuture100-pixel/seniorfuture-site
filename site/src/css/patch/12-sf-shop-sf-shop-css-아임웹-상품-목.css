@@ -35,3 +35,16 @@
   flex-direction:column;
   gap:6px;
 }
+/* (10/26) 지난 행사(모임 idx 29~51): '가격문의'·가격 대신 '지난 행사' */
+:root .sf-shop .iw-shop-card[data-past] .iw-card-price {
+  font-size:0!important;
+}
+:root .sf-shop .iw-shop-card[data-past] .iw-card-price * {
+  display:none!important;
+}
+:root .sf-shop .iw-shop-card[data-past] .iw-card-price::before {
+  content:"지난 행사";
+  color:#8b95a1;
+  font-size:14px;
+  font-weight:600;
+}
