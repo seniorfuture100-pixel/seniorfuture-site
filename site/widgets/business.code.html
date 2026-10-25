@@ -156,6 +156,20 @@
 :root body .sf-biz .sf-more-btn:hover{border-color:#ff6a0f;color:#ff6a0f!important}
 @media (max-width:767.98px){:root body .sf-biz .sf-more-wrap{margin-top:32px}:root body .sf-biz .sf-more-btn{height:44px;padding:0 24px;font-size:14px}}
 </style>
+<style>
+/* 10/25 4차: 번호 원 — 차례 채우기는 애니메이션(지연)으로, 마우스 올림·뗌은 지연 없이 바로 바뀜 */
+@keyframes sfDotIn{from{color:#b0b8c1;box-shadow:0 0 0 1.5px #e5e8eb}to{color:#ff6a0f;box-shadow:0 0 0 2px #ff8a3d,0 6px 16px rgba(255,106,15,.14)}}
+:root body .sf-biz .sf-st6 li .sf-st5__dot{transition:background .2s ease,color .2s ease!important;transition-delay:0s!important}
+:root body .sf-biz .sf-st6 li.is-in .sf-st5__dot{animation:sfDotIn .5s ease both!important}
+:root body .sf-biz .sf-st6 li:hover .sf-st5__dot{background:#ff6a0f!important;color:#fff!important}
+@media (min-width:1024px){
+:root body .sf-biz .sf-st6 li.is-in:nth-child(2) .sf-st5__dot{animation-delay:.45s!important}
+:root body .sf-biz .sf-st6 li.is-in:nth-child(3) .sf-st5__dot{animation-delay:.9s!important}
+:root body .sf-biz .sf-st6 li.is-in:nth-child(4) .sf-st5__dot{animation-delay:1.35s!important}
+:root body .sf-biz .sf-st6 li.is-in:nth-child(5) .sf-st5__dot{animation-delay:1.8s!important}
+}
+@media (prefers-reduced-motion:reduce){:root body .sf-biz .sf-st6 li.is-in .sf-st5__dot{animation-duration:.01s!important;animation-delay:0s!important}}
+</style>
 <div class="sf-scope">
 <main class="sf-biz">
   

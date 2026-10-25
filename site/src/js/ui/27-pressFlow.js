@@ -1,4 +1,4 @@
-// 원본: v1.0.17 (2026-10-25) 언론 기사 카드 계속 흐르기
+// 원본: v1.0.18 (2026-10-25) 언론 기사 카드 계속 흐르기
 /* pressFlow — 회사 소개 '언론에 소개된 시니어퓨처'(r2Press 가 만든 .r2-press__track)
    - 카드를 한 벌 더 붙여 왼쪽으로 천천히 끊김 없이 흐르게(초당 약 40px)
    - 마우스를 올리거나 손가락을 대면 멈춤, 끌어서 앞뒤로 넘기기 가능(끈 뒤에는 카드 링크가 열리지 않게)
@@ -46,7 +46,8 @@
     requestAnimationFrame(step);
     return true;
   }
-  function tryLater() { var n = 0; (function go() { if (setup() || ++n > 20) return; setTimeout(go, 250); })(); }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryLater); else tryLater();
+  function tryLater() { var n = 0; (function go() { if (setup() || ++n > 60) return; setTimeout(go, 250); })(); }
+  tryLater();
+  document.addEventListener('DOMContentLoaded', tryLater);
   document.addEventListener('sf:softnav', function () { setTimeout(tryLater, 200); });
 })();
