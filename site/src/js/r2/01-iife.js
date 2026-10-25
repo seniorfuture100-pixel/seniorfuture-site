@@ -381,7 +381,7 @@
         var a = r.get("m2") || "", c = r.get("sf") || (a ? "" : "orders"), l = document.getElementById("mypage-summary"), f = l && (l.textContent.match(/([^\s]+)\s*님/) || [])[1] || "", u = (l && (l.textContent.match(/([\d,]+)\s*원/) || [])[1], 
         c ? "sf=" + c : "m2=" + a), p = o(".shop-content.mypage .left-menu a").filter((function(e) {
           return /탈퇴/.test(e.textContent);
-        }))[0], m = p && p.getAttribute("href") || "#", h = [ [ "학습", [ [ "결제 내역", "/shop_mypage/?sf=orders", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "sf=recent" ] ] ], [ "파트너스", [ [ "링크 생성하기", "/shop_mypage/?sf=partners", "sf=partners" ], [ "수익 내역", "/shop_mypage/?sf=p-earn", "sf=p-earn" ], [ "정산 내역", "/shop_mypage/?sf=p-settle", "sf=p-settle" ] ] ], [ "계정", [ [ "로그아웃", "/logout.cm?back_url=Lw==", "out" ], [ "회원탈퇴", m, "leave" ] ] ] ], v = [];
+        }))[0], m = p && p.getAttribute("href") || "#", h = [ [ "학습", [ [ "결제 내역", "/shop_mypage/?sf=orders", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "sf=recent" ] ] ], [ "파트너스", [ [ "링크 생성하기", "/shop_mypage/?sf=partners", "sf=partners" ] ] ], [ "계정", [ [ "로그아웃", "/logout.cm?back_url=Lw==", "out" ], [ "회원탈퇴", m, "leave" ] ] ] ], v = [];
         h.forEach((function(e) {
           e[1].forEach((function(e) {
             v.push(e);

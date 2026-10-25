@@ -1,10 +1,7 @@
-/* 화면 묶음: mypage | 10/25 마이페이지 › 파트너스 (링크 생성하기·수익 내역·정산 내역, ui/29-myPartners.js) */
+/* 화면 묶음: mypage | 10/25 마이페이지 › 파트너스 (링크 생성하기, ui/29-myPartners.js) */
 :root body .sf-myp-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 :root body .sf-myp-guide{color:#6b7684;font-size:14px;text-decoration:none}
 :root body .sf-myp-guide:hover{color:#ff6a0f}
-:root body .sf-myp-tabs{display:flex;gap:22px;margin:6px 0 22px;border-bottom:1px solid #e5e8eb}
-:root body .sf-myp-tabs a{padding:0 2px 12px;color:#8b95a1;font-size:15px;font-weight:600;text-decoration:none}
-:root body .sf-myp-tabs a[aria-current]{color:#191f28;box-shadow:inset 0 -2px 0 #ff6a0f}
 :root body .sf-myp-code{display:flex;align-items:center;gap:20px;padding:18px 22px;border-radius:16px;background:#fff5ee}
 :root body .sf-myp-code small{display:block;color:#8b95a1;font-size:12px}
 :root body .sf-myp-code b{display:block;margin-top:2px;color:#191f28;font-size:20px;font-weight:800;letter-spacing:.04em}
@@ -36,20 +33,6 @@
 :root body .sf-myp-msg{padding:40px 16px!important;color:#8b95a1;text-align:center;font-size:14px}
 :root body .sf-myp-msg a{color:#ff6a0f}
 :root body .sf-myp-note{margin:12px 0 0;color:#8b95a1;font-size:13px;line-height:1.6}
-:root body .sf-myp-info{padding:22px 24px;border-radius:16px;background:#f5f6f8}
-:root body .sf-myp-info b{display:block;color:#191f28;font-size:17px;font-weight:800}
-:root body .sf-myp-info p{margin:6px 0 0;color:#4e5968;font-size:14px;line-height:1.6}
-:root body .sf-myp-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 0;padding:0;list-style:none}
-:root body .sf-myp-steps li{padding:20px;border:1px solid #e5e8eb;border-radius:14px}
-:root body .sf-myp-steps i{display:flex;width:28px;height:28px;align-items:center;justify-content:center;border-radius:50%;background:#fff1e6;color:#e8590c;font-style:normal;font-weight:800;font-size:13px}
-:root body .sf-myp-steps b{display:block;margin-top:12px;color:#191f28;font-size:15px}
-:root body .sf-myp-steps span{display:block;margin-top:4px;color:#6b7684;font-size:13px;line-height:1.55}
-:root body .sf-myp-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
-:root body .sf-myp-btn{display:inline-flex;align-items:center;height:44px;padding:0 18px;border-radius:12px;background:#ff6a0f;color:#fff!important;font-size:14px;font-weight:700;text-decoration:none}
-:root body .sf-myp-btn.is-line{border:1px solid #d1d6db;background:#fff;color:#333d4b!important}
-:root body .sf-myp-frame{margin-top:8px}
-:root body .sf-myp-frame iframe{display:block;width:100%;height:0;border:0;opacity:0;transition:opacity .2s}
-:root body .sf-myp-frame iframe.is-on{opacity:1}
 @media (max-width:767.98px){
   :root body .sf-myp-code{flex-direction:column;align-items:flex-start;gap:8px;padding:16px}
   :root body .sf-myp-flt{flex-wrap:wrap}
@@ -71,7 +54,4 @@
   :root body .sf-myp-earn strong{color:#e8590c}
   :root body .sf-myp-tb td:last-child{grid-column:2;grid-row:2/4;align-self:center}
   :root body .sf-myp-pr s{display:inline;margin-right:6px}
-  :root body .sf-myp-steps{grid-template-columns:1fr}
-  :root body .sf-myp-btns{flex-direction:column}
-  :root body .sf-myp-btn{justify-content:center}
 }

@@ -1,29 +1,13 @@
-// 원본: v1.0.26 (2026-10-25) 마이페이지 › 파트너스
-/* myPartners — 마이페이지에 '파트너스' 화면 3개를 붙여요 (왼쪽 메뉴 묶음은 r2My 가 만들어요)
-   - ?sf=partners  링크 생성하기: /course 목록에서 강의를 읽어 표로(새 강의도 자동) · 분야·검색·정렬 · 홍보 링크 복사(주소?ref=내 코드)
-   - ?sf=p-earn    수익 내역: 운영팀 안내(아임웹에 파트너별 수익 화면이 없어 운영팀이 정리해 알려 줘요)
-   - ?sf=p-settle  정산 내역: /partners 의 수익금 정산 신청서(아임웹 입력폼)를 ?sf_embed=settle 로 불러와 이 화면에 보여 줘요
-   - /partners?sf_embed=settle: 정산 신청서만 보이게(마이페이지 안 틀에서 씀) */
+// 원본: v1.0.27 (2026-10-25) 마이페이지 › 파트너스
+/* myPartners — 마이페이지 › 파트너스 › 링크 생성하기(?sf=partners) (왼쪽 메뉴 묶음은 r2My 가 만들어요)
+   - /course 목록에서 강의를 읽어 표로(새 강의도 자동) · 분야·검색·정렬 · 홍보 링크 복사(주소?ref=내 코드)
+   - (10/25) 수익 내역·정산 내역 화면은 사장님 요청으로 뺐어요(지금 단계에서는 필요 없음) */
 (function () {
   if (window.__sfMyPartners) return;
   window.__sfMyPartners = 1;
   var qs = new URLSearchParams(location.search);
 
-  // ── /partners?sf_embed=settle : 신청서만 ──
-  if (/^\/partners\/?$/.test(location.pathname) && qs.get('sf_embed') === 'settle') {
-    document.documentElement.classList.add('sf-embed-settle');
-    var st = document.createElement('style');
-    st.textContent = ':root.sf-embed-settle body{background:#fff!important}:root.sf-embed-settle body *{visibility:hidden!important}' +
-      ':root.sf-embed-settle body #settle,:root.sf-embed-settle body #settle *{visibility:visible!important}' +
-      ':root.sf-embed-settle body .sf-pt .pt3-form#settle{display:block!important;position:fixed!important;left:0;top:0;width:100%;z-index:2147483000;padding:0 0 24px!important;background:#fff}' +
-      ':root.sf-embed-settle body #settle .pt3-join-head{display:none!important}';
-    document.head.appendChild(st);
-    return;
-  }
-
-  var VIEWS = { partners: 1, 'p-earn': 1, 'p-settle': 1 };
-  var view = qs.get('sf');
-  if (!/^\/shop_mypage/.test(location.pathname) || !VIEWS[view]) return;
+  if (!/^\/shop_mypage/.test(location.pathname) || qs.get('sf') !== 'partners') return;
 
   var tmp = document.createElement('div');
   function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML; }
@@ -61,15 +45,13 @@
     });
   }
 
-  function head(active) {
-    var tabs = [['partners', '링크 생성하기'], ['p-earn', '수익 내역'], ['p-settle', '정산 내역']];
-    return '<div class="sf-myp-top"><h2 class="r2-my-h">파트너스</h2><a class="sf-myp-guide" href="/partners">마케팅 파트너스 안내 ›</a></div>' +
-      '<nav class="sf-myp-tabs" aria-label="파트너스">' + tabs.map(function (t) { return '<a href="/shop_mypage/?sf=' + t[0] + '"' + (t[0] === active ? ' aria-current="page"' : '') + '>' + t[1] + '</a>'; }).join('') + '</nav>';
+  function head() {
+    return '<div class="sf-myp-top"><h2 class="r2-my-h">링크 생성하기</h2><a class="sf-myp-guide" href="/partners">마케팅 파트너스 안내 ›</a></div>';
   }
 
   function renderLinks(pane) {
     var c = cfg(), cats = SFUI.cats || [], items = SFUI.shopItems ? SFUI.shopItems() : {};
-    pane.innerHTML = head('partners') +
+    pane.innerHTML = head() +
       '<div class="sf-myp-code"><div><small>내 추천 코드</small><b>' + esc(c.code || '-') + '</b></div><p>강의 링크 뒤에 내 코드가 붙어요. 이 링크로 들어온 분이 결제하면 결제 금액의 <em>' + c.rate + '%</em>를 수익으로 받을 수 있어요.</p></div>' +
       '<div class="sf-myp-flt"><select aria-label="분야"><option value="">전체 분야</option>' + cats.map(function (k) { return '<option value="' + k[0] + '">' + esc(k[1]) + '</option>'; }).join('') + '</select>' +
       '<input type="search" placeholder="어떤 강의를 추천해 볼까요?" aria-label="강의 검색">' +
@@ -102,40 +84,12 @@
     });
   }
 
-  function renderEarn(pane) {
-    var c = cfg();
-    pane.innerHTML = head('p-earn') +
-      '<div class="sf-myp-info"><b>수익 내역은 운영팀이 정리해 안내해 드려요</b><p>내 추천 링크로 결제된 주문은 운영팀이 확인해 정리하고, 확정된 수익을 가입하신 연락처로 알려 드려요.</p></div>' +
-      '<ol class="sf-myp-steps">' +
-      '<li><i>1</i><b>링크로 결제</b><span>내 추천 링크로 들어온 분이 강의를 결제해요</span></li>' +
-      '<li><i>2</i><b>수익 확정</b><span>수강(행사) 시작 뒤 환불 기간이 지나면 결제 금액의 ' + c.rate + '%가 수익으로 확정돼요</span></li>' +
-      '<li><i>3</i><b>지급</b><span>적립금으로 받아 바로 쓰거나, 정산 신청 후 수익금으로 받아요</span></li></ol>' +
-      '<div class="sf-myp-btns"><a class="sf-myp-btn is-line" href="/shop_mypage/?m2=qna">수익 내역 문의하기</a><a class="sf-myp-btn" href="/shop_mypage/?sf=p-settle">수익금 정산 신청</a></div>';
-  }
-
-  function renderSettle(pane) {
-    pane.innerHTML = head('p-settle') +
-      '<div class="sf-myp-info"><b>수익금 정산 신청</b><p>쌓인 수익을 적립금 대신 수익금으로 받고 싶을 때만 신청해 주세요. 운영팀이 확인 후 정산 절차를 안내해 드려요.</p></div>' +
-      '<div class="sf-myp-frame"><div class="sf-myp-msg">신청서를 불러오는 중…</div><iframe title="수익금 정산 신청서" src="/partners?sf_embed=settle" scrolling="no" loading="lazy"></iframe></div>';
-    var f = pane.querySelector('iframe'), msg = pane.querySelector('.sf-myp-frame .sf-myp-msg'), n = 0;
-    function fit() {
-      try {
-        var s = f.contentDocument && f.contentDocument.getElementById('settle');
-        if (s && s.offsetHeight > 100) { f.style.height = (s.offsetHeight + 8) + 'px'; f.classList.add('is-on'); if (msg) msg.remove(), msg = null; }
-      } catch (e) {}
-      if (++n < 240) setTimeout(fit, 500); // 입력 오류 문구 등으로 높이가 바뀌어도 2분간 맞춰요
-    }
-    f.addEventListener('load', function () { n = 0; fit(); });
-  }
-
   function go() {
     var pane = document.querySelector('.shop-content.mypage .r2-my-pane');
     if (!pane) return false;
     if (pane.__sfMyp) return true;
     pane.__sfMyp = 1;
-    // 휴대폰 바로가기: 파트너스 하위 화면에서도 '파트너스'가 켜져 보이게
-    [].forEach.call(document.querySelectorAll('.r2-my-quick a[href*="sf=partners"]'), function (a) { a.setAttribute('aria-current', 'page'); });
-    if (view === 'partners') renderLinks(pane); else if (view === 'p-earn') renderEarn(pane); else renderSettle(pane);
+    renderLinks(pane);
     return true;
   }
   var tries = 0;
