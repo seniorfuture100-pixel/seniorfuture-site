@@ -85,6 +85,13 @@
 :root body .sf-pt .pt3-coupon::before,:root body .sf-pt .pt3-coupon::after{content:"";position:absolute;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:#191f28}
 :root body .sf-pt .pt3-coupon::before{left:-11px}
 :root body .sf-pt .pt3-coupon::after{right:-11px}
+:root body .sf-pt .pt3-coupons{display:flex;gap:18px;align-items:center}
+:root body .sf-pt .pt3-coupons .pt3-coupon{width:210px;padding:20px 22px}
+:root body .sf-pt .pt3-coupon.is-cash{background:linear-gradient(135deg,#ff8a3d,#e8590c);color:#fff;transform:rotate(3deg)}
+:root body .sf-pt .pt3-coupon.is-cash small{color:#fff3e8}
+:root body .sf-pt .pt3-coupon.is-cash span{color:rgba(255,255,255,.85)}
+:root body .sf-pt .pt3-coupons .pt3-coupon:first-child{transform:rotate(-3deg)}
+@media (max-width:767.98px){:root body .sf-pt .pt3-coupons{gap:10px}:root body .sf-pt .pt3-coupons .pt3-coupon{width:150px;padding:16px 16px}:root body .sf-pt .pt3-coupons .pt3-coupon b{font-size:22px}:root body .sf-pt .pt3-coupons .pt3-coupon span{font-size:11px}}
 :root body .sf-pt .pt3-coupon small{margin:0;color:#d9480f;font-size:12px;font-weight:700}
 :root body .sf-pt .pt3-coupon b{font-size:30px;font-weight:800}
 :root body .sf-pt .pt3-coupon span{color:#6b4a35;font-size:13px}
@@ -230,7 +237,7 @@ html:has(.pt2-hero) body{overflow-x:clip}
       <ul class="pt2-stats">
         <li><b>10%</b><span>추천 결제마다 결제 금액의 10% 적립</span></li>
         <li><b>링크·코드 1개</b><span>가입하면 바로 발급</span></li>
-        <li><b>구매확정 후</b><span>시니어퓨처 적립금으로 지급</span></li>
+        <li><b>구매확정 후</b><span>적립금 또는 수익금으로 정산</span></li>
       </ul>
     </div>
   </section>
@@ -238,7 +245,7 @@ html:has(.pt2-hero) body{overflow-x:clip}
     <div class="sf-wrap">
       <h2 id="pt-story">“이 강의 진짜 좋았어요!”<br>그 한마디, 해 본 적 있죠?</h2>
       <p class="pt2-sub">그동안 고마움으로 끝났던 추천 한마디가<br>이제는 누군가의 성장이자 나의 수익이 돼요.</p>
-      <div class="pt2-chat" data-sf-reveal role="img" aria-label="단톡방에서 내 추천 링크로 강의를 추천하자 적립금 알림이 오는 예시">
+      <div class="pt2-chat" data-sf-reveal role="img" aria-label="단톡방에서 내 추천 링크로 강의를 추천하자 수익 알림이 오는 예시">
         <small class="pt2-room">요양 실무 단톡방</small>
         <div class="pt2-msg"><i>🐻</i><p>평가 준비하려는데 들을 만한 강의 있을까요?</p></div>
         <div class="pt2-msg is-me"><p>저 이거 듣고 인력 배치표 바로 썼어요. 실무에 바로 쓸 수 있어서 좋았어요!</p></div>
@@ -246,7 +253,7 @@ html:has(.pt2-hero) body{overflow-x:clip}
         <div class="pt2-msg"><i>🐶</i><p>와 감사합니다! 바로 신청할게요 👍</p></div>
         <div class="pt2-msg"><i>🦊</i><p>저도 링크 받아 갈게요. 좋은 정보 공유해 주셔서 감사해요.</p></div>
         <div class="pt2-msg pt2-typing"><i>🐱</i><p><span></span><span></span><span></span></p><em>여러 명이 입력 중이에요</em></div>
-        <div class="pt2-toasts"><div class="pt2-toast"><span class="pt2-ok" aria-hidden="true"></span>추천 적립금이 쌓였어요<b>확인하기</b></div><div class="pt2-toast"><span class="pt2-ok" aria-hidden="true"></span>추천 적립금이 쌓였어요<b>확인하기</b></div></div>
+        <div class="pt2-toasts"><div class="pt2-toast"><span class="pt2-ok" aria-hidden="true"></span>추천 수익이 쌓였어요<b>확인하기</b></div><div class="pt2-toast"><span class="pt2-ok" aria-hidden="true"></span>추천 수익이 쌓였어요<b>확인하기</b></div></div>
       </div>
     </div>
   </section>
@@ -267,7 +274,7 @@ html:has(.pt2-hero) body{overflow-x:clip}
       <p class="pt3-sub">같은 강의를 추천해도 어떤 링크로 보내느냐에 따라 남는 것이 달라져요.</p>
       <div class="pt3-cmp">
         <div class="pt3-cmp__a"><span class="pt3-radio" aria-hidden="true"></span><small>A · 일반 추천</small><b>고마움으로 끝</b><strong>0원</strong><span>추천해도 남는 수익 없음</span></div>
-        <div class="pt3-cmp__b"><span class="pt3-radio is-on" aria-hidden="true"></span><small>B · 파트너 링크</small><b>고마움과 수익을 함께</b><strong>결제 금액의 10%</strong><span>내 링크로 결제가 확정될 때마다 적립금으로 쌓여요</span></div>
+        <div class="pt3-cmp__b"><span class="pt3-radio is-on" aria-hidden="true"></span><small>B · 파트너 링크</small><b>고마움과 수익을 함께</b><strong>결제 금액의 10%</strong><span>내 링크로 결제가 확정될 때마다 수익으로 쌓여요</span></div>
       </div>
       <p class="pt3-note">지금은 모든 유료 강의가 10%예요. 강의별 적립률이 바뀌면 각 강의 페이지에 표시해 드려요.</p>
     </div>
@@ -286,7 +293,7 @@ html:has(.pt2-hero) body{overflow-x:clip}
           <div class="pt3-demo__bar"><i></i><i></i><i></i></div>
           <div class="pt3-demo__card">
             <small>공유하고 수익받기</small>
-            <b>이 강의를 추천하면 결제 금액의<br><span>10%</span>를 적립금으로 받을 수 있어요!</b>
+            <b>이 강의를 추천하면 결제 금액의<br><span>10%</span>를 수익으로 받을 수 있어요!</b>
             <div class="sf-pt-code pt3-code"><small>내 추천 코드 (예시)</small><b>P1A2B3C</b><button type="button" class="sf-btn sf-btn--dark" data-sf-copy="P1A2B3C" data-msg="코드를 복사했어요">복사</button></div>
           </div>
         </div>
@@ -310,10 +317,10 @@ html:has(.pt2-hero) body{overflow-x:clip}
     <div class="sf-wrap">
       <h2 id="pt-ben" class="pt3-h">시니어퓨처 마케팅 파트너스만의<br>혜택이에요</h2>
       <div class="pt3-ben">
-        <article class="pt3-ben__a"><small>추천 결제마다</small><b>결제 금액 10% 적립</b><p>내 링크·코드로 결제된 금액의 <strong>10%를 적립금</strong>으로 드려요.</p>
+        <article class="pt3-ben__a"><small>추천 결제마다</small><b>결제 금액 10% 적립</b><p>내 링크·코드로 결제된 금액의 <strong>10%가 내 수익</strong>으로 쌓여요.</p>
           <div class="pt3-ben__viz" aria-hidden="true"><div class="pt3-bar"><span>결제 금액</span></div><div class="pt3-bar is-on"><em>내 적립금</em><span>10%</span></div></div></article>
-        <article class="pt3-ben__b"><small>파트너 본인에게</small><b>적립금으로 바로 수강</b><p>쌓인 적립금은 <strong>다음 강의·모임 결제</strong>에 바로 쓸 수 있어요.</p>
-          <div class="pt3-ben__viz is-dark" aria-hidden="true"><div class="pt3-coupon"><small>시니어퓨처 파트너스</small><b>적립금</b><span>다음 강의·모임 결제에 사용</span></div></div></article>
+        <article class="pt3-ben__b"><small>파트너 본인에게</small><b>적립금으로 바로 수강, 수익금으로도</b><p>쌓인 수익은 다음 강의·모임 결제에 <strong>적립금으로 바로</strong> 쓰거나, 정해진 절차를 거쳐 <strong>수익금으로 정산</strong>받을 수 있어요. 평소 활동에 링크 한 줄 더해 만드는 나만의 작은 부업이에요.</p>
+          <div class="pt3-ben__viz is-dark" aria-hidden="true"><div class="pt3-coupons"><div class="pt3-coupon"><small>바로 쓰기</small><b>적립금</b><span>다음 강의·모임 결제에 사용</span></div><div class="pt3-coupon is-cash"><small>정산받기</small><b>수익금</b><span>정해진 절차를 거쳐 정산</span></div></div></div></article>
       </div>
     </div>
   </section>
@@ -321,10 +328,10 @@ html:has(.pt2-hero) body{overflow-x:clip}
     <div class="sf-wrap">
       <h2 id="pt-faq" class="pt3-h">자주 묻는 질문</h2>
       <div class="sf-pt-faq pt3-faq" data-sf-accordion data-single>
-        <div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger>마케팅 파트너스는 무엇인가요?</button><div data-sf-acc-panel>좋았던 시니어퓨처 강의를 내 추천 링크로 알리고, 그 링크로 결제가 확정되면 결제 금액의 10%를 적립금으로 받는 프로그램이에요.</div></div>
-        <div data-sf-acc-item><button type="button" data-sf-acc-trigger>누가 신청할 수 있나요?</button><div data-sf-acc-panel>시니어퓨처 회원이면 누구나 신청할 수 있어요. 개인·사업자 모두 현금이 아닌 시니어퓨처 적립금으로 받아요.</div></div>
+        <div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger>마케팅 파트너스는 무엇인가요?</button><div data-sf-acc-panel>좋았던 시니어퓨처 강의를 내 추천 링크로 알리고, 그 링크로 결제가 확정되면 결제 금액의 10%를 수익으로 받는 프로그램이에요.</div></div>
+        <div data-sf-acc-item><button type="button" data-sf-acc-trigger>누가 신청할 수 있나요?</button><div data-sf-acc-panel>시니어퓨처 회원이면 누구나 신청할 수 있어요. 수익은 적립금으로 바로 쓰거나, 정해진 절차를 거쳐 수익금으로 정산받을 수 있어요.</div></div>
         <div data-sf-acc-item><button type="button" data-sf-acc-trigger>내가 들은 강의만 추천할 수 있나요?</button><div data-sf-acc-panel>아니요, 모든 유료 강의에 쓸 수 있어요. 다만 직접 들어 본 강의를 추천하면 신뢰가 더 높아요.</div></div>
-        <div data-sf-acc-item><button type="button" data-sf-acc-trigger>정산은 언제, 어떻게 받나요?</button><div data-sf-acc-panel>결제한 분의 수강(행사) 시작 뒤 환불 기간이 지나면, 결제 금액의 10%를 시니어퓨처 적립금으로 넣어 드려요. 환불된 결제는 적립되지 않아요.</div></div>
+        <div data-sf-acc-item><button type="button" data-sf-acc-trigger>정산은 언제, 어떻게 받나요?</button><div data-sf-acc-panel>결제한 분의 수강(행사) 시작 뒤 환불 기간이 지나면, 결제 금액의 10%가 수익으로 확정돼요. 적립금으로 받거나, 정해진 절차를 거쳐 수익금으로 정산받을 수 있어요. 환불된 결제는 적립되지 않아요.</div></div>
         <div data-sf-acc-item><button type="button" data-sf-acc-trigger>무료 라이브도 코드가 적용되나요?</button><div data-sf-acc-panel>무료 라이브는 결제 금액이 없어서 수익이 생기지 않아요. 유료 강의에만 적용돼요.</div></div>
       </div>
     </div>
