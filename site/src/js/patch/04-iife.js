@@ -258,7 +258,7 @@
               t.setAttribute("data-sf-card", r);
               var i = t.querySelector(".iw-card-info-link") || t, n = t.querySelector(".iw-shop-product-badges"), ht = SFUI.badgeTags(n), tg = ht || a.tags;
               SFUI.saveBadgeTags(t.getAttribute("data-system-product-id"), ht);
-              if ("course" === r) t.setAttribute("data-category", a.cat || ""), n && tg && (n.innerHTML = '<span class="sf-tags">' + SFUI.tagHtml(tg) + "</span>"); else if ("live" === r) {
+              if ("course" === r) t.setAttribute("data-category", a.cat || ""), a.past && t.setAttribute("data-past", ""), n && tg && (n.innerHTML = '<span class="sf-tags">' + SFUI.tagHtml(tg) + "</span>"); else if ("live" === r) {
                 var o = (t.querySelector('a[href*="idx="]') || {}).getAttribute ? t.querySelector('a[href*="idx="]').getAttribute("href") : "#";
                 t.setAttribute("data-sf-live", ""), t.setAttribute("data-start", a.start || ""), 
                 t.setAttribute("data-end", a.end || ""), t.setAttribute("data-deadline", a.deadline || ""), 

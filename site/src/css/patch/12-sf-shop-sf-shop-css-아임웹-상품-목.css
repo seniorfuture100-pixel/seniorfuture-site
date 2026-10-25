@@ -48,3 +48,6 @@
   font-size:14px;
   font-weight:600;
 }
+:root .sf-shop .iw-shop-card[data-sf-card=course][data-past] .iw-card-price::before {
+  content:"모집 마감";
+}
