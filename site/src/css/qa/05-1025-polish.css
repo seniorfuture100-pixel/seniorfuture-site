@@ -1,0 +1,11 @@
+/* 화면 묶음: common | 10/25 사장님 요청: 한국어 줄바꿈은 단어(띄어쓰기) 단위, 휴대폰 헤더 로고 크게 */
+:root body {
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+@media (max-width:999.98px) {
+  :root body .sf-mh__logo .sf-logo {
+    font-size:22px!important;
+    letter-spacing:-.01em;
+  }
+}
