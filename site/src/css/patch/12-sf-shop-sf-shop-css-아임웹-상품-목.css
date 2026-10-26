@@ -68,3 +68,8 @@
 :root .sf-shop .iw-shop-product-count {
   display:none!important;
 }
+
+/* (10/26 2차) 지난 행사·기수: 가격을 넣으면 아임웹이 붙이는 SALE 표시도 숨김 */
+:root .sf-shop .iw-shop-card[data-past] .iw-shop-product-badges {
+  display:none!important;
+}
