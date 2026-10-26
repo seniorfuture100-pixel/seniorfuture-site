@@ -25,7 +25,7 @@
 }
 
 /* 3번: 아임웹 섹션의 아래 여백(PC 96px 등) 때문에 마지막 위젯과 푸터 사이에 흰 띠가 생기던 것 */
-:root body .section_wrap:has(+ #doz_footer_wrap):has(.sf-scope) {
+:root body .section_wrap:has(+ #doz_footer_wrap):has(.sf-scope):not(:has(.js-custom-widget-container, [data-widget-type=board])) { /* 목록 칸은 아래 96px 규칙 */
   padding-bottom:0!important;
 }
 /* 휴대폰: 하단 탭 자리를 본문(흰색) 대신 푸터 안쪽에 둬서 푸터 아래 흰 공간이 안 보이게 */
