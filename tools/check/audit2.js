@@ -16,7 +16,7 @@
   function measure(f, w) {
     var W = f.contentWindow, d = f.contentDocument, o = {}, skip = '#doz_footer_wrap, footer, .sf-ft, script, style, noscript, [aria-hidden=true], .sr-only, .blind';
     o.title = ((d.querySelector('h1') || {}).textContent || '').trim().slice(0, 24);
-    var texts = [].filter.call(d.querySelectorAll('body *'), function (e) { return ownText(e).length && !e.closest(skip) && vis(W, e) && !hiddenUp(W, e); });
+    var texts = [].filter.call(d.querySelectorAll('body *'), function (e) { var r = e.getBoundingClientRect(); return ownText(e).length && !e.closest(skip) && r.width > 2 && r.height > 2 && r.right > 0 && r.left < w && !/(^|-)sr(-|$)|sr-only/.test(e.className) && vis(W, e) && !hiddenUp(W, e); });
     o.n = texts.length;
     // 잘림
     o.clip = texts.filter(function (e) {
@@ -68,14 +68,14 @@
     o.font = Object.keys(fams).map(function (k) { var ok = /^(sans-serif|serif|monospace|system-ui|-apple-system)$/i.test(k) || d.fonts.check('16px "' + k + '"', '가'); return k + ':' + fams[k] + (ok ? '' : ' ✗안받아짐'); });
     // 섹션 사이 빈칸
     W.scrollTo(0, 0);
-    var secs = [].filter.call(d.querySelectorAll('#doz_body .section_wrap, .doz_sys .section_wrap, body .section_wrap'), function (s) { return !s.parentElement.closest('.section_wrap') && vis(W, s) && s.getBoundingClientRect().height > 20; });
+    var SEL = '.section_wrap .doz_row, .section_wrap section'; var secs = [].filter.call(d.querySelectorAll(SEL), function (s) { return !s.querySelector(SEL) && !s.closest(skip) && vis(W, s) && s.getBoundingClientRect().height > 20; }).sort(function (a, b) { return a.getBoundingClientRect().top - b.getBoundingClientRect().top; });
     var leafs = function (s) { return [].filter.call(s.querySelectorAll('*'), function (e) { var r = e.getBoundingClientRect(); return (e.tagName === 'IMG' || ownText(e).length || /^(BUTTON|INPUT|IFRAME|VIDEO|svg)$/.test(e.tagName)) && r.height > 4 && vis(W, e) && !hiddenUp(W, e); }); };
     var prevB = null, gaps = [], lim = w < 768 ? 160 : 240, sy = W.scrollY;
     secs.forEach(function (s, k) {
       var L = leafs(s); if (!L.length) return;
       var t = Math.min.apply(null, L.map(function (e) { return e.getBoundingClientRect().top; })), b = Math.max.apply(null, L.map(function (e) { return e.getBoundingClientRect().bottom; }));
-      if (prevB !== null) { var g = Math.round(t - prevB); if (g < 12 || g > lim) gaps.push('섹션' + k + '(' + Math.round(t + sy) + 'px) 위 ' + g + 'px'); }
-      prevB = b;
+      if (prevB !== null) { var g = Math.round(t - prevB); if (g < -4) return; if (g < 12 || g > lim) gaps.push(name(s) + '(' + Math.round(t + sy) + 'px) 위 ' + g + 'px'); }
+      prevB = Math.max(prevB || 0, b);
     });
     var ft = d.querySelector('#doz_footer_wrap');
     if (ft && prevB !== null) { var g2 = Math.round(ft.getBoundingClientRect().top - prevB); if (g2 < 12 || g2 > lim) gaps.push('푸터 위 ' + g2 + 'px'); }
@@ -90,7 +90,7 @@
       var hook = setInterval(function () {
         try {
           var W = f.contentWindow; if (!W || W.__qa2 || !W.PerformanceObserver || W.location.href === 'about:blank') return; W.__qa2 = 1;
-          new W.PerformanceObserver(function (l) { l.getEntries().forEach(function (e) { if (!e.hadRecentInput) perf.cls += e.value; }); }).observe({ type: 'layout-shift', buffered: true });
+          new W.PerformanceObserver(function (l) { l.getEntries().forEach(function (e) { if (e.hadRecentInput) return; perf.cls += e.value; if (e.value > 0.02) (perf.src = perf.src || []).push(Math.round(e.value * 1000) / 1000 + ' @' + Math.round(e.startTime) + 'ms ' + (e.sources || []).slice(0, 2).map(function (x) { var n = x.node; return n && n.nodeType === 1 ? name(n) : '?'; }).join(',')); }); }).observe({ type: 'layout-shift', buffered: true });
           new W.PerformanceObserver(function (l) { l.getEntries().forEach(function (e) { perf.lcp = Math.round(e.startTime); }); }).observe({ type: 'largest-contentful-paint', buffered: true });
         } catch (e) { }
       }, 15);
@@ -102,7 +102,7 @@
           var cls = Math.round(perf.cls * 1000) / 1000, lcp = perf.lcp;
           W.scrollTo(0, 1e6); return wait(1500).then(function () { W.scrollTo(0, 1e6); return wait(800); }).then(function () {
             var o; try { o = measure(f, w); } catch (e) { o = { fail: String(e).slice(0, 120) }; }
-            o.url = url; o.w = w; o.cls = cls; o.lcp = lcp; o.load = Date.now() - t0;
+            o.url = url; o.w = w; o.cls = cls; o.lcp = lcp; if (perf.src) o.clsSrc = perf.src.slice(0, 4); o.load = Date.now() - t0;
             f.remove(); done(o);
           });
         });
