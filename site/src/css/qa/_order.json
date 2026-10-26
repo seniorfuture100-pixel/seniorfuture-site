@@ -40,5 +40,11 @@
   "screen": "common",
   "src": null,
   "note": "10/25 런칭 점검: 상품 목록 늦게 스타일 입던 것"
+ },
+ {
+  "file": "08-1026-check.css",
+  "screen": "common",
+  "src": null,
+  "note": "10/26 추가 점검: 단어 쪼개짐·후기 날짜·로고 띠·처음 밀림"
  }
 ]

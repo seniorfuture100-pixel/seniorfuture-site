@@ -692,7 +692,7 @@
     if (t && SFUI.once(t, "R3Hub")) {
       var a = n("#hub-now", t), s = n("#hub-past", t);
       if (a) if (document.documentElement.classList.contains("sf-logged-in")) {
-        a.innerHTML = '<li class="sf-hub-help">신청한 강의를 불러오고 있어요…</li>';
+        a.innerHTML = '<li class="sf-hub-help is-loading">신청한 강의를 불러오고 있어요…</li>';
         var i = SFUI.shopItems && SFUI.shopItems() || {}, o = e.classrooms || {};
         E().then((function(t) {
           var e = {}, n = [], c = [], l = Date.now();

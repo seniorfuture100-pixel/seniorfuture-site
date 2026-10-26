@@ -1,0 +1,45 @@
+/* 화면 묶음: common | 10/26 추가 점검(tools/check/audit2.js): 단어 중간 줄바꿈·후기 카드 날짜 쪼개짐·기업 로고 띠·처음 뜰 때 밀림 */
+/* 아임웹 게시판 카드 본문(요약글)·검색 결과 강의명은 아임웹이 word-break:break-word 를 따로 걸어 05-1025 의 '단어 단위 줄바꿈'이 안 먹고
+   '유품정리 / 만'처럼 단어가 쪼개졌어요 → 같은 규칙을 그 두 곳에도 */
+:root body .card-body._card_body,
+:root body .sw2-card-name {
+  word-break:keep-all!important;
+  overflow-wrap:break-word!important;
+}
+/* 참가자 후기 카드(휴대폰 2칸): 작성자와 날짜가 한 줄에 끼어 '2026.1 / 0.26'으로 쪼개짐 → 작성자 아래 줄에 날짜 */
+@media (max-width:767.98px) {
+  :root body [data-widget-type]:not(.r2-bgrid) .list-style.type_grid .card-summary .tools {
+    flex-direction:column!important;
+    align-items:flex-start!important;
+  }
+  :root body [data-widget-type]:not(.r2-bgrid) .list-style.type_grid .card-summary .writer+.date::before {
+    content:none!important;
+  }
+  :root body [data-widget-type]:not(.r2-bgrid) .list-style.type_grid .card-summary .tools .date {
+    white-space:nowrap;
+  }
+}
+/* 기업 화면(휴대폰·태블릿): 어두운 칸 안 로고 묶음이 가장자리까지 꽉 찬 흰 띠라 아래에 검은 띠가 따로 남아 보임 → PC처럼 둥근 흰 상자 */
+@media (max-width:999.98px) {
+  :root body .sf-biz .is-dark .r3-logowall {
+    margin:16px 0 0!important;
+    border-radius:16px!important;
+  }
+}
+/* 처음 뜰 때 밀림(Layout Shift) — 아래 칸이 먼저 보였다가 위 내용이 채워지며 밀려 내려가던 것
+   마이페이지: 아임웹 내용이 늦게(약 1초) 채워져 맨 아래 계정 메뉴(로그아웃·회원탈퇴)가 밀림 → 처음 1.2초는 자리만 두고 안 보이게 */
+@keyframes sfLateShow {
+  from {
+    visibility:hidden;
+  }
+  to {
+    visibility:visible;
+  }
+}
+:root body .r2-my-acct {
+  animation:sfLateShow 0s linear 1.2s both;
+}
+/* 강의실: 신청한 강의를 불러오는 동안(r3/04 r3Classroom 의 .is-loading) 아래 안내 상자를 숨김 */
+:root body .sf-hub:has(.is-loading)>.sf-hub-help {
+  visibility:hidden;
+}
