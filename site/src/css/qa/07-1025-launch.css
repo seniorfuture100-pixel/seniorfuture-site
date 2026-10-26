@@ -110,3 +110,8 @@ html.sf-pv-past body .sf-pv .goods_form header .sf-pv-was {
 html.sf-pv-past body .sf-pv .goods_form header .pay_detail>.holder.table-row {
   grid-row:4;
 }
+
+/* (10/26) 목록 필터로 상품이 0개가 돼도 화면이 줄었다 커지지 않게 목록 칸 최소 높이 */
+.section_wrap:has(+ #doz_footer_wrap) .js-custom-widget-container {
+  min-height:min(640px,60vh);
+}

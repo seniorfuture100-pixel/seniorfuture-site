@@ -355,7 +355,10 @@
         nm && (nm.textContent = n);
         var o = t.shadowRoot.getElementById("sf-shop-empty");
         o || ((o = document.createElement("p")).id = "sf-shop-empty", o.className = "sf-shop-empty", 
-        o.textContent = "조건에 맞는 항목이 없어요. 다른 조건을 골라 보세요.", t.shadowRoot.querySelector(".iw-shop-grid").after(o)), 
+        o.innerHTML = (function() { // (10/26) 상품 없는 곳: 업데이트 예정 + 다른 분야 안내
+          var w = /^\/live/.test(location.pathname) ? "라이브" : /^\/community/.test(location.pathname) ? "모임·이벤트" : "강의";
+          return "<strong>새로운 " + w + "를 준비하고 있어요. 곧 업데이트될 예정이에요.</strong><span>다른 분야도 둘러보세요</span>";
+        })(), t.shadowRoot.querySelector(".iw-shop-grid").after(o)), 
         o.hidden = n > 0;
       }
     }

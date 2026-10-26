@@ -452,7 +452,7 @@
         if (i && !(i > r + 1)) {
           var o = parseFloat(getComputedStyle(n).paddingBottom) || 0, c = parseFloat(n.style.marginBottom) || 0, l = Math.round(o + c + 96 - (r - i));
           Math.abs(l - o - c) <= 1 || (n.style.setProperty("padding-bottom", Math.max(0, l) + "px", "important"), 
-          n.style.setProperty("margin-bottom", Math.min(0, l) + "px", "important"), l < 0 && n.style.setProperty("display", "flow-root"));
+          n.style.setProperty("margin-bottom", "0px", "important")); // (10/26) 마이너스 여백 금지 — 늦게 그려지는 내용(마이페이지 표 등)을 푸터가 덮었어요
         }
       }
     }

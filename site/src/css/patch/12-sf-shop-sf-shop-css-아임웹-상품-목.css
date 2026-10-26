@@ -73,3 +73,29 @@
 :root .sf-shop .iw-shop-card[data-past] .iw-shop-product-badges {
   display:none!important;
 }
+
+/* (10/26) 빈 목록 안내 + 페이지 번호 없이 한 번에(목록 설정에서 개수 최대) */
+:root .sf-shop .sf-shop-empty {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  padding:72px 16px;
+  border-radius:16px;
+  background:var(--sf-surface,#f7f8fa);
+  text-align:center;
+}
+:root .sf-shop .sf-shop-empty[hidden] {
+  display:none;
+}
+:root .sf-shop .sf-shop-empty strong {
+  color:var(--sf-text,#191f28);
+  font:600 16px/1.5 var(--sf-font);
+}
+:root .sf-shop .sf-shop-empty span {
+  color:var(--sf-text-3,#8b95a1);
+  font:400 14px/1.5 var(--sf-font);
+}
+:root .sf-shop .iw-shop-paging {
+  display:none!important;
+}
