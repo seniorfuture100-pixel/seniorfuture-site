@@ -184,3 +184,16 @@ html.sf-rv-page body [data-widget-type=board] .sf-rv-noimg .sf-rv-q {
   text-align:center;
   word-break:keep-all;
 }
+/* (10/26 QA) 검색 결과: 아임웹 영어 'SOLDOUT' 11px 표시 → 목록과 같은 한국어 '모집 마감' */
+html.sf-sr-on body .prod_icon.sold_out {
+  font-size:0!important;
+  background:var(--sf-gray-100,#f2f4f6)!important;
+  border-radius:6px!important;
+  padding:4px 8px!important;
+  line-height:1!important;
+}
+html.sf-sr-on body .prod_icon.sold_out::after {
+  content:"모집 마감";
+  color:#6b7684;
+  font:600 13px/1 var(--sf-font);
+}
