@@ -9,20 +9,28 @@ SFUI.register('anchorTabs', function (root) {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   root.querySelectorAll('[data-sf-anchor-tabs]').forEach(function (nav) {
     if (!SFUI.once(nav, 'Anchor')) return;
-    var offset = Number(nav.getAttribute('data-offset') || 120);
+    var base = Number(nav.getAttribute('data-offset') || 120), lockUntil = 0;
     var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
     var targets = links.map(function (a) { return document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1))); });
+    // (10/26) 고정 탭 아래 실제 높이로 위치 계산(헤더 높이가 PC·휴대폰·띠배너마다 달라 고정값이면 앞 탭에 머물렀어요)
+    function offset() {
+      var cs = getComputedStyle(nav);
+      if (cs.position === 'sticky' || cs.position === 'fixed') return (parseFloat(cs.top) || 0) + nav.offsetHeight + 12;
+      return base;
+    }
     function setActive(i) { links.forEach(function (a, j) { a.classList.toggle('is-active', i === j); if (i === j) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }); }
     links.forEach(function (a, i) {
       a.addEventListener('click', function (e) {
-        var t = targets[i]; if (!t) return; e.preventDefault();
-        window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - offset + 1, behavior: reduce ? 'auto' : 'smooth' });
-        setActive(i);
+        var t = targets[i] || document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1))); if (!t) return; e.preventDefault(); targets[i] = t;
+        setActive(i); lockUntil = Date.now() + 1200;
+        window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - offset() + 2, behavior: reduce ? 'auto' : 'smooth' });
       });
     });
     function onScroll() {
-      var cur = 0;
-      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top - offset <= 4) cur = i; });
+      if (Date.now() < lockUntil) return;
+      var cur = 0, off = offset();
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top - off <= 16) cur = i; });
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) { for (var k = targets.length - 1; k >= 0; k--) if (targets[k] && targets[k].getBoundingClientRect().top < window.innerHeight) { cur = Math.max(cur, k); break; } }
       setActive(cur);
     }
     window.addEventListener('scroll', onScroll, { passive: true });

@@ -126,5 +126,13 @@
  {
   "file": "31-pastProduct.js",
   "stmt": false
+ },
+ {
+  "file": "32-footFill.js",
+  "stmt": false
+ },
+ {
+  "file": "33-hiddenProducts.js",
+  "stmt": false
  }
 ]

@@ -32,9 +32,9 @@
   white-space:nowrap;
 }
 :root body .sf-pv-tabs .sf-tab.is-active {
-  color:var(--sf-text);
+  color:var(--sf-primary);
   font-weight:700!important;
-  border-bottom-color:var(--sf-text,#111);
+  border-bottom-color:var(--sf-primary);
 }
 :root body .sf-pv-tabs .sf-tab:focus-visible {
   outline:3px solid var(--sf-primary);

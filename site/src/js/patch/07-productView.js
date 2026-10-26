@@ -72,7 +72,7 @@ SFUI.register('productView', function() {
       var ht = null;
       try { ht = (SFUI.__hash || {})[n] || JSON.parse(sessionStorage.getItem("sf_badges") || "{}")[n] || null; } catch (x) {}
       c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.ceil((k - j) / 864e5)) + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
-      p && (L = '<span class="sf-tag sf-tag--' + ("이벤트" === i.kind ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D), 
+      p && (L = '<span class="sf-tag sf-tag--' + ((SFUI.isEvent ? SFUI.isEvent(i.kind) : "이벤트" === i.kind) ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D), 
       ht && !c && SFUI.tagHtml && (L += SFUI.tagHtml(ht));
       U && L && U.insertBefore(pe("div", "sf-tags sf-pv-tags", L), U.firstChild);
       ht || badgeFetch(n, (function(e) {
@@ -141,7 +141,7 @@ SFUI.register('productView', function() {
         OW.secs.forEach((function(e, s) {
           var t = s || hasPre ? "sf-pv-d" + (s + 1) : "sf-pv-intro";
           Y.push([ t, e.t ]), ee += '<section id="' + t + '" class="sf-pv-sec sf-pv-ownsec" data-sf-own-i="' + s + '"><h2>' + oe(e.t) + "</h2></section>";
-        })), (c || o) && (Y.push([ "sf-pv-review", "후기" ]), ee += ue());
+        })), (c || o || p) && (Y.push([ "sf-pv-review", "후기" ]), ee += ue()); // (10/26) 모임도 교육처럼 후기 탭
       } else if (c) {
         Y.push([ "sf-pv-curri", "커리큘럼" ], [ "sf-pv-teacher", "강사" ], [ "sf-pv-review", "후기" ]), 
         ee += '<section id="sf-pv-intro" class="sf-pv-sec"><h2>이런 분께 추천해요</h2>' + he(w.who) + "</section>", 
@@ -169,12 +169,12 @@ SFUI.register('productView', function() {
           return '<li><a class="sf-ccard" href="/course/?idx=' + e + '"><span class="sf-ccard__thumb"><img src="https://cdn.imweb.me/upload/S20261016dceb77aecc2e2/' + s[2] + '" alt="" loading="lazy"></span><span class="sf-ccard__body"><strong>' + oe(s[0]) + "</strong><p>" + oe(s[1]) + '</p><span class="sf-tags">' + ve(t.tags || []) + "</span></span></a></li>";
         })).join("") + "</ul></section>", ee += ue();
       } else {
-        Y.push([ "sf-pv-schedule", "일정" ], [ "sf-pv-host", "호스트" ], [ "sf-pv-place", "장소" ]), 
+        Y.push([ "sf-pv-schedule", "프로그램 일정" ], [ "sf-pv-host", "호스트" ], [ "sf-pv-review", "후기" ]), 
         ee += meetInfo(), ee += '<section id="sf-pv-intro" class="sf-pv-sec"><h2>모임 소개</h2><p class="sf-pv-lead">' + oe(w.intro) + "</p>" + he(w.checks) + X + "</section>", 
-        ee += '<section id="sf-pv-schedule" class="sf-pv-sec"><h2>일정</h2><dl class="sf-pv-guide sf-pv-guide--rows">' + w.schedule.map((function(e) {
+        ee += '<section id="sf-pv-schedule" class="sf-pv-sec"><h2>프로그램 일정</h2><dl class="sf-pv-guide sf-pv-guide--rows">' + w.schedule.map((function(e) {
           return "<div><dt>" + oe(e[0]) + "</dt><dd>" + oe(e[1]) + "</dd></div>";
         })).join("") + "</dl></section>", ee += '<section id="sf-pv-host" class="sf-pv-sec"><h2>호스트</h2><div class="sf-pv-teacher sf-pv-teacher--s"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(w.host.name) + "</strong><p>" + oe(w.host.bio) + "</p></div></div></section>", 
-        ee += '<section id="sf-pv-place" class="sf-pv-sec"><h2>장소</h2><div class="sf-pv-map" aria-hidden="true">' + b + '</div><p class="sf-pv-sub">' + oe(w.address) + "</p></section>";
+        ee += ue(); // (10/26) 호스트 아래 '장소'는 빼고(장소는 위 모임 안내에) 후기
       }
       Y.push([ "sf-pv-qna", "문의" ]);
       var ae = pe("nav", "sf-tabs sf-pv-tabs", Y.map((function(e, s) {

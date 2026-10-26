@@ -190,6 +190,10 @@
     first: [ "first", "선착순" ],
     closing: [ "closing", "마감임박" ]
   }, a = [];
+  // (10/26) 모임/이벤트 탭: 세미나·포럼·웨비나·강연·북토크·워크숍·콘서트·아이디어톤 등은 이벤트, 커피챗·네트워킹·현장 탐방은 모임
+  SFUI.isEvent = function(k) {
+    return /이벤트|세미나|웨비나|포럼|강연|북토크|워크숍|콘서트|아이디어톤|프로젝트/.test(k || "");
+  };
   SFUI.shopItems = function() {
     var k, o = {}, x = window.SF_SITE && SF_SITE.items || {};
     for (k in t) o[k] = t[k];
@@ -269,11 +273,11 @@
                 t.appendChild(c);
               } else if ("meet" === r) {
                 var l = s(a);
-                t.setAttribute("data-status", l[0]), t.setAttribute("data-kind", "이벤트" === a.kind ? "event" : "meet"), t.setAttribute("data-start", a.start || ""), 
+                t.setAttribute("data-status", l[0]), t.setAttribute("data-kind", SFUI.isEvent(a.kind) ? "event" : "meet"), t.setAttribute("data-start", a.start || ""), 
                 a.past && t.setAttribute("data-past", ""), // (10/26) 지난 행사: 가격 대신 '지난 행사'(css qa/07)
 
                 t.setAttribute("data-place", /온라인/.test(a.place || "") ? "online" : "offline"), 
-                n && (n.innerHTML = '<span class="sf-tags"><span class="sf-tag sf-tag--' + ("이벤트" === a.kind ? "event" : "meet") + '">' + (a.kind || "모임") + '</span><span class="sf-tag sf-tag--' + l[0] + '">' + l[1] + "</span></span>");
+                n && (n.innerHTML = '<span class="sf-tags"><span class="sf-tag sf-tag--' + (SFUI.isEvent(a.kind) ? "event" : "meet") + '">' + (a.kind || "모임") + '</span><span class="sf-tag sf-tag--' + l[0] + '">' + l[1] + "</span></span>");
                 var d = document.createElement("div");
                 d.className = "sf-shop-meta", d.innerHTML = (a.date ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>' + a.date + "</span>" : "") + (a.place ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>' + a.place + "</span>" : ""), 
                 i.appendChild(d);

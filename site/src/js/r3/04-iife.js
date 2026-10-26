@@ -1423,7 +1423,8 @@
       }));
     }
   }));
-  var x = [ [ 15, "요양기관 원장 네트워킹 모임 3기", "1842ce4e584a5" ], [ 16, "시니어 산업 커리어 토크 나이트", "919707c55b39f" ], [ 17, "시니어 창업가 독서 모임 2기", "c147c907d86da" ], [ 18, "에이지테크 데모데이 참관 투어", "6bdf45fa20fba" ], [ 19, "시니어 커머스 MD 스터디", "8dc164101f8b0" ], [ 20, "보험·신탁 실무자 정기 모임", "fc3e5c08b7172" ], [ 21, "2026 시니어 산업 송년 네트워킹", "b38a62c87b2ca" ], [ 22, "요양기관 원장 네트워킹 모임 2기", "7e2fac7eb4341" ] ];
+  // (10/26) 예시 모임(15~22) 대신 실제로 연 행사(29~51) — 모집 중이 먼저, 나머지는 최근 순
+  var x = [[29, "시니어 비즈니스 투자 IR 및 Funding 전략", "d77f2f27fca38"], [30, "AI 시대, 노인 돌봄의 미래 Care-Tech 2026", "a7d4900cfc65a"], [31, "AI 시대, 엔딩 테크의 미래 Care-Tech 2026", "facf4b6cda539"], [32, "AI 시대, 초고령사회 돌봄 패러다임 속 시설 특화 전략", "f1a51c0e1b709"], [33, "AI 시대, 시니어 비즈니스 미래 Care-Tech 2026", "8dfa4bc36eff5"], [34, "AI 시대, 돌봄 산업의 미래: Care-Tech 2026 특별 세션", "59c091757aa28"], [35, "AI 시대, 시니어 산업의 미래와 기회 [SENIOR FUTURE X ACPR 2026]", "7847228203319"], [36, "[워크숍] 시니어 제품, 프리미엄 '라이프스타일'을 입다", "57c337c3f7ca1"], [37, "AI시대, Care-Tech 2026 세미나 | 돌봄 산업의 현재와 기회", "9731d41f40dc8"], [38, "세대 교류 북토크 — 시니어 산업의 미래와 노후 대비", "50e268bb2a9df"], [39, "시니어트렌드 2027 북토크 (초고령사회 대전환 지도)", "fcc28a7051fd0"], [40, "성남시니어혁신센터 강연 — 푸드테크와 AI와 시니어 비즈니스", "8b28babfb60f5"], [41, "성남시니어산업혁신센터 탐방 (시니어퓨처 8기)", "8f95e202999ea"], [42, "KB골든라이프 에이지테크랩 현장 스터디", "b5e13e7969c93"], [43, "KB골든라이프 에이지테크랩 현장 스터디 (10기 기간 회차)", "a8b1d80350106"], [44, "시니어 비즈니스 커피챗 네트워킹 (7/4)", "e009c0af9a4e8"], [45, "성남시니어혁신센터 고령친화제품 현장 투어", "208fa82b9b036"], [46, "시니어 비즈니스 커피챗 네트워킹 (8/1)", "79576d5586082"], [47, "시니어 비즈니스, 에이지테크 포럼 & 커피챗 네트워킹 (부산)", "90e56a9f2db10"], [48, "GLOBAL AGETECH FORUM IN BUSAN", "a3977596b5f99"], [49, "KB골든라이프 종로평창카운티 실버타운 현장 스터디", "fe41b99cf139c"], [50, "시니어 비즈니스 커피챗 네트워킹 — 케어닥 박재병 대표", "7cee9f2c00c68"], [51, "시니어퓨처 8기 멤버 커피챗", "e9e4554127fde"]];
   SFUI.register("r3HomeMeet", (function() {
     var t = n(".sf-cards4--meet");
     if (t && !t.classList.contains("r3-meet-ok")) {
@@ -1443,7 +1444,7 @@
         return t.open !== e.open ? t.open ? -1 : 1 : t.open ? t.st - e.st : e.st - t.st;
       })).slice(0, 4);
       t.innerHTML = o.map((function(t) {
-        var e = t.it, n = "이벤트" === e.kind;
+        var e = t.it, n = (SFUI.isEvent ? SFUI.isEvent(e.kind) : "이벤트" === e.kind);
         return '<li><a class="sf-ccard sf-mcard" href="/community/?idx=' + t.idx + '"><span class="sf-ccard__thumb"><img src="' + t.img + '" alt="" loading="lazy"></span><span class="sf-ccard__body"><span class="sf-tags"><span class="sf-tag sf-tag--' + (n ? "event" : "meet") + '">' + r(e.kind || "모임") + "</span>" + (t.open ? '<span class="sf-tag sf-tag--recruit">모집중</span>' : '<span class="sf-tag sf-tag--closed">모집 마감</span>') + "</span><strong>" + r(t.name) + '</strong><span class="sf-mcard__meta">' + (e.date ? "<span>" + (i[0] || "") + r(e.date) + "</span>" : "") + (e.place ? "<span>" + (i[1] || "") + r(e.place) + "</span>" : "") + "</span></span></a></li>";
       })).join(""), t.classList.add("r3-meet-ok");
     }

@@ -26,7 +26,7 @@ SFUI.register('hashGuard', function (root) {
     var i = a.querySelector('img'), s = i && i.getAttribute('src'), k = s && (s.match(/([a-f0-9]{13})\.jpg/) || [])[1];
     if (k && M[k]) i.setAttribute('src', s.replace(k, M[k]));
     else if (!i && a.getAttribute('href') === '/community') {
-      a.setAttribute('href', '/community/?idx=18');
+      a.setAttribute('href', '/community'); // (10/26) 예시 모임(18) 숨김
       var t = a.querySelector('.sf-ccard__thumb');
       if (t) { t.removeAttribute('style'); t.innerHTML = '<img src="https://cdn.imweb.me/upload/S20261016dceb77aecc2e2/6bdf45fa20fba.jpg" alt="">'; }
     }

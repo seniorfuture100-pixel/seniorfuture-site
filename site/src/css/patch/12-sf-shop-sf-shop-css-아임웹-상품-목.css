@@ -63,3 +63,8 @@
 :root .sf-shop .iw-shop-card[data-sf-card=course][data-past] .iw-card-price::before {
   content:"모집 마감";
 }
+
+/* (10/26) 목록 위 '총 N개' 표시는 쓰지 않아요 */
+:root .sf-shop .iw-shop-product-count {
+  display:none!important;
+}
