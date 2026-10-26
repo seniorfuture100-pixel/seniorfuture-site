@@ -1733,11 +1733,13 @@
           }).then((function(t) {
             return t.text();
           })).then((function(t) {
-            var e = (new DOMParser).parseFromString(t, "text/html"), s = a("._post_item_wrap a.post_link_wrap").map((function(t) {
-              return t.getAttribute("href");
-            })), i = a('[data-widget-type="board"] ._card_wrap', e).filter((function(t) {
-              var e = n("a.post_link_wrap", t);
-              return e && s.indexOf(e.getAttribute("href")) < 0;
+            // (10/26) 같은 글인지 글 번호(idx)로 비교 — 주소 뒤 page·q 값이 달라 같은 후기가 여러 번 붙었어요
+            var x = function(t) {
+              var e = n("a.post_link_wrap", t), a = e && (e.getAttribute("href") || "").match(/idx=(\d+)/);
+              return a ? a[1] : "";
+            }, e = (new DOMParser).parseFromString(t, "text/html"), s = a("._post_item_wrap").map(x), i = a('[data-widget-type="board"] ._card_wrap', e).filter((function(t) {
+              var e = x(t);
+              return e && s.indexOf(e) < 0 && (s.push(e), !0);
             }));
             i.length ? (i.forEach((function(t) {
               r.appendChild(document.importNode(t, !0));

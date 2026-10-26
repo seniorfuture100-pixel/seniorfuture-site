@@ -164,3 +164,9 @@ html.sf-rv-page body .sf-bv-more__list small {
 html.sf-rv-page body .r3-rv-more {
   display:none!important;
 }
+html.sf-rv-page body [data-widget-type=board] ._list_wrap {
+  margin-bottom:0!important;
+}
+html.sf-rv-page body [data-widget-type=board] ._list_bottom {
+  display:none!important;
+}

@@ -17,7 +17,7 @@ SFUI.register('reviewMeta', function (root) {
       sp.textContent = m[1];
       if (wr) { var c = document.createElement('span'); c.className = 'sf-rv-course'; c.textContent = m[2]; wr.parentNode.insertBefore(c, wr.nextSibling); }
     }
-    var tt = it.querySelector('.r2-ttl') || it.querySelector('.title'), lab = tt && L[tt.textContent.replace(/^\s*시니어 산업 이해\s*/, '').trim()];
+    var tt = it.querySelector('.r2-ttl') || it.querySelector('.title'), lab = tt && L[(tt.classList.contains('r2-ttl') ? tt.textContent : [].filter.call(tt.childNodes, function (x) { return x.nodeType === 3; }).map(function (x) { return x.textContent; }).join('')).trim()];
     if (wr && lab) wr.textContent = lab; // 참가자 후기: 9기 · 규동님 (더힐실버타운)
     else if (wr) { var n = wr.textContent.trim(); wr.textContent = n === '관리자' ? '수강생' : n.charAt(0) + '○○'; }
   });
