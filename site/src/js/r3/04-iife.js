@@ -1742,7 +1742,13 @@
               return e && s.indexOf(e) < 0 && (s.push(e), !0);
             }));
             i.length ? (i.forEach((function(t) {
-              r.appendChild(document.importNode(t, !0));
+              // (10/26) 아임웹이 다른 페이지 카드를 display:none 으로 보내요 → 숨김을 풀고 붙여요(12개만 보이던 것)
+              var u = document.importNode(t, !0);
+              [ u ].concat(a('[style*="display"]', u)).forEach((function(e) {
+                /display:\s*none/.test(e.getAttribute("style") || "") && (e.style.display = "");
+              })), a("img[data-src]", u).forEach((function(e) {
+                e.getAttribute("src") && !/blank|data:/.test(e.getAttribute("src")) || (e.src = e.getAttribute("data-src"));
+              })), r.appendChild(u);
             })), SFUI.init(r), setTimeout(d, 50)) : c = !0;
           })).catch((function() {
             c = !0, l.textContent = "";
