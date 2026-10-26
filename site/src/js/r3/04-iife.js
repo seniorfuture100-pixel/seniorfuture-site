@@ -72,11 +72,15 @@
     if (t && SFUI.once(t, "R3Flow")) {
       var e = n("[data-sf-track]", t);
       // (10/26) 홈 후기: 수강평에 올린 참가자 후기 중 10개(기수 고르게)로 채우고, 카드별 '후기 더 보기' 없이 제목 옆에 CTA 하나
-      var D = SFUI.reviewData || [], P = [ 0, 2, 4, 6, 9, 11, 17, 22, 24, 29 ].map((function(i) {
+      var q = function(x) {
+        return String(x == null ? "" : x).replace(/[&<>"]/g, (function(c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+        }));
+      }, D = SFUI.reviewData || [], P = [ 0, 2, 4, 6, 9, 11, 17, 22, 24, 29 ].map((function(i) {
         return D[i];
       })).filter(Boolean);
       e && P.length && (e.innerHTML = P.map((function(v) {
-        return '<a class="sf-review" href="/review/?bmode=view&idx=' + v[3] + '"><span class="sf-review__course">' + r(v[0]) + '</span><span class="sf-review__top"><img class="sf-review__thumb" src="' + r(v[4]) + '" alt="" loading="lazy"><span class="sf-review__quote">' + r(v[1]) + '</span></span><span class="sf-review__body">' + r(v[2]) + "</span></a>";
+        return '<a class="sf-review" href="/review/?bmode=view&idx=' + v[3] + '"><span class="sf-review__course">' + q(v[0]) + '</span><span class="sf-review__top"><img class="sf-review__thumb" src="' + q(v[4]) + '" alt="" loading="lazy"><span class="sf-review__quote">' + q(v[1]) + '</span></span><span class="sf-review__body">' + q(v[2]) + "</span></a>";
       })).join(""));
       var h = n(".sf-sec-head", t);
       if (h && !n(".sf-sec-more", h)) {
