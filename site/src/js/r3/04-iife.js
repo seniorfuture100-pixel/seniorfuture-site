@@ -1711,7 +1711,8 @@
         }));
       }
     })), /^\/review\/?$/.test(location.pathname) && !/bmode=|idx=/.test(location.search) && !window.__r3RvMore) {
-      var r = n("._card_wrap") || (n("._post_item_wrap") || {}).parentElement;
+      // (10/26) 카드 하나(_card_wrap)가 아니라 목록 칸 전체에 이어 붙여요 — 안내 문구가 첫 카드 자리를 차지하고 새 후기가 첫 카드 안에 들어가던 것
+      var r = n('[data-widget-type="board"] .list-style') || (n("._card_wrap") || {}).parentElement;
       if (r) {
         var s = n(".pagination") || n('[class*="paging"]');
         if (s) {
@@ -1737,7 +1738,7 @@
           })).then((function(t) {
             var e = (new DOMParser).parseFromString(t, "text/html"), s = a("._post_item_wrap a.post_link_wrap").map((function(t) {
               return t.getAttribute("href");
-            })), i = a("._post_item_wrap", e).filter((function(t) {
+            })), i = a('[data-widget-type="board"] ._card_wrap', e).filter((function(t) {
               var e = n("a.post_link_wrap", t);
               return e && s.indexOf(e.getAttribute("href")) < 0;
             }));
