@@ -9,6 +9,7 @@ SFUI.register('pastProduct', function () {
   document.documentElement.classList.add('sf-pv-past');
   [].forEach.call(document.querySelectorAll('.sf-pv *'), function (e) {
     if (!e.children.length && /^가격문의/.test(e.textContent.trim())) e.textContent = label;
+    else if (!e.children.length && /^0\s*원$/.test(e.textContent.trim())) e.textContent = '무료'; // (10/26 2차) 무료였던 행사
   });
   function lock() {
     [].forEach.call(document.querySelectorAll('.buy_btns a.buy, .buy_btns ._btn_buy'), function (b) {
