@@ -11,6 +11,8 @@ SFUI.register('reviewMeta', function (root) {
   var L = {}; (SFUI.reviewData || []).forEach(function (r) { L[r[1].replace(/^“|”$/g, '')] = r[0]; });
   root.querySelectorAll('._post_item_wrap').forEach(function (it) {
     if (!SFUI.once(it, 'RvMeta')) return;
+    var lk = it.querySelector('a.post_link_wrap'), id = lk && ((lk.getAttribute('href') || '').match(/idx=(\d+)/) || [])[1];
+    if (id && (SFUI.reviewHide || {})[id]) { (it.closest('._card_wrap') || it).remove(); return; } // (10/26) 임의로 만든 예시 글 빼기
     var sp = it.querySelector('.text span'), wr = it.querySelector('.writer');
     var m = sp && /^([\s\S]*?)\s*수강 과정:\s*([^.]+?)(?:\s*예시[\s\S]*)?\.?\s*$/.exec(sp.textContent.trim());
     if (m) {

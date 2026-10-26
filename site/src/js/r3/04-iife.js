@@ -71,6 +71,20 @@
     var t = n(".sf-home-review [data-sf-carousel]");
     if (t && SFUI.once(t, "R3Flow")) {
       var e = n("[data-sf-track]", t);
+      // (10/26) 홈 후기: 수강평에 올린 참가자 후기 중 10개(기수 고르게)로 채우고, 카드별 '후기 더 보기' 없이 제목 옆에 CTA 하나
+      var D = SFUI.reviewData || [], P = [ 0, 2, 4, 6, 9, 11, 17, 22, 24, 29 ].map((function(i) {
+        return D[i];
+      })).filter(Boolean);
+      e && P.length && (e.innerHTML = P.map((function(v) {
+        return '<a class="sf-review" href="/review/?bmode=view&idx=' + v[3] + '"><span class="sf-review__course">' + r(v[0]) + '</span><span class="sf-review__top"><img class="sf-review__thumb" src="' + r(v[4]) + '" alt="" loading="lazy"><span class="sf-review__quote">' + r(v[1]) + '</span></span><span class="sf-review__body">' + r(v[2]) + "</span></a>";
+      })).join(""));
+      var h = n(".sf-sec-head", t);
+      if (h && !n(".sf-sec-more", h)) {
+        var m = document.createElement("a");
+        m.className = "sf-sec-more", m.href = "/review", m.innerHTML = '후기 더 보기<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+        var g = n(".sf-sec-arrows", h);
+        g ? h.insertBefore(m, g) : h.appendChild(m);
+      }
       if (e && !(e.children.length < 2)) {
         var r = [].slice.call(e.children), s = document.createElement("div");
         s.className = "r3-flow";
@@ -1639,78 +1653,11 @@
       t.href = "/terms#terms");
     }));
   }));
-  var S = null;
-  function L() {
-    if (S) return S;
-    try {
-      var t = JSON.parse(sessionStorage.getItem("r3Rv2") || "null");
-      if (t && t.t > Date.now() - 6e5) return S = Promise.resolve(t.l);
-    } catch (t) {}
-    return S = fetch("/review", {
-      credentials: "same-origin"
-    }).then((function(t) {
-      return t.text();
-    })).then((function(t) {
-      var e = a("._post_item_wrap", (new DOMParser).parseFromString(t, "text/html")).map((function(t) {
-        var e = n(".title", t), r = !(!e || !n(".notice-block", e)), s = e && a("em", e).filter((function(t) {
-          return !t.classList.contains("notice-block");
-        })).map((function(t) {
-          return t.textContent.trim();
-        }))[0] || "", i = e ? [].slice.call(e.childNodes).filter((function(t) {
-          return 3 === t.nodeType;
-        })).map((function(t) {
-          return t.textContent;
-        })).join(" ").replace(/\s+/g, " ").trim() : "", o = n("a.post_link_wrap", t) || n("a", t);
-        return {
-          notice: r,
-          cat: s,
-          title: i,
-          body: ((n(".text", t) || {}).textContent || "").replace(/\s+/g, " ").trim(),
-          href: o ? o.getAttribute("href") : "/review"
-        };
-      })).filter((function(t) {
-        // (10/23) '예시 수강평…실제 후기로 바꿔 주세요' 글은 빼요(진짜 후기만)
-        return t.title && !/예시 수강평|실제 후기로 바꿔/.test(t.body);
-      }));
-      try {
-        sessionStorage.setItem("r3Rv2", JSON.stringify({
-          t: Date.now(),
-          l: e
-        }));
-      } catch (t) {}
-      return e;
-    })).catch((function() {
-      return [];
-    })), S;
-  }
-  function T(t, e) {
-    return '<a class="sf-review' + (e ? " " + e : "") + '" href="' + r(t.href || "/review") + '"><span class="sf-review__course">' + r(t.cat || "수강생 후기") + '</span><span class="sf-review__top"><span class="sf-review__quote">' + r(t.title) + '</span></span><span class="sf-review__body">' + r(t.body.slice(0, 140)) + '</span><span class="sf-review__more">후기 자세히 보기 →</span></a>';
-  }
+  // (10/26) 게시판 첫 페이지를 읽어 홈·상세 후기를 채우던 L()·T() 삭제 — 후기는 SFUI.reviewData(patch/06a)로
   SFUI.register("r3ReviewData", (function() {
     var t = n("#sf-pv-review [data-sf-track]");
-    t && SFUI.once(t, "R3Rv") && L().then((function(e) {
-      e.length && (t.innerHTML = e.slice(0, 12).map((function(t) {
-        return T(t, "sf-slide");
-      })).join("")), t.classList.add("r3-rv-ready");
-    }), (function() {
-      t.classList.add("r3-rv-ready");
-    }));
-    var e = n(".sf-home-review [data-sf-track]");
-    if (e && SFUI.once(e, "R3RvHome") && L().then((function(t) {
-      var a = t.filter((function(t) {
-        return !t.notice;
-      })).slice(0, 8);
-      if (a.length) {
-        var r = n(".sf-home-review .r3-flow__row"), s = document.createElement("div");
-        s.innerHTML = a.map((function(t) {
-          return T(t);
-        })).join("");
-        var i = r || e;
-        [].slice.call(s.children).reverse().forEach((function(t) {
-          i.insertBefore(t, i.firstChild);
-        }));
-      }
-    })), /^\/review\/?$/.test(location.pathname) && !/bmode=|idx=/.test(location.search) && !window.__r3RvMore) {
+    t && t.classList.add("r3-rv-ready");
+    if (/^\/review\/?$/.test(location.pathname) && !/bmode=|idx=/.test(location.search) && !window.__r3RvMore) {
       // (10/26) 카드 하나(_card_wrap)가 아니라 목록 칸 전체에 이어 붙여요 — 안내 문구가 첫 카드 자리를 차지하고 새 후기가 첫 카드 안에 들어가던 것
       var r = n('[data-widget-type="board"] .list-style') || (n("._card_wrap") || {}).parentElement;
       if (r) {
@@ -1739,7 +1686,7 @@
               return a ? a[1] : "";
             }, e = (new DOMParser).parseFromString(t, "text/html"), s = a("._post_item_wrap").map(x), i = a('[data-widget-type="board"] ._card_wrap', e).filter((function(t) {
               var e = x(t);
-              return e && s.indexOf(e) < 0 && (s.push(e), !0);
+              return e && !(SFUI.reviewHide || {})[e] && s.indexOf(e) < 0 && (s.push(e), !0);
             }));
             i.length ? (i.forEach((function(t) {
               // (10/26) 아임웹이 다른 페이지 카드를 display:none 으로 보내요 → 숨김을 풀고 붙여요(12개만 보이던 것)

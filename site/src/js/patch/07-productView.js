@@ -295,7 +295,7 @@ SFUI.register('productView', function() {
   // (10/23) 상세 '수강생 후기' — 예시 후기 대신 공식 사이트(apply.seniorfuture.kr/reviews)의 실제 멤버 후기. 수강평 게시판에 진짜 후기가 생기면 r3ReviewData 가 그걸로 바꿔요
   function ue() {
     return '<section id="sf-pv-review" class="sf-pv-sec"><div data-sf-carousel><div class="sf-pv-sechead"><div><h2>수강생 후기</h2><p class="sf-pv-sub">시니어퓨처 스터디·네트워킹에 함께한 멤버들의 후기예요</p></div><div class="sf-pv-arrows"><button type="button" class="sf-arrow" data-sf-prev aria-label="이전 후기">‹</button><button type="button" class="sf-arrow" data-sf-next aria-label="다음 후기">›</button></div></div><div class="sf-track sf-pv-reviews" data-sf-track>' + m.map((function(e) {
-      return '<a class="sf-review sf-slide" href="/review"><span class="sf-review__course">' + oe(e[0]) + '</span><span class="sf-review__top"><span class="sf-review__quote">' + oe(e[1]) + '</span></span><span class="sf-review__body">' + oe(e[2].length > 76 ? e[2].slice(0, 76).replace(/\s+\S*$/, "") + "…" : e[2]) + '</span><span class="sf-review__more">후기 자세히 보기 →</span></a>';
+      return '<a class="sf-review sf-slide" href="' + (e[3] ? "/review/?bmode=view&idx=" + e[3] : "/review") + '"><span class="sf-review__course">' + oe(e[0]) + '</span><span class="sf-review__top">' + (e[4] ? '<img class="sf-review__thumb" src="' + oe(e[4]) + '" alt="" loading="lazy">' : "") + '<span class="sf-review__quote">' + oe(e[1]) + '</span></span><span class="sf-review__body">' + oe(e[2].length > 76 ? e[2].slice(0, 76).replace(/\s+\S*$/, "") + "…" : e[2]) + '</span><span class="sf-review__more">후기 자세히 보기 →</span></a>';
     })).join("") + '</div></div><a class="sf-pv-allreview" href="/review">후기 전체보기 →</a></section>';
   }
   function he(e) {
