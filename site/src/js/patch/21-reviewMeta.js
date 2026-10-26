@@ -26,6 +26,6 @@ SFUI.register('reviewMeta', function (root) {
       it.classList.add('sf-rv-noimg');
       if (!cw.querySelector('.sf-rv-q')) { var q = document.createElement('span'); q.className = 'sf-rv-q'; q.textContent = '“' + (tt.classList.contains('r2-ttl') ? tt.textContent : [].filter.call(tt.childNodes, function (x) { return x.nodeType === 3; }).map(function (x) { return x.textContent; }).join('')).trim() + '”'; cw.appendChild(q); }
     }
-    else if (wr) { var n = wr.textContent.trim(); wr.textContent = n === '관리자' ? '수강생' : n.charAt(0) + '○○'; }
+    else if (wr && !/님 \(|^\d+기|수강생|○○/.test(wr.textContent)) { var n = wr.textContent.trim(); wr.textContent = n === '관리자' ? '수강생' : n.charAt(0) + '○○'; } // (10/26) 이미 넣은 기수·이름은 다시 가리지 않아요
   });
 })
