@@ -5,7 +5,7 @@ SFUI.register('pastProduct', function () {
   var idx = new URLSearchParams(location.search).get('idx');
   var it = idx && SFUI.shopItems ? SFUI.shopItems()[idx] : null;
   if (!it || !it.past) return;
-  var label = it.type === 'meet' ? '지난 행사' : '모집 마감';
+  var label = '모집 마감'; // (10/26 2차) 모임·교육 모두 같은 회색 '모집 마감'
   document.documentElement.classList.add('sf-pv-past');
   [].forEach.call(document.querySelectorAll('.sf-pv *'), function (e) {
     if (!e.children.length && /^가격문의/.test(e.textContent.trim())) e.textContent = label;

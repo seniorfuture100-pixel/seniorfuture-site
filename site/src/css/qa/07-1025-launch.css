@@ -97,3 +97,8 @@ html.sf-bfade-done body [data-widget-type].r2-bgrid .type_grid.type_grid .card_w
     padding-bottom:56px!important;
   }
 }
+
+/* (10/26 2차) 지난 행사·기수 신청 버튼: 아임웹 품절 버튼 흐림(opacity .2) 대신 또렷한 회색 */
+html.sf-pv-past body .buy_btns .sf-past-btn {
+  opacity:1!important;
+}
