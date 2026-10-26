@@ -102,3 +102,11 @@ html.sf-bfade-done body [data-widget-type].r2-bgrid .type_grid.type_grid .card_w
 html.sf-pv-past body .buy_btns .sf-past-btn {
   opacity:1!important;
 }
+
+/* (10/26 2차) 지난 기수 상세: 태그 줄이 없어 할인 줄이 제목 위로 올라가던 것 → 제목 아래·가격 위로 */
+html.sf-pv-past body .sf-pv .goods_form header .sf-pv-was {
+  grid-row:3;
+}
+html.sf-pv-past body .sf-pv .goods_form header .pay_detail>.holder.table-row {
+  grid-row:4;
+}
