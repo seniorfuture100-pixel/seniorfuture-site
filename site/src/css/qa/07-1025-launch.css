@@ -65,9 +65,7 @@ html:not(.sf-ft-ready) body #doz_footer_wrap {
 }
 
 /* (10/26) 지난 행사·지난 기수 상세: 추천 수익 상자 숨김(ui/31-pastProduct.js) */
-html.sf-pv-past body .sf-pv-share {
-  display:none!important;
-}
+/* (10/26 2차) 지난 행사도 공유 상자는 보여요(사장님 요청: 교육 상품처럼) */
 
 /* (10/26) 커뮤니티: 아임웹 '헤더 겹치기' 설정(body.new_header_overlay) 때문에 내렸을 때 헤더 배경이 비침 → 흰 배경 */
 @media (min-width:768px) {
