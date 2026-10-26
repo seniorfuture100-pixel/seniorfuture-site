@@ -115,3 +115,11 @@ html.sf-pv-past body .sf-pv .goods_form header .pay_detail>.holder.table-row {
 .section_wrap:has(+ #doz_footer_wrap) .js-custom-widget-container {
   min-height:min(640px,60vh);
 }
+/* (10/26) 인사이트 '전체 글'이 늦게 뜨던 것 — 아임웹이 글 카드를 display:none 으로 보내고 자기 스크립트가 다 돈 뒤에야 보여 줘요.
+   우리 격자(r2/07)는 줄 묶음과 상관없이 같은 모양이라, 처음부터 보이게 해요(분류로 거른 카드는 아래 :has 규칙이 계속 숨김) */
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap {
+  display:block!important;
+}
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap:has(>._post_item_wrap.sf-hidden) {
+  display:none!important;
+}
