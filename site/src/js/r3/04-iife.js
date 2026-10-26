@@ -11,6 +11,15 @@
     var e = document.createElement("div");
     return e.textContent = t, e.innerHTML;
   }
+  // (10/26) 화면 전체 변화 감시는 한 프레임에 한 번만 — 주문서·마이페이지에서 글자 하나 바뀔 때마다 전체를 훑던 것
+  function rafOnce(f) {
+    var b = 0;
+    return function() {
+      b || (b = 1, requestAnimationFrame((function() {
+        b = 0, f();
+      })));
+    };
+  }
   (t = document.getElementById("sf-patch-css")) && t.textContent.indexOf("r3-early-shop") < 0 && (t.textContent += " /*r3-early-shop*/.iw-shop-card[data-kind] .iw-shop-product-summary{display:none!important}");
   var s = {
     base: 10,
@@ -1325,7 +1334,7 @@
       }
     }
     /^\/shop_mypage/.test(location.pathname) && !window.__r3Prof && (window.__r3Prof = 1, 
-    new MutationObserver(t).observe(document.body, {
+    new MutationObserver(rafOnce(t)).observe(document.body, {
       childList: !0,
       subtree: !0
     }), t(), document.addEventListener("click", (function(t) {
@@ -1611,7 +1620,7 @@
     } catch (t) {}
   }(), SFUI.register("r3MyIntro", (function() {
     /^\/shop_mypage/.test(location.pathname) && !window.__r3MyIntro && (window.__r3MyIntro = 1, 
-    new MutationObserver((function() {
+    new MutationObserver(rafOnce((function() {
       a(".r2-my-intro").some((function(t) {
         var e = t.textContent.trim();
         if (e) {
@@ -1622,7 +1631,7 @@
           !0;
         }
       }));
-    })).observe(document.body, {
+    }))).observe(document.body, {
       childList: !0,
       subtree: !0,
       characterData: !0
@@ -1722,7 +1731,7 @@
       }();
       if (t && t !== i) {
         var e, n = !1;
-        r(), (e = new MutationObserver(r)).observe(document.body, {
+        r(), (e = new MutationObserver(rafOnce(r))).observe(document.body, {
           childList: !0,
           subtree: !0
         }), setTimeout((function() {
@@ -1820,7 +1829,7 @@
       }));
     }
     /^\/shop_payment\/?$/.test(location.pathname) && !window.__r3PayNP && (window.__r3PayNP = 1, 
-    t(), new MutationObserver(t).observe(document.body, {
+    t(), new MutationObserver(rafOnce(t)).observe(document.body, {
       childList: !0,
       subtree: !0
     }));

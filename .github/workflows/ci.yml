@@ -21,3 +21,17 @@ jobs:
         run: node -e "new Function(require('fs').readFileSync('dist/sf.min.js','utf8')); require('css-tree').parse(require('fs').readFileSync('dist/sf.min.css','utf8')); console.log('ok')"
       - name: dist 가 원본과 같은지(원본만 고치고 묶음을 안 만들었으면 실패)
         run: git diff --exit-code -- dist site/dist
+      - name: 코드 정리 상태(부품 이름 중복·묶음 빠진 파일·비밀값·옛 브라우저 문법)
+        run: node tools/check/lint.js
+  # 묶음을 빈 아임웹 뼈대에 넣어 휴대폰·태블릿·PC 너비로 열어 보는 기본 확인 — 운영 사이트에는 접속하지 않아요
+  smoke:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: node tools/check/smoke.js
+# 이 작업은 검사만 해요. 운영 사이트 반영(태그·아임웹 공통 코드 교체)은 자동으로 하지 않아요 — 사람이 확인한 뒤 손으로.

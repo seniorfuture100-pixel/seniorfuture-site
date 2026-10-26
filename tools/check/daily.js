@@ -1,5 +1,5 @@
 // 매일 공개 사이트 점검(깃허브 Actions 에서 실행): node tools/check/daily.js
-// 로그인 안 한 손님 눈으로 화면마다 휴대폰(390)·PC(1280) 크기로 열어 봐요.
+// 로그인 안 한 손님 눈으로 화면마다 휴대폰(390)·태블릿(768)·PC(1280) 크기로 열어 봐요.
 //  - 페이지가 열리는지(아직 공개 안 한 화면은 '공개 전'으로만 적고 실패로 치지 않음)
 //  - 꾸밈 코드(sf.min.js·sf.min.css)가 실제로 읽혔는지, 꾸밈 코드에서 오류가 났는지
 //  - 헤더·푸터가 있는지, 가로로 넘치는지, 휴대폰 하단 탭바가 보이는지
@@ -11,8 +11,8 @@ const PAGES = [['홈', '/'], ['교육', '/course'], ['무료 라이브', '/live'
   ['검색', '/search'], ['로그인', '/login'], ['회원가입', '/site_join_type_choice']];
 const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
 (async () => {
-  const br = await chromium.launch(), rows = [], bad = [];
-  for (const [w, h, mobile] of [[390, 844, true], [1280, 860, false]]) {
+  const br = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {}), rows = [], bad = [];
+  for (const [w, h, mobile] of [[390, 844, true], [768, 1024, true], [1280, 860, false]]) {
     const ctx = await br.newContext({ viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile, locale: 'ko-KR' });
     for (const [name, url] of PAGES) {
       const page = await ctx.newPage(), errs = [];
@@ -28,7 +28,7 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
           sfui: !!window.SFUI, css: !!q('#sf-css, style#sf-ui-css'), hd: H.classList.contains('sf-hd-on') || vis(q('.sf-mh')),
           ft: vis(q('#doz_footer_wrap')), wide: H.scrollWidth - innerWidth, tab: !m || H.classList.contains('sf-auth-on') || vis(q('.sf-tabbar'))  // 로그인·가입 화면은 일부러 탭바를 숨김
         };
-      }, mobile).catch(e => ({ err: String(e) }));
+      }, w < 768).catch(e => ({ err: String(e) }));  // 하단 탭바는 767px 이하에서만(태블릿은 헤더 메뉴)
       const p = [];
       if (st && st >= 400) p.push('응답 ' + st);
       if (r.err) p.push(r.err);
