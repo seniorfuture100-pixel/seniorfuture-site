@@ -68,3 +68,16 @@ html:not(.sf-ft-ready) body #doz_footer_wrap {
 html.sf-pv-past body .sf-pv-share {
   display:none!important;
 }
+
+/* (10/26) 커뮤니티: 아임웹 '헤더 겹치기' 설정(body.new_header_overlay) 때문에 내렸을 때 헤더 배경이 비침 → 흰 배경 */
+@media (min-width:768px) {
+  html.sf-hd-on body.new_header_overlay #doz_header {
+    background:#fff;
+    box-shadow:0 1px 0 var(--sf-border);
+  }
+}
+
+/* (10/26) 지난 기수·지난 행사 상세: 신청 버튼 → 회색 '모집 마감'(ui/31-pastProduct.js 가 r3-closed-btn 붙임 — 회색은 기존 r3-closed-btn 규칙) */
+html.sf-pv-past body .buy_btns .defualt-cart {
+  display:none!important;
+}

@@ -56,7 +56,7 @@
     var sel = pane.querySelector('.sf-myp-flt select'), body = pane.querySelector('tbody'), all = [];
     function draw() {
       var cat = sel.value;
-      var rows = all.filter(function (x) { return !cat || (items[x.id] || {}).cat === cat; });
+      var rows = all.filter(function (x) { var t = items[x.id] || {}; return !t.past && !x.soldout && (!cat || t.cat === cat); });
       rows.sort(function (a, b) { return b.id - a.id; });
       body.innerHTML = rows.length ? rows.map(function (x) {
         var earn = Math.floor(x.price * c.rate / 100);

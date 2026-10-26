@@ -39,6 +39,18 @@
 :root .sf-shop .iw-shop-card[data-past] .iw-card-price {
   font-size:0!important;
 }
+/* 교육 지난 기수는 카드에 다른 표시가 없어 가격 자리에 '모집 마감'을 보여 줌(모임 카드는 위쪽 태그로 충분) */
+:root .sf-shop .iw-shop-card[data-sf-card=course][data-past] .iw-card-price {
+  display:block!important;
+}
+/* (10/26) 지난 행사·지난 기수: 아임웹 '품절' 글씨·SOLDOUT 표시 숨김(사진 어둡게는 유지) */
+:root .sf-shop .iw-shop-card[data-past] .iw-shop-status-overlay {
+  font-size:0!important;
+  color:transparent!important;
+}
+:root .sf-shop .iw-shop-card[data-past] .iw-shop-badge--sold-out {
+  display:none!important;
+}
 :root .sf-shop .iw-shop-card[data-past] .iw-card-price * {
   display:none!important;
 }
