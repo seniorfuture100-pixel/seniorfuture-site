@@ -49,48 +49,6 @@
         }
       }
     }));
-  })), SFUI.register("r3PvTabs", (function() {
-    var t = n(".sf-pv-tabs");
-    if (t && SFUI.once(t, "R3Tabs")) {
-      var e = 0;
-      t.addEventListener("click", (function(t) {
-        var n = t.target.closest && t.target.closest('a[href^="#"]');
-        if (n) {
-          var a = document.getElementById(n.getAttribute("href").slice(1));
-          a && (t.preventDefault(), t.stopImmediatePropagation(), s(n), e = Date.now() + 1200, 
-          window.scrollTo({
-            top: Math.max(0, a.getBoundingClientRect().top + window.scrollY - r() + 1),
-            behavior: "smooth"
-          }), setTimeout((function() {
-            e = 0, i();
-          }), 1250));
-        }
-      }), !0), window.addEventListener("scroll", i, {
-        passive: !0
-      }), i(), setTimeout(i, 300);
-    }
-    function r() {
-      var e = parseFloat(getComputedStyle(t).top);
-      return (isNaN(e) ? 0 : e) + t.offsetHeight + 16;
-    }
-    function s(e) {
-      a("a", t).forEach((function(t) {
-        var n = t === e;
-        t.classList.toggle("is-active", n), n ? t.setAttribute("aria-current", "true") : t.removeAttribute("aria-current");
-      }));
-    }
-    function i() {
-      if (!(Date.now() < e)) {
-        var n = a('a[href^="#"]', t).filter((function(t) {
-          return null !== t.offsetParent;
-        })), i = 0, o = r();
-        n.forEach((function(t, e) {
-          var n = document.getElementById(t.getAttribute("href").slice(1));
-          n && null !== n.offsetParent && n.getBoundingClientRect().top - o <= 4 && (i = e);
-        })), window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4 && (i = n.length - 1), 
-        s(n[i]);
-      }
-    }
   })), SFUI.register("r3Footer", (function() {
     var t = n(".sf-ft");
     if (t && SFUI.once(t, "R3")) {
@@ -268,10 +226,10 @@
             }
           }));
           var u = a('[data-widget-type="board"] ._post_item_wrap').filter((function(t) {
-            return !t.classList.contains("sf-hidden") && function(t) {
+            return !t.classList.contains("sf-hidden") && ("all" === e || function(t) {
               var e = t.querySelector(".title em:not(.notice-block):not(.addon-badge)");
               return e ? e.textContent.trim() : "";
-            }(t) === e;
+            }(t) === e);
           })).length;
           a(".r2-count").forEach((function(t) {
             t.textContent = u + "개의 글";
@@ -425,7 +383,12 @@
         return !t.contains(e) && !e.closest("#doz_header_wrap") && e.getBoundingClientRect().height;
       })), n = e[e.length - 1];
       // 10/25: 우리 위젯(.sf-scope)으로 만든 페이지는 위젯이 아래 여백까지 스스로 정해요 → 아임웹 섹션 아래 여백 0(크기 바꿀 때 흰 띠 안 생기게)
-      if (n && n.querySelector(".sf-scope") && !n.querySelector('.js-custom-widget-container, [data-widget-type="board"]')) { // (10/26) 상품·게시판 목록 칸은 제외 — 마지막 글자에서 푸터까지 96px로 모든 목록 페이지 통일
+      // (10/26) 교육·라이브·커뮤니티·인사이트 목록 칸은 CSS(qa/07) 한 곳에서 여백을 정해요 → JS는 손대지 않음(열 때 푸터가 조금씩 올라가던 것)
+      if (n && n.querySelector('.js-custom-widget-container, [data-widget-type="board"]')) {
+        n.style.removeProperty("padding-bottom"), n.style.removeProperty("margin-bottom");
+        return;
+      }
+      if (n && n.querySelector(".sf-scope")) {
         n.style.setProperty("padding-bottom", "0px", "important"), n.style.setProperty("margin-bottom", "0px", "important");
         return;
       }

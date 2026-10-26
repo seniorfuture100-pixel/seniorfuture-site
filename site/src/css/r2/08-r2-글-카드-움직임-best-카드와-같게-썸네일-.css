@@ -1,7 +1,6 @@
 /* 화면 묶음: pages-r2 | 원본: src/r2.css · 글 카드 움직임: BEST 카드와 같게 (썸네일 살짝 떠오름·그림자, 제목 주황, 사진 부드럽게 나타남) */
 :root body [data-widget-type].r2-bgrid .type_grid.type_grid .card_wrapper {
   transition:transform .25s var(--sf-ease),box-shadow .2s var(--sf-ease)!important;
-  animation:r2-bfade .6s var(--sf-ease) both;
 }
 :root body [data-widget-type].r2-bgrid .type_grid.type_grid .card-head {
   transform:none!important;

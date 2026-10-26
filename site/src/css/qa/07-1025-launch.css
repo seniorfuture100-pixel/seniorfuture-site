@@ -84,18 +84,10 @@ html.sf-pv-past body .buy_btns .defualt-cart {
 :root body .r2-count {
   display:none!important;
 }
-/* (10/26) 인사이트 분류 탭을 누른 뒤엔 썸네일 나타남 움직임을 다시 하지 않아요(ui/32-footFill.js) */
-html.sf-bfade-done body [data-widget-type].r2-bgrid .type_grid.type_grid .card_wrapper {
-  animation:none!important;
-}
-/* (10/26) 교육·라이브·커뮤니티 목록: 마지막 줄 카드와 푸터 사이 여백 */
-.section_wrap:has(+ #doz_footer_wrap):has(.js-custom-widget-container) {
+/* (10/26) 교육·무료 라이브·커뮤니티·인사이트 목록: 마지막 카드와 푸터 사이 여백을 한 곳에서(PC·휴대폰 같은 값, JS r3FootGap은 이 칸을 건드리지 않음) */
+.section_wrap:has(+ #doz_footer_wrap):is(:has(.js-custom-widget-container), :has([data-widget-type=board])) {
   padding-bottom:96px!important;
-}
-@media (max-width:767.98px) {
-  .section_wrap:has(+ #doz_footer_wrap):has(.js-custom-widget-container) {
-    padding-bottom:56px!important;
-  }
+  margin-bottom:0!important;
 }
 
 /* (10/26 2차) 지난 행사·기수 신청 버튼: 아임웹 품절 버튼 흐림(opacity .2) 대신 또렷한 회색 */

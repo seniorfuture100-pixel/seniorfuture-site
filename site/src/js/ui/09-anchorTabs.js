@@ -27,10 +27,11 @@ SFUI.register('anchorTabs', function (root) {
       });
     });
     function onScroll() {
-      if (Date.now() < lockUntil) return;
+      if (Date.now() < lockUntil) { lockUntil = Date.now() + 250; return; } // (10/26) 누른 탭으로 스크롤이 끝날 때까지 색 유지
       var cur = 0, off = offset();
-      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top - off <= 16) cur = i; });
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) { for (var k = targets.length - 1; k >= 0; k--) if (targets[k] && targets[k].getBoundingClientRect().top < window.innerHeight) { cur = Math.max(cur, k); break; } }
+      function shown(i) { var t = targets[i]; return t && t.offsetParent !== null && links[i].offsetParent !== null; } // 숨긴 탭·구역(문의 등)은 건너뜀
+      targets.forEach(function (t, i) { if (shown(i) && t.getBoundingClientRect().top - off <= 16) cur = i; });
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) { for (var k = targets.length - 1; k >= 0; k--) if (shown(k) && targets[k].getBoundingClientRect().top < window.innerHeight) { cur = Math.max(cur, k); break; } }
       setActive(cur);
     }
     window.addEventListener('scroll', onScroll, { passive: true });
