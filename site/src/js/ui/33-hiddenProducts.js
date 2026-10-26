@@ -2,7 +2,7 @@
 /* hiddenProducts — 아임웹에서 '숨김'으로 바꾼 예시 모임(15~22)으로 가는 코드 카드(홈 BEST·추천 강의 등)를 빼요.
    카드가 다 빠진 목록은 그 구역째 숨겨요. 실제 상품이 다시 생기면 번호를 여기서 지우면 돼요. */
 SFUI.register('hiddenProducts', function (root) {
-  var H = { 15: 1, 16: 1, 17: 1, 18: 1, 19: 1, 20: 1, 21: 1, 22: 1 };
+  var H = { 19: 1, 20: 1, 21: 1, 22: 1 }; // (10/26) 15~18은 예시 모임으로 다시 보여요
   [].forEach.call((root || document).querySelectorAll('.sf-scope a[href*="idx="], .sf-pv a[href*="idx="]'), function (a) {
     var m = /\/(course|community)\/?\?idx=(\d+)/.exec(a.getAttribute('href') || '');
     if (!m || !H[m[2]]) return;
