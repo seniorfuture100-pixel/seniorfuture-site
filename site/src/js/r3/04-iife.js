@@ -440,7 +440,7 @@
                   if ("fixed" !== o.position && "sticky" !== o.position && "hidden" !== o.visibility) {
                     var c = s.tagName, l = /^(IMG|BUTTON|INPUT|SELECT|TEXTAREA|IFRAME|VIDEO|SVG|svg)$/.test(c) || [].some.call(s.childNodes, (function(t) {
                       return 3 === t.nodeType && t.textContent.trim();
-                    })), d = o.backgroundColor;
+                    })) || s.classList && s.classList.contains("js-custom-widget-container"), d = o.backgroundColor; // (10/26) 목록 칸(최소 높이) 전체를 내용으로 — 필터로 비어도 여백을 다시 줄이지 않게
                     !l && i.width < .95 * e && (l = "rgba(0, 0, 0, 0)" !== d && "transparent" !== d && d !== r && "rgb(255, 255, 255)" !== d || "none" !== o.backgroundImage || parseFloat(o.borderBottomWidth) > 0), 
                     l && (a = i.bottom);
                   }
@@ -472,7 +472,7 @@
     })), window.addEventListener("resize", (function() {
       clearTimeout(t), t = setTimeout(_, 250);
     })), document.addEventListener("click", (function() {
-      setTimeout(_, 700);
+      requestAnimationFrame(_), setTimeout(_, 700); // (10/26) 필터 누른 바로 다음 그림에서 맞춤 → 0.7초 뒤 두 번째로 움직이던 것 없앰
     }), !0));
   })), SFUI.register("r3StaticCarousel", (function() {
     var t;
