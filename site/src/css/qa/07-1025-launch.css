@@ -153,3 +153,14 @@ html.sf-pv-past body .sf-pv .goods_form header .pay_detail>.holder.table-row {
 :root.r2-ins body [data-widget-type=board] ._list_bottom {
   display:none!important;
 }
+
+/* (10/26) 참가자 후기(수강평): 분류 표시 없이 후기 모음으로, 이어 불러오기 자리 없음 */
+html.sf-rv-page body [data-widget-type=board] .r2-icat,
+html.sf-rv-page body [data-widget-type=board] ._post_item_wrap .title em:not(.notice-block),
+html.sf-rv-page body .sf-bv-crumb .is-cat,
+html.sf-rv-page body .sf-bv-more__list small {
+  display:none!important;
+}
+html.sf-rv-page body .r3-rv-more {
+  display:none!important;
+}

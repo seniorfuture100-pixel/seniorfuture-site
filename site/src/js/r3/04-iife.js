@@ -1719,17 +1719,14 @@
           window.__r3RvMore = 1, s.style.display = "none";
           var i = 1, o = !1, c = !1, l = document.createElement("div");
           l.className = "r3-rv-more", l.setAttribute("aria-live", "polite"), r.parentNode.insertBefore(l, r.nextSibling), 
-          document.addEventListener("scroll", d, {
-            capture: !0,
-            passive: !0
-          }), setTimeout(d, 600);
+          setTimeout(d, 0); // (10/26) 스크롤 기다리지 않고 처음부터 끝까지 차례로 불러와요
         }
       }
     }
     function d() {
-      l.getBoundingClientRect().top < (window.innerHeight || 800) + 400 && function() {
+      (function() {
         if (!o && !c) {
-          o = !0, i++, l.textContent = "후기를 더 불러오고 있어요…";
+          o = !0, i++;
           var t = new URL(location.href);
           t.searchParams.set("page", i), fetch(t.toString(), {
             credentials: "same-origin"
@@ -1742,16 +1739,16 @@
               var e = n("a.post_link_wrap", t);
               return e && s.indexOf(e.getAttribute("href")) < 0;
             }));
-            l.textContent = "", i.length ? i.forEach((function(t) {
+            i.length ? (i.forEach((function(t) {
               r.appendChild(document.importNode(t, !0));
-            })) : c = !0;
+            })), SFUI.init(r), setTimeout(d, 50)) : c = !0;
           })).catch((function() {
             c = !0, l.textContent = "";
           })).then((function() {
             o = !1;
           }));
         }
-      }();
+      })();
     }
   })), SFUI.register("r3RefOrder", (function() {
     if (/^\/shop_payment\/?$/.test(location.pathname) && !window.__r3RefOrder) {

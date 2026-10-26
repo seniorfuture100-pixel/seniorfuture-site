@@ -1,138 +1,134 @@
 [
- {
-  "file": "01-iife.js",
-  "stmt": false
- },
- {
-  "file": "02-topBanner.js",
-  "stmt": false
- },
- {
-  "file": "03-dropdown.js",
-  "stmt": false
- },
- {
-  "file": "03b-homeBanner.js",
-  "stmt": false
- },
- {
-  "file": "04-carousel.js",
-  "stmt": false
- },
- {
-  "file": "05-categoryFilter.js",
-  "stmt": false
- },
- {
-  "file": "06-liveStatus.js",
-  "stmt": false
- },
- {
-  "file": "07-countdown.js",
-  "stmt": false
- },
- {
-  "file": "08-sessionStatus.js",
-  "stmt": false
- },
- {
-  "file": "09-anchorTabs.js",
-  "stmt": false
- },
- {
-  "file": "10-stickyBox.js",
-  "stmt": false
- },
- {
-  "file": "11-accordion.js",
-  "stmt": false
- },
- {
-  "file": "12-iife.js",
-  "stmt": false
- },
- {
-  "file": "13-recentSearch.js",
-  "stmt": false
- },
- {
-  "file": "14-drawer.js",
-  "stmt": false
- },
- {
-  "file": "15-tabbar.js",
-  "stmt": false
- },
- {
-  "file": "16-aboutMotion.js",
-  "stmt": false
- },
- {
-  "file": "17-classroom.js",
-  "stmt": false
- },
- {
-  "file": "18-share.js",
-  "stmt": false
- },
- {
-  "file": "19-biz.js",
-  "stmt": false
- },
- {
-  "file": "20-shareReward.js",
-  "stmt": false
- },
- {
-  "file": "21-iife.js",
-  "stmt": false
- },
- {
-  "file": "22-siteChrome.js",
-  "stmt": false
- },
- {
-  "file": "23-formSlot.js",
-  "stmt": false
- },
- {
-  "file": "24-aboutStory.js",
-  "stmt": false
- },
- {
-  "file": "25-aboutV7.js",
-  "stmt": false
- },
- {
-  "file": "26-videoResume.js",
-  "stmt": false
- },
- {
-  "file": "27-pressFlow.js",
-  "stmt": false
- },
- {
-  "file": "28-partnersJoin.js",
-  "stmt": false
- },
- {
-  "file": "29-myPartners.js",
-  "stmt": false
- },
- {
-  "file": "30-footerReady.js",
-  "stmt": false
- },
- {
-  "file": "31-pastProduct.js",
-  "stmt": false
- },
- {
-  "file": "32-footFill.js",
-  "stmt": false
- },
- {
-  "file": "33-hiddenProducts.js",
-  "stmt": false
- }
+  {
+    "file": "01-iife.js",
+    "stmt": false
+  },
+  {
+    "file": "02-topBanner.js",
+    "stmt": false
+  },
+  {
+    "file": "03-dropdown.js",
+    "stmt": false
+  },
+  {
+    "file": "03b-homeBanner.js",
+    "stmt": false
+  },
+  {
+    "file": "04-carousel.js",
+    "stmt": false
+  },
+  {
+    "file": "05-categoryFilter.js",
+    "stmt": false
+  },
+  {
+    "file": "06-liveStatus.js",
+    "stmt": false
+  },
+  {
+    "file": "07-countdown.js",
+    "stmt": false
+  },
+  {
+    "file": "08-sessionStatus.js",
+    "stmt": false
+  },
+  {
+    "file": "09-anchorTabs.js",
+    "stmt": false
+  },
+  {
+    "file": "10-stickyBox.js",
+    "stmt": false
+  },
+  {
+    "file": "11-accordion.js",
+    "stmt": false
+  },
+  {
+    "file": "12-iife.js",
+    "stmt": false
+  },
+  {
+    "file": "13-recentSearch.js",
+    "stmt": false
+  },
+  {
+    "file": "14-drawer.js",
+    "stmt": false
+  },
+  {
+    "file": "15-tabbar.js",
+    "stmt": false
+  },
+  {
+    "file": "16-aboutMotion.js",
+    "stmt": false
+  },
+  {
+    "file": "17-classroom.js",
+    "stmt": false
+  },
+  {
+    "file": "18-share.js",
+    "stmt": false
+  },
+  {
+    "file": "19-biz.js",
+    "stmt": false
+  },
+  {
+    "file": "20-shareReward.js",
+    "stmt": false
+  },
+  {
+    "file": "21-iife.js",
+    "stmt": false
+  },
+  {
+    "file": "23-formSlot.js",
+    "stmt": false
+  },
+  {
+    "file": "24-aboutStory.js",
+    "stmt": false
+  },
+  {
+    "file": "25-aboutV7.js",
+    "stmt": false
+  },
+  {
+    "file": "26-videoResume.js",
+    "stmt": false
+  },
+  {
+    "file": "27-pressFlow.js",
+    "stmt": false
+  },
+  {
+    "file": "28-partnersJoin.js",
+    "stmt": false
+  },
+  {
+    "file": "29-myPartners.js",
+    "stmt": false
+  },
+  {
+    "file": "30-footerReady.js",
+    "stmt": false
+  },
+  {
+    "file": "31-pastProduct.js",
+    "stmt": false
+  },
+  {
+    "file": "32-footFill.js",
+    "stmt": false
+  },
+  {
+    "file": "33-hiddenProducts.js",
+    "stmt": false
+  }
 ]
