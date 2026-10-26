@@ -146,3 +146,10 @@ html.sf-pv-past body .sf-pv .goods_form header .pay_detail>.holder.table-row {
   background:var(--sf-text);
   color:#fff;
 }
+/* (10/26) 인사이트 목록 아래 아임웹 빈 줄(li_footer 위 15px·목록 아래 15px) 제거 → 다른 목록과 같은 96px */
+:root.r2-ins body [data-widget-type=board] ._list_wrap {
+  margin-bottom:0!important;
+}
+:root.r2-ins body [data-widget-type=board] ._list_bottom {
+  display:none!important;
+}
