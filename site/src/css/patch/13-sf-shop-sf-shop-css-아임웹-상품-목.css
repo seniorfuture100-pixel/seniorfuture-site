@@ -55,3 +55,8 @@
   color:var(--sf-text-3);
   font:400 13px/1.5 var(--sf-font);
 }
+
+/* (10/26) 제목 1줄·2줄 카드 높이가 달라 필터마다 버튼 위치가 바뀌던 것 → 제목 칸을 늘 2줄 높이로 */
+:root .sf-shop:not(.sf-shop--meet) .iw-shop-product-name {
+  min-height:3em;
+}

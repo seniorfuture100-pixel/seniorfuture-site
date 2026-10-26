@@ -123,3 +123,34 @@ html.sf-pv-past body .sf-pv .goods_form header .pay_detail>.holder.table-row {
 :root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap:has(>._post_item_wrap.sf-hidden) {
   display:none!important;
 }
+
+/* (10/26) 인사이트 페이지 번호 숨김(전체 글을 한 번에 이어 붙여요 — js r3InsightAll) */
+:root.r2-ins body [data-widget-type=board] .pagination,
+:root.r2-ins body [data-widget-type=board] .paging-block {
+  display:none!important;
+}
+
+/* (10/26) 찜한 내역이 없을 때 안내 */
+:root .r3-wish--empty {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:72px 16px;
+  border-radius:16px;
+  background:var(--sf-surface,#f7f8fa);
+  text-align:center;
+}
+:root .r3-wish--empty strong {
+  color:var(--sf-text);
+  font:600 16px/1.5 var(--sf-font);
+}
+:root .r3-wish--empty span {
+  color:var(--sf-text-3);
+  font:400 14px/1.5 var(--sf-font);
+}
+:root .r3-wish--empty .sf-btn {
+  margin-top:8px;
+  background:var(--sf-text);
+  color:#fff;
+}

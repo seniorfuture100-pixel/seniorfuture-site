@@ -220,7 +220,7 @@
       })), i = [];
       var t = r.querySelector("[data-cat].is-active"), e = t ? t.getAttribute("data-cat") : "all";
       a('[data-widget-type="board"] .paging-block, [data-widget-type="board"] .pagination').forEach((function(t) {
-        t.style.display = "all" === e ? "" : "none";
+        t.style.display = "none"; // (10/26) 페이지 번호 없이 전체 글을 한 번에
       }));
       var s = function() {
         a('[data-widget-type="board"] ._card_wrap').forEach((function(t) {
@@ -228,7 +228,7 @@
           t.style.display = e && e.classList.contains("sf-hidden") ? "none" : "";
         }));
       };
-      s(), setTimeout(s, 300), setTimeout(s, 1e3), "all" !== e && c().then((function(t) {
+      s(), setTimeout(s, 300), setTimeout(s, 1e3), c().then((function(t) {
         var s, c = (s = a('[data-widget-type="board"] ._post_row'))[s.length - 1] || n('[data-widget-type="board"] ._list_wrap .list-style');
         if (c && ((r.querySelector("[data-cat].is-active") || {}).getAttribute ? r.querySelector("[data-cat].is-active").getAttribute("data-cat") : "all") === e) {
           var l = {};
@@ -240,7 +240,7 @@
               var r = o(n);
               if (r && !l[r]) {
                 var s = (n.querySelector(".title em:not(.notice-block):not(.addon-badge)") || {}).textContent;
-                if (s && s.trim() === e) {
+                if ("all" === e || s && s.trim() === e) {
                   l[r] = 1;
                   var u = document.importNode(t, !0);
                   u.classList.add("r3-ins-more"), u.style.display = "", a('[style*="display"]', u).forEach((function(t) {
@@ -425,7 +425,7 @@
         return !t.contains(e) && !e.closest("#doz_header_wrap") && e.getBoundingClientRect().height;
       })), n = e[e.length - 1];
       // 10/25: 우리 위젯(.sf-scope)으로 만든 페이지는 위젯이 아래 여백까지 스스로 정해요 → 아임웹 섹션 아래 여백 0(크기 바꿀 때 흰 띠 안 생기게)
-      if (n && n.querySelector(".sf-scope") && !n.querySelector(".js-custom-widget-container")) { // (10/26) 상품 목록 칸은 제외 — 교육 목록 아래 여백이 0이 돼 푸터가 카드에 붙었어요
+      if (n && n.querySelector(".sf-scope") && !n.querySelector('.js-custom-widget-container, [data-widget-type="board"]')) { // (10/26) 상품·게시판 목록 칸은 제외 — 마지막 글자에서 푸터까지 96px로 모든 목록 페이지 통일
         n.style.setProperty("padding-bottom", "0px", "important"), n.style.setProperty("margin-bottom", "0px", "important");
         return;
       }
@@ -442,7 +442,7 @@
                   if ("fixed" !== o.position && "sticky" !== o.position && "hidden" !== o.visibility) {
                     var c = s.tagName, l = /^(IMG|BUTTON|INPUT|SELECT|TEXTAREA|IFRAME|VIDEO|SVG|svg)$/.test(c) || [].some.call(s.childNodes, (function(t) {
                       return 3 === t.nodeType && t.textContent.trim();
-                    })) || s.classList && s.classList.contains("js-custom-widget-container"), d = o.backgroundColor; // (10/26) 목록 칸(최소 높이) 전체를 내용으로 — 필터로 비어도 여백을 다시 줄이지 않게
+                    })), d = o.backgroundColor;
                     !l && i.width < .95 * e && (l = "rgba(0, 0, 0, 0)" !== d && "transparent" !== d && d !== r && "rgb(255, 255, 255)" !== d || "none" !== o.backgroundImage || parseFloat(o.borderBottomWidth) > 0), 
                     l && (a = i.bottom);
                   }
@@ -1235,7 +1235,12 @@
       if (t && SFUI.once(t, "R3Wish")) {
         var e = n("h6", t), s = e && n("span", e);
         s && /위시리스트/.test(s.textContent) && (s.textContent = "찜한 내역"), e && e.classList.remove("hidden-sm", "hidden-xs");
-        var i = a("._shop_item", t);
+        var i = a("._shop_item", t).filter((function(x) { // (10/26) 숨긴 상품(예시 모임 등)은 링크가 비어 카드가 안 생기고 화면이 비었어요 → 빼고 셈
+          return !x.classList.contains("hide-prod");
+        }));
+        a(".b_cnt, h6 em", t).forEach((function(x) {
+          x.textContent = i.length;
+        }));
         if (i.length) {
           var o = i.map((function(t) {
             var e = n(".item-title a", t) || n('a[href*="idx="]', t), a = e ? e.getAttribute("href") : "", r = n("._org_img", t), s = r && (r.getAttribute("style") || "").match(/url\(["']?([^"')]+)/), i = n("img", t);
@@ -1309,7 +1314,12 @@
               }
             })), t.appendChild(d), t.classList.add("r3-wish-on");
           }();
-        } else t.classList.add("r3-wish-empty");
+        } else {
+          var w = n(".clearfix", t), q = document.createElement("div");
+          w && w.classList.add("r3-wish-src"), q.className = "sf-scope r3-wish r3-wish--empty",
+          q.innerHTML = '<strong>아직 찜한 강의가 없어요</strong><span>마음에 드는 강의의 하트를 누르면 여기에 모여요</span><a class="sf-btn sf-btn--s" href="/course">강의 둘러보기</a>',
+          t.appendChild(q), t.classList.add("r3-wish-on", "r3-wish-empty");
+        }
       }
     }
   })), SFUI.register("r3Profile", (function() {
