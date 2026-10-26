@@ -222,7 +222,7 @@
       o("h2, h3, strong").some((function(e) {
         if ("전체 글" === e.textContent.trim() && !e.children.length) return d = e, !0;
       })), a && a.addEventListener("click", (function() {
-        setTimeout(f, 0);
+        requestAnimationFrame(f); // (10/26) 분류 제목·BEST 숨김도 같은 그림에서
       })), f(), setTimeout(f, 600);
     }
     function f() {

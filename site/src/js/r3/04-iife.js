@@ -181,8 +181,10 @@
       if (r && SFUI.once(r, "R3All")) {
         var s = null, i = [];
         r.addEventListener("click", (function() {
-          setTimeout(l, 80);
-        })), setTimeout(l, 700);
+          requestAnimationFrame(l); // (10/26) 다음 그림 전에 채움 — 줄었다 커지던 것 없앰
+        })), setTimeout((function() {
+          l(), c(); // 다른 페이지 글을 미리 받아 둬서 분류를 처음 눌러도 바로 채워져요
+        }), 700);
       }
     }
     function o(t) {
