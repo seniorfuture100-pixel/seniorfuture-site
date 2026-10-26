@@ -1675,39 +1675,40 @@
       }
     }
     function d() {
-      (function() {
-        if (!o && !c) {
-          o = !0, i++;
-          var t = new URL(location.href);
-          t.searchParams.set("page", i), fetch(t.toString(), {
-            credentials: "same-origin"
-          }).then((function(t) {
-            return t.text();
-          })).then((function(t) {
-            // (10/26) 같은 글인지 글 번호(idx)로 비교 — 주소 뒤 page·q 값이 달라 같은 후기가 여러 번 붙었어요
-            var x = function(t) {
-              var e = n("a.post_link_wrap", t), a = e && (e.getAttribute("href") || "").match(/idx=(\d+)/);
-              return a ? a[1] : "";
-            }, e = (new DOMParser).parseFromString(t, "text/html"), s = a("._post_item_wrap").map(x), i = a('[data-widget-type="board"] ._card_wrap', e).filter((function(t) {
-              var e = x(t);
-              return e && !(SFUI.reviewHide || {})[e] && s.indexOf(e) < 0 && (s.push(e), !0);
-            }));
-            i.length ? (i.forEach((function(t) {
-              // (10/26) 아임웹이 다른 페이지 카드를 display:none 으로 보내요 → 숨김을 풀고 붙여요(12개만 보이던 것)
-              var u = document.importNode(t, !0);
-              [ u ].concat(a('[style*="display"]', u)).forEach((function(e) {
-                /display:\s*none/.test(e.getAttribute("style") || "") && (e.style.display = "");
-              })), a("img[data-src]", u).forEach((function(e) {
-                e.getAttribute("src") && !/blank|data:/.test(e.getAttribute("src")) || (e.src = e.getAttribute("data-src"));
-              })), r.appendChild(u);
-            })), SFUI.init(r), setTimeout(d, 50)) : c = !0;
-          })).catch((function() {
-            c = !0, l.textContent = "";
-          })).then((function() {
-            o = !1;
+      // (10/26) 2~8페이지를 한꺼번에 받아 페이지 순서대로 한 번에 붙여요 — 하나씩 붙일 때마다 높이가 바뀌어 스크롤이 끊겼어요
+      if (o || c) return;
+      o = !0;
+      var x = function(t) {
+        var e = n("a.post_link_wrap", t), a = e && (e.getAttribute("href") || "").match(/idx=(\d+)/);
+        return a ? a[1] : "";
+      }, s = a("._post_item_wrap").map(x), u = [];
+      for (var k = 2; k <= 8; k++) {
+        var t = new URL(location.href);
+        t.searchParams.set("page", k), u.push(fetch(t.toString(), {
+          credentials: "same-origin"
+        }).then((function(t) {
+          return t.text();
+        })).catch((function() {
+          return "";
+        })));
+      }
+      Promise.all(u).then((function(t) {
+        var e = document.createDocumentFragment(), i = 0;
+        t.some((function(t) {
+          var l = a('[data-widget-type="board"] ._card_wrap', (new DOMParser).parseFromString(t, "text/html")).filter((function(t) {
+            var e = x(t);
+            return e && !(SFUI.reviewHide || {})[e] && s.indexOf(e) < 0 && (s.push(e), !0);
           }));
-        }
-      })();
+          return l.forEach((function(t) {
+            var n = document.importNode(t, !0);
+            [ n ].concat(a('[style*="display"]', n)).forEach((function(t) {
+              /display:\s*none/.test(t.getAttribute("style") || "") && (t.style.display = "");
+            })), e.appendChild(n), i++;
+          })), !l.length;
+        })), i && (r.appendChild(e), SFUI.init(r)), c = !0;
+      })).catch((function() {
+        c = !0;
+      }));
     }
   })), SFUI.register("r3RefOrder", (function() {
     if (/^\/shop_payment\/?$/.test(location.pathname) && !window.__r3RefOrder) {

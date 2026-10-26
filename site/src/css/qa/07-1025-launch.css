@@ -170,3 +170,20 @@ html.sf-rv-page body [data-widget-type=board] ._list_wrap {
 html.sf-rv-page body [data-widget-type=board] ._list_bottom {
   display:none!important;
 }
+/* (10/26) 사진 없는 참가자 후기: 회색 '이미지 없음' 대신 한 줄 인용 상자 */
+html.sf-rv-page body [data-widget-type=board] .sf-rv-noimg .card_wrapper {
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  padding:24px!important;
+  background:var(--sf-brand-tint,#fff5f0)!important;
+}
+html.sf-rv-page body [data-widget-type=board] .sf-rv-noimg .card_wrapper > :not(.sf-rv-q) {
+  display:none!important;
+}
+html.sf-rv-page body [data-widget-type=board] .sf-rv-noimg .sf-rv-q {
+  color:var(--sf-text-brand,#e14d00);
+  font:700 18px/1.5 var(--sf-font);
+  text-align:center;
+  word-break:keep-all;
+}
