@@ -14,6 +14,14 @@ SFUI.register('productView', function() {
   // ↓ 사이트 기준(10/22): 원본과 달라 사이트에 올라가 있는 코드로 맞춤
 
   if (document.body.classList.contains("shop_view")) {
+    // (10/26) 상세 글(<template id="prodDetailPC">)은 페이지 맨 아래에 있어서, 그보다 먼저 돌면 [제목] 칸을 못 읽어요 → 다 읽힌 뒤 다시
+    var w1 = document.getElementById("prod_detail_body");
+    if (document.readyState === "loading" && !document.getElementById("prodDetailPC") && !(w1 && w1.textContent.trim())) {
+      window.__sfPvWait || (window.__sfPvWait = 1, document.addEventListener("DOMContentLoaded", (function() {
+        window.SFUI && SFUI.init && SFUI.init(document);
+      })));
+      return;
+    }
     var e = document.querySelector(".goods_wrapper"), s = document.querySelector(".goods_form_wrap");
     if (e && s && SFUI.once(e, "ProductView")) {
       var t, a = window.SF_SITE || {}, n = new URLSearchParams(location.search).get("idx"), i = SFUI.shopItems && SFUI.shopItems()[n] || {}, r = i.type || "course", c = "course" === r, o = "live" === r, p = "meet" === r, d = s.querySelector(".view_tit"), l = d ? d.textContent.trim() : document.title, f = String.fromCharCode(38), v = document.createElement("div"), u = [ "일", "월", "화", "수", "목", "금", "토" ], h = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>', b = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>', g = {
@@ -209,15 +217,25 @@ SFUI.register('productView', function() {
   // (10/23) 상세 설명을 [제목] 줄로 나눠요. '[커리큘럼]'·'【강사 소개】'처럼 괄호로 감싼 20자 이내 한 줄만 제목으로 봐요
   //   첫 제목 앞의 글은 '소개' 칸. 제목 줄이 없으면 null → 예전처럼 예시 내용 + 상세 설명
   function ownSecs(W) {
-    for (var e = W, s; (s = [].filter.call(e.children, (function(e) {
-      return !/^(STYLE|SCRIPT)$/.test(e.tagName);
-    }))).length === 1 && /^(DIV|SECTION|ARTICLE)$/.test(s[0].tagName); ) e = s[0];
+    // (10/26) 아임웹이 본문을 겹겹이 감싸고 옆에 '하단 공통' 상자를 붙이면 [제목] 줄을 못 찾던 문제 → 제목 줄이 들어 있는 상자를 직접 찾아요
+    var RE = /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/, hd = [].filter.call(W.querySelectorAll("p,h1,h2,h3,h4,h5,h6,div"), (function(x) {
+      return !x.querySelector("p,div,img,iframe,video,table") && RE.test(x.textContent);
+    }))[0];
+    if (!hd) return null;
+    var e = hd.parentElement, top = e;
+    while (top.parentElement && top.parentElement !== W) top = top.parentElement;
     var t = [], a = [], n = null;
-    return [].slice.call(e.childNodes).forEach((function(e) {
+    [].slice.call(e.childNodes).forEach((function(e) {
       if (1 !== e.nodeType || !/^(STYLE|SCRIPT)$/.test(e.tagName)) {
-        var s = 1 === e.nodeType && !e.querySelector("img,iframe,video,table") && /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/.exec(e.textContent);
+        var s = 1 === e.nodeType && !e.querySelector("img,iframe,video,table") && RE.exec(e.textContent);
         s ? (n = { t: s[1], n: [] }, t.push(n)) : (n ? n.n : a).push(e);
       }
+    }));
+    // 본문 상자 바깥(같은 줄의 형제 — 예: 하단 공통 교환·환불 안내)은 마지막 칸 뒤로
+    if (e !== W && top !== e) [].slice.call(W.childNodes).forEach((function(x) {
+      x !== top && !(1 === x.nodeType && /^(STYLE|SCRIPT)$/.test(x.tagName)) && (x.textContent || "").trim() && (n ? n.n : a).push(x);
+    })); else if (e !== W) [].slice.call(W.childNodes).forEach((function(x) {
+      x !== e && !(1 === x.nodeType && /^(STYLE|SCRIPT)$/.test(x.tagName)) && (x.textContent || "").trim() && (n ? n.n : a).push(x);
     }));
     return t.length ? splitRefund({ pre: a, secs: t }) : null;
   }
