@@ -425,7 +425,7 @@
         return !t.contains(e) && !e.closest("#doz_header_wrap") && e.getBoundingClientRect().height;
       })), n = e[e.length - 1];
       // 10/25: 우리 위젯(.sf-scope)으로 만든 페이지는 위젯이 아래 여백까지 스스로 정해요 → 아임웹 섹션 아래 여백 0(크기 바꿀 때 흰 띠 안 생기게)
-      if (n && n.querySelector(".sf-scope")) {
+      if (n && n.querySelector(".sf-scope") && !n.querySelector(".js-custom-widget-container")) { // (10/26) 상품 목록 칸은 제외 — 교육 목록 아래 여백이 0이 돼 푸터가 카드에 붙었어요
         n.style.setProperty("padding-bottom", "0px", "important"), n.style.setProperty("margin-bottom", "0px", "important");
         return;
       }
