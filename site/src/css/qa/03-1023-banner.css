@@ -238,13 +238,14 @@
 /* 휴대폰: 글씨는 아래 왼쪽, 장면은 오른쪽 위에 작게 */
 @media (max-width:767.98px) {
   :root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
-    aspect-ratio:343/228!important;
+    aspect-ratio:16/9!important;
   }
-  /* 10/25: 장면이 배너 밖으로 밀려 위·오른쪽이 잘리던 것 → 배너 안쪽으로 넣고 조금 작게 */
+  /* 10/25: 장면이 배너 밖으로 밀려 위·오른쪽이 잘리던 것 → 배너 안쪽으로 넣고 조금 작게
+     10/27: 휴대폰 배너도 16:9(사장님 기준) → 높이가 줄어 장면도 맞춰 줄임 */
   :root body .sfw-banner__slide.sf-hb .sf-hb__art {
-    top:10px;
-    right:10px;
-    transform:scale(.5);
+    top:8px;
+    right:8px;
+    transform:scale(.46);
     transform-origin:100% 0;
   }
   .sf-hb--biz .c-50 { right:30px; }
@@ -270,26 +271,26 @@
 }
 /* 10/27: 배너 판은 화면 너비에 맞춰 커지는데 장면은 늘 절반(180×170)·제목 20px 이라
    넓은 휴대폰·접는 폰(430~767)에선 장면·글씨가 작아 보이고, 작은 폰(320)에선 장면이 판을 거의 덮음
-   → 배너 높이에 맞춰 단계별로 키움(배너 높이의 약 70%) */
+   → 16:9 배너 높이에 맞춰 단계별로 키움(장면 높이 = 배너 높이의 약 80%) */
 @media (max-width:359.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.42); }
+  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.4); }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong { font-size:18px!important; }
 }
 @media (min-width:420px) and (max-width:767.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.56); }
+  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.52); }
 }
 @media (min-width:480px) and (max-width:767.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { top:14px; right:14px; transform:scale(.64); }
+  :root body .sfw-banner__slide.sf-hb .sf-hb__art { top:12px; right:12px; transform:scale(.6); }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy { left:24px!important; bottom:22px!important; }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong { font-size:24px!important; }
 }
 @media (min-width:560px) and (max-width:767.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.76); }
+  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.7); }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy { left:32px!important; bottom:28px!important; }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong { font-size:28px!important; }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge) { display:block; }
 }
 @media (min-width:660px) and (max-width:767.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { top:20px; right:20px; transform:scale(.92); }
+  :root body .sfw-banner__slide.sf-hb .sf-hb__art { top:16px; right:16px; transform:scale(.84); }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong { font-size:30px!important; }
 }
