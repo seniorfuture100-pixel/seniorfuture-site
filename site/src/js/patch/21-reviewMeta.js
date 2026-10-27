@@ -46,14 +46,16 @@ SFUI.register('reviewMeta', function (root) {
     else if (wr && !/님 \(|^\d+기|수강생|○○/.test(wr.textContent)) { var n = wr.textContent.trim(); wr.textContent = n === '관리자' ? '수강생' : n.charAt(0) + '○○'; } // (10/26) 이미 넣은 기수·이름은 다시 가리지 않아요
   });
   // (10/27) 같은 사진 카드가 붙어 보이지 않게 섞어요(바로 앞 3장과 사진이 다르게, 나머지 순서는 그대로)
-  var first = document.querySelector('[data-sf-ph]'), box = first && first.parentElement;
-  if (box) {
-    var pool = [].filter.call(box.children, function (c) { return c.hasAttribute('data-sf-ph'); }), out = [];
-    while (pool.length) {
-      var recent = out.slice(-3).map(function (c) { return c.getAttribute('data-sf-ph'); });
-      var k = 0; for (var i = 0; i < pool.length; i++) if (recent.indexOf(pool[i].getAttribute('data-sf-ph')) < 0) { k = i; break; }
-      out.push(pool.splice(k, 1)[0]);
-    }
-    out.forEach(function (c, i) { if (box.children[i] !== c) box.appendChild(c); });
+  // 카드는 첫 줄 묶음(_post_row)과 큰 격자에 나뉘어 있어요 → 전체 순서를 정한 뒤 원래 자리(표시)에 차례로 넣어요
+  var all = [].slice.call(document.querySelectorAll('[data-sf-ph]')), pool = all.slice(), out = [];
+  while (pool.length) {
+    var recent = out.slice(-3).map(function (c) { return c.getAttribute('data-sf-ph'); });
+    var k = 0; for (var i = 0; i < pool.length; i++) if (recent.indexOf(pool[i].getAttribute('data-sf-ph')) < 0) { k = i; break; }
+    out.push(pool.splice(k, 1)[0]);
+  }
+  if (out.some(function (c, i) { return c !== all[i]; })) {
+    var marks = all.map(function (c) { var m = document.createComment('sf-rv'); c.parentNode.insertBefore(m, c); return m; });
+    out.forEach(function (c, i) { marks[i].parentNode.insertBefore(c, marks[i]); });
+    marks.forEach(function (m) { m.parentNode.removeChild(m); });
   }
 })
