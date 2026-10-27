@@ -253,7 +253,12 @@
           for (e in s) a[e] = s[e];
           if (window.__sfFixDay) for (e in a) a[e] = __sfFixDay(a[e]);
           return a;
-        }(), d = i.querySelectorAll("li.iw-shop-card"), u = d[0] && l[d[0].getAttribute("data-system-product-id")], f = u && u.type || "course", p = i.querySelector(".widget-sandbox-root") || c.parentNode;
+        }(), d = i.querySelectorAll("li.iw-shop-card"), p = i.querySelector(".widget-sandbox-root") || c.parentNode;
+        // (10/27) 목록 종류: 메뉴 주소 우선(/live·/community·/course). 예전엔 첫 카드로만 정해서, 코드 표에 없는 새 상품이 맨 앞에 오면
+        //   무료 라이브 목록 전체가 '교육'으로 꾸며졌어요(신청 버튼이 카드 위로). 홈은 코드 표에 있는 첫 카드 기준
+        var pth = location.pathname, u = [].filter.call(d, (function(x) {
+          return l[x.getAttribute("data-system-product-id")];
+        }))[0], f = /^\/live/.test(pth) ? "live" : /^\/community/.test(pth) ? "meet" : /^\/course/.test(pth) ? "course" : u && l[u.getAttribute("data-system-product-id")].type || "course";
         if (!i.getElementById("sf-shop-css")) {
           var h = document.createElement("style");
           h.id = "sf-shop-css", h.textContent = ((window.SF_SHADOW_CSS || "") + [].map.call(document.querySelectorAll("style#sf-ui-css, style#sf-patch-css"), (function(t) {
