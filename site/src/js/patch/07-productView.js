@@ -252,7 +252,8 @@ SFUI.register('productView', function() {
             cur = { t: m[2], m: m[3] || "", d: [] }, items.push(cur);
           } else if (cur) {
             var a = 1 === e.nodeType && e.querySelector("a[href]"), u = a ? a.getAttribute("href") : (UR.exec(tx) || [])[1], lb = tx.replace(DR, "");
-            u && !a && (lb = lb.replace(u, "").replace(/[\s:：\-–]+$/, "").trim() || "미리보기");
+            u && !a && (lb = lb.replace(u, "").replace(/[\s:：\-–]+$/, "").trim());
+            u && (lb = lb.replace(/\s*미리\s?보기\s*/, " ").trim() || "강의 맛보기"); // 오른쪽에 '미리보기' 표시가 따로 붙어요
             cur.d.push({ x: lb, u: u && /^(https?:\/\/|\/)/.test(u) ? u : "" });
           } else desc.push(tx);
         }));
