@@ -1,6 +1,7 @@
 // 원본: src/product-view.js
 /* product-view.js — 아임웹 상품 상세를 Figma 상세 화면 배치로 바꿔요 (상품 종류는 shop-list.js 의 ITEMS 로 판단)
-   - 교육(PC/교육 상세 20:1011): 왼쪽 이미지 · 고정 탭(소개·커리큘럼·강사·후기·문의) · 본문 / 오른쪽 고정 구매 박스
+   - (10/27) 세 종류 모두 탭 = 소개 · 프로그램 · 강사(라이브 '연사' · 커뮤니티 '호스트') · 후기, 후기 아래 '자주 묻는 질문'(교환·환불 · 상품 문의 포함)
+   - 교육(PC/교육 상세 20:1011): 왼쪽 이미지 · 고정 탭 · 본문 / 오른쪽 고정 구매 박스
      (태그 · 제목 · 할인가 · 상품 금액 · 찜 + 수강 신청하기 · 공유하고 수익받기)
    - 무료 라이브(PC/무료 라이브 상세 22:1451): 오른쪽 신청 카드(상태 태그 · 마감 카운트다운 · 일시 · 무료로 신청하기 · 공유하기)
      왼쪽 이런 내용을 다뤄요 · 연사 소개 · 진행 안내 · 라이브 후 더 깊게 · 수강생 후기
@@ -134,85 +135,139 @@ SFUI.register('productView', function() {
         var w0 = document.getElementById("prod_detail_body"), tp = document.getElementById("prodDetailPC") || document.getElementById("prodDetailMobile");
         w0 && tp && tp.content && !w0.textContent.trim() && w0.appendChild(tp.content.cloneNode(!0));
       })();
-      var G = document.querySelector(".detail_detail_wrap"), J = document.querySelector(".detail_qna_wrap"), W = document.getElementById("prod_detail_body"), X = '<div class="sf-pv-own" data-sf-own></div>', Y = [ [ "sf-pv-intro", "소개" ] ], ee = "", OW = W && ownSecs(W);
+      // (10/27) 교육·무료 라이브·커뮤니티 상세를 같은 흐름으로: 소개 → 프로그램 → 강사(라이브 '연사'·커뮤니티 '호스트') → 후기 (탭은 이 4개만)
+      //   후기 아래 '자주 묻는 질문'(펼침): 상세 설명 [자주 묻는 질문]의 Q/A + 교환·환불 안내 + 상품 문의(아임웹 문의 게시판)
+      //   상세 설명의 예전 제목도 묶어요: [커리큘럼]·[진행 안내]·[프로그램 일정] → 프로그램, [강사 소개]·[연사]·[호스트] → 강사 칸
+      var G = document.querySelector(".detail_detail_wrap"), J = document.querySelector(".detail_qna_wrap"), W = document.getElementById("prod_detail_body"), X = '<div class="sf-pv-own" data-sf-own></div>', Y = [], ee = "", FQ = [], OG = null, OW = W && ownSecs(W);
+      var TL = c ? "강사" : o ? "연사" : "호스트", TH = c ? "강사 소개" : o ? "연사 소개" : "호스트";
       // (10/23 2차) 예시 내용(가짜 강사·커리큘럼)은 예전부터 있던 상품(코드 표)이나 SF_SITE.details 가 있는 상품만. 새 상품은 쓴 글만 '소개'로
       !OW && W && (!(SFUI.__baseItems || {})[n] || SFUI.__baseItems[n].past) && !(a.items || {})[n] && !(a.details || a.courses || {})[n] && (OW = splitRefund({ pre: [].filter.call(W.childNodes, (function(e) {
         return !(1 === e.nodeType && /^(STYLE|SCRIPT)$/.test(e.tagName));
       })), secs: [] }));
+      function sec(id, h, body, own) {
+        return '<section id="' + id + '" class="sf-pv-sec' + (own ? ' sf-pv-ownsec" data-sf-own-g="' + own : "") + '"><h2>' + h + "</h2>" + (body || "") + "</section>";
+      }
       if (OW) {
-        // (10/23) 상세 설명에 [제목] 줄이 있으면 예시 내용 대신 사장님이 쓴 글로 탭을 만들어요
-        p && (ee += meetInfo());
+        // 사장님이 쓴 글로 칸 만들기
+        OG = { intro: [], program: [], teacher: [] };
         var hasPre = OW.pre.some((function(e) {
           return (e.textContent || "").trim() || e.querySelector && e.querySelector("img,iframe,video,table");
         }));
-        Y = hasPre ? [ [ "sf-pv-intro", "소개" ] ] : [], hasPre && (ee += '<section id="sf-pv-intro" class="sf-pv-sec sf-pv-ownsec" data-sf-own-i="pre"><h2>소개</h2></section>');
-        OW.secs.forEach((function(e, s) {
-          var t = s || hasPre ? "sf-pv-d" + (s + 1) : "sf-pv-intro";
-          Y.push([ t, e.t ]), ee += '<section id="' + t + '" class="sf-pv-sec sf-pv-ownsec" data-sf-own-i="' + s + '"><h2>' + oe(e.t) + "</h2></section>";
-        })), (c || o || p) && (Y.push([ "sf-pv-review", "후기" ]), ee += ue()); // (10/26) 모임도 교육처럼 후기 탭
+        hasPre && OG.intro.push({ n: OW.pre });
+        OW.secs.forEach((function(e) {
+          var k = secKind(e.t);
+          if ("faq" === k) {
+            var qa = parseQA(e.n);
+            qa ? qa.forEach((function(x) { FQ.push({ q: x[0], n: x[1] }); })) : FQ.push({ q: "자주 묻는 질문", n: e.n });
+          } else if ("refund" === k) FQ.push({ q: "교환·환불 안내", n: e.n });
+          else OG[k].push({ t: "intro" === k && !/^(소개|.{0,6}\s?소개)$/.test(e.t) ? e.t : "", n: e.n });
+        }));
+        p && (ee += meetInfo());
+        OG.intro.length && (Y.push([ "sf-pv-intro", "소개" ]), ee += sec("sf-pv-intro", "소개", "", "intro"));
+        OG.program.length && (Y.push([ "sf-pv-program", "프로그램" ]), ee += sec("sf-pv-program", "프로그램", "", "program"));
+        OG.teacher.length && (Y.push([ "sf-pv-teacher", TL ]), ee += sec("sf-pv-teacher", TH, "", "teacher"));
       } else if (c) {
-        Y.push([ "sf-pv-curri", "커리큘럼" ], [ "sf-pv-teacher", "강사" ], [ "sf-pv-review", "후기" ]), 
-        ee += '<section id="sf-pv-intro" class="sf-pv-sec"><h2>이런 분께 추천해요</h2>' + he(w.who) + "</section>", 
-        ee += '<section class="sf-pv-sec"><h2>이 강의에서 배우는 것</h2><ol class="sf-pv-points">' + w.points.map((function(e, s) {
+        Y.push([ "sf-pv-intro", "소개" ], [ "sf-pv-program", "프로그램" ], [ "sf-pv-teacher", TL ]);
+        ee += sec("sf-pv-intro", "이런 분께 추천해요", he(w.who) + '<h3 class="sf-pv-h3">이 강의에서 배우는 것</h3><ol class="sf-pv-points">' + w.points.map((function(e, s) {
           return "<li><small>0" + (s + 1) + "</small><strong>" + oe(e[0]) + "</strong><p>" + oe(e[1]) + "</p></li>";
-        })).join("") + "</ol>" + X + "</section>", ee += '<section id="sf-pv-curri" class="sf-pv-sec"><h2>커리큘럼</h2><p class="sf-pv-sub">' + oe(w.summary) + '</p><div class="sf-pv-chapters" data-sf-accordion>' + w.chapters.map((function(e, s) {
+        })).join("") + "</ol>" + X);
+        ee += sec("sf-pv-program", "프로그램", '<p class="sf-pv-sub">' + oe(w.summary) + '</p><div class="sf-pv-chapters" data-sf-accordion>' + w.chapters.map((function(e, s) {
           return '<div data-sf-acc-item><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회</b><span>" + oe(e[0]) + "</span><em>" + oe(e[1] || "") + "</em></button><div data-sf-acc-panel>" + oe(e[2] || "회차별 자료와 실습 과제가 함께 제공돼요.") + "</div></div>";
-        })).join("") + "</div></section>";
+        })).join("") + "</div>");
         var se = w.teacher;
-        ee += '<section id="sf-pv-teacher" class="sf-pv-sec"><h2>강사 소개</h2><div class="sf-pv-teacher"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(se.name) + "</strong><small>" + oe(se.role) + "</small><p>" + oe(se.bio) + '</p><a href="' + oe(se.href || "/experts") + '">강사 프로필 보기 <span aria-hidden="true">›</span></a></div></div></section>', 
-        ee += ue(), ee += '<section class="sf-pv-sec"><h2>자주 묻는 질문</h2><div class="sf-pv-faq" data-sf-accordion data-single>' + w.faq.map((function(e) {
-          return '<div data-sf-acc-item><button type="button" data-sf-acc-trigger><b>Q</b><span>' + oe(e[0]) + "</span></button><div data-sf-acc-panel>" + oe(e[1]) + "</div></div>";
-        })).join("") + '</div><div class="sf-pv-refund"><strong>환불 규정</strong><p>' + oe(w.refund) + "</p></div></section>";
+        ee += sec("sf-pv-teacher", TH, '<div class="sf-pv-teacher"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(se.name) + "</strong><small>" + oe(se.role) + "</small><p>" + oe(se.bio) + '</p><a href="' + oe(se.href || "/experts") + '">강사 프로필 보기 <span aria-hidden="true">›</span></a></div></div>');
+        w.faq.forEach((function(e) { FQ.push({ q: e[0], h: oe(e[1]) }); }));
+        w.refund && FQ.push({ q: "교환·환불 안내", h: oe(w.refund) });
       } else if (o) {
-        Y.push([ "sf-pv-speaker", "연사" ], [ "sf-pv-guide", "진행 안내" ], [ "sf-pv-review", "후기" ]);
+        Y.push([ "sf-pv-intro", "소개" ], [ "sf-pv-program", "프로그램" ], [ "sf-pv-teacher", TL ]);
         var te = (B ? [ [ "일시", le(B) + " " + fe(B) + (E ? " – " + fe(E) : "") ] ] : []).concat(w.guide);
-        ee += '<section id="sf-pv-intro" class="sf-pv-sec"><h2>이런 내용을 다뤄요</h2>' + he(w.topics) + X + "</section>", 
-        ee += '<section id="sf-pv-speaker" class="sf-pv-sec"><h2>연사 소개</h2><div class="sf-pv-teacher sf-pv-teacher--s"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(w.speaker.name) + "</strong><p>" + oe(w.speaker.bio) + "</p></div></div></section>", 
-        ee += '<section id="sf-pv-guide" class="sf-pv-sec"><h2>진행 안내</h2><dl class="sf-pv-guide">' + te.map((function(e) {
+        ee += sec("sf-pv-intro", "이런 내용을 다뤄요", he(w.topics) + X);
+        ee += sec("sf-pv-program", "프로그램", '<dl class="sf-pv-guide">' + te.map((function(e) {
           return "<div><dt>" + oe(e[0]) + "</dt><dd>" + oe(e[1]) + "</dd></div>";
-        })).join("") + "</dl></section>", ee += '<section class="sf-pv-sec"><h2>라이브 후 더 깊게 배우고 싶다면</h2><ul class="sf-pv-more">' + w.courses.filter((function(e) {
-          return g[e];
-        })).map((function(e) {
+        })).join("") + "</dl>");
+        ee += sec("sf-pv-teacher", TH, '<div class="sf-pv-teacher sf-pv-teacher--s"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(w.speaker.name) + "</strong><p>" + oe(w.speaker.bio) + "</p></div></div>");
+        var mc = w.courses.filter((function(e) { return g[e]; }));
+        mc.length && (ee += '<section class="sf-pv-sec"><h2>라이브 후 더 깊게 배우고 싶다면</h2><ul class="sf-pv-more">' + mc.map((function(e) {
           var s = g[e], t = SFUI.shopItems && SFUI.shopItems()[e] || {};
           return '<li><a class="sf-ccard" href="/course/?idx=' + e + '"><span class="sf-ccard__thumb"><img src="https://cdn.imweb.me/upload/S20261016dceb77aecc2e2/' + s[2] + '" alt="" loading="lazy"></span><span class="sf-ccard__body"><strong>' + oe(s[0]) + "</strong><p>" + oe(s[1]) + '</p><span class="sf-tags">' + ve(t.tags || []) + "</span></span></a></li>";
-        })).join("") + "</ul></section>", ee += ue();
+        })).join("") + "</ul></section>");
       } else {
-        Y.push([ "sf-pv-schedule", "프로그램 일정" ], [ "sf-pv-host", "호스트" ], [ "sf-pv-review", "후기" ]), 
-        ee += meetInfo(), ee += '<section id="sf-pv-intro" class="sf-pv-sec"><h2>모임 소개</h2><p class="sf-pv-lead">' + oe(w.intro) + "</p>" + he(w.checks) + X + "</section>", 
-        ee += '<section id="sf-pv-schedule" class="sf-pv-sec"><h2>프로그램 일정</h2><dl class="sf-pv-guide sf-pv-guide--rows">' + w.schedule.map((function(e) {
+        Y.push([ "sf-pv-intro", "소개" ], [ "sf-pv-program", "프로그램" ], [ "sf-pv-teacher", TL ]);
+        ee += meetInfo();
+        ee += sec("sf-pv-intro", "모임 소개", '<p class="sf-pv-lead">' + oe(w.intro) + "</p>" + he(w.checks) + X);
+        ee += sec("sf-pv-program", "프로그램", '<dl class="sf-pv-guide sf-pv-guide--rows">' + w.schedule.map((function(e) {
           return "<div><dt>" + oe(e[0]) + "</dt><dd>" + oe(e[1]) + "</dd></div>";
-        })).join("") + "</dl></section>", ee += '<section id="sf-pv-host" class="sf-pv-sec"><h2>호스트</h2><div class="sf-pv-teacher sf-pv-teacher--s"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(w.host.name) + "</strong><p>" + oe(w.host.bio) + "</p></div></div></section>", 
-        ee += ue(); // (10/26) 호스트 아래 '장소'는 빼고(장소는 위 모임 안내에) 후기
+        })).join("") + "</dl>");
+        ee += sec("sf-pv-teacher", TH, '<div class="sf-pv-teacher sf-pv-teacher--s"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(w.host.name) + "</strong><p>" + oe(w.host.bio) + "</p></div></div>");
       }
-      Y.push([ "sf-pv-qna", "문의" ]);
+      Y.push([ "sf-pv-review", "후기" ]), ee += ue();
+      // 자주 묻는 질문(탭 없음): 쓴 Q/A · 교환·환불 안내 · 상품 문의
+      J && FQ.push({ q: "상품 문의", qna: 1 });
+      FQ.length && (ee += '<section id="sf-pv-faq" class="sf-pv-sec"><h2>자주 묻는 질문</h2><div class="sf-pv-faq" data-sf-accordion data-single>' + FQ.map((function(e, s) {
+        return '<div data-sf-acc-item><button type="button" data-sf-acc-trigger><b>Q</b><span>' + oe(e.q) + '</span></button><div data-sf-acc-panel data-sf-fq="' + s + '">' + (e.h || "") + "</div></div>";
+      })).join("") + "</div></section>");
       var ae = pe("nav", "sf-tabs sf-pv-tabs", Y.map((function(e, s) {
         return '<a href="#' + e[0] + '" class="sf-tab' + (s ? "" : " is-active") + '">' + e[1] + "</a>";
       })).join(""));
-      OW && ae.classList.add("sf-pv-tabs--own"), ae.setAttribute("data-sf-anchor-tabs", ""), ae.setAttribute("data-offset", "130"), 
+      OW && ae.classList.add("sf-pv-tabs--own"), ae.setAttribute("data-sf-anchor-tabs", ""), ae.setAttribute("data-offset", "130"),
       ae.setAttribute("aria-label", "상세 내용 바로가기"), x.appendChild(ae);
       var ne = pe("div", "sf-pv-secs", ee);
       x.appendChild(ne);
       var ie = ne.querySelector("[data-sf-own]");
       G && ie && ie.appendChild(G);
       var re = document.querySelector(".detail_detail_wrap_mobile");
-      if (re && ie && ie.appendChild(re), W && ie && !W.textContent.trim() && !W.querySelector("img") && ie.classList.add("is-empty"), 
-      J) {
-        var ce = pe("section", "sf-pv-sec sf-pv-qna");
-        ce.id = "sf-pv-qna", ce.appendChild(pe("h2", "", "문의")), ce.appendChild(J), ne.appendChild(ce);
-      }
-      OW && ([].forEach.call(ne.querySelectorAll("[data-sf-own-i]"), (function(e) {
-        var s = e.getAttribute("data-sf-own-i"), t = pe("div", "sf-pv-ownbody shop_view_body fr-view");
-        ("pre" === s ? OW.pre : OW.secs[+s].n).forEach((function(e) {
+      re && ie && ie.appendChild(re), W && ie && !W.textContent.trim() && !W.querySelector("img") && ie.classList.add("is-empty");
+      function body(list) {
+        var t = pe("div", "sf-pv-ownbody shop_view_body fr-view");
+        list.forEach((function(e) {
           t.appendChild(e);
         })), [].forEach.call(t.querySelectorAll("img"), (function(e) {
           var s = e.getAttribute("data-src") || e.getAttribute("data-original");
           s && !e.getAttribute("src") && (e.src = s);
-        })), e.appendChild(t);
+        }));
+        return t;
+      }
+      OG && ([].forEach.call(ne.querySelectorAll("[data-sf-own-g]"), (function(e) {
+        OG[e.getAttribute("data-sf-own-g")].forEach((function(part) {
+          part.t && e.appendChild(pe("h3", "sf-pv-h3", oe(part.t))), e.appendChild(body(part.n));
+        }));
       })), G && (G.hidden = !0), re && (re.hidden = !0));
+      FQ.forEach((function(e, s) {
+        var pn = ne.querySelector('[data-sf-fq="' + s + '"]');
+        pn && (e.n ? pn.appendChild(body(e.n)) : e.qna && pn.appendChild(J));
+      }));
       document.querySelectorAll(".categorize.review-box, .detail_review_wrap").forEach((function(e) {
         e.hidden = !0;
       })), window.SFUI && SFUI.init && SFUI.init(S);
     }
+  }
+  // (10/27) 상세 설명 [제목] → 칸 종류
+  function secKind(t) {
+    t = String(t).replace(/\s+/g, " ").trim();
+    if (/^(자주\s?묻는\s?질문|FAQ|Q\s?&\s?A|질문과 답변|문의)$/i.test(t)) return "faq";
+    if (/^(교환|반품|환불)/.test(t)) return "refund";
+    if (/(강사|연사|호스트|진행자|멘토|코치)/.test(t)) return "teacher";
+    if (/^(프로그램|커리큘럼|진행\s?안내|진행\s?방식|일정|프로그램\s?일정|회차|세부\s?일정|타임\s?테이블|수업\s?구성)/.test(t) && !/소개$/.test(t)) return "program";
+    return "intro";
+  }
+  // (10/27) [자주 묻는 질문] 칸: 'Q. 질문' 줄과 'A. 답' 줄을 짝으로. Q 줄이 없으면 null(통째로 한 항목)
+  function parseQA(list) {
+    var out = [], cur = null, QR = /^\s*Q(\s*[\.\):：]\s*|\s+)/i, AR = /^\s*A(\s*[\.\):：]\s*|\s+)/i;
+    list.forEach((function(e) {
+      var tx = (e.textContent || "").trim();
+      if (!tx && !(e.querySelector && e.querySelector("img,iframe,video,table"))) return;
+      if (QR.test(tx) && tx.length < 200 && !(e.querySelector && e.querySelector("img,table"))) {
+        cur = [ tx.replace(QR, ""), [] ], out.push(cur);
+      } else if (cur) {
+        if (AR.test(tx) && 1 === e.nodeType && !e.querySelector("img,table")) {
+          var c2 = e.cloneNode(!0), first = c2.firstChild;
+          while (first && 3 !== first.nodeType && first.firstChild) first = first.firstChild;
+          first && 3 === first.nodeType && (first.nodeValue = first.nodeValue.replace(AR, ""));
+          cur[1].push(c2);
+        } else cur[1].push(e);
+      }
+    }));
+    return out.length ? out : null;
   }
   // (10/23) 상세 설명을 [제목] 줄로 나눠요. '[커리큘럼]'·'【강사 소개】'처럼 괄호로 감싼 20자 이내 한 줄만 제목으로 봐요
   //   첫 제목 앞의 글은 '소개' 칸. 제목 줄이 없으면 null → 예전처럼 예시 내용 + 상세 설명

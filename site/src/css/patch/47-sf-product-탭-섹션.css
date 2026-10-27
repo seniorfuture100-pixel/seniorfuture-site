@@ -33,3 +33,20 @@
 :root .sf-pv-qna .detail_qna_wrap {
   margin:0!important;
 }
+/* (10/27) 칸 안 소제목(예: 소개 안 '이 강의에서 배우는 것', 상세 설명의 [이런 분께 추천해요]) */
+:root .sf-pv-h3 {
+  margin:32px 0 12px;
+  color:var(--sf-text);
+  font:700 18px/1.4 var(--sf-font);
+}
+:root .sf-pv-sec>h2+.sf-pv-h3 {
+  margin-top:8px;
+}
+/* (10/27) 자주 묻는 질문 펼침 안의 상세 설명 글·아임웹 문의 게시판 */
+:root .sf-pv-faq [data-sf-acc-panel] .sf-pv-ownbody {
+  font-size:15px;
+}
+:root .sf-pv-faq [data-sf-acc-panel] .detail_qna_wrap {
+  display:block!important;
+  margin:0!important;
+}
