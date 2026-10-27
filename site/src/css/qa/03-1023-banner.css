@@ -242,6 +242,7 @@
   :root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
     display:flex!important;
     align-items:center!important;
+    justify-content:flex-start!important;
     aspect-ratio:760/340!important;
     padding:0 0 0 max(16px,calc(56px * var(--hb-k,.47)))!important;
   }
@@ -254,6 +255,10 @@
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy {
     position:relative!important;
     inset:auto!important;
+    flex:0 1 auto!important;
+    align-self:center!important;
+    height:auto!important;
+    justify-content:center!important;
     max-width:58%!important;
     gap:max(4px,calc(12px * var(--hb-k,.47)))!important;
   }
