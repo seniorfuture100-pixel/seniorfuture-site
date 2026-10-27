@@ -50,3 +50,137 @@
   display:block!important;
   margin:0!important;
 }
+
+/* (10/27 v2) 쓴 글로 만든 칸의 큰 제목(소개·프로그램·강사 소개)은 화면에서 숨김 — 탭으로 이동, 읽기 도구용으로만 남겨요 */
+:root body .sf-pv-sec>h2.sf-pv-srh {
+  position:absolute!important;
+  width:1px;
+  height:1px;
+  margin:-1px;
+  padding:0;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  white-space:nowrap;
+  border:0;
+}
+:root body .sf-pv-sec>h2.sf-pv-srh+.sf-pv-h3 {
+  margin-top:0;
+}
+/* (10/27 v2) [프로그램] 회차 목록: 설명 줄 · N회 제목 · 세부 내용 · 미리보기 링크 */
+:root body .sf-pv-progsub {
+  margin:0 0 16px;
+  color:var(--sf-text-2);
+  font:400 15px/1.6 var(--sf-font);
+}
+:root body .sf-pv-chapters--own [data-sf-acc-panel]:empty {
+  display:none;
+}
+:root body .sf-pv-chdet {
+  margin:0;
+  padding:0 0 0 46px;
+  list-style:none;
+}
+:root body .sf-pv-chdet li {
+  position:relative;
+  padding:4px 0 4px 12px;
+  color:var(--sf-text-2);
+  font:400 15px/1.6 var(--sf-font);
+}
+:root body .sf-pv-chdet li::before {
+  content:"";
+  position:absolute;
+  left:0;
+  top:15px;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:var(--sf-text-3);
+}
+:root body .sf-pv-chdet li.is-link {
+  padding-left:0;
+}
+:root body .sf-pv-chdet li.is-link::before {
+  display:none;
+}
+:root body .sf-pv-chdet li.is-link a {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#2563EB;
+  font-weight:500;
+  text-decoration:none;
+}
+:root body .sf-pv-chdet li.is-link a::before {
+  content:"▶";
+  font-size:10px;
+  line-height:1;
+}
+:root body .sf-pv-chdet li.is-link a:hover span {
+  text-decoration:underline;
+}
+:root body .sf-pv-chdet li.is-link em {
+  padding:2px 8px;
+  border-radius:9999px;
+  background:#EFF4FF;
+  color:#2563EB;
+  font:500 12px/1.5 var(--sf-font);
+  font-style:normal;
+}
+/* (10/27 v2) [강사] 전문가 네트워크 카드 */
+:root body .sf-pv-tcard {
+  align-items:flex-start;
+}
+:root body .sf-pv-tcard+.sf-pv-tcard {
+  margin-top:16px;
+}
+:root body .sf-pv-tcard .sf-pv-teacher__photo {
+  width:96px;
+  height:96px;
+  background:#eef0f3 50% 30%/cover no-repeat;
+}
+:root body .sf-pv-tchip {
+  display:inline-block;
+  margin-bottom:6px;
+  padding:2px 10px;
+  border-radius:9999px;
+  background:#fff;
+  color:var(--sf-text-brand);
+  font:500 12px/1.6 var(--sf-font);
+}
+:root body .sf-pv-tcard small {
+  margin:4px 0 12px;
+}
+:root body .sf-pv-tcard .sf-pv-ttalk b {
+  display:block;
+  margin-bottom:2px;
+  color:var(--sf-text);
+  font:700 13px/1.5 var(--sf-font);
+}
+:root body .sf-pv-tcard .sf-pv-tbio {
+  margin:0 0 8px;
+  color:var(--sf-text-2);
+  font:400 15px/1.6 var(--sf-font);
+}
+:root body .sf-pv-tcard .sf-pv-tlink {
+  display:inline-block;
+  margin-top:4px;
+  color:var(--sf-text);
+  font:700 14px/1.5 var(--sf-font);
+  text-decoration:none;
+}
+:root body .sf-pv-tcard .sf-pv-tlink::after {
+  content:none;
+}
+/* (10/27 v2) 더 알아보기: 제목만 있는 펼치기(Q 표시 없음) */
+:root body .sf-pv-more2 [data-sf-acc-trigger] {
+  font-weight:500;
+}
+@media (max-width:767px) {
+  :root body .sf-pv-chdet {
+    padding-left:0;
+  }
+  :root body .sf-pv-tcard .sf-pv-teacher__photo {
+    width:72px;
+    height:72px;
+  }
+}

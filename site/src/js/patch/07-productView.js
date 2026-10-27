@@ -1,6 +1,7 @@
 // 원본: src/product-view.js
 /* product-view.js — 아임웹 상품 상세를 Figma 상세 화면 배치로 바꿔요 (상품 종류는 shop-list.js 의 ITEMS 로 판단)
-   - (10/27) 세 종류 모두 탭 = 소개 · 프로그램 · 강사(라이브 '연사' · 커뮤니티 '호스트') · 후기, 후기 아래 '자주 묻는 질문'(교환·환불 · 상품 문의 포함)
+   - (10/27) 세 종류 모두 탭 = 소개 · 프로그램 · 강사(라이브 '연사' · 커뮤니티 '호스트') · 후기, 후기 아래 '더 알아보기'(운영 정책 · 환불 규정 펼치기)
+   - (10/27 v2) 본문 큰 제목 숨김 · [프로그램] '# 제목 | 90분' 회차 목록 · [강사] 이름 → 전문가 네트워크 카드 (사용법: docs/상품-상세-등록-안내.md)
    - 교육(PC/교육 상세 20:1011): 왼쪽 이미지 · 고정 탭 · 본문 / 오른쪽 고정 구매 박스
      (태그 · 제목 · 할인가 · 상품 금액 · 찜 + 수강 신청하기 · 공유하고 수익받기)
    - 무료 라이브(PC/무료 라이브 상세 22:1451): 오른쪽 신청 카드(상태 태그 · 마감 카운트다운 · 일시 · 무료로 신청하기 · 공유하기)
@@ -147,7 +148,8 @@ SFUI.register('productView', function() {
         return !(1 === e.nodeType && /^(STYLE|SCRIPT)$/.test(e.tagName));
       })), secs: [] }));
       function sec(id, h, body, own) {
-        return '<section id="' + id + '" class="sf-pv-sec' + (own ? ' sf-pv-ownsec" data-sf-own-g="' + own : "") + '"><h2>' + h + "</h2>" + (body || "") + "</section>";
+        // (10/27 v2) 쓴 글로 만든 칸은 큰 제목(소개·프로그램·강사 소개)을 화면에서 숨겨요(탭으로 이동, 읽기 도구용으로만 남김)
+        return '<section id="' + id + '" class="sf-pv-sec' + (own ? ' sf-pv-ownsec" data-sf-own-g="' + own : "") + '"><h2' + (own ? ' class="sf-pv-srh"' : "") + ">" + h + "</h2>" + (body || "") + "</section>";
       }
       if (OW) {
         // 사장님이 쓴 글로 칸 만들기
@@ -156,14 +158,18 @@ SFUI.register('productView', function() {
           return (e.textContent || "").trim() || e.querySelector && e.querySelector("img,iframe,video,table");
         }));
         hasPre && OG.intro.push({ n: OW.pre });
+        // (10/27 v2) 더 알아보기 = [운영 정책] → [환불 규정] 순서(하단 공통). [자주 묻는 질문]을 쓴 상품은 그 뒤에 이어 붙여요
+        var MP = [], MR = [], MQ = [];
         OW.secs.forEach((function(e) {
           var k = secKind(e.t);
           if ("faq" === k) {
             var qa = parseQA(e.n);
-            qa ? qa.forEach((function(x) { FQ.push({ q: x[0], n: x[1] }); })) : FQ.push({ q: "자주 묻는 질문", n: e.n });
-          } else if ("refund" === k) FQ.push({ q: "교환·환불 안내", n: e.n });
+            qa ? qa.forEach((function(x) { MQ.push({ q: x[0], n: x[1] }); })) : MQ.push({ q: e.t, n: e.n });
+          } else if ("policy" === k) MP.push({ q: e.t, n: e.n });
+          else if ("refund" === k) MR.push({ q: "교환·환불 안내" === e.t ? "환불 규정" : e.t, n: e.n });
           else OG[k].push({ t: "intro" === k && !/^(소개|.{0,6}\s?소개)$/.test(e.t) ? e.t : "", n: e.n });
         }));
+        FQ = MP.concat(MR, MQ);
         p && (ee += meetInfo());
         OG.intro.length && (Y.push([ "sf-pv-intro", "소개" ]), ee += sec("sf-pv-intro", "소개", "", "intro"));
         OG.program.length && (Y.push([ "sf-pv-program", "프로그램" ]), ee += sec("sf-pv-program", "프로그램", "", "program"));
@@ -179,7 +185,7 @@ SFUI.register('productView', function() {
         var se = w.teacher;
         ee += sec("sf-pv-teacher", TH, '<div class="sf-pv-teacher"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(se.name) + "</strong><small>" + oe(se.role) + "</small><p>" + oe(se.bio) + '</p><a href="' + oe(se.href || "/experts") + '">강사 프로필 보기 <span aria-hidden="true">›</span></a></div></div>');
         w.faq.forEach((function(e) { FQ.push({ q: e[0], h: oe(e[1]) }); }));
-        w.refund && FQ.push({ q: "교환·환불 안내", h: oe(w.refund) });
+        w.refund && FQ.push({ q: "환불 규정", h: oe(w.refund) });
       } else if (o) {
         Y.push([ "sf-pv-intro", "소개" ], [ "sf-pv-program", "프로그램" ], [ "sf-pv-teacher", TL ]);
         var te = (B ? [ [ "일시", le(B) + " " + fe(B) + (E ? " – " + fe(E) : "") ] ] : []).concat(w.guide);
@@ -203,10 +209,10 @@ SFUI.register('productView', function() {
         ee += sec("sf-pv-teacher", TH, '<div class="sf-pv-teacher sf-pv-teacher--s"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(w.host.name) + "</strong><p>" + oe(w.host.bio) + "</p></div></div>");
       }
       Y.push([ "sf-pv-review", "후기" ]), ee += ue();
-      // 자주 묻는 질문(탭 없음): 쓴 Q/A · 교환·환불 안내 · 상품 문의
-      J && FQ.push({ q: "상품 문의", qna: 1 });
-      FQ.length && (ee += '<section id="sf-pv-faq" class="sf-pv-sec"><h2>자주 묻는 질문</h2><div class="sf-pv-faq" data-sf-accordion data-single>' + FQ.map((function(e, s) {
-        return '<div data-sf-acc-item><button type="button" data-sf-acc-trigger><b>Q</b><span>' + oe(e.q) + '</span></button><div data-sf-acc-panel data-sf-fq="' + s + '">' + (e.h || "") + "</div></div>";
+      // (10/27 v2) 후기 아래 '더 알아보기'(탭 없음): 운영 정책 · 환불 규정 제목을 누르면 펼쳐져요. 상품 문의 게시판은 빼요
+      J && (J.hidden = !0);
+      FQ.length && (ee += '<section id="sf-pv-faq" class="sf-pv-sec"><h2>더 알아보기</h2><div class="sf-pv-faq sf-pv-more2" data-sf-accordion>' + FQ.map((function(e, s) {
+        return '<div data-sf-acc-item><button type="button" data-sf-acc-trigger><span>' + oe(e.q) + '</span></button><div data-sf-acc-panel data-sf-fq="' + s + '">' + (e.h || "") + "</div></div>";
       })).join("") + "</div></section>");
       var ae = pe("nav", "sf-tabs sf-pv-tabs", Y.map((function(e, s) {
         return '<a href="#' + e[0] + '" class="sf-tab' + (s ? "" : " is-active") + '">' + e[1] + "</a>";
@@ -229,14 +235,69 @@ SFUI.register('productView', function() {
         }));
         return t;
       }
-      OG && ([].forEach.call(ne.querySelectorAll("[data-sf-own-g]"), (function(e) {
-        OG[e.getAttribute("data-sf-own-g")].forEach((function(part) {
-          part.t && e.appendChild(pe("h3", "sf-pv-h3", oe(part.t))), e.appendChild(body(part.n));
+      // (10/27 v2) [프로그램] 글 → 회차 목록(모두 펼친 상태로 시작)
+      //   첫 줄들(예: 총 6회 · 회당 90분 · 온라인) = 설명 / '# 제목 | 90분' = 한 회차 / '- 세부' = 그 회차 안 내용
+      //   세부 줄에 링크를 걸면(또는 주소를 붙여 쓰면) 파란 글씨 + ▶ + '미리보기' 로 보이고 누르면 이동해요
+      //   예전처럼 '1회차 · 주제 (90분)'으로 쓴 줄도 회차로 읽어요. 회차 줄이 하나도 없으면 null(쓴 글 그대로)
+      function progBox(list) {
+        var HR = /^#\s*(.+)$/, LR = /^(\d+)\s*회차?\s*[·.:：\-)]\s*(.+?)(?:\s*[\(（]\s*(\d+\s*분)\s*[\)）])?$/, DR = /^[-–•]\s*/, UR = /(https?:\/\/[^\s<>"]+)/;
+        var desc = [], items = [], cur = null;
+        list.forEach((function(e) {
+          var tx = (e.textContent || "").replace(/\s+/g, " ").trim(), m;
+          if (!tx) return;
+          if (m = HR.exec(tx)) {
+            var ps = m[1].split("|"), tm = ps.length > 1 ? ps.pop().trim() : "";
+            cur = { t: ps.join("|").replace(/^\d+\s*회차?\s*[·.:：\-)]?\s*/, "").trim(), m: tm, d: [] }, items.push(cur);
+          } else if (!DR.test(tx) && (m = LR.exec(tx))) {
+            cur = { t: m[2], m: m[3] || "", d: [] }, items.push(cur);
+          } else if (cur) {
+            var a = 1 === e.nodeType && e.querySelector("a[href]"), u = a ? a.getAttribute("href") : (UR.exec(tx) || [])[1], lb = tx.replace(DR, "");
+            u && !a && (lb = lb.replace(u, "").replace(/[\s:：\-–]+$/, "").trim() || "미리보기");
+            cur.d.push({ x: lb, u: u && /^(https?:\/\/|\/)/.test(u) ? u : "" });
+          } else desc.push(tx);
         }));
+        if (!items.length) return null;
+        var h2 = (desc.length ? '<p class="sf-pv-sub sf-pv-progsub">' + desc.map(oe).join("<br>") + "</p>" : "") + '<div class="sf-pv-chapters sf-pv-chapters--own" data-sf-accordion>' + items.map((function(e, s) {
+          return '<div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회</b><span>" + oe(e.t) + "</span>" + (e.m ? "<em>" + oe(e.m) + "</em>" : "") + "</button><div data-sf-acc-panel>" + (e.d.length ? '<ul class="sf-pv-chdet">' + e.d.map((function(d) {
+            return d.u ? '<li class="is-link"><a href="' + oe(d.u) + '"' + (/^https?:/.test(d.u) && d.u.indexOf(location.host) < 0 ? ' target="_blank" rel="noopener"' : "") + "><span>" + oe(d.x) + "</span><em>미리보기</em></a></li>" : "<li>" + oe(d.x) + "</li>";
+          })).join("") + "</ul>" : "") + "</div></div>";
+        })).join("") + "</div>";
+        return pe("div", "sf-pv-prog", h2);
+      }
+      // (10/27 v2) [강사] 글에 쓴 이름이 전문가 네트워크(/experts)에 있으면 사진·분야·소속·함께한 주제 + 프로필 보기 카드로 바꿔요
+      //   이름 다음 줄들은 카드 안 소개 글로 들어가요. 못 찾으면 쓴 글 그대로
+      function teachCards(secEl) {
+        var bd = secEl.querySelector(".sf-pv-ownbody");
+        bd && expertsLoad((function(EX) {
+          var card = null;
+          [].slice.call(bd.children).forEach((function(e) {
+            var tx = (e.textContent || "").replace(/\s+/g, " ").trim();
+            if (!tx && !e.querySelector("img,iframe,video")) return;
+            var key = tx.split(/\s*[·(（|,\/]\s*|\s+-\s+/)[0].replace(/\s*(님|강사|연사|호스트|대표)$/, "").trim(), x = key.length < 12 && EX[key];
+            if (x) {
+              card = pe("div", "sf-pv-teacher sf-pv-tcard", '<span class="sf-pv-teacher__photo" aria-hidden="true"></span><div class="sf-pv-tcard__txt">' + (x[2] ? '<span class="sf-pv-tchip">' + oe(x[2]) + "</span>" : "") + "<strong>" + oe(key) + "</strong>" + (x[3] ? "<small>" + oe(x[3]) + "</small>" : "") + (x[4] ? '<p class="sf-pv-ttalk"><b>시니어퓨처와 함께한 주제</b>' + oe(x[4]) + "</p>" : "") + '<a class="sf-pv-tlink" href="/experts' + (/preview_mode=1/.test(location.search) ? "?preview_mode=1" : "") + "#" + oe(x[0]) + '">' + TL + ' 프로필 보기 <span aria-hidden="true">›</span></a></div>');
+              /^https:\/\/[^"'()\s]+$/.test(x[1]) && (card.firstChild.style.backgroundImage = 'url("' + x[1] + '")');
+              bd.insertBefore(card, e), bd.removeChild(e);
+            } else if (card) {
+              var lk = card.querySelector(".sf-pv-tlink");
+              lk.parentNode.insertBefore(e, lk), e.classList.add("sf-pv-tbio");
+            }
+          }));
+          card && secEl.classList.add("has-cards");
+        }));
+      }
+      OG && ([].forEach.call(ne.querySelectorAll("[data-sf-own-g]"), (function(e) {
+        var g2 = e.getAttribute("data-sf-own-g");
+        OG[g2].forEach((function(part) {
+          part.t && e.appendChild(pe("h3", "sf-pv-h3", oe(part.t)));
+          var pg = "program" === g2 && progBox(part.n);
+          e.appendChild(pg || body(part.n));
+        }));
+        "teacher" === g2 && teachCards(e);
       })), G && (G.hidden = !0), re && (re.hidden = !0));
       FQ.forEach((function(e, s) {
         var pn = ne.querySelector('[data-sf-fq="' + s + '"]');
-        pn && (e.n ? pn.appendChild(body(e.n)) : e.qna && pn.appendChild(J));
+        pn && e.n && pn.appendChild(body(e.n));
       }));
       document.querySelectorAll(".categorize.review-box, .detail_review_wrap").forEach((function(e) {
         e.hidden = !0;
@@ -248,6 +309,7 @@ SFUI.register('productView', function() {
     t = String(t).replace(/\s+/g, " ").trim();
     if (/^(자주\s?묻는\s?질문|FAQ|Q\s?&\s?A|질문과 답변|문의)$/i.test(t)) return "faq";
     if (/^(교환|반품|환불)/.test(t)) return "refund";
+    if (/^(운영|학습|이용|수강|참여|참가)\s?(정책|규정|안내)$|정책$/.test(t)) return "policy"; // (10/27 v2) 하단 공통 [운영 정책] → 더 알아보기
     if (/(강사|연사|호스트|진행자|멘토|코치)/.test(t)) return "teacher";
     if (/^(프로그램|커리큘럼|진행\s?안내|진행\s?방식|일정|프로그램\s?일정|회차|세부\s?일정|타임\s?테이블|수업\s?구성)/.test(t) && !/소개$/.test(t)) return "program";
     return "intro";
@@ -304,6 +366,28 @@ SFUI.register('productView', function() {
     }));
     k >= 0 && o.secs.push({ t: "교환·환불 안내", n: last.splice(k) });
     return o;
+  }
+  // (10/27 v2) 전문가 네트워크(/experts 코드 위젯의 프로필 33명)를 한 번 받아 { 이름: [칸 id, 사진, 분야, 소속, 함께한 주제] } 로 (탭 안에서는 다시 안 받아요)
+  function expertsLoad(done) {
+    var EX = null;
+    try { EX = JSON.parse(sessionStorage.getItem("sf_experts") || "null"); } catch (x) {}
+    if (EX) return done(EX);
+    if (!window.fetch || !window.DOMParser) return;
+    fetch("/experts" + (/preview_mode=1/.test(location.search) ? "?preview_mode=1" : ""), { credentials: "same-origin" }).then((function(r) {
+      return r.ok ? r.text() : "";
+    })).then((function(t) {
+      var d = t && new DOMParser().parseFromString(t, "text/html"), out = {}, n = 0;
+      d && [ d ].concat([].map.call(d.querySelectorAll("template"), (function(x) { return x.content; }))).forEach((function(r) {
+        [].forEach.call(r.querySelectorAll("article.sf-ex-pf[id]"), (function(a) {
+          var h = a.querySelector("h2"), ph = a.querySelector(".sf-ex-ph"), ch = a.querySelector(".sf-ex-chip"), og = a.querySelector(".sf-ex-hero h2 + p"), tk = a.querySelector(".sf-ex-talk");
+          var u = ph && /url\(\s*["']?([^"')\s]+)/.exec(ph.getAttribute("style") || "");
+          h && !out[h.textContent.trim()] && (out[h.textContent.trim()] = [ a.id, u ? u[1] : "", ch ? ch.textContent.trim() : "", og ? og.textContent.trim() : "", tk ? tk.textContent.trim() : "" ], n++);
+        }));
+      }));
+      if (!n) return;
+      try { sessionStorage.setItem("sf_experts", JSON.stringify(out)); } catch (x) {}
+      done(out);
+    }))["catch"]((function() {}));
   }
   // 상세 화면에 꼬리표가 아직 없으면(목록을 거치지 않고 바로 들어온 경우) 같은 목록 주소를 한 번 받아 배지를 읽어요
   function badgeFetch(idx, done) {
