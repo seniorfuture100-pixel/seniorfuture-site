@@ -181,6 +181,7 @@
     function wrap(h) { var b = box(h); return b && b.parentElement && b.parentElement.parentElement === left ? b.parentElement : null; }
     var wp = secProd.parentElement; if (wp && wp.parentElement === left) wp.classList.add('r3pay-w--prod');
     var we = wrap(hd(root, '추가정보')); if (we) we.classList.add('r3pay-w--extra');
+    if (we) $$('p', we).forEach(function (p) { if (/^추천인 코드/.test(clean(p.textContent))) p.classList.add('r3pay-xlabel'); else p.classList.add('r3pay-xhelp'); });
     // 쿠폰
     var hC = hd(root, '쿠폰'), wc = wrap(hC);
     if (wc) {
@@ -227,7 +228,7 @@
         if (v === '총 결제 금액' && s.parentElement) s.parentElement.classList.add('r3pay-total');
       });
       // 적립 비율 0%(10/27 설정)라 '0 포인트 적립 예정' 줄은 숨겨요
-      $$('div, p', sumBox).forEach(function (d) { if (d.children.length > 3) return; if (/^0\s*포인트\s*적립\s*예정$/.test(clean(d.textContent))) d.classList.add('r3pay-hide'); });
+      $$('div, p', $('.r3pay-right') || sumBox).forEach(function (d) { if (d.children.length > 3) return; if (/^0\s*포인트\s*적립\s*예정$/.test(clean(d.textContent))) d.classList.add('r3pay-hide'); });
     }
   }
 

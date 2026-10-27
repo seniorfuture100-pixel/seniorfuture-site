@@ -147,6 +147,25 @@ html.r3pay-on body .r3pay-total {
 html.r3pay-on body .r3pay-total span:first-child { font:700 16px/1.4 var(--sf-font)!important; color:#111827!important; }
 html.r3pay-on body .r3pay-total span:last-child,
 html.r3pay-on body .r3pay-total span:last-child * { font:800 27px/1.2 var(--sf-font)!important; color:#111827!important; }
+/* 쿠폰 선택칸 오른쪽 ▼ · 추천인 코드 글자 · 쿠폰 칸 아래 여백 */
+html.r3pay-on body .r3pay-field--select::after {
+  content:"";
+  position:absolute;
+  right:18px;
+  top:50%;
+  width:8px;
+  height:8px;
+  margin-top:-6px;
+  border-right:2px solid #6B7280;
+  border-bottom:2px solid #6B7280;
+  transform:rotate(45deg);
+  pointer-events:none;
+}
+html.r3pay-on body .r3pay-field--select.is-empty::after { border-color:#D1D5DB; }
+html.r3pay-on body .r3pay-xlabel { margin:0 0 6px!important; color:#111827!important; font:600 16px/1.5 var(--sf-font)!important; }
+html.r3pay-on body .r3pay-xhelp { margin:0 0 10px!important; color:#6B7280!important; font:400 14px/1.6 var(--sf-font)!important; }
+html.r3pay-on body .r3pay-w--coupon .r3pay-box>div,
+html.r3pay-on body .r3pay-w--coupon .r3pay-box>div>div { margin-bottom:0!important; padding-bottom:0!important; }
 /* 쿠폰 고르는 창(아임웹 창) — 주문서에서만 */
 html.r3pay-on body .ReactModal__Content {
   width:min(440px,calc(100vw - 32px))!important;
