@@ -77,13 +77,39 @@ SFUI.register('homeBanner', function () {
   if (pager) pager.textContent = '1 / ' + SLIDES.length;
   el.classList.add('sf-hb-on');
   // (10/27) 휴대폰은 PC 배너(760×340)를 그대로 줄인 모양 → 장면 줄임 비율 = 배너 너비/760 (CSS --hb-k, qa/03 휴대폰 칸)
+  // (10/27 2차) 장면마다 그림 크기·위치가 달라 여백이 들쭉날쭉(교육 위 8·아래 72, 파트너 오른쪽 10 등)하고 넘김 표시가 그림에 겹침
+  //  → 장마다 실제 그림 범위를 재서: 오른쪽 여백 같게, 위아래 가운데, 넘김 표시 위로(넘치면 그만큼만 줄임)
+  function place(s, pg) {
+    var art = s.querySelector('.sf-hb__art'); if (!art) return;
+    art.style.translate = ''; art.style.scale = '';
+    var S = s.getBoundingClientRect(); if (!S.width) return;
+    var kids = [].filter.call(art.children, function (e) { return !e.classList.contains('hb-glow') && e.offsetWidth; });
+    function box() {
+      var b = { l: 1e9, t: 1e9, r: -1e9, b: -1e9 };
+      kids.forEach(function (e) { var r = e.getBoundingClientRect(); b.l = Math.min(b.l, r.left); b.t = Math.min(b.t, r.top); b.r = Math.max(b.r, r.right); b.b = Math.max(b.b, r.bottom); });
+      return b;
+    }
+    var m = Math.max(10, 24 * S.width / 760), top = S.top + m, bot = S.bottom - Math.max(m, pg + 6), right = S.right - m;
+    var B = box(), f = Math.min(1, (bot - top) / (B.b - B.t));
+    if (f < 1) { art.style.scale = f.toFixed(3); B = box(); }
+    art.style.translate = Math.round(right - B.r) + 'px ' + Math.round((top + bot) / 2 - (B.t + B.b) / 2) + 'px';
+  }
   function fit() {
     var s = track.querySelector('.sf-hb'), w = s && s.getBoundingClientRect().width;
-    if (w) el.style.setProperty('--hb-k', Math.min(1, w / 760).toFixed(4));
+    if (!w) return;
+    el.style.setProperty('--hb-k', Math.min(1, w / 760).toFixed(4));
+    // 넘김 표시가 차지하는 아래 높이(지금 슬라이드 기준)
+    var cur = track.querySelector('.sf-hb.is-current') || s, p = el.querySelector('.sf-peek-pager'), pg = 0;
+    if (p && p.offsetWidth) pg = cur.getBoundingClientRect().bottom - p.getBoundingClientRect().top;
+    track.querySelectorAll('.sf-hb').forEach(function (x) { place(x, Math.max(0, pg)); });
   }
+  var fitT;
+  function refit() { clearTimeout(fitT); fitT = setTimeout(fit, 120); }
   fit();
-  window.addEventListener('resize', fit);
-  if (window.ResizeObserver) new ResizeObserver(fit).observe(track);
+  setTimeout(fit, 600);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  window.addEventListener('resize', refit);
+  if (window.ResizeObserver) new ResizeObserver(refit).observe(track);
   // 분야 바꾸기: 진짜 배너와 끝없이 돌기용 복제 배너를 같은 순간에 같이 바꿔서, 넘어갈 때 티가 안 나요
   var ci = 0;
   function paint() {
