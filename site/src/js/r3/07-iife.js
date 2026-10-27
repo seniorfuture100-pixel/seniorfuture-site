@@ -242,6 +242,7 @@
   setTimeout(function () { document.documentElement.classList.add('r3pay-ready'); }, 3000);
   var n = 0;
   (function wait() { run(); if (!document.querySelector('.r3pay-cards') && n++ < 60) setTimeout(wait, 250); })();
-  new MutationObserver(function () { if (busy) return; clearTimeout(t); t = setTimeout(run, 80); }).observe(document.documentElement, { childList: true, subtree: true });
+  // (10/27) 아임웹이 주문서를 다시 그리면(전액 사용 등) 화면에 그려지기 전에 바로 다시 꾸며요(예전 모양이 잠깐 보이던 것). 우리 변경은 문구·class 뿐이라 다시 불리지 않아요
+  new MutationObserver(function () { if (busy) return; clearTimeout(t); if (document.getElementById('oms-shop-payment')) run(); else t = setTimeout(run, 80); }).observe(document.documentElement, { childList: true, subtree: true });
   document.addEventListener('change', function (e) { if (e.target && e.target.type === 'radio') setTimeout(run, 30); }, true);
 })()

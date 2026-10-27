@@ -13,6 +13,8 @@ html.r3pay-on body .r3pay-tiles {
   }
 }
 
+/* (10/27 4차) 깜빡임 방지: '사용 가능 포인트 … / 보유 포인트 …' 원래 줄은 다시 그려져도 처음부터 숨김 */
+html.r3pay-on body .r3pay-w--point form+div { display:none!important; }
 /* (10/27) 쿠폰 사용 · 적립금 사용 (아임웹 기본 기능, r3-pay.js benefits) — 디자인 가이드
    입력칸 공통: 높이 50 · 모서리 8 · 테두리 #DADDE2 · 흰 바탕 · 16px · 좌우 16 / 글씨 #111827 · 보조 #6B7280 · 구분선 #E5E7EB */
 html.r3pay-on body .r3pay-left {
@@ -54,7 +56,7 @@ html.r3pay-on body .r3pay-hinfo b {
 }
 /* 입력칸 공통 */
 html.r3pay-on body .r3pay-w--coupon label { display:block!important; width:100%!important; }
-html.r3pay-on body .r3pay-field,
+html.r3pay-on body :is(.r3pay-w--coupon label>button,.r3pay-w--point form>div),
 html.r3pay-on body .r3pay-box--extra input {
   display:flex!important;
   align-items:center;
@@ -71,18 +73,18 @@ html.r3pay-on body .r3pay-box--extra input {
   font:400 16px/1.4 var(--sf-font)!important;
   text-align:left!important;
 }
-html.r3pay-on body .r3pay-field--select { padding-right:44px!important; position:relative; cursor:pointer; }
-html.r3pay-on body .r3pay-field--select * { font:inherit!important; color:inherit!important; }
-html.r3pay-on body .r3pay-field--select svg { position:absolute; right:16px; top:50%; transform:translateY(-50%); width:20px!important; height:20px!important; }
-html.r3pay-on body .r3pay-field--select.is-empty { color:#9CA3AF!important; cursor:default; }
-html.r3pay-on body .r3pay-pform {
+html.r3pay-on body .r3pay-w--coupon label>button { padding-right:44px!important; position:relative; cursor:pointer; }
+html.r3pay-on body .r3pay-w--coupon label>button * { font:inherit!important; color:inherit!important; }
+html.r3pay-on body .r3pay-w--coupon label>button svg { position:absolute; right:16px; top:50%; transform:translateY(-50%); width:20px!important; height:20px!important; }
+html.r3pay-on body .r3pay-w--coupon label>button.is-empty { color:#9CA3AF!important; cursor:default; }
+html.r3pay-on body .r3pay-w--point form {
   display:flex!important;
   align-items:stretch!important;
   gap:8px!important;
   margin:0!important;
 }
-html.r3pay-on body .r3pay-pform>.r3pay-field { flex:1 1 auto; min-width:0; }
-html.r3pay-on body .r3pay-pinput {
+html.r3pay-on body .r3pay-w--point form>div { flex:1 1 auto; min-width:0; }
+html.r3pay-on body .r3pay-w--point form input {
   width:100%!important;
   height:100%!important;
   margin:0!important;
@@ -94,8 +96,8 @@ html.r3pay-on body .r3pay-pinput {
   font:400 16px/1.4 var(--sf-font)!important;
   text-align:left!important;
 }
-html.r3pay-on body .r3pay-pinput::placeholder { color:#9CA3AF; }
-html.r3pay-on body .r3pay-allbtn {
+html.r3pay-on body .r3pay-w--point form input::placeholder { color:#9CA3AF; }
+html.r3pay-on body .r3pay-w--point form>button {
   flex:none;
   height:50px!important;
   min-width:96px;
@@ -108,19 +110,19 @@ html.r3pay-on body .r3pay-allbtn {
   font:600 16px/1 var(--sf-font)!important;
   cursor:pointer;
 }
-html.r3pay-on body .r3pay-allbtn:hover { border-color:#9CA3AF!important; }
+html.r3pay-on body .r3pay-w--point form>button:hover { border-color:#9CA3AF!important; }
 /* 누르거나 입력 중 — 또렷한 테두리 */
 /* 누르거나 입력 중: 띠(테두리 바깥 선) 없이 테두리만 진하게 — 바로 입력 */
-html.r3pay-on body .r3pay-field:focus-within,
-html.r3pay-on body .r3pay-field:focus-visible,
+html.r3pay-on body :is(.r3pay-w--coupon label>button,.r3pay-w--point form>div):focus-within,
+html.r3pay-on body :is(.r3pay-w--coupon label>button,.r3pay-w--point form>div):focus-visible,
 html.r3pay-on body .r3pay-box--extra input:focus,
-html.r3pay-on body .r3pay-allbtn:focus-visible {
+html.r3pay-on body .r3pay-w--point form>button:focus-visible {
   border-color:#111827!important;
 }
-html.r3pay-on body .r3pay-field,
-html.r3pay-on body .r3pay-field *,
-html.r3pay-on body .r3pay-pinput,
-html.r3pay-on body .r3pay-allbtn,
+html.r3pay-on body :is(.r3pay-w--coupon label>button,.r3pay-w--point form>div),
+html.r3pay-on body :is(.r3pay-w--coupon label>button,.r3pay-w--point form>div) *,
+html.r3pay-on body .r3pay-w--point form input,
+html.r3pay-on body .r3pay-w--point form>button,
 html.r3pay-on body .r3pay-box--extra input,
 html.r3pay-on body .r3pay-w--coupon label {
   outline:0!important;
@@ -128,13 +130,13 @@ html.r3pay-on body .r3pay-w--coupon label {
   -webkit-tap-highlight-color:transparent;
 }
 /* 고른 쿠폰 줄 · 적립금 없음 안내 */
-html.r3pay-on body .r3pay-csel {
+html.r3pay-on body .r3pay-w--coupon div:has(>label)+div {
   margin-top:8px!important;
   text-align:left!important;
   color:#6B7280!important;
   font:400 14px/1.5 var(--sf-font)!important;
 }
-html.r3pay-on body .r3pay-csel * { font:inherit!important; }
+html.r3pay-on body .r3pay-w--coupon div:has(>label)+div * { font:inherit!important; }
 html.r3pay-on body .r3pay-pzero {
   margin:8px 0 0;
   color:#6B7280;
@@ -157,7 +159,7 @@ html.r3pay-on body .r3pay-total span:first-child { font:700 16px/1.4 var(--sf-fo
 html.r3pay-on body .r3pay-total span:last-child,
 html.r3pay-on body .r3pay-total span:last-child * { font:800 27px/1.2 var(--sf-font)!important; color:#111827!important; }
 /* 쿠폰 선택칸 오른쪽 ▼ · 추천인 코드 글자 · 쿠폰 칸 아래 여백 */
-html.r3pay-on body .r3pay-field--select::after {
+html.r3pay-on body .r3pay-w--coupon label>button::after {
   content:"";
   position:absolute;
   right:18px;
@@ -170,7 +172,7 @@ html.r3pay-on body .r3pay-field--select::after {
   transform:rotate(45deg);
   pointer-events:none;
 }
-html.r3pay-on body .r3pay-field--select.is-empty::after { border-color:#D1D5DB; }
+html.r3pay-on body .r3pay-w--coupon label>button.is-empty::after { border-color:#D1D5DB; }
 html.r3pay-on body .r3pay-xlabel { margin:0 0 6px!important; color:#111827!important; font:600 16px/1.5 var(--sf-font)!important; }
 html.r3pay-on body .r3pay-xhelp { margin:0 0 10px!important; color:#6B7280!important; font:400 14px/1.6 var(--sf-font)!important; }
 html.r3pay-on body .r3pay-w--coupon .r3pay-box>div,
@@ -315,21 +317,21 @@ html.r3pay-on body .ReactModal__Content main>div>div:last-child button {
 html.r3pay-on body .ReactModal__Content main>div>div:last-child button:hover { filter:brightness(.96); }
 html.r3pay-on body .ReactModal__Content main>div>div:first-child button { border-radius:8px!important; color:#6B7280!important; }
 /* (10/27 3차) 전액 사용 글자(입력칸과 같은 글꼴, 500) · 누른 뒤 테두리 띠 없음 · 입력칸 안 지우기(×) 버튼은 작게 */
-html.r3pay-on body .r3pay-allbtn,
-html.r3pay-on body .r3pay-allbtn * {
+html.r3pay-on body .r3pay-w--point form>button,
+html.r3pay-on body .r3pay-w--point form>button * {
   font-family:var(--sf-font)!important;
   font-size:16px!important;
   font-weight:500!important;
   letter-spacing:-.01em;
 }
-html.r3pay-on body .r3pay-allbtn:focus,
-html.r3pay-on body .r3pay-allbtn:active,
-html.r3pay-on body .r3pay-allbtn:focus-visible {
+html.r3pay-on body .r3pay-w--point form>button:focus,
+html.r3pay-on body .r3pay-w--point form>button:active,
+html.r3pay-on body .r3pay-w--point form>button:focus-visible {
   outline:0!important;
   box-shadow:none!important;
   border-color:#DADDE2!important;
 }
-html.r3pay-on body .r3pay-pclear {
+html.r3pay-on body .r3pay-w--point form>div button {
   flex:none;
   width:24px!important;
   height:24px!important;
@@ -346,8 +348,8 @@ html.r3pay-on body .r3pay-pclear {
   box-shadow:none!important;
   outline:0!important;
 }
-html.r3pay-on body .r3pay-pclear svg { width:10px!important; height:10px!important; }
-html.r3pay-on body .r3pay-pform *:focus { outline:0!important; box-shadow:none!important; }
+html.r3pay-on body .r3pay-w--point form>div button svg { width:10px!important; height:10px!important; }
+html.r3pay-on body .r3pay-w--point form *:focus { outline:0!important; box-shadow:none!important; }
 /* 쿠폰 창: 쿠폰 이름이 길면 카드 안에서 줄바꿈(가로로 넘쳐 스크롤 생기던 것) */
 html.r3pay-on body .ReactModal__Content main>div>div+div { overflow-x:hidden!important; }
 html.r3pay-on body .ReactModal__Content form,
@@ -369,5 +371,5 @@ html.r3pay-on body .ReactModal__Content form li label span {
   html.r3pay-on body .r3pay-hinfo { font-size:14px; }
   html.r3pay-on body .r3pay-total span:last-child,
   html.r3pay-on body .r3pay-total span:last-child * { font-size:26px!important; }
-  html.r3pay-on body .r3pay-allbtn { min-width:88px; }
+  html.r3pay-on body .r3pay-w--point form>button { min-width:88px; }
 }
