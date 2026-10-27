@@ -90,7 +90,9 @@ SFUI.register('homeBanner', function () {
       return b;
     }
     var m = Math.max(10, 24 * S.width / 760), top = S.top + m, bot = S.bottom - Math.max(m, pg + 6), right = S.right - m;
-    var B = box(), f = Math.min(1, (bot - top) / (B.b - B.t));
+    // 휴대폰은 글씨를 덜 줄여서 글씨 오른쪽 끝 ~ 배너 끝 사이에만 그림이 들어가게(겹침 방지)
+    var cp = s.querySelector('.sfw-banner__copy'), left = cp && S.width < 760 ? cp.getBoundingClientRect().right + m : S.left;
+    var B = box(), f = Math.min(1, (bot - top) / (B.b - B.t), (right - left) / (B.r - B.l));
     if (f < 1) { art.style.scale = f.toFixed(3); B = box(); }
     art.style.translate = Math.round(right - B.r) + 'px ' + Math.round((top + bot) / 2 - (B.t + B.b) / 2) + 'px';
   }
