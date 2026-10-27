@@ -176,14 +176,7 @@
 :root .sf-pv--live .goods_form header .view_tit {
   grid-row:3;
 }
-:root .sf-pv--live .sf-pv-tabs,
-:root .sf-pv--meet .sf-pv-tabs {
-  display:none;
-}
-:root .sf-pv--live .sf-pv-secs,
-:root .sf-pv--meet .sf-pv-secs {
-  margin-top:8px;
-}
+/* (10/27) 무료 라이브·모임도 교육처럼 탭(소개·프로그램·연사/호스트·후기)을 보여요 — 예전 Figma 22:1451·28:2452 의 '탭 없음' 규칙은 뺐어요 */
 html.sf-my-on body .sf-my-menu li,
 html.sf-my-on body .sf-my-menu li a {
   border:0!important;
