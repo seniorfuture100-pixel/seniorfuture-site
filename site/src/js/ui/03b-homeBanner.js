@@ -90,8 +90,13 @@ SFUI.register('homeBanner', function () {
       return b;
     }
     var m = Math.max(10, 24 * S.width / 760), top = S.top + m, bot = S.bottom - Math.max(m, pg + 6), right = S.right - m;
-    // 휴대폰은 글씨를 덜 줄여서 글씨 오른쪽 끝 ~ 배너 끝 사이에만 그림이 들어가게(겹침 방지)
-    var cp = s.querySelector('.sfw-banner__copy'), left = cp && S.width < 760 ? cp.getBoundingClientRect().right + m : S.left;
+    // 글씨가 실제로 끝나는 곳 ~ 배너 끝 사이에만 그림이 들어가게(휴대폰은 글씨를 덜 줄여 겹치기 쉬움)
+    var left = S.left, rg = document.createRange();
+    [].forEach.call(s.querySelectorAll('.sfw-banner__copy>*'), function (e) {
+      if (!e.offsetWidth) return;
+      rg.selectNodeContents(e);
+      [].forEach.call(rg.getClientRects(), function (q) { left = Math.max(left, q.right + m); });
+    });
     var B = box(), f = Math.min(1, (bot - top) / (B.b - B.t), (right - left) / (B.r - B.l));
     if (f < 1) { art.style.scale = f.toFixed(3); B = box(); }
     art.style.translate = Math.round(right - B.r) + 'px ' + Math.round((top + bot) / 2 - (B.t + B.b) / 2) + 'px';
