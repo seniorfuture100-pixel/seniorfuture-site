@@ -180,6 +180,8 @@
   function benefits(root, left, secProd) {
     function wrap(h) { var b = box(h); return b && b.parentElement && b.parentElement.parentElement === left ? b.parentElement : null; }
     var wp = secProd.parentElement; if (wp && wp.parentElement === left) wp.classList.add('r3pay-w--prod');
+    // 쿠폰 창 제목 띄어쓰기 '쿠폰적용' → '쿠폰 적용' (창은 주문서 바깥에 그려져요)
+    $$('.ReactModal__Content span').forEach(function (s) { if (clean(s.textContent) === '쿠폰적용') setText(s, '쿠폰 적용'); });
     var we = wrap(hd(root, '추가정보')); if (we) we.classList.add('r3pay-w--extra');
     if (we) $$('p', we).forEach(function (p) { if (/^추천인 코드/.test(clean(p.textContent))) p.classList.add('r3pay-xlabel'); else p.classList.add('r3pay-xhelp'); });
     // 쿠폰

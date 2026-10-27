@@ -110,13 +110,22 @@ html.r3pay-on body .r3pay-allbtn {
 }
 html.r3pay-on body .r3pay-allbtn:hover { border-color:#9CA3AF!important; }
 /* 누르거나 입력 중 — 또렷한 테두리 */
+/* 누르거나 입력 중: 띠(테두리 바깥 선) 없이 테두리만 진하게 — 바로 입력 */
 html.r3pay-on body .r3pay-field:focus-within,
 html.r3pay-on body .r3pay-field:focus-visible,
 html.r3pay-on body .r3pay-box--extra input:focus,
 html.r3pay-on body .r3pay-allbtn:focus-visible {
   border-color:#111827!important;
-  outline:3px solid rgba(255,107,0,.25)!important;
-  outline-offset:0;
+}
+html.r3pay-on body .r3pay-field,
+html.r3pay-on body .r3pay-field *,
+html.r3pay-on body .r3pay-pinput,
+html.r3pay-on body .r3pay-allbtn,
+html.r3pay-on body .r3pay-box--extra input,
+html.r3pay-on body .r3pay-w--coupon label {
+  outline:0!important;
+  box-shadow:none!important;
+  -webkit-tap-highlight-color:transparent;
 }
 /* 고른 쿠폰 줄 · 적립금 없음 안내 */
 html.r3pay-on body .r3pay-csel {
@@ -252,6 +261,59 @@ html.r3pay-on body .ReactModal__Content main button:not([type=button]) {
   color:#fff!important;
   font:700 17px/1 var(--sf-font)!important;
 }
+/* (10/27 2차) 쿠폰 선택칸을 감싼 아임웹 칸의 테두리(겹쳐 보이던 직사각형 띠) 없애기 */
+html.r3pay-on body .r3pay-w--coupon label {
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+}
+/* 작은 글자 가이드 맞춤: 꼬리표 13px · 동의 문구 14px */
+html.r3pay-on body .r3pay-card__tags .sf-tag { font-size:13px!important; }
+html.r3pay-on body .r3pay-agree { font-size:14px!important; }
+/* 쿠폰 창 다듬기: 금액은 굵게 한 줄, 쿠폰 이름은 아래 줄 · 아래 '적용하기' 칸 구분선 · 주황 버튼(결제하기와 같은 색) */
+html.r3pay-on body .ReactModal__Content form li label>span>span>span>span:first-child {
+  display:block!important;
+  color:#111827!important;
+  font:700 17px/1.4 var(--sf-font)!important;
+}
+html.r3pay-on body .ReactModal__Content form li label>span>span>span>span:nth-child(2) { display:none!important; }
+html.r3pay-on body .ReactModal__Content form li label>span>span>span>span:nth-child(3) {
+  display:block!important;
+  margin-top:2px;
+  color:#374151!important;
+  font:400 15px/1.5 var(--sf-font)!important;
+}
+html.r3pay-on body .ReactModal__Content form li:first-child label>span>span>span>span:first-child { font-weight:500!important; font-size:16px!important; }
+html.r3pay-on body .ReactModal__Content form li>div {
+  display:flex!important;
+  flex-direction:column!important;
+  gap:2px!important;
+}
+html.r3pay-on body .ReactModal__Content form li>div p { margin:0!important; font:400 14px/1.5 var(--sf-font)!important; color:#6B7280!important; }
+html.r3pay-on body .ReactModal__Content form li input[type=radio]:focus { outline:0!important; box-shadow:none!important; }
+html.r3pay-on body .ReactModal__Content form section+div { margin:4px 0 0!important; }
+html.r3pay-on body .ReactModal__Content form section+div aside { margin-bottom:6px!important; }
+html.r3pay-on body .ReactModal__Content main>div>div+div { max-height:min(56vh,480px); overflow-y:auto!important; }
+html.r3pay-on body .ReactModal__Content main>div>div:last-child {
+  max-height:none;
+  overflow:visible!important;
+  padding:16px 24px 24px!important;
+  border-top:1px solid #E5E7EB;
+}
+html.r3pay-on body .ReactModal__Content main>div>div:last-child button {
+  width:100%!important;
+  height:52px!important;
+  border:0!important;
+  border-radius:8px!important;
+  background:var(--sf-primary,#ff6b1a)!important;
+  color:#fff!important;
+  font:700 17px/1 var(--sf-font)!important;
+  box-shadow:none!important;
+}
+html.r3pay-on body .ReactModal__Content main>div>div:last-child button:hover { filter:brightness(.96); }
+html.r3pay-on body .ReactModal__Content main>div>div:first-child button { border-radius:8px!important; color:#6B7280!important; }
 /* 쿠폰 창: 쿠폰 이름이 길면 카드 안에서 줄바꿈(가로로 넘쳐 스크롤 생기던 것) */
 html.r3pay-on body .ReactModal__Content main>div>div+div { overflow-x:hidden!important; }
 html.r3pay-on body .ReactModal__Content form,
