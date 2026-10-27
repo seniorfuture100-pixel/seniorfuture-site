@@ -252,6 +252,23 @@ html.r3pay-on body .ReactModal__Content main button:not([type=button]) {
   color:#fff!important;
   font:700 17px/1 var(--sf-font)!important;
 }
+/* 쿠폰 창: 쿠폰 이름이 길면 카드 안에서 줄바꿈(가로로 넘쳐 스크롤 생기던 것) */
+html.r3pay-on body .ReactModal__Content main>div>div+div { overflow-x:hidden!important; }
+html.r3pay-on body .ReactModal__Content form,
+html.r3pay-on body .ReactModal__Content form section,
+html.r3pay-on body .ReactModal__Content form ul,
+html.r3pay-on body .ReactModal__Content form li {
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+html.r3pay-on body .ReactModal__Content form li label>span { flex:1 1 auto!important; min-width:0!important; }
+html.r3pay-on body .ReactModal__Content form li label span {
+  display:inline!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere;
+}
 @media (max-width:767.98px) {
   html.r3pay-on body .r3pay-hinfo { font-size:14px; }
   html.r3pay-on body .r3pay-total span:last-child,
