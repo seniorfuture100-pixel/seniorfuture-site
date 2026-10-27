@@ -187,7 +187,7 @@
       wc.classList.add('r3pay-w--coupon');
       setText(hC, '쿠폰 사용');
       var cb = $('label button', wc), lb = cb && clean(cb.textContent), m = lb && lb.match(/^사용 가능\s*(\d+)\s*장$/);
-      var cnt = m ? +m[1] : null;
+      var cnt = m ? +m[1] : wc.hasAttribute('data-coupons') ? +wc.getAttribute('data-coupons') : null; // 문구를 바꾼 뒤엔 처음 읽은 장수를 써요
       if (cb) {
         cb.classList.add('r3pay-field', 'r3pay-field--select');
         var sp = $('span', cb) || cb;
