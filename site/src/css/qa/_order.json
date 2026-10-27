@@ -46,5 +46,11 @@
   "screen": "common",
   "src": null,
   "note": "10/26 추가 점검: 단어 쪼개짐·후기 날짜·로고 띠·처음 밀림"
+ },
+ {
+  "file": "09-1027-experts.css",
+  "screen": "common",
+  "src": null,
+  "note": "10/27 전문가 네트워크 게시판·이전/다음 글 글씨·강사 카드 펼침"
  }
 ]

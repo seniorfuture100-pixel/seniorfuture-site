@@ -1,0 +1,173 @@
+/* 화면 묶음: common | 10/27 전문가 네트워크 게시판(patch/06b-experts.js · 13-boardView.js) + 이전/다음 글 글씨 키움 + 상품 강사 카드 펼침 */
+
+/* ① 게시글 아래 이전 글 · 다음 글 상자: 글씨가 작다는 사장님 의견 → 제목 17px · 꼬리표 14px (인사이트·전문가·후기 공통) */
+html.sf-bv-on body .board_view .list_tap a {
+  gap:16px;
+  min-height:64px;
+  padding:18px 24px!important;
+  font:500 17px/1.5 var(--sf-font)!important;
+}
+html.sf-bv-on body .board_view .list_tap .sf-bv-pn {
+  padding:5px 10px;
+  font:600 14px/1.4 var(--sf-font)!important;
+}
+@media (max-width:767.98px) {
+  html.sf-bv-on body .board_view .list_tap a {
+    gap:12px;
+    min-height:58px;
+    padding:16px!important;
+    font-size:16px!important;
+  }
+  html.sf-bv-on body .board_view .list_tap .sf-bv-pn {
+    font-size:13px!important;
+  }
+}
+
+/* ② 전문가 목록: 예전 위젯 카드 모양에 '이름 소속'(진하게) + 함께한 활동(연하게 2줄) */
+html.sf-exb-on body .sf-exb-hide,
+html.sf-exb-on body .sf-exb-board .table_top,
+html.sf-exb-on body .sf-exb-board .list-style {
+  display:none!important;
+}
+:root body .sf-ex .sf-exb-card strong {
+  color:var(--sf-text);
+  font:700 16px/1.45 var(--sf-font);
+}
+:root body .sf-ex .sf-exb-card em {
+  display:-webkit-box;
+  margin-top:-6px;
+  overflow:hidden;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  color:var(--sf-text-3);
+  font:400 14px/1.5 var(--sf-font);
+  font-style:normal;
+}
+@media (max-width:767.98px) {
+  :root body .sf-ex .sf-exb-card strong {
+    font-size:15px;
+  }
+  :root body .sf-ex .sf-exb-card em {
+    font-size:13px;
+  }
+}
+
+/* ③ 전문가 글: 글쓴이·날짜 줄 없이 공유 버튼만, 사진 맨 위, 칸 제목 굵게 */
+html.sf-bv--expert body .board_view .sf-bv-by {
+  justify-content:flex-end;
+}
+html.sf-bv--expert body .board_view .sf-exv-ph {
+  margin:0 0 8px!important;
+}
+html.sf-bv--expert body .board_view img.sf-exv-photo {
+  display:block;
+  width:100%!important;
+  max-width:400px!important;
+  height:auto!important;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  object-position:50% 30%;
+  border-radius:16px;
+}
+:root body .sf-exv-ini {
+  display:flex;
+  width:200px;
+  max-width:100%;
+  aspect-ratio:1/1;
+  align-items:center;
+  justify-content:center;
+  border-radius:16px;
+  color:#fff;
+  font:800 56px/1 var(--sf-font);
+}
+html.sf-bv--expert body .board_view h3.sf-exv-h {
+  margin:32px 0 8px!important;
+  color:var(--sf-text)!important;
+  font:700 19px/1.4 var(--sf-font)!important;
+}
+/* 다른 전문가: 한 줄 5명, 사진 1:1 */
+:root body .sf-bv-more__list.is-5 {
+  grid-template-columns:repeat(5,minmax(0,1fr));
+}
+@media (max-width:767.98px) {
+  :root body .sf-bv-more__list.is-5 {
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:150px;
+    overflow-x:auto;
+    gap:12px;
+  }
+}
+:root body .sf-bv-more--ex .sf-bv-more__th {
+  aspect-ratio:1/1;
+  border-radius:12px;
+}
+:root body .sf-bv-more--ex .sf-bv-more__th img {
+  object-position:50% 30%;
+}
+:root body .sf-bv-more--ex .sf-exv-ini {
+  width:100%;
+  height:100%;
+  border-radius:0;
+  font-size:40px;
+}
+:root body .sf-bv-more--ex strong {
+  font-weight:700;
+}
+:root body .sf-bv-more--ex p {
+  color:var(--sf-text-3);
+}
+
+/* ④ 상품 상세 강사 카드: 한 줄 소개 + '프로필 더 보기' 펼침 */
+:root body .sf-pv-tcard .sf-pv-teacher__photo.is-ini {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font:800 32px/1 var(--sf-font);
+}
+:root body .sf-pv-tcard .sf-pv-tone {
+  margin:8px 0 0;
+  color:var(--sf-text);
+  font:500 15px/1.6 var(--sf-font);
+}
+:root body .sf-pv-tcard .sf-pv-tmore {
+  margin:12px 0 0;
+  padding:16px;
+  border-radius:12px;
+  background:#fff;
+  font:400 14px/1.6 var(--sf-font);
+}
+:root body .sf-pv-tcard .sf-pv-tmore[hidden],
+:root body .sf-pv-tcard .sf-pv-tmorebtn[hidden],
+:root body .sf-pv-tcard .sf-pv-tone[hidden] {
+  display:none;
+}
+:root body .sf-pv-tcard .sf-pv-tmore h4 {
+  margin:0 0 6px;
+  font:700 14px/1.5 var(--sf-font);
+}
+:root body .sf-pv-tcard .sf-pv-tmore h4 ~ h4 {
+  margin-top:14px;
+}
+:root body .sf-pv-tcard .sf-pv-tmore ul {
+  margin:0;
+  padding:0 0 0 18px;
+}
+:root body .sf-pv-tcard .sf-pv-tmore p {
+  margin:0 0 4px;
+}
+:root body .sf-pv-tcard .sf-pv-tmorebtn {
+  display:inline-flex;
+  margin:12px 12px 0 0;
+  height:36px;
+  padding:0 14px;
+  align-items:center;
+  border:0;
+  border-radius:9999px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--sf-border);
+  color:var(--sf-text);
+  font:600 13px/1 var(--sf-font);
+  cursor:pointer;
+}

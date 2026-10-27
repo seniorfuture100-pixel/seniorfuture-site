@@ -180,7 +180,7 @@ SFUI.register('productView', function() {
           return "<li><small>0" + (s + 1) + "</small><strong>" + oe(e[0]) + "</strong><p>" + oe(e[1]) + "</p></li>";
         })).join("") + "</ol>" + X);
         ee += sec("sf-pv-program", "프로그램", '<p class="sf-pv-sub">' + oe(w.summary) + '</p><div class="sf-pv-chapters" data-sf-accordion>' + w.chapters.map((function(e, s) {
-          return '<div data-sf-acc-item><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회</b><span>" + oe(e[0]) + "</span><em>" + oe(e[1] || "") + "</em></button><div data-sf-acc-panel>" + oe(e[2] || "회차별 자료와 실습 과제가 함께 제공돼요.") + "</div></div>";
+          return '<div data-sf-acc-item><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회차</b><span>" + oe(e[0]) + "</span><em>" + oe(e[1] || "") + "</em></button><div data-sf-acc-panel>" + oe(e[2] || "회차별 자료와 실습 과제가 함께 제공돼요.") + "</div></div>";
         })).join("") + "</div>");
         var se = w.teacher;
         ee += sec("sf-pv-teacher", TH, '<div class="sf-pv-teacher"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(se.name) + "</strong><small>" + oe(se.role) + "</small><p>" + oe(se.bio) + '</p><a href="' + oe(se.href || "/experts") + '">강사 프로필 보기 <span aria-hidden="true">›</span></a></div></div>');
@@ -239,8 +239,9 @@ SFUI.register('productView', function() {
       //   첫 줄들(예: 총 6회 · 회당 90분 · 온라인) = 설명 / '# 제목 | 90분' = 한 회차 / '- 세부' = 그 회차 안 내용
       //   세부 줄에 링크를 걸면(또는 주소를 붙여 쓰면) 파란 글씨 + ▶ + '미리보기' 로 보이고 누르면 이동해요
       //   예전처럼 '1회차 · 주제 (90분)'으로 쓴 줄도 회차로 읽어요. 회차 줄이 하나도 없으면 null(쓴 글 그대로)
+      //   (10/27) 기본 입력 = '1회차 제목' (구분 기호 없이 띄어쓰기만, 시간 없이) → 화면도 '1회차 제목'
       function progBox(list) {
-        var HR = /^#\s*(.+)$/, LR = /^(\d+)\s*회차?\s*[·.:：\-)]\s*(.+?)(?:\s*[\(（]\s*(\d+\s*분)\s*[\)）])?$/, DR = /^[-–•]\s*/, UR = /(https?:\/\/[^\s<>"]+)/;
+        var HR = /^#\s*(.+)$/, LR = /^(\d+)\s*(?:회차?\s*[·.:：\-)]|회차)\s*(.+?)(?:\s*[\(（]\s*(\d+\s*분)\s*[\)）])?$/, DR = /^[-–•]\s*/, UR = /(https?:\/\/[^\s<>"]+)/;
         var desc = [], items = [], cur = null;
         list.forEach((function(e) {
           var tx = (e.textContent || "").replace(/\s+/g, " ").trim(), m;
@@ -259,7 +260,7 @@ SFUI.register('productView', function() {
         }));
         if (!items.length) return null;
         var h2 = (desc.length ? '<p class="sf-pv-sub sf-pv-progsub">' + desc.map(oe).join("<br>") + "</p>" : "") + '<div class="sf-pv-chapters sf-pv-chapters--own" data-sf-accordion>' + items.map((function(e, s) {
-          return '<div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회</b><span>" + oe(e.t) + "</span>" + (e.m ? "<em>" + oe(e.m) + "</em>" : "") + "</button><div data-sf-acc-panel>" + (e.d.length ? '<ul class="sf-pv-chdet">' + e.d.map((function(d) {
+          return '<div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회차</b><span>" + oe(e.t) + "</span>" + (e.m ? "<em>" + oe(e.m) + "</em>" : "") + "</button><div data-sf-acc-panel>" + (e.d.length ? '<ul class="sf-pv-chdet">' + e.d.map((function(d) {
             return d.u ? '<li class="is-link"><a href="' + oe(d.u) + '"' + (/^https?:/.test(d.u) && d.u.indexOf(location.host) < 0 ? ' target="_blank" rel="noopener"' : "") + "><span>" + oe(d.x) + "</span><em>미리보기</em></a></li>" : "<li>" + oe(d.x) + "</li>";
           })).join("") + "</ul>" : "") + "</div></div>";
         })).join("") + "</div>";
@@ -275,17 +276,40 @@ SFUI.register('productView', function() {
             var tx = (e.textContent || "").replace(/\s+/g, " ").trim();
             if (!tx && !e.querySelector("img,iframe,video")) return;
             var key = tx.split(/\s*[·(（|,\/]\s*|\s+-\s+/)[0].replace(/\s*(님|강사|연사|호스트|대표)$/, "").trim(), x = key.length < 12 && EX[key];
+            if (!x && tx.length < 30 && !e.querySelector("img,iframe,video")) key = tx.split(" ")[0], x = EX[key]; // '김난도 서울대학교 교수'처럼 이름 소속을 같이 쓴 줄
             if (x) {
-              card = pe("div", "sf-pv-teacher sf-pv-tcard", '<span class="sf-pv-teacher__photo" aria-hidden="true"></span><div class="sf-pv-tcard__txt">' + (x[2] ? '<span class="sf-pv-tchip">' + oe(x[2]) + "</span>" : "") + "<strong>" + oe(key) + "</strong>" + (x[3] ? "<small>" + oe(x[3]) + "</small>" : "") + (x[4] ? '<p class="sf-pv-ttalk"><b>시니어퓨처와 함께한 주제</b>' + oe(x[4]) + "</p>" : "") + '<a class="sf-pv-tlink" href="/experts' + (/preview_mode=1/.test(location.search) ? "?preview_mode=1" : "") + "#" + oe(x[0]) + '">' + TL + ' 프로필 보기 <span aria-hidden="true">›</span></a></div>');
+              // (10/27) 카드 = 사진 · 이름 · 소속 · 한 줄 소개, '프로필 더 보기'로 핵심 이력·자기소개 (분야·함께한 활동은 안 보여요)
+              var href = x[0] ? SFUI.experts.url(x[0]) + (/preview_mode=1/.test(location.search) ? "&preview_mode=1" : "") : "/experts";
+              card = pe("div", "sf-pv-teacher sf-pv-tcard", '<span class="sf-pv-teacher__photo" aria-hidden="true"></span><div class="sf-pv-tcard__txt"><strong>' + oe(key) + "</strong>" + (x[2] ? "<small>" + oe(x[2]) + "</small>" : "") + '<p class="sf-pv-tone" hidden></p><div class="sf-pv-tmore" hidden></div><button type="button" class="sf-pv-tmorebtn" aria-expanded="false" hidden>프로필 더 보기</button><a class="sf-pv-tlink" href="' + oe(href) + '">' + TL + ' 프로필 보기 <span aria-hidden="true">›</span></a></div>');
               /^https:\/\/[^"'()\s]+$/.test(x[1]) && (card.firstChild.style.backgroundImage = 'url("' + x[1] + '")');
+              x[1] || (card.firstChild.classList.add("is-ini"), card.firstChild.setAttribute("style", SFUI.experts.tile(key, 0)), card.firstChild.textContent = key.charAt(0));
               bd.insertBefore(card, e), bd.removeChild(e);
+              x[0] && expertDetail(x[0], tFill(card));
             } else if (card) {
-              var lk = card.querySelector(".sf-pv-tlink");
+              var lk = card.querySelector(".sf-pv-tmorebtn");
               lk.parentNode.insertBefore(e, lk), e.classList.add("sf-pv-tbio");
             }
           }));
           card && secEl.classList.add("has-cards");
         }));
+      }
+      // 전문가 글의 칸 → 카드 안 한 줄 소개 / 펼침(핵심 이력·자기소개)
+      function tFill(card) {
+        return function(S) {
+          var one = card.querySelector(".sf-pv-tone"), more = card.querySelector(".sf-pv-tmore"), btn = card.querySelector(".sf-pv-tmorebtn");
+          (S["한줄소개"] || []).length && (one.textContent = S["한줄소개"].join(" "), one.hidden = !1);
+          var h = [ [ "핵심이력", "핵심 이력" ], [ "자기소개", "자기소개" ] ].map((function(k) {
+            var L = S[k[0]] || [];
+            if (L.length && "자기소개" === k[0]) return "<h4>" + k[1] + "</h4>" + L.map((function(s) { return "<p>" + oe(s) + "</p>"; })).join("");
+            return L.length ? "<h4>" + k[1] + "</h4>" + (L.length > 1 ? "<ul>" + L.map((function(s) { return "<li>" + oe(s.replace(/^[-–•]\s*/, "")) + "</li>"; })).join("") + "</ul>" : "<p>" + oe(L[0].replace(/^[-–•]\s*/, "")) + "</p>") : "";
+          })).join("");
+          if (!h) return;
+          more.innerHTML = h, btn.hidden = !1;
+          btn.addEventListener("click", (function() {
+            var op = more.hidden;
+            more.hidden = !op, btn.setAttribute("aria-expanded", op ? "true" : "false"), btn.textContent = op ? "프로필 접기" : "프로필 더 보기";
+          }));
+        };
       }
       OG && ([].forEach.call(ne.querySelectorAll("[data-sf-own-g]"), (function(e) {
         var g2 = e.getAttribute("data-sf-own-g");
@@ -369,25 +393,51 @@ SFUI.register('productView', function() {
     return o;
   }
   // (10/27 v2) 전문가 네트워크(/experts 코드 위젯의 프로필 33명)를 한 번 받아 { 이름: [칸 id, 사진, 분야, 소속, 함께한 주제] } 로 (탭 안에서는 다시 안 받아요)
+  // (10/27) 전문가 게시판 글로 바꿈 → { 이름: [글 번호, 사진, 소속, 함께한 활동] }. 게시판이 없으면(게시 전 공개 페이지) 예전 위젯 프로필로
   function expertsLoad(done) {
-    var EX = null;
-    try { EX = JSON.parse(sessionStorage.getItem("sf_experts") || "null"); } catch (x) {}
+    var EX = null, X = SFUI.experts;
+    try { EX = JSON.parse(sessionStorage.getItem("sf_experts2") || "null"); } catch (x) {}
     if (EX) return done(EX);
-    if (!window.fetch || !window.DOMParser) return;
-    fetch("/experts" + (/preview_mode=1/.test(location.search) ? "?preview_mode=1" : ""), { credentials: "same-origin" }).then((function(r) {
+    if (!window.fetch || !window.DOMParser || !X) return;
+    fetch("/experts/" + (/preview_mode=1/.test(location.search) ? "?preview_mode=1" : ""), { credentials: "same-origin" }).then((function(r) {
       return r.ok ? r.text() : "";
     })).then((function(t) {
       var d = t && new DOMParser().parseFromString(t, "text/html"), out = {}, n = 0;
-      d && [ d ].concat([].map.call(d.querySelectorAll("template"), (function(x) { return x.content; }))).forEach((function(r) {
+      d && [].forEach.call(d.querySelectorAll("#post_card_" + X.board + " ._post_item_wrap"), (function(it) {
+        var c = X.card(it);
+        c && !out[c.name] && (out[c.name] = [ c.idx, c.img, c.org, c.act ], n++);
+      }));
+      n || d && [ d ].concat([].map.call(d.querySelectorAll("template"), (function(x) { return x.content; }))).forEach((function(r) {
         [].forEach.call(r.querySelectorAll("article.sf-ex-pf[id]"), (function(a) {
-          var h = a.querySelector("h2"), ph = a.querySelector(".sf-ex-ph"), ch = a.querySelector(".sf-ex-chip"), og = a.querySelector(".sf-ex-hero h2 + p"), tk = a.querySelector(".sf-ex-talk");
+          var h = a.querySelector("h2"), ph = a.querySelector(".sf-ex-ph"), og = a.querySelector(".sf-ex-hero h2 + p"), tk = a.querySelector(".sf-ex-talk");
           var u = ph && /url\(\s*["']?([^"')\s]+)/.exec(ph.getAttribute("style") || "");
-          h && !out[h.textContent.trim()] && (out[h.textContent.trim()] = [ a.id, u ? u[1] : "", ch ? ch.textContent.trim() : "", og ? og.textContent.trim() : "", tk ? tk.textContent.trim() : "" ], n++);
+          h && !out[h.textContent.trim()] && (out[h.textContent.trim()] = [ X.order[+a.id.slice(1) - 1] || 0, u ? u[1] : "", og ? og.textContent.trim() : "", tk ? tk.textContent.trim() : "" ], n++);
         }));
       }));
       if (!n) return;
-      try { sessionStorage.setItem("sf_experts", JSON.stringify(out)); } catch (x) {}
+      try { sessionStorage.setItem("sf_experts2", JSON.stringify(out)); } catch (x) {}
       done(out);
+    }))["catch"]((function() {}));
+  }
+  // 전문가 글 한 개의 칸 → { 한줄소개: [줄…], 핵심이력: [...], 자기소개: [...] } (탭 안에서는 다시 안 받아요)
+  function expertDetail(idx, done) {
+    var k = "sf_exv_" + idx, C = null;
+    try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
+    if (C) return done(C);
+    if (!window.fetch || !window.DOMParser) return;
+    fetch(SFUI.experts.url(idx) + (/preview_mode=1/.test(location.search) ? "&preview_mode=1" : ""), { credentials: "same-origin" }).then((function(r) {
+      return r.ok ? r.text() : "";
+    })).then((function(t) {
+      var d = t && new DOMParser().parseFromString(t, "text/html"), b = d && d.querySelector(".board_txt_area"), o = {}, cur = null;
+      var HD = /^\s*\[\s*(함께한\s*활동|한\s*줄\s*소개|핵심\s*이력|자기\s*소개)\s*\]\s*$/;
+      if (!b) return;
+      [].forEach.call(b.querySelectorAll("p, h1, h2, h3, h4, li, div"), (function(x) {
+        if (x.querySelector("p, div, li, h1, h2, h3, h4")) return;
+        var m = HD.exec(x.textContent), s = x.textContent.replace(/\s+/g, " ").trim();
+        m ? (cur = m[1].replace(/\s+/g, ""), o[cur] = []) : cur && s && !/^[\-–]$/.test(s) && o[cur].push(s);
+      }));
+      try { sessionStorage.setItem(k, JSON.stringify(o)); } catch (x) {}
+      done(o);
     }))["catch"]((function() {}));
   }
   // 상세 화면에 꼬리표가 아직 없으면(목록을 거치지 않고 바로 들어온 경우) 같은 목록 주소를 한 번 받아 배지를 읽어요

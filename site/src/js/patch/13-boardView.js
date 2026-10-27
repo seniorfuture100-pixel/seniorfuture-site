@@ -3,9 +3,10 @@ SFUI.register('boardView', function () {
   var v = document.querySelector('.board_view');
   if (!v || !/bmode=view/.test(location.search) || !SFUI.once(v, 'BoardView')) return;
   var path = location.pathname.replace(/\/$/, '') || '/';
-  var isNotice = /^\/help/.test(path), isReview = /^\/review/.test(path);
+  var isNotice = /^\/help/.test(path), isReview = /^\/review/.test(path), isExpert = /^\/experts/.test(path) && !!SFUI.experts;
   var root = document.documentElement;
   root.classList.add('sf-bv-on', isNotice ? 'sf-bv--notice' : 'sf-bv--article');
+  if (isExpert) root.classList.add('sf-bv--expert'); // (10/27) 전문가 글: 글쓴이·날짜 줄 없이, 사진 → 칸 제목(내용 있는 칸만) → 다른 전문가
   var AMP = String.fromCharCode(38), tmp = document.createElement('div');
   function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML.replace(/"/g, AMP + '#34;'); }
   function el(t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
@@ -33,11 +34,28 @@ SFUI.register('boardView', function () {
   } else {
     var avatar = sum && sum.querySelector('.avatar img') ? '<img src="' + esc(sum.querySelector('.avatar img').getAttribute('src')) + '" alt="">' : '';
     head.innerHTML = '<nav class="sf-bv-crumb" aria-label="현재 위치"><a href="' + path + '">' + esc(boardName.trim()) + '</a>' + (cat ? '<span aria-hidden="true">›</span><a class="is-cat" href="' + path + '?tab=' + encodeURIComponent(cat) + '">' + esc(cat) + '</a>' : '') + '</nav><h1>' + esc(title) + '</h1>'
-      + '<div class="sf-bv-by"><span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>'
+      + '<div class="sf-bv-by">' + (isExpert ? '' : '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
       + '<span class="sf-bv-share"><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗 링크 복사</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button></span></div>';
   }
   if (h1) { var bt = h1.closest('.board-title') || h1; bt.parentNode.insertBefore(head, bt); bt.classList.add('sf-bv-hide'); }
   if (sum) sum.classList.add('sf-bv-sum');
+  // (10/27) 전문가 글 본문: 첫 사진을 맨 위 큰 사진으로, '[함께한 활동]' 같은 칸 제목 → 굵은 제목, 내용 없는 칸은 제목째 빼요
+  if (isExpert && bodyEl) {
+    var HD = /^\s*\[\s*(함께한\s*활동|한\s*줄\s*소개|핵심\s*이력|자기\s*소개)\s*\]\s*$/, cur = null, grp = [];
+    var blocks = [].filter.call(bodyEl.querySelectorAll('p, h1, h2, h3, h4, li, div'), function (x) { return !x.querySelector('p, div, li, h1, h2, h3, h4'); });
+    blocks.forEach(function (x) {
+      var m = HD.exec(x.textContent);
+      if (m) { cur = { h: x, t: m[1].replace(/\s+/g, ' '), n: [] }; grp.push(cur); } else if (cur) cur.n.push(x);
+    });
+    grp.forEach(function (g) {
+      var has = g.n.some(function (x) { return x.querySelector('img, iframe, video') || /[^\s\-–]/.test(x.textContent); });
+      if (!has) { g.n.concat([g.h]).forEach(function (x) { if (x.parentNode) x.parentNode.removeChild(x); }); return; }
+      var h = el('h3', 'sf-exv-h'); h.textContent = g.t; g.h.parentNode.replaceChild(h, g.h);
+    });
+    var pimg = bodyEl.querySelector('img');
+    if (pimg) { pimg.classList.add('sf-exv-photo'); (pimg.closest('p') || pimg).classList.add('sf-exv-ph'); }
+    else bodyEl.insertAdjacentHTML('afterbegin', '<p class="sf-exv-ph"><span class="sf-exv-ini" style="' + SFUI.experts.tile(title, 0) + '">' + esc(title.charAt(0)) + '</span></p>');
+  }
   // 본문: #태그 문단 → 칩
   if (bodyEl) {
     [].forEach.call(bodyEl.querySelectorAll('p'), function (p) {
@@ -64,7 +82,20 @@ SFUI.register('boardView', function () {
     var idx = new URLSearchParams(location.search).get('idx');
     fetch(path + '/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (t) {
       var d = new DOMParser().parseFromString(t, 'text/html');
-      var cards = [].slice.call(d.querySelectorAll('._post_item_wrap')).map(function (c) {
+      if (isExpert) { // (10/27) 다른 전문가: 예전 위젯 순서로 이 글 다음 5명(사진 1:1 · 이름 소속 · 함께한 활동)
+        var EX = SFUI.experts, all = EX.sort([].map.call(d.querySelectorAll('._post_item_wrap'), EX.card).filter(Boolean)), me = -1;
+        all.forEach(function (c, i) { if (String(c.idx) === String(idx)) me = i; });
+        var pick = []; for (var k = 1; k < all.length && pick.length < 5; k++) pick.push(all[(me + k + all.length) % all.length]);
+        if (me < 0) pick = all.slice(0, 5);
+        if (!pick.length) return;
+        var xs = el('section', 'sf-bv-more sf-bv-more--ex', '<div class="sf-bv-more__in"><h2>다른 전문가</h2><ul class="sf-bv-more__list is-5">' + pick.map(function (c, i) {
+          return '<li><a href="' + esc(EX.url(c.idx)) + '"><span class="sf-bv-more__th">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '<span class="sf-exv-ini" style="' + EX.tile(c.name, i) + '">' + esc(c.name.charAt(0)) + '</span>') + '</span><strong>' + esc(c.title) + '</strong>' + (c.act ? '<p>' + esc(c.act) + '</p>' : '') + '</a></li>';
+        }).join('') + '</ul></div>');
+        var wx = v.closest('[id^="w20"]') || v;
+        wx.parentNode.insertBefore(xs, wx.nextSibling);
+        return;
+      }
+      var cards =[].slice.call(d.querySelectorAll('._post_item_wrap')).map(function (c) {
         var a = c.querySelector('a[href*="idx="]'), img = c.querySelector('img'), tt = c.querySelector('.title'), em = tt && tt.querySelector('em:not(.notice-block):not(.addon-badge)');
         var tx = c.querySelector('.text'), dt = c.querySelector('.date');
         var tc = tt ? tt.cloneNode(true) : null;
