@@ -43,3 +43,6 @@
 :root body .sf-hub:has(.is-loading)>.sf-hub-help {
   visibility:hidden;
 }
+/* (10/27) 참가자 후기 목록: 카드 아래 날짜 숨김(이름·소속만, 기수는 js patch/21 에서 뺌) */
+:root body html.sf-rv-page ._post_item_wrap .tools .date, html.sf-rv-page body ._post_item_wrap .tools .date { display:none!important; }
+

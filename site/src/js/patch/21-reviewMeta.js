@@ -21,6 +21,7 @@ SFUI.register('reviewMeta', function (root) {
     }
     var tt = it.querySelector('.r2-ttl') || it.querySelector('.title'), lab = tt && L[(tt.classList.contains('r2-ttl') ? tt.textContent : [].filter.call(tt.childNodes, function (x) { return x.nodeType === 3; }).map(function (x) { return x.textContent; }).join('')).trim()];
     if (wr && lab) wr.textContent = lab; // 참가자 후기: 9기 · 규동님 (더힐실버타운)
+    if (wr) wr.textContent = wr.textContent.replace(/^\s*\d+\s*기\s*·\s*/, ''); // (10/27) 기수는 빼고 이름·소속만(규동님 (더힐실버타운)), 날짜는 css qa/08 에서 숨김
     var cw = it.querySelector('.card_wrapper');
     if (cw && !/thumbnail|upload/.test(cw.getAttribute('style') || '') && tt) { // (10/26) 원본처럼 사진 없는 후기: 한 줄 인용 상자
       it.classList.add('sf-rv-noimg');
