@@ -318,8 +318,9 @@
     SFUI.shopItems = function() {
       var t = v(), e = new URLSearchParams(location.search).get("idx"), n = document.querySelector(".goods_form_wrap .view_tit, .view_tit"), a = e && h(n);
       if (a) {
+        // (10/27) 코드 표에 없는 새 상품: 상품명 일시가 있으면 라이브로 보되, 커뮤니티 주소면 모임(모임 안내에 일시·마감)
         var r, s = {}, i = t[e] || {
-          type: "live"
+          type: /^\/community/.test(location.pathname) ? "meet" : "live"
         };
         for (r in i) s[r] = i[r];
         s.start = a.toISOString(), s.deadline = s.start, s.end = new Date(a.getTime() + 36e5).toISOString(), 

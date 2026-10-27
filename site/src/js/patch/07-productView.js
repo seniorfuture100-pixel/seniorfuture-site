@@ -124,11 +124,13 @@ SFUI.register('productView', function() {
         V && V.parentNode.insertBefore($, V.nextSibling);
       }
       function meetInfo() {
-        return '<section class="sf-pv-sec sf-pv-meetinfo"><h2>모임 안내</h2><div class="sf-pv-infobox">' + [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") ], [ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + "까지" : "" ] ].filter((function(e) {
+        // (10/27) 일시·장소·마감이 하나도 없으면(코드 표에 없는 새 모임) 빈 상자 대신 칸을 아예 빼요
+        var rows = [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") ], [ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + "까지" : "" ] ].filter((function(e) {
           return e[2];
-        })).map((function(e) {
+        }));
+        return rows.length ? '<section class="sf-pv-sec sf-pv-meetinfo"><h2>모임 안내</h2><div class="sf-pv-infobox">' + rows.map((function(e) {
           return "<p>" + e[0] + "<b>" + e[1] + "</b><span>" + oe(e[2]) + "</span></p>";
-        })).join("") + "</div></section>";
+        })).join("") + "</div></section>" : "";
       }
       // (10/26) 아임웹이 상세 글을 <template id="prodDetailPC"> 에 두고 늦게 꺼내요 → 비어 있으면 여기서 먼저 꺼내 읽어요
       (function() {
