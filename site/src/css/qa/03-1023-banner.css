@@ -249,8 +249,9 @@
   }
   :root body .sfw-banner__slide.sf-hb .sf-hb__art {
     top:0;
-    right:calc(12px * var(--hb-k,.47));
-    transform:scale(var(--hb-k,.47));
+    right:4px;
+    /* 글씨를 읽을 만큼 덜 줄인 대신 장면은 PC 비례의 88% → 글씨와 겹치지 않음(6장 모두 확인) */
+    transform:scale(calc(var(--hb-k,.47) * .88));
     transform-origin:100% 0;
   }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy {
@@ -260,7 +261,7 @@
     align-self:center!important;
     height:auto!important;
     justify-content:center!important;
-    max-width:58%!important;
+    max-width:50%!important;
     gap:max(4px,calc(12px * var(--hb-k,.47)))!important;
   }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy .sf-badge {
@@ -269,12 +270,12 @@
     font:700 11px/1.5 var(--sf-font)!important;
   }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong {
-    font:800 clamp(17px,4.8vw,30px)/1.3 var(--sf-font)!important;
+    font:800 clamp(16px,4.3vw,30px)/1.3 var(--sf-font)!important;
     text-shadow:0 1px 14px rgba(0,0,0,.22)!important;
   }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge) {
     display:block;
-    font:400 clamp(13px,3.4vw,16px)/1.4 var(--sf-font)!important;
+    font:400 clamp(13px,3.2vw,16px)/1.4 var(--sf-font)!important;
   }
   /* PC 처럼 '자세히 보기'는 없음(배너 전체가 링크) */
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy em {
