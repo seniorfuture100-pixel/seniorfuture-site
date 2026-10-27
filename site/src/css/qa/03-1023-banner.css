@@ -235,62 +235,42 @@
     transform-origin:100% 50%;
   }
 }
-/* 휴대폰: 글씨는 아래 왼쪽, 장면은 오른쪽 위에 작게 */
+/* 휴대폰(10/27 사장님 결정, 월부 방식): PC 배너를 그대로 줄인 모양 — 비율 760:340 같게, 배치(왼쪽 글씨·오른쪽 장면)·내용 같게(빼는 것 없음).
+   장면은 배너 너비에 정확히 비례해 줄임(--hb-k = 배너 너비/760, home-banner.js 가 넣음). 글씨만 읽을 수 있게 덜 줄임(제목 18~30px, 설명 13~16px).
+   앞으로 사진 배너도 760:340 한 장(1520×680 권장)으로 PC·휴대폰 같이 써요 */
 @media (max-width:767.98px) {
   :root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
-    aspect-ratio:16/9!important;
+    display:flex!important;
+    align-items:center!important;
+    aspect-ratio:760/340!important;
+    padding:0 0 0 max(16px,calc(56px * var(--hb-k,.47)))!important;
   }
-  /* 10/25: 장면이 배너 밖으로 밀려 위·오른쪽이 잘리던 것 → 배너 안쪽으로 넣고 조금 작게
-     10/27: 휴대폰 배너도 16:9(사장님 기준) → 높이가 줄어 장면도 맞춰 줄임 */
   :root body .sfw-banner__slide.sf-hb .sf-hb__art {
-    top:8px;
-    right:8px;
-    transform:scale(.46);
+    top:0;
+    right:calc(12px * var(--hb-k,.47));
+    transform:scale(var(--hb-k,.47));
     transform-origin:100% 0;
   }
-  .sf-hb--biz .c-50 { right:30px; }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy {
-    position:absolute!important;
-    top:auto!important;
-    left:18px!important;
-    right:18px!important;
-    bottom:16px!important;
+    position:relative!important;
+    max-width:58%!important;
+    gap:max(4px,calc(12px * var(--hb-k,.47)))!important;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy .sf-badge {
+    height:auto;
+    padding:2px 8px!important;
+    font:700 11px/1.5 var(--sf-font)!important;
   }
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong {
-    font:800 20px/1.35 var(--sf-font)!important;
+    font:800 clamp(17px,4.8vw,30px)/1.3 var(--sf-font)!important;
     text-shadow:0 1px 14px rgba(0,0,0,.22)!important;
   }
-  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge),
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge) {
+    display:block;
+    font:400 clamp(12px,3.2vw,16px)/1.4 var(--sf-font)!important;
+  }
+  /* PC 처럼 '자세히 보기'는 없음(배너 전체가 링크) */
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy em {
     display:none;
   }
-  .sf-hb .hb-cats,
-  .sf-hb .hb-bubble.q2, .sf-hb .hb-heart.h3, .sf-hb--biz .k3, .sf-hb--partner .c-time {
-    display:none;
-  }
-}
-/* 10/27: 배너 판은 화면 너비에 맞춰 커지는데 장면은 늘 절반(180×170)·제목 20px 이라
-   넓은 휴대폰·접는 폰(430~767)에선 장면·글씨가 작아 보이고, 작은 폰(320)에선 장면이 판을 거의 덮음
-   → 16:9 배너 높이에 맞춰 단계별로 키움(장면 높이 = 배너 높이의 약 80%) */
-@media (max-width:359.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.4); }
-  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong { font-size:18px!important; }
-}
-@media (min-width:420px) and (max-width:767.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.52); }
-}
-@media (min-width:480px) and (max-width:767.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { top:12px; right:12px; transform:scale(.6); }
-  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy { left:24px!important; bottom:22px!important; }
-  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong { font-size:24px!important; }
-}
-@media (min-width:560px) and (max-width:767.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { transform:scale(.7); }
-  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy { left:32px!important; bottom:28px!important; }
-  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong { font-size:28px!important; }
-  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge) { display:block; }
-}
-@media (min-width:660px) and (max-width:767.98px) {
-  :root body .sfw-banner__slide.sf-hb .sf-hb__art { top:16px; right:16px; transform:scale(.84); }
-  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong { font-size:30px!important; }
 }

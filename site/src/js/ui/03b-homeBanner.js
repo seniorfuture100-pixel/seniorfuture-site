@@ -76,6 +76,14 @@ SFUI.register('homeBanner', function () {
   var pager = el.querySelector('[data-sf-pager]');
   if (pager) pager.textContent = '1 / ' + SLIDES.length;
   el.classList.add('sf-hb-on');
+  // (10/27) 휴대폰은 PC 배너(760×340)를 그대로 줄인 모양 → 장면 줄임 비율 = 배너 너비/760 (CSS --hb-k, qa/03 휴대폰 칸)
+  function fit() {
+    var s = track.querySelector('.sf-hb'), w = s && s.getBoundingClientRect().width;
+    if (w) el.style.setProperty('--hb-k', Math.min(1, w / 760).toFixed(4));
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(track);
   // 분야 바꾸기: 진짜 배너와 끝없이 돌기용 복제 배너를 같은 순간에 같이 바꿔서, 넘어갈 때 티가 안 나요
   var ci = 0;
   function paint() {
