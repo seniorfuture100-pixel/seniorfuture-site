@@ -207,7 +207,9 @@
     if (wpt) {
       wpt.classList.add('r3pay-w--point');
       setText(hP, '적립금 사용');
-      var form = $('form', wpt), inp = form && $('input', form), all = form && $('button', form);
+      // '전액 사용'은 form 바로 아래 버튼. 입력칸 안 지우기(×) 버튼(전액 사용 누르면 생김)은 제외
+      var form = $('form', wpt), inp = form && $('input', form), all = form && $$('button', form).filter(function (b) { return b.parentElement === form; })[0];
+      if (form) $$('button', form).forEach(function (b) { if (b !== all) { b.classList.remove('r3pay-allbtn'); b.classList.add('r3pay-pclear'); } });
       if (form) form.classList.add('r3pay-pform');
       if (inp) { inp.classList.add('r3pay-pinput'); if (inp.parentElement !== form) inp.parentElement.classList.add('r3pay-field'); if (inp.placeholder !== '사용할 금액 입력') inp.placeholder = '사용할 금액 입력'; }
       if (all) { all.classList.add('r3pay-allbtn'); setText(all, '전액 사용'); }
