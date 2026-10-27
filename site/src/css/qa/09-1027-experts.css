@@ -8,6 +8,9 @@ html.sf-bv-on body .board_view .list_tap a {
   font:500 17px/1.5 var(--sf-font)!important;
 }
 html.sf-bv-on body .board_view .list_tap .sf-bv-pn {
+  display:inline-flex;
+  height:auto!important; /* (10/28) 아임웹 높이 17px 에 눌려 '이전 글' 회색 상자가 글자 위쪽만 덮였어요 */
+  align-items:center;
   padding:5px 10px;
   font:600 14px/1.4 var(--sf-font)!important;
 }
@@ -80,22 +83,40 @@ html.sf-bv--expert body .board_view img.sf-exv-photo {
   color:#fff;
   font:800 56px/1 var(--sf-font);
 }
+/* (10/28) 칸 제목은 인사이트 글 소제목과 같은 20px · 위 40 / 아래 12 (사진 바로 아래 첫 제목만 24) */
 html.sf-bv--expert body .board_view h3.sf-exv-h {
-  margin:32px 0 8px!important;
+  margin:40px 0 12px!important;
   color:var(--sf-text)!important;
-  font:700 19px/1.4 var(--sf-font)!important;
+  font:700 20px/1.45 var(--sf-font)!important;
+}
+html.sf-bv--expert body .board_view .sf-exv-ph + h3.sf-exv-h {
+  margin-top:24px!important;
 }
 /* 다른 전문가: 한 줄 5명, 사진 1:1 */
 :root body .sf-bv-more__list.is-5 {
   grid-template-columns:repeat(5,minmax(0,1fr));
 }
 @media (max-width:767.98px) {
+  /* (10/28) 상세 카드 공통 260px 규칙(r3/44, !important)에 밀려 사진이 260px 로 컸어요 → 전문가는 150px */
   :root body .sf-bv-more__list.is-5 {
     grid-template-columns:none;
     grid-auto-flow:column;
-    grid-auto-columns:150px;
+    grid-auto-columns:150px!important;
     overflow-x:auto;
     gap:12px;
+  }
+}
+
+/* (10/28) 글 보기(인사이트·전문가·후기·공지) 휴대폰 옆 여백: 아임웹 칸 15px + 글 상자 16px = 31px 로 다른 화면(16px)보다 넓었어요
+   → 글 상자 옆 여백 0, 아래 회색 '다른 글' 띠는 화면 끝까지(안쪽 16px) */
+@media (max-width:767.98px) {
+  html.sf-bv-on body .board_view {
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  html.sf-bv-on body .sf-bv-more {
+    margin-left:-15px;
+    margin-right:-15px;
   }
 }
 :root body .sf-bv-more--ex .sf-bv-more__th {
@@ -116,6 +137,12 @@ html.sf-bv--expert body .board_view h3.sf-exv-h {
 }
 :root body .sf-bv-more--ex p {
   color:var(--sf-text-3);
+}
+
+/* (10/28) 상품 상세 칸 제목 크기 맞춤: '수강생 후기'만 24px → 다른 칸(모임 안내·프로그램·더 알아보기)과 같은 20px */
+html body .sf-pv-secs .sf-pv-sechead h2 {
+  font-size:20px!important;
+  line-height:1.4!important;
 }
 
 /* ④ 상품 상세 강사 카드: 한 줄 소개 + '프로필 더 보기' 펼침 */

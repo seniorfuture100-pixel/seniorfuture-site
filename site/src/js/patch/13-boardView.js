@@ -55,6 +55,7 @@ SFUI.register('boardView', function () {
     var pimg = bodyEl.querySelector('img');
     if (pimg) { pimg.classList.add('sf-exv-photo'); (pimg.closest('p') || pimg).classList.add('sf-exv-ph'); }
     else bodyEl.insertAdjacentHTML('afterbegin', '<p class="sf-exv-ph"><span class="sf-exv-ini" style="' + SFUI.experts.tile(title, 0) + '">' + esc(title.charAt(0)) + '</span></p>');
+    var cm = v.querySelector('.comment_section'); if (cm) cm.classList.add('sf-bv-hide'); // (10/28) 댓글 끈 게시판인데 공유 아이콘만 있는 빈 댓글 줄이 남아요(인사이트는 patch/22)
   }
   // 본문: #태그 문단 → 칩
   if (bodyEl) {

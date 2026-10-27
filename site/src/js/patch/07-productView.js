@@ -225,6 +225,26 @@ SFUI.register('productView', function() {
       G && ie && ie.appendChild(G);
       var re = document.querySelector(".detail_detail_wrap_mobile");
       re && ie && ie.appendChild(re), W && ie && !W.textContent.trim() && !W.querySelector("img") && ie.classList.add("is-empty");
+      // (10/28) 예시 내용 상품(3·11 등): 상세 글에 붙은 '하단 공통'(<교환 및 반품 가능 기간> …)이 소개 칸에 그대로(휴대폰은 아임웹이 늦게 한 번 더 넣어 두 번) 보였어요
+      //   → '더 알아보기'에 환불 규정이 있으면 소개 칸에서는 그 줄부터 끝까지 숨기고, 없으면(무료 라이브 예시) 두 번째부터만 숨겨요. 남는 글이 없으면 칸째 숨겨요
+      if (!OW && ie) {
+        var hasRf = FQ.some((function(e) { return "환불 규정" === e.q; }));
+        var rf1 = null; // 환불 규정이 없을 때 남겨 둘 첫 번째 안내 상자
+        var hideRf = function() {
+          ie.style.display = "";
+          [].forEach.call(ie.querySelectorAll("p,div"), (function(x) {
+            if (x.querySelector("p,div") || !/^\s*[<＜〈]\s*(교환|반품|환불)/.test(x.textContent || "")) return;
+            if (!hasRf && x.offsetParent && (!rf1 || rf1 === x.parentElement)) return void (rf1 = x.parentElement);
+            if (!hasRf && rf1 === x.parentElement) return;
+            for (var s = x; s; s = s.nextElementSibling) s.style.display = "none";
+          }));
+          var left = [].some.call(ie.querySelectorAll("p,li,h1,h2,h3,h4,img,iframe,video,table"), (function(x) {
+            return x.offsetParent && ((x.textContent || "").trim() || /^(IMG|IFRAME|VIDEO|TABLE)$/.test(x.tagName));
+          }));
+          ie.style.display = left ? "" : "none";
+        };
+        hideRf(), setTimeout(hideRf, 1200), setTimeout(hideRf, 3500);
+      }
       function body(list) {
         var t = pe("div", "sf-pv-ownbody shop_view_body fr-view");
         list.forEach((function(e) {

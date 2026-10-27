@@ -90,7 +90,7 @@
   margin-top:8px!important;
 }
 :root .sf-shop--meet .iw-shop-product-name {
-  -webkit-line-clamp:1;
+  -webkit-line-clamp:2; /* (10/28) 홈 커뮤니티 카드·교육·라이브 목록처럼 두 줄(한 줄이면 'KB골든라이프 종로평창카…'처럼 잘렸어요) */
 }
 :root .sf-shop--meet .iw-shop-product-summary {
   display:none;
