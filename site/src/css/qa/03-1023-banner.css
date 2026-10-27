@@ -242,6 +242,7 @@
   :root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
     display:flex!important;
     align-items:center!important;
+    flex-direction:row!important;
     justify-content:flex-start!important;
     aspect-ratio:760/340!important;
     padding:0 0 0 max(16px,calc(56px * var(--hb-k,.47)))!important;
