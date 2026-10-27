@@ -279,6 +279,10 @@
     display:block;
     font:400 clamp(13px,3.2vw,16px)/1.4 var(--sf-font)!important;
   }
+  /* 설명 끝 화살표가 혼자 다음 줄로 떨어지지 않게(띄어쓰기 대신 줄바꿈 없는 공백) */
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge)::after {
+    content:"\00a0→"!important;
+  }
   /* PC 처럼 '자세히 보기'는 없음(배너 전체가 링크) */
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy em {
     display:none;
