@@ -4,7 +4,8 @@
    우리 요소(상품 카드 · 결제 수단 타일)만 새로 넣어요. 실제 결제·입력은 아임웹 원래 요소가 그대로 처리해요.
    - 제목 '주문결제'(왼쪽 정렬) · 상품 카드(16:9 썸네일 · 태그 · 제목 · 고른 옵션 · 금액)
    - 주문자 정보: 값이 다 채워져 있으면(로그인 회원) 숨기고, 빈 칸이 있으면 그대로 보여요
-   - 결제 수단: 타일 버튼(누르면 아임웹 라디오를 대신 눌러요) · 오른쪽 '결제 금액' + 결제하기 */
+   - 결제 수단: 타일 버튼(누르면 아임웹 라디오를 대신 눌러요) · 오른쪽 '결제 금액' + 결제하기
+   - (10/27) 쿠폰 사용 · 적립금 사용(아임웹 기본 기능) — 결제 수단 아래, 입력칸 50px·8px·#DADDE2 통일 */
 (function () {
   if (!/^\/shop_payment\/?$/.test(location.pathname)) return;
   function $(s, r) { return (r || document).querySelector(s); }
@@ -155,6 +156,7 @@
       sub.parentNode.insertBefore(ag, sub.nextSibling);
     }
     var extraBox = box(hd(root, '추가정보')); if (extraBox) extraBox.classList.add('r3pay-box--extra');
+    benefits(root, left, secProd);
     // 모바일: 아임웹이 따로 그리는 아래 고정 '결제하기' 줄 — 버튼은 주황, 아래 문구는 우리 동의 문구(링크)로 (10/21)
     $$('button[type=button]').filter(function (b) { return clean(b.textContent) === '결제하기' && b.offsetParent; }).forEach(function (mb) {
       mb.classList.add('r3pay-mbtn');
@@ -164,6 +166,69 @@
       if (!$('.r3pay-agree', bar)) { var ag2 = document.createElement('p'); ag2.className = 'r3pay-agree r3pay-agree--m'; ag2.innerHTML = '강의 및 결제 정보를 확인했으며, <a href="/terms#terms" target="_blank" rel="noopener">이용약관</a> 및 <a href="/terms#refund" target="_blank" rel="noopener">환불 규정</a>에 동의합니다.'; bar.appendChild(ag2); }
       document.documentElement.classList.add('r3pay-hasm');
     });
+  }
+
+  // (10/27) 쿠폰·적립금 — 아임웹 주문서 기본 기능(쿠폰 선택 창·포인트 입력)을 그대로 쓰고 모양·순서·문구만 정리해요.
+  //   실제 할인·차감·PG 금액·환불 때 복원은 아임웹이 처리(우리 코드는 금액을 계산하지 않음).
+  //   순서: 주문 상품 → 결제 수단 → 쿠폰 사용 → 적립금 사용 → 추가정보(추천인 코드) (CSS order, 아임웹 요소는 옮기지 않음)
+  function info(h, html) {
+    if (!h) return;
+    var s = $('.r3pay-hinfo', h);
+    if (!s) { s = document.createElement('span'); s.className = 'r3pay-hinfo'; h.appendChild(s); }
+    if (s.innerHTML !== html) s.innerHTML = html;
+  }
+  function benefits(root, left, secProd) {
+    function wrap(h) { var b = box(h); return b && b.parentElement && b.parentElement.parentElement === left ? b.parentElement : null; }
+    var wp = secProd.parentElement; if (wp && wp.parentElement === left) wp.classList.add('r3pay-w--prod');
+    var we = wrap(hd(root, '추가정보')); if (we) we.classList.add('r3pay-w--extra');
+    // 쿠폰
+    var hC = hd(root, '쿠폰'), wc = wrap(hC);
+    if (wc) {
+      wc.classList.add('r3pay-w--coupon');
+      setText(hC, '쿠폰 사용');
+      var cb = $('label button', wc), lb = cb && clean(cb.textContent), m = lb && lb.match(/^사용 가능\s*(\d+)\s*장$/);
+      var cnt = m ? +m[1] : null;
+      if (cb) {
+        cb.classList.add('r3pay-field', 'r3pay-field--select');
+        var sp = $('span', cb) || cb;
+        if (m) setText(sp, cnt ? '사용할 쿠폰을 선택해 주세요' : '사용 가능한 쿠폰이 없습니다');
+        cb.classList.toggle('is-empty', cnt === 0);
+        var row = cb.closest('label') && cb.closest('label').parentElement, sel = row && row.nextElementSibling;
+        if (sel) sel.classList.add('r3pay-csel');
+      }
+      if (cnt !== null) wc.setAttribute('data-coupons', cnt);
+      info(hC, cnt === null ? '' : cnt ? '사용 가능 쿠폰 <b>' + cnt + '장</b>' : '');
+    }
+    // 적립금(아임웹 이름 '포인트')
+    var hP = hd(root, '포인트') || hd(root, '적립금 사용'), wpt = wrap(hP);
+    if (wpt) {
+      wpt.classList.add('r3pay-w--point');
+      setText(hP, '적립금 사용');
+      var form = $('form', wpt), inp = form && $('input', form), all = form && $('button', form);
+      if (form) form.classList.add('r3pay-pform');
+      if (inp) { inp.classList.add('r3pay-pinput'); if (inp.parentElement !== form) inp.parentElement.classList.add('r3pay-field'); if (inp.placeholder !== '사용할 금액 입력') inp.placeholder = '사용할 금액 입력'; }
+      if (all) { all.classList.add('r3pay-allbtn'); setText(all, '전액 사용'); }
+      // '사용 가능 포인트 10,000 / 보유 포인트 10,000' → 제목 오른쪽 '사용 가능 10,000원', 원래 줄은 숨김
+      var line = form && form.nextElementSibling, nums = line ? textNums(line) : [], avail = nums.length ? nums[0] : null;
+      if (line) line.classList.add('r3pay-hide');
+      info(hP, avail === null ? '' : avail ? '사용 가능 <b>' + won(avail) + '</b>' : '');
+      wpt.classList.toggle('is-zero', avail === 0);
+      var z = $('.r3pay-pzero', wpt);
+      if (avail === 0 && !z) { z = document.createElement('p'); z.className = 'r3pay-pzero'; z.textContent = '사용 가능한 적립금이 없습니다.'; wpt.appendChild(z); }
+      else if (avail !== 0 && z) z.remove();
+    }
+    // 오른쪽 결제 금액: '포인트 사용' → '적립금 사용', '0 포인트 적립 예정' 줄은 숨김, 총 결제 금액 줄 표시
+    var sumBox = box(hd(root, '결제 금액'));
+    if (sumBox) {
+      $$('span', sumBox).forEach(function (s) {
+        var v = clean(s.textContent);
+        if (v === '포인트 사용') setText(s, '적립금 사용');
+        if (v === '상품 할인금액') setText(s, '상품 할인');
+        if (v === '총 결제 금액' && s.parentElement) s.parentElement.classList.add('r3pay-total');
+      });
+      // 적립 비율 0%(10/27 설정)라 '0 포인트 적립 예정' 줄은 숨겨요
+      $$('div, p', sumBox).forEach(function (d) { if (d.children.length > 3) return; if (/^0\s*포인트\s*적립\s*예정$/.test(clean(d.textContent))) d.classList.add('r3pay-hide'); });
+    }
   }
 
   var busy = false, t = 0;
