@@ -236,7 +236,7 @@
   }
 }
 /* 휴대폰(10/27 사장님 결정, 월부 방식): PC 배너를 그대로 줄인 모양 — 비율 760:340 같게, 배치(왼쪽 글씨·오른쪽 장면)·내용 같게(빼는 것 없음).
-   장면은 배너 너비에 정확히 비례해 줄임(--hb-k = 배너 너비/760, home-banner.js 가 넣음). 글씨만 읽을 수 있게 덜 줄임(제목 18~30px, 설명 13~16px).
+   장면은 배너 너비에 비례해 줄임(--hb-k = 배너 너비/760, home-banner.js 가 넣음). 글씨만 읽을 수 있게 덜 줄임(제목 15~30px, 설명 13~16px).
    앞으로 사진 배너도 760:340 한 장(1520×680 권장)으로 PC·휴대폰 같이 써요 */
 @media (max-width:767.98px) {
   :root body .sfw-banner .sf-track>.sfw-banner__slide.sf-hb {
@@ -280,5 +280,19 @@
   /* PC 처럼 '자세히 보기'는 없음(배너 전체가 링크) */
   :root body .sfw-banner__slide.sf-hb .sfw-banner__copy em {
     display:none;
+  }
+}
+/* 작은 폰(360 등): '무료 라이브' 글씨가 배너보다 높아지던 것 → 줄 간격만 촘촘히 */
+@media (max-width:374.98px) {
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy {
+    max-width:52%!important;
+    gap:3px!important;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy strong {
+    font-size:15px!important;
+    line-height:1.25!important;
+  }
+  :root body .sfw-banner__slide.sf-hb .sfw-banner__copy>span:not(.sf-badge) {
+    line-height:1.35!important;
   }
 }
