@@ -373,3 +373,13 @@ html.r3pay-on body .ReactModal__Content form li label span {
   html.r3pay-on body .r3pay-total span:last-child * { font-size:26px!important; }
   html.r3pay-on body .r3pay-w--point form>button { min-width:88px; }
 }
+
+/* (10/28) 오른쪽 결제 금액: '즉시/기간 할인'은 위 '상품 할인'의 세부 내역인데 같은 크기로 보여 할인이 두 번 된 것처럼 읽혔어요
+   → 세부 줄은 작게 · 연하게 · 안쪽으로('└') */
+html.r3pay-on body .r3pay-right .r3pay-box header ~ div > div > div + div { padding:2px 0 0 12px!important; }
+html.r3pay-on body .r3pay-right .r3pay-box header ~ div > div > div + div span { color:var(--sf-text-3)!important; font-size:13px!important; }
+html.r3pay-on body .r3pay-right .r3pay-box header ~ div > div > div + div > span:first-child::before { content:"└ "; }
+/* (10/28) 태블릿 가로(1024~1279): 왼쪽 칸이 좁은데 강의 그림이 360px 그대로라 제목이 다섯 줄로 찌그러졌어요 → 그림은 칸의 55%까지 */
+@media (min-width:768px) {
+  html.r3pay-on body .r3pay-card { grid-template-columns:clamp(180px,55%,360px) minmax(0,1fr); }
+}
