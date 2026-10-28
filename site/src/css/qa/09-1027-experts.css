@@ -326,13 +326,22 @@ html.sf-bv--gal body .sf-bv-more__list.is-5 {
     grid-auto-columns:240px!important;
   }
 }
-/* (10/28 사장님) 자주 묻는 질문: 공지사항 목록과 같은 모양(분류 꼬리표 + 질문), 날짜·글쓴이 칸 없이 */
-html.sf-nl-on body .sf-faq-list ul.li_body > li:not(.tit),
-html.sf-nl-on body .sf-faq-list .li_header {
+/* (10/28 사장님) 자주 묻는 질문: 고객센터 공지사항 표와 같은 모양(질문 + 오른쪽 분류), 5개 넘으면 '전체 보기'로 펼침 */
+html body .sf-faq-list li.tit em,
+html body .sf-faq-list ul.li_body.sf-faq-fold,
+html body .sf-faq-list ul.li_body > li:not(.tit):not(.time) {
   display:none!important;
 }
-html.sf-nl-on body .sf-faq-list ul.li_body .list_text_title {
-  font-weight:500!important;
+html body .sf-faq-list.is-open ul.li_body.sf-faq-fold {
+  display:flex!important;
+}
+html body .sf-faq-list.r2-ntable li.time {
+  flex-basis:120px!important;
+  margin-left:0!important;
+  font-size:15px!important;
+}
+html body .sf-faq-list.r2-ntable .li_header li.date {
+  flex-basis:120px!important;
 }
 /* (10/28 사장님) 수강평 글 끝 'OO님 (소속)' 서명 줄 */
 html.sf-bv-on body .board_view .board_txt_area .sf-rv-sign {

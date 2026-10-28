@@ -51,9 +51,32 @@ SFUI.register('noticeList', function () {
         var h = a.getAttribute('href');
         if (!/^(\/|https?:|#|javascript:)/.test(h)) a.setAttribute('href', '/faq/' + h);
       });
+      // 고객센터 공지사항 표(r2/01 r2Help 의 r2-ntable)와 같은 모양: 머리 줄 + 질문 + 오른쪽 칸(날짜 대신 분류), 5개 넘으면 접기
+      fb.classList.add('r2-ntable');
+      var hd = fb.querySelector('.li_header');
+      if (hd) hd.innerHTML = '<li class="tit">자주 묻는 질문</li><li class="date">분류</li>';
+      var rows = [].slice.call(fb.querySelectorAll('ul.li_body'));
+      rows.forEach(function (u) {
+        u.style.display = '';
+        var em = u.querySelector('li.tit a._fade_link em'), tm = u.querySelector('li.time');
+        if (!tm) { tm = document.createElement('li'); tm.className = 'time'; u.appendChild(tm); }
+        tm.removeAttribute('title');
+        tm.textContent = em ? em.textContent.trim() : '';
+      });
       slot.innerHTML = '';
       slot.appendChild(fb);
-      SFUI.nlDecorate(fb, { order: SFUI.faqOrder });
+      if (rows.length > 5) {
+        rows.slice(5).forEach(function (u) { u.classList.add('sf-faq-fold'); });
+        var mb = document.createElement('button');
+        mb.type = 'button'; mb.className = 'r2-nmore'; mb.setAttribute('aria-expanded', 'false');
+        var lab = '자주 묻는 질문 전체 보기 <span>(' + rows.length + ')</span>';
+        mb.innerHTML = lab;
+        mb.addEventListener('click', function () {
+          var open = fb.classList.toggle('is-open');
+          mb.setAttribute('aria-expanded', String(open)); mb.innerHTML = open ? '접기' : lab;
+        });
+        slot.appendChild(mb);
+      }
     }).catch(function () {});
   }
   var box = document.querySelector('[data-widget-type="board"] .li_board');
