@@ -36,7 +36,7 @@ SFUI.register('boardView', function () {
   {
     var avatar = sum && sum.querySelector('.avatar img') ? '<img src="' + esc(sum.querySelector('.avatar img').getAttribute('src')) + '" alt="">' : '';
     head.innerHTML = '<nav class="sf-bv-crumb" aria-label="현재 위치"><a href="' + path + '">' + esc(boardName.trim()) + '</a>' + (cat ? '<span aria-hidden="true">›</span><a class="is-cat" href="' + path + '?tab=' + encodeURIComponent(cat) + '">' + esc(cat) + '</a>' : '') + '</nav><h1>' + esc(title) + '</h1>'
-      + '<div class="sf-bv-by">' + (isExpert ? '' : '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
+      + '<div class="sf-bv-by">' + (isExpert || isReview ? '' : /* (10/28 사장님) 수강평 글도 글쓴이 사진·이름·날짜 없이(이름은 본문 끝 'OO님 (소속)') */ '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
       + '<span class="sf-bv-share"><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗 링크 복사</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button></span></div>';
   }
   if (h1) { var bt = h1.closest('.board-title') || h1; bt.parentNode.insertBefore(head, bt); bt.classList.add('sf-bv-hide'); }
@@ -58,6 +58,12 @@ SFUI.register('boardView', function () {
     var pimg = bodyEl.querySelector('img');
     if (pimg) { pimg.classList.add('sf-exv-photo'); (pimg.closest('p') || pimg).classList.add('sf-exv-ph'); }
     else bodyEl.insertAdjacentHTML('afterbegin', '<p class="sf-exv-ph"><span class="sf-exv-ini" style="' + SFUI.experts.tile(title, 0) + '">' + esc(title.charAt(0)) + '</span></p>');
+  }
+  // (10/28) 수강평 본문 마지막 'OO님 (소속)' 줄 → 서명 모양
+  if (isReview && bodyEl && SFUI.rvSign) {
+    var lines = [].filter.call(bodyEl.querySelectorAll('p, div'), function (x) { return !x.querySelector('p, div') && x.textContent.trim(); });
+    var last = lines[lines.length - 1];
+    if (last && SFUI.rvSign.line(last.textContent)) last.classList.add('sf-rv-sign');
   }
   // 본문: #태그 문단 → 칩
   if (bodyEl) {
@@ -109,7 +115,7 @@ SFUI.register('boardView', function () {
       }).filter(function (c) { return c && c.href.indexOf('idx=' + idx) < 0 && c.title; }).slice(0, isReview ? 3 : 4);
       if (!cards.length) return;
       var sec = el('section', 'sf-bv-more', '<div class="sf-bv-more__in"><h2>' + (isReview ? '다른 수강평' : '함께 읽으면 좋은 글') + '</h2><ul class="sf-bv-more__list' + (isReview ? ' is-3' : '') + '">' + cards.map(function (c) {
-        return '<li><a href="' + esc(c.href) + '"><span class="sf-bv-more__th">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '') + '</span>' + (c.cat ? '<small>' + esc(c.cat) + '</small>' : '') + '<strong>' + esc(c.title) + '</strong><p>' + esc(c.text) + '</p><time>' + esc(c.date) + '</time></a></li>';
+        return '<li><a href="' + esc(c.href) + '"><span class="sf-bv-more__th">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '') + '</span>' + (c.cat ? '<small>' + esc(c.cat) + '</small>' : '') + '<strong>' + esc(c.title) + '</strong><p>' + esc(c.text) + '</p>' + (isReview ? '' : '<time>' + esc(c.date) + '</time>') + '</a></li>'; // (10/28) 수강평은 날짜 없이
       }).join('') + '</ul></div>');
       var widget = v.closest('[id^="w20"]') || v;
       widget.parentNode.insertBefore(sec, widget.nextSibling);

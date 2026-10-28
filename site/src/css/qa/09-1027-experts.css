@@ -326,3 +326,10 @@ html.sf-bv--gal body .sf-bv-more__list.is-5 {
     grid-auto-columns:240px!important;
   }
 }
+/* (10/28 사장님) 수강평 글 끝 'OO님 (소속)' 서명 줄 */
+html.sf-bv-on body .board_view .board_txt_area .sf-rv-sign {
+  margin-top:32px!important;
+  color:var(--sf-text-2)!important;
+  font:600 16px/1.5 var(--sf-font)!important;
+  text-align:right;
+}
