@@ -1,0 +1,253 @@
+/* 10/28 나의 강의실(마이페이지 › 학습) 카드의 수강 기간 줄 · 강의실 페이지(r3/04 r3Room) · 영상 창 */
+:root body .sf-room-card .sf-room-when {
+  margin-top:2px;
+  color:var(--sf-text-2);
+  font-size:14px;
+}
+:root body .sf-room-card .sf-room-when b {
+  color:var(--sf-text);
+  font-weight:600;
+}
+:root body .sf-room-when em,
+:root body .sf-room__when em {
+  margin-left:6px;
+  padding:2px 8px;
+  border-radius:999px;
+  background:var(--sf-brand-tint);
+  color:var(--sf-text-brand);
+  font:700 12px/1.5 var(--sf-font);
+  font-style:normal;
+}
+:root body .sf-room-card .r3-ord__go {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+}
+:root body .sf-room-card .r3-ord__go.is-off {
+  background:var(--sf-background);
+  color:var(--sf-text-3);
+  cursor:default;
+}
+:root body .r3-ord-list .sf-room-card.is-end {
+  opacity:.6;
+}
+/* 강의실 페이지 */
+:root body .sf-room {
+  max-width:1080px;
+  margin:0 auto;
+  padding:48px 16px 96px;
+  color:var(--sf-text);
+  font-family:var(--sf-font);
+}
+:root body .sf-room__msg {
+  margin:0;
+  padding:32px 0;
+  color:var(--sf-text-2);
+  font-size:15px;
+  text-align:center;
+}
+:root body .sf-room__head {
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:28px;
+  align-items:center;
+  padding-bottom:32px;
+  border-bottom:1px solid var(--sf-border);
+}
+:root body .sf-room__thumb {
+  aspect-ratio:16/9;
+  border-radius:12px;
+  background:var(--sf-background) center/cover no-repeat;
+}
+:root body .sf-room__head small {
+  color:var(--sf-text-brand);
+  font:700 13px/1.4 var(--sf-font);
+}
+:root body .sf-room__head h1 {
+  margin:6px 0 10px;
+  color:var(--sf-text);
+  font:700 24px/1.4 var(--sf-font)!important;
+  letter-spacing:-.02em;
+}
+:root body .sf-room__when,
+:root body .sf-room__end {
+  margin:0;
+  color:var(--sf-text-2);
+  font-size:15px;
+}
+:root body .sf-room__when b {
+  color:var(--sf-text);
+  font-weight:600;
+}
+:root body .sf-room__end {
+  margin-top:8px;
+  color:var(--sf-text-3);
+  font-size:14px;
+}
+:root body .sf-room__cur {
+  padding-top:36px;
+}
+:root body .sf-room__ch {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+:root body .sf-room__ch h2 {
+  margin:0;
+  font:700 20px/1.4 var(--sf-font)!important;
+}
+:root body .sf-room__ch span {
+  color:var(--sf-text-3);
+  font-size:14px;
+}
+:root body .sf-room__list {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root body .sf-room__it {
+  display:grid;
+  grid-template-columns:32px 1fr auto;
+  gap:16px;
+  align-items:center;
+  padding:20px 4px;
+  border-bottom:1px solid var(--sf-border);
+}
+:root body .sf-room__ic svg {
+  width:32px;
+  height:32px;
+  fill:none;
+  stroke:var(--sf-text-disabled);
+  stroke-width:1.6;
+}
+:root body .sf-room__it.is-on .sf-room__ic svg {
+  stroke:var(--sf-text);
+}
+:root body .sf-room__tx p {
+  margin:0;
+  color:var(--sf-text);
+  font:600 17px/1.5 var(--sf-font);
+}
+:root body .sf-room__tx p b {
+  margin-right:8px;
+  color:var(--sf-text-brand);
+  font-weight:700;
+}
+:root body .sf-room__tx small {
+  display:block;
+  margin-top:2px;
+  color:var(--sf-text-3);
+  font-size:14px;
+}
+:root body .sf-room__tx ul {
+  margin:6px 0 0;
+  padding:0;
+  list-style:none;
+}
+:root body .sf-room__tx li {
+  color:var(--sf-text-2);
+  font-size:14px;
+  line-height:1.6;
+}
+:root body .sf-room__tx li::before {
+  content:"· ";
+}
+:root body .sf-room__go {
+  min-width:112px;
+  height:44px;
+  border:0;
+  cursor:pointer;
+}
+:root body .sf-room__soon {
+  min-width:112px;
+  color:var(--sf-text-3);
+  font-size:14px;
+  text-align:center;
+}
+/* 영상 창 */
+:root.sf-room-pop-on body {
+  overflow:hidden;
+}
+:root body .sf-room-pop {
+  position:fixed;
+  inset:0;
+  z-index:10050;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  background:rgba(0,0,0,.82);
+}
+:root body .sf-room-pop[hidden] {
+  display:none;
+}
+:root body .sf-room-pop__in {
+  width:min(1100px, 100%);
+}
+:root body .sf-room-pop__h {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+  color:#fff;
+  font:600 16px/1.4 var(--sf-font);
+}
+:root body .sf-room-pop__x {
+  width:44px;
+  height:44px;
+  border:0;
+  background:none;
+  color:#fff;
+  font-size:30px;
+  line-height:1;
+  cursor:pointer;
+}
+:root body .sf-room-pop__v {
+  position:relative;
+  aspect-ratio:16/9;
+  background:#000;
+}
+:root body .sf-room-pop__v iframe {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+@media (max-width:767.98px) {
+  :root body .sf-room {
+    padding:24px 16px 64px;
+  }
+  :root body .sf-room__head {
+    grid-template-columns:1fr;
+    gap:16px;
+    padding-bottom:24px;
+  }
+  :root body .sf-room__head h1 {
+    font-size:20px!important;
+  }
+  :root body .sf-room__it {
+    grid-template-columns:28px 1fr;
+    gap:12px;
+  }
+  :root body .sf-room__ic svg {
+    width:28px;
+    height:28px;
+  }
+  :root body .sf-room__tx p {
+    font-size:16px;
+  }
+  :root body .sf-room__go,
+  :root body .sf-room__soon {
+    grid-column:2;
+    justify-self:start;
+  }
+  :root body .sf-room__soon {
+    min-width:0;
+    text-align:left;
+  }
+}

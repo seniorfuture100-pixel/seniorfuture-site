@@ -688,6 +688,132 @@
       })));
     })), y;
   }
+  // (10/28) 강의실 도우미 — 미리보기 주소 유지 · 기간 상태(pre 개강 전 / on 수강 중 / end 끝남) · 결제일(같은 상품 중 가장 이른 정상 주문)
+  function roomPv(u) {
+    return u + (/preview_mode=1/.test(location.search) ? (u.indexOf("?") < 0 ? "?" : "&") + "preview_mode=1" : "");
+  }
+  function roomState(rg) {
+    var t = Date.now();
+    return rg ? rg.e && t > rg.e ? "end" : rg.s && t < rg.s ? "pre" : "on" : "";
+  }
+  function roomDday(rg) {
+    return rg && rg.e ? "D-" + Math.max(0, Math.ceil((rg.e - Date.now()) / 864e5) - 1) : "";
+  }
+  function roomOk(t) {
+    return !/취소|반품|환불|입금/.test(t.status);
+  }
+  function roomPaid(L, idx) {
+    var d = "";
+    L.forEach((function(t) {
+      t.idx === idx && roomOk(t) && t.date && (!d || t.date < d) && (d = t.date);
+    }));
+    return d;
+  }
+  // (10/28) 나의 강의실(마이페이지 › 학습 › 나의 강의실 = r2My 의 sf=room 칸): 결제 내역 카드 모양 + 수강 기간 + 강의실 입장
+  //   강의 = 결제(0원 신청 포함)한 교육 상품. 취소·반품·환불·입금 대기는 빼요(라이브·모임은 결제 내역에서)
+  //   수강 기간·강의실 주소 = 상품 상세 글 [수강 기간]·[강의실] 칸(SFUI.roomInfo). SF_SITE.classrooms[상품번호] 가 있으면 그 주소를 먼저
+  SFUI.register("r3Rooms", (function() {
+    var t = n("[data-sf-rooms]");
+    if (t && SFUI.once(t, "R3Rooms")) {
+      var I = SFUI.shopItems && SFUI.shopItems() || {}, CR = e.classrooms || {};
+      E().then((function(L) {
+        var seen = {}, rows = [];
+        L.forEach((function(o) {
+          var it = I[o.idx] || {}, ty = it.type || (/LIVE|라이브/i.test(o.name) ? "live" : "course");
+          "course" !== ty || !roomOk(o) || seen[o.idx] || (seen[o.idx] = 1, rows.push({
+            idx: o.idx,
+            title: o.name.replace(p, "").trim(),
+            img: o.img,
+            paid: roomPaid(L, o.idx),
+            badge: /^0원/.test(o.price) ? "신청 완료" : "결제 완료"
+          }));
+        }));
+        if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>');
+        t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
+          return '<li class="sf-hub-card r3-ord sf-room-card" data-i="' + i + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>강의</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">수강 기간을 확인하고 있어요…</p></div><div class="sf-hub-side"><span class="sf-badge sf-badge--brand">' + x.badge + '</span><span class="sf-btn sf-btn--l r3-ord__go is-off">확인 중</span><a class="r3-ord__detail" href="' + roomPv("/shop_view/?idx=" + x.idx) + '">강의 정보 ›</a></div></li>';
+        })).join("") + "</ul>";
+        rows.forEach((function(x, i) {
+          SFUI.roomInfo(x.idx, (function(o) {
+            var li = n('.sf-room-card[data-i="' + i + '"]', t);
+            if (li) {
+              var p = o && o.period, rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "", go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
+              n(".sf-room-when", li).innerHTML = lb ? "수강 기간 <b>" + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") : "수강 기간은 강의 정보에서 확인해 주세요";
+              st && (bd.textContent = "end" === st ? "수강 종료" : "pre" === st ? "개강 전" : "수강 중", bd.className = "sf-badge " + ("end" === st ? "sf-badge--neutral" : "sf-badge--brand"));
+              if (rm && "end" !== st) {
+                var a2 = document.createElement("a");
+                a2.className = "sf-btn sf-btn--primary sf-btn--l r3-ord__go", a2.href = roomPv(rm), a2.textContent = "강의실 입장", go.parentNode.replaceChild(a2, go);
+              } else go.textContent = "end" === st ? "수강 기간 종료" : "강의실 준비 중";
+              "end" === st && (li.classList.add("is-end"), li.parentNode.appendChild(li));
+            }
+          }));
+        }));
+      }))["catch"]((function() {
+        t.innerHTML = '<div class="r2-my-load">강의 목록을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.</div>';
+      }));
+    }
+  }));
+  // (10/28) 강의실 페이지(아임웹 페이지 · 메뉴 숨김 · 회원 그룹으로 잠금): 코드 위젯에 <div data-sf-room="상품번호"></div> 한 줄이면
+  //   머리(사진 · 제목 · 수강 기간) + 커리큘럼(상품 상세 [프로그램] 회차 그대로) + 회차별 '바로보기'(영상 창)
+  //   영상 주소 = 같은 페이지에 '1회차 https://vimeo.com/…' 한 줄씩(코드 위젯 안 또는 글 위젯). 주소가 있는 회차만 '바로보기', 없으면 '공개 예정'
+  SFUI.register("r3Room", (function() {
+    var t = n("[data-sf-room]");
+    if (t && SFUI.once(t, "R3Room")) {
+      var idx = +t.getAttribute("data-sf-room"), V = {}, VR = /^(\d+)\s*회차?\s*[|:：\-]?\s*(https?:\/\/\S+)$/;
+      a("[data-sf-room] li, [data-sf-room] p, .text-table p, .text-table div, .text-table li").forEach((function(x) {
+        if (!x.querySelector("p, div, li")) {
+          var m = VR.exec((x.textContent || "").replace(/\s+/g, " ").trim()), k = m && x.querySelector("a[href]");
+          m && (V[+m[1]] = k ? k.href : m[2], x.style.display = "none");
+        }
+      }));
+      var box = document.createElement("div");
+      box.className = "sf-room", t.appendChild(box);
+      if (!document.documentElement.classList.contains("sf-logged-in")) return void (box.innerHTML = '<p class="sf-room__msg">로그인하면 강의실을 볼 수 있어요. <a href="/login?back_url=' + encodeURIComponent(btoa(location.pathname)) + '">로그인하기</a></p>');
+      box.innerHTML = '<p class="sf-room__msg">강의실을 불러오고 있어요…</p>';
+      SFUI.roomInfo(idx, (function(o) {
+        if (!o) return void (box.innerHTML = '<p class="sf-room__msg">강의 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
+        E().then((function(L) {
+          return roomPaid(L, idx);
+        }))["catch"]((function() {
+          return "";
+        })).then((function(paid) {
+          var rg = SFUI.roomRange(o.period, paid), st = roomState(rg), lb = SFUI.roomLabel(o.period, paid), its = o.prog && o.prog.items || [], on = 0;
+          var li = its.map((function(it, i) {
+            var no = i + 1, u = V[no], ok = u && "end" !== st;
+            ok && on++;
+            return '<li class="sf-room__it' + (ok ? " is-on" : "") + '"><span class="sf-room__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M10 8.3v7.4l5.6-3.7z"/></svg></span><div class="sf-room__tx"><p><b>' + no + "회차</b>" + r(it.t) + "</p>" + (it.m ? "<small>" + r(it.m) + "</small>" : "") + (it.d.length ? "<ul>" + it.d.map((function(d) {
+              return "<li>" + r(d.x) + "</li>";
+            })).join("") + "</ul>" : "") + "</div>" + (ok ? '<button type="button" class="sf-btn sf-btn--primary sf-room__go" data-no="' + no + '">바로보기</button>' : '<span class="sf-room__soon">' + (u ? "기간 종료" : "공개 예정") + "</span>") + "</li>";
+          }));
+          box.innerHTML = '<header class="sf-room__head"><div class="sf-room__thumb"' + (/^https:\/\/[^"'()\s]+$/.test(o.img) ? ' style="background-image:url(\'' + o.img + '\')"' : "") + '></div><div><small>나의 강의실</small><h1>' + r(o.title) + "</h1>" + (lb ? '<p class="sf-room__when">수강 기간 <b>' + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") + "</p>" : "") + ("end" === st ? '<p class="sf-room__end">수강 기간이 끝났어요. 다시 듣고 싶다면 고객센터로 문의해 주세요.</p>' : "pre" === st ? '<p class="sf-room__end">' + SFUI.roomDate(rg.s) + "에 개강해요.</p>" : "") + '</div></header><section class="sf-room__cur"><div class="sf-room__ch"><h2>커리큘럼</h2>' + (its.length ? "<span>" + on + " / " + its.length + "회차 공개</span>" : "") + "</div>" + (its.length ? '<ol class="sf-room__list">' + li.join("") + "</ol>" : '<p class="sf-room__msg">커리큘럼을 준비하고 있어요.</p>') + "</section>";
+        }));
+      }));
+      // 바로보기 → 영상 창(Vimeo · YouTube 는 화면 안에서, 그 밖의 주소는 새 창)
+      var pop = null, shut = function() {
+        pop.innerHTML = "", pop.hidden = !0, document.documentElement.classList.remove("sf-room-pop-on");
+      };
+      box.addEventListener("click", (function(ev) {
+        var b = ev.target.closest(".sf-room__go");
+        if (b) {
+          var u = V[+b.getAttribute("data-no")], em = roomEmbed(u), tt = (n(".sf-room__tx p", b.parentNode) || {}).textContent || "";
+          if (!em) return void window.open(u, "_blank", "noopener");
+          pop || (pop = document.createElement("div"), pop.className = "sf-room-pop", pop.setAttribute("role", "dialog"), pop.setAttribute("aria-modal", "true"),
+          document.body.appendChild(pop), pop.addEventListener("click", (function(e2) {
+            (e2.target === pop || e2.target.closest(".sf-room-pop__x")) && shut();
+          })), document.addEventListener("keydown", (function(e2) {
+            "Escape" === e2.key && pop && !pop.hidden && shut();
+          })));
+          pop.innerHTML = '<div class="sf-room-pop__in"><div class="sf-room-pop__h"><b>' + r(tt) + '</b><button type="button" class="sf-room-pop__x" aria-label="닫기">×</button></div><div class="sf-room-pop__v"><iframe src="' + em + '" title="' + r(tt) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div></div>',
+          pop.hidden = !1, document.documentElement.classList.add("sf-room-pop-on"), n(".sf-room-pop__x", pop).focus();
+        }
+      }));
+    }
+  }));
+  function roomEmbed(u) {
+    var m, h;
+    if (m = /vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9a-f]{6,}))?/.exec(u || "")) return h = m[2] || (/[?&]h=([0-9a-f]+)/.exec(u) || [])[1], "https://player.vimeo.com/video/" + m[1] + "?autoplay=1" + (h ? "&h=" + h : "");
+    if (m = /(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w\-]{11})/.exec(u || "")) return "https://www.youtube-nocookie.com/embed/" + m[1] + "?autoplay=1&rel=0";
+    return "";
+  }
   SFUI.register("r3Classroom", (function() {
     var t = n(".sf-hub");
     if (t && SFUI.once(t, "R3Hub")) {
@@ -889,7 +1015,8 @@
   })), SFUI.register("r3Orders", (function() {
     var t = n("[data-sf-orders]");
     if (t && SFUI.once(t, "R3Orders")) {
-      var a = SFUI.shopItems && SFUI.shopItems() || {}, s = e.classrooms || {}, i = document.createElement("div");
+      // (10/28) 강의실 주소 = SF_SITE.classrooms + 상품 상세 [강의실] 칸(아래 목록을 그린 뒤 SFUI.roomInfo 로 채워요)
+      var a = SFUI.shopItems && SFUI.shopItems() || {}, s = Object.assign({}, e.classrooms || {}), i = document.createElement("div");
       i.className = "r3-enter", i.hidden = !0, i.setAttribute("role", "dialog"), i.setAttribute("aria-modal", "true"), 
       document.body.appendChild(i), i.addEventListener("click", (function(t) {
         (t.target === i || t.target.closest(".r3-enter__x")) && c();
@@ -924,7 +1051,12 @@
           }
         })), t.innerHTML = l.length ? '<ul class="sf-hub-list r3-ord-list">' + l.map((function(t) {
           return t.html;
-        })).join("") + "</ul>" : '<div class="r2-my-load">아직 결제·신청한 강의가 없어요. <a href="/course">교육 둘러보기</a> · <a href="/live">무료 라이브</a></div>', 
+        })).join("") + "</ul>" : '<div class="r2-my-load">아직 결제·신청한 강의가 없어요. <a href="/course">교육 둘러보기</a> · <a href="/live">무료 라이브</a></div>',
+        l.forEach((function(t) {
+          "course" !== t.x.type || s[t.x.idx] || SFUI.roomInfo(t.x.idx, (function(o) {
+            o && o.room && (s[t.x.idx] = o.room);
+          }));
+        })),
         t.addEventListener("click", (function(t) {
           var e = t.target.closest(".r3-ord__go");
           e && function(t) {
@@ -932,7 +1064,7 @@
             l += '<div class="r3-enter__in"><div class="r3-enter__h"><b>' + r(t.title) + '</b><button type="button" class="r3-enter__x" aria-label="닫기">×</button></div>', 
             l += '<div class="r3-enter__ban' + (c && d || !c && s[t.idx] ? " is-on" : "") + '">' + f + "</div>", 
             c ? (l += "<section><h3>라이브 링크</h3>" + (u ? e.replay ? '<a class="r3-enter__go" href="' + e.replay + '" target="_blank" rel="noopener">다시보기</a>' : '<span class="r3-enter__go is-off">다시보기 준비 중</span>' : e.live && d ? '<a class="r3-enter__go" href="' + e.live + '" target="_blank" rel="noopener">Zoom 입장하기</a>' : '<span class="r3-enter__go is-off">' + (e.live ? "시작 20분 전에 열려요" : "입장 링크 준비 중") + "</span>"), 
-            l += '<div class="r3-enter__acc"><button type="button" aria-expanded="false">라이브 참여 방법 안내<i aria-hidden="true"></i></button><ol><li>PC는 Zoom 프로그램, 휴대폰은 Zoom 앱을 미리 설치해 주세요.</li><li>입장할 때 이름을 \'이름(소속)\'으로 바꿔 주세요.</li><li>질문은 채팅창에 남겨 주세요. 끝나고 다시보기를 드려요.</li></ol></div></section>') : l += "<section><h3>강의실</h3>" + (s[t.idx] ? '<a class="r3-enter__go" href="' + s[t.idx] + '">강의실 입장하기</a>' : '<span class="r3-enter__go is-off">개강 전에 열려요</span>') + "</section>", 
+            l += '<div class="r3-enter__acc"><button type="button" aria-expanded="false">라이브 참여 방법 안내<i aria-hidden="true"></i></button><ol><li>PC는 Zoom 프로그램, 휴대폰은 Zoom 앱을 미리 설치해 주세요.</li><li>입장할 때 이름을 \'이름(소속)\'으로 바꿔 주세요.</li><li>질문은 채팅창에 남겨 주세요. 끝나고 다시보기를 드려요.</li></ol></div></section>') : l += "<section><h3>강의실</h3>" + (s[t.idx] ? '<a class="r3-enter__go" href="' + roomPv(s[t.idx]) + '">강의실 입장하기</a>' : '<span class="r3-enter__go is-off">개강 전에 열려요</span>') + "</section>", 
             e.chat && (l += '<section><h3>소통방 입장</h3><a class="r3-enter__chat" href="' + e.chat + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.2-9 7.1 0 2.5 1.6 4.7 4.1 5.9l-.9 3.4c-.1.3.3.6.6.4l4-2.7h1.2c5 0 9-3.2 9-7.1S17 3.5 12 3.5z"/></svg>소통방 입장</a></section>'), 
             l += '<a class="r3-enter__info" href="' + t.base + "?idx=" + t.idx + '">' + (c ? "라이브" : "강의") + " 정보 보기 ›</a></div>", 
             i.innerHTML = l, i.hidden = !1, document.documentElement.classList.add("r3-enter-on");

@@ -52,5 +52,11 @@
   "screen": "common",
   "src": null,
   "note": "10/27 전문가 네트워크 게시판·이전/다음 글 글씨·강사 카드 펼침"
+ },
+ {
+  "file": "10-1028-classroom.css",
+  "screen": "common",
+  "src": null,
+  "note": "10/28 나의 강의실 수강 기간·강의실 페이지 커리큘럼·영상 창"
  }
 ]

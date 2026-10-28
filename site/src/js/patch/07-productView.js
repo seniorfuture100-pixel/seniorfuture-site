@@ -12,6 +12,90 @@
        교육: { who:[], points:[[제목,설명]], summary, chapters:[[제목,시간,설명]], teacher:{name,role,bio,href}, faq:[[질문,답]], refund }
        라이브: { topics:[], speaker:{name,bio}, guide:[[항목,내용]], courses:[상품번호] }
        모임: { intro, checks:[], schedule:[[날짜,내용]], host:{name,bio}, address } */
+// (10/28) [프로그램] 글 줄들 → { desc:[설명 줄], items:[{ t:제목, m:'90분', d:[{ x:글, u:주소 }] }] }
+//   상품 상세 회차 목록(progBox)과 강의실(r3Room)이 같이 써요
+//   첫 줄들(예: 총 6회 · 회당 90분 · 온라인) = 설명 / '1회차 제목 (90분)' 또는 '# 제목 | 90분' = 한 회차 / '- 세부' = 그 회차 안 내용
+SFUI.progItems = function(list) {
+  var HR = /^#\s*(.+)$/, LR = /^(\d+)\s*(?:회차?\s*[·.:：\-)]|회차)\s*(.+?)(?:\s*[\(（]\s*(\d+\s*분)\s*[\)）])?$/, DR = /^[-–•]\s*/, UR = /(https?:\/\/[^\s<>"]+)/;
+  var desc = [], items = [], cur = null;
+  list.forEach((function(e) {
+    var tx = (e.textContent || "").replace(/\s+/g, " ").trim(), m;
+    if (!tx) return;
+    if (m = HR.exec(tx)) {
+      var ps = m[1].split("|"), tm = ps.length > 1 ? ps.pop().trim() : "";
+      cur = { t: ps.join("|").replace(/^\d+\s*회차?\s*[·.:：\-)]?\s*/, "").trim(), m: tm, d: [] }, items.push(cur);
+    } else if (!DR.test(tx) && (m = LR.exec(tx))) {
+      cur = { t: m[2], m: m[3] || "", d: [] }, items.push(cur);
+    } else if (cur) {
+      var a = 1 === e.nodeType && e.querySelector("a[href]"), u = a ? a.getAttribute("href") : (UR.exec(tx) || [])[1], lb = tx.replace(DR, "");
+      u && !a && (lb = lb.replace(u, "").replace(/[\s:：\-–]+$/, "").trim());
+      u && (lb = lb.replace(/\s*미리\s?보기\s*/, " ").trim() || "강의 맛보기"); // 오른쪽에 '미리보기' 표시가 따로 붙어요
+      cur.d.push({ x: lb, u: u && /^(https?:\/\/|\/)/.test(u) ? u : "" });
+    } else desc.push(tx);
+  }));
+  return { desc: desc, items: items };
+};
+// (10/28) [수강 기간] 칸 글 → 고정 날짜 { s, e } (예: 2026.11.01 - 2026.12.31) 또는 결제일 기준 { n, u:'d'|'m' } (예: 결제일부터 90일 · 3개월)
+SFUI.roomPeriod = function(t) {
+  t = String(t || "");
+  var D = /(\d{4})\s*[.\-\/년]\s*(\d{1,2})\s*[.\-\/월]\s*(\d{1,2})/g, a = [], m;
+  while (m = D.exec(t)) a.push(new Date(+m[1], m[2] - 1, +m[3]).getTime());
+  if (a.length) return { s: a[0], e: a.length > 1 ? a[1] + 864e5 - 1 : 0 };
+  return (m = /(\d+)\s*(일|개월|달)/.exec(t)) ? { n: +m[1], u: "일" === m[2] ? "d" : "m" } : null;
+};
+// 실제 기간 { s, e } — 결제일 기준이면 결제일(yyyy-mm-dd)이 있어야 해요(결제일 포함 N일)
+SFUI.roomRange = function(p, paid) {
+  if (!p) return null;
+  if (p.s) return { s: p.s, e: p.e };
+  var b = paid ? Date.parse(String(paid).replace(/-/g, "/")) : 0;
+  if (!b) return null;
+  var e = new Date(b);
+  "d" === p.u ? e.setDate(e.getDate() + p.n) : e.setMonth(e.getMonth() + p.n);
+  return { s: b, e: e.getTime() - 1 };
+};
+SFUI.roomDate = function(t) {
+  var d = new Date(t);
+  return d.getFullYear() + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "." + ("0" + d.getDate()).slice(-2);
+};
+// 화면 글: '2026.11.01 - 2026.12.31' / 결제일을 모르면 '결제일부터 90일'
+SFUI.roomLabel = function(p, paid) {
+  var rg = SFUI.roomRange(p, paid);
+  return rg ? SFUI.roomDate(rg.s) + (rg.e ? " - " + SFUI.roomDate(rg.e) : "") : p && p.n ? "결제일부터 " + p.n + ("d" === p.u ? "일" : "개월") : "";
+};
+// (10/28) 강의실용 상품 정보: 상품 상세 글의 [프로그램]·[수강 기간]·[강의실] 칸을 읽어요
+//   → done({ idx, title, img, prog:{desc,items}|null, period, room:'/class-x' }) · 못 읽으면 done(null) · 같은 탭에서 5분 동안 다시 안 받아요
+SFUI.roomInfo = function(idx, done) {
+  var k = "sf_room_" + idx, C = null;
+  try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
+  if (C && Date.now() - C.at < 3e5) return done(C);
+  if (!idx || !window.fetch || !window.DOMParser) return done(null);
+  fetch("/shop_view/?idx=" + idx + (/preview_mode=1/.test(location.search) ? "&preview_mode=1" : ""), { credentials: "same-origin" }).then((function(r) {
+    return r.ok ? r.text() : "";
+  })).then((function(t) {
+    var d = t && new DOMParser().parseFromString(t, "text/html");
+    if (!d) return done(null);
+    var tp = d.getElementById("prodDetailPC") || d.getElementById("prodDetailMobile"), W = tp && tp.content || d.getElementById("prod_detail_body");
+    var og = d.querySelector('meta[property="og:image"]'), o = { at: Date.now(), idx: +idx, title: ((d.querySelector(".view_tit") || {}).textContent || "").trim(), img: og && og.getAttribute("content") || "", room: "", period: null, prog: null };
+    var RE = /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/, sec = "", P = [], pt = "";
+    W && [].forEach.call(W.querySelectorAll("p,h1,h2,h3,h4,h5,h6,li,div"), (function(x) {
+      if (x.querySelector("p,div,li,h1,h2,h3,h4,h5,h6")) return;
+      var tx = (x.textContent || "").replace(/\s+/g, " ").trim(), m = RE.exec(tx);
+      if (m) return void (sec = m[1].replace(/\s+/g, ""));
+      if (!tx) return;
+      if (/^(프로그램|커리큘럼|회차|수업구성)/.test(sec)) P.push(x);
+      else if ("수강기간" === sec) pt || (pt = tx);
+      else if (/^강의실(주소)?$/.test(sec) && !o.room) {
+        var a = x.querySelector("a[href]"), u = (a ? a.getAttribute("href") : tx).replace(/^(https?:\/\/)?[^\/\s]*imweb\.me/, "").replace(/^(https?:\/\/)?(www\.)?seniorfuture\.[a-z.]+/, "");
+        /^\/[\w\-\/]*$/.test(u) && (o.room = u);
+      }
+    }));
+    o.period = SFUI.roomPeriod(pt), o.prog = P.length ? SFUI.progItems(P) : null;
+    try { sessionStorage.setItem(k, JSON.stringify(o)); } catch (x) {}
+    done(o);
+  }))["catch"]((function() {
+    done(null);
+  }));
+};
 SFUI.register('productView', function() {
   // ↓ 사이트 기준(10/22): 원본과 달라 사이트에 올라가 있는 코드로 맞춤
 
@@ -162,7 +246,13 @@ SFUI.register('productView', function() {
         var MP = [], MR = [], MQ = [];
         OW.secs.forEach((function(e) {
           var k = secKind(e.t);
-          if ("faq" === k) {
+          if ("period" === k) {
+            // (10/28) [수강 기간] → 오른쪽 구매 상자에 '수강 기간 …' 한 줄 / [강의실] → 화면에는 안 보여요(나의 강의실이 읽어요)
+            var pl = SFUI.roomLabel(SFUI.roomPeriod(e.n.map((function(x) { return x.textContent || ""; })).join(" ")));
+            pl && V && V.parentNode.insertBefore(pe("p", "sf-pv-when sf-pv-period", h + "<span>수강 기간 " + oe(pl) + "</span>"), V);
+          } else if ("room" === k) {
+            // 숨김
+          } else if ("faq" === k) {
             var qa = parseQA(e.n);
             qa ? qa.forEach((function(x) { MQ.push({ q: x[0], n: x[1] }); })) : MQ.push({ q: e.t, n: e.n });
           } else if ("policy" === k) MP.push({ q: e.t, n: e.n });
@@ -261,23 +351,7 @@ SFUI.register('productView', function() {
       //   예전처럼 '1회차 · 주제 (90분)'으로 쓴 줄도 회차로 읽어요. 회차 줄이 하나도 없으면 null(쓴 글 그대로)
       //   (10/27) 기본 입력 = '1회차 제목' (구분 기호 없이 띄어쓰기만, 시간 없이) → 화면도 '1회차 제목'
       function progBox(list) {
-        var HR = /^#\s*(.+)$/, LR = /^(\d+)\s*(?:회차?\s*[·.:：\-)]|회차)\s*(.+?)(?:\s*[\(（]\s*(\d+\s*분)\s*[\)）])?$/, DR = /^[-–•]\s*/, UR = /(https?:\/\/[^\s<>"]+)/;
-        var desc = [], items = [], cur = null;
-        list.forEach((function(e) {
-          var tx = (e.textContent || "").replace(/\s+/g, " ").trim(), m;
-          if (!tx) return;
-          if (m = HR.exec(tx)) {
-            var ps = m[1].split("|"), tm = ps.length > 1 ? ps.pop().trim() : "";
-            cur = { t: ps.join("|").replace(/^\d+\s*회차?\s*[·.:：\-)]?\s*/, "").trim(), m: tm, d: [] }, items.push(cur);
-          } else if (!DR.test(tx) && (m = LR.exec(tx))) {
-            cur = { t: m[2], m: m[3] || "", d: [] }, items.push(cur);
-          } else if (cur) {
-            var a = 1 === e.nodeType && e.querySelector("a[href]"), u = a ? a.getAttribute("href") : (UR.exec(tx) || [])[1], lb = tx.replace(DR, "");
-            u && !a && (lb = lb.replace(u, "").replace(/[\s:：\-–]+$/, "").trim());
-            u && (lb = lb.replace(/\s*미리\s?보기\s*/, " ").trim() || "강의 맛보기"); // 오른쪽에 '미리보기' 표시가 따로 붙어요
-            cur.d.push({ x: lb, u: u && /^(https?:\/\/|\/)/.test(u) ? u : "" });
-          } else desc.push(tx);
-        }));
+        var PI = SFUI.progItems(list), desc = PI.desc, items = PI.items;
         if (!items.length) return null;
         var h2 = (desc.length ? '<p class="sf-pv-sub sf-pv-progsub">' + desc.map(oe).join("<br>") + "</p>" : "") + '<div class="sf-pv-chapters sf-pv-chapters--own" data-sf-accordion>' + items.map((function(e, s) {
           return '<div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회차</b><span>" + oe(e.t) + "</span>" + (e.m ? "<em>" + oe(e.m) + "</em>" : "") + "</button><div data-sf-acc-panel>" + (e.d.length ? '<ul class="sf-pv-chdet">' + e.d.map((function(d) {
@@ -352,6 +426,8 @@ SFUI.register('productView', function() {
   // (10/27) 상세 설명 [제목] → 칸 종류
   function secKind(t) {
     t = String(t).replace(/\s+/g, " ").trim();
+    if (/^수강\s?기간$/.test(t)) return "period";
+    if (/^강의실(\s?주소)?$/.test(t)) return "room";
     if (/^(자주\s?묻는\s?질문|FAQ|Q\s?&\s?A|질문과 답변|문의)$/i.test(t)) return "faq";
     if (/^(교환|반품|환불)/.test(t)) return "refund";
     if (/^(운영|학습|이용|수강|참여|참가)\s?(정책|규정|안내)$|정책$/.test(t)) return "policy"; // (10/27 v2) 하단 공통 [운영 정책] → 더 알아보기
