@@ -36,6 +36,10 @@ SFUI.register('boardView', function () {
   var head = el('header', 'sf-bv-head');
   {
     var avatar = sum && sum.querySelector('.avatar img') ? '<img src="' + esc(sum.querySelector('.avatar img').getAttribute('src')) + '" alt="">' : '';
+    if (isFaq) { // (10/28) 자주 묻는 질문 게시판은 글쓴이 칸을 꺼 둬서 비어요 → 공지 글처럼 '시니어퓨처'(patch/22 가 관리자→시니어퓨처) + 기본 사진
+      if (!name) name = '관리자';
+      if (!avatar) avatar = '<img src="/common/img/default_profile.png" alt="">';
+    }
     head.innerHTML = '<nav class="sf-bv-crumb" aria-label="현재 위치"><a href="' + listHref + '">' + esc(boardName.trim()) + '</a>' + (cat ? '<span aria-hidden="true">›</span>' + (isFaq ? '<span class="is-cat">' + esc(cat) + '</span>' : '<a class="is-cat" href="' + path + '?tab=' + encodeURIComponent(cat) + '">' + esc(cat) + '</a>') : '') + '</nav><h1>' + esc(title) + '</h1>'
       + '<div class="sf-bv-by">' + (isExpert || isReview ? '' : /* (10/28 사장님) 자주 묻는 질문 글은 공지 글과 같은 배치(글쓴이·날짜 + 오른쪽 공유) */ /* (10/28 사장님) 수강평 글도 글쓴이 사진·이름·날짜 없이(이름은 본문 끝 'OO님 (소속)') */ '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
       + '<span class="sf-bv-share"><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗 링크 복사</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button></span></div>';
