@@ -26,7 +26,7 @@ SFUI.register('siteChrome', function () {
   var box = document.createElement('div');
   box.className = 'sf-ft';
   box.innerHTML = '<div class="sf-ft-in">' +
-    col('sf-ft-a', '시니어퓨처', [['회사 소개', '/about'], ['기업 협업 프로젝트', '/projects'], ['언론보도', '/news'], ['파트너 지원', '/partner'], ['제휴 문의', '/business#contact'],  ['수강평', '/review'], ['마케팅 파트너스', '/partners']]) +
+    col('sf-ft-a', '시니어퓨처', [['회사 소개', '/about'], ['기업 협업 프로젝트', '/projects'], ['언론보도', '/news'], ['전문가 네트워크', '/experts'], ['파트너 지원', '/partner'], ['제휴 문의', '/business#contact'],  ['수강평', '/review'], ['마케팅 파트너스', '/partners']]) +
     col('sf-ft-b', '고객 지원', [['공지사항', '/help#notice'], ['자주 묻는 질문', '/help#faq'], ['카카오톡 상담', kakao]]) +
     col('sf-ft-c', '정책', [['이용약관', '/terms'], ['개인정보처리방침', '/terms#privacy'], ['환불 정책', '/terms#refund'], ['파트너 이용약관', '/terms#cpartner']]) + // (10/28) 교육 콘텐츠 파트너 이용약관 탭
     '<div class="sf-ft-col sf-ft-cs"><h3>고객센터</h3><p>평일 10:00 – 18:00 (점심 12:00 – 13:00)</p>' +
