@@ -345,12 +345,12 @@ html body .sf-faq-list.is-open ul.li_body.sf-faq-fold {
 }
 :root.r2-help-notice body [data-widget-type=board] {
   margin-top:-15px!important;
-  margin-bottom:9px!important;
+  padding-bottom:9px!important;
 }
 @media (max-width:767.98px) {
   :root.r2-help-notice body [data-widget-type=board] {
     margin-top:-8px!important;
-    margin-bottom:1px!important;
+    padding-bottom:1px!important;
   }
 }
 :root.r2-help body [data-widget-type=board] .li_footer {
