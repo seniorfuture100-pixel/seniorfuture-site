@@ -340,6 +340,9 @@ html body .sf-faq-list.r2-ntable li.time {
   margin-left:0!important;
   font-size:15px!important;
 }
+:root.r2-help body .sf-help #faq-h {
+  display:none!important; /* 공지사항 탭처럼 표 머리 줄이 제목 역할 */
+}
 html body .sf-faq-list.r2-ntable .li_header li.date {
   flex-basis:120px!important;
 }
