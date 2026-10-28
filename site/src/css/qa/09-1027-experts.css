@@ -353,6 +353,12 @@ html body .sf-faq-list.is-open ul.li_body.sf-faq-fold {
     padding-bottom:1px!important;
   }
 }
+/* 넓은 화면(1250px 넘음)에서 공지 표가 아임웹 칸 폭 1250 으로 좌우 25px 더 넓던 것 → 자주 묻는 질문 표와 같은 1200 */
+:root.r2-help body [data-widget-type=board] {
+  max-width:1200px;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
 :root.r2-help body [data-widget-type=board] .li_footer {
   display:none!important;
 }

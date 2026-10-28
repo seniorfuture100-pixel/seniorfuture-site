@@ -22,6 +22,7 @@ SFUI.register('boardView', function () {
   var h1 = v.querySelector('.view_tit'), catEl = h1 && h1.querySelector('.category');
   var cat = catEl ? catEl.textContent.trim() : '';
   if (catEl) (catEl.closest('a') || catEl).remove();
+  if (h1) [].forEach.call(h1.querySelectorAll('.sticker'), function (s) { s.remove(); }); // (10/28) 고정 공지의 '공지' 딱지가 제목 앞에 붙던 것('공지 공지사항!!!')
   var title = h1 ? h1.textContent.trim() : '';
   var boardName = isFaq ? '자주 묻는 질문' : (v.querySelector('.board_name a') || {}).textContent || (isReview ? '수강평' : isNotice ? '공지사항' : '인사이트');
   var listHref = isFaq ? '/help#faq' : path; // (10/28) 자주 묻는 질문 목록은 고객센터 안에 있어요
