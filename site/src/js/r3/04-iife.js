@@ -653,7 +653,8 @@
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
           "X-Requested-With": "XMLHttpRequest"
         },
-        body: "page=" + t + "&order_type=all"
+        // (10/28) order_type=all 은 방금 한 주문(같은 날)을 빼고 돌려줘서(7건 vs 8건) 조건 없이 받아요
+        body: "page=" + t
       }).then((function(t) {
         return t.json();
       }));
