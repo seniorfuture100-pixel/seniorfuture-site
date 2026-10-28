@@ -338,6 +338,17 @@ html body .sf-faq-list.is-open ul.li_body.sf-faq-fold {
 :root.r2-help body .sf-help #faq-h {
   display:none!important; /* 공지사항 탭처럼 표 머리 줄이 제목 역할 */
 }
+/* (10/28 사장님) 공지사항 탭 여백을 자주 묻는 질문 탭과 같게: 탭 아래 24px, 표·버튼 아래 120px
+   (공지 표는 고객센터 코드 위젯 아래 따로 놓인 게시판이라 위젯 아래 여백 24 + 칸 사이 15 + 빈 게시판 바닥 줄 39 가 더 있었어요) */
+:root.r2-help-notice body .sf-help {
+  padding-bottom:0!important;
+}
+:root.r2-help-notice body [data-widget-type=board] {
+  margin-top:-15px!important;
+}
+:root.r2-help body [data-widget-type=board] .li_footer {
+  display:none!important;
+}
 /* (10/28 사장님) 수강평 글 끝 'OO님 (소속)' 서명 줄 */
 html.sf-bv-on body .board_view .board_txt_area .sf-rv-sign {
   margin-top:32px!important;

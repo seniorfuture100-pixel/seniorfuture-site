@@ -37,7 +37,7 @@ SFUI.register('boardView', function () {
   {
     var avatar = sum && sum.querySelector('.avatar img') ? '<img src="' + esc(sum.querySelector('.avatar img').getAttribute('src')) + '" alt="">' : '';
     head.innerHTML = '<nav class="sf-bv-crumb" aria-label="현재 위치"><a href="' + listHref + '">' + esc(boardName.trim()) + '</a>' + (cat ? '<span aria-hidden="true">›</span>' + (isFaq ? '<span class="is-cat">' + esc(cat) + '</span>' : '<a class="is-cat" href="' + path + '?tab=' + encodeURIComponent(cat) + '">' + esc(cat) + '</a>') : '') + '</nav><h1>' + esc(title) + '</h1>'
-      + '<div class="sf-bv-by">' + (isExpert || isReview || isFaq ? '' : /* (10/28 사장님) 수강평 글도 글쓴이 사진·이름·날짜 없이(이름은 본문 끝 'OO님 (소속)') */ '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
+      + '<div class="sf-bv-by">' + (isExpert || isReview ? '' : /* (10/28 사장님) 자주 묻는 질문 글은 공지 글과 같은 배치(글쓴이·날짜 + 오른쪽 공유) */ /* (10/28 사장님) 수강평 글도 글쓴이 사진·이름·날짜 없이(이름은 본문 끝 'OO님 (소속)') */ '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
       + '<span class="sf-bv-share"><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗 링크 복사</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button></span></div>';
   }
   if (h1) { var bt = h1.closest('.board-title') || h1; bt.parentNode.insertBefore(head, bt); bt.classList.add('sf-bv-hide'); }
