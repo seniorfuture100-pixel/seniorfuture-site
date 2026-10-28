@@ -133,3 +133,43 @@ SFUI.register('galleryBoard', function () {
   if (bw) bw.classList.add('sf-exb-board');
   html.classList.add('sf-exb-on', 'sf-gal-on');
 })
+// (10/28 사장님) '전체 보기' 링크가 바깥 채널(apply.seniorfuture.kr)로 빠지지 않게 사이트 안 페이지로 (회사 소개·기업·홈 등 모든 화면)
+SFUI.register('internalLinks', function (root) {
+  var MAP = [[/^https?:\/\/apply\.seniorfuture\.kr\/project\/?$/, '/projects'], [/^https?:\/\/apply\.seniorfuture\.kr\/press\/?$/, '/news'],
+    [/^https?:\/\/apply\.seniorfuture\.kr\/expertnetworkservice\/?$/, '/experts'], [/^https?:\/\/apply\.seniorfuture\.kr\/reviews?\/?$/, '/review']];
+  [].forEach.call(root.querySelectorAll('a[href*="apply.seniorfuture.kr/"]'), function (a) {
+    var h = (a.getAttribute('href') || '').split(/[?#]/)[0];
+    for (var i = 0; i < MAP.length; i++) if (MAP[i][0].test(h)) {
+      a.setAttribute('href', MAP[i][1]); a.removeAttribute('target'); a.removeAttribute('rel'); break;
+    }
+  });
+});
+
+// (10/28 사장님) 홈 전문가 네트워크: 10명 → 20명(나머지는 '전문가 전체보기'). 늘어난 10명은 전문가 게시판 글에서 예전 위젯 순서대로
+SFUI.register('homeExperts20', function () {
+  var ul = document.querySelector('.sf-experts10');
+  if (!ul || !SFUI.once(ul, 'Ex20') || !window.fetch || !window.DOMParser) return;
+  var X = SFUI.experts, AMP = String.fromCharCode(38), tmp = document.createElement('div');
+  function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML.replace(/"/g, AMP + '#34;'); }
+  function add(cards) {
+    var have = [].map.call(ul.querySelectorAll('.sf-expert10 strong'), function (s) { return s.textContent.trim(); }), html = '', ti = 0;
+    cards.forEach(function (c) {
+      if (have.length >= 20 || have.indexOf(c.name) >= 0) return;
+      have.push(c.name);
+      var ph = c.img ? '<span class="sf-expert10__ph" role="img" aria-label="' + esc(c.name) + ' 사진" style="background:#eef0f3 url(' + esc(c.img) + ') 50% 30%/cover no-repeat"></span>'
+        : '<span class="sf-expert10__ph sf-expert10__ini" role="img" aria-label="' + esc(c.name) + '" style="' + X.tile(c.name, ti++) + '">' + esc(c.name.charAt(0)) + '</span>';
+      html += '<li class="sf-expert10"><a href="' + esc(X.url(c.idx)) + '">' + ph + '<span class="sf-expert10__t"><strong>' + esc(c.name) + '</strong><span class="sf-expert10__c">' + esc(c.org) + (c.act ? '<br>' + esc(c.act) : '') + '</span></span></a></li>';
+    });
+    if (html) ul.insertAdjacentHTML('beforeend', html);
+  }
+  var cache = null;
+  try { cache = JSON.parse(sessionStorage.getItem('sf_exhome') || 'null'); } catch (e) {}
+  if (cache) return add(cache);
+  fetch('/experts/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
+    if (!t) return;
+    var d = new DOMParser().parseFromString(t, 'text/html');
+    var cards = X.sort([].map.call(d.querySelectorAll('._post_item_wrap'), X.card).filter(Boolean)).slice(0, 30);
+    try { sessionStorage.setItem('sf_exhome', JSON.stringify(cards)); } catch (e) {}
+    add(cards);
+  }).catch(function () {});
+});

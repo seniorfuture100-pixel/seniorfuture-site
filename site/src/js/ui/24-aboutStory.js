@@ -47,7 +47,9 @@ SFUI.register('aboutStory', function () {
     nav.style.setProperty('--p', p.toFixed(4));
     bar.style.setProperty('--p', p.toFixed(4));
     var on = y + vh * 0.5 > mt && y < mt + mh - vh * 0.4;
-    nav.classList.toggle('is-on', on);
+    // (10/28) 맨 아래 '파트너십 제안' 사진 칸에 왼쪽 점들이 겹쳐 글이 한쪽으로 치우쳐 보였어요 → 그 칸이 화면에 들어오면 세로선은 숨겨요
+    var ct = main.querySelector('.sf-ab-contact');
+    nav.classList.toggle('is-on', on && !(ct && ct.getBoundingClientRect().top < vh * 0.8));
     bar.classList.toggle('is-on', on);
     var cur = 0;
     secs.forEach(function (s, i) { if (s.getBoundingClientRect().top <= vh * 0.4) cur = i; });
