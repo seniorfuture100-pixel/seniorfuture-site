@@ -220,3 +220,82 @@ html body .sf-pv-secs .sf-pv-sechead h2 {
   font:600 13px/1 var(--sf-font);
   cursor:pointer;
 }
+
+/* (10/28) 기업 협업 프로젝트(/projects) · 언론보도(/news): 전문가 네트워크 목록과 같은 모양(patch/06b galleryBoard) */
+:root body .sf-gal {
+  max-width:1200px;
+  margin:0 auto;
+  padding:56px 0 80px;
+  color:var(--sf-text);
+  font-family:var(--sf-font);
+}
+:root body .sf-gal h1 {
+  margin:0 0 8px;
+  font:700 34px/1.35 var(--sf-font);
+  letter-spacing:-.01em;
+}
+:root body .sf-gal .sf-ex__sub {
+  margin:0 0 24px;
+  color:var(--sf-text-3);
+  font:400 16px/1.5 var(--sf-font);
+}
+:root body .sf-gal .sf-ex-grid {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:32px 24px;
+  margin:24px 0 0;
+  padding:0;
+  list-style:none;
+}
+:root body .sf-gal .sf-ex-card {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  color:inherit;
+  text-decoration:none;
+}
+:root body .sf-gal .sf-ex-ph {
+  display:flex;
+  aspect-ratio:1/1;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  color:#fff;
+  font:800 40px/1 var(--sf-font);
+  transition:transform .3s var(--sf-ease);
+}
+:root body .sf-gal .sf-ex-card:hover .sf-ex-ph {
+  transform:translateY(-4px);
+}
+:root body .sf-gal .sf-exb-card strong {
+  display:-webkit-box;
+  overflow:hidden;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+@media (max-width:991.98px) {
+  :root body .sf-gal .sf-ex-grid {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media (max-width:767.98px) {
+  :root body .sf-gal {
+    padding:32px 0 56px;
+  }
+  :root body .sf-gal h1 {
+    font-size:24px;
+  }
+  :root body .sf-gal .sf-ex__sub {
+    font-size:14px;
+  }
+  :root body .sf-gal .sf-ex-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:24px 12px;
+  }
+}
+/* 프로젝트 · 언론보도 글: 대표 사진은 원래 비율 그대로(행사·기사 사진이라 네모로 자르지 않아요) */
+html.sf-bv--gal body .board_view img.sf-exv-photo {
+  max-width:100%!important;
+  aspect-ratio:auto;
+  object-fit:contain;
+}

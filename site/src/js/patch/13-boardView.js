@@ -4,10 +4,13 @@ SFUI.register('boardView', function () {
   if (!v || !/bmode=view/.test(location.search) || !SFUI.once(v, 'BoardView')) return;
   var path = location.pathname.replace(/\/$/, '') || '/';
   var isNotice = /^\/help/.test(path), isReview = /^\/review/.test(path), isExpert = /^\/experts/.test(path) && !!SFUI.experts;
+  var G = SFUI.gal && SFUI.gal(path); // (10/28) 기업 협업 프로젝트 · 언론보도: 전문가 글과 같은 모양(사진 → 칸 제목 → 다른 글 5개)
+  if (G) isExpert = true;
   var root = document.documentElement;
   root.classList.add('sf-bv-on', 'sf-bv--article'); // (10/28 사장님) 공지도 인사이트 글과 같은 모양(경로·글쓴이·공유·목록 알약). 아래 '함께 읽으면 좋은 글'만 빼요
   if (isNotice) root.classList.add('sf-bv--ntc');
-  if (isExpert) root.classList.add('sf-bv--expert'); // (10/27) 전문가 글: 글쓴이·날짜 줄 없이, 사진 → 칸 제목(내용 있는 칸만) → 다른 전문가
+  if (isExpert) root.classList.add('sf-bv--expert');
+  if (G) root.classList.add('sf-bv--gal'); // (10/27) 전문가 글: 글쓴이·날짜 줄 없이, 사진 → 칸 제목(내용 있는 칸만) → 다른 전문가
   var AMP = String.fromCharCode(38), tmp = document.createElement('div');
   function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML.replace(/"/g, AMP + '#34;'); }
   function el(t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
@@ -40,7 +43,8 @@ SFUI.register('boardView', function () {
   if (sum) sum.classList.add('sf-bv-sum');
   // (10/27) 전문가 글 본문: 첫 사진을 맨 위 큰 사진으로, '[함께한 활동]' 같은 칸 제목 → 굵은 제목, 내용 없는 칸은 제목째 빼요
   if (isExpert && bodyEl) {
-    var HD = /^\s*\[\s*(함께한\s*활동|한\s*줄\s*소개|핵심\s*이력|자기\s*소개)\s*\]\s*$/, cur = null, grp = [];
+    var HD = G ? new RegExp('^\\s*\\[\\s*(' + G.heads.map(function (h) { return h.replace(/\s+/g, '\\s*'); }).join('|') + ')\\s*\\]\\s*$')
+      : /^\s*\[\s*(함께한\s*활동|한\s*줄\s*소개|핵심\s*이력|자기\s*소개)\s*\]\s*$/, cur = null, grp = [];
     var blocks = [].filter.call(bodyEl.querySelectorAll('p, h1, h2, h3, h4, li, div'), function (x) { return !x.querySelector('p, div, li, h1, h2, h3, h4'); });
     blocks.forEach(function (x) {
       var m = HD.exec(x.textContent);
@@ -82,13 +86,14 @@ SFUI.register('boardView', function () {
     if (!isNotice) fetch(path + '/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (t) {
       var d = new DOMParser().parseFromString(t, 'text/html');
       if (isExpert) { // (10/27) 다른 전문가: 예전 위젯 순서로 이 글 다음 5명(사진 1:1 · 이름 소속 · 함께한 활동)
-        var EX = SFUI.experts, all = EX.sort([].map.call(d.querySelectorAll('._post_item_wrap'), EX.card).filter(Boolean)), me = -1;
+        var EX = SFUI.experts, all = G ? SFUI.galCards(G, d) : EX.sort([].map.call(d.querySelectorAll('._post_item_wrap'), EX.card).filter(Boolean)), me = -1;
         all.forEach(function (c, i) { if (String(c.idx) === String(idx)) me = i; });
         var pick = []; for (var k = 1; k < all.length && pick.length < 5; k++) pick.push(all[(me + k + all.length) % all.length]);
         if (me < 0) pick = all.slice(0, 5);
         if (!pick.length) return;
-        var xs = el('section', 'sf-bv-more sf-bv-more--ex', '<div class="sf-bv-more__in"><h2>다른 전문가</h2><ul class="sf-bv-more__list is-5">' + pick.map(function (c, i) {
-          return '<li><a href="' + esc(EX.url(c.idx)) + '"><span class="sf-bv-more__th">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '<span class="sf-exv-ini" style="' + EX.tile(c.name, i) + '">' + esc(c.name.charAt(0)) + '</span>') + '</span><strong>' + esc(c.title) + '</strong>' + (c.act ? '<p>' + esc(c.act) + '</p>' : '') + '</a></li>';
+        var xs = el('section', 'sf-bv-more sf-bv-more--ex', '<div class="sf-bv-more__in"><h2>' + (G ? G.more : '다른 전문가') + '</h2><ul class="sf-bv-more__list is-5">' + pick.map(function (c, i) {
+          var href = G ? path + '/?bmode=view' + AMP + 'idx=' + c.idx : EX.url(c.idx), sub = G ? c.line : c.act;
+          return '<li><a href="' + esc(href) + '"><span class="sf-bv-more__th">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '<span class="sf-exv-ini" style="' + EX.tile(c.name, i) + '">' + esc(c.name.charAt(0)) + '</span>') + '</span><strong>' + esc(c.title) + '</strong>' + (sub ? '<p>' + esc(sub) + '</p>' : '') + '</a></li>';
         }).join('') + '</ul></div>');
         var wx = v.closest('[id^="w20"]') || v;
         wx.parentNode.insertBefore(xs, wx.nextSibling);

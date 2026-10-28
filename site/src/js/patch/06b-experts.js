@@ -75,3 +75,61 @@ SFUI.register('expertsBoard', function (root) {
   if (bw) bw.classList.add('sf-exb-board');
   [].forEach.call(old.querySelectorAll('.sf-chips, .sf-filter-empty'), function (e) { e.classList.add('sf-exb-hide'); });
 })
+
+// (10/28) 기업 협업 프로젝트(/projects) · 언론보도(/news) — 전문가 네트워크와 같은 목록(사진 · 제목 진하게 · 연한 한 줄)과 글 모양
+//   글 본문 = 사진 + [칸 제목] 들(내용 있는 칸만 보여요). 목록 연한 줄: 프로젝트 = 협업 기관, 언론보도 = 매체 · 날짜. 순서는 게시판 순서 그대로
+SFUI.gals = [
+  { re: /^\/projects/, board: 'b202610285c90f80f8a1fd', title: '기업 협업 프로젝트', more: '다른 프로젝트',
+    sub: '대기업·공공기관·언론 등 20건+ 협업으로 장수경제 비즈니스 생태계를 함께 만들어 가요',
+    heads: ['협업 기관', '과제', '수행 내용', '주요 결과', '관련 링크'],
+    line: function (o) { return o['협업기관'] || ''; } },
+  { re: /^\/news/, board: 'b2026102875a68be683cab', title: '언론보도', more: '다른 언론보도',
+    sub: '매일경제·서울경제·브라보마이라이프 등 주요 매체가 시니어퓨처의 활동을 보도했어요',
+    heads: ['매체', '날짜', '내용', '기사 링크'],
+    line: function (o) { return [o['매체'], o['날짜']].filter(Boolean).join(' · '); } }
+];
+SFUI.gal = function (path) {
+  for (var i = 0; i < SFUI.gals.length; i++) if (SFUI.gals[i].re.test(path || '')) return SFUI.gals[i];
+  return null;
+};
+// 본문 글자 → { 칸제목(띄어쓰기 없이): 내용 }
+SFUI.galSecs = function (t, heads) {
+  var o = {}, re = new RegExp('\\[\\s*(' + heads.map(function (h) { return h.replace(/\s+/g, '\\s*'); }).join('|') + ')\\s*\\]', 'g'), m, last = null, pos = 0;
+  t = String(t || '');
+  while ((m = re.exec(t))) {
+    if (last) o[last] = t.slice(pos, m.index).trim();
+    last = m[1].replace(/\s+/g, ''); pos = re.lastIndex;
+  }
+  if (last) o[last] = t.slice(pos).trim();
+  return o;
+};
+SFUI.galCards = function (G, root) {
+  return [].map.call(root.querySelectorAll('._post_item_wrap'), function (it) {
+    var c = SFUI.experts.card(it), tx = it.querySelector('.text');
+    if (!c) return null;
+    c.line = G.line(SFUI.galSecs(tx ? tx.textContent : '', G.heads));
+    return c;
+  }).filter(Boolean);
+};
+SFUI.register('galleryBoard', function () {
+  var G = SFUI.gal(location.pathname);
+  if (!G || /bmode=/.test(location.search)) return;
+  var list = document.getElementById('post_card_' + G.board);
+  if (!list || !SFUI.once(list, 'Gal')) return;
+  var X = SFUI.experts, AMP = String.fromCharCode(38), tmp = document.createElement('div');
+  function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML.replace(/"/g, AMP + '#34;'); }
+  var cards = SFUI.galCards(G, list), base = location.pathname.replace(/\/?$/, '/');
+  var html = document.documentElement, ti = 0;
+  var sec = document.createElement('section');
+  sec.className = 'sf-ex sf-gal';
+  sec.innerHTML = '<h1>' + esc(G.title) + '</h1><p class="sf-ex__sub">' + esc(G.sub) + '</p><ul class="sf-ex-grid">' + cards.map(function (c) {
+    var ph = c.img ? '<span class="sf-ex-ph" role="img" aria-label="' + esc(c.title) + '" style="background:#eef0f3 url(' + esc(c.img) + ') 50% 40%/cover no-repeat"></span>'
+      : '<span class="sf-ex-ph sf-ex-ini" role="img" aria-label="' + esc(c.title) + '" style="' + X.tile(c.title, ti++) + '">' + esc(c.title.charAt(0)) + '</span>';
+    return '<li><a class="sf-ex-card sf-exb-card" href="' + esc(base + '?bmode=view' + AMP + 'idx=' + c.idx) + '">' + ph + '<strong>' + esc(c.title) + '</strong>' + (c.line ? '<em>' + esc(c.line) + '</em>' : '') + '</a></li>';
+  }).join('') + '</ul>';
+  var host = list.closest('[id^="w20"]') || list.closest('._list_wrap') || list;
+  host.parentNode.insertBefore(sec, host);
+  var bw = list.closest('._list_wrap');
+  if (bw) bw.classList.add('sf-exb-board');
+  html.classList.add('sf-exb-on', 'sf-gal-on');
+})
