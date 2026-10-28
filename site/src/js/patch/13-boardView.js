@@ -5,7 +5,8 @@ SFUI.register('boardView', function () {
   var path = location.pathname.replace(/\/$/, '') || '/';
   var isNotice = /^\/help/.test(path), isReview = /^\/review/.test(path), isExpert = /^\/experts/.test(path) && !!SFUI.experts;
   var root = document.documentElement;
-  root.classList.add('sf-bv-on', isNotice ? 'sf-bv--notice' : 'sf-bv--article');
+  root.classList.add('sf-bv-on', 'sf-bv--article'); // (10/28 사장님) 공지도 인사이트 글과 같은 모양(경로·글쓴이·공유·목록 알약). 아래 '함께 읽으면 좋은 글'만 빼요
+  if (isNotice) root.classList.add('sf-bv--ntc');
   if (isExpert) root.classList.add('sf-bv--expert'); // (10/27) 전문가 글: 글쓴이·날짜 줄 없이, 사진 → 칸 제목(내용 있는 칸만) → 다른 전문가
   var AMP = String.fromCharCode(38), tmp = document.createElement('div');
   function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML.replace(/"/g, AMP + '#34;'); }
@@ -29,9 +30,7 @@ SFUI.register('boardView', function () {
   var words = bodyEl ? bodyEl.textContent.replace(/\s+/g, ' ').length : 0;
   var mins = Math.max(1, Math.round(words / 500));
   var head = el('header', 'sf-bv-head');
-  if (isNotice) {
-    head.innerHTML = '<a class="sf-bv-back" href="' + path + '">‹ 공지사항 목록</a>' + (cat ? '<span class="sf-bv-chip">' + esc(cat) + '</span>' : '') + '<h1>' + esc(title) + '</h1><p class="sf-bv-meta">' + esc(String(dateFull).split(' ')[0]) + (hit ? ' · ' + esc(hit) : '') + '</p>';
-  } else {
+  {
     var avatar = sum && sum.querySelector('.avatar img') ? '<img src="' + esc(sum.querySelector('.avatar img').getAttribute('src')) + '" alt="">' : '';
     head.innerHTML = '<nav class="sf-bv-crumb" aria-label="현재 위치"><a href="' + path + '">' + esc(boardName.trim()) + '</a>' + (cat ? '<span aria-hidden="true">›</span><a class="is-cat" href="' + path + '?tab=' + encodeURIComponent(cat) + '">' + esc(cat) + '</a>' : '') + '</nav><h1>' + esc(title) + '</h1>'
       + '<div class="sf-bv-by">' + (isExpert ? '' : '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
@@ -55,7 +54,6 @@ SFUI.register('boardView', function () {
     var pimg = bodyEl.querySelector('img');
     if (pimg) { pimg.classList.add('sf-exv-photo'); (pimg.closest('p') || pimg).classList.add('sf-exv-ph'); }
     else bodyEl.insertAdjacentHTML('afterbegin', '<p class="sf-exv-ph"><span class="sf-exv-ini" style="' + SFUI.experts.tile(title, 0) + '">' + esc(title.charAt(0)) + '</span></p>');
-    var cm = v.querySelector('.comment_section'); if (cm) cm.classList.add('sf-bv-hide'); // (10/28) 댓글 끈 게시판인데 공유 아이콘만 있는 빈 댓글 줄이 남아요(인사이트는 patch/22)
   }
   // 본문: #태그 문단 → 칩
   if (bodyEl) {
@@ -69,19 +67,19 @@ SFUI.register('boardView', function () {
   }
   var after = bodyEl ? bodyEl.nextSibling : null;
   function insertAfterBody(node) { if (bodyEl) bodyEl.parentNode.insertBefore(node, after); }
-  if (!isNotice) {
+  {
     insertAfterBody(el('div', 'sf-bv-shareline', '<span>이 글이 도움이 됐다면 공유해 주세요</span><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button>'));
     // 관련 강의: 분야 이름 → 강의
     var MAP = { '전문가 인사이트': 5, '기업 사례 분석': 3, '트렌드': 4, '뉴스레터': 4 };
     var items = SFUI.shopItems ? SFUI.shopItems() : {}, ci = MAP[cat], key;
     var catKey = (SFUI.cats || []).filter(function (c) { return c[1] === cat; })[0];
     if (!ci && catKey) for (key in items) if (items[key].type === 'course' && items[key].cat === catKey[0]) { ci = key; break; }
-    var cc = ci && SFUI.courseCards[ci];
+    var cc = !isNotice && ci && SFUI.courseCards[ci];
     if (cc) insertAfterBody(el('a', 'sf-bv-course', '<img src="' + SFUI.courseImg + cc[2] + '" alt=""><span><small>' + (isReview ? '이 후기의 강의' : '이 글과 관련된 강의') + '</small><strong>' + esc(cc[0]) + '</strong><em>' + esc(cc[1]) + '</em></span><b>강의 보러 가기</b>'));
     var cl = v.querySelector('.sf-bv-course'); if (cl && ci) cl.href = '/course/?idx=' + ci;
     // 아래 카드: 같은 게시판 목록에서 가져오기
     var idx = new URLSearchParams(location.search).get('idx');
-    fetch(path + '/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (t) {
+    if (!isNotice) fetch(path + '/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (t) {
       var d = new DOMParser().parseFromString(t, 'text/html');
       if (isExpert) { // (10/27) 다른 전문가: 예전 위젯 순서로 이 글 다음 5명(사진 1:1 · 이름 소속 · 함께한 활동)
         var EX = SFUI.experts, all = EX.sort([].map.call(d.querySelectorAll('._post_item_wrap'), EX.card).filter(Boolean)), me = -1;
@@ -119,10 +117,9 @@ SFUI.register('boardView', function () {
       bar.style.transform = 'scaleX(' + done + ')';
     };
     addEventListener('scroll', onScroll, { passive: true }); onScroll();
-  } else {
-    var listBtn = v.querySelector('.table_bottom a.float_l, .table_bottom a[href*="list"]');
-    if (listBtn) { listBtn.textContent = '목록으로'; listBtn.classList.add('sf-bv-listbtn'); }
   }
+  // (10/28) 빈 댓글 줄(좋아요·댓글 0 · 댓글 입력칸)은 인사이트처럼 모든 글 보기에서 숨겨요(전문가·수강평·공지)
+  var cmt = v.querySelector('.comment_section'); if (cmt) cmt.classList.add('sf-bv-hide');
   // 이전/다음 글 줄 이름
   [].forEach.call(v.querySelectorAll('.list_tap a'), function (a, i) {
     if (!a.querySelector('.sf-bv-pn')) a.insertAdjacentHTML('afterbegin', '<span class="sf-bv-pn">' + (a.querySelector('.icon-arrow-up') ? '이전 글' : '다음 글') + '</span>');
