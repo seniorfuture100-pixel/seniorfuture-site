@@ -49,8 +49,10 @@ html.sf-bv-on body .board_view .list_tap .secret_icon {
 /* ② 전문가 목록: 예전 위젯 카드 모양에 '이름 소속'(진하게) + 함께한 활동(연하게 2줄) */
 html.sf-exb-on body .sf-exb-hide,
 html.sf-exb-on body .sf-exb-board .table_top,
-html.sf-exb-on body .sf-exb-board .list-style {
-  display:none!important;
+html.sf-exb-on body .sf-exb-board .list-style,
+html.sf-exb-on body .sf-exb-board ._list_bottom,
+html.sf-bv--expert body .board_view .table_bottom a[href*="bmode=write"] {
+  display:none!important; /* (10/28 사장님) 목록·글 아래 '글쓰기' 버튼 숨김 — 새 글은 글쓰기 주소로(docs 안내) */
 }
 :root body .sf-ex .sf-exb-card strong {
   color:var(--sf-text);
