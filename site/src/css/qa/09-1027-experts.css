@@ -7,12 +7,30 @@ html.sf-bv-on body .board_view .list_tap a {
   padding:18px 24px!important;
   font:500 17px/1.5 var(--sf-font)!important;
 }
+/* (10/28 사장님) 회색 꼬리표·글씨 조금 크게, 제목과 세로 가운데 맞춤 */
+html.sf-bv-on body .board_view .list_tap a {
+  align-items:center!important;
+}
 html.sf-bv-on body .board_view .list_tap .sf-bv-pn {
   display:inline-flex;
   height:auto!important; /* (10/28) 아임웹 높이 17px 에 눌려 '이전 글' 회색 상자가 글자 위쪽만 덮였어요 */
+  min-width:76px;
   align-items:center;
-  padding:5px 10px;
-  font:600 14px/1.4 var(--sf-font)!important;
+  justify-content:center;
+  align-self:center;
+  margin:0!important;
+  padding:7px 14px;
+  border-radius:8px;
+  font:600 15px/1.4 var(--sf-font)!important;
+  vertical-align:middle;
+}
+/* 아래 '목록'·'글쓰기' 버튼이 맞붙어 있던 것 → 8px 띄움 */
+html.sf-bv-on body .board_view .table_bottom .btn + .btn {
+  margin-left:8px!important;
+}
+html.sf-bv-on body .board_view .list_tap .secret_icon {
+  align-self:center;
+  line-height:1.5!important;
 }
 @media (max-width:767.98px) {
   html.sf-bv-on body .board_view .list_tap a {
@@ -22,7 +40,9 @@ html.sf-bv-on body .board_view .list_tap .sf-bv-pn {
     font-size:16px!important;
   }
   html.sf-bv-on body .board_view .list_tap .sf-bv-pn {
-    font-size:13px!important;
+    min-width:64px;
+    padding:6px 10px;
+    font-size:14px!important;
   }
 }
 
