@@ -326,6 +326,14 @@ html.sf-bv--gal body .sf-bv-more__list.is-5 {
     grid-auto-columns:240px!important;
   }
 }
+/* (10/28 사장님) 자주 묻는 질문: 공지사항 목록과 같은 모양(분류 꼬리표 + 질문), 날짜·글쓴이 칸 없이 */
+html.sf-nl-on body .sf-faq-list ul.li_body > li:not(.tit),
+html.sf-nl-on body .sf-faq-list .li_header {
+  display:none!important;
+}
+html.sf-nl-on body .sf-faq-list ul.li_body .list_text_title {
+  font-weight:500!important;
+}
 /* (10/28 사장님) 수강평 글 끝 'OO님 (소속)' 서명 줄 */
 html.sf-bv-on body .board_view .board_txt_area .sf-rv-sign {
   margin-top:32px!important;

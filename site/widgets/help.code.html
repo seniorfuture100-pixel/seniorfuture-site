@@ -14,13 +14,7 @@
 .sf-scope .sf-help-tabs a{padding:12px 2px;border-bottom:2px solid transparent;color:var(--sf-text-3);font-size:17px;font-weight:500;text-decoration:none}
 .sf-scope .sf-help-tabs a.is-active{border-color:var(--sf-text);color:var(--sf-text);font-weight:700}
 .sf-scope .sf-help .sf-chips{margin-bottom:8px}
-.sf-scope .sf-help-faq [data-sf-acc-item]{border-bottom:1px solid var(--sf-border)}
-.sf-scope .sf-help-faq [data-sf-acc-trigger]{display:flex;align-items:center;gap:10px;width:100%;padding:20px 0;border:0;background:none;color:var(--sf-text);font:700 17px/1.5 var(--sf-font);text-align:left;cursor:pointer}
-.sf-scope .sf-help-faq [data-sf-acc-trigger] b{flex:none;color:var(--sf-text-brand);font-size:18px}
-.sf-scope .sf-help-faq [data-sf-acc-trigger] small{flex:none;color:var(--sf-text-3);font-size:14px;font-weight:400}
-.sf-scope .sf-help-faq [data-sf-acc-trigger] span{flex:1}
-.sf-scope .sf-help-faq [data-sf-acc-panel]{margin:0 0 20px;padding:16px 20px;border-radius:12px;background:var(--sf-surface);color:var(--sf-text-2);font-size:15px;line-height:1.7}
-.sf-scope .sf-help-faq [data-sf-acc-panel] a{color:var(--sf-text-brand);font-weight:700}
+.sf-scope .sf-help-faq__wait{margin:0;padding:40px 0;border-top:2px solid var(--sf-text);color:var(--sf-text-3);font-size:15px;text-align:center}
 .sf-scope .sf-help-more{display:flex;align-items:center;justify-content:center;gap:16px;margin:24px 0 64px;padding:28px;border-radius:16px;background:var(--sf-surface)}
 .sf-scope .sf-help-more b{font-size:18px}
 .sf-scope .sf-help-more a{display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;background:var(--sf-dark);color:#fff !important;font-size:15px;font-weight:700;text-decoration:none}
@@ -34,9 +28,6 @@
 .sf-scope .sf-help-cards{grid-template-columns:1fr;gap:12px;margin-bottom:32px}
 .sf-scope .sf-help-card{padding:18px 16px}
 .sf-scope .sf-help-card.is-biz,.sf-scope .sf-help-tabs{display:none}
-.sf-scope .sf-help-faq [data-sf-acc-trigger]{gap:8px;padding:16px 0;font-size:15px}
-.sf-scope .sf-help-faq [data-sf-acc-trigger] small{display:none}
-.sf-scope .sf-help-faq [data-sf-acc-panel]{padding:14px 16px;font-size:14px}
 .sf-scope .sf-help-more{flex-direction:column;align-items:stretch;margin:24px 0 48px;padding:0;background:none}
 .sf-scope .sf-help-more b{display:none}
 .sf-scope .sf-help-more a{justify-content:center;height:52px;border-radius:999px;font-size:16px}
@@ -57,31 +48,7 @@
 
   <section id="faq" class="sf-help-faq" aria-labelledby="faq-h">
     <h2 id="faq-h">자주 묻는 질문</h2>
-    <div class="sf-chips" data-sf-filter-group="faq" role="group" aria-label="질문 분류">
-      <button class="sf-chip" data-sf-filter="all">전체</button>
-      <button class="sf-chip" data-sf-filter="program">프로그램</button>
-      <button class="sf-chip" data-sf-filter="member">멤버십</button>
-      <button class="sf-chip" data-sf-filter="event">강연·행사</button>
-      <button class="sf-chip" data-sf-filter="refund">결제·환불</button>
-      <button class="sf-chip" data-sf-filter="biz">기업 협업</button>
-      <button class="sf-chip" data-sf-filter="account">계정</button>
-    </div>
-    <div data-sf-accordion data-single>
-      <div data-sf-acc-item class="is-open" data-sf-filter-item="faq" data-category="program"><button type="button" data-sf-acc-trigger><b>Q</b><small>[프로그램]</small><span>시니어퓨처는 어떤 곳인가요?</span></button><div data-sf-acc-panel>초고령사회 속, 시니어 시장에 관심 있는 사람들을 위한 교육형 커뮤니티예요. 고령화를 비즈니스 기회로 보고, 함께 공부해서 실제로 만들어 보는 곳이에요. 2023년 9월 시니어 이슈 스터디 모임으로 시작해 누적 2,000명+이 함께했어요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="program"><button type="button" data-sf-acc-trigger><b>Q</b><small>[프로그램]</small><span>누가 참여할 수 있나요?</span></button><div data-sf-acc-panel>시니어 산업에 관심 있는 직장인, 예비·초기 창업자, 대학(원)생, 중장년 누구나 참여할 수 있어요. 시니어 당사자가 아니어도 괜찮아요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="program"><button type="button" data-sf-acc-trigger><b>Q</b><small>[프로그램]</small><span>스터디는 어디서, 어떻게 진행되나요?</span></button><div data-sf-acc-panel>기수제로 운영해요. 10기 기준으로 비즈니스 스터디(정원 10명)와 창업 스터디(최대 8명)를 토요일 오전 9시~12시에 공덕역 FRONT1(프론트원)에서 4회 진행했어요. 장소와 일정은 기수마다 달라질 수 있어요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="program"><button type="button" data-sf-acc-trigger><b>Q</b><small>[프로그램]</small><span>다음 기수는 언제 모집하나요?</span></button><div data-sf-acc-panel>다음 기수는 기획이 끝나는 대로 뉴스레터와 카카오톡 채널로 가장 먼저 알려 드려요. 무료 뉴스레터를 구독해 두시면 모집 소식을 놓치지 않아요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="program"><button type="button" data-sf-acc-trigger><b>Q</b><small>[프로그램]</small><span>수료증을 받을 수 있나요?</span></button><div data-sf-acc-panel>정규 4회차에 모두 출석하고 모임 후기를 작성하면 「시니어퓨처 수료증」을 드려요. 창업 스터디는 최종 사업계획서 제출까지 마쳐야 해요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="member"><button type="button" data-sf-acc-trigger><b>Q</b><small>[멤버십]</small><span>멤버십은 어떻게 구성되어 있나요?</span></button><div data-sf-acc-panel>무료(뉴스레터·네트워킹 방), 베이직 월 9,900원(시니어 딥 인사이트 콘텐츠·행사 사전 안내), 스탠다드 월 24,900원(베이직 혜택 + 세미나·현장 탐방·교육 프로그램 할인과 우선 안내, 채용·협업 제안 기회)이 있어요. 자세한 내용은 <a href="https://seniorfuturemembership.netlify.app/" target="_blank" rel="noopener">멤버십 안내</a>에서 확인해 주세요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="member"><button type="button" data-sf-acc-trigger><b>Q</b><small>[멤버십]</small><span>뉴스레터는 무료인가요?</span></button><div data-sf-acc-panel>네. 매주 시니어 산업 뉴스·트렌드·행사 소식을 무료로 보내 드려요. <a href="https://walla.my/v/HdUG9uCe2rRx9tw1X91u" target="_blank" rel="noopener">무료 구독하기</a></div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="event"><button type="button" data-sf-acc-trigger><b>Q</b><small>[강연·행사]</small><span>전문가 강연과 현장 탐방은 어떻게 신청하나요?</span></button><div data-sf-acc-panel>일정과 신청 링크는 뉴스레터와 <a href="https://cafe.naver.com/seniorfuture2311" target="_blank" rel="noopener">네이버 카페</a>로 먼저 안내해요. 회차별로 신청할 수 있고, 스탠다드 이상 멤버는 무료·할인 또는 우선 참여할 수 있어요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="event"><button type="button" data-sf-acc-trigger><b>Q</b><small>[강연·행사]</small><span>참석하지 못한 강연 내용도 볼 수 있나요?</span></button><div data-sf-acc-panel>강연과 탐방 내용은 멤버십 회원과 기수 프로그램 참여자에게 핵심 정리 콘텐츠로 제공해요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="refund"><button type="button" data-sf-acc-trigger><b>Q</b><small>[결제·환불]</small><span>스터디 참가비 환불 기준이 궁금해요</span></button><div data-sf-acc-panel>모집 기간 안이거나 1회차가 시작되기 전에 취소하면 결제 금액 전액을 돌려드려요. 1회차가 시작된 뒤에는 진행된 회차에 따라 일부 금액을 돌려드리며, 선발되지 않으면 전액 환불해 드려요. <a href="/terms#refund">환불 정책 보기</a></div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="refund"><button type="button" data-sf-acc-trigger><b>Q</b><small>[결제·환불]</small><span>강연·행사 참가비 환불은요?</span></button><div data-sf-acc-panel>강연과 현장 탐방은 회차마다 참가비와 환불 기준이 달라요. 신청 페이지의 안내를 확인하거나 카카오톡 채널로 문의해 주세요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="biz"><button type="button" data-sf-acc-trigger><b>Q</b><small>[기업 협업]</small><span>기업·기관 협업은 어떻게 문의하나요?</span></button><div data-sf-acc-panel>조직 맞춤 교육·워크숍, 컨설팅·브랜디드 콘텐츠, 세미나 스폰서십, 채용·인재 연결, 리서치까지 함께해요. <a href="/business#contact">기업·공공기관 문의</a>를 남기거나 seniorfuture100@gmail.com 으로 연락해 주세요.</div></div>
-      <div data-sf-acc-item data-sf-filter-item="faq" data-category="account"><button type="button" data-sf-acc-trigger><b>Q</b><small>[계정]</small><span>카카오로 가입했는데 이메일로 로그인할 수 있나요?</span></button><div data-sf-acc-panel>가입한 방법(카카오·네이버·구글·이메일)으로만 로그인할 수 있어요. 처음 가입한 방법으로 로그인해 주세요.</div></div>
-    </div>
-    <p class="sf-hidden" data-sf-filter-empty="faq">이 분류에는 아직 질문이 없어요.</p>
+    <div data-sf-faq-board><p class="sf-help-faq__wait">자주 묻는 질문을 불러오는 중이에요.</p></div>
     <div class="sf-help-more"><b>원하는 답을 찾지 못했나요?</b><a href="#" data-sf-kakao-channel>카카오톡 상담하기</a></div>
     <p class="sf-help-refundlink">환불 기준은 <a href="/terms#refund">환불 정책</a>에서 확인할 수 있어요.</p>
   </section>

@@ -3,7 +3,7 @@ SFUI.register('boardView', function () {
   var v = document.querySelector('.board_view');
   if (!v || !/bmode=view/.test(location.search) || !SFUI.once(v, 'BoardView')) return;
   var path = location.pathname.replace(/\/$/, '') || '/';
-  var isNotice = /^\/help/.test(path), isReview = /^\/review/.test(path), isExpert = /^\/experts/.test(path) && !!SFUI.experts;
+  var isFaq = /^\/faq/.test(path), isNotice = /^\/help/.test(path) || isFaq, isReview = /^\/review/.test(path), isExpert = /^\/experts/.test(path) && !!SFUI.experts;
   var G = SFUI.gal && SFUI.gal(path); // (10/28) 기업 협업 프로젝트 · 언론보도: 전문가 글과 같은 모양(사진 → 칸 제목 → 다른 글 5개)
   if (G) isExpert = true;
   var root = document.documentElement;
@@ -23,7 +23,8 @@ SFUI.register('boardView', function () {
   var cat = catEl ? catEl.textContent.trim() : '';
   if (catEl) (catEl.closest('a') || catEl).remove();
   var title = h1 ? h1.textContent.trim() : '';
-  var boardName = (v.querySelector('.board_name a') || {}).textContent || (isReview ? '수강평' : isNotice ? '공지사항' : '인사이트');
+  var boardName = isFaq ? '자주 묻는 질문' : (v.querySelector('.board_name a') || {}).textContent || (isReview ? '수강평' : isNotice ? '공지사항' : '인사이트');
+  var listHref = isFaq ? '/help#faq' : path; // (10/28) 자주 묻는 질문 목록은 고객센터 안에 있어요
   var sum = v.querySelector('.board_summary');
   var name = sum && sum.querySelector('.write') ? sum.querySelector('.write').textContent.trim() : '';
   var date = sum && sum.querySelector('.date') ? sum.querySelector('.date').textContent.trim() : '';
@@ -35,8 +36,8 @@ SFUI.register('boardView', function () {
   var head = el('header', 'sf-bv-head');
   {
     var avatar = sum && sum.querySelector('.avatar img') ? '<img src="' + esc(sum.querySelector('.avatar img').getAttribute('src')) + '" alt="">' : '';
-    head.innerHTML = '<nav class="sf-bv-crumb" aria-label="현재 위치"><a href="' + path + '">' + esc(boardName.trim()) + '</a>' + (cat ? '<span aria-hidden="true">›</span><a class="is-cat" href="' + path + '?tab=' + encodeURIComponent(cat) + '">' + esc(cat) + '</a>' : '') + '</nav><h1>' + esc(title) + '</h1>'
-      + '<div class="sf-bv-by">' + (isExpert || isReview ? '' : /* (10/28 사장님) 수강평 글도 글쓴이 사진·이름·날짜 없이(이름은 본문 끝 'OO님 (소속)') */ '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
+    head.innerHTML = '<nav class="sf-bv-crumb" aria-label="현재 위치"><a href="' + listHref + '">' + esc(boardName.trim()) + '</a>' + (cat ? '<span aria-hidden="true">›</span>' + (isFaq ? '<span class="is-cat">' + esc(cat) + '</span>' : '<a class="is-cat" href="' + path + '?tab=' + encodeURIComponent(cat) + '">' + esc(cat) + '</a>') : '') + '</nav><h1>' + esc(title) + '</h1>'
+      + '<div class="sf-bv-by">' + (isExpert || isReview || isFaq ? '' : /* (10/28 사장님) 수강평 글도 글쓴이 사진·이름·날짜 없이(이름은 본문 끝 'OO님 (소속)') */ '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
       + '<span class="sf-bv-share"><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗 링크 복사</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button></span></div>';
   }
   if (h1) { var bt = h1.closest('.board-title') || h1; bt.parentNode.insertBefore(head, bt); bt.classList.add('sf-bv-hide'); }
