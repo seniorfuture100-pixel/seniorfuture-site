@@ -795,7 +795,7 @@
       box.addEventListener("click", (function(ev) {
         var b = ev.target.closest(".sf-room__go");
         if (b) {
-          var u = V[+b.getAttribute("data-no")], em = roomEmbed(u), tt = (n(".sf-room__tx p", b.parentNode) || {}).textContent || "";
+          var u = V[+b.getAttribute("data-no")], em = roomEmbed(u), pp = n(".sf-room__tx p", b.parentNode), tt = pp ? pp.firstChild.textContent + " " + pp.lastChild.textContent : "";
           if (!em) return void window.open(u, "_blank", "noopener");
           pop || (pop = document.createElement("div"), pop.className = "sf-room-pop", pop.setAttribute("role", "dialog"), pop.setAttribute("aria-modal", "true"),
           document.body.appendChild(pop), pop.addEventListener("click", (function(e2) {
