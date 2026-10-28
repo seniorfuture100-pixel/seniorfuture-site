@@ -51,17 +51,15 @@ SFUI.register('noticeList', function () {
         var h = a.getAttribute('href');
         if (!/^(\/|https?:|#|javascript:)/.test(h)) a.setAttribute('href', '/faq/' + h);
       });
-      // 고객센터 공지사항 표(r2/01 r2Help 의 r2-ntable)와 같은 모양: 머리 줄 + 질문 + 오른쪽 칸(날짜 대신 분류), 5개 넘으면 접기
+      // (10/28 사장님) 고객센터 공지사항 표(r2/01 r2Help 의 r2-ntable)와 똑같이, 머리 줄 글자만 '자주 묻는 질문' · 날짜, 5개 넘으면 접기
       fb.classList.add('r2-ntable');
       var hd = fb.querySelector('.li_header');
-      if (hd) hd.innerHTML = '<li class="tit">자주 묻는 질문</li><li class="date">분류</li>';
+      if (hd) hd.innerHTML = '<li class="tit">자주 묻는 질문</li><li class="r2-pin-h"></li><li class="date">날짜</li>';
       var rows = [].slice.call(fb.querySelectorAll('ul.li_body'));
       rows.forEach(function (u) {
         u.style.display = '';
-        var em = u.querySelector('li.tit a._fade_link em'), tm = u.querySelector('li.time');
-        if (!tm) { tm = document.createElement('li'); tm.className = 'time'; u.appendChild(tm); }
-        tm.removeAttribute('title');
-        tm.textContent = em ? em.textContent.trim() : '';
+        var tm = u.querySelector('li.time'), dm = tm && /^(\d{4}-\d{2}-\d{2})/.exec(tm.getAttribute('title') || '');
+        if (dm) tm.textContent = dm[1];
       });
       slot.innerHTML = '';
       slot.appendChild(fb);

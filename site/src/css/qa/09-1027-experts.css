@@ -335,16 +335,8 @@ html body .sf-faq-list ul.li_body > li:not(.tit):not(.time) {
 html body .sf-faq-list.is-open ul.li_body.sf-faq-fold {
   display:flex!important;
 }
-html body .sf-faq-list.r2-ntable li.time {
-  flex-basis:120px!important;
-  margin-left:0!important;
-  font-size:15px!important;
-}
 :root.r2-help body .sf-help #faq-h {
   display:none!important; /* 공지사항 탭처럼 표 머리 줄이 제목 역할 */
-}
-html body .sf-faq-list.r2-ntable .li_header li.date {
-  flex-basis:120px!important;
 }
 /* (10/28 사장님) 수강평 글 끝 'OO님 (소속)' 서명 줄 */
 html.sf-bv-on body .board_view .board_txt_area .sf-rv-sign {
