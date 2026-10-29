@@ -156,22 +156,22 @@
     return fetch(url, { method: 'POST', body: new URLSearchParams(data), credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
       .then(function (r) { return r.json(); }).catch(function () { return null; });
   }
-  // 옵션(load_option) + '함께 구매' 추가 상품 유무(load_prod_additional) — 둘 다 아임웹이 상품 화면에서 부르는 읽기 전용 요청이에요
+  // 옵션(load_option) + '함께 구매' 추가 상품(load_prod_additional) — 둘 다 아임웹이 상품 화면에서 부르는 읽기 전용 요청이에요
   function optFetch(idx) {
     if (!idx || optReq[idx]) return optReq[idx];
     optReq[idx] = Promise.all([post('/shop/load_option.cm', { type: 'prod', prod_idx: idx }), post('/shop/load_prod_additional.cm', { prod_idx: idx })])
       .then(function (a) {
         var o = a[0], p = a[1];
         if (!o || o.msg !== 'SUCCESS') return null;
-        var old = optGet(idx) || {};
-        var v = { at: Date.now(), html: o.option_html || '', add: !!(p && p.prod_additional && p.prod_additional.prod_list && p.prod_additional.prod_list.length), ah: old.ah || {} };
+        var pa = p && p.msg === 'SUCCESS' && p.prod_additional, has = !!(pa && pa.prod_list && pa.prod_list.length);
+        var v = { at: Date.now(), html: o.option_html || '', ad: has ? (pa.html || '') : '', am: has ? (p.prod_additional_sheet_contents || '') : '' };
         optSet(idx, v);
         return v;
       });
     return optReq[idx];
   }
   function idxOf(href) { var m = /[?&]idx=(\d+)/.exec(href || ''); return m && m[1]; }
-  function wkey() { return window.innerWidth < 768 ? 'm' : 'd'; }
+  function isMob() { var c = window.SHOP_CONST; return window.innerWidth < (c && c.WIDTH_MOBILE || 768); }
   (function () {
     if (!/\/shop_view/.test(location.pathname)) return;
     var idx = idxOf(location.search); if (!idx) return;
@@ -191,30 +191,24 @@
       }
       release('opt');
     }
-    // ② 추가 상품 칸: 지난번 높이를 알면 그만큼 자리를 비워 두고, 모르면 채워질 때까지 버튼을 가려요. 채워지면 높이를 기억해요
-    function watchAdd(v) {
-      var s = el('prod_additional');
-      if (!s || !v || !v.add || s.children.length) return release('add');
-      var h = v.ah && v.ah[wkey()];
-      if (h) { s.style.minHeight = h + 'px'; release('add'); }
-      var mo = new MutationObserver(function () {
-        if (!s.children.length) return;
-        mo.disconnect(); s.style.minHeight = '';
-        var o = optGet(idx); if (o) { o.ah = o.ah || {}; o.ah[wkey()] = s.offsetHeight; optSet(idx, o); }
-        h || release('add');
-      });
-      mo.observe(s, { childList: true });
-      setTimeout(function () { mo.disconnect(); s.style.minHeight = ''; }, 4000);
+    // ② '함께 구매' 추가 상품 칸도 같은 방법으로 미리 그려요(아임웹이 PC·휴대폰에서 넣는 내용을 그대로)
+    function fillAdd(v) {
+      var s = el('prod_additional'), h = v && (isMob() ? v.am : v.ad);
+      if (s && h && !s.children.length) {
+        s.innerHTML = h;
+        $$(':scope > *', s).forEach(function (n) { n.setAttribute('data-sf-pre', '1'); });
+      }
+      release('add');
     }
     var started = false;
     function start() {
       if (started || !el('prod_options') || !el('prod_additional')) return false;
       started = true;
-      if (c) { fillOpt(c); watchAdd(c); } else p.then(function (v) { fillOpt(v); watchAdd(v); });
+      if (c) { fillAdd(c); fillOpt(c); } else p.then(function (v) { fillAdd(v); fillOpt(v); });
       return true;
     }
-    // 받아 둔 게 없으면 둘 다 기다리고, 받아 둔 게 있으면 '추가 상품 높이를 아직 모를 때'만 기다려요
-    if (!c) { hold('opt'); hold('add'); } else if (c.add && !(c.ah && c.ah[wkey()])) hold('add');
+    // 받아 둔 게 없을 때만 기다려요(받아 둔 게 있으면 바로 그려서 기다릴 일이 없어요)
+    if (!c) { hold('opt'); hold('add'); }
     if (start()) return;
     var mo = new MutationObserver(function () { if (start()) mo.disconnect(); });
     mo.observe(root, { childList: true, subtree: true });
