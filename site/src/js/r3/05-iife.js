@@ -171,10 +171,12 @@
     return optReq[idx];
   }
   function idxOf(href) { var m = /[?&]idx=(\d+)/.exec(href || ''); return m && m[1]; }
+  function isProd(href) { return !!idxOf(href) && !/[?&](bmode|board|q)=|^\/?(class|shop_mypage|admin)\b|\/\/(?!seniorfuture)/.test(href || ''); }
   function isMob() { var c = window.SHOP_CONST; return window.innerWidth < (c && c.WIDTH_MOBILE || 768); }
   (function () {
-    if (!/\/shop_view/.test(location.pathname)) return;
-    var idx = idxOf(location.search); if (!idx) return;
+    // 상품 화면은 /shop_view 말고도 메뉴 주소(/course/?idx=71 등)로 열려요 → 주소에 idx 가 있으면(게시글·강의실 제외) 상품으로 보고 시작해요
+    if (!isProd(location.pathname + location.search)) return;
+    var idx = idxOf(location.search);
     var c = optGet(idx), p = c ? null : optFetch(idx), waits = {};
     // 기다릴 것(옵션 칸 · 추가 상품 칸)이 다 채워질 때까지 아래 합계·신청 버튼을 잠깐 가려요(최대 2.5초) → 버튼이 먼저 보였다가 밀려 내려가지 않게
     function hold(k) { waits[k] = 1; root.classList.add('sf-optwait'); }
@@ -224,8 +226,8 @@
   // 목록에서 상품에 마우스를 올리거나 손가락을 대면 그 상품 옵션을 미리 받아 둬요(상품마다 한 번)
   ['pointerover', 'touchstart'].forEach(function (ev) {
     document.addEventListener(ev, function (e) {
-      var a = e.target && e.target.closest && e.target.closest('a[href*="shop_view"]');
-      var idx = a && idxOf(a.getAttribute('href'));
+      var a = e.target && e.target.closest && e.target.closest('a[href*="idx="]'), h = a && a.getAttribute('href');
+      var idx = h && isProd(h.replace(/^https?:\/\/[^/]+/, '')) && idxOf(h);
       idx && !optGet(idx) && optFetch(idx);
     }, { passive: true, capture: true });
   });

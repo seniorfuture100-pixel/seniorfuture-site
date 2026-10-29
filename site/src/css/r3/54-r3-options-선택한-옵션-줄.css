@@ -1,6 +1,8 @@
 /* 화면 묶음: course-detail | 원본: src/r3-options.css · 선택한 옵션 줄
    함께 들어 있음: r3-options · 모바일(≤767px): 옵션 영역을 아래에서 올라오는 시트로 (예전 PC용 position:static 덮기 → 닫혀 있을 때 생기던 빈 공간도 없어짐), r3-options · 교육 상세: 1024px 아래는 한 줄(이미지 → 구매 칸 → 본문). 구매 칸 고정(sticky)은 풀어서 본문과 겹치지 않게 (10/20) */
-:root body .r3-optrow {
+/* (10/29) 우리 표시(r3-optrow)가 붙기 전·빠진 줄도 같은 모양: 아임웹 선택 줄(.opt_product_area)에 바로 적용 */
+:root body .r3-optrow,
+:root body .goods_payment .opt_product_area {
   position:relative;
   margin:0 0 8px!important;
   padding:14px 40px 14px 16px!important;
@@ -14,7 +16,8 @@
 :root body .r3-optrow.is-flash {
   box-shadow:0 0 0 2px var(--sf-primary);
 }
-:root body .r3-optrow input {
+:root body .r3-optrow input,
+:root body .goods_payment .opt_product_area input._count {
   width:44px!important;
   height:32px!important;
   margin:0!important;
@@ -27,7 +30,8 @@
   text-align:center!important;
 }
 :root body .r3-optrow a,
-:root body .r3-optrow button {
+:root body .r3-optrow button,
+:root body .goods_payment .opt_product_area a {
   color:var(--sf-text-2)!important;
 }
 :root body .r3-has-rows .opt_block.total {
@@ -43,7 +47,9 @@
 :root body .r3-has-rows .goods_select {
   margin-bottom:8px!important;
 }
-:root body ._selected_require_option.opt_block:has(.r3-optrow) {
+:root body ._selected_require_option.opt_block:has(.r3-optrow),
+:root body .goods_payment ._selected_require_option.opt_block,
+:root body .goods_payment .opt_block.middle {
   padding:0!important;
   border:0!important;
   background:0 0!important;
