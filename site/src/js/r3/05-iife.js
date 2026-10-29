@@ -191,10 +191,12 @@
         return release('opt');
       }
       // 옵션이 없는 상품: 아임웹이 '총 상품금액' 칸을 늦게 넣어요 → 그 칸이 들어올 때까지 기다렸다 보여 줘요
-      var pay = document.querySelector('.goods_form_wrap .goods_payment');
-      if (!pay || pay.offsetHeight) return release('opt');
-      var mo = new MutationObserver(function () { if (pay.offsetHeight) { mo.disconnect(); release('opt'); } });
-      mo.observe(pay, { childList: true, subtree: true });
+      //   (아임웹이 칸을 통째로 바꿔 끼울 수 있어 매번 다시 찾아요)
+      function paid() { var p = document.querySelector('.goods_form_wrap .goods_payment'); return !p || p.offsetHeight > 0; }
+      var form = document.querySelector('.goods_form_wrap');
+      if (!form || paid()) return release('opt');
+      var mo = new MutationObserver(function () { if (paid()) { mo.disconnect(); release('opt'); } });
+      mo.observe(form, { childList: true, subtree: true });
     }
     // ② '함께 구매' 추가 상품 칸도 같은 방법으로 미리 그려요(아임웹이 PC·휴대폰에서 넣는 내용을 그대로)
     function fillAdd(v) {
