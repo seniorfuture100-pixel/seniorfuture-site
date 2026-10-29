@@ -55,6 +55,18 @@
   padding:0 18px;
   text-decoration:none;
 }
+/* (10/29) 옵션 카드(r3Options)가 만들어지기 전 아임웹 원래 드롭다운·옵션 제목이 0.5초쯤 보이던 깜빡임 → 카드로 바뀔 때까지 가림
+   안전장치: 3초가 지나도 카드가 안 생기면(코드 실패) 원래 드롭다운이 다시 보여요 → 결제는 언제나 가능 */
+@keyframes r3OptShow {
+  to {
+    visibility:visible;
+  }
+}
+:root body .sf-pv .goods_select ._form_select_wrap:not(.r3-opt-src),
+:root body .sf-pv .goods_select .option_title:not(:has(+ .r3-opt)) {
+  visibility:hidden;
+  animation:r3OptShow 0s linear 3s forwards;
+}
 /* (10/29) 추가 옵션(선택 옵션)을 고르면 생기는 줄: 아임웹 '.middle' 칸의 여백·배경 때문에 상자 안 상자처럼 보이던 것 → 필수 옵션 줄과 같게 */
 :root body .sf-pv .goods_payment .opt_block.middle:has(.r3-optrow) {
   padding:0!important;
