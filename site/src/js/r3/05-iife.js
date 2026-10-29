@@ -188,8 +188,13 @@
         s.innerHTML = v.html;
         $$(':scope > *', s).forEach(function (n) { n.setAttribute('data-sf-pre', '1'); });
         run();
+        return release('opt');
       }
-      release('opt');
+      // 옵션이 없는 상품: 아임웹이 '총 상품금액' 칸을 늦게 넣어요 → 그 칸이 들어올 때까지 기다렸다 보여 줘요
+      var pay = document.querySelector('.goods_form_wrap .goods_payment');
+      if (!pay || pay.offsetHeight) return release('opt');
+      var mo = new MutationObserver(function () { if (pay.offsetHeight) { mo.disconnect(); release('opt'); } });
+      mo.observe(pay, { childList: true, subtree: true });
     }
     // ② '함께 구매' 추가 상품 칸도 같은 방법으로 미리 그려요(아임웹이 PC·휴대폰에서 넣는 내용을 그대로)
     function fillAdd(v) {
@@ -207,8 +212,8 @@
       if (c) { fillAdd(c); fillOpt(c); } else p.then(function (v) { fillAdd(v); fillOpt(v); });
       return true;
     }
-    // 받아 둔 게 없을 때만 기다려요(받아 둔 게 있으면 바로 그려서 기다릴 일이 없어요)
-    if (!c) { hold('opt'); hold('add'); }
+    // 받아 둔 게 없을 때, 그리고 옵션 없는 상품(합계 칸을 아임웹이 늦게 넣음)일 때만 기다려요
+    if (!c) { hold('opt'); hold('add'); } else if (!c.html) hold('opt');
     if (start()) return;
     var mo = new MutationObserver(function () { if (start()) mo.disconnect(); });
     mo.observe(root, { childList: true, subtree: true });
