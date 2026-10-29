@@ -67,6 +67,11 @@
   visibility:hidden;
   animation:r3OptShow 0s linear 3s forwards;
 }
+/* (10/29) 처음 들어온 상품: 옵션 카드가 그려질 때까지(최대 2.5초) 옵션 아래 합계·신청 버튼을 가려 한 번에 제자리에 보이게 (r3/05 sf-optwait) */
+:root.sf-optwait body .sf-pv .goods_select ~ *,
+:root.sf-optwait body .sf-pv .opt-group ~ * {
+  visibility:hidden;
+}
 /* (10/29) 추가 옵션(선택 옵션)을 고르면 생기는 줄: 아임웹 '.middle' 칸의 여백·배경 때문에 상자 안 상자처럼 보이던 것 → 필수 옵션 줄과 같게 */
 :root body .sf-pv .goods_payment .opt_block.middle:has(.r3-optrow) {
   padding:0!important;

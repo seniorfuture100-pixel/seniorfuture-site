@@ -162,16 +162,20 @@
   }
   function idxOf(href) { var m = /[?&]idx=(\d+)/.exec(href || ''); return m && m[1]; }
   function prefill(sel, html) {
-    if (!sel || !html || sel.children.length) return; // 아임웹이 이미 채웠으면 손대지 않아요
+    if (!sel || !html || sel.children.length) { document.documentElement.classList.remove('sf-optwait'); return; } // 아임웹이 이미 채웠으면 손대지 않아요
     sel.innerHTML = html;
     $$(':scope > *', sel).forEach(function (n) { n.setAttribute('data-sf-pre', '1'); });
     run();
+    document.documentElement.classList.remove('sf-optwait');
   }
   (function () {
     if (!/\/shop_view/.test(location.pathname)) return;
     var idx = idxOf(location.search); if (!idx) return;
-    var html = optGet(idx), done = false;
+    var html = optGet(idx), done = false, root = document.documentElement;
     var p = html ? null : optFetch(idx);
+    // 처음 들어온 상품(미리 받아 둔 옵션 없음): 옵션이 채워질 때까지 아래 합계·신청 버튼을 잠깐 가려서, 버튼이 먼저 보였다가 밀려 내려가지 않게
+    function unwait() { root.classList.remove('sf-optwait'); }
+    if (p) { root.classList.add('sf-optwait'); p.then(function (h) { h || unwait(); }); setTimeout(unwait, 2500); }
     function find() { return document.querySelector('.goods_form_wrap .goods_select'); }
     function tryFill() { var s = find(); if (!s || done) return !!s; done = true; if (html) prefill(s, html); else p && p.then(function (h) { prefill(find(), h); }); return true; }
     if (tryFill()) return;
