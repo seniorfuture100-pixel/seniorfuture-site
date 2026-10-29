@@ -198,7 +198,7 @@
       var form = document.querySelector('.goods_form_wrap');
       if (!form || paid()) return release('opt');
       var mo = new MutationObserver(function () { if (paid()) { mo.disconnect(); release('opt'); } });
-      mo.observe(form, { childList: true, subtree: true });
+      mo.observe(form, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] }); // 넣은 뒤 .show() 로 보이게 하는 경우까지
     }
     // ② '함께 구매' 추가 상품 칸도 같은 방법으로 미리 그려요(아임웹이 PC·휴대폰에서 넣는 내용을 그대로)
     function fillAdd(v) {
