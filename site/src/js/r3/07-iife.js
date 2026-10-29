@@ -129,6 +129,15 @@
       $$('blockquote', secBuy).forEach(function (q) { q.classList.add('r3pay-hide'); });
     }
 
+    // (10/29) 강의·라이브·모임은 받을 물건이 없어요 → 아임웹 '방문수령 위치'·'배송지' 칸 숨김
+    //   (일반 상품이라 아임웹이 그려요. 입력 필수가 아님 — 0원 주문 6건으로 확인. 필수 칸이 비어 있으면 숨기지 않아요)
+    ['방문수령', '배송지', '배송 정보', '배송 요청'].forEach(function (t) {
+      var b = box(hd(root, t));
+      if (!b || $$('input[required], textarea[required]', b).some(function (i) { return !clean(i.value); })) return;
+      b.classList.add('r3pay-hide');
+      if (b.parentElement && b.parentElement.parentElement === left) b.parentElement.classList.add('r3pay-hide');
+    });
+
     // 결제 수단: 왼쪽에 타일, 아임웹 원래 칸은 숨김(라디오는 그대로 동작)
     var hMeth = hd(root, '결제 수단'), secMeth = box(hMeth);
     if (secMeth) {
@@ -236,8 +245,18 @@
     }
   }
 
+  // (10/29) 주문 완료 화면: '방문수령 정보'·'배송지 정보' 줄(주소)을 숨겨요 — 온라인 강의라 받을 곳이 없어요
+  function doneDress() {
+    var host = document.getElementById('oms-shop-payment-complete'); if (!host) return;
+    $$('*', host).filter(function (e) { return !e.children.length && /^(방문수령|배송지|배송 정보|받는 ?분)/.test(clean(e.textContent)); }).forEach(function (e) {
+      // 그 글자가 든 줄(이름 + 값 묶음)까지 올라가서 숨겨요: 위로 올라가다 '결제' 줄을 함께 품기 직전까지
+      var r = e;
+      while (r.parentElement && r.parentElement !== host && !/결제/.test(clean(r.parentElement.textContent))) r = r.parentElement;
+      r.classList.add('r3done-hide');
+    });
+  }
   var busy = false, t = 0;
-  function run() { if (busy) return; busy = true; try { dress(); } catch (e) { } busy = false; }
+  function run() { if (busy) return; busy = true; try { dress(); doneDress(); } catch (e) { } busy = false; }
   if (window.SFUI && SFUI.register) SFUI.register('r3Pay', function () { run(); });
   setTimeout(function () { document.documentElement.classList.add('r3pay-ready'); }, 3000);
   var n = 0;

@@ -22,7 +22,7 @@
       '<h1 id="sf-done-h">신청이 완료됐어요!</h1>' +
       '<p>강의 안내와 입장 링크는 오픈채팅방에서 드려요.<br>시작 전에 꼭 입장해 주세요!</p>' +
       '<a class="sf-done-main" href="' + chat + '"' + (chat === '#' ? ' data-sf-todo="오픈채팅 링크"' : ' target="_blank" rel="noopener"') + '>안내사항 확인하기 <span aria-hidden="true">→</span></a>' +
-      '<div class="sf-done-sub"><a href="/classroom">내 강의 보기</a><a href="/live">더 많은 강의 보기</a></div>';
+      '<div class="sf-done-sub"><a href="/shop_mypage/?sf=room">내 강의 보기</a><a href="/live">더 많은 강의 보기</a></div>';
     host.parentNode.insertBefore(c, host);
     document.documentElement.classList.add('sf-done-on');
     if (chat === '#') c.querySelector('.sf-done-main').addEventListener('click', function (e) { e.preventDefault(); if (SFUI.toast) SFUI.toast('오픈채팅 안내 링크는 곧 열려요'); });

@@ -54,6 +54,10 @@ html.r3pay-on body .r3pay-box--terms header,
 html.r3pay-on body .r3pay-hide {
   display:none!important;
 }
+/* (10/29) 주문 완료 화면 '방문수령 정보'(주소) 줄 숨김 — r3/07 doneDress */
+html body #oms-shop-payment-complete .r3done-hide {
+  display:none!important;
+}
 html.r3pay-on body .r3pay-left>div:has(>.r3pay-hide),
 html.r3pay-on body .r3pay-left>div:has(>div[style*="display: none"]) {
   display:none!important;
