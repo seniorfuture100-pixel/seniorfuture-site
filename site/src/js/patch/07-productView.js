@@ -65,7 +65,7 @@ SFUI.roomLabel = function(p, paid) {
 // (10/28) 강의실용 상품 정보: 상품 상세 글의 [프로그램]·[수강 기간]·[강의실] 칸을 읽어요
 //   → done({ idx, title, img, prog:{desc,items}|null, period, room:'/class-x' }) · 못 읽으면 done(null) · 같은 탭에서 5분 동안 다시 안 받아요
 SFUI.roomInfo = function(idx, done) {
-  var k = "sf_room2_" + idx, C = null;
+  var k = "sf_room3_" + idx, C = null; // (10/29) room3: 모임 안내(meet)·일시(start) 추가
   try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
   if (C && Date.now() - C.at < 3e5) return done(C);
   if (!idx || !window.fetch || !window.DOMParser) return done(null);
@@ -100,11 +100,44 @@ SFUI.roomInfo = function(idx, done) {
       }
     }));
     o.period = SFUI.roomPeriod(pt), o.prog = P.length ? SFUI.progItems(P) : null;
+    // (10/29) 모임: [모임 안내] 칸 + 상품명 일시 → 커뮤니티 목록 카드가 써요
+    o.meet = SFUI.meetParse(W), o.start = SFUI.meetDate((/\[([^\[\]]*\d{1,2}:\d{2})\]\s*$/.exec(o.title) || [])[1] || "");
     try { sessionStorage.setItem(k, JSON.stringify(o)); } catch (x) {}
     done(o);
   }))["catch"]((function() {
     done(null);
   }));
+};
+// (10/29) 날짜 글 → ISO: '2026.11.12 18:00' · '2026/11/14 14:00' · '11/14 14:00'(올해, 반년 넘게 지났으면 내년) · 시각이 없으면 그날 23:59
+SFUI.meetDate = function(v) {
+  var m = /(?:(\d{4})\s*[.\/\-년]\s*)?(\d{1,2})\s*[.\/\-월]\s*(\d{1,2})\s*일?\.?(?:\s*\([^)]*\))?(?:\s*(\d{1,2}):(\d{2}))?/.exec(String(v || ""));
+  if (!m) return "";
+  var now = new Date(), y = m[1] ? +m[1] : now.getFullYear(), d = new Date(y, +m[2] - 1, +m[3], m[4] ? +m[4] : 23, m[4] ? +m[5] : 59);
+  !m[1] && d.getTime() < now.getTime() - 15552e6 && d.setFullYear(y + 1);
+  return isNaN(d.getTime()) ? "" : d.toISOString();
+};
+// (10/29) 모임 상세 글 [모임 안내] 칸(교육의 [수강 기간]처럼): '이름: 값' 한 줄씩
+//   구분(모임·이벤트…) · 방식(온라인·오프라인) · 장소 · 마감(신청 마감 일시) · 정원 · 일시(상품명에 없을 때만) · 그 밖의 줄은 모임 안내 상자에 그대로
+SFUI.meetParse = function(W) {
+  var o = { rows: [] }, RE = /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/, sec = "";
+  W && [].forEach.call(W.querySelectorAll("p,h1,h2,h3,h4,h5,h6,li,div"), (function(x) {
+    if (x.querySelector("p,div,li,h1,h2,h3,h4,h5,h6")) return;
+    var tx = (x.textContent || "").replace(/\s+/g, " ").trim(), m = RE.exec(tx);
+    if (m) return void (sec = m[1].replace(/\s+/g, ""));
+    if (!tx || !/^(모임|행사|이벤트)(안내|정보)$/.test(sec)) return;
+    var kv = /^([^:：]{1,10}?)\s*[:：]\s*(.+)$/.exec(tx);
+    if (!kv) return;
+    var key = kv[1].replace(/\s+/g, ""), v = kv[2].trim();
+    /^(구분|종류|유형)$/.test(key) ? o.kind = v : /^(방식|형태|진행방식)$/.test(key) ? o.mode = v : /^(장소|위치)$/.test(key) ? o.place = v
+      : /^(신청)?마감$|^모집마감$/.test(key) ? o.deadline = SFUI.meetDate(v) : /^(일시|날짜)$/.test(key) ? o.start = SFUI.meetDate(v)
+      : /^(정원|인원|모집인원)$/.test(key) ? o.cap = v : o.rows.push([ kv[1].trim(), v ]);
+  }));
+  return o;
+};
+// 장소 + 방식 한 줄: '서울 성동구 성수동 · 오프라인' (장소에 이미 방식이 있으면 그대로)
+SFUI.meetPlace = function(o) {
+  var pl = o && o.place || "", md = o && o.mode || "";
+  return pl && md && pl.indexOf(md) < 0 ? pl + " · " + md : pl || md;
 };
 SFUI.register('productView', function() {
   // ↓ 사이트 기준(10/22): 원본과 달라 사이트에 올라가 있는 코드로 맞춤
@@ -171,6 +204,15 @@ SFUI.register('productView', function() {
         return e[0] === i.cat;
       }))[0], F = o ? [ "/live", "무료 라이브" ] : p ? [ "/community", "커뮤니티" ] : [ "/course", "교육" ], A = pe("nav", "sf-pv-crumb", '<a href="' + F[0] + '">' + F[1] + "</a>" + (I ? '<span aria-hidden="true">›</span><a href="/course?cat=' + I[0] + '">' + oe(I[1]) + "</a>" : "") + '<span aria-hidden="true">›</span><span aria-current="page">' + oe(l.split(":")[0]) + "</span>");
       A.setAttribute("aria-label", "현재 위치"), S.parentNode.insertBefore(A, S);
+      // (10/29) 모임: 상품 글 [모임 안내] → 태그(구분)·장소·방식·마감·정원 (코드 표 없이 사장님이 직접)
+      var MI = null;
+      if (p) {
+        var tp0 = document.getElementById("prodDetailPC") || document.getElementById("prodDetailMobile");
+        MI = SFUI.meetParse(tp0 && tp0.content || document.getElementById("prod_detail_body"));
+        MI.kind && (i.kind = MI.kind), (MI.place || MI.mode) && (i.place = SFUI.meetPlace(MI));
+        MI.start && !i.start && (i.start = MI.start, i.end = new Date(Date.parse(MI.start) + 72e5).toISOString());
+        MI.deadline ? i.deadline = MI.deadline : MI.start && !i.deadline && (i.deadline = MI.start);
+      }
       var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
       // (10/23 2차) 꼬리표 = 목록에서 읽어 둔 아임웹 상품 배지(없으면 아래 badgeFetch 가 목록을 한 번 받아 채워요)
       var ht = null;
@@ -220,7 +262,11 @@ SFUI.register('productView', function() {
       }
       function meetInfo() {
         // (10/27) 일시·장소·마감이 하나도 없으면(코드 표에 없는 새 모임) 빈 상자 대신 칸을 아예 빼요
-        var rows = [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") ], [ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + "까지" : "" ] ].filter((function(e) {
+        // (10/29) + 정원 · [모임 안내]의 그 밖의 줄(준비물·대상 등) · 마감에 시각까지
+        var ic = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>', kt = k && new Date(k);
+        var rows = [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") ], [ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.5 3.5 0 010 6.4M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg>', "정원", MI && MI.cap || "" ] ].concat((MI && MI.rows || []).map((function(e) {
+          return [ ic, e[0], e[1] ];
+        })), [ [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + (kt && (kt.getHours() !== 23 || kt.getMinutes() !== 59) && !(B && k === B) ? " " + fe(k) : "") + "까지" : "" ] ]).filter((function(e) {
           return e[2];
         }));
         return rows.length ? '<section class="sf-pv-sec sf-pv-meetinfo"><h2>모임 안내</h2><div class="sf-pv-infobox">' + rows.map((function(e) {
@@ -276,8 +322,8 @@ SFUI.register('productView', function() {
             // (10/28) [수강 기간] → 오른쪽 구매 상자에 '수강 기간 …' 한 줄 / [강의실] → 화면에는 안 보여요(나의 강의실이 읽어요)
             var pl = SFUI.roomLabel(SFUI.roomPeriod(e.n.map((function(x) { return x.textContent || ""; })).join(" ")));
             pl && V && V.parentNode.insertBefore(pe("p", "sf-pv-when sf-pv-period", h + "<span>수강 기간 " + oe(pl) + "</span>"), V);
-          } else if ("room" === k) {
-            // 숨김
+          } else if ("room" === k || "meet" === k) {
+            // 숨김 ([모임 안내]는 위 '모임 안내' 상자로)
           } else if ("faq" === k) {
             var qa = parseQA(e.n);
             qa ? qa.forEach((function(x) { MQ.push({ q: x[0], n: x[1] }); })) : MQ.push({ q: e.t, n: e.n });
@@ -462,6 +508,7 @@ SFUI.register('productView', function() {
     t = String(t).replace(/\s+/g, " ").trim();
     if (/^수강\s?기간$/.test(t)) return "period";
     if (/^강의실(\s?주소)?$/.test(t) || /^(강의\s?)?영상(\s?주소)?$/.test(t) || /^(카?톡방|단톡방|소통방|오픈\s?채팅(방)?)(\s?(주소|링크))?$/.test(t)) return "room"; // [강의 영상]·[톡방] 도 화면에는 숨김
+    if (/^(모임|행사|이벤트)\s?(안내|정보)$/.test(t)) return "meet"; // (10/29) [모임 안내] → 모임 안내 상자(SFUI.meetParse)
     if (/^(자주\s?묻는\s?질문|FAQ|Q\s?&\s?A|질문과 답변|문의)$/i.test(t)) return "faq";
     if (/^(교환|반품|환불)/.test(t)) return "refund";
     if (/^(운영|학습|이용|수강|참여|참가)\s?(정책|규정|안내)$|정책$/.test(t)) return "policy"; // (10/27 v2) 하단 공통 [운영 정책] → 더 알아보기

@@ -292,8 +292,26 @@
                 t.setAttribute("data-place", /온라인/.test(a.place || "") ? "online" : "offline"), 
                 n && (n.innerHTML = '<span class="sf-tags"><span class="sf-tag sf-tag--' + (SFUI.isEvent(a.kind) ? "event" : "meet") + '">' + (a.kind || "모임") + '</span><span class="sf-tag sf-tag--' + l[0] + '">' + l[1] + "</span></span>");
                 var d = document.createElement("div");
-                d.className = "sf-shop-meta", d.innerHTML = (a.date ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>' + a.date + "</span>" : "") + (a.place ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>' + a.place + "</span>" : ""), 
+                d.className = "sf-shop-meta", d.innerHTML = (a.date ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>' + a.date + "</span>" : "") + (a.place ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>' + a.place + "</span>" : ""),
                 i.appendChild(d);
+                // (10/29) 코드 표에 없는 새 모임: 상품 글 [모임 안내] + 상품명 일시를 읽어 와서(SFUI.roomInfo, 5분 기억) 태그·일시·장소·온라인/오프라인을 채워요
+                !a.start && !a.place && SFUI.roomInfo && SFUI.roomInfo(t.getAttribute("data-system-product-id"), (function(o) {
+                  if (!o) return;
+                  var mi = o.meet || {}, b = { type: "meet", kind: mi.kind || a.kind, place: SFUI.meetPlace(mi), start: mi.start || o.start || "", past: a.past };
+                  b.deadline = mi.deadline || b.start;
+                  if (b.start) { var dd = new Date(b.start); b.date = dd.getMonth() + 1 + "월 " + dd.getDate() + "일 (" + "일월화수목금토".charAt(dd.getDay()) + ")"; }
+                  var l2 = s(b), sq = function(x) { return String(x || "").replace(/[<>&"]/g, ""); };
+                  t.setAttribute("data-status", l2[0]), t.setAttribute("data-kind", SFUI.isEvent(b.kind) ? "event" : "meet"), t.setAttribute("data-start", b.start);
+                  t.setAttribute("data-place", /온라인/.test(b.place) ? "online" : "offline");
+                  n && (n.innerHTML = '<span class="sf-tags"><span class="sf-tag sf-tag--' + (SFUI.isEvent(b.kind) ? "event" : "meet") + '">' + sq(b.kind || "모임") + '</span><span class="sf-tag sf-tag--' + l2[0] + '">' + l2[1] + "</span></span>");
+                  d.innerHTML = (b.date ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>' + b.date + "</span>" : "") + (b.place ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>' + sq(b.place) + "</span>" : "");
+                  // 날짜가 생겼으니 목록 순서(모집 중 가까운 날짜 → 마감 최근 순)도 다시
+                  var g0 = t.parentElement, cs = g0 ? [].slice.call(g0.children).filter(function(x) { return x.matches && x.matches("li.iw-shop-card"); }) : [], st0 = function(x) { return Date.parse(x.getAttribute("data-start") || "") || 9e15; };
+                  cs.filter(function(x) { return "closed" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st0(x) - st0(y); })
+                    .concat(cs.filter(function(x) { return "closed" === x.getAttribute("data-status"); }).sort(function(x, y) { return st0(y) - st0(x); })).forEach(function(x) { g0.appendChild(x); });
+                  var hs = t.getRootNode && t.getRootNode().host;
+                  hs && SFUI.__shopFilter && SFUI.__shopFilter(hs);
+                }));
               }
               ht && "course" !== r && n && n.insertAdjacentHTML("beforeend", '<span class="sf-tags">' + SFUI.tagHtml(ht) + "</span>");
             }
@@ -368,6 +386,7 @@
       }
     }
   }
+  SFUI.__shopFilter = n; // (10/29) 모임 카드 정보가 늦게 채워지면 필터(온라인/오프라인·모집 상태)를 다시 적용할 때 써요
   function o() {
     [].forEach.call(document.querySelectorAll("[data-sf-before-shop]:not([data-sf-moved])"), (function(t) {
       var e = document.querySelector("[data-sf-shop]");
