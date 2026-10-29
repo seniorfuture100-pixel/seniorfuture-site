@@ -296,6 +296,10 @@
                 i.appendChild(d);
                 // (10/29) 코드 표에 없는 새 모임: 상품 글 [모임 안내] + 상품명 일시를 읽어 와서(SFUI.roomInfo, 5분 기억) 태그·일시·장소·온라인/오프라인을 채워요
                 !a.start && !a.place && SFUI.roomInfo && SFUI.roomInfo(t.getAttribute("data-system-product-id"), (function(o) {
+                  // 기억해 둔 값이면 바로 불려요 → 다른 카드가 다 그려진 뒤(순서 정렬이 맞게) 채우려고 한 박자 늦춰요
+                  setTimeout((function() { fill(o); }), 0);
+                }));
+                function fill(o) {
                   if (!o) return;
                   var mi = o.meet || {}, b = { type: "meet", kind: mi.kind || a.kind, place: SFUI.meetPlace(mi), start: mi.start || o.start || "", past: a.past };
                   b.deadline = mi.deadline || b.start;
@@ -311,7 +315,7 @@
                     .concat(cs.filter(function(x) { return "closed" === x.getAttribute("data-status"); }).sort(function(x, y) { return st0(y) - st0(x); })).forEach(function(x) { g0.appendChild(x); });
                   var hs = t.getRootNode && t.getRootNode().host;
                   hs && SFUI.__shopFilter && SFUI.__shopFilter(hs);
-                }));
+                }
               }
               ht && "course" !== r && n && n.insertAdjacentHTML("beforeend", '<span class="sf-tags">' + SFUI.tagHtml(ht) + "</span>");
             }
