@@ -379,15 +379,43 @@ SFUI.register('productView', function() {
       //   세부 줄에 링크를 걸면(또는 주소를 붙여 쓰면) 파란 글씨 + ▶ + '미리보기' 로 보이고 누르면 이동해요
       //   예전처럼 '1회차 · 주제 (90분)'으로 쓴 줄도 회차로 읽어요. 회차 줄이 하나도 없으면 null(쓴 글 그대로)
       //   (10/27) 기본 입력 = '1회차 제목' (구분 기호 없이 띄어쓰기만, 시간 없이) → 화면도 '1회차 제목'
+      //   (10/29) 맨 위 머리 = '커리큘럼' · 전체 N개 · (총 시간: 회차 '(90분)'을 더함) · 모두 접기/펼치기
+      //   설명 줄 중 '제공: 수업자료, 다시보기' 줄 = '해당 강의에서 제공' 꼬리표(설명에서는 빠져요)
       function progBox(list) {
-        var PI = SFUI.progItems(list), desc = PI.desc, items = PI.items;
+        var PI = SFUI.progItems(list), desc = PI.desc, items = PI.items, gives = [], mins = 0;
         if (!items.length) return null;
-        var h2 = (desc.length ? '<p class="sf-pv-sub sf-pv-progsub">' + desc.map(oe).join("<br>") + "</p>" : "") + '<div class="sf-pv-chapters sf-pv-chapters--own" data-sf-accordion>' + items.map((function(e, s) {
+        desc = desc.filter((function(t) {
+          var m = /^(?:해당\s*강의에서\s*)?제공\s*[:：]\s*(.+)$/.exec(t);
+          return m ? (gives = m[1].split(/\s*[,·、]\s*/).filter(Boolean), !1) : !0;
+        }));
+        items.forEach((function(e) {
+          var mm = /(\d+)\s*분/.exec(e.m || "");
+          mm && (mins += +mm[1]);
+        }));
+        var tot = mins ? " · (" + (mins >= 60 ? Math.floor(mins / 60) + "시간" + (mins % 60 ? " " + mins % 60 + "분" : "") : mins + "분") + ")" : "";
+        // (10/29) 머리 모양은 '수강생 후기'와 같게(.sf-pv-sechead): 제목 '프로그램' + 회색 설명(첫 줄들) / 오른쪽 전체 N개 · 모두 접기
+        var hd = '<div class="sf-pv-sechead sf-pv-curhead"><div class="sf-pv-curhead__t"><h2>프로그램</h2>' + (desc.length ? '<p class="sf-pv-sub">' + desc.map(oe).join("<br>") + "</p>" : "") + (gives.length ? '<p class="sf-pv-curgive"><span class="sf-pv-curgive__l">해당 강의에서 제공:</span>' + gives.map((function(g) {
+          return '<span class="sf-pv-curgive__c"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>' + oe(g) + "</span>";
+        })).join("") + "</p>" : "") + '</div><div class="sf-pv-curhead__r"><p class="sf-pv-curmeta"><span>전체</span> <b>' + items.length + "개" + tot + '</b></p><button type="button" class="sf-pv-curall" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg><span>모두 접기</span></button></div></div>';
+        var h2 = hd + '<div class="sf-pv-chapters sf-pv-chapters--own" data-sf-accordion>' + items.map((function(e, s) {
           return '<div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회차</b><span>" + oe(e.t) + "</span>" + (e.m ? "<em>" + oe(e.m) + "</em>" : "") + "</button><div data-sf-acc-panel>" + (e.d.length ? '<ul class="sf-pv-chdet">' + e.d.map((function(d) {
             return d.u ? '<li class="is-link"><a href="' + oe(d.u) + '"' + (/^https?:/.test(d.u) && d.u.indexOf(location.host) < 0 ? ' target="_blank" rel="noopener"' : "") + "><span>" + oe(d.x) + "</span><em>미리보기</em></a></li>" : "<li>" + oe(d.x) + "</li>";
           })).join("") + "</ul>" : "") + "</div></div>";
         })).join("") + "</div>";
-        return pe("div", "sf-pv-prog", h2);
+        var box = pe("div", "sf-pv-prog", h2), all = box.querySelector(".sf-pv-curall"), sync = function() {
+          var its = box.querySelectorAll("[data-sf-acc-item]"), open = [].some.call(its, (function(x) { return x.classList.contains("is-open"); }));
+          all.setAttribute("aria-expanded", String(open)), all.querySelector("span").textContent = open ? "모두 접기" : "모두 펼치기", all.classList.toggle("is-closed", !open);
+        };
+        // 모두 접기/펼치기: 상태가 다른 회차의 버튼만 눌러요(아코디언 부품이 열림 상태를 관리)
+        all.addEventListener("click", (function() {
+          var want = "true" !== all.getAttribute("aria-expanded");
+          [].forEach.call(box.querySelectorAll("[data-sf-acc-item]"), (function(x) {
+            x.classList.contains("is-open") !== want && x.querySelector("[data-sf-acc-trigger]").click();
+          })), sync();
+        })), box.addEventListener("click", (function(ev) {
+          ev.target.closest("[data-sf-acc-trigger]") && setTimeout(sync, 0);
+        }));
+        return box;
       }
       // (10/27 v2) [강사] 글에 쓴 이름이 전문가 네트워크(/experts)에 있으면 사진·분야·소속·함께한 주제 + 프로필 보기 카드로 바꿔요
       //   이름 다음 줄들은 카드 안 소개 글로 들어가요. 못 찾으면 쓴 글 그대로
@@ -441,6 +469,9 @@ SFUI.register('productView', function() {
           var pg = "program" === g2 && progBox(part.n);
           e.appendChild(pg || body(part.n));
         }));
+        // (10/29) 강사(연사·호스트) 칸, 회차 줄 없이 쓴 프로그램 칸도 '수강생 후기'처럼 맨 위에 제목을 보여요
+        var sh = "teacher" === g2 ? TL : "program" === g2 && !e.querySelector(".sf-pv-prog") ? "프로그램" : "";
+        sh && e.insertBefore(pe("div", "sf-pv-sechead", "<div><h2>" + sh + "</h2></div>"), e.firstElementChild.nextSibling);
         "teacher" === g2 && teachCards(e);
       })), G && (G.hidden = !0), re && (re.hidden = !0));
       FQ.forEach((function(e, s) {
