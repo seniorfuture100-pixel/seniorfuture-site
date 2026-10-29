@@ -7,11 +7,26 @@
    - 결제 수단: 타일 버튼(누르면 아임웹 라디오를 대신 눌러요) · 오른쪽 '결제 금액' + 결제하기
    - (10/27) 쿠폰 사용 · 적립금 사용(아임웹 기본 기능) — 결제 수단 아래, 입력칸 50px·8px·#DADDE2 통일 */
 (function () {
-  if (!/^\/shop_payment\/?$/.test(location.pathname)) return;
   function $(s, r) { return (r || document).querySelector(s); }
   function $$(s, r) { return [].slice.call((r || document).querySelectorAll(s)); }
   function txt(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
   function clean(t) { return String(t || '').replace(/\s+/g, ' ').trim(); }
+  // (10/29) 주문 완료 화면: '방문수령 정보'·'배송지 정보' 줄(주소)을 숨겨요 — 온라인 강의라 받을 곳이 없어요
+  if (/^\/shop_payment_complete/.test(location.pathname)) {
+    var doneDress = function () {
+      var host = document.getElementById('oms-shop-payment-complete'); if (!host) return;
+      $$('*', host).filter(function (e) { return !e.children.length && /^(방문수령|배송지|배송 정보|받는 ?분)/.test(clean(e.textContent)); }).forEach(function (e) {
+        // 그 글자가 든 줄(이름 + 값 묶음)까지 올라가서 숨겨요: 위로 올라가다 '결제' 줄을 함께 품기 직전까지
+        var r = e;
+        while (r.parentElement && r.parentElement !== host && !/결제/.test(clean(r.parentElement.textContent))) r = r.parentElement;
+        r.classList.add('r3done-hide');
+      });
+    };
+    doneDress();
+    new MutationObserver(doneDress).observe(document.documentElement, { childList: true, subtree: true });
+    return;
+  }
+  if (!/^\/shop_payment\/?$/.test(location.pathname)) return;
   function won(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원'; }
   function num(t) { return parseInt(String(t || '').replace(/[^\d]/g, ''), 10) || 0; }
 
@@ -245,18 +260,8 @@
     }
   }
 
-  // (10/29) 주문 완료 화면: '방문수령 정보'·'배송지 정보' 줄(주소)을 숨겨요 — 온라인 강의라 받을 곳이 없어요
-  function doneDress() {
-    var host = document.getElementById('oms-shop-payment-complete'); if (!host) return;
-    $$('*', host).filter(function (e) { return !e.children.length && /^(방문수령|배송지|배송 정보|받는 ?분)/.test(clean(e.textContent)); }).forEach(function (e) {
-      // 그 글자가 든 줄(이름 + 값 묶음)까지 올라가서 숨겨요: 위로 올라가다 '결제' 줄을 함께 품기 직전까지
-      var r = e;
-      while (r.parentElement && r.parentElement !== host && !/결제/.test(clean(r.parentElement.textContent))) r = r.parentElement;
-      r.classList.add('r3done-hide');
-    });
-  }
   var busy = false, t = 0;
-  function run() { if (busy) return; busy = true; try { dress(); doneDress(); } catch (e) { } busy = false; }
+  function run() { if (busy) return; busy = true; try { dress(); } catch (e) { } busy = false; }
   if (window.SFUI && SFUI.register) SFUI.register('r3Pay', function () { run(); });
   setTimeout(function () { document.documentElement.classList.add('r3pay-ready'); }, 3000);
   var n = 0;
