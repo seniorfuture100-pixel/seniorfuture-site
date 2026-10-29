@@ -55,6 +55,12 @@
   padding:0 18px;
   text-decoration:none;
 }
+/* (10/29) 추가 옵션(선택 옵션)을 고르면 생기는 줄: 아임웹 '.middle' 칸의 여백·배경 때문에 상자 안 상자처럼 보이던 것 → 필수 옵션 줄과 같게 */
+:root body .sf-pv .goods_payment .opt_block.middle:has(.r3-optrow) {
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+}
 /* (10/29) 상품 상세 [프로그램] 회차 세부 내용 글자를 진하게(연한 회색 → 본문 색) */
 :root body .sf-pv-chdet li {
   color:var(--sf-text)!important;
