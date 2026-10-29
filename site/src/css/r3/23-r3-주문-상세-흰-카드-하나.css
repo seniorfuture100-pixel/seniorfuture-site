@@ -3,6 +3,10 @@
 :root body .r3-od {
   display:block;
 }
+/* (10/29) 주문 상세 '방문수령 정보' 칸 숨김 (r3/04) */
+:root body .r3-od>.r3-od__hide {
+  display:none!important;
+}
 :root body .r3-od>.r3-od__sec {
   margin:0!important;
   border-radius:0!important;

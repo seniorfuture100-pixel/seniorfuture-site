@@ -1159,6 +1159,8 @@
           if (!s || s.children.length < 3) t++ < 40 && setTimeout(e, 250); else {
             s.classList.add("r3-od");
             var i = [].filter.call(s.children, (function(t, e) {
+              // (10/29) 온라인 강의라 받을 곳이 없어요 → '방문수령 정보'·'배송지' 칸은 숨기고 카드 모서리 계산에서도 빼요
+              if (e > 0 && /^(방문수령|배송지)/.test((t.textContent || "").replace(/\s+/g, " ").trim())) return t.classList.add("r3-od__hide"), !1;
               return e > 0 && t.getBoundingClientRect().height > 0;
             }));
             i.forEach((function(t, e) {
