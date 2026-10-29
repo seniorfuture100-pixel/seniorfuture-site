@@ -720,9 +720,14 @@
       E().then((function(L) {
         var seen = {}, rows = [];
         L.forEach((function(o) {
-          var it = I[o.idx] || {}, ty = it.type || (/LIVE|라이브/i.test(o.name) ? "live" : "course");
-          "course" !== ty || !roomOk(o) || seen[o.idx] || (seen[o.idx] = 1, rows.push({
+          // (10/29) 코드 표에 없는 새 상품: 상품명 끝에 일시 '[2026/11/14 14:00]'가 있으면 라이브·모임(SOP 상품명 규칙)이라 강의에서 빼요
+          var it = I[o.idx] || {}, ty = it.type || (/LIVE|라이브/i.test(o.name) ? "live" : p.test(o.name) ? "meet" : "course");
+          // (10/29) 무료 라이브·모임도 카드로(라이브 상세가 '나의 강의실에서도 확인'이라고 안내해요) — 강의실 대신 일시 · 라이브/모임 정보 · 톡방
+          var u = o.name.match(p), at = u ? m(u) : it.start ? Date.parse(it.start) : 0;
+          !roomOk(o) || seen[o.idx] || (seen[o.idx] = 1, rows.push({
             idx: o.idx,
+            ty: ty,
+            at: at,
             title: o.name.replace(p, "").trim(),
             img: o.img,
             paid: roomPaid(L, o.idx),
@@ -731,11 +736,29 @@
         }));
         if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>');
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
+          if ("course" !== x.ty) {
+            // 라이브·모임: 일시 + 정보 버튼(+ 톡방은 아래에서). 끝난 지 3시간이 지나면 '종료'로 맨 아래
+            var lv = "live" === x.ty, ag = x.at ? new Date(x.at) : null, end = x.at && Date.now() > x.at + 108e5, w = lv ? "/live/" : "/community/";
+            return '<li class="sf-hub-card r3-ord sf-room-card' + (end ? " is-end" : "") + '" data-i="' + i + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>' + (lv ? "무료 라이브" : "모임") + '</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">' + (ag ? "일시 <b>" + (ag.getMonth() + 1) + "월 " + ag.getDate() + "일 (" + f[ag.getDay()] + ") " + ag.getHours() + ":" + String(ag.getMinutes()).padStart(2, "0") + "</b>" : "일시는 " + (lv ? "라이브" : "모임") + " 정보에서 확인해 주세요") + '</p></div><div class="sf-hub-side"><span class="sf-badge ' + (end ? "sf-badge--neutral" : "sf-badge--brand") + '">' + (end ? "종료" : x.badge) + '</span><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + roomPv(w + "?idx=" + x.idx) + '">' + (lv ? "라이브 정보" : "모임 정보") + "</a></div></li>";
+          }
           return '<li class="sf-hub-card r3-ord sf-room-card" data-i="' + i + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>강의</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">수강 기간을 확인하고 있어요…</p></div><div class="sf-hub-side"><span class="sf-badge sf-badge--brand">' + x.badge + '</span><span class="sf-btn sf-btn--l r3-ord__go is-off">확인 중</span><a class="r3-ord__detail" href="' + roomPv("/shop_view/?idx=" + x.idx) + '">강의 정보 ›</a></div></li>';
         })).join("") + "</ul>";
+        a(".sf-room-card.is-end", t).forEach((function(li) { li.parentNode.appendChild(li); }));
         rows.forEach((function(x, i) {
           SFUI.roomInfo(x.idx, (function(o) {
             var li = n('.sf-room-card[data-i="' + i + '"]', t);
+            if (li && "course" !== x.ty) {
+              // 라이브·모임: 상품 상세 [톡방] 주소가 있고 아직 안 끝났으면 '톡방 입장'
+              var g0 = n(".r3-ord__go", li);
+              o && o.chat && !li.classList.contains("is-end") && g0 && g0.insertAdjacentHTML("afterend", '<a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go sf-room-chat" href="' + o.chat + '" target="_blank" rel="noopener">톡방 입장</a>');
+              return;
+            }
+            if (li && !o) {
+              // (10/29) 상품 상세를 못 읽음(삭제·숨김 상품) → 빈 강의실로 보내지 않아요
+              n(".sf-room-when", li).textContent = "강의 정보를 불러오지 못했어요. 판매가 끝난 강의라면 고객센터로 문의해 주세요.";
+              n(".r3-ord__go", li).textContent = "강의실 준비 중";
+              return;
+            }
             if (li) {
               // (10/29) 강의실 = 공용 강의실 /class?idx=상품번호(자동). 예전 방식 [강의실]·SF_SITE.classrooms 주소가 있으면 그쪽
               var p = o && o.period, rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "/class?idx=" + x.idx, go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
