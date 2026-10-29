@@ -90,7 +90,7 @@ SFUI.register('siteHeader', function () {
     var act = el('div', 'sf-hd-actions',
       '<button type="button" class="sf-hd-search" data-sf-search-open aria-label="검색">' + ICON.search + '</button>' +
       '<a class="sf-hd-partner" href="/partner">파트너 지원</a>' +
-      (loggedIn ? '<a class="sf-hd-class" href="/classroom">나의 강의실</a>' : ''));
+      (loggedIn ? '<a class="sf-hd-class" href="/shop_mypage/?sf=room">나의 강의실</a>' : '')); // (10/29) 마이페이지 › 나의 강의실
     loginW.parentNode.insertBefore(act, loginW);
   }
 
@@ -103,7 +103,7 @@ SFUI.register('siteHeader', function () {
 
   // ⑥ 전체 메뉴 (오른쪽에서 열림, 교육은 펼침)
   var auth = loggedIn
-    ? '<a class="sf-btn sf-btn--outline" href="/shop_mypage">마이페이지</a><a class="sf-btn sf-btn--dark" href="/classroom">나의 강의실</a>'
+    ? '<a class="sf-btn sf-btn--outline" href="/shop_mypage">마이페이지</a><a class="sf-btn sf-btn--dark" href="/shop_mypage/?sf=room">나의 강의실</a>'
     : '<a class="sf-btn sf-btn--outline" href="' + loginHref + '">로그인</a><a class="sf-btn sf-btn--dark" href="' + joinHref + '">회원가입</a>';
   function item(name, href) { return '<a class="sf-menu__item" href="' + href + '"><span>' + name + '</span>' + ICON.right + '</a>'; }
   var menu = el('div', 'sf-drawer sf-drawer--full',

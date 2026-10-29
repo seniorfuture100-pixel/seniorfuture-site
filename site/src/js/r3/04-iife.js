@@ -737,13 +737,19 @@
           SFUI.roomInfo(x.idx, (function(o) {
             var li = n('.sf-room-card[data-i="' + i + '"]', t);
             if (li) {
-              var p = o && o.period, rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "", go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
+              // (10/29) 강의실 = 공용 강의실 /class?idx=상품번호(자동). 예전 방식 [강의실]·SF_SITE.classrooms 주소가 있으면 그쪽
+              var p = o && o.period, rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "/class?idx=" + x.idx, go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
               n(".sf-room-when", li).innerHTML = lb ? "수강 기간 <b>" + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") : "수강 기간은 강의 정보에서 확인해 주세요";
               st && (bd.textContent = "end" === st ? "수강 종료" : "pre" === st ? "개강 전" : "수강 중", bd.className = "sf-badge " + ("end" === st ? "sf-badge--neutral" : "sf-badge--brand"));
               if (rm && "end" !== st) {
                 var a2 = document.createElement("a");
-                a2.className = "sf-btn sf-btn--primary sf-btn--l r3-ord__go", a2.href = roomPv(rm), a2.textContent = "강의실 입장", go.parentNode.replaceChild(a2, go);
+                a2.className = "sf-btn sf-btn--primary sf-btn--l r3-ord__go", a2.href = roomPv(rm), a2.textContent = "강의실 입장", go.parentNode.replaceChild(a2, go), go = a2;
               } else go.textContent = "end" === st ? "수강 기간 종료" : "강의실 준비 중";
+              // 상품 상세 [톡방] 주소 → '톡방 입장'(수강 기간 중에만)
+              if (o && o.chat && "end" !== st) {
+                var ch = document.createElement("a");
+                ch.className = "sf-btn sf-btn--outline sf-btn--l r3-ord__go sf-room-chat", ch.href = o.chat, ch.target = "_blank", ch.rel = "noopener", ch.textContent = "톡방 입장", go.parentNode.insertBefore(ch, go.nextSibling);
+              }
               "end" === st && (li.classList.add("is-end"), li.parentNode.appendChild(li));
             }
           }));
@@ -759,24 +765,30 @@
   SFUI.register("r3Room", (function() {
     var t = n("[data-sf-room]");
     if (t && SFUI.once(t, "R3Room")) {
-      var idx = +t.getAttribute("data-sf-room"), V = {}, VR = /^(\d+)\s*회차?\s*[|:：\-]?\s*(https?:\/\/\S+)$/;
+      // (10/29) 공용 강의실: <div data-sf-room></div>(번호 없음) → 주소 ?idx=상품번호 로 어떤 강의든 자동. 영상 = 상품 상세 [강의 영상](+ 이 페이지 목록)
+      var idx = +(t.getAttribute("data-sf-room") || new URLSearchParams(location.search).get("idx") || 0), V = {}, PV = {}, VR = /^(\d+)\s*회차?\s*[|:：\-]?\s*(https?:\/\/\S+)$/;
       a("[data-sf-room] li, [data-sf-room] p, .text-table p, .text-table div, .text-table li").forEach((function(x) {
         if (!x.querySelector("p, div, li")) {
           var m = VR.exec((x.textContent || "").replace(/\s+/g, " ").trim()), k = m && x.querySelector("a[href]");
-          m && (V[+m[1]] = k ? k.href : m[2], x.style.display = "none");
+          m && (PV[+m[1]] = k ? k.href : m[2], x.style.display = "none");
         }
       }));
       var box = document.createElement("div");
       box.className = "sf-room", t.appendChild(box);
       if (!document.documentElement.classList.contains("sf-logged-in")) return void (box.innerHTML = '<p class="sf-room__msg">로그인하면 강의실을 볼 수 있어요. <a href="/login?back_url=' + encodeURIComponent(btoa(location.pathname)) + '">로그인하기</a></p>');
+      var back = '<a class="sf-room__back" href="' + roomPv("/shop_mypage/?sf=room") + '">← 나의 강의실</a>';
+      if (!idx) return void (box.innerHTML = back + '<p class="sf-room__msg">강의를 찾을 수 없어요. 나의 강의실에서 다시 들어와 주세요.</p>');
       box.innerHTML = '<p class="sf-room__msg">강의실을 불러오고 있어요…</p>';
       SFUI.roomInfo(idx, (function(o) {
-        if (!o) return void (box.innerHTML = '<p class="sf-room__msg">강의 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
+        if (!o) return void (box.innerHTML = back + '<p class="sf-room__msg">강의 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
+        V = Object.assign({}, o.videos || {}, PV);
         E().then((function(L) {
           return roomPaid(L, idx);
         }))["catch"]((function() {
           return "";
         })).then((function(paid) {
+          // 이 강의를 정상 결제(0원 신청 포함)한 회원만 — 취소·반품·환불·입금 대기는 막아요
+          if (!paid) return void (box.innerHTML = back + '<p class="sf-room__msg">이 강의를 신청·결제한 회원만 강의실을 볼 수 있어요.</p>');
           var rg = SFUI.roomRange(o.period, paid), st = roomState(rg), lb = SFUI.roomLabel(o.period, paid), its = o.prog && o.prog.items || [], on = 0;
           var li = its.map((function(it, i) {
             var no = i + 1, u = V[no], ok = u && "end" !== st;
@@ -785,7 +797,7 @@
               return "<li>" + r(d.x) + "</li>";
             })).join("") + "</ul>" : "") + "</div>" + (ok ? '<button type="button" class="sf-btn sf-btn--primary sf-room__go" data-no="' + no + '">바로보기</button>' : '<span class="sf-room__soon">' + (u ? "기간 종료" : "공개 예정") + "</span>") + "</li>";
           }));
-          box.innerHTML = '<header class="sf-room__head"><div class="sf-room__thumb"' + (/^https:\/\/[^"'()\s]+$/.test(o.img) ? ' style="background-image:url(\'' + o.img + '\')"' : "") + '></div><div><small>나의 강의실</small><h1>' + r(o.title) + "</h1>" + (lb ? '<p class="sf-room__when">수강 기간 <b>' + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") + "</p>" : "") + ("end" === st ? '<p class="sf-room__end">수강 기간이 끝났어요. 다시 듣고 싶다면 고객센터로 문의해 주세요.</p>' : "pre" === st ? '<p class="sf-room__end">' + SFUI.roomDate(rg.s) + "에 개강해요.</p>" : "") + '</div></header><section class="sf-room__cur"><div class="sf-room__ch"><h2>커리큘럼</h2>' + (its.length ? "<span>" + on + " / " + its.length + "회차 공개</span>" : "") + "</div>" + (its.length ? '<ol class="sf-room__list">' + li.join("") + "</ol>" : '<p class="sf-room__msg">커리큘럼을 준비하고 있어요.</p>') + "</section>";
+          box.innerHTML = back + '<header class="sf-room__head"><div class="sf-room__thumb"' + (/^https:\/\/[^"'()\s]+$/.test(o.img) ? ' style="background-image:url(\'' + o.img + '\')"' : "") + '></div><div><small>나의 강의실</small><h1>' + r(o.title) + "</h1>" + (lb ? '<p class="sf-room__when">수강 기간 <b>' + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") + "</p>" : "") + ("end" === st ? '<p class="sf-room__end">수강 기간이 끝났어요. 다시 듣고 싶다면 고객센터로 문의해 주세요.</p>' : "pre" === st ? '<p class="sf-room__end">' + SFUI.roomDate(rg.s) + "에 개강해요.</p>" : "") + (o.chat && "end" !== st ? '<a class="sf-btn sf-btn--outline sf-room__chat" href="' + o.chat + '" target="_blank" rel="noopener">톡방 입장</a>' : "") + '</div></header><section class="sf-room__cur"><div class="sf-room__ch"><h2>커리큘럼</h2>' + (its.length ? "<span>" + on + " / " + its.length + "회차 공개</span>" : "") + "</div>" + (its.length ? '<ol class="sf-room__list">' + li.join("") + "</ol>" : '<p class="sf-room__msg">커리큘럼을 준비하고 있어요.</p>') + "</section>";
         }));
       }));
       // 바로보기 → 영상 창(Vimeo · YouTube 는 화면 안에서, 그 밖의 주소는 새 창)
@@ -968,7 +980,7 @@
           })).join("") || '<li class="r3-bellp__empty">다가오는 일정이 없어요 · <a href="/live">무료 라이브 보기</a></li>', 
           h();
         })).catch((function() {
-          f.innerHTML = '<li class="r3-bellp__empty"><a href="/classroom">나의 강의실</a>에서 확인해 주세요</li>';
+          f.innerHTML = '<li class="r3-bellp__empty"><a href="/shop_mypage/?sf=room">나의 강의실</a>에서 확인해 주세요</li>';
         })) : f.innerHTML = '<li class="r3-bellp__empty"><a href="/login">로그인</a>하면 신청한 일정이 보여요</li>', 
         fetch("/help", {
           credentials: "same-origin"
@@ -1054,8 +1066,10 @@
           return t.html;
         })).join("") + "</ul>" : '<div class="r2-my-load">아직 결제·신청한 강의가 없어요. <a href="/course">교육 둘러보기</a> · <a href="/live">무료 라이브</a></div>',
         l.forEach((function(t) {
-          "course" !== t.x.type || s[t.x.idx] || SFUI.roomInfo(t.x.idx, (function(o) {
-            o && o.room && (s[t.x.idx] = o.room);
+          // (10/29) 강의실 = 공용 강의실(자동), 소통방 = 상품 상세 [톡방]
+          "course" !== t.x.type || SFUI.roomInfo(t.x.idx, (function(o) {
+            s[t.x.idx] || (s[t.x.idx] = o && o.room || "/class?idx=" + t.x.idx);
+            o && o.chat && !t.x.it.chat && (t.x.it = Object.assign({}, t.x.it, { chat: o.chat }));
           }));
         })),
         t.addEventListener("click", (function(t) {

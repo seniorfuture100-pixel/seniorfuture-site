@@ -32,6 +32,29 @@
 :root body .r3-ord-list .sf-room-card.is-end {
   opacity:.6;
 }
+/* (10/29) 나의 강의실 카드 '톡방 입장' · 강의실 '← 나의 강의실' · 머리 '톡방 입장' */
+:root body .sf-room-card .sf-room-chat {
+  height:40px;
+  min-height:0;
+}
+:root body .sf-room__back {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin:0 0 20px;
+  color:var(--sf-text-2)!important;
+  font:600 15px/1.4 var(--sf-font);
+  text-decoration:none;
+}
+:root body .sf-room__chat {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:40px;
+  margin-top:14px;
+  padding:0 18px;
+  text-decoration:none;
+}
 /* 강의실 페이지 */
 :root body .sf-room {
   max-width:1080px;

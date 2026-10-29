@@ -65,7 +65,7 @@ SFUI.roomLabel = function(p, paid) {
 // (10/28) 강의실용 상품 정보: 상품 상세 글의 [프로그램]·[수강 기간]·[강의실] 칸을 읽어요
 //   → done({ idx, title, img, prog:{desc,items}|null, period, room:'/class-x' }) · 못 읽으면 done(null) · 같은 탭에서 5분 동안 다시 안 받아요
 SFUI.roomInfo = function(idx, done) {
-  var k = "sf_room_" + idx, C = null;
+  var k = "sf_room2_" + idx, C = null;
   try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
   if (C && Date.now() - C.at < 3e5) return done(C);
   if (!idx || !window.fetch || !window.DOMParser) return done(null);
@@ -75,8 +75,9 @@ SFUI.roomInfo = function(idx, done) {
     var d = t && new DOMParser().parseFromString(t, "text/html");
     if (!d) return done(null);
     var tp = d.getElementById("prodDetailPC") || d.getElementById("prodDetailMobile"), W = tp && tp.content || d.getElementById("prod_detail_body");
-    var og = d.querySelector('meta[property="og:image"]'), o = { at: Date.now(), idx: +idx, title: ((d.querySelector(".view_tit") || {}).textContent || "").trim(), img: og && og.getAttribute("content") || "", room: "", period: null, prog: null };
-    var RE = /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/, sec = "", P = [], pt = "";
+    var og = d.querySelector('meta[property="og:image"]'), o = { at: Date.now(), idx: +idx, title: ((d.querySelector(".view_tit") || {}).textContent || "").trim(), img: og && og.getAttribute("content") || "", room: "", chat: "", period: null, prog: null };
+    var RE = /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/, sec = "", P = [], pt = "", VR = /^(\d+)\s*회차?\s*[|:：\-]?\s*(https?:\/\/\S+)$/;
+    o.videos = {};
     W && [].forEach.call(W.querySelectorAll("p,h1,h2,h3,h4,h5,h6,li,div"), (function(x) {
       if (x.querySelector("p,div,li,h1,h2,h3,h4,h5,h6")) return;
       var tx = (x.textContent || "").replace(/\s+/g, " ").trim(), m = RE.exec(tx);
@@ -84,6 +85,15 @@ SFUI.roomInfo = function(idx, done) {
       if (!tx) return;
       if (/^(프로그램|커리큘럼|회차|수업구성)/.test(sec)) P.push(x);
       else if ("수강기간" === sec) pt || (pt = tx);
+      else if (/^(카?톡방|단톡방|소통방|오픈채팅(방)?)(주소|링크)?$/.test(sec) && !o.chat) {
+        // [톡방] 오픈채팅 주소 → 나의 강의실·강의실의 '톡방 입장' 버튼
+        var ca = x.querySelector("a[href]"), cu = ca ? ca.getAttribute("href") : (/(https?:\/\/\S+)/.exec(tx) || [])[1] || "";
+        /^https:\/\/[^\s"'<>]+$/.test(cu) && (o.chat = cu);
+      } else if (/^(강의)?영상(주소)?$/.test(sec)) {
+        // [강의 영상] '1회차 https://vimeo.com/…' 한 줄씩 → 마이페이지 강의실의 바로보기
+        var vm = VR.exec(tx), va = x.querySelector("a[href]");
+        vm && (o.videos[+vm[1]] = va && /^https?:/.test(va.getAttribute("href")) ? va.getAttribute("href") : vm[2]);
+      }
       else if (/^강의실(주소)?$/.test(sec) && !o.room) {
         var a = x.querySelector("a[href]"), u = (a ? a.getAttribute("href") : tx).replace(/^(https?:\/\/)?[^\/\s]*imweb\.me/, "").replace(/^(https?:\/\/)?(www\.)?seniorfuture\.[a-z.]+/, "");
         /^\/[\w\-\/]*$/.test(u) && (o.room = u);
@@ -427,7 +437,7 @@ SFUI.register('productView', function() {
   function secKind(t) {
     t = String(t).replace(/\s+/g, " ").trim();
     if (/^수강\s?기간$/.test(t)) return "period";
-    if (/^강의실(\s?주소)?$/.test(t)) return "room";
+    if (/^강의실(\s?주소)?$/.test(t) || /^(강의\s?)?영상(\s?주소)?$/.test(t) || /^(카?톡방|단톡방|소통방|오픈\s?채팅(방)?)(\s?(주소|링크))?$/.test(t)) return "room"; // [강의 영상]·[톡방] 도 화면에는 숨김
     if (/^(자주\s?묻는\s?질문|FAQ|Q\s?&\s?A|질문과 답변|문의)$/i.test(t)) return "faq";
     if (/^(교환|반품|환불)/.test(t)) return "refund";
     if (/^(운영|학습|이용|수강|참여|참가)\s?(정책|규정|안내)$|정책$/.test(t)) return "policy"; // (10/27 v2) 하단 공통 [운영 정책] → 더 알아보기
