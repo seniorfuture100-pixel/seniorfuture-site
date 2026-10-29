@@ -17,6 +17,15 @@
   color:var(--sf-text-3);
   font:400 13px/1.5 var(--sf-font);
 }
+/* (10/29) 2단계 필수 옵션: 앞 단계를 고르기 전 뒤 단계 자리 안내 */
+:root body .r3-opt__wait {
+  margin:0;
+  padding:14px 16px;
+  border:1px dashed var(--sf-border);
+  border-radius:12px;
+  color:var(--sf-text-3);
+  font:400 14px/1.5 var(--sf-font);
+}
 :root body .r3-opt__card {
   display:grid;
   grid-template-columns:22px 1fr auto;
