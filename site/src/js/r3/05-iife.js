@@ -38,7 +38,8 @@
       var ot = tg.parentElement.previousElementSibling;
       while (ot && ot.classList.contains('r3-opt')) ot = ot.previousElementSibling;
       var title = ot && ot.classList.contains('option_title') ? clean(ot.textContent).replace(/\s*\*\s*$/, '') : '';
-      var req = !!menu.querySelector('._requireOption');
+      // 필수 여부: 옵션 제목 끝 '*' 또는 필수 항목 표시. 안내만 들어 있는 뒤 단계도 필수예요
+      var req = !!menu.querySelector('._requireOption') || /\*\s*$/.test(ot ? clean(ot.textContent) : '') || (!items.length && !!all.length);
       if (items.length || all.length) groups.push({ label: title ? title + (req ? '' : ' (선택)') : clean(tg.textContent) || '옵션 선택', req: req, wait: !items.length && all.length ? clean(all[0].textContent) : '', box: tg.parentElement, items: items.map(function (a) {
         var nm = a.querySelector('span'), pr = a.querySelector('strong');
         return { el: a, t: a.textContent, name: nm ? clean(nm.textContent) : '', price: pr ? clean(pr.textContent) : '' };
@@ -97,9 +98,12 @@
         }
         // (10/29) 미리 그린 옵션(아래 pre)일 때는 아임웹 진짜 옵션이 올 때까지 기다렸다가 대신 눌러요
         if (it.el.closest('[data-sf-pre]')) { b.classList.add('is-on'); b.setAttribute('aria-pressed', 'true'); pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
+        var st0 = stepsNow(form);
         g.pick(it);
         mark(form, groups);
         setTimeout(function () { mark(form, groups); }, 120);
+        // 조합 줄이 하나 생기면 아임웹이 앞 단계 선택을 비워요 → 같은 수강 형태로 다른 기수를 바로 고를 수 있게 앞 단계를 다시 골라 둬요
+        if (Object.keys(st0).some(function (k) { return st0[k]; })) restoreSteps(form, st0, 0);
       });
     });
     mark(form, groups);
@@ -140,6 +144,17 @@
       o[lb] = v && !/[(（]\s*필수\s*[)）]/.test(v) && !lbEq(v, lb) ? v : '';
     });
     return o;
+  }
+  function restoreSteps(form, st0, n) {
+    setTimeout(function () {
+      var f = document.querySelector('.goods_form_wrap, [data-r3-goods]') || form, now = stepsNow(f), todo = null;
+      Object.keys(st0).forEach(function (lb) { if (!todo && st0[lb] && !now[lb]) todo = lb; });
+      if (!todo) return;
+      var w = $$('.r3-opt[data-step]', f).filter(function (x) { return x.getAttribute('data-lb') === todo; })[0];
+      var c = w && $$('.r3-opt__card', w).filter(function (b) { return st0[todo].indexOf(clean(b.querySelector('.r3-opt__name').textContent)) === 0; })[0];
+      if (c) c.click();
+      else if (n < 12) restoreSteps(f, st0, n + 1);
+    }, n ? 150 : 300);
   }
   function findRow(form, name, lb) { var st = stepsNow(form); return rows(form).filter(function (r) { return same(clean(r.textContent), name, lb, st); })[0]; }
   function mark(form, groups) {
