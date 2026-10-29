@@ -753,8 +753,8 @@
               o && o.chat && !li.classList.contains("is-end") && g0 && g0.insertAdjacentHTML("afterend", '<a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go sf-room-chat" href="' + o.chat + '" target="_blank" rel="noopener">톡방 입장</a>');
               return;
             }
-            if (li && !o) {
-              // (10/29) 상품 상세를 못 읽음(삭제·숨김 상품) → 빈 강의실로 보내지 않아요
+            if (li && !(o && o.title)) {
+              // (10/29) 상품 상세를 못 읽음(삭제·숨김 상품 — 아임웹은 200 으로 빈 화면을 줘요) → 빈 강의실로 보내지 않아요
               n(".sf-room-when", li).textContent = "강의 정보를 불러오지 못했어요. 판매가 끝난 강의라면 고객센터로 문의해 주세요.";
               n(".r3-ord__go", li).textContent = "강의실 준비 중";
               return;
