@@ -55,11 +55,11 @@
   padding:0 18px;
   text-decoration:none;
 }
-/* (10/29) 상품 상세 '더 알아보기'(하단 공통) 안 링크 — '여기'가 링크로 보이게 */
+/* (10/29) 상품 상세 '더 알아보기'(하단 공통) 안 링크('여기'·'1:1 문의') — 밑줄 없이 색으로만 */
 :root body .sf-pv-more2 [data-sf-acc-panel] a {
   color:var(--sf-text-brand)!important;
-  text-decoration:underline!important;
-  text-underline-offset:2px;
+  font-weight:600;
+  text-decoration:none!important;
 }
 /* 강의실 페이지 */
 :root body .sf-room {
