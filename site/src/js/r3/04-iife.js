@@ -1157,6 +1157,14 @@
             return !/r2-my-|r3-/.test(t.className || "") && t.getBoundingClientRect().height > 200;
           }))[0];
           if (!s || s.children.length < 3) t++ < 40 && setTimeout(e, 250); else {
+            // (10/29) 아임웹(React)이 칸을 펼치고 접을 때 class 를 새로 써서 우리 표시가 지워져요 → 바뀔 때마다 다시 붙여요(이미 있으면 아무 변화 없음)
+            var q = 0;
+            new MutationObserver((function() {
+              q || (q = requestAnimationFrame((function() { q = 0; tag(); })));
+            })).observe(s, { childList: !0, subtree: !0, attributes: !0, attributeFilter: [ "class" ] });
+            tag();
+          }
+          function tag() {
             s.classList.add("r3-od");
             var i = [].filter.call(s.children, (function(t, e) {
               // (10/29) 온라인 강의라 받을 곳이 없어요 → '방문수령 정보'·'배송지' 칸은 숨기고 카드 모서리 계산에서도 빼요
