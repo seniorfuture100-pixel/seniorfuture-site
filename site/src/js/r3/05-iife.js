@@ -148,39 +148,76 @@
   //   → 같은 옵션 정보(/shop/load_option.cm, 읽기 전용)를 우리가 먼저(또는 목록에서 상품에 손가락·마우스를 올릴 때) 받아 두고,
   //     옵션 칸이 생기는 즉시 그 내용으로 카드를 그려요. 아임웹 진짜 옵션이 오면 같은 모양으로 바꿔 끼워서 화면이 움직이지 않아요.
   //   결제·선택은 언제나 아임웹 진짜 옵션으로만 해요(미리 그린 동안 누른 카드는 진짜가 오면 대신 눌러요).
-  var OPT_TTL = 10 * 60 * 1000, optReq = {};
+  var OPT_TTL = 10 * 60 * 1000, optReq = {}, root = document.documentElement;
   function optKey(idx) { return 'sf_opt_' + idx; }
-  function optGet(idx) { try { var o = JSON.parse(sessionStorage.getItem(optKey(idx)) || 'null'); return o && Date.now() - o.at < OPT_TTL ? o.html : null; } catch (e) { return null; } }
+  function optGet(idx) { try { var o = JSON.parse(sessionStorage.getItem(optKey(idx)) || 'null'); return o && Date.now() - o.at < OPT_TTL ? o : null; } catch (e) { return null; } }
+  function optSet(idx, o) { try { sessionStorage.setItem(optKey(idx), JSON.stringify(o)); } catch (e) {} }
+  function post(url, data) {
+    return fetch(url, { method: 'POST', body: new URLSearchParams(data), credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function (r) { return r.json(); }).catch(function () { return null; });
+  }
+  // 옵션(load_option) + '함께 구매' 추가 상품 유무(load_prod_additional) — 둘 다 아임웹이 상품 화면에서 부르는 읽기 전용 요청이에요
   function optFetch(idx) {
     if (!idx || optReq[idx]) return optReq[idx];
-    var body = new URLSearchParams({ type: 'prod', prod_idx: idx });
-    optReq[idx] = fetch('/shop/load_option.cm', { method: 'POST', body: body, credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-      .then(function (r) { return r.json(); })
-      .then(function (r) { if (r && r.msg === 'SUCCESS' && r.option_html) { try { sessionStorage.setItem(optKey(idx), JSON.stringify({ at: Date.now(), html: r.option_html })); } catch (e) {} return r.option_html; } })
-      .catch(function () {});
+    optReq[idx] = Promise.all([post('/shop/load_option.cm', { type: 'prod', prod_idx: idx }), post('/shop/load_prod_additional.cm', { prod_idx: idx })])
+      .then(function (a) {
+        var o = a[0], p = a[1];
+        if (!o || o.msg !== 'SUCCESS') return null;
+        var old = optGet(idx) || {};
+        var v = { at: Date.now(), html: o.option_html || '', add: !!(p && p.prod_additional && p.prod_additional.prod_list && p.prod_additional.prod_list.length), ah: old.ah || {} };
+        optSet(idx, v);
+        return v;
+      });
     return optReq[idx];
   }
   function idxOf(href) { var m = /[?&]idx=(\d+)/.exec(href || ''); return m && m[1]; }
-  function prefill(sel, html) {
-    if (!sel || !html || sel.children.length) { document.documentElement.classList.remove('sf-optwait'); return; } // 아임웹이 이미 채웠으면 손대지 않아요
-    sel.innerHTML = html;
-    $$(':scope > *', sel).forEach(function (n) { n.setAttribute('data-sf-pre', '1'); });
-    run();
-    document.documentElement.classList.remove('sf-optwait');
-  }
+  function wkey() { return window.innerWidth < 768 ? 'm' : 'd'; }
   (function () {
     if (!/\/shop_view/.test(location.pathname)) return;
     var idx = idxOf(location.search); if (!idx) return;
-    var html = optGet(idx), done = false, root = document.documentElement;
-    var p = html ? null : optFetch(idx);
-    // 처음 들어온 상품(미리 받아 둔 옵션 없음): 옵션이 채워질 때까지 아래 합계·신청 버튼을 잠깐 가려서, 버튼이 먼저 보였다가 밀려 내려가지 않게
-    function unwait() { root.classList.remove('sf-optwait'); }
-    if (p) { root.classList.add('sf-optwait'); p.then(function (h) { h || unwait(); }); setTimeout(unwait, 2500); }
-    function find() { return document.querySelector('.goods_form_wrap .goods_select'); }
-    function tryFill() { var s = find(); if (!s || done) return !!s; done = true; if (html) prefill(s, html); else p && p.then(function (h) { prefill(find(), h); }); return true; }
-    if (tryFill()) return;
-    var mo = new MutationObserver(function () { if (tryFill()) mo.disconnect(); });
-    mo.observe(document.documentElement, { childList: true, subtree: true });
+    var c = optGet(idx), p = c ? null : optFetch(idx), waits = {};
+    // 기다릴 것(옵션 칸 · 추가 상품 칸)이 다 채워질 때까지 아래 합계·신청 버튼을 잠깐 가려요(최대 2.5초) → 버튼이 먼저 보였다가 밀려 내려가지 않게
+    function hold(k) { waits[k] = 1; root.classList.add('sf-optwait'); }
+    function release(k) { delete waits[k]; Object.keys(waits).length || root.classList.remove('sf-optwait'); }
+    setTimeout(function () { waits = {}; root.classList.remove('sf-optwait'); }, 2500);
+    function el(id) { return document.getElementById(id); }
+    // ① 옵션 칸: 받아 둔 내용으로 바로 그려요(아임웹 진짜 옵션이 오면 같은 모양으로 바꿔 끼움)
+    function fillOpt(v) {
+      var s = el('prod_options');
+      if (s && v && v.html && !s.children.length) {
+        s.innerHTML = v.html;
+        $$(':scope > *', s).forEach(function (n) { n.setAttribute('data-sf-pre', '1'); });
+        run();
+      }
+      release('opt');
+    }
+    // ② 추가 상품 칸: 지난번 높이를 알면 그만큼 자리를 비워 두고, 모르면 채워질 때까지 버튼을 가려요. 채워지면 높이를 기억해요
+    function watchAdd(v) {
+      var s = el('prod_additional');
+      if (!s || !v || !v.add || s.children.length) return release('add');
+      var h = v.ah && v.ah[wkey()];
+      if (h) { s.style.minHeight = h + 'px'; release('add'); }
+      var mo = new MutationObserver(function () {
+        if (!s.children.length) return;
+        mo.disconnect(); s.style.minHeight = '';
+        var o = optGet(idx); if (o) { o.ah = o.ah || {}; o.ah[wkey()] = s.offsetHeight; optSet(idx, o); }
+        h || release('add');
+      });
+      mo.observe(s, { childList: true });
+      setTimeout(function () { mo.disconnect(); s.style.minHeight = ''; }, 4000);
+    }
+    var started = false;
+    function start() {
+      if (started || !el('prod_options') || !el('prod_additional')) return false;
+      started = true;
+      if (c) { fillOpt(c); watchAdd(c); } else p.then(function (v) { fillOpt(v); watchAdd(v); });
+      return true;
+    }
+    // 받아 둔 게 없으면 둘 다 기다리고, 받아 둔 게 있으면 '추가 상품 높이를 아직 모를 때'만 기다려요
+    if (!c) { hold('opt'); hold('add'); } else if (c.add && !(c.ah && c.ah[wkey()])) hold('add');
+    if (start()) return;
+    var mo = new MutationObserver(function () { if (start()) mo.disconnect(); });
+    mo.observe(root, { childList: true, subtree: true });
     setTimeout(function () { mo.disconnect(); }, 8000);
   })();
   // 목록에서 상품에 마우스를 올리거나 손가락을 대면 그 상품 옵션을 미리 받아 둬요(상품마다 한 번)
