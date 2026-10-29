@@ -351,7 +351,8 @@ SFUI.register('productView', function() {
         var hideRf = function() {
           ie.style.display = "";
           [].forEach.call(ie.querySelectorAll("p,div"), (function(x) {
-            if (x.querySelector("p,div") || !/^\s*[<＜〈]\s*(교환|반품|환불)/.test(x.textContent || "")) return;
+            // (10/29) 하단 공통 [운영 정책]·[환불 규정] 제목 줄(휴대폰용 사본 포함)부터도 숨겨요 — 그 내용은 '더 알아보기'에 있어요
+            if (x.querySelector("p,div") || !(/^\s*[<＜〈]\s*(교환|반품|환불)/.test(x.textContent || "") || CF.length && /^\s*[\[【]\s*(운영|학습|이용|수강)?\s?(정책|규정|안내)\s*[\]】]\s*$|^\s*[\[【]\s*환불\s?규정\s*[\]】]\s*$/.test(x.textContent || ""))) return;
             if (!hasRf && x.offsetParent && (!rf1 || rf1 === x.parentElement)) return void (rf1 = x.parentElement);
             if (!hasRf && rf1 === x.parentElement) return;
             for (var s = x; s; s = s.nextElementSibling) s.style.display = "none";
