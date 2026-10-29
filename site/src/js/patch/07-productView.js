@@ -65,7 +65,7 @@ SFUI.roomLabel = function(p, paid) {
 // (10/28) 강의실용 상품 정보: 상품 상세 글의 [프로그램]·[수강 기간]·[강의실] 칸을 읽어요
 //   → done({ idx, title, img, prog:{desc,items}|null, period, room:'/class-x' }) · 못 읽으면 done(null) · 같은 탭에서 5분 동안 다시 안 받아요
 SFUI.roomInfo = function(idx, done) {
-  var k = "sf_room3_" + idx, C = null; // (10/29) room3: 모임 안내(meet)·일시(start) 추가
+  var k = "sf_room4_" + idx, C = null; // (10/29) room3: 모임 안내(meet)·일시(start) 추가 · (10/30) room4: [다시보기](replay)
   try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
   if (C && Date.now() - C.at < 3e5) return done(C);
   if (!idx || !window.fetch || !window.DOMParser) return done(null);
@@ -89,6 +89,10 @@ SFUI.roomInfo = function(idx, done) {
         // [톡방] 오픈채팅 주소 → 나의 강의실·강의실의 '톡방 입장' 버튼
         var ca = x.querySelector("a[href]"), cu = ca ? ca.getAttribute("href") : (/(https?:\/\/\S+)/.exec(tx) || [])[1] || "";
         /^https:\/\/[^\s"'<>]+$/.test(cu) && (o.chat = cu);
+      } else if (/^다시보기(주소|링크|영상)?$/.test(sec) && !o.replay) {
+        // (10/30) [다시보기] 주소 한 줄 → 끝난 무료 라이브 카드의 '다시보기' 버튼(없으면 '종료')
+        var ra = x.querySelector("a[href]"), ru = ra ? ra.getAttribute("href") : (/(https?:\/\/\S+)/.exec(tx) || [])[1] || "";
+        /^https:\/\/[^\s"'<>]+$/.test(ru) && (o.replay = ru);
       } else if (/^(강의)?영상(주소)?$/.test(sec)) {
         // [강의 영상] '1회차 https://vimeo.com/…' 한 줄씩 → 마이페이지 강의실의 바로보기
         var vm = VR.exec(tx), va = x.querySelector("a[href]");
@@ -507,7 +511,7 @@ SFUI.register('productView', function() {
   function secKind(t) {
     t = String(t).replace(/\s+/g, " ").trim();
     if (/^수강\s?기간$/.test(t)) return "period";
-    if (/^강의실(\s?주소)?$/.test(t) || /^(강의\s?)?영상(\s?주소)?$/.test(t) || /^(카?톡방|단톡방|소통방|오픈\s?채팅(방)?)(\s?(주소|링크))?$/.test(t)) return "room"; // [강의 영상]·[톡방] 도 화면에는 숨김
+    if (/^강의실(\s?주소)?$/.test(t) || /^(강의\s?)?영상(\s?주소)?$/.test(t) || /^(카?톡방|단톡방|소통방|오픈\s?채팅(방)?)(\s?(주소|링크))?$/.test(t) || /^다시\s?보기(\s?(주소|링크|영상))?$/.test(t)) return "room"; // [강의 영상]·[톡방]·[다시보기] 도 화면에는 숨김
     if (/^(모임|행사|이벤트)\s?(안내|정보)$/.test(t)) return "meet"; // (10/29) [모임 안내] → 모임 안내 상자(SFUI.meetParse)
     if (/^(자주\s?묻는\s?질문|FAQ|Q\s?&\s?A|질문과 답변|문의)$/i.test(t)) return "faq";
     if (/^(교환|반품|환불)/.test(t)) return "refund";

@@ -280,7 +280,7 @@
                 t.setAttribute("data-sf-live", ""), t.setAttribute("data-start", a.start || ""), 
                 t.setAttribute("data-end", a.end || ""), t.setAttribute("data-deadline", a.deadline || ""), 
                 t.setAttribute("data-link-apply", o), t.setAttribute("data-link-live", a.live || "/classroom"), 
-                t.setAttribute("data-link-replay", a.replay || "/classroom"), n && (n.innerHTML = '<span class="sf-tags"><span data-sf-live-badge class="sf-badge"></span></span>');
+                a.replay && t.setAttribute("data-link-replay", a.replay), n &&(n.innerHTML = '<span class="sf-tags"><span data-sf-live-badge class="sf-badge"></span></span>');
                 var c = document.createElement("a");
                 c.setAttribute("data-sf-live-btn", ""), c.className = "sf-btn sf-btn--block sf-shop-cta", 
                 t.appendChild(c);

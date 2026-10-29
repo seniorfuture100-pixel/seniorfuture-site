@@ -122,7 +122,7 @@
     if (location.pathname !== '/' && location.pathname !== '/index') return;
     [].forEach.call(document.querySelectorAll('ul.sf-cards4'), function (ul) {
       var items = [].slice.call(ul.children), now = Date.now();
-      var info = items.map(function (li) { var c = li.querySelector('[data-sf-live]') || (li.matches('[data-sf-live]') ? li : null); return c && { li: li, t: Date.parse(c.getAttribute('data-start')) || 0, past: c.getAttribute('data-status') === 'ended' || (Date.parse(c.getAttribute('data-end')) || 0) < now }; });
+      var info = items.map(function (li) { var c = li.querySelector('[data-sf-live]') || (li.matches('[data-sf-live]') ? li : null); return c && { li: li, t: Date.parse(c.getAttribute('data-start')) || 0, past: c.getAttribute('data-status') === 'ended' || SFUI.liveOver(Date.parse(c.getAttribute('data-start')) || 0, Date.parse(c.getAttribute('data-end')) || 0, now) }; });
       if (info.some(function (x) { return !x; }) || info.length < 2) return;
       var next = info.filter(function (x) { return !x.past; }).sort(function (a, b) { return a.t - b.t; });
       var past = info.filter(function (x) { return x.past; }).sort(function (a, b) { return b.t - a.t; });
