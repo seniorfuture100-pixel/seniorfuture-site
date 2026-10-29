@@ -49,6 +49,7 @@
       var wrap = document.createElement('div');
       wrap.className = 'r3-opt'; wrap.setAttribute('role', 'group');
       var lb = g.label.replace(/\s*[(（]\s*(필수|선택)\s*[)）]\s*$/, '');
+      wrap.setAttribute('data-lb', clean(lb)); // (10/29) 선택 줄 '그룹명: 옵션명'과 맞춰 볼 때 써요
       var opt = /\(\s*선택\s*\)\s*$/.test(g.label);
       var head = /^(옵션\s*)?선택$/.test(lb) || !lb ? '수강 옵션 선택' : lb;
       wrap.innerHTML = '<p class="r3-opt__h">' + txt(head) + '<small>' + (opt ? '필요하면 추가로 골라요' : '여러 개 고를 수 있어요') + '</small></p>' +
@@ -67,7 +68,7 @@
       wrap.addEventListener('click', function (e) {
         var b = e.target.closest('.r3-opt__card'); if (!b || b.disabled) return;
         var it = g.items[+b.getAttribute('data-i')], name = it.nm || parse(it.t).name;
-        var row = findRow(form, name);
+        var row = findRow(form, name, wrap.getAttribute('data-lb'));
         // 이미 고른 카드를 다시 누르면 체크 해제 = 그 줄의 삭제(×) 버튼을 대신 눌러요
         if (row) {
           var x = row.querySelector('a[class*="absolute"], button[class*="absolute"], [class*="delete"], [class*="remove"]');
@@ -90,17 +91,28 @@
         return r && r !== form ? r : null;
       }).filter(Boolean);
   }
-  function findRow(form, name) { return rows(form).filter(function (r) { return clean(r.textContent).indexOf(name) >= 0; })[0]; }
+  // (10/29) 선택 줄 글 = '그룹명: 옵션명 9,900원' → 그룹명까지 맞춰 봐요
+  //   (예전엔 이름이 들어 있기만 하면 같다고 봐서, 그룹명 '1:1컨설팅'과 다른 그룹의 옵션 '1:1컨설팅'이 섞였어요)
+  function same(t, name, lb) {
+    var i = t.indexOf(': ');
+    if (i < 0) return t.indexOf(name) >= 0;
+    var L = clean(t.slice(0, i)), R = clean(t.slice(i + 2));
+    return (!lb || L === lb || L.indexOf(lb) === 0 || lb.indexOf(L) === 0) && R.indexOf(name) === 0;
+  }
+  function findRow(form, name, lb) { return rows(form).filter(function (r) { return same(clean(r.textContent), name, lb); })[0]; }
   function mark(form, groups) {
     var rs = rows(form);
     rs.forEach(function (r) { r.classList.add('r3-optrow'); });
     var names = rs.map(function (r) { return clean(r.textContent); });
-    $$('.r3-opt__card', form).forEach(function (b) {
-      var nm = clean(b.querySelector('.r3-opt__name').textContent);
-      var on = names.some(function (t) { return t.indexOf(nm) >= 0; });
+    var cards = $$('.r3-opt__card', form);
+    cards.forEach(function (b) {
+      var nm = clean(b.querySelector('.r3-opt__name').textContent), w = b.closest('.r3-opt');
+      var on = names.some(function (t) { return same(t, nm, w && w.getAttribute('data-lb')); });
       b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     form.classList.toggle('r3-has-rows', rs.length > 0);
+    // (10/29) 옵션 칸이 늦게 그려지면 r3NoOpt 가 '옵션 없는 상품'으로 잘못 보고 합계 칸을 숨겨요 → 옵션 카드나 선택 줄이 있으면 풀어요
+    (cards.length || rs.length) && document.documentElement.classList.remove('r3-noopt');
   }
 
   // 아임웹은 옵션을 고를 때마다 옵션 영역을 새로 그려요 → 카드가 사라지면 다시 만들고, 남아 있으면 표시만 고쳐요
