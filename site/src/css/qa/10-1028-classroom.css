@@ -55,6 +55,12 @@
   padding:0 18px;
   text-decoration:none;
 }
+/* (10/29) 상품 상세 '더 알아보기'(하단 공통) 안 링크 — '여기'가 링크로 보이게 */
+:root body .sf-pv-more2 [data-sf-acc-panel] a {
+  color:var(--sf-text-brand)!important;
+  text-decoration:underline!important;
+  text-underline-offset:2px;
+}
 /* 강의실 페이지 */
 :root body .sf-room {
   max-width:1080px;
