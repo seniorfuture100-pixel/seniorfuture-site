@@ -1181,6 +1181,7 @@
               if (t.children.length) return;
               var x = t.textContent.replace(/\s+/g, " ").trim();
               "주문 상세 내역" === x && t.classList.add("r3-od__title");
+              "상품준비" === x && t.firstChild && (t.firstChild.nodeValue = "접수 완료", x = "접수 완료"); // 다시 그려지면 아임웹 글자로 돌아가요(r3OrderWords 와 같은 말)
               /^\d{4}[-.]\d{2}[-.]\d{2}$/.test(x) && t.classList.add("r3-od__meta");
               /^(접수 완료|결제 완료|결제완료|입금 대기|입금대기|상품준비|구매 확정|구매확정|배송\S*|취소\S*|환불\S*|반품\S*|교환\S*)$/.test(x) && !t.closest("a[href*=cancel], button") && t.classList.add("r3-od__status");
               /:$/.test(x) && (t.classList.add("r3-od__opt"), t.nextElementSibling && t.nextElementSibling.classList.add("r3-od__opt"));
