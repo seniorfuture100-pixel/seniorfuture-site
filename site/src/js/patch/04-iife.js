@@ -297,10 +297,12 @@
                 // (10/29) 코드 표에 없는 새 모임: 상품 글 [모임 안내] + 상품명 일시를 읽어 와서(SFUI.roomInfo, 5분 기억) 태그·일시·장소·온라인/오프라인을 채워요
                 !a.start && !a.place && SFUI.roomInfo && SFUI.roomInfo(t.getAttribute("data-system-product-id"), (function(o) {
                   // 기억해 둔 값이면 바로 불려요 → 다른 카드가 다 그려진 뒤(순서 정렬이 맞게) 채우려고 한 박자 늦춰요
-                  setTimeout((function() { fill(o); }), 0);
+                  setTimeout((function() { fill(o, 0); }), 0);
                 }));
-                function fill(o) {
+                function fill(o, tr) {
                   if (!o) return;
+                  // 카드가 아직 목록 칸(.iw-shop-grid)에 들어가기 전이면 조금 뒤 다시(순서 정렬을 그 칸에서 해야 해요)
+                  if (!(t.parentElement && t.parentElement.classList.contains("iw-shop-grid")) && tr < 20) return void setTimeout((function() { fill(o, tr + 1); }), 150);
                   var mi = o.meet || {}, b = { type: "meet", kind: mi.kind || a.kind, place: SFUI.meetPlace(mi), start: mi.start || o.start || "", past: a.past };
                   b.deadline = mi.deadline || b.start;
                   if (b.start) { var dd = new Date(b.start); b.date = dd.getMonth() + 1 + "월 " + dd.getDate() + "일 (" + "일월화수목금토".charAt(dd.getDay()) + ")"; }
