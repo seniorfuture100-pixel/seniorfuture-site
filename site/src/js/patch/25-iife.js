@@ -19,13 +19,16 @@
   var v = ''; try { v = sessionStorage.getItem(KEY) || ''; } catch (x) {}
   var m = /^(live|meet|course)\|(\d+)$/.exec(v) || /^()(\d+)$/.exec(v); // 예전 표시(시각만)는 라이브
   var kind = m && Date.now() - +m[2] < 7200000 ? (m[1] || 'live') : 'order';
-  var site = window.SF_SITE || {}, chat = site.liveChat || '#', room = '/shop_mypage/?sf=room';
+  var room = '/shop_mypage/?sf=room';
+  // (10/29) 버튼은 모든 종류 같게: 나의 강의실(주황) / 홈으로 · 결제 내역
+  var BT = { main: ['나의 강의실', room], sub: [['홈으로', '/'], ['결제 내역', '/shop_mypage/?m2=order']] };
   var C = {
-    live: { h: '신청이 완료됐어요!', p: '강의 안내와 입장 링크는 오픈채팅방에서 드려요.<br>시작 전에 꼭 입장해 주세요!', main: ['안내사항 확인하기', chat, 1], sub: [['나의 강의실', room], ['더 많은 라이브 보기', '/live']] },
-    course: { h: '수강 신청이 완료됐어요!', p: '나의 강의실에서 수강 기간과 강의실을 확인할 수 있어요.<br>자료와 소식은 강의 톡방에서 안내드려요.', main: ['나의 강의실로 가기', room], sub: [['결제 내역', '/shop_mypage/?m2=order'], ['다른 강의 보기', '/course']] },
-    meet: { h: '참여 신청이 완료됐어요!', p: '모임 일시와 장소는 나의 강의실과 모임 정보에서 확인할 수 있어요.', main: ['나의 강의실로 가기', room], sub: [['결제 내역', '/shop_mypage/?m2=order'], ['다른 모임 보기', '/community']] },
-    order: { h: '주문이 완료됐어요!', p: '주문 내역은 마이페이지 › 결제 내역에서 확인할 수 있어요.', main: ['나의 강의실로 가기', room], sub: [['결제 내역', '/shop_mypage/?m2=order'], ['홈으로', '/']] }
+    live: { h: '신청이 완료됐어요!', p: '강의 안내와 입장 링크는 나의 강의실과 오픈채팅방에서 드려요.<br>시작 전에 꼭 확인해 주세요!' },
+    course: { h: '수강 신청이 완료됐어요!', p: '나의 강의실에서 수강 기간과 강의실을 확인할 수 있어요.<br>자료와 소식은 강의 톡방에서 안내드려요.' },
+    meet: { h: '참여 신청이 완료됐어요!', p: '모임 일시와 장소는 나의 강의실과 모임 정보에서 확인할 수 있어요.' },
+    order: { h: '주문이 완료됐어요!', p: '주문 내역은 마이페이지 › 결제 내역에서 확인할 수 있어요.' }
   }[kind];
+  C.main = BT.main; C.sub = BT.sub;
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
   var clean = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
   // 아임웹 완료 화면의 '이름 · 값' 줄 읽기(주문번호 · 결제정보 · 결제금액)
@@ -46,11 +49,10 @@
     c.innerHTML = '<span class="sf-done-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' +
       '<h1 id="sf-done-h">' + C.h + '</h1><p>' + C.p + '</p>' +
       (rows.length ? '<dl class="sf-done-info">' + rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' : '') +
-      '<a class="sf-done-main" href="' + C.main[1] + '"' + (C.main[2] ? (C.main[1] === '#' ? ' data-sf-todo="오픈채팅 링크"' : ' target="_blank" rel="noopener"') : '') + '>' + C.main[0] + ' <span aria-hidden="true">→</span></a>' +
+      '<a class="sf-done-main" href="' + C.main[1] + '">' + C.main[0] + ' <span aria-hidden="true">→</span></a>' +
       '<div class="sf-done-sub">' + C.sub.map(function (s) { return '<a href="' + s[1] + '">' + s[0] + '</a>'; }).join('') + '</div>';
     host.parentNode.insertBefore(c, host);
     document.documentElement.classList.add('sf-done-on');
-    if (C.main[1] === '#') c.querySelector('.sf-done-main').addEventListener('click', function (e) { e.preventDefault(); if (window.SFUI && SFUI.toast) SFUI.toast('오픈채팅 안내 링크는 곧 열려요'); });
     return true;
   };
   if (!draw()) { var n = 0, iv = setInterval(function () { if (draw() || ++n > 40) clearInterval(iv); }, 150); }
