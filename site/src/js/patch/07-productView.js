@@ -237,6 +237,22 @@ SFUI.register('productView', function() {
       //   상세 설명의 예전 제목도 묶어요: [커리큘럼]·[진행 안내]·[프로그램 일정] → 프로그램, [강사 소개]·[연사]·[호스트] → 강사 칸
       var G = document.querySelector(".detail_detail_wrap"), J = document.querySelector(".detail_qna_wrap"), W = document.getElementById("prod_detail_body"), X = '<div class="sf-pv-own" data-sf-own></div>', Y = [], ee = "", FQ = [], OG = null, OW = W && ownSecs(W);
       var TL = c ? "강사" : o ? "연사" : "호스트", TH = c ? "강사 소개" : o ? "연사 소개" : "호스트";
+      // (10/29) 하단 공통(쇼핑 설정 › 상품 상세 하단 공통)의 [운영 정책]·[환불 규정]만 있고 상세 글엔 [제목]이 없는 예시 상품(코드 표·SF_SITE.details)은
+      //   예전 예시 화면을 그대로 두고, 그 두 칸만 '더 알아보기'로 가져와요(CF). 새 상품은 그대로 쓴 글 + 더 알아보기
+      var CF = [];
+      if (OW && OW.secs.length && OW.secs.every((function(e) {
+        var k = secKind(e.t);
+        return "policy" === k || "refund" === k;
+      })) && !(W && (!(SFUI.__baseItems || {})[n] || SFUI.__baseItems[n].past) && !(a.items || {})[n] && !(a.details || a.courses || {})[n])) {
+        OW.secs.forEach((function(e) {
+          CF.push({ k: secKind(e.t), q: "교환·환불 안내" === e.t ? "환불 규정" : e.t, n: e.n });
+        }));
+        CF.sort((function(x, y) { return ("policy" === x.k ? 0 : 1) - ("policy" === y.k ? 0 : 1); }));
+        [].forEach.call(W.querySelectorAll("p,h1,h2,h3,h4,h5,h6,div"), (function(x) {
+          !x.querySelector("p,div") && /^\s*[\[【]\s*[^\[\]【】]{1,20}\s*[\]】]\s*$/.test(x.textContent) && (x.style.display = "none");
+        }));
+        OW = null;
+      }
       // (10/23 2차) 예시 내용(가짜 강사·커리큘럼)은 예전부터 있던 상품(코드 표)이나 SF_SITE.details 가 있는 상품만. 새 상품은 쓴 글만 '소개'로
       !OW && W && (!(SFUI.__baseItems || {})[n] || SFUI.__baseItems[n].past) && !(a.items || {})[n] && !(a.details || a.courses || {})[n] && (OW = splitRefund({ pre: [].filter.call(W.childNodes, (function(e) {
         return !(1 === e.nodeType && /^(STYLE|SCRIPT)$/.test(e.tagName));
@@ -308,6 +324,8 @@ SFUI.register('productView', function() {
         })).join("") + "</dl>");
         ee += sec("sf-pv-teacher", TH, '<div class="sf-pv-teacher sf-pv-teacher--s"><span class="sf-pv-teacher__photo" aria-hidden="true"></span><div><strong>' + oe(w.host.name) + "</strong><p>" + oe(w.host.bio) + "</p></div></div>");
       }
+      // (10/29) 예시 상품: 하단 공통 [운영 정책]·[환불 규정]을 맨 앞에, 예시 '환불 규정'은 빼요
+      CF.length && (FQ = CF.concat(FQ.filter((function(e) { return "환불 규정" !== e.q; }))));
       Y.push([ "sf-pv-review", "후기" ]), ee += ue();
       // (10/27 v2) 후기 아래 '더 알아보기'(탭 없음): 운영 정책 · 환불 규정 제목을 누르면 펼쳐져요. 상품 문의 게시판은 빼요
       J && (J.hidden = !0);
