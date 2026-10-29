@@ -312,9 +312,17 @@
                   n && (n.innerHTML = '<span class="sf-tags"><span class="sf-tag sf-tag--' + (SFUI.isEvent(b.kind) ? "event" : "meet") + '">' + sq(b.kind || "모임") + '</span><span class="sf-tag sf-tag--' + l2[0] + '">' + l2[1] + "</span></span>");
                   d.innerHTML = (b.date ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>' + b.date + "</span>" : "") + (b.place ? '<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>' + sq(b.place) + "</span>" : "");
                   // 날짜가 생겼으니 목록 순서(모집 중 가까운 날짜 → 마감 최근 순)도 다시
-                  var g0 = t.parentElement, cs = g0 ? [].slice.call(g0.children).filter(function(x) { return x.matches && x.matches("li.iw-shop-card"); }) : [], st0 = function(x) { return Date.parse(x.getAttribute("data-start") || "") || 9e15; };
-                  cs.filter(function(x) { return "closed" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st0(x) - st0(y); })
-                    .concat(cs.filter(function(x) { return "closed" === x.getAttribute("data-status"); }).sort(function(x, y) { return st0(y) - st0(x); })).forEach(function(x) { g0.appendChild(x); });
+                  //   아임웹이 목록을 다시 그리면 원래 순서로 되돌려요 → 칸을 지켜보다 순서가 다르면 다시 맞춰요(같으면 손대지 않아 반복되지 않아요)
+                  var g0 = t.parentElement, so = function() {
+                    var cs = [].slice.call(g0.children).filter(function(x) { return x.matches && x.matches("li.iw-shop-card"); }), st0 = function(x) { return Date.parse(x.getAttribute("data-start") || "") || 9e15; };
+                    var want = cs.filter(function(x) { return "closed" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st0(x) - st0(y); })
+                      .concat(cs.filter(function(x) { return "closed" === x.getAttribute("data-status"); }).sort(function(x, y) { return st0(y) - st0(x); }));
+                    want.some(function(x, k) { return x !== cs[k]; }) && want.forEach(function(x) { g0.appendChild(x); });
+                  };
+                  if (g0) {
+                    so();
+                    g0.__sfSort || (g0.__sfSort = 1, new MutationObserver((function() { requestAnimationFrame(so); })).observe(g0, { childList: !0 }));
+                  }
                   var hs = t.getRootNode && t.getRootNode().host;
                   hs && SFUI.__shopFilter && SFUI.__shopFilter(hs);
                 }
