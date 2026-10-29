@@ -211,7 +211,8 @@
     }
     var started = false;
     function start() {
-      if (started || !el('prod_options') || !el('prod_additional')) return false;
+      // 옵션 칸과, 그 뒤 칸(추가 상품 칸 — 없는 상품은 합계 칸)까지 그려졌을 때 시작
+      if (started || !el('prod_options') || !(el('prod_additional') || document.querySelector('.goods_form_wrap .goods_payment'))) return false;
       started = true;
       if (c) { fillAdd(c); fillOpt(c); } else p.then(function (v) { fillAdd(v); fillOpt(v); });
       return true;
