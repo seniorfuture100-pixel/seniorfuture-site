@@ -93,7 +93,7 @@
         // (10/29) 아임웹은 누르는 즉시 선택 줄·합계를 바꿔요 → 카드 체크도 바로(0초) 고치고, 늦게 다시 그려질 때를 대비해 한 번 더 확인
         if (row) {
           var x = row.querySelector('a[class*="absolute"], button[class*="absolute"], [class*="delete"], [class*="remove"]');
-          if (x) { x.click(); mark(form); setTimeout(function () { mark(form); }, 150); return; }
+          if (x) { var st1 = stepsNow(form); x.click(); mark(form); setTimeout(function () { mark(form); }, 150); restoreSteps(form, st1, 0); return; }
           row.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); row.classList.add('is-flash'); setTimeout(function () { row.classList.remove('is-flash'); }, 700); return;
         }
         // (10/29) 미리 그린 옵션(아래 pre)일 때는 아임웹 진짜 옵션이 올 때까지 기다렸다가 대신 눌러요
