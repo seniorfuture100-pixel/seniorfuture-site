@@ -129,8 +129,9 @@
     } finally { busy = false; }
     if (!form.getAttribute('data-r3-opt')) {
       form.setAttribute('data-r3-opt', '1');
-      // (10/29) 다시 그리기 대기 60ms → 다음 화면 그리기 직전(requestAnimationFrame)으로 당겨서 카드가 사라졌다 생기는 틈을 줄여요
-      new MutationObserver(function () { if (busy) return; clearTimeout(timer); timer = setTimeout(run, 0); }).observe(form, { childList: true, subtree: true });
+      // (10/29) 수량 −/+ 를 누르면 아임웹이 선택 줄을 지웠다 새로 그려요. 기다렸다 고치면 디자인 없는 줄이 한 번 그려져 합계 칸이 위아래로 튀어요
+      //   → 바뀐 즉시(화면에 그리기 전) 바로 고치고, 늦게 끝나는 다시 그리기를 대비해 한 번 더
+      new MutationObserver(function () { if (busy) return; run(); clearTimeout(timer); timer = setTimeout(run, 60); }).observe(form, { childList: true, subtree: true });
     }
   }
   if (window.SFUI && SFUI.register) SFUI.register('r3Options', function () { run(); setTimeout(run, 800); setTimeout(run, 2000); });
