@@ -20,15 +20,14 @@
   var m = /^(live|meet|course)\|(\d+)$/.exec(v) || /^()(\d+)$/.exec(v); // 예전 표시(시각만)는 라이브
   var kind = m && Date.now() - +m[2] < 7200000 ? (m[1] || 'live') : 'order';
   var room = '/shop_mypage/?sf=room';
-  // (10/29) 버튼은 모든 종류 같게: 나의 강의실(주황) / 홈으로 · 결제 내역
-  var BT = { main: ['나의 강의실', room], sub: [['홈으로', '/'], ['결제 내역', '/shop_mypage/?m2=order']] };
+  // (10/29) 버튼은 모든 종류 같게 두 개: 홈으로 | 마이페이지(주황 → 나의 강의실 탭: 강의·라이브·모임이 모두 카드로 나와요)
+  //   톡방은 상품에 [톡방]이 있을 때만 생겨서 문구에 약속하지 않아요
   var C = {
-    live: { h: '신청이 완료됐어요!', p: '강의 안내와 입장 링크는 나의 강의실과 오픈채팅방에서 드려요.<br>시작 전에 꼭 확인해 주세요!' },
-    course: { h: '수강 신청이 완료됐어요!', p: '나의 강의실에서 수강 기간과 강의실을 확인할 수 있어요.<br>자료와 소식은 강의 톡방에서 안내드려요.' },
-    meet: { h: '참여 신청이 완료됐어요!', p: '모임 일시와 장소는 나의 강의실과 모임 정보에서 확인할 수 있어요.' },
-    order: { h: '주문이 완료됐어요!', p: '주문 내역은 마이페이지 › 결제 내역에서 확인할 수 있어요.' }
+    live: { h: '신청이 완료됐어요!', p: '마이페이지에서 일시와 라이브 정보를 확인할 수 있어요.' },
+    course: { h: '수강 신청이 완료됐어요!', p: '마이페이지에서 수강 기간과 강의실을 확인할 수 있어요.' },
+    meet: { h: '참여 신청이 완료됐어요!', p: '마이페이지에서 일시와 모임 정보를 확인할 수 있어요.' },
+    order: { h: '주문이 완료됐어요!', p: '마이페이지에서 주문 내역을 확인할 수 있어요.' }
   }[kind];
-  C.main = BT.main; C.sub = BT.sub;
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
   var clean = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
   // 아임웹 완료 화면의 '이름 · 값' 줄 읽기(주문번호 · 결제정보 · 결제금액)
@@ -49,8 +48,7 @@
     c.innerHTML = '<span class="sf-done-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' +
       '<h1 id="sf-done-h">' + C.h + '</h1><p>' + C.p + '</p>' +
       (rows.length ? '<dl class="sf-done-info">' + rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' : '') +
-      '<a class="sf-done-main" href="' + C.main[1] + '">' + C.main[0] + ' <span aria-hidden="true">→</span></a>' +
-      '<div class="sf-done-sub">' + C.sub.map(function (s) { return '<a href="' + s[1] + '">' + s[0] + '</a>'; }).join('') + '</div>';
+      '<div class="sf-done-btns"><a class="sf-done-home" href="/">홈으로</a><a class="sf-done-main" href="' + room + '">마이페이지</a></div>';
     host.parentNode.insertBefore(c, host);
     document.documentElement.classList.add('sf-done-on');
     return true;

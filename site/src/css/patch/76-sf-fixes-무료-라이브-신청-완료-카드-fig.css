@@ -77,6 +77,35 @@ html body .sf-done-info dd {
   font-weight:600;
   text-align:right;
 }
+/* (10/29) 버튼 두 개 한 줄: 홈으로(테두리) | 마이페이지(주황) */
+html body .sf-done-btns {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+html body .sf-done-home {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:56px;
+  border:1px solid var(--sf-border-strong);
+  border-radius:999px;
+  color:var(--sf-text)!important;
+  font-size:17px;
+  font-weight:700;
+  text-decoration:none;
+  transition:border-color .2s var(--sf-ease),background .2s var(--sf-ease);
+}
+html body .sf-done-home:hover {
+  border-color:var(--sf-text);
+  background:var(--sf-surface);
+}
+@media (max-width:767.98px) {
+  html body .sf-done-home {
+    height:52px;
+    font-size:16px;
+  }
+}
 html body .sf-done-main,
 html body .sf-done-sub a {
   display:flex;
