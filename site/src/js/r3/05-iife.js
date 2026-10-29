@@ -226,7 +226,10 @@
   // 목록에서 상품에 마우스를 올리거나 손가락을 대면 그 상품 옵션을 미리 받아 둬요(상품마다 한 번)
   ['pointerover', 'touchstart'].forEach(function (ev) {
     document.addEventListener(ev, function (e) {
-      var a = e.target && e.target.closest && e.target.closest('a[href*="idx="]'), h = a && a.getAttribute('href');
+      // 목록 카드는 위젯 안(shadow DOM)에 있어서 e.target 으로는 안 보여요 → 이벤트 경로에서 링크를 찾아요
+      var path = e.composedPath ? e.composedPath() : [e.target], a = null;
+      for (var i = 0; i < path.length && !a; i++) if (path[i].tagName === 'A' && /idx=/.test(path[i].getAttribute('href') || '')) a = path[i];
+      var h = a && a.getAttribute('href');
       var idx = h && isProd(h.replace(/^https?:\/\/[^/]+/, '')) && idxOf(h);
       idx && !optGet(idx) && optFetch(idx);
     }, { passive: true, capture: true });
