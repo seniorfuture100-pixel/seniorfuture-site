@@ -76,6 +76,8 @@
           if (x) { x.click(); mark(form); setTimeout(function () { mark(form); }, 150); return; }
           row.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); row.classList.add('is-flash'); setTimeout(function () { row.classList.remove('is-flash'); }, 700); return;
         }
+        // (10/29) 미리 그린 옵션(아래 pre)일 때는 아임웹 진짜 옵션이 올 때까지 기다렸다가 대신 눌러요
+        if (it.el.closest('[data-sf-pre]')) { b.classList.add('is-on'); b.setAttribute('aria-pressed', 'true'); pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
         g.pick(it);
         mark(form, groups);
         setTimeout(function () { mark(form, groups); }, 120);
@@ -118,7 +120,7 @@
   }
 
   // 아임웹은 옵션을 고를 때마다 옵션 영역을 새로 그려요 → 카드가 사라지면 다시 만들고, 남아 있으면 표시만 고쳐요
-  var busy = false, timer = 0;
+  var busy = false, timer = 0, pending = null;
   function run() {
     var form = document.querySelector('.goods_form_wrap, [data-r3-goods]');
     if (!form || busy) return;
@@ -126,6 +128,14 @@
     try {
       enhance(form);
       mark(form);
+      // 미리 그린 옵션에서 누른 카드가 있으면, 진짜 옵션이 들어온 뒤 그 카드를 대신 눌러요
+      if (pending && !form.querySelector('[data-sf-pre]')) {
+        var p = pending; pending = null;
+        var card = $$('.r3-opt', form).filter(function (w) { return w.getAttribute('data-lb') === p.lb; }).map(function (w) {
+          return $$('.r3-opt__card', w).filter(function (c) { return clean(c.querySelector('.r3-opt__name').textContent) === p.name; })[0];
+        })[0];
+        card && setTimeout(function () { card.click(); }, 0);
+      }
     } finally { busy = false; }
     if (!form.getAttribute('data-r3-opt')) {
       form.setAttribute('data-r3-opt', '1');
@@ -134,6 +144,49 @@
       new MutationObserver(function () { if (busy) return; run(); clearTimeout(timer); timer = setTimeout(run, 60); }).observe(form, { childList: true, subtree: true });
     }
   }
+  // (10/29) 옵션 미리 그리기 — 아임웹은 상품 화면이 그려진 뒤에야 옵션을 따로 받아 와서(약 0.4초) 옵션 칸이 비었다가 카드가 생기며 아래가 밀려요
+  //   → 같은 옵션 정보(/shop/load_option.cm, 읽기 전용)를 우리가 먼저(또는 목록에서 상품에 손가락·마우스를 올릴 때) 받아 두고,
+  //     옵션 칸이 생기는 즉시 그 내용으로 카드를 그려요. 아임웹 진짜 옵션이 오면 같은 모양으로 바꿔 끼워서 화면이 움직이지 않아요.
+  //   결제·선택은 언제나 아임웹 진짜 옵션으로만 해요(미리 그린 동안 누른 카드는 진짜가 오면 대신 눌러요).
+  var OPT_TTL = 10 * 60 * 1000, optReq = {};
+  function optKey(idx) { return 'sf_opt_' + idx; }
+  function optGet(idx) { try { var o = JSON.parse(sessionStorage.getItem(optKey(idx)) || 'null'); return o && Date.now() - o.at < OPT_TTL ? o.html : null; } catch (e) { return null; } }
+  function optFetch(idx) {
+    if (!idx || optReq[idx]) return optReq[idx];
+    var body = new URLSearchParams({ type: 'prod', prod_idx: idx });
+    optReq[idx] = fetch('/shop/load_option.cm', { method: 'POST', body: body, credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function (r) { return r.json(); })
+      .then(function (r) { if (r && r.msg === 'SUCCESS' && r.option_html) { try { sessionStorage.setItem(optKey(idx), JSON.stringify({ at: Date.now(), html: r.option_html })); } catch (e) {} return r.option_html; } })
+      .catch(function () {});
+    return optReq[idx];
+  }
+  function idxOf(href) { var m = /[?&]idx=(\d+)/.exec(href || ''); return m && m[1]; }
+  function prefill(sel, html) {
+    if (!sel || !html || sel.children.length) return; // 아임웹이 이미 채웠으면 손대지 않아요
+    sel.innerHTML = html;
+    $$(':scope > *', sel).forEach(function (n) { n.setAttribute('data-sf-pre', '1'); });
+    run();
+  }
+  (function () {
+    if (!/\/shop_view/.test(location.pathname)) return;
+    var idx = idxOf(location.search); if (!idx) return;
+    var html = optGet(idx), done = false;
+    var p = html ? null : optFetch(idx);
+    function find() { return document.querySelector('.goods_form_wrap .goods_select'); }
+    function tryFill() { var s = find(); if (!s || done) return !!s; done = true; if (html) prefill(s, html); else p && p.then(function (h) { prefill(find(), h); }); return true; }
+    if (tryFill()) return;
+    var mo = new MutationObserver(function () { if (tryFill()) mo.disconnect(); });
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+    setTimeout(function () { mo.disconnect(); }, 8000);
+  })();
+  // 목록에서 상품에 마우스를 올리거나 손가락을 대면 그 상품 옵션을 미리 받아 둬요(상품마다 한 번)
+  ['pointerover', 'touchstart'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      var a = e.target && e.target.closest && e.target.closest('a[href*="shop_view"]');
+      var idx = a && idxOf(a.getAttribute('href'));
+      idx && !optGet(idx) && optFetch(idx);
+    }, { passive: true, capture: true });
+  });
   if (window.SFUI && SFUI.register) SFUI.register('r3Options', function () { run(); setTimeout(run, 800); setTimeout(run, 2000); });
   else if (document.readyState !== 'loading') run(); else document.addEventListener('DOMContentLoaded', run);
 })()
