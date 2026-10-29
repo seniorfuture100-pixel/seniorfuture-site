@@ -383,7 +383,8 @@ SFUI.register('productView', function() {
       function progBox(list) {
         var PI = SFUI.progItems(list), desc = PI.desc, items = PI.items;
         if (!items.length) return null;
-        var h2 = '<div class="sf-pv-sechead"><div><h2>프로그램</h2></div></div>' + (desc.length ? '<p class="sf-pv-sub sf-pv-progsub">' + desc.map(oe).join("<br>") + "</p>" : "") + '<div class="sf-pv-chapters sf-pv-chapters--own" data-sf-accordion>' + items.map((function(e, s) {
+        // (10/29) 설명 줄을 제목 칸 안에 넣어 '수강생 후기'와 같은 간격(제목 → 설명 6px, 설명 → 목록 20px)
+        var h2 = '<div class="sf-pv-sechead"><div><h2>프로그램</h2>' + (desc.length ? '<p class="sf-pv-sub sf-pv-progsub">' + desc.map(oe).join("<br>") + "</p>" : "") + '</div></div><div class="sf-pv-chapters sf-pv-chapters--own" data-sf-accordion>' + items.map((function(e, s) {
           return '<div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회차</b><span>" + oe(e.t) + "</span>" + (e.m ? "<em>" + oe(e.m) + "</em>" : "") + "</button><div data-sf-acc-panel>" + (e.d.length ? '<ul class="sf-pv-chdet">' + e.d.map((function(d) {
             return d.u ? '<li class="is-link"><a href="' + oe(d.u) + '"' + (/^https?:/.test(d.u) && d.u.indexOf(location.host) < 0 ? ' target="_blank" rel="noopener"' : "") + "><span>" + oe(d.x) + "</span><em>미리보기</em></a></li>" : "<li>" + oe(d.x) + "</li>";
           })).join("") + "</ul>" : "") + "</div></div>";

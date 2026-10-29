@@ -70,12 +70,14 @@
         var it = g.items[+b.getAttribute('data-i')], name = it.nm || parse(it.t).name;
         var row = findRow(form, name, wrap.getAttribute('data-lb'));
         // 이미 고른 카드를 다시 누르면 체크 해제 = 그 줄의 삭제(×) 버튼을 대신 눌러요
+        // (10/29) 아임웹은 누르는 즉시 선택 줄·합계를 바꿔요 → 카드 체크도 바로(0초) 고치고, 늦게 다시 그려질 때를 대비해 한 번 더 확인
         if (row) {
           var x = row.querySelector('a[class*="absolute"], button[class*="absolute"], [class*="delete"], [class*="remove"]');
-          if (x) { x.click(); setTimeout(function () { mark(form); }, 150); return; }
+          if (x) { x.click(); mark(form); setTimeout(function () { mark(form); }, 150); return; }
           row.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); row.classList.add('is-flash'); setTimeout(function () { row.classList.remove('is-flash'); }, 700); return;
         }
         g.pick(it);
+        mark(form, groups);
         setTimeout(function () { mark(form, groups); }, 120);
       });
     });
@@ -127,7 +129,8 @@
     } finally { busy = false; }
     if (!form.getAttribute('data-r3-opt')) {
       form.setAttribute('data-r3-opt', '1');
-      new MutationObserver(function () { if (busy) return; clearTimeout(timer); timer = setTimeout(run, 60); }).observe(form, { childList: true, subtree: true });
+      // (10/29) 다시 그리기 대기 60ms → 다음 화면 그리기 직전(requestAnimationFrame)으로 당겨서 카드가 사라졌다 생기는 틈을 줄여요
+      new MutationObserver(function () { if (busy) return; clearTimeout(timer); timer = setTimeout(run, 0); }).observe(form, { childList: true, subtree: true });
     }
   }
   if (window.SFUI && SFUI.register) SFUI.register('r3Options', function () { run(); setTimeout(run, 800); setTimeout(run, 2000); });

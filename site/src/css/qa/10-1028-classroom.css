@@ -77,6 +77,20 @@
 :root body .sf-pv-chdet li {
   color:var(--sf-text)!important;
 }
+/* (10/29) 프로그램·강사 칸 간격을 '수강생 후기'와 같게: 제목 → 내용 20px, 칸 끝 빈 줄 없애기 */
+:root body .sf-pv-sechead .sf-pv-progsub {
+  margin:0!important;
+}
+:root body .sf-pv-sechead + .sf-pv-ownbody {
+  margin-top:0!important;
+}
+:root body .sf-pv-ownbody > p:has(> br:only-child),
+:root body .sf-pv-ownbody > p:empty {
+  display:none;
+}
+:root body .sf-pv-ownbody > :last-child {
+  margin-bottom:0;
+}
 /* (10/29) 상품 상세 '더 알아보기'(하단 공통) 안 링크('여기'·'1:1 문의') — 밑줄 없이 색으로만 */
 :root body .sf-pv-more2 [data-sf-acc-panel] a {
   color:var(--sf-text-brand)!important;
