@@ -7,6 +7,63 @@
 :root body .r3-od>.r3-od__hide {
   display:none!important;
 }
+/* (10/29) 주문 상세 — 디자인 기준(사이트 글꼴 · 글자색 3단계 · 주황 꼬리표 · 8px 버튼)으로 정리
+   아임웹 기본 색(#15181e·투명도 70%·순검정·파란 상태 글자)이 섞여 있던 것을 사이트 색으로 */
+:root body .r3-od,
+:root body .r3-od * {
+  font-family:var(--sf-font)!important;
+}
+:root body .r3-od>.r3-od__sec,
+:root body .r3-od>.r3-od__sec *:not(.r3-od__status):not(.r3-od__meta):not(.r3-od__opt):not(.r3-od__lab) {
+  color:var(--sf-text)!important;
+}
+:root body .r3-od .r3-od__title {
+  color:var(--sf-text)!important;
+  font:700 28px/1.3 var(--sf-font)!important;
+  letter-spacing:-.04em;
+}
+:root body .r3-od .r3-od__t.r3-od__t {
+  font-size:18px!important;
+  font-weight:700!important;
+}
+:root body .r3-od .r3-od__meta {
+  color:var(--sf-text-3)!important;
+  font-size:14px!important;
+}
+:root body .r3-od .r3-od__opt,
+:root body .r3-od .r3-od__lab {
+  color:var(--sf-text-2)!important;
+}
+:root body .r3-od .r3-od__status {
+  display:inline-flex;
+  align-items:center;
+  padding:4px 10px;
+  border-radius:999px;
+  background:var(--sf-brand-tint);
+  color:var(--sf-text-brand)!important;
+  font:700 13px/1.4 var(--sf-font)!important;
+}
+:root body .r3-od .r3-od__btn {
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:0 16px!important;
+  border:1px solid var(--sf-border-strong)!important;
+  border-radius:var(--sf-radius-md)!important;
+  background:#fff!important;
+  color:var(--sf-text)!important;
+  font:600 14px/1 var(--sf-font)!important;
+  text-decoration:none!important;
+}
+:root body .r3-od .r3-od__btn:hover {
+  border-color:var(--sf-text)!important;
+}
+@media (max-width:767.98px) {
+  :root body .r3-od .r3-od__title {
+    font-size:22px!important;
+  }
+}
 :root body .r3-od>.r3-od__sec {
   margin:0!important;
   border-radius:0!important;

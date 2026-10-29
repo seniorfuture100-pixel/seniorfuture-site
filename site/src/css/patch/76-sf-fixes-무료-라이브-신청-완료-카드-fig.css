@@ -47,6 +47,36 @@ html body .sf-done p {
   font-size:16px;
   line-height:1.6;
 }
+/* (10/29) 제목이 아임웹 제목 글꼴(imweb Sans English)로 나오던 것 → 사이트 글꼴 */
+html body .sf-done h1 {
+  font-family:var(--sf-font)!important;
+}
+/* (10/29) 주문번호 · 결제 금액 (아임웹 기본 완료 화면에서 옮겨 온 값) */
+html body .sf-done-info {
+  margin:0 0 28px;
+  padding:16px 20px;
+  border-radius:var(--sf-radius-lg);
+  background:var(--sf-surface);
+  text-align:left;
+}
+html body .sf-done-info > div {
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:4px 0;
+  font-size:15px;
+  line-height:1.6;
+}
+html body .sf-done-info dt {
+  color:var(--sf-text-2);
+  font-weight:400;
+}
+html body .sf-done-info dd {
+  margin:0;
+  color:var(--sf-text);
+  font-weight:600;
+  text-align:right;
+}
 html body .sf-done-main,
 html body .sf-done-sub a {
   display:flex;

@@ -1168,6 +1168,20 @@
             })), s.children[0] && s.children[0].classList.add("r3-od__head"), a(".r3-od__sec *", s).forEach((function(t) {
               !t.children.length && /^(주문자|배송지|결제정보|결제 정보|주문 상품)$/.test(t.textContent.trim()) && t.classList.add("r3-od__t");
             }));
+            // (10/29) 디자인 기준에 맞춰 역할 표시 → CSS(r3/23): 제목 28px · 날짜 연한 회색 · 상태 꼬리표(주황) · 옵션 회색 · 금액 이름 회색 · 버튼 모양 통일
+            a(".r3-od *", s).forEach((function(t) {
+              if (t.children.length) return;
+              var x = t.textContent.replace(/\s+/g, " ").trim();
+              "주문 상세 내역" === x && t.classList.add("r3-od__title");
+              /^\d{4}[-.]\d{2}[-.]\d{2}$/.test(x) && t.classList.add("r3-od__meta");
+              /^(접수 완료|결제 완료|결제완료|입금 대기|입금대기|상품준비|구매 확정|구매확정|배송\S*|취소\S*|환불\S*|반품\S*|교환\S*)$/.test(x) && !t.closest("a[href*=cancel], button") && t.classList.add("r3-od__status");
+              /:$/.test(x) && (t.classList.add("r3-od__opt"), t.nextElementSibling && t.nextElementSibling.classList.add("r3-od__opt"));
+              /^(상품금액|상품 금액|배송비|할인 금액|쿠폰 할인|적립금 사용|포인트 사용)$/.test(x) && t.classList.add("r3-od__lab");
+              /\(결제\s*완료\)$|\(입금\s*대기\)$/.test(x) && t.classList.add("r3-od__lab");
+            }));
+            a("a, button", s).forEach((function(t) {
+              /^(취소|거래명세서 출력|영수증|반품|교환)/.test(t.textContent.replace(/\s+/g, " ").trim()) && t.classList.add("r3-od__btn");
+            }));
           }
         }
       }();
