@@ -29,10 +29,17 @@
       var menu = tg.parentElement && tg.parentElement.querySelector('.dropdown-menu');
       if (!menu || tg.closest('.r3-opt-src')) return;
       // 필수 옵션: .dropdown-item > a._requireOption / 선택(추가) 옵션: .dropdown-item > div.tabled[onclick] > … > a
-      var items = $$('.dropdown-item', menu).map(function (di) { return di.querySelector(':scope > a, :scope > button') || di.querySelector('[onclick]') || di.querySelector('a'); })
+      var all = $$('.dropdown-item', menu).map(function (di) { return di.querySelector(':scope > a, :scope > button') || di.querySelector('[onclick]') || di.querySelector('a'); })
         .concat($$('li > a, li > button', menu))
         .filter(function (a) { return a && clean(a.textContent) && !/^(선택|옵션 선택)/.test(clean(a.textContent)); });
-      if (items.length) groups.push({ label: clean(tg.textContent) || '옵션 선택', box: tg.parentElement, items: items.map(function (a) {
+      // (10/29) 필수 옵션이 2단계 이상(예: 수강 형태 × 기수)이면 아임웹이 뒤 단계에 '○○ 옵션을 선택해주세요.' 안내만 넣어 둬요 → 카드로 만들지 않고 안내 글로
+      var items = all.filter(function (a) { return !/선택해\s*주세요/.test(clean(a.textContent)); });
+      // 그룹 이름은 옵션 제목(.option_title)에서 — 앞 단계를 고르면 아임웹이 드롭다운 글자를 고른 값으로 바꿔서, 그걸 쓰면 제목이 '온라인 라이브'처럼 바뀌어요
+      var ot = tg.parentElement.previousElementSibling;
+      while (ot && ot.classList.contains('r3-opt')) ot = ot.previousElementSibling;
+      var title = ot && ot.classList.contains('option_title') ? clean(ot.textContent).replace(/\s*\*\s*$/, '') : '';
+      var req = !!menu.querySelector('._requireOption');
+      if (items.length || all.length) groups.push({ label: title ? title + (req ? '' : ' (선택)') : clean(tg.textContent) || '옵션 선택', req: req, wait: !items.length && all.length ? clean(all[0].textContent) : '', box: tg.parentElement, items: items.map(function (a) {
         var nm = a.querySelector('span'), pr = a.querySelector('strong');
         return { el: a, t: a.textContent, name: nm ? clean(nm.textContent) : '', price: pr ? clean(pr.textContent) : '' };
       }), pick: function (it) { it.el.click(); } });
@@ -44,15 +51,20 @@
       if (opts.length) groups.push({ label: clean(sel.options[0] && sel.options[0].text) || '옵션 선택', box: sel, items: opts.map(function (o) { return { el: o, t: o.text }; }), pick: function (it) { sel.value = it.el.value; sel.dispatchEvent(new Event('change', { bubbles: true })); } });
     });
     if (!groups.length) return false;
+    // (10/29) 필수 옵션 단계: 마지막 필수 그룹 앞의 필수 그룹들은 '먼저 하나 고르는' 단계예요(골라도 선택 줄이 생기지 않음)
+    var reqs = groups.filter(function (g) { return g.req; });
+    reqs.slice(0, -1).forEach(function (g) { g.step = true; });
     groups.forEach(function (g, gi) {
       if (g.box.previousElementSibling && g.box.previousElementSibling.classList.contains('r3-opt')) return;
       var wrap = document.createElement('div');
       wrap.className = 'r3-opt'; wrap.setAttribute('role', 'group');
       var lb = g.label.replace(/\s*[(（]\s*(필수|선택)\s*[)）]\s*$/, '');
       wrap.setAttribute('data-lb', clean(lb)); // (10/29) 선택 줄 '그룹명: 옵션명'과 맞춰 볼 때 써요
+      g.step && wrap.setAttribute('data-step', '');
       var opt = /\(\s*선택\s*\)\s*$/.test(g.label);
       var head = /^(옵션\s*)?선택$/.test(lb) || !lb ? '수강 옵션 선택' : lb;
-      wrap.innerHTML = '<p class="r3-opt__h">' + txt(head) + '<small>' + (opt ? '필요하면 추가로 골라요' : '여러 개 고를 수 있어요') + '</small></p>' +
+      wrap.innerHTML = '<p class="r3-opt__h">' + txt(head) + '<small>' + (g.step ? '하나 골라요' : opt ? '필요하면 추가로 골라요' : '여러 개 고를 수 있어요') + '</small></p>' +
+        (g.wait ? '<p class="r3-opt__wait">' + txt(g.wait.replace(/선택해\s*주세요\.?/, '먼저 골라 주세요')) + '</p>' : '') +
         g.items.map(function (it, i) {
           var p = parse(it.t), so = soldOut(it.t) || it.el.disabled || /disabled|soldout/.test((it.el.parentElement && it.el.parentElement.className) || '');
           if (it.name) p.name = clean(it.name.replace(/\s*[\[［(（]\s*(품절|마감|sold\s*out)\s*[\]］)）]\s*/ig, ' '));
@@ -68,6 +80,13 @@
       wrap.addEventListener('click', function (e) {
         var b = e.target.closest('.r3-opt__card'); if (!b || b.disabled) return;
         var it = g.items[+b.getAttribute('data-i')], name = it.nm || parse(it.t).name;
+        // 앞 단계 카드: 고르기만 해요(이미 고른 값이면 그대로). 아임웹이 다음 단계 목록을 채워 다시 그려요
+        if (g.step) {
+          if (b.classList.contains('is-on')) return;
+          $$('.r3-opt__card', wrap).forEach(function (c) { c.classList.toggle('is-on', c === b); c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+          if (it.el.closest('[data-sf-pre]')) { pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
+          g.pick(it); return;
+        }
         var row = findRow(form, name, wrap.getAttribute('data-lb'));
         // 이미 고른 카드를 다시 누르면 체크 해제 = 그 줄의 삭제(×) 버튼을 대신 눌러요
         // (10/29) 아임웹은 누르는 즉시 선택 줄·합계를 바꿔요 → 카드 체크도 바로(0초) 고치고, 늦게 다시 그려질 때를 대비해 한 번 더 확인
@@ -97,21 +116,41 @@
   }
   // (10/29) 선택 줄 글 = '그룹명: 옵션명 9,900원' → 그룹명까지 맞춰 봐요
   //   (예전엔 이름이 들어 있기만 하면 같다고 봐서, 그룹명 '1:1컨설팅'과 다른 그룹의 옵션 '1:1컨설팅'이 섞였어요)
-  function same(t, name, lb) {
+  //   (10/29) 조합 옵션 줄은 '수강 형태: 오프라인 / 기수: 11월반 30,000원' → ' / '로 나눠 그룹마다 맞춰 보고, 앞 단계에서 지금 고른 값과 같은 줄만 봐요
+  var lbEq = function (a, b) { return a === b || a.indexOf(b) === 0 || b.indexOf(a) === 0; };
+  function same(t, name, lb, steps) {
     var i = t.indexOf(': ');
     if (i < 0) return t.indexOf(name) >= 0;
-    var L = clean(t.slice(0, i)), R = clean(t.slice(i + 2));
-    return (!lb || L === lb || L.indexOf(lb) === 0 || lb.indexOf(L) === 0) && R.indexOf(name) === 0;
+    var map = {}, keys = [];
+    t.split(' / ').forEach(function (p) { var j = p.indexOf(': '); if (j > 0) { var k = clean(p.slice(0, j)); map[k] = clean(p.slice(j + 2)); keys.push(k); } });
+    var key = lb ? keys.filter(function (k) { return lbEq(k, lb); })[0] : keys[0];
+    if (!key || map[key].indexOf(name) !== 0) return false;
+    for (var s in steps || {}) {
+      var sk = keys.filter(function (k) { return lbEq(k, s); })[0];
+      if (sk && sk !== key && steps[s] && map[sk].indexOf(steps[s]) !== 0) return false;
+    }
+    return true;
   }
-  function findRow(form, name, lb) { return rows(form).filter(function (r) { return same(clean(r.textContent), name, lb); })[0]; }
+  // 앞 단계 그룹마다 지금 고른 값: 아임웹 드롭다운 글자가 그룹 이름이 아니라 값으로 바뀌어 있어요
+  function stepsNow(form) {
+    var o = {};
+    $$('.r3-opt[data-step]', form).forEach(function (w) {
+      var src = w.nextElementSibling, tg = src && src.querySelector('.dropdown-toggle'), v = tg ? clean(tg.textContent) : '';
+      var lb = w.getAttribute('data-lb');
+      o[lb] = v && !/[(（]\s*필수\s*[)）]/.test(v) && !lbEq(v, lb) ? v : '';
+    });
+    return o;
+  }
+  function findRow(form, name, lb) { var st = stepsNow(form); return rows(form).filter(function (r) { return same(clean(r.textContent), name, lb, st); })[0]; }
   function mark(form, groups) {
     var rs = rows(form);
     rs.forEach(function (r) { r.classList.add('r3-optrow'); });
     var names = rs.map(function (r) { return clean(r.textContent); });
-    var cards = $$('.r3-opt__card', form);
+    var cards = $$('.r3-opt__card', form), st = stepsNow(form);
     cards.forEach(function (b) {
-      var nm = clean(b.querySelector('.r3-opt__name').textContent), w = b.closest('.r3-opt');
-      var on = names.some(function (t) { return same(t, nm, w && w.getAttribute('data-lb')); });
+      var nm = clean(b.querySelector('.r3-opt__name').textContent), w = b.closest('.r3-opt'), lb = w && w.getAttribute('data-lb');
+      var on = w && w.hasAttribute('data-step') ? !!st[lb] && st[lb].indexOf(nm) === 0
+        : names.some(function (t) { return same(t, nm, lb, st); });
       b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     form.classList.toggle('r3-has-rows', rs.length > 0);
