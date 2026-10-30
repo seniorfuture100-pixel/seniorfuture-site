@@ -872,7 +872,7 @@
           var li = its.map((function(it, i) {
             var no = i + 1, u = V[no], ok = u && "end" !== st;
             ok && on++;
-            return '<li class="sf-room__it' + (ok ? " is-on" : "") + '"><span class="sf-room__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M10 8.3v7.4l5.6-3.7z"/></svg></span><div class="sf-room__tx"><p><b>' + no + "회차</b>" + r(it.t) + "</p>" + (it.m ? "<small>" + r(it.m) + "</small>" : "") + (it.d.length ? "<ul>" + it.d.map((function(d) {
+            return '<li class="sf-room__it' + (ok ? " is-on" : "") + '"><span class="sf-room__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M10 8.3v7.4l5.6-3.7z"/></svg></span><div class="sf-room__tx"><p><b>' + no + (it.u || "회차") + "</b>" + r(it.t) + "</p>" + (it.m ? "<small>" + r(it.m) + "</small>" : "") + (it.d.length ? "<ul>" + it.d.map((function(d) {
               return "<li>" + r(d.x) + "</li>";
             })).join("") + "</ul>" : "") + "</div>" + (ok ? '<button type="button" class="sf-btn sf-btn--primary sf-room__go" data-no="' + no + '">바로보기</button>' : '<span class="sf-room__soon">' + (u ? "기간 종료" : "공개 예정") + "</span>") + "</li>";
           }));

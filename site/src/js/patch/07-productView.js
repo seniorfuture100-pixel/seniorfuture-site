@@ -16,7 +16,8 @@
 //   상품 상세 회차 목록(progBox)과 강의실(r3Room)이 같이 써요
 //   첫 줄들(예: 총 6회 · 회당 90분 · 온라인) = 설명 / '1회차 제목 (90분)' 또는 '# 제목 | 90분' = 한 회차 / '- 세부' = 그 회차 안 내용
 SFUI.progItems = function(list) {
-  var HR = /^#\s*(.+)$/, LR = /^(\d+)\s*(?:회차?\s*[·.:：\-)]|회차)\s*(.+?)(?:\s*[\(（]\s*(\d+\s*분)\s*[\)）])?$/, DR = /^[-–•]\s*/, UR = /(https?:\/\/[^\s<>"]+)/;
+  // (10/30) VOD 는 '1강 제목'으로도 써요 → 회차로 읽고 화면도 '1강'
+  var HR = /^#\s*(.+)$/, LR = /^(\d+)\s*(?:(회차?|강)\s*[·.:：\-)]|(회차|강))\s*(.+?)(?:\s*[\(（]\s*(\d+\s*분)\s*[\)）])?$/, DR = /^[-–•]\s*/, UR = /(https?:\/\/[^\s<>"]+)/;
   var desc = [], items = [], cur = null;
   list.forEach((function(e) {
     var tx = (e.textContent || "").replace(/\s+/g, " ").trim(), m;
@@ -25,7 +26,7 @@ SFUI.progItems = function(list) {
       var ps = m[1].split("|"), tm = ps.length > 1 ? ps.pop().trim() : "";
       cur = { t: ps.join("|").replace(/^\d+\s*회차?\s*[·.:：\-)]?\s*/, "").trim(), m: tm, d: [] }, items.push(cur);
     } else if (!DR.test(tx) && (m = LR.exec(tx))) {
-      cur = { t: m[2], m: m[3] || "", d: [] }, items.push(cur);
+      cur = { t: m[4], m: m[5] || "", d: [], u: "강" === (m[2] || m[3]) ? "강" : "" }, items.push(cur);
     } else if (cur) {
       var a = 1 === e.nodeType && e.querySelector("a[href]"), u = a ? a.getAttribute("href") : (UR.exec(tx) || [])[1], lb = tx.replace(DR, "");
       u && !a && (lb = lb.replace(u, "").replace(/[\s:：\-–]+$/, "").trim());
@@ -76,7 +77,7 @@ SFUI.roomInfo = function(idx, done) {
     if (!d) return done(null);
     var tp = d.getElementById("prodDetailPC") || d.getElementById("prodDetailMobile"), W = tp && tp.content || d.getElementById("prod_detail_body");
     var og = d.querySelector('meta[property="og:image"]'), o = { at: Date.now(), idx: +idx, title: ((d.querySelector(".view_tit") || {}).textContent || "").trim(), img: og && og.getAttribute("content") || "", room: "", chat: "", period: null, prog: null };
-    var RE = /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/, sec = "", P = [], pt = "", VR = /^(\d+)\s*회차?\s*[|:：\-]?\s*(https?:\/\/\S+)$/;
+    var RE = /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/, sec = "", P = [], pt = "", VR = /^(\d+)\s*(?:회차?|강)\s*[|:：\-]?\s*(https?:\/\/\S+)$/;
     o.videos = {};
     W && [].forEach.call(W.querySelectorAll("p,h1,h2,h3,h4,h5,h6,li,div"), (function(x) {
       if (x.querySelector("p,div,li,h1,h2,h3,h4,h5,h6")) return;
@@ -473,7 +474,7 @@ SFUI.register('productView', SFUI.__pv = function() {
         if (!items.length) return null;
         // (10/29) 설명 줄을 제목 칸 안에 넣어 '수강생 후기'와 같은 간격(제목 → 설명 6px, 설명 → 목록 20px)
         var h2 = '<div class="sf-pv-sechead"><div><h2>프로그램</h2>' + (desc.length ? '<p class="sf-pv-sub sf-pv-progsub">' + desc.map(oe).join("<br>") + "</p>" : "") + '</div></div><div class="sf-pv-chapters sf-pv-chapters--own" data-sf-accordion>' + items.map((function(e, s) {
-          return '<div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger><b>' + (s + 1) + "회차</b><span>" + oe(e.t) + "</span>" + (e.m ? "<em>" + oe(e.m) + "</em>" : "") + "</button><div data-sf-acc-panel>" + (e.d.length ? '<ul class="sf-pv-chdet">' + e.d.map((function(d) {
+          return '<div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger><b>' + (s + 1) + (e.u || "회차") + "</b><span>" + oe(e.t) + "</span>" + (e.m ? "<em>" + oe(e.m) + "</em>" : "") + "</button><div data-sf-acc-panel>" + (e.d.length ? '<ul class="sf-pv-chdet">' + e.d.map((function(d) {
             return d.u ? '<li class="is-link"><a href="' + oe(d.u) + '"' + (/^https?:/.test(d.u) && d.u.indexOf(location.host) < 0 ? ' target="_blank" rel="noopener"' : "") + "><span>" + oe(d.x) + "</span><em>미리보기</em></a></li>" : "<li>" + oe(d.x) + "</li>";
           })).join("") + "</ul>" : "") + "</div></div>";
         })).join("") + "</div>";
