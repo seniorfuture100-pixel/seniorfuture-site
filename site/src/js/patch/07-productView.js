@@ -238,7 +238,7 @@ SFUI.register('productView', function() {
       // (10/23 2차) 꼬리표 = 목록에서 읽어 둔 아임웹 상품 배지(없으면 아래 badgeFetch 가 목록을 한 번 받아 채워요)
       var ht = null, PE = !1; // PE: 커뮤니티 신청 마감(종료) → 아래에서 신청 버튼을 막아요
       try { ht = (SFUI.__hash || {})[n] || JSON.parse(sessionStorage.getItem("sf_badges") || "{}")[n] || null; } catch (x) {}
-      c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.ceil((k - j) / 864e5)) + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
+      c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.round((new Date(k).setHours(0, 0, 0, 0) - new Date(j).setHours(0, 0, 0, 0)) / 864e5)) /* (10/30) 달력 날짜로(시간이 남아도 하루 더 세지 않게 — 카운트다운과 맞춤) */ + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
       // (10/30) 커뮤니티 상태는 목록과 같게(모집중 · 마감 임박 · 모집 마감)
       p && (D = SO ? [ "ended", "모집 마감" ] : SFUI.meetState({ start: i.start, end: MI && MI.end || "", deadline: i.deadline }), PE = "ended" === D[0], D ='<span class="sf-tag sf-tag--' + D[0] + '">' + D[1] + "</span>"),
       p && (L = '<span class="sf-tag sf-tag--' + ((SFUI.isEvent ? SFUI.isEvent(i.kind) : "이벤트" === i.kind) ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D),
