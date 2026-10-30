@@ -727,7 +727,7 @@
           !roomOk(o) || seen[o.idx] || (seen[o.idx] = 1, rows.push({
             idx: o.idx,
             ty: ty,
-            guess: !it.type && !u && "course" === ty, // (10/30) 상품명에 [일시]가 없으면 상품 글([라이브 안내]·[모임 안내])로 종류·일시를 정해요
+            guess: !it.type && !u, // (10/30) 상품명에 [일시]가 없으면 상품 글([라이브 안내]·[모임 안내])로 종류·일시를 정해요('[무료 LIVE] 제목'도 일시는 글에서)
             at: at,
             title: o.name.replace(p, "").trim(),
             img: o.img,
