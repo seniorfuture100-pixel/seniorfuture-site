@@ -43,6 +43,7 @@
     // 입금 안내는 아임웹 화면 그대로 — (10/30) 아임웹 화면은 처음부터 가려져 있어서(css patch/69) 이때만 보이게 풀어요
     if (/입금\s*(계좌|기한|은행)|가상\s*계좌|계좌\s*번호/.test(host.textContent)) return document.documentElement.classList.add('sf-done-off'), true;
     var no = val(host, /^주문번호$/), how = val(host, /^결제\s*정보$/), amt = val(host, /^결제\s*금액$/);
+    /^0\s*원$/.test(amt) && (amt = '무료'); // (10/30) 0원은 '무료'
     var rows = [['주문번호', no], ['결제 금액', amt + (how && !/^무료/.test(how) ? ' · ' + how : '')]].filter(function (r) { return r[1]; });
     var c = document.createElement('section');
     c.className = 'sf-done sf-done--' + kind; c.setAttribute('aria-labelledby', 'sf-done-h');
