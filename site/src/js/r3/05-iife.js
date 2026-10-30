@@ -254,8 +254,10 @@
     if (oq) {
       var only = !!form.querySelector('.r3-opt') && !form.querySelector('.r3-opt[data-req]');
       oq.classList.toggle('r3-base', only);
-      var ot = only && oq.querySelector('.area_tit .option_title'), vt = document.querySelector('.view_tit');
-      ot && vt && ot.textContent !== clean(vt.textContent) && (ot.textContent = clean(vt.textContent));
+      var ot = only && oq.querySelector('.area_tit .option_title'), vt = document.querySelector('.view_tit'), vc = vt && vt.cloneNode(true);
+      vc && $$('.ns-icon, img, i, [class*="badge"]', vc).forEach(function (x) { x.remove(); }); // 상품 배지('오늘출발' 등) 글자는 빼고 이름만
+      var vn = vc ? clean(vc.textContent) : '';
+      ot && vn && ot.textContent !== vn && (ot.textContent = vn);
     }
     // (10/29) 옵션 칸이 늦게 그려지면 r3NoOpt 가 '옵션 없는 상품'으로 잘못 보고 합계 칸을 숨겨요 → 옵션 카드나 선택 줄이 있으면 풀어요
     (cards.length || rs.length) && document.documentElement.classList.remove('r3-noopt');
