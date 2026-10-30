@@ -102,6 +102,8 @@
         // (10/29) 미리 그린 옵션(아래 pre)일 때는 아임웹 진짜 옵션이 올 때까지 기다렸다가 대신 눌러요
         if (it.el.closest('[data-sf-pre]')) { b.classList.add('is-on'); b.setAttribute('aria-pressed', 'true'); pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
         var st0 = stepsNow(form);
+        if (b.classList.contains('is-wait')) return; // 방금 누른 카드: 아임웹 줄이 올 때까지 두 번 더하지 않아요
+        ghost(form, wrap, b, it);
         g.pick(it);
         mark(form, groups);
         setTimeout(function () { mark(form, groups); }, 120);
@@ -113,6 +115,50 @@
     return true;
   }
 
+  // (10/30) 옵션 줄 바로 보이기 — 아임웹은 옵션을 더할 때 서버에 금액을 물어봐서(/shop/select_option.cm) 줄·합계가 약 0.25초 늦게 나와요
+  //   → 누르는 순간 같은 모양의 '미리 줄'(sf-ghost)과 합계를 그려 두고, 아임웹 진짜 줄이 오면 그 칸을 통째로 바꿔 끼워요(같은 모양이라 화면이 안 움직여요)
+  //   금액을 카드에서 확실히 알 때만(카드 가격 = 아임웹 항목의 최종 금액 · 단계 옵션은 앞 단계 금액 + 마지막 금액) 그려요. 결제·계산은 언제나 아임웹 것
+  function won(t) { var m = /([\d,]+)\s*원/.exec(t || ''); return m ? +m[1].replace(/,/g, '') : null; }
+  function ghost(form, wrap, b, it) {
+    var gp = form.querySelector('#prod_selected_options');
+    if (!gp || !(it.price || it.zero) || /^[+\-]/.test(clean(it.price))) return;
+    var p = it.zero ? 0 : won(it.price), parts = [];
+    if (p == null) return;
+    // 단계 옵션: 마지막 금액 + 앞 단계에서 고른 카드 금액, 줄 글은 '그룹: 값 / 그룹: 값'
+    var steps = $$('.r3-opt[data-step]', form);
+    for (var i = 0; i < steps.length; i++) {
+      var on = steps[i].querySelector('.r3-opt__card.is-on');
+      if (!on) return; // 앞 단계를 다 안 골랐으면 아임웹도 줄을 안 만들어요
+      var sp = on.querySelector('.r3-opt__add'), sv = sp ? won(sp.textContent) : 0;
+      if (sp && /^[+\-]/.test(clean(sp.textContent))) return;
+      p += sv || 0;
+      parts.push(steps[i].getAttribute('data-lb') + ': ' + clean(on.querySelector('.r3-opt__name').textContent));
+    }
+    parts.push(wrap.getAttribute('data-lb') + ': ' + clean(b.querySelector('.r3-opt__name').textContent));
+    var fmt = function (n) { return n.toLocaleString('ko-KR') + '원'; };
+    var tb = gp.querySelector('.opt_block.total'), tp = tb && tb.querySelector('.total_price'), cnt = tb && /\((\d+)개\)/.exec(tb.textContent);
+    var total = (tp ? won(tp.textContent) || 0 : 0) + p, n = (cnt ? +cnt[1] : 0) + 1;
+    var row = document.createElement('div');
+    row.className = 'opt_block sf-ghost';
+    row.innerHTML = '<div class="full-width opt_product_area r3-optrow"><div class="area_tit holder"><span class="body_font_color_80">' + txt(parts.join(' / ')) +
+      '</span><a class="text-18 absolute absolute_right absolute_middle" href="javascript:;"><i class="btl bt-times-circle"></i></a></div><div class="area_count holder"><div class="option_btn_wrap"><div class="option_btn_tools"><a href="javascript:;"><i class="btl bt-minus" aria-hidden="true"></i></a><input type="text" value="1" class="form-control count _count" readonly><a href="javascript:;"><i class="btl bt-plus"></i></a></div></div><div class="area_price absolute absolute_right absolute_middle"><span>' + fmt(p) + '</span></div></div></div>';
+    busy = true;
+    try {
+      if (tb) { gp.insertBefore(row, tb); tp && (tp.textContent = fmt(total)); var lb0 = tb.querySelector('.body_font_color_70'); lb0 && (lb0.textContent = '총 상품금액(' + n + '개)'); }
+      else {
+        gp.appendChild(row);
+        var tt = document.createElement('div');
+        tt.className = 'opt_block total bottom sf-ghost';
+        tt.innerHTML = '<p class="no-margin text-right"><span class="body_font_color_70 text-left">총 상품금액(1개)</span><span class="total_price ">' + fmt(total) + '</span></p>';
+        gp.appendChild(tt);
+      }
+      gp.style.display === 'none' && (gp.style.display = '');
+      b.classList.add('is-on', 'is-wait'); b.setAttribute('aria-pressed', 'true');
+      form.classList.add('r3-has-rows');
+    } finally { busy = false; }
+    // 아임웹 진짜 줄이 오면(칸을 새로 그림) 미리 줄은 저절로 사라져요. 오지 않으면 2.5초 뒤 지워요
+    setTimeout(function () { $$('.sf-ghost', form).forEach(function (x) { x.remove(); }); b.classList.remove('is-wait'); mark(form); }, 2500);
+  }
   // 선택된 옵션 줄 찾기: 수량 입력칸 + 금액이 있는 블록
   function rows(form) {
     return $$('input', form).filter(function (i) { return /^(text|number|tel)$/i.test(i.type) && !i.closest('.r3-opt') && /^\d+$/.test(i.value || '1'); })
@@ -167,9 +213,11 @@
       n < 14 && restoreSteps(f, st0, n + 1, tok);
     }, 150);
   }
-  function findRow(form, name, lb) { var st = stepsNow(form); return rows(form).filter(function (r) { return same(clean(r.textContent), name, lb, st); })[0]; }
+  function findRow(form, name, lb) { var st = stepsNow(form); return rows(form).filter(function (r) { return !r.closest('.sf-ghost') && same(clean(r.textContent), name, lb, st); })[0]; }
   function mark(form, groups) {
     var rs = rows(form);
+    // 진짜 줄이 들어오면(미리 줄이 사라지면) '기다리는 중' 표시를 풀어요
+    form.querySelector('.sf-ghost') || $$('.r3-opt__card.is-wait', form).forEach(function (c) { c.classList.remove('is-wait'); });
     rs.forEach(function (r) { r.classList.add('r3-optrow'); });
     var names = rs.map(function (r) { return clean(r.textContent); });
     var cards = $$('.r3-opt__card', form), st = stepsNow(form);

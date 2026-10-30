@@ -5,8 +5,8 @@
   font-size:14px;
 }
 :root body .sf-room-card .sf-room-when b {
-  color:var(--sf-text);
-  font-weight:600;
+  color:inherit; /* (10/30 사장님) 날짜도 '수강 기간'·'일시'와 같은 색 · 보통 굵기 */
+  font-weight:400;
 }
 :root body .sf-room-when em,
 :root body .sf-room__when em {
@@ -147,8 +147,8 @@
   font-size:15px;
 }
 :root body .sf-room__when b {
-  color:var(--sf-text);
-  font-weight:600;
+  color:inherit; /* (10/30 사장님) 날짜도 '수강 기간'과 같은 색 · 보통 굵기 */
+  font-weight:400;
 }
 :root body .sf-room__end {
   margin-top:8px;

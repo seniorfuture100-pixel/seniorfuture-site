@@ -262,6 +262,8 @@ SFUI.register('productView', function() {
           N.insertBefore(pe("div", "sf-pv-was", "<b>" + R + "%</b><s>" + oe(O.textContent.trim()) + "</s>"), N.firstChild), 
           O.style.display = "none";
         }
+        // (10/30 사장님) 0원 상품은 가격 자리에 '무료'(교육·라이브·커뮤니티 모두 · 아래 고정 바·휴대폰 시트도 이 글을 읽어요)
+        T && /^\s*0\s*원\s*$/.test(T.textContent) && (T.textContent = "무료");
       }
       var z = s.querySelector(".buy_btns.pc ._btn_buy"), P = o ? "무료로 신청하기" : p ? "참가 신청하기" : "수강 신청하기";
       z && (z.textContent = P), s.querySelectorAll(".buy_btns.mobile ._btn_buy, .buy_btns.mobile .defualt.buy").forEach((function(e) {

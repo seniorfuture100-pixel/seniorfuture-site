@@ -40,7 +40,8 @@
     var host = document.getElementById('oms-shop-payment-complete');
     if (!host || document.querySelector('.sf-done')) return !!host;
     if (!/주문번호/.test(host.textContent)) return false; // 아임웹이 아직 그리는 중
-    if (/입금\s*(계좌|기한|은행)|가상\s*계좌|계좌\s*번호/.test(host.textContent)) return true; // 입금 안내는 아임웹 화면 그대로
+    // 입금 안내는 아임웹 화면 그대로 — (10/30) 아임웹 화면은 처음부터 가려져 있어서(css patch/69) 이때만 보이게 풀어요
+    if (/입금\s*(계좌|기한|은행)|가상\s*계좌|계좌\s*번호/.test(host.textContent)) return document.documentElement.classList.add('sf-done-off'), true;
     var no = val(host, /^주문번호$/), how = val(host, /^결제\s*정보$/), amt = val(host, /^결제\s*금액$/);
     var rows = [['주문번호', no], ['결제 금액', amt + (how && !/^무료/.test(how) ? ' · ' + how : '')]].filter(function (r) { return r[1]; });
     var c = document.createElement('section');
@@ -53,5 +54,6 @@
     document.documentElement.classList.add('sf-done-on');
     return true;
   };
-  if (!draw()) { var n = 0, iv = setInterval(function () { if (draw() || ++n > 40) clearInterval(iv); }, 150); }
+  // 못 그리면(6초) 아임웹 화면을 보여 줘요
+  if (!draw()) { var n = 0, iv = setInterval(function () { if (draw()) clearInterval(iv); else if (++n > 40) { clearInterval(iv); document.documentElement.classList.add('sf-done-off'); } }, 150); }
 })()

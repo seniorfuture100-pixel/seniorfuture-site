@@ -175,3 +175,15 @@ html {
     padding-right:max(24px,calc(50vw - 50% + 64px));
   }
 }
+
+/* (10/30) 신청·결제 완료: 아임웹 기본 완료 화면이 잠깐 보였다가 우리 카드로 바뀌던 것 → 처음부터 가려 두고 카드만(patch/25)
+   입금 안내(무통장·가상계좌)이거나 카드를 못 그리면 sf-done-off 로 다시 보여요 · 코드가 아예 못 돌면 6초 뒤 저절로 보여요 */
+html:not(.sf-done-off) body #oms-shop-payment-complete {
+  visibility:hidden;
+  animation:sfDoneShow 0s 6s forwards;
+}
+@keyframes sfDoneShow {
+  to {
+    visibility:visible;
+  }
+}
