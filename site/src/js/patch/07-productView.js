@@ -232,13 +232,15 @@ SFUI.register('productView', function() {
         MI.end && (i.end = MI.end); // (10/30) 일시에 끝을 적었으면 그 기간
         MI.deadline ? i.deadline = MI.deadline : MI.start && !i.deadline && (i.deadline = MI.start);
       }
-      var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
+      // (10/30) SO: 아임웹 '판매기간 설정' 종료일이 지났거나 품절 → 아임웹이 구매 상자에 '판매 기간이 마감된 상품입니다'를 띄우고 버튼을 막아요 → 모집 마감
+      var SO = /판매\s?기간이 마감/.test(s.textContent || "") || /품절/.test((s.querySelector(".buy_btns.pc") || {}).textContent || "");
+      var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = SO || B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
       // (10/23 2차) 꼬리표 = 목록에서 읽어 둔 아임웹 상품 배지(없으면 아래 badgeFetch 가 목록을 한 번 받아 채워요)
       var ht = null, PE = !1; // PE: 커뮤니티 신청 마감(종료) → 아래에서 신청 버튼을 막아요
       try { ht = (SFUI.__hash || {})[n] || JSON.parse(sessionStorage.getItem("sf_badges") || "{}")[n] || null; } catch (x) {}
       c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.ceil((k - j) / 864e5)) + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
-      // (10/30) 커뮤니티 상태는 목록과 같게(모집중 · 마감 임박 · 종료)
-      p && (D = SFUI.meetState({ start: i.start, end: MI && MI.end || "", deadline: i.deadline }), PE = "ended" === D[0], D = '<span class="sf-tag sf-tag--' + D[0] + '">' + D[1] + "</span>"),
+      // (10/30) 커뮤니티 상태는 목록과 같게(모집중 · 마감 임박 · 모집 마감)
+      p && (D = SO ? [ "ended", "모집 마감" ] : SFUI.meetState({ start: i.start, end: MI && MI.end || "", deadline: i.deadline }), PE = "ended" === D[0], D ='<span class="sf-tag sf-tag--' + D[0] + '">' + D[1] + "</span>"),
       p && (L = '<span class="sf-tag sf-tag--' + ((SFUI.isEvent ? SFUI.isEvent(i.kind) : "이벤트" === i.kind) ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D),
       ht && !c && SFUI.tagHtml && (L += SFUI.tagHtml(ht));
       U && L && U.insertBefore(pe("div", "sf-tags sf-pv-tags", L), U.firstChild);
@@ -273,7 +275,7 @@ SFUI.register('productView', function() {
       Q && (Q.textContent = "상품 금액");
       var V = s.querySelector(".buy_btns.pc");
       if (o) {
-        U && k && U.appendChild(pe("div", "sf-countdown sf-pv-cd", '<span data-sf-countdown-label>신청 마감까지 남은 시간</span><span class="sf-pv-cd__t"><b data-unit="d">0</b>일 <b data-unit="h">00</b>시간 <b data-unit="m">00</b>분 <b data-unit="s">00</b>초</span>'));
+        U && k && !SO && U.appendChild(pe("div", "sf-countdown sf-pv-cd", '<span data-sf-countdown-label>신청 마감까지 남은 시간</span><span class="sf-pv-cd__t"><b data-unit="d">0</b>일 <b data-unit="h">00</b>시간 <b data-unit="m">00</b>분 <b data-unit="s">00</b>초</span>'));
         var K = U && U.querySelector(".sf-pv-cd");
         K && (K.setAttribute("data-sf-countdown", ""), K.setAttribute("data-deadline", i.deadline), 
         K.setAttribute("data-ended-text", "신청이 마감되었어요"), d && U.insertBefore(K, d)), B && V && V.parentNode.insertBefore(pe("p", "sf-pv-when", h + "<span>" + le(B) + " " + fe(B) + (E ? " – " + fe(E) : "") + "</span>"), V), 

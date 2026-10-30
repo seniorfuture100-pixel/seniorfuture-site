@@ -302,7 +302,7 @@
                   })).sort((function(x, y) { return x[1] - y[1] || x[2] - y[2]; })).forEach((function(x) { g1.appendChild(x[0]); }));
                 }));
               } else if ("meet" === r) {
-                var l = s(a);
+                var l = SFUI.saleOver(t) ? [ "ended", "모집 마감" ] : s(a); // (10/30) 판매기간 종료·품절이면 바로 모집 마감
                 t.setAttribute("data-status", l[0]), t.setAttribute("data-kind", SFUI.isEvent(a.kind) ? "event" : "meet"), t.setAttribute("data-start", a.start || ""), 
                 a.past && t.setAttribute("data-past", ""), // (10/26) 지난 행사: 가격 대신 '지난 행사'(css qa/07)
 
@@ -323,7 +323,7 @@
                   var mi = o.meet || {}, b = { type: "meet", kind: mi.kind || a.kind, place: SFUI.meetPlace(mi), start: o.start || mi.start || "", end: mi.end || "", past: a.past };
                   b.deadline = mi.deadline || b.start;
                   if (b.start) { var dd = new Date(b.start); b.date = dd.getMonth() + 1 + "월 " + dd.getDate() + "일 (" + "일월화수목금토".charAt(dd.getDay()) + ")"; }
-                  var l2 = s(b), sq = function(x) { return String(x || "").replace(/[<>&"]/g, ""); };
+                  var l2 = SFUI.saleOver(t) ? [ "ended", "모집 마감" ] : s(b), sq = function(x) { return String(x || "").replace(/[<>&"]/g, ""); };
                   t.setAttribute("data-status", l2[0]), t.setAttribute("data-kind", SFUI.isEvent(b.kind) ? "event" : "meet"), t.setAttribute("data-start", b.start);
                   t.setAttribute("data-place", /온라인/.test(b.place) ? "online" : "offline");
                   n && (n.innerHTML = '<span class="sf-tags"><span class="sf-tag sf-tag--' + (SFUI.isEvent(b.kind) ? "event" : "meet") + '">' + sq(b.kind || "모임") + '</span><span class="sf-tag sf-tag--' + l2[0] + '">' + l2[1] + "</span></span>");

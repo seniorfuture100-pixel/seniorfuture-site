@@ -22,6 +22,16 @@ SFUI.liveOver = function (start, end, now) {
 //   모집중 → 마감 임박(마감 3일 전) → 모집 마감(신청 마감이 지나면, 목록 맨 아래) · '진행 중'은 두지 않아요(10/30 사장님)
 //   (상태 이름표는 'ended' 그대로 — 목록 정렬·필터가 이 이름으로 맨 아래로 보내요)
 //   마감을 안 적었으면 시작 시각이 마감 · 신청한 사람의 나의 강의실 카드는 따로(일시 끝까지 '참여 예정', SFUI.meetOver)
+// (10/30 사장님) 판매 마감 = 아임웹 상품 '판매 설정 › 판매기간 설정'의 종료일(또는 품절)
+//   아임웹은 종료일을 화면에 싣지 않고, 지나면 목록 카드에 data-sale-wait="true"(시작일은 [data-at] preorder)만 붙여요
+//   → 시작일이 이미 지났는데 '판매 대기'면 판매기간이 끝난 것 · 품절(data-sold-out)도 마감
+SFUI.saleOver = function (li) {
+  if (!li || !li.getAttribute) return false;
+  if (li.getAttribute('data-sold-out') === 'true') return true;
+  if (li.getAttribute('data-sale-wait') !== 'true') return false;
+  var at = li.querySelector && li.querySelector('[data-at]'), st = at && Date.parse(at.getAttribute('data-at') || '');
+  return !(st && st > Date.now());
+};
 // 모임이 실제로 끝났는지: 일시의 끝(안 적었으면 시작한 날 밤 12시)이 지났으면 true
 SFUI.meetOver = function (t, now) {
   var P = function (v) { return typeof v === 'number' ? v : SFUI.parseDate(v); };
@@ -54,9 +64,10 @@ SFUI.register('liveStatus', function (root) {
     var start = SFUI.parseDate(el.getAttribute('data-start'));
     var end = SFUI.parseDate(el.getAttribute('data-end')) || (start && start + 60 * 60 * 1000);
     var deadline = SFUI.parseDate(el.getAttribute('data-deadline')) || start;
-    if (!start) return 'open';
+    if (!start) return SFUI.saleOver(el) ? 'closed' : 'open';
     if (SFUI.liveOver(start, end, now)) return 'ended';
     if (now >= start) return 'live';
+    if (SFUI.saleOver(el)) return 'closed'; // (10/30) 판매기간이 끝났거나 품절이면 시작 전이라도 '신청 마감'
     if (now >= deadline) return 'closed';
     if (deadline - now <= DAY) return 'closing';
     return 'open';
