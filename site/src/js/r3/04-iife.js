@@ -727,6 +727,7 @@
           !roomOk(o) || seen[o.idx] || (seen[o.idx] = 1, rows.push({
             idx: o.idx,
             ty: ty,
+            guess: !it.type && !u && "course" === ty, // (10/30) 상품명에 [일시]가 없으면 상품 글([라이브 안내]·[모임 안내])로 종류·일시를 정해요
             at: at,
             title: o.name.replace(p, "").trim(),
             img: o.img,
@@ -734,6 +735,17 @@
             badge: /^0원/.test(o.price) ? "신청 완료" : "결제 완료"
           }));
         }));
+        var gs = rows.filter((function(x) { return x.guess; }));
+        (gs.length ? Promise.all(gs.map((function(x) {
+          return new Promise((function(res) {
+            SFUI.roomInfo(x.idx, (function(o) {
+              var mi = o && o.meet;
+              mi && mi.sec && (x.ty = mi.sec, x.at = mi.start ? Date.parse(mi.start) : x.at);
+              res();
+            }));
+          }));
+        }))) : Promise.resolve()).then(draw);
+        function draw() {
         if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>');
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
           if ("course" !== x.ty) {
@@ -790,6 +802,7 @@
             }
           }));
         }));
+        }
       }))["catch"]((function() {
         t.innerHTML = '<div class="r2-my-load">강의 목록을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.</div>';
       }));

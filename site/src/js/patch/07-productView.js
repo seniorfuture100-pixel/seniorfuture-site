@@ -65,7 +65,7 @@ SFUI.roomLabel = function(p, paid) {
 // (10/28) 강의실용 상품 정보: 상품 상세 글의 [프로그램]·[수강 기간]·[강의실] 칸을 읽어요
 //   → done({ idx, title, img, prog:{desc,items}|null, period, room:'/class-x' }) · 못 읽으면 done(null) · 같은 탭에서 5분 동안 다시 안 받아요
 SFUI.roomInfo = function(idx, done) {
-  var k = "sf_room4_" + idx, C = null; // (10/29) room3: 모임 안내(meet)·일시(start) 추가 · (10/30) room4: [다시보기](replay)
+  var k = "sf_room5_" + idx, C = null; // (10/29) room3: 모임 안내(meet)·일시(start) 추가 · (10/30) room4: [다시보기](replay) · room5: [라이브 안내](meet.sec)
   try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
   if (C && Date.now() - C.at < 3e5) return done(C);
   if (!idx || !window.fetch || !window.DOMParser) return done(null);
@@ -141,7 +141,8 @@ SFUI.meetParse = function(W) {
     if (x.querySelector("p,div,li,h1,h2,h3,h4,h5,h6")) return;
     var tx = (x.textContent || "").replace(/\s+/g, " ").trim(), m = RE.exec(tx);
     if (m) return void (sec = m[1].replace(/\s+/g, ""));
-    if (!tx || !/^(모임|행사|이벤트)(안내|정보)$/.test(sec)) return;
+    if (!tx || !/^(모임|행사|이벤트|라이브)(안내|정보)$/.test(sec)) return;
+    o.sec = /^라이브/.test(sec) ? "live" : "meet"; // (10/30) [라이브 안내] = 무료 라이브 일시·마감·방식(상품명 [ ] 대신 본문에)
     var kv = /^([^:：]{1,10}?)\s*[:：]\s*(.+)$/.exec(tx);
     if (!kv) return;
     var key = kv[1].replace(/\s+/g, ""), v = kv[2].trim();
@@ -223,11 +224,11 @@ SFUI.register('productView', function() {
       A.setAttribute("aria-label", "현재 위치"), S.parentNode.insertBefore(A, S);
       // (10/29) 모임: 상품 글 [모임 안내] → 태그(구분)·장소·방식·마감·정원 (코드 표 없이 사장님이 직접)
       var MI = null;
-      if (p) {
+      if (p || o) { // (10/30) 무료 라이브도 [라이브 안내] 칸에서 일시·마감·방식
         var tp0 = document.getElementById("prodDetailPC") || document.getElementById("prodDetailMobile");
         MI = SFUI.meetParse(tp0 && tp0.content || document.getElementById("prod_detail_body"));
         MI.kind && (i.kind = MI.kind), (MI.place || MI.mode) && (i.place = SFUI.meetPlace(MI));
-        MI.start && !i.start && (i.start = MI.start, i.end = new Date(Date.parse(MI.start) + 72e5).toISOString());
+        MI.start && !i.start && (i.start = MI.start, i.end = MI.end || "");
         MI.end && (i.end = MI.end); // (10/30) 일시에 끝을 적었으면 그 기간
         MI.deadline ? i.deadline = MI.deadline : MI.start && !i.deadline && (i.deadline = MI.start);
       }
@@ -284,7 +285,7 @@ SFUI.register('productView', function() {
         var $ = pe("div", "sf-pv-share", "<div><strong>링크로 구매 시, 최대 " + oe(window.SF_SHARE && SF_SHARE.rate || "00%") + ' 적립</strong><span>친구가 결제하면 적립금이 쌓여요</span></div><button type="button" class="sf-pv-share__btn" data-sf-reward-share data-title="' + oe(l) + '">공유하고 수익받기</button>');
         V && V.parentNode.insertBefore($, V.nextSibling);
       }
-      function meetInfo() {
+      function meetInfo(ttl) {
         // (10/27) 일시·장소·마감이 하나도 없으면(코드 표에 없는 새 모임) 빈 상자 대신 칸을 아예 빼요
         // (10/29) + 정원 · [모임 안내]의 그 밖의 줄(준비물·대상 등) · 마감에 시각까지
         var ic = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>', kt = k && new Date(k);
@@ -295,7 +296,7 @@ SFUI.register('productView', function() {
         })), [ [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + (kt && (kt.getHours() !== 23 || kt.getMinutes() !== 59) && !(B && k === B) ? " " + fe(k) : "") + "까지" : "" ] ]).filter((function(e) {
           return e[2];
         }));
-        return rows.length ? '<section class="sf-pv-sec sf-pv-meetinfo"><h2>모임 안내</h2><div class="sf-pv-infobox">' + rows.map((function(e) {
+        return rows.length ? '<section class="sf-pv-sec sf-pv-meetinfo"><h2>' + (ttl || "모임 안내") + '</h2><div class="sf-pv-infobox">' + rows.map((function(e) {
           return "<p>" + e[0] + "<b>" + e[1] + "</b><span>" + oe(e[2]) + "</span></p>";
         })).join("") + "</div></section>" : "";
       }
@@ -358,7 +359,7 @@ SFUI.register('productView', function() {
           else OG[k].push({ t: "intro" === k && !/^(소개|.{0,6}\s?소개)$/.test(e.t) ? e.t : "", n: e.n });
         }));
         FQ = MP.concat(MR, MQ);
-        p && (ee += meetInfo());
+        (p || o && MI && MI.sec) && (ee += meetInfo(o ? "라이브 안내" : "모임 안내"));
         OG.intro.length && (Y.push([ "sf-pv-intro", "소개" ]), ee += sec("sf-pv-intro", "소개", "", "intro"));
         OG.program.length && (Y.push([ "sf-pv-program", "프로그램" ]), ee += sec("sf-pv-program", "프로그램", "", "program"));
         OG.teacher.length && (Y.push([ "sf-pv-teacher", TL ]), ee += sec("sf-pv-teacher", TH, "", "teacher"));
@@ -534,7 +535,7 @@ SFUI.register('productView', function() {
     t = String(t).replace(/\s+/g, " ").trim();
     if (/^수강\s?기간$/.test(t)) return "period";
     if (/^강의실(\s?주소)?$/.test(t) || /^(강의\s?)?영상(\s?주소)?$/.test(t) || /^(카?톡방|단톡방|소통방|오픈\s?채팅(방)?)(\s?(주소|링크))?$/.test(t) || /^다시\s?보기(\s?(주소|링크|영상))?$/.test(t)) return "room"; // [강의 영상]·[톡방]·[다시보기] 도 화면에는 숨김
-    if (/^(모임|행사|이벤트)\s?(안내|정보)$/.test(t)) return "meet"; // (10/29) [모임 안내] → 모임 안내 상자(SFUI.meetParse)
+    if (/^(모임|행사|이벤트|라이브)\s?(안내|정보)$/.test(t)) return "meet"; // (10/30) [라이브 안내]도 // (10/29) [모임 안내] → 모임 안내 상자(SFUI.meetParse)
     if (/^(자주\s?묻는\s?질문|FAQ|Q\s?&\s?A|질문과 답변|문의)$/i.test(t)) return "faq";
     if (/^(교환|반품|환불)/.test(t)) return "refund";
     if (/^(운영|학습|이용|수강|참여|참가)\s?(정책|규정|안내)$|정책$/.test(t)) return "policy"; // (10/27 v2) 하단 공통 [운영 정책] → 더 알아보기

@@ -282,8 +282,25 @@
                 t.setAttribute("data-link-apply", o), t.setAttribute("data-link-live", a.live || "/classroom"), 
                 a.replay && t.setAttribute("data-link-replay", a.replay), n &&(n.innerHTML = '<span class="sf-tags"><span data-sf-live-badge class="sf-badge"></span></span>');
                 var c = document.createElement("a");
-                c.setAttribute("data-sf-live-btn", ""), c.className = "sf-btn sf-btn--block sf-shop-cta", 
+                c.setAttribute("data-sf-live-btn", ""), c.className = "sf-btn sf-btn--block sf-shop-cta",
                 t.appendChild(c);
+                // (10/30) 상품명에 [일시]가 없는 새 라이브: 상품 글 [라이브 안내] 일시·마감을 읽어 와서(SFUI.roomInfo, 5분 기억) 상태·순서를 맞춰요
+                //   상품명 [ ]는 공유·검색 제목에 그대로 나가서, 일시는 본문에 두는 게 기본이에요
+                var nm0 = (t.querySelector(".iw-shop-product-name, span.iw-card-name-link") || {}).textContent || "";
+                !a.start && !/\[[^\[\]]*\d{1,2}:\d{2}\]\s*$/.test(nm0) && SFUI.roomInfo && SFUI.roomInfo(t.getAttribute("data-system-product-id"), (function(o) {
+                  var mi = o && o.meet || {};
+                  if (!mi.start || t.getAttribute("data-start")) return;
+                  t.setAttribute("data-start", mi.start), t.setAttribute("data-deadline", mi.deadline || mi.start), mi.end && t.setAttribute("data-end", mi.end);
+                  delete t.dataset.sfuiBoundLive, t.removeAttribute("data-status");
+                  var rt = t.getRootNode && t.getRootNode();
+                  rt && SFUI.init(rt);
+                  // 상태가 생겼으니 목록 순서도 다시(LIVE → 마감 임박 → 모집중 → 마감 → 지난 라이브)
+                  var g1 = t.parentElement, od = { live: 0, closing: 1, open: 2, closed: 3, ended: 4 };
+                  g1 && [].slice.call(g1.querySelectorAll("li.iw-shop-card")).map((function(li) {
+                    var s1 = li.getAttribute("data-status") || "open", tm = Date.parse(li.getAttribute("data-start") || "") || 0;
+                    return [ li, od[s1] != null ? od[s1] : 2, "ended" === s1 ? -tm : tm ];
+                  })).sort((function(x, y) { return x[1] - y[1] || x[2] - y[2]; })).forEach((function(x) { g1.appendChild(x[0]); }));
+                }));
               } else if ("meet" === r) {
                 var l = s(a);
                 t.setAttribute("data-status", l[0]), t.setAttribute("data-kind", SFUI.isEvent(a.kind) ? "event" : "meet"), t.setAttribute("data-start", a.start || ""), 
