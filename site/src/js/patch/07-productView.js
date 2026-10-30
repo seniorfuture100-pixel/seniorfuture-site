@@ -157,7 +157,17 @@ SFUI.meetPlace = function(o) {
   var pl = o && o.place || "", md = o && o.mode || "";
   return pl && md && pl.indexOf(md) < 0 ? pl + " · " + md : pl || md;
 };
-SFUI.register('productView', function() {
+// (10/30) 상세 글(<template id="prodDetailPC">)은 2초 남짓이면 다 오는데, 아임웹 스크립트가 끝나는(DOMContentLoaded) 4초쯤까지 기다렸다 그려서
+//   신청란이 늦게 떴어요 → 읽는 중이면 0.05초마다 보다가 상세 글·신청 칸이 생기는 즉시 그려요(그 뒤 DOMContentLoaded 때는 once 로 건너뜀)
+document.readyState === "loading" && (function() {
+  // 상세 글 칸이 '다 읽혔는지' = 그 칸(또는 감싼 칸) 뒤에 다음 요소가 생겼는지
+  var closed = function(el) { for (; el && el !== document.body; el = el.parentNode) if (el.nextSibling) return !0; return !1; };
+  var k = 0, iv = setInterval((function() {
+    if (document.readyState !== "loading" || ++k > 300) return clearInterval(iv);
+    document.body && document.body.classList.contains("shop_view") && closed(document.getElementById("prodDetailPC")) && document.querySelector(".goods_form_wrap") && (clearInterval(iv), SFUI.__pv && SFUI.__pv(document));
+  }), 50);
+})();
+SFUI.register('productView', SFUI.__pv = function() {
   // ↓ 사이트 기준(10/22): 원본과 달라 사이트에 올라가 있는 코드로 맞춤
 
   if (document.body.classList.contains("shop_view")) {

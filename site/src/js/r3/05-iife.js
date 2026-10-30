@@ -341,7 +341,8 @@
       }
       // 옵션이 없는 상품: 아임웹이 '총 상품금액' 칸을 늦게 넣어요 → 그 칸이 들어올 때까지 기다렸다 보여 줘요
       //   (아임웹이 칸을 통째로 바꿔 끼울 수 있어 매번 다시 찾아요)
-      function paid() { var p = document.querySelector('.goods_form_wrap .goods_payment'); return !p || p.offsetHeight > 0; }
+      //   (10/30) 옵션 없는 상품은 우리 화면에서 합계 칸이 높이 0으로 접혀 있어서 늘 2.5초를 다 기다렸어요 → 금액 글자가 들어왔으면 끝
+      function paid() { var p = document.querySelector('.goods_form_wrap .goods_payment'); return !p || p.offsetHeight > 0 || /\d\s*원/.test(p.textContent); }
       var form = document.querySelector('.goods_form_wrap');
       if (!form || paid()) return release('opt');
       var mo = new MutationObserver(function () { if (paid()) { mo.disconnect(); release('opt'); } });

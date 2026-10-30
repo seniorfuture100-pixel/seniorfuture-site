@@ -191,10 +191,21 @@
       if (!$('.r3pay-agree', bar)) { var ag2 = document.createElement('p'); ag2.className = 'r3pay-agree r3pay-agree--m'; ag2.innerHTML = '강의 및 결제 정보를 확인했으며, <a href="/terms#terms" target="_blank" rel="noopener">이용약관</a> 및 <a href="/terms#refund" target="_blank" rel="noopener">환불 규정</a>에 동의합니다.'; bar.appendChild(ag2); }
       document.documentElement.classList.add('r3pay-hasm');
     });
-    // (10/30) 낼 돈이 없으면(무료 라이브·무료 모임) 버튼은 '신청하기'
-    if (/총 결제 금액\s*(무료|0\s*원)/.test(clean((box(hSum) || {}).textContent))) {
+    // (10/30) 무료 상품(상품 금액 0원 — 무료 라이브·무료 모임)만 '무료'·'신청하기'
+    //   (10/30 사장님) 쿠폰·적립금으로 0원이 된 유료 주문은 아임웹이 '무료'로 보여줘도 '0원' · 버튼은 '결제하기' 그대로
+    var sumBox = box(hSum), sumTxt = clean((sumBox || {}).textContent), prod0 = /상품 금액\s*(무료|0\s*원)/.test(sumTxt);
+    if (prod0 && /총 결제 금액\s*(무료|0\s*원)/.test(sumTxt)) {
       [sub].concat($$('button.r3pay-mbtn')).forEach(function (b) { b && clean(b.textContent) === '결제하기' && setText(b, '신청하기'); });
     }
+    if (!prod0 && sumBox) $$('span, strong, b, p', sumBox).forEach(function (s) {
+      if (s.children.length || clean(s.textContent) !== '무료') return;
+      // '총 결제 금액' 줄의 값만(배송비 '무료' 같은 줄은 그대로)
+      var row = s.parentElement, k = 0;
+      while (row && row !== sumBox && k++ < 3 && !/총 결제 금액/.test(row.textContent)) row = row.parentElement;
+      row && row !== sumBox && /^총 결제 금액/.test(clean(row.textContent)) && setText(s, '0원');
+    });
+    // 완료 화면(patch/25)이 '무료'를 쓸지 정하도록 적어 둬요
+    try { sessionStorage.setItem('sf-pay-free', prod0 ? '1' : '0'); } catch (x) {}
   }
 
   // (10/27) 쿠폰·적립금 — 아임웹 주문서 기본 기능(쿠폰 선택 창·포인트 입력)을 그대로 쓰고 모양·순서·문구만 정리해요.
