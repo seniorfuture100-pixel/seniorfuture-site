@@ -17,8 +17,9 @@
       var host = document.getElementById('oms-shop-payment-complete'); if (!host) return;
       $$('*', host).filter(function (e) { return !e.children.length && /^(방문수령|배송지|배송 정보|받는 ?분)/.test(clean(e.textContent)); }).forEach(function (e) {
         // 그 글자가 든 줄(이름 + 값 묶음)까지 올라가서 숨겨요: 위로 올라가다 '결제' 줄을 함께 품기 직전까지
+        //   (10/30) 무통장 주문은 '입금 계좌·입금 기한·주문번호'가 같은 상자에 있어서 계좌까지 숨겨졌어요 → 그 글자를 품기 직전에서도 멈춰요
         var r = e;
-        while (r.parentElement && r.parentElement !== host && !/결제/.test(clean(r.parentElement.textContent))) r = r.parentElement;
+        while (r.parentElement && r.parentElement !== host && !/결제|입금|계좌|주문번호/.test(clean(r.parentElement.textContent))) r = r.parentElement;
         r.classList.add('r3done-hide');
       });
     };
