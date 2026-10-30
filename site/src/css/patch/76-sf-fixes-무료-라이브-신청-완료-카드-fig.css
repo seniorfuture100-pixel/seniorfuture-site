@@ -337,3 +337,25 @@ html body .sf-fix-end {
 :root body .sf-pv .goods_form .goods_payment .opt_block.total.bottom {
   border-top:1px solid var(--sf-border)!important;
 }
+/* (10/31) 기업·기관 문의: 휴대폰에서 폼 칸이 790px 로 넘치던 것 — 격자 칸이 내용 최소폭을 따라가지 않게 */
+:root body .sf-contact>* {
+  min-width:0;
+}
+@media (max-width:767.98px) {
+  :root body .sf-biz .sf-contact {
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  :root body .sf-contact .sf-form-slot {
+    max-width:100%;
+    padding:28px 20px;
+  }
+}
+/* (10/31) 고객센터 FAQ·공지 제목: 휴대폰에서 누르는 칸이 18px 이라 작음 → 줄 전체 높이(44px)를 눌리게 */
+@media (max-width:767.98px) {
+  :root body .sf-help a.list_text_title {
+    display:block;
+    padding:10px 0;
+    min-height:44px;
+    box-sizing:border-box;
+  }
+}
