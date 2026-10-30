@@ -292,13 +292,13 @@ html body .sf-fix-end {
   border-radius:12px!important;
 }
 /* 본품 줄은 한 줄로: 왼쪽 이름 · 오른쪽 금액(사이 점선 없음) */
-:root body .sf-pv .order_quantity_area.r3-base {
+:root body .sf-pv .goods_payment .order_quantity_area.r3-base {
   display:flex!important;
   align-items:center;
   justify-content:space-between;
   gap:12px;
 }
-:root body .sf-pv .order_quantity_area.r3-base .area_tit {
+:root body .sf-pv .goods_payment .order_quantity_area.r3-base .area_tit {
   margin:0!important;
 }
 :root body .sf-pv .order_quantity_area.r3-base .area_tit::before {
