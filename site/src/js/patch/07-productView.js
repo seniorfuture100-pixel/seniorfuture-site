@@ -248,7 +248,15 @@ SFUI.register('productView', SFUI.__pv = function() {
       var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = SO || B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
       // (10/23 2차) 꼬리표 = 목록에서 읽어 둔 아임웹 상품 배지(없으면 아래 badgeFetch 가 목록을 한 번 받아 채워요)
       var ht = null, PE = !1; // PE: 커뮤니티 신청 마감(종료) → 아래에서 신청 버튼을 막아요
-      try { ht = (SFUI.__hash || {})[n] || JSON.parse(sessionStorage.getItem("sf_badges") || "{}")[n] || null; } catch (x) {}
+      // (10/30) 상세 화면에 아임웹이 넣어 주는 상품 배지(제목 옆 .prod_icon)를 바로 읽어요 — 목록을 받아 오느라 1~2초 늦게 붙으면서
+      //   그동안 가격이 제목 위로 올라가 보였어요. 요약 설명 #NEW 는 NEW 태그(아임웹이 '신상품'은 내보내지 않음)
+      var DI = { BEST: "best", HOT: "hot", "오늘출발": "early", MD: "limited" }, dt = [];
+      [].forEach.call(s.querySelectorAll(".view_tit .prod_icon"), (function(e) { var k = DI[(e.textContent || "").trim()]; k && dt.indexOf(k) < 0 && dt.push(k); }));
+      var sgt = SFUI.sumTags ? SFUI.sumTags((s.querySelector(".goods_summary") || {}).textContent).tags || [] : [];
+      dt = sgt.concat(dt.filter((function(x) { return sgt.indexOf(x) < 0; })));
+      // 제목 칸이 있으면 그 배지가 정답(없으면 배지 없음) — 목록을 다시 받지 않아요
+      try { ht = s.querySelector(".view_tit") ? dt : (SFUI.__hash || {})[n] || JSON.parse(sessionStorage.getItem("sf_badges") || "{}")[n] || null; } catch (x) {}
+      SFUI.saveBadgeTags && SFUI.saveBadgeTags(n, dt.length ? dt : null);
       c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.round((new Date(k).setHours(0, 0, 0, 0) - new Date(j).setHours(0, 0, 0, 0)) / 864e5)) /* (10/30) 달력 날짜로(시간이 남아도 하루 더 세지 않게 — 카운트다운과 맞춤) */ + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
       // (10/30) 커뮤니티 상태는 목록과 같게(모집중 · 마감 임박 · 모집 마감)
       p && (D = SO ? [ "ended", "모집 마감" ] : SFUI.meetState({ start: i.start, end: MI && MI.end || "", deadline: i.deadline }), PE = "ended" === D[0], D ='<span class="sf-tag sf-tag--' + D[0] + '">' + D[1] + "</span>"),

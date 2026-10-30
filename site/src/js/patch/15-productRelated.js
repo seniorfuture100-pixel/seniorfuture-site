@@ -20,7 +20,7 @@ SFUI.register('productRelated', function () {
       return {
         id: +c.getAttribute('data-system-product-id'), name: clean((c.querySelector('.iw-shop-product-name') || {}).textContent), sum: sg.text, cats: sg.cats || [],
         img: img ? img.getAttribute('src') || img.getAttribute('data-src') || '' : '',
-        tags: SFUI.badgeTags ? SFUI.badgeTags(c.querySelector('.iw-shop-product-badges')) : null,
+        tags: (function (b) { return (sg.tags || []).length ? sg.tags.concat((b || []).filter(function (x) { return sg.tags.indexOf(x) < 0; })) : b; })(SFUI.badgeTags ? SFUI.badgeTags(c.querySelector('.iw-shop-product-badges')) : null), // (10/30) #NEW
         off: SFUI.saleOver ? SFUI.saleOver(c) : c.getAttribute('data-sold-out') === 'true'
       };
     }).filter(function (x) { return x.id && x.id !== idx && !x.off; });

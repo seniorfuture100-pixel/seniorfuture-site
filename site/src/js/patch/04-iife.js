@@ -244,12 +244,14 @@
     금융보험: "finance", 금융: "finance", 보험: "finance", 커머스: "commerce", 소비: "commerce", 소비커머스: "commerce", 헬스케어: "health", 에이지테크: "health", 헬스케어에이지테크: "health",
     여가교육일: "life", 여가: "life", 일자리: "life", 창업: "startup", 사업개발: "startup", 창업사업개발: "startup" };
   SFUI.sumTags = function(v) {
-    var o = { text: "", cats: [], focus: 0, best: 0, had: !1 };
+    // (10/30) #NEW(#신상품): 아임웹은 '신상품' 체크를 목록·상세 어디에도 내보내지 않아요 → 요약 설명 꼬리표로 NEW 태그
+    var o = { text: "", cats: [], focus: 0, best: 0, had: !1, tags: [] };
     o.text = String(v || "").replace(/#[^\s#]+/g, (function(w) {
       var k = w.slice(1).replace(/[&·,.\/]/g, ""), m;
       o.had = !0;
       if (m = /^주목([1-8])$/.exec(k)) o.focus = +m[1];
       else if (m = /^best([1-5])$/i.exec(k)) o.best = +m[1];
+      else if (/^(new|신상품|신규)$/i.test(k)) o.tags.indexOf("new") < 0 && o.tags.push("new");
       else CT[k] && o.cats.indexOf(CT[k]) < 0 && o.cats.push(CT[k]);
       return "";
     })).replace(/\s+/g, " ").trim();
@@ -296,6 +298,7 @@
               //   이 칸은 우리 스타일을 입히기 전까지 안 보여서(css qa/07 data-sf-ready) 꼬리표가 비치는 순간이 없어요
               var sm = t.querySelector(".iw-shop-product-summary"), sg = SFUI.sumTags(sm && sm.textContent);
               sm && sg.had && (sm.textContent = sg.text);
+              sg.tags.length && (tg = sg.tags.concat((tg || []).filter(function(x) { return sg.tags.indexOf(x) < 0; })));
               sg.focus && t.setAttribute("data-sf-focus", sg.focus), sg.best && t.setAttribute("data-sf-best", sg.best);
               if ("course" === r) t.setAttribute("data-category", sg.cats.length ? sg.cats.join(" ") : a.cat || ""), a.past && t.setAttribute("data-past", ""), n && tg && (n.innerHTML = '<span class="sf-tags">' + SFUI.tagHtml(tg) + "</span>"); else if ("live" === r) {
                 var o = (t.querySelector('a[href*="idx="]') || {}).getAttribute ? t.querySelector('a[href*="idx="]').getAttribute("href") : "#";
