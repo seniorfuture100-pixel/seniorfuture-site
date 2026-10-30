@@ -290,7 +290,7 @@ SFUI.register('productView', SFUI.__pv = function() {
       }));
       // (10/30) 휴대폰: 옵션 시트를 열면 아임웹이 아래 버튼 글자를 '결제 이동하기'로 바꿔요(무료 라이브에도) → 종류에 맞는 글자로 되돌려요
       var MW = s.querySelector(".buy_btns.mobile"), fixM = function() {
-        MW && !PE && [].forEach.call(MW.querySelectorAll("._btn_buy"), (function(e) { /결제\s*이동|구매하기/.test(e.textContent) && (e.textContent = P); }));
+        MW && !PE && [].forEach.call(MW.querySelectorAll("._btn_buy"), (function(e) { /(결제|신청)\s*이동|구매하기/.test(e.textContent) && (e.textContent = P); }));
       };
       MW && (fixM(), new MutationObserver(fixM).observe(MW, { childList: !0, subtree: !0, characterData: !0 }));
       // (10/30) 커뮤니티: 신청 마감이 지나 '종료'면 신청 버튼도 막아요(PC·휴대폰)
