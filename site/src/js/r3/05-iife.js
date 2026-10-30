@@ -146,7 +146,8 @@
     var tb = gp.querySelector('.opt_block.total'), tp = tb && tb.querySelector('.total_price'), cnt = tb && /\((\d+)개\)/.exec(tb.textContent);
     var total = (tp ? won(tp.textContent) || 0 : 0) + p, n = (cnt ? +cnt[1] : 0) + 1;
     var row = document.createElement('div');
-    row.className = 'opt_block sf-ghost';
+    // 아임웹 줄 모양(높이)이 상황마다 달라요: 필수 줄 '_selected_require_option' · 선택 옵션 첫 줄 그냥 · 둘째 줄부터 'middle' → 똑같이 맞춰야 바뀔 때 안 움직여요
+    row.className = (req ? '_selected_require_option ' : gp.querySelector('.opt_block:not(.total)') ? 'middle ' : '') + 'opt_block sf-ghost';
     row.innerHTML = '<div class="full-width opt_product_area r3-optrow"><div class="area_tit holder"><span class="body_font_color_80">' + txt(parts.join(' / ')) +
       '</span><a class="text-18 absolute absolute_right absolute_middle" href="javascript:;"><i class="btl bt-times-circle"></i></a></div><div class="area_count holder"><div class="option_btn_wrap"><div class="option_btn_tools"><a href="javascript:;"><i class="btl bt-minus" aria-hidden="true"></i></a><input type="text" value="1" class="form-control count _count" readonly><a href="javascript:;"><i class="btl bt-plus"></i></a></div></div><div class="area_price absolute absolute_right absolute_middle"><span>' + fmt(p) + '</span></div></div></div>';
     busy = true;
@@ -156,7 +157,7 @@
         gp.appendChild(row);
         var tt = document.createElement('div');
         tt.className = 'opt_block total bottom sf-ghost';
-        tt.innerHTML = '<p class="no-margin text-right"><span class="body_font_color_70 text-left">총 상품금액(1개)</span><span class="total_price ">' + fmt(total) + '</span></p>';
+        tt.innerHTML = '<p class="no-margin text-right"><span class="body_font_color_70 text-left" style="padding: 16px 0">총 상품금액(1개)</span><span class="total_price " style="padding: 16px 0">' + fmt(total) + '</span></p>'; // 아임웹이 넣는 여백 그대로
         gp.appendChild(tt);
       }
       gp.style.display === 'none' && (gp.style.display = '');
