@@ -1,4 +1,4 @@
-/* 화면 묶음: common | 원본: src/sf-fixes.css · 무료 라이브 신청 완료 카드 (Figma 13 시스템 화면) */
+﻿/* 화면 묶음: common | 원본: src/sf-fixes.css · 무료 라이브 신청 완료 카드 (Figma 13 시스템 화면) */
 html body .sf-done {
   box-sizing:border-box;
   max-width:560px;
@@ -365,13 +365,15 @@ html body .sf-fix-end {
   display:none!important;
 }
 /* (10/31) 강의 상세 수강 후기 카드(380px): 사진 180px 옆 문구 칸이 119px 이라 '네트워크였습니다' 가 중간에서 끊김 → 상세에서는 사진을 줄여 문구 칸 200px 이상 */
-:root body .sf-pv-reviews .sf-review__top {
-  gap:16px;
-}
-:root body .sf-pv-reviews .sf-review__thumb {
-  width:104px;
-}
-:root body .sf-pv-reviews .sf-review__quote {
-  min-width:0;
-  font-size:17px;
+@media (min-width:768px) {
+  :root body .sf-pv-reviews .sf-review__top {
+    gap:16px;
+  }
+  :root body .sf-pv-reviews .sf-review__thumb {
+    width:104px;
+  }
+  :root body .sf-pv-reviews .sf-review__quote {
+    min-width:0;
+    font-size:17px;
+  }
 }
