@@ -673,6 +673,8 @@
             var a = n('a[href*="shop_view/?idx="]', t);
             if (a) {
               var i = +(a.getAttribute("href").match(/idx=(\d+)/) || [])[1], o = (n("[data-2]", t) || {}).textContent || "", c = ((n(".section_info", t) || n(".text-brand", t) || {}).textContent || "").replace(/\s+/g, " ").trim(), l = (n("[data-3] span", t) || {}).textContent || "", d = (n("img", t) || {}).src || "";
+              // (10/30) 회원그룹 이용권: 가격 옆 칸이 '1 개' 대신 '그룹명 60일' → 이용기간(일)
+              var ps = [].slice.call(t.querySelectorAll("[data-3] span")).map((function(x) { return /(\d+)\s*일\s*$/.exec((x.textContent || "").trim()); })).filter(Boolean)[0];
               s.push({
                 no: e,
                 date: r,
@@ -680,7 +682,8 @@
                 name: o.trim(),
                 status: c,
                 price: l.trim(),
-                img: d
+                img: d,
+                pass: ps ? +ps[1] : 0
               });
             }
           }));
@@ -710,6 +713,13 @@
     }));
     return d;
   }
+  // (10/30 사장님) 수강 기간: 회원그룹 이용권 상품이면 아임웹 '이용기간'(결제 내역 '그룹명 60일')을 결제일부터 N일로 — 본문 [수강 기간]보다 먼저
+  //   (아임웹 그룹이 풀리는 날과 강의실이 닫히는 날을 맞춰요) · 일반 상품은 지금처럼 본문 [수강 기간]
+  function roomPer(L, idx, p) {
+    var n0 = 0;
+    L.forEach((function(t) { t.idx === idx && roomOk(t) && t.pass && (n0 = t.pass); }));
+    return n0 ? { n: n0, u: "d" } : p;
+  }
   // (10/28) 나의 강의실(마이페이지 › 학습 › 나의 강의실 = r2My 의 sf=room 칸): 결제 내역 카드 모양 + 수강 기간 + 강의실 입장
   //   강의 = 결제(0원 신청 포함)한 교육 상품. 취소·반품·환불·입금 대기는 빼요(라이브·모임은 결제 내역에서)
   //   수강 기간·강의실 주소 = 상품 상세 글 [수강 기간]·[강의실] 칸(SFUI.roomInfo). SF_SITE.classrooms[상품번호] 가 있으면 그 주소를 먼저
@@ -732,6 +742,7 @@
             title: o.name.replace(p, "").trim(),
             img: o.img,
             paid: roomPaid(L, o.idx),
+            L: L,
             badge: /^0원/.test(o.price) ? "신청 완료" : "결제 완료"
           }));
         }));
@@ -786,7 +797,7 @@
             }
             if (li) {
               // (10/29) 강의실 = 공용 강의실 /class?idx=상품번호(자동). 예전 방식 [강의실]·SF_SITE.classrooms 주소가 있으면 그쪽
-              var p = o && o.period, rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "/class?idx=" + x.idx, go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
+              var p = roomPer(x.L, x.idx, o && o.period), rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "/class?idx=" + x.idx, go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
               n(".sf-room-when", li).innerHTML = lb ? "수강 기간 <b>" + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") : "수강 기간은 강의 정보에서 확인해 주세요";
               st && (bd.textContent = "end" === st ? "수강 종료" : "pre" === st ? "개강 전" : "수강 중", bd.className = "sf-badge " + ("end" === st ? "sf-badge--neutral" : "sf-badge--brand"));
               if (rm && "end" !== st) {
@@ -831,14 +842,15 @@
       SFUI.roomInfo(idx, (function(o) {
         if (!o) return void (box.innerHTML = back + '<p class="sf-room__msg">강의 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
         V = Object.assign({}, o.videos || {}, PV);
+        var per = o.period;
         E().then((function(L) {
-          return roomPaid(L, idx);
+          return per = roomPer(L, idx, o.period), roomPaid(L, idx);
         }))["catch"]((function() {
           return "";
         })).then((function(paid) {
           // 이 강의를 정상 결제(0원 신청 포함)한 회원만 — 취소·반품·환불·입금 대기는 막아요
           if (!paid) return void (box.innerHTML = back + '<p class="sf-room__msg">이 강의를 신청·결제한 회원만 강의실을 볼 수 있어요.</p>');
-          var rg = SFUI.roomRange(o.period, paid), st = roomState(rg), lb = SFUI.roomLabel(o.period, paid), its = o.prog && o.prog.items || [], on = 0;
+          var rg = SFUI.roomRange(per, paid), st = roomState(rg), lb = SFUI.roomLabel(per, paid), its = o.prog && o.prog.items || [], on = 0;
           var li = its.map((function(it, i) {
             var no = i + 1, u = V[no], ok = u && "end" !== st;
             ok && on++;
