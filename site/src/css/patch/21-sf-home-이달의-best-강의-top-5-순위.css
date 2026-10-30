@@ -49,3 +49,5 @@
     visibility:visible;
   }
 }
+/* (10/30) 홈 강의 칸: 보이는 상품이 없을 때 안내 (js patch/26c) */
+:root .sf-hc-none { grid-column: 1 / -1; list-style: none; padding: 40px 16px; border-radius: 12px; background: #f7f7f8; color: #6b7280; font-size: 15px; text-align: center; }

@@ -15,13 +15,14 @@
   // 교육 목록 받기(페이지가 열리자마자 · 페이지가 여럿이면 모두)
   var got = fetch('/course' + pv, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
     var d = t && new DOMParser().parseFromString(t, 'text/html');
-    if (!d) return [];
+    // 목록 칸을 못 찾으면(받기 실패) null → 지금 카드 그대로 · 칸은 있는데 상품이 0개면 빈 목록 → 홈 칸도 비워요(숨긴 상품이 남지 않게)
+    if (!d || ![].some.call(d.querySelectorAll('template'), function (x) { return x.content.querySelector('.iw-shop-grid'); })) return null;
     var cards = function (doc) { return [].concat.apply([], [].map.call(doc.querySelectorAll('template'), function (x) { return [].slice.call(x.content.querySelectorAll('li.iw-shop-card')); })); };
     var all = cards(d), n = 1;
     [].forEach.call(d.querySelectorAll('template'), function (x) {
       [].forEach.call(x.content.querySelectorAll('.iw-shop-pagination a'), function (a) { var k = parseInt(a.textContent, 10); k > n && (n = k); });
     });
-    if (n < 2) return all;
+    if (!all || n < 2) return all;
     var more = [];
     for (var i = 2; i <= n; i++) more.push(fetch('/course?page=' + i + (pv ? '&preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).catch(function () { return ''; }));
     return Promise.all(more).then(function (ts) {
@@ -29,7 +30,7 @@
       return all;
     });
   }).then(function (all) {
-    return all.map(function (c) {
+    return all && all.map(function (c) {
       var id = +c.getAttribute('data-system-product-id'), sg = SFUI.sumTags((c.querySelector('.iw-shop-product-summary') || {}).textContent);
       var img = c.querySelector('img.iw-shop-thumbnail, img'), amt = c.querySelector('.iw-shop-amount');
       return {
@@ -63,14 +64,22 @@
       '</span><span class="sf-ccard__body"><strong>' + esc(x.name) + '</strong>' + (x.sum ? '<p>' + esc(x.sum) + '</p>' : '') +
       '<span class="sf-tags">' + (SFUI.tagHtml ? SFUI.tagHtml(x.tags || it.tags) : '') + '</span><span class="sf-ccard__price">' + esc(x.price) + '</span></span></a>';
   }
+  // (10/30) 홈 칸은 지금 교육 목록에 보이는 상품만 — 숨김·삭제한 상품은 홈 코드에 카드가 남아 있어도 빼고,
+  //   빈 자리는 남은 홈 카드 순서 → 목록의 다른 상품(최근 등록 순)으로 채워요 · 하나도 없으면 '준비 중' 안내
+  var none = function (w) { var li = document.createElement('li'); li.className = 'sf-hc-none'; li.textContent = '새로운 ' + w + '를 준비하고 있어요. 곧 업데이트될 예정이에요.'; return li; };
   function paint(list) {
     var by = {}, items = SFUI.shopItems ? SFUI.shopItems() : {};
     list.forEach(function (x) { by[x.id] = x; });
+    var live = function (base) {
+      base = base.filter(function (i) { return by[i] && !by[i].off; });
+      list.filter(function (x) { return !x.off && base.indexOf(x.id) < 0; }).sort(function (a, b) { return b.id - a.id; }).forEach(function (x) { base.push(x.id); });
+      return base;
+    };
     // ① 가장 주목받는 강의
     var ul = document.querySelector('ul.sf-cards4--grid');
     if (ul && ul.querySelector('li[data-sf-filter-item]')) {
       var old = [].slice.call(ul.children), keep = {}, base = old.map(function (li) { var i = idOf(li); keep[i] = li; return i; });
-      var ids = list.some(function (x) { return x.focus; }) ? slots(list, 'focus', 8, base) : base, grp = (old[0] && old[0].getAttribute('data-sf-filter-item')) || 'home-edu';
+      var ids = slots(list, 'focus', 8, live(base)), grp = (old[0] && old[0].getAttribute('data-sf-filter-item')) || 'home-edu';
       var frag = document.createDocumentFragment();
       ids.forEach(function (i) {
         var x = by[i], li = keep[i];
@@ -81,6 +90,7 @@
         x && li.querySelector('p') && (li.querySelector('p').textContent = x.sum || li.querySelector('p').textContent);
         frag.appendChild(li);
       });
+      ids.length || frag.appendChild(none('강의'));
       old.forEach(function (li) { li.parentNode === ul && ul.removeChild(li); });
       ul.appendChild(frag);
       // 홈 분야 칩이 이미 눌려 있으면 다시 걸러요
@@ -89,14 +99,15 @@
     }
     // ② 이달의 BEST 강의 TOP 5
     var ol = document.querySelector('ol.sf-top5');
-    if (ol && list.some(function (x) { return x.best; })) {
+    if (ol) {
       var o2 = [].slice.call(ol.children), k2 = {}, b2 = o2.map(function (li) { var i = idOf(li); k2[i] = li; return i; });
-      var f2 = document.createDocumentFragment();
-      slots(list, 'best', 5, b2).forEach(function (i) {
+      var f2 = document.createDocumentFragment(), i2 = slots(list, 'best', 5, live(b2));
+      i2.forEach(function (i) {
         var li = k2[i];
         if (!li) { li = document.createElement('li'); li.innerHTML = card(by[i], items); }
         f2.appendChild(li);
       });
+      i2.length || f2.appendChild(none('강의'));
       o2.forEach(function (li) { li.parentNode === ol && ol.removeChild(li); });
       ol.appendChild(f2);
     }
@@ -108,7 +119,7 @@
     if (!ready && document.readyState === 'complete' || Date.now() - t0 > 6000) { done = true; return show(); }
     if (!ready) return void setTimeout(go, 40);
     done = true;
-    got.then(function (list) { try { list && list.length && paint(list); } catch (x) {} show(); });
+    got.then(function (list) { try { list && paint(list); } catch (x) {} show(); });
   }
   go();
   // 늦어도 3초 뒤엔 보여요(받기가 늦거나 실패하면 지금 카드 그대로)

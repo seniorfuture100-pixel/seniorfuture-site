@@ -452,7 +452,8 @@
   function c() {
     o(), [].forEach.call(document.querySelectorAll("div.js-custom-widget-container"), (function(t) {
       var e = t.shadowRoot;
-      e && e.querySelector("li.iw-shop-card:not([data-sf-card])") && r(t), e && !t.hasAttribute("data-sf-ready") && t.setAttribute("data-sf-ready", ""), // 10/25 우리 스타일을 입힌 뒤에 보이게(css qa/07)
+      // (10/30) 상품이 하나도 없는 목록도 꾸며요 — 예전엔 카드가 있어야만 꾸며서, 빈 목록이 페이지 머리 위에 아임웹 모양(○○ 0 · 등록순)으로 크게 남았어요
+      e && (e.querySelector("li.iw-shop-card:not([data-sf-card])") || !t.hasAttribute("data-sf-shop") && e.querySelector(".iw-shop-grid")) && r(t), e && !t.hasAttribute("data-sf-ready") && t.setAttribute("data-sf-ready", ""), // 10/25 우리 스타일을 입힌 뒤에 보이게(css qa/07)
       e && !t.__sfObs && (t.__sfObs = new MutationObserver(d), 
       t.__sfObs.observe(e, {
         childList: !0,
