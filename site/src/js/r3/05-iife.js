@@ -263,7 +263,10 @@
       ot && vn && ot.textContent !== vn && (ot.textContent = vn);
     }
     // (10/29) 옵션 칸이 늦게 그려지면 r3NoOpt 가 '옵션 없는 상품'으로 잘못 보고 합계 칸을 숨겨요 → 옵션 카드나 선택 줄이 있으면 풀어요
-    (cards.length || rs.length) && document.documentElement.classList.remove('r3-noopt');
+    //   (10/30) 강의 본품 줄(order_quantity_area)은 옵션 줄로 세지 않아요 — 옵션 없는 상품도 이 줄이 생겨서, 불러오는 시점에 따라
+    //   합계 '상품 금액'이 가격과 겹쳐 보였다 안 보였다 했어요 → 옵션 카드·옵션 줄이 있으면 풀고, 둘 다 없으면 다시 '옵션 없음'
+    var ors = rs.filter(function (r) { return !r.closest('.order_quantity_area'); });
+    document.querySelector('.sf-pv') && document.documentElement.classList.toggle('r3-noopt', !cards.length && !ors.length);
   }
 
   // 아임웹은 옵션을 고를 때마다 옵션 영역을 새로 그려요 → 카드가 사라지면 다시 만들고, 남아 있으면 표시만 고쳐요
