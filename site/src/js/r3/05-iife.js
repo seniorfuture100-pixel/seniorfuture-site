@@ -103,7 +103,7 @@
         if (it.el.closest('[data-sf-pre]')) { b.classList.add('is-on'); b.setAttribute('aria-pressed', 'true'); pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
         var st0 = stepsNow(form);
         if (b.classList.contains('is-wait')) return; // 방금 누른 카드: 아임웹 줄이 올 때까지 두 번 더하지 않아요
-        ghost(form, wrap, b, it);
+        ghost(form, wrap, b, it, g.req);
         later(function () {
           g.pick(it);
           mark(form, groups);
@@ -126,13 +126,13 @@
     requestAnimationFrame(go); setTimeout(go, 40); // 뒤에 숨은 탭처럼 그림이 늦으면 0.04초 뒤
   }
   function won(t) { var m = /([\d,]+)\s*원/.exec(t || ''); return m ? +m[1].replace(/,/g, '') : null; }
-  function ghost(form, wrap, b, it) {
+  function ghost(form, wrap, b, it, req) {
     var gp = form.querySelector('#prod_selected_options');
     if (!gp || !(it.price || it.zero) || /^[+\-]/.test(clean(it.price))) return;
     var p = it.zero ? 0 : won(it.price), parts = [];
     if (p == null) return;
-    // 단계 옵션: 마지막 금액 + 앞 단계에서 고른 카드 금액, 줄 글은 '그룹: 값 / 그룹: 값'
-    var steps = $$('.r3-opt[data-step]', form);
+    // 마지막 필수 그룹(단계 옵션): 마지막 금액 + 앞 단계에서 고른 카드 금액, 줄 글은 '그룹: 값 / 그룹: 값' · 선택 옵션은 따로 한 줄
+    var steps = req ? $$('.r3-opt[data-step]', form) : [];
     for (var i = 0; i < steps.length; i++) {
       var on = steps[i].querySelector('.r3-opt__card.is-on');
       if (!on) return; // 앞 단계를 다 안 골랐으면 아임웹도 줄을 안 만들어요
