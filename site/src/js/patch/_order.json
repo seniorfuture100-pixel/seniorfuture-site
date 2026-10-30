@@ -108,6 +108,10 @@
     "stmt": false
   },
   {
+    "file": "26b-insightBest.js",
+    "stmt": false
+  },
+  {
     "file": "27-window.__sfFixEnd.js",
     "stmt": false
   }

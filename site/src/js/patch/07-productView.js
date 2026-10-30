@@ -120,6 +120,19 @@ SFUI.meetDate = function(v) {
   !m[1] && d.getTime() < now.getTime() - 15552e6 && d.setFullYear(y + 1);
   return isNaN(d.getTime()) ? "" : d.toISOString();
 };
+// (10/30) 모임 일시 = 기간(교육 수강 기간처럼): '2026.11.14 14:00 - 18:00' · '2026.11.14 14:00 - 2026.11.15 12:00'
+//   · '2026.11.04 - 2026.11.25 (매주 화 19:30)'(시작 시각은 괄호 안 시각) → { start, end } · 끝이 없으면 end ''
+SFUI.meetRange = function(v) {
+  v = String(v || "");
+  var pr = v.split(/\s*[~～–—]\s*|\s+-\s+/), a = pr[0] || "", b = pr[1] || "", DT = /\d{1,2}\s*[.\/\-월]\s*\d{1,2}/, TM = /(\d{1,2}):(\d{2})/;
+  var tm = TM.exec(a) || TM.exec(v), st = SFUI.meetDate(a), en = "";
+  if (st && !TM.test(a)) { var d0 = new Date(st); d0.setHours(tm ? +tm[1] : 0, tm ? +tm[2] : 0, 0, 0); st = d0.toISOString(); }
+  if (st && b) {
+    if (DT.test(b)) en = SFUI.meetDate(b.replace(/\([^)]*\)/g, ""));
+    else if (TM.test(b)) { var t2 = TM.exec(b), d1 = new Date(st); d1.setHours(+t2[1], +t2[2], 0, 0); en = d1.toISOString(); }
+  }
+  return { start: st, end: en };
+};
 // (10/29) 모임 상세 글 [모임 안내] 칸(교육의 [수강 기간]처럼): '이름: 값' 한 줄씩
 //   구분(모임·이벤트…) · 방식(온라인·오프라인) · 장소 · 마감(신청 마감 일시) · 정원 · 일시(상품명에 없을 때만) · 그 밖의 줄은 모임 안내 상자에 그대로
 SFUI.meetParse = function(W) {
@@ -133,7 +146,7 @@ SFUI.meetParse = function(W) {
     if (!kv) return;
     var key = kv[1].replace(/\s+/g, ""), v = kv[2].trim();
     /^(구분|종류|유형)$/.test(key) ? o.kind = v : /^(방식|형태|진행방식)$/.test(key) ? o.mode = v : /^(장소|위치)$/.test(key) ? o.place = v
-      : /^(신청)?마감$|^모집마감$/.test(key) ? o.deadline = SFUI.meetDate(v) : /^(일시|날짜)$/.test(key) ? o.start = SFUI.meetDate(v)
+      : /^(신청)?마감$|^모집마감$/.test(key) ? o.deadline = SFUI.meetDate(v) : /^(일시|날짜|기간)$/.test(key) ? (kv = SFUI.meetRange(v), o.start = kv.start, o.end = kv.end, o.when = v)
       : /^(정원|인원|모집인원)$/.test(key) ? o.cap = v : o.rows.push([ kv[1].trim(), v ]);
   }));
   return o;
@@ -215,6 +228,7 @@ SFUI.register('productView', function() {
         MI = SFUI.meetParse(tp0 && tp0.content || document.getElementById("prod_detail_body"));
         MI.kind && (i.kind = MI.kind), (MI.place || MI.mode) && (i.place = SFUI.meetPlace(MI));
         MI.start && !i.start && (i.start = MI.start, i.end = new Date(Date.parse(MI.start) + 72e5).toISOString());
+        MI.end && (i.end = MI.end); // (10/30) 일시에 끝을 적었으면 그 기간
         MI.deadline ? i.deadline = MI.deadline : MI.start && !i.deadline && (i.deadline = MI.start);
       }
       var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
@@ -222,7 +236,9 @@ SFUI.register('productView', function() {
       var ht = null;
       try { ht = (SFUI.__hash || {})[n] || JSON.parse(sessionStorage.getItem("sf_badges") || "{}")[n] || null; } catch (x) {}
       c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.ceil((k - j) / 864e5)) + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
-      p && (L = '<span class="sf-tag sf-tag--' + ((SFUI.isEvent ? SFUI.isEvent(i.kind) : "이벤트" === i.kind) ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D), 
+      // (10/30) 모임 상태는 목록과 같게(모집중 · 마감 임박 · 모집 마감 · 진행 중 · 종료)
+      p && (D = SFUI.meetState({ start: i.start, end: MI && MI.end || "", deadline: i.deadline }), D = '<span class="sf-tag sf-tag--' + D[0] + '">' + D[1] + "</span>"),
+      p && (L = '<span class="sf-tag sf-tag--' + ((SFUI.isEvent ? SFUI.isEvent(i.kind) : "이벤트" === i.kind) ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D),
       ht && !c && SFUI.tagHtml && (L += SFUI.tagHtml(ht));
       U && L && U.insertBefore(pe("div", "sf-tags sf-pv-tags", L), U.firstChild);
       ht || badgeFetch(n, (function(e) {
@@ -268,7 +284,9 @@ SFUI.register('productView', function() {
         // (10/27) 일시·장소·마감이 하나도 없으면(코드 표에 없는 새 모임) 빈 상자 대신 칸을 아예 빼요
         // (10/29) + 정원 · [모임 안내]의 그 밖의 줄(준비물·대상 등) · 마감에 시각까지
         var ic = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>', kt = k && new Date(k);
-        var rows = [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") ], [ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.5 3.5 0 010 6.4M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg>', "정원", MI && MI.cap || "" ] ].concat((MI && MI.rows || []).map((function(e) {
+        // (10/30) 일시에 끝을 적었으면 기간으로: '11월 14일 (토) · 14:00 – 18:00' · 날짜가 다르면 '… – 11월 25일 (수)' + 괄호 설명(매주 화 19:30)
+        var ME = MI && MI.end && SFUI.parseDate(MI.end), sd = ME && new Date(ME).toDateString() === new Date(B).toDateString(), md = MI && MI.when && (/\(([^)]*\d{1,2}:\d{2}[^)]*)\)/.exec(MI.when) || [])[1];
+        var rows = [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") + (B && ME ? " – " + (sd ? fe(ME) : le(ME)) : "") + (md ? " (" + md + ")" : "") ],[ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.5 3.5 0 010 6.4M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg>', "정원", MI && MI.cap || "" ] ].concat((MI && MI.rows || []).map((function(e) {
           return [ ic, e[0], e[1] ];
         })), [ [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + (kt && (kt.getHours() !== 23 || kt.getMinutes() !== 59) && !(B && k === B) ? " " + fe(k) : "") + "까지" : "" ] ]).filter((function(e) {
           return e[2];

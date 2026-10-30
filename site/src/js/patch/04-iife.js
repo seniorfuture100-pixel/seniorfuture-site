@@ -238,9 +238,9 @@
       return x ? '<span class="sf-tag sf-tag--' + x[0] + '">' + x[1] + "</span>" : "";
     }).join("");
   };
+  // (10/30) 모임 상태: 모집중 · 마감 임박 · 모집 마감 · 진행 중 · 종료 (SFUI.meetState, ui/06)
   function s(t) {
-    var e = Date.now(), a = SFUI.parseDate(t.deadline), s = SFUI.parseDate(t.start);
-    return s && e >= s || a && e >= a ? [ "closed", "모집 마감" ] : a && a - e <= 2592e5 ? [ "soon", "마감 임박" ] : [ "recruit", "모집중" ];
+    return SFUI.meetState(t);
   }
   function r(r) {
     var i = r.shadowRoot;
@@ -303,7 +303,7 @@
                   if (!o) return;
                   // 카드가 아직 목록 칸(.iw-shop-grid)에 들어가기 전이면 조금 뒤 다시(순서 정렬을 그 칸에서 해야 해요)
                   if (!(t.parentElement && t.parentElement.classList.contains("iw-shop-grid")) && tr < 20) return void setTimeout((function() { fill(o, tr + 1); }), 150);
-                  var mi = o.meet || {}, b = { type: "meet", kind: mi.kind || a.kind, place: SFUI.meetPlace(mi), start: mi.start || o.start || "", past: a.past };
+                  var mi = o.meet || {}, b = { type: "meet", kind: mi.kind || a.kind, place: SFUI.meetPlace(mi), start: o.start || mi.start || "", end: mi.end || "", past: a.past };
                   b.deadline = mi.deadline || b.start;
                   if (b.start) { var dd = new Date(b.start); b.date = dd.getMonth() + 1 + "월 " + dd.getDate() + "일 (" + "일월화수목금토".charAt(dd.getDay()) + ")"; }
                   var l2 = s(b), sq = function(x) { return String(x || "").replace(/[<>&"]/g, ""); };
@@ -315,8 +315,8 @@
                   //   아임웹이 목록을 다시 그리면 원래 순서로 되돌려요 → 칸을 지켜보다 순서가 다르면 다시 맞춰요(같으면 손대지 않아 반복되지 않아요)
                   var g0 = t.parentElement, so = function() {
                     var cs = [].slice.call(g0.children).filter(function(x) { return x.matches && x.matches("li.iw-shop-card"); }), st0 = function(x) { return Date.parse(x.getAttribute("data-start") || "") || 9e15; };
-                    var want = cs.filter(function(x) { return "closed" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st0(x) - st0(y); })
-                      .concat(cs.filter(function(x) { return "closed" === x.getAttribute("data-status"); }).sort(function(x, y) { return st0(y) - st0(x); }));
+                    var want = cs.filter(function(x) { return "ended" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st0(x) - st0(y); })
+                      .concat(cs.filter(function(x) { return "ended" === x.getAttribute("data-status"); }).sort(function(x, y) { return st0(y) - st0(x); }));
                     want.some(function(x, k) { return x !== cs[k]; }) && want.forEach(function(x) { g0.appendChild(x); });
                   };
                   if (g0) {
@@ -332,10 +332,10 @@
           }(t, a, a.type || f);
         })), "meet" === f && function(t) {
           var e = [].slice.call(t.querySelectorAll("li.iw-shop-card"));
-          // (10/26) 모집 중은 가까운 날짜 순, 마감·지난 행사는 최근 순으로 뒤에
+          // (10/26) 모집 중은 가까운 날짜 순, 마감·지난 행사는 최근 순으로 뒤에 · (10/30) 뒤로 보내는 건 끝난(종료) 모임만 — 마감됐어도 아직 안 열린 모임은 날짜 순
           var st = function(x) { return Date.parse(x.getAttribute("data-start") || "") || 0; };
-          var op = e.filter(function(x) { return "closed" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st(x) - st(y); });
-          var cl = e.filter(function(x) { return "closed" === x.getAttribute("data-status"); }).sort(function(x, y) { return st(y) - st(x); });
+          var op = e.filter(function(x) { return "ended" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st(x) - st(y); });
+          var cl = e.filter(function(x) { return "ended" === x.getAttribute("data-status"); }).sort(function(x, y) { return st(y) - st(x); });
           op.concat(cl).forEach(function(x) { t.appendChild(x); });
         }(c), SFUI.init(i), "live" === f && function(g) {
           var o2 = {

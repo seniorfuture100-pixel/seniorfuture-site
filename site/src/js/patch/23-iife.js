@@ -11,7 +11,7 @@
     var t = function (c) { var it = items[id(c)]; return it && SFUI.parseDate ? SFUI.parseDate(it.start) || 0 : 0; };
     if (box.classList.contains('sf-shop--course')) cards.sort(function (a, b) { return id(a) - id(b); });
     else if (box.classList.contains('sf-shop--meet')) {
-      var closed = function (c) { return c.querySelector('[data-status="closed"]') || (c.getAttribute('data-status') === 'closed') ? 1 : 0; };
+      var closed = function (c) { return c.querySelector('[data-status="ended"]') || (c.getAttribute('data-status') === 'ended') ? 1 : 0; }; // (10/30) 뒤로 보내는 건 끝난(종료) 모임만
       cards.sort(function (a, b) { return closed(a) - closed(b) || (closed(a) ? t(b) - t(a) : t(a) - t(b)); });
     } else return;
     cards.forEach(function (c) { grid.appendChild(c); });
