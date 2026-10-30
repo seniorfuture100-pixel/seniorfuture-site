@@ -60,10 +60,11 @@
     try { C = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (x) {}
     if (C && Date.now() - C.at < 3e5) return paint(C.list);
     // 공지로 체크한 글만 후보(아임웹은 공지 글에만 '공지' 딱지를 보여 줘요)
+    //   다른 페이지에서 가져와 붙인 글(r3-ins-more, r3InsightAll)은 숨김 표시가 지워져 있어 빼요
     var items = [].slice.call(document.querySelectorAll('[data-widget-type="board"] ._post_item_wrap')), cand = [], seen = {};
     items.forEach(function (it) {
       var nb = it.querySelector('.notice-block'), a = it.querySelector('a[href*="idx="]'), m = a && /[?&;]idx=(\d+)/.exec(a.getAttribute('href'));
-      if (!nb || nb.style.display === 'none' || !m || seen[m[1]]) return;
+      if (!nb || nb.style.display === 'none' || it.closest('.r3-ins-more') || !m || seen[m[1]]) return;
       seen[m[1]] = 1;
       var em = it.querySelector('.r2-icat') || it.querySelector('.title em:not(.notice-block):not(.addon-badge)');
       cand.push({ idx: m[1], cat: em ? em.textContent.trim() : '' });
@@ -77,6 +78,7 @@
       paint(list);
     });
   }
+  window.SFUI && (SFUI.__insBest = { read: readPost, paint: paint }); // 점검용
   var n1 = 0;
   (function wait() {
     if (document.querySelector('[data-widget-type="board"] ._post_item_wrap') && document.querySelector('.sf-cards4--ins')) return void setTimeout(run, 300);
