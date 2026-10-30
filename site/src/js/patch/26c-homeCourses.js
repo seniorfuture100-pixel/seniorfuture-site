@@ -130,6 +130,9 @@
   var done = false, t0 = Date.now();
   function go() {
     if (done) return;
+    // (10/30 사장님) 홈 칸 이름: '커뮤니티 모임 · 이벤트' → '커뮤니티' (홈 코드 위젯 글자는 디자인 모드에서 바꾸기 전까지 여기서)
+    var hm = document.getElementById('h-meet');
+    hm && hm.textContent !== '커뮤니티' && (hm.textContent = '커뮤니티');
     var ready = document.querySelector('ol.sf-top5') && document.querySelector('ul.sf-cards4--grid li[data-sf-filter-item]');
     if (!ready && document.readyState === 'complete' || Date.now() - t0 > 6000) { done = true; return show(); }
     if (!ready) return void setTimeout(go, 40);

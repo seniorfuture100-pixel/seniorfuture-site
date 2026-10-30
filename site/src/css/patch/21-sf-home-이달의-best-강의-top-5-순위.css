@@ -53,3 +53,6 @@
 :root .sf-hc-none { grid-column: 1 / -1; list-style: none; padding: 40px 16px; border-radius: 12px; background: #f7f7f8; color: #6b7280; font-size: 15px; text-align: center; }
 :root.sf-hc-wait ul.sf-cards4:has(.sf-lcard):not(.sf-hc-on),
 :root.sf-hc-wait ul.sf-cards4--meet:not(.sf-hc-on) { visibility: hidden; }
+/* TOP5 빈 안내는 순위 숫자 없이, 주목받는 강의 칸 안내와 같은 모양으로 */
+:root ol.sf-top5 > .sf-hc-none { display: block; min-height: 0; counter-increment: none; padding: 40px 16px; border: 0; box-shadow: none; }
+:root ol.sf-top5 > .sf-hc-none::before, :root ol.sf-top5 > .sf-hc-none::after { content: none; display: none; }
