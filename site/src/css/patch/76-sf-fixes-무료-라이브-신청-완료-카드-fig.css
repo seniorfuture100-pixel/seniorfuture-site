@@ -311,3 +311,6 @@ html body .sf-fix-end {
   color:var(--sf-text);
   font:600 15px/1.4 var(--sf-font);
 }
+:root body .sf-pv .goods_payment .order_quantity_area.r3-base {
+  padding:14px 16px!important;
+}
