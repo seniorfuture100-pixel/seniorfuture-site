@@ -78,15 +78,23 @@
             '<span class="r3-opt__chk" aria-hidden="true"></span><span class="r3-opt__name">' + txt(p.name) + '</span>' + price +
             (so ? '<span class="r3-opt__off">마감</span>' : '') + '</button>';
         }).join('');
+      // (10/30) 단계 옵션: 줄을 만든 직후 아임웹이 앞 단계를 비우면 뒤 단계 목록이 '먼저 골라 주세요'로 줄었다가(약 1초) 다시 늘어나요 → 화면이 위아래로 튀어요
+      //   다시 고르는 동안(keepUntil)엔 직전 카드 모양을 그대로 보여 줘요(누르기는 진짜 목록이 오면). 진짜 목록이 오면 새로 그려요
+      var lk = clean(lb);
+      if (g.items.length) keep[lk] = wrap.innerHTML;
+      else if (g.wait && Date.now() < keepUntil && keep[lk]) { wrap.innerHTML = keep[lk]; wrap.setAttribute('data-keep', ''); }
       g.box.parentNode.insertBefore(wrap, g.box);
       g.box.classList.add('r3-opt-src');
       wrap.addEventListener('click', function (e) {
         var b = e.target.closest('.r3-opt__card'); if (!b || b.disabled) return;
-        var it = g.items[+b.getAttribute('data-i')], name = it.nm || parse(it.t).name;
+        var it = g.items[+b.getAttribute('data-i')];
+        if (!it) return; // 잠깐 보여 주는 직전 카드(data-keep)는 진짜 목록이 오면 눌려요
+        var name = it.nm || parse(it.t).name;
         // 앞 단계 카드: 고르기만 해요(이미 고른 값이면 그대로). 아임웹이 다음 단계 목록을 채워 다시 그려요
         if (g.step) {
-          e.isTrusted && restoreTok++; // 손님이 직접 고르면 '다시 고르기'는 멈춰요
-          if (b.classList.contains('is-on')) return;
+          e.isTrusted && (restoreTok++, keepUntil = 0); // 손님이 직접 고르면 '다시 고르기'는 멈춰요
+          // 이미 아임웹에도 골라져 있으면 그대로(화면 체크만 보고 판단하면, 다시 고르는 동안 직전 체크를 유지해 둔 카드를 못 눌러요)
+          if ((stepsNow(form)[wrap.getAttribute('data-lb')] || '').indexOf(name) === 0) return;
           $$('.r3-opt__card', wrap).forEach(function (c) { c.classList.toggle('is-on', c === b); c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
           if (it.el.closest('[data-sf-pre]')) { pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
           later(function () { g.pick(it); }); return;
@@ -208,9 +216,9 @@
   // (10/30) 아임웹은 줄을 만든 뒤 약 0.35초 있다가 앞 단계를 비워요 → 2초 동안 지켜보며 비워진 단계를 앞에서부터 하나씩 다시 골라요
   //   (앞 단계를 고르면 아임웹이 뒤 단계를 다시 그려 비우기도 해서, 한 번에 하나씩 · 다음 확인 때 또)
   //   손님이 그 사이 앞 단계 카드를 직접 누르면 바로 멈춰요(restoreTok)
-  var restoreTok = 0;
+  var restoreTok = 0, keep = {}, keepUntil = 0, keepSt = null;
   function restoreSteps(form, st0, n, tok) {
-    if (tok == null) tok = ++restoreTok;
+    if (tok == null) { tok = ++restoreTok; keepUntil = Date.now() + 2600; keepSt = st0; }
     setTimeout(function () {
       if (tok !== restoreTok) return;
       var f = document.querySelector('.goods_form_wrap, [data-r3-goods]') || form, now = stepsNow(f), todo = null;
@@ -231,7 +239,9 @@
     var cards = $$('.r3-opt__card', form), st = stepsNow(form);
     cards.forEach(function (b) {
       var nm = clean(b.querySelector('.r3-opt__name').textContent), w = b.closest('.r3-opt'), lb = w && w.getAttribute('data-lb');
-      var on = w && w.hasAttribute('data-step') ? !!st[lb] && st[lb].indexOf(nm) === 0
+      // 다시 고르는 동안엔 앞 단계 체크도 직전 값 그대로(깜빡이지 않게)
+      var sv = st[lb] || (Date.now() < keepUntil && keepSt && keepSt[lb]) || '';
+      var on = w && w.hasAttribute('data-step') ? !!sv && sv.indexOf(nm) === 0
         : names.some(function (t) { return same(t, nm, lb, st); });
       b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
