@@ -178,12 +178,21 @@ html {
 
 /* (10/30) 신청·결제 완료: 아임웹 기본 완료 화면이 잠깐 보였다가 우리 카드로 바뀌던 것 → 처음부터 가려 두고 카드만(patch/25)
    입금 안내(무통장·가상계좌)이거나 카드를 못 그리면 sf-done-off 로 다시 보여요 · 코드가 아예 못 돌면 6초 뒤 저절로 보여요 */
+/* (10/30) 가린 동안에도 자리(높이)를 차지해서, 카드로 바뀔 때 화면이 줄었다 늘어났어요(적립금 결제 등) → 가린 동안은 높이 0 */
 html:not(.sf-done-off) body #oms-shop-payment-complete {
   visibility:hidden;
+  max-height:0;
+  overflow:hidden;
   animation:sfDoneShow 0s 6s forwards;
 }
 @keyframes sfDoneShow {
   to {
     visibility:visible;
+    max-height:none;
+    overflow:visible;
   }
+}
+/* 카드가 들어올 자리를 처음부터 잡아 둬요(푸터가 위로 올라왔다 내려가지 않게) */
+html:not(.sf-done-off) body .section_wrap:has(#oms-shop-payment-complete) {
+  min-height:min(640px, 80vh);
 }

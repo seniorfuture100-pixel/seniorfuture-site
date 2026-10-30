@@ -339,14 +339,9 @@
         run();
         return release('opt');
       }
-      // 옵션이 없는 상품: 아임웹이 '총 상품금액' 칸을 늦게 넣어요 → 그 칸이 들어올 때까지 기다렸다 보여 줘요
-      //   (아임웹이 칸을 통째로 바꿔 끼울 수 있어 매번 다시 찾아요)
-      //   (10/30) 옵션 없는 상품은 우리 화면에서 합계 칸이 높이 0으로 접혀 있어서 늘 2.5초를 다 기다렸어요 → 금액 글자가 들어왔으면 끝
-      function paid() { var p = document.querySelector('.goods_form_wrap .goods_payment'); return !p || p.offsetHeight > 0 || /\d\s*원/.test(p.textContent); }
-      var form = document.querySelector('.goods_form_wrap');
-      if (!form || paid()) return release('opt');
-      var mo = new MutationObserver(function () { if (paid()) { mo.disconnect(); release('opt'); } });
-      mo.observe(form, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] }); // 넣은 뒤 .show() 로 보이게 하는 경우까지
+      // 옵션이 없는 상품: (10/30) 예전엔 아임웹 '총 상품금액' 칸이 들어올 때까지 신청 버튼을 가렸는데, 그 칸은 우리 화면에서 접혀 있어
+      //   (PC r3-noopt · 휴대폰은 아래 고정 바) 버튼이 밀리지 않아요. 아임웹이 늦으면 2.5초씩 버튼이 안 보였음 → 바로 보여요
+      release('opt');
     }
     // ② '함께 구매' 추가 상품 칸도 같은 방법으로 미리 그려요(아임웹이 PC·휴대폰에서 넣는 내용을 그대로)
     function fillAdd(v) {
@@ -366,7 +361,7 @@
       return true;
     }
     // 받아 둔 게 없을 때, 그리고 옵션 없는 상품(합계 칸을 아임웹이 늦게 넣음)일 때만 기다려요
-    if (!c) { hold('opt'); hold('add'); } else if (!c.html) hold('opt');
+    if (!c) { hold('opt'); hold('add'); }
     // (10/30) 받아 둔 옵션이 있어도 뒤에서 한 번 새로 받아 둬요 — 관리자가 옵션을 고친 뒤 예전 모양이 계속 미리 그려지지 않게
     c && setTimeout(function () { optFetch(idx); }, 3000);
     if (start()) return;
