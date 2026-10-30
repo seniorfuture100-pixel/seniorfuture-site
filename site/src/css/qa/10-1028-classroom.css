@@ -321,3 +321,11 @@
     text-align:left;
   }
 }
+
+/* (10/30) '더 알아보기' 펼친 칸: 글 상자 위에 아임웹 본문 여백(30px)이 붙어 빈 줄처럼 보이던 것 → 바로 글이 보이게 */
+:root body [data-sf-acc-panel] > .sf-pv-ownbody {
+  margin-top:0!important;
+}
+:root body [data-sf-acc-panel] > .sf-pv-ownbody > :first-child {
+  margin-top:0!important;
+}

@@ -57,7 +57,7 @@
 }
 
 /* (10/26) 제목 1줄·2줄 카드 높이가 달라 필터마다 버튼 위치가 바뀌던 것 → 제목 칸을 늘 2줄 높이로 */
-:root .sf-shop:not(.sf-shop--meet) .iw-shop-product-name {
+:root .sf-shop--live .iw-shop-product-name { /* (10/30) 교육은 빼요 — 제목이 한 줄이면 설명이 제목 바로 밑에(홈 카드처럼) */
   min-height:3em;
 }
 
@@ -65,6 +65,7 @@
 :root .sf-shop--live .iw-shop-status-overlay,
 :root .sf-shop--meet .iw-shop-status-overlay,
 :root .sf-shop--live .iw-card-period,
-:root .sf-shop--meet .iw-card-period {
+:root .sf-shop--meet .iw-card-period,
+:root .sf-shop--course .iw-card-period {
   display:none!important;
 }

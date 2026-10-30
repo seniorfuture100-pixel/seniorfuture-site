@@ -31,7 +31,8 @@
       // 필수 옵션: .dropdown-item > a._requireOption / 선택(추가) 옵션: .dropdown-item > div.tabled[onclick] > … > a
       var all = $$('.dropdown-item', menu).map(function (di) { return di.querySelector(':scope > a, :scope > button') || di.querySelector('[onclick]') || di.querySelector('a'); })
         .concat($$('li > a, li > button', menu))
-        .filter(function (a) { return a && clean(a.textContent) && !/^(선택|옵션 선택)/.test(clean(a.textContent)); });
+        // (10/30) 안내 항목('선택'·'옵션 선택')만 빼요 — 예전엔 '선택'으로 시작하면 다 빼서 '선택사항' 같은 진짜 옵션이 사라졌어요
+        .filter(function (a) { return a && clean(a.textContent) && !/^(선택|옵션\s*선택)\s*$/.test(clean(a.textContent)); });
       // (10/29) 필수 옵션이 2단계 이상(예: 수강 형태 × 기수)이면 아임웹이 뒤 단계에 '○○ 옵션을 선택해주세요.' 안내만 넣어 둬요 → 카드로 만들지 않고 안내 글로
       var items = all.filter(function (a) { return !/선택해\s*주세요/.test(clean(a.textContent)); });
       // 그룹 이름은 옵션 제목(.option_title)에서 — 앞 단계를 고르면 아임웹이 드롭다운 글자를 고른 값으로 바꿔서, 그걸 쓰면 제목이 '온라인 라이브'처럼 바뀌어요
@@ -42,13 +43,13 @@
       var req = !!menu.querySelector('._requireOption') || /\*\s*$/.test(ot ? clean(ot.textContent) : '') || (!items.length && !!all.length);
       if (items.length || all.length) groups.push({ label: title ? title + (req ? '' : ' (선택)') : clean(tg.textContent) || '옵션 선택', req: req, wait: !items.length && all.length ? clean(all[0].textContent) : '', box: tg.parentElement, items: items.map(function (a) {
         var nm = a.querySelector('span'), pr = a.querySelector('strong');
-        return { el: a, t: a.textContent, name: nm ? clean(nm.textContent) : '', price: pr ? clean(pr.textContent) : '' };
+        return { el: a, t: a.textContent, name: nm ? clean(nm.textContent) : '', price: pr ? clean(pr.textContent) : '', zero: !!pr && !clean(pr.textContent) };
       }), pick: function (it) { it.el.click(); } });
     });
     // ② select 형 옵션
     $$('.goods_select select, .opt-group select', form).forEach(function (sel) {
       if (sel.closest('.r3-opt-src') || /countryList/.test(sel.className)) return;
-      var opts = [].slice.call(sel.options).filter(function (o) { return o.value && !/^(선택|옵션 선택|-)/.test(clean(o.text)); });
+      var opts = [].slice.call(sel.options).filter(function (o) { return o.value && !/^(선택|옵션\s*선택|-+)\s*$/.test(clean(o.text)); });
       if (opts.length) groups.push({ label: clean(sel.options[0] && sel.options[0].text) || '옵션 선택', box: sel, items: opts.map(function (o) { return { el: o, t: o.text }; }), pick: function (it) { sel.value = it.el.value; sel.dispatchEvent(new Event('change', { bubbles: true })); } });
     });
     if (!groups.length) return false;
@@ -69,7 +70,8 @@
         g.items.map(function (it, i) {
           var p = parse(it.t), so = soldOut(it.t) || it.el.disabled || /disabled|soldout/.test((it.el.parentElement && it.el.parentElement.className) || '');
           if (it.name) p.name = clean(it.name.replace(/\s*[\[［(（]\s*(품절|마감|sold\s*out)\s*[\]］)）]\s*/ig, ' '));
-          var price = it.price ? '<span class="r3-opt__add">' + txt(it.price.replace(/^\+?\s*/, '')) + '</span>'
+          // (10/30) 가격 칸이 비어 있는 항목(0원 옵션)도 '0원'으로 보여요(앞 단계 카드는 값이 다음 단계에서 정해져서 빼요)
+          var price = it.price ? '<span class="r3-opt__add">' + txt(it.price.replace(/^\+?\s*/, '')) + '</span>' : it.zero && !g.step ? '<span class="r3-opt__add">0원</span>'
             : (p.add && !/^[+]?0$/.test(p.add) ? '<span class="r3-opt__add">' + txt(p.add.charAt(0) === '-' ? p.add : '+' + p.add.replace(/^\+/, '')) + '원</span>' : '');
           it.nm = p.name;
           return '<button type="button" class="r3-opt__card' + (so ? ' is-off' : '') + '" data-i="' + i + '"' + (so ? ' disabled' : '') + ' aria-pressed="false">' +
@@ -141,6 +143,8 @@
     $$('.r3-opt[data-step]', form).forEach(function (w) {
       var src = w.nextElementSibling, tg = src && src.querySelector('.dropdown-toggle'), v = tg ? clean(tg.textContent) : '';
       var lb = w.getAttribute('data-lb');
+      // (10/30) 앞 단계 옵션에 금액이 있으면 아임웹이 '톡방 (10,000원)'처럼 금액까지 붙여 보여줘요 → 금액은 떼고 이름만
+      v = v.replace(/\s*[(（]\s*[+\-]?[\d,]+\s*원\s*[)）]\s*$/, '');
       o[lb] = v && !/[(（]\s*필수\s*[)）]/.test(v) && !lbEq(v, lb) ? v : '';
     });
     return o;
@@ -152,7 +156,8 @@
       if (!todo) return;
       var w = $$('.r3-opt[data-step]', f).filter(function (x) { return x.getAttribute('data-lb') === todo; })[0];
       var c = w && $$('.r3-opt__card', w).filter(function (b) { return st0[todo].indexOf(clean(b.querySelector('.r3-opt__name').textContent)) === 0; })[0];
-      if (c) c.click();
+      // (10/30) 앞 단계가 여럿(필수 옵션 3개 이상)이면 하나씩 차례로 다시 골라요
+      if (c) { c.click(); n < 12 && restoreSteps(f, st0, n + 1); }
       else if (n < 12) restoreSteps(f, st0, n + 1);
     }, n ? 150 : 300);
   }
@@ -273,6 +278,8 @@
     }
     // 받아 둔 게 없을 때, 그리고 옵션 없는 상품(합계 칸을 아임웹이 늦게 넣음)일 때만 기다려요
     if (!c) { hold('opt'); hold('add'); } else if (!c.html) hold('opt');
+    // (10/30) 받아 둔 옵션이 있어도 뒤에서 한 번 새로 받아 둬요 — 관리자가 옵션을 고친 뒤 예전 모양이 계속 미리 그려지지 않게
+    c && setTimeout(function () { optFetch(idx); }, 3000);
     if (start()) return;
     var mo = new MutationObserver(function () { if (start()) mo.disconnect(); });
     mo.observe(root, { childList: true, subtree: true });
