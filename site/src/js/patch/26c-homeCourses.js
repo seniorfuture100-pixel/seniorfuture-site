@@ -11,9 +11,14 @@
   var pv = /preview_mode=1/.test(location.search) ? '?preview_mode=1' : '';
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; };
   var clean = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
-  var show = function () { [].forEach.call(document.querySelectorAll('ul.sf-cards4--grid, ol.sf-top5'), function (e) { e.classList.add('sf-hc-on'); }); };
+  // 라이브 칸 = 라이브 카드(.sf-lcard)가 든 ul.sf-cards4 (:has 를 못 쓰는 브라우저도 있어서 직접 골라요)
+  var LV = function () { return [].filter.call(document.querySelectorAll('ul.sf-cards4'), function (u) { return u.querySelector('.sf-lcard'); }); };
+  var MT = function () { return [].slice.call(document.querySelectorAll('ul.sf-cards4--meet')); };
+  document.documentElement.classList.add('sf-hc-wait'); // 라이브·커뮤니티 칸도 정리 끝날 때까지 가려요(css patch/21)
+  var show = function () { [].slice.call(document.querySelectorAll('ul.sf-cards4--grid, ol.sf-top5')).concat(LV(), MT()).forEach(function (e) { e.classList.add('sf-hc-on'); }); };
   // 교육 목록 받기(페이지가 열리자마자 · 페이지가 여럿이면 모두)
-  var got = fetch('/course' + pv, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
+  // (10/30) 무료 라이브·커뮤니티도 같은 방식으로 받아서, 목록에 없는(숨김·삭제) 상품 카드는 홈에서 빼요
+  var fetchList = function (path) { return fetch(path + pv, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
     var d = t && new DOMParser().parseFromString(t, 'text/html');
     // 목록 칸을 못 찾으면(받기 실패) null → 지금 카드 그대로 · 칸은 있는데 상품이 0개면 빈 목록 → 홈 칸도 비워요(숨긴 상품이 남지 않게)
     if (!d || ![].some.call(d.querySelectorAll('template'), function (x) { return x.content.querySelector('.iw-shop-grid'); })) return null;
@@ -24,7 +29,7 @@
     });
     if (!all || n < 2) return all;
     var more = [];
-    for (var i = 2; i <= n; i++) more.push(fetch('/course?page=' + i + (pv ? '&preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).catch(function () { return ''; }));
+    for (var i = 2; i <= n; i++) more.push(fetch(path + '?page=' + i + (pv ? '&preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).catch(function () { return ''; }));
     return Promise.all(more).then(function (ts) {
       ts.forEach(function (x) { x && (all = all.concat(cards(new DOMParser().parseFromString(x, 'text/html')))); });
       return all;
@@ -40,7 +45,8 @@
         off: c.getAttribute('data-sold-out') === 'true' || c.getAttribute('data-sale-wait') === 'true'
       };
     }).filter(function (x) { return x.id; });
-  }).catch(function () { return null; });
+  }).catch(function () { return null; }); };
+  var got = fetchList('/course'), gotLive = fetchList('/live'), gotMeet = fetchList('/community');
 
   // 자리 채우기: key = 'focus'|'best', size = 칸 수, base = 지금 칸에 있는 상품 번호 순서
   function slots(list, key, size, base) {
@@ -112,6 +118,15 @@
       ol.appendChild(f2);
     }
   }
+  // 라이브·커뮤니티 칸: 목록에 없는 상품 카드만 빼요(새 상품 카드를 만들어 넣지는 않아요 — 카드 모양이 상품마다 달라서)
+  function prune(list, sel, w) {
+    var has = {};
+    list.forEach(function (x) { has[x.id] = 1; });
+    sel().forEach(function (ul) {
+      [].slice.call(ul.children).forEach(function (li) { var i = idOf(li); i && !has[i] && ul.removeChild(li); });
+      ul.querySelector('a[href*="idx="]') || ul.querySelector('.sf-hc-none') || ul.appendChild(none(w));
+    });
+  }
   var done = false, t0 = Date.now();
   function go() {
     if (done) return;
@@ -119,7 +134,11 @@
     if (!ready && document.readyState === 'complete' || Date.now() - t0 > 6000) { done = true; return show(); }
     if (!ready) return void setTimeout(go, 40);
     done = true;
-    got.then(function (list) { try { list && paint(list); } catch (x) {} show(); });
+    Promise.all([got, gotLive, gotMeet]).then(function (r) {
+      try { r[0] && paint(r[0]); } catch (x) {}
+      try { r[1] && prune(r[1], LV, '라이브'); r[2] && prune(r[2], MT, '모임·이벤트'); } catch (x) {}
+      show();
+    });
   }
   go();
   // 늦어도 3초 뒤엔 보여요(받기가 늦거나 실패하면 지금 카드 그대로)
