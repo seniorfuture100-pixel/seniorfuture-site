@@ -248,6 +248,9 @@
       b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     form.classList.toggle('r3-has-rows', rs.length > 0);
+    // (10/30) 총 상품금액이 0원이면 '무료'(상세 가격·완료 카드·결제 내역과 같게)
+    var tp0 = form.querySelector('#prod_selected_options .total_price');
+    tp0 && /^\s*0\s*원\s*$/.test(tp0.textContent) && (tp0.textContent = '무료');
     // (10/30) 선택 옵션만 있는 상품: 아임웹은 기본 상품(수량 1)을 늘 합계에 넣는데, 그 칸(order_quantity_area)이 숨겨져 있어
     //   '뒷풀이 30,000원'만 보이고 합계는 30,100원처럼 안 맞아 보였어요 → 기본 상품 줄을 옵션 줄처럼 보여 줘요(이름 = 상품명)
     var oq = form.querySelector('.order_quantity_area');
