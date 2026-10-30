@@ -315,13 +315,7 @@
                   t.setAttribute("data-start", mi.start), t.setAttribute("data-deadline", mi.deadline || mi.start), mi.end && t.setAttribute("data-end", mi.end);
                   delete t.dataset.sfuiBoundLive, t.removeAttribute("data-status");
                   var rt = t.getRootNode && t.getRootNode();
-                  rt && SFUI.init(rt);
-                  // 상태가 생겼으니 목록 순서도 다시(LIVE → 마감 임박 → 모집중 → 마감 → 지난 라이브)
-                  var g1 = t.parentElement, od = { live: 0, closing: 1, open: 2, closed: 3, ended: 4 };
-                  g1 && [].slice.call(g1.querySelectorAll("li.iw-shop-card")).map((function(li) {
-                    var s1 = li.getAttribute("data-status") || "open", tm = Date.parse(li.getAttribute("data-start") || "") || 0;
-                    return [ li, od[s1] != null ? od[s1] : 2, "ended" === s1 ? -tm : tm ];
-                  })).sort((function(x, y) { return x[1] - y[1] || x[2] - y[2]; })).forEach((function(x) { g1.appendChild(x[0]); }));
+                  rt && SFUI.init(rt); // 목록 순서는 아래 so2(칸 지켜보기)가 다시 맞춰요
                 }));
               } else if ("meet" === r) {
                 var l = SFUI.saleOver(t) ? [ "ended", "모집 마감" ] : s(a); // (10/30) 판매기간 종료·품절이면 바로 모집 마감
@@ -377,21 +371,26 @@
           var cl = e.filter(function(x) { return "ended" === x.getAttribute("data-status"); }).sort(function(x, y) { return st(y) - st(x); });
           op.concat(cl).forEach(function(x) { t.appendChild(x); });
         }(c), SFUI.init(i), "live" === f && function(g) {
+          // (10/30) 순서: LIVE → 마감 임박 → 모집중 → 신청 마감 → 지난 라이브(최근 순) · 같은 상태는 가까운 날짜 순
+          //   일시는 코드 표 · 상품명 [일시] · 본문 [라이브 안내]에서 늦게 채워져서(data-start) — 바뀔 때마다 다시 맞춰요(같은 순서면 손대지 않아 반복 안 돼요)
           var o2 = {
             live: 0,
             closing: 1,
             open: 2,
             closed: 3,
             ended: 4
+          }, so2 = function() {
+            var cs = [].slice.call(g.children).filter(function(x) { return x.matches && x.matches("li.iw-shop-card"); });
+            var want = cs.map((function(li) {
+              var it = l[li.getAttribute("data-system-product-id")] || {}, s = li.getAttribute("data-status") || "open", tm = Date.parse(li.getAttribute("data-start") || it.start || "") || 9e15;
+              return [ li, o2[s] != null ? o2[s] : 2, "ended" === s ? -tm : tm ];
+            })).sort((function(a, b) {
+              return a[1] - b[1] || a[2] - b[2];
+            })).map(function(x) { return x[0]; });
+            want.some(function(x, k) { return x !== cs[k]; }) && want.forEach((function(x) { g.appendChild(x); }));
           };
-          [].slice.call(g.querySelectorAll("li.iw-shop-card")).map((function(li) {
-            var it = l[li.getAttribute("data-system-product-id")] || {}, s = li.getAttribute("data-status") || "open", tm = Date.parse(it.start || "") || 0;
-            return [ li, o2[s] != null ? o2[s] : 2, "ended" === s ? -tm : tm ];
-          })).sort((function(a, b) {
-            return a[1] - b[1] || a[2] - b[2];
-          })).forEach((function(x) {
-            g.appendChild(x[0]);
-          }));
+          so2();
+          g.__sfLiveSort || (g.__sfLiveSort = 1, new MutationObserver((function() { requestAnimationFrame(so2); })).observe(g, { childList: !0, subtree: !0, attributes: !0, attributeFilter: [ "data-start", "data-status" ] }));
         }(c), o(), n(r);
       }
     }

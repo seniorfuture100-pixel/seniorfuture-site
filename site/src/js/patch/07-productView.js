@@ -291,11 +291,12 @@ SFUI.register('productView', function() {
         // (10/27) 일시·장소·마감이 하나도 없으면(코드 표에 없는 새 모임) 빈 상자 대신 칸을 아예 빼요
         // (10/29) + 정원 · [모임 안내]의 그 밖의 줄(준비물·대상 등) · 마감에 시각까지
         var ic = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>', kt = k && new Date(k);
+        // (10/30) 라이브는 장소 대신 '방식' · 마감 줄은 시작 시각과 다를 때만(마감은 판매기간 설정으로 — 날짜를 화면에 안 실어요)
         // (10/30) 일시에 끝을 적었으면 기간으로: '11월 14일 (토) · 14:00 – 18:00' · 날짜가 다르면 '… – 11월 25일 (수)' + 괄호 설명(매주 화 19:30)
         var ME = MI && MI.end && SFUI.parseDate(MI.end), sd = ME && new Date(ME).toDateString() === new Date(B).toDateString(), md = MI && MI.when && (/\(([^)]*\d{1,2}:\d{2}[^)]*)\)/.exec(MI.when) || [])[1];
-        var rows = [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") + (B && ME ? " – " + (sd ? fe(ME) : le(ME)) : "") + (md ? " (" + md + ")" : "") ],[ b, "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.5 3.5 0 010 6.4M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg>', "정원", MI && MI.cap || "" ] ].concat((MI && MI.rows || []).map((function(e) {
+        var rows = [ [ h, "일시", (i.date || (B ? le(B) : "")) + (B ? " · " + fe(B) : "") + (B && ME ? " – " + (sd ? fe(ME) : le(ME)) : "") + (md ? " (" + md + ")" : "") ],[ b, o && !(MI && MI.place) ? "방식" : "장소", i.place || "" ], [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.5 3.5 0 010 6.4M18 14.8c1.8.7 3 2.5 3.5 5.2"/></svg>', "정원", MI && MI.cap || "" ] ].concat((MI && MI.rows || []).map((function(e) {
           return [ ic, e[0], e[1] ];
-        })), [ [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k ? le(k) + (kt && (kt.getHours() !== 23 || kt.getMinutes() !== 59) && !(B && k === B) ? " " + fe(k) : "") + "까지" : "" ] ]).filter((function(e) {
+        })), [ [ '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', "마감", k && !(B && k === B) ? le(k) + (kt && (kt.getHours() !== 23 || kt.getMinutes() !== 59) && !(B && k === B) ? " " + fe(k) : "") + "까지" : "" ] ]).filter((function(e) {
           return e[2];
         }));
         return rows.length ? '<section class="sf-pv-sec sf-pv-meetinfo"><h2>' + (ttl || "모임 안내") + '</h2><div class="sf-pv-infobox">' + rows.map((function(e) {
