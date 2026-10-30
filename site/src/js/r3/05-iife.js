@@ -63,6 +63,7 @@
       var lb = g.label.replace(/\s*[(（]\s*(필수|선택)\s*[)）]\s*$/, '');
       wrap.setAttribute('data-lb', clean(lb)); // (10/29) 선택 줄 '그룹명: 옵션명'과 맞춰 볼 때 써요
       g.step && wrap.setAttribute('data-step', '');
+      g.req && wrap.setAttribute('data-req', ''); // (10/30) 필수 그룹이 없는 상품(선택 옵션만)은 기본 상품 줄을 보여 줘요(mark)
       var opt = /\(\s*선택\s*\)\s*$/.test(g.label);
       var head = /^(옵션\s*)?선택$/.test(lb) || !lb ? '수강 옵션 선택' : lb;
       wrap.innerHTML = '<p class="r3-opt__h">' + txt(head) + '<small>' + (g.step ? '하나 골라요' : opt ? '필요하면 추가로 골라요' : '여러 개 고를 수 있어요') + '</small></p>' +
@@ -155,7 +156,8 @@
     var total = (tp ? won(tp.textContent) || 0 : 0) + p, n = (cnt ? +cnt[1] : 0) + 1;
     var row = document.createElement('div');
     // 아임웹 줄 모양(높이)이 상황마다 달라요: 필수 줄 '_selected_require_option' · 선택 옵션 첫 줄 그냥 · 둘째 줄부터 'middle' → 똑같이 맞춰야 바뀔 때 안 움직여요
-    row.className = (req ? '_selected_require_option ' : gp.querySelector('.opt_block:not(.total)') ? 'middle ' : '') + 'opt_block sf-ghost';
+    //   (옵션 없는 기본 수량 칸 order_quantity_area 는 줄로 치지 않아요 — 선택 옵션만 있는 상품에서 튀던 것)
+    row.className = (req ? '_selected_require_option ' : gp.querySelector('.opt_block:not(.total):not(.order_quantity_area)') ? 'middle ' : '') + 'opt_block sf-ghost';
     row.innerHTML = '<div class="full-width opt_product_area r3-optrow"><div class="area_tit holder"><span class="body_font_color_80">' + txt(parts.join(' / ')) +
       '</span><a class="text-18 absolute absolute_right absolute_middle" href="javascript:;"><i class="btl bt-times-circle"></i></a></div><div class="area_count holder"><div class="option_btn_wrap"><div class="option_btn_tools"><a href="javascript:;"><i class="btl bt-minus" aria-hidden="true"></i></a><input type="text" value="1" class="form-control count _count" readonly><a href="javascript:;"><i class="btl bt-plus"></i></a></div></div><div class="area_price absolute absolute_right absolute_middle"><span>' + fmt(p) + '</span></div></div></div>';
     busy = true;
@@ -246,6 +248,15 @@
       b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     form.classList.toggle('r3-has-rows', rs.length > 0);
+    // (10/30) 선택 옵션만 있는 상품: 아임웹은 기본 상품(수량 1)을 늘 합계에 넣는데, 그 칸(order_quantity_area)이 숨겨져 있어
+    //   '뒷풀이 30,000원'만 보이고 합계는 30,100원처럼 안 맞아 보였어요 → 기본 상품 줄을 옵션 줄처럼 보여 줘요(이름 = 상품명)
+    var oq = form.querySelector('.order_quantity_area');
+    if (oq) {
+      var only = !!form.querySelector('.r3-opt') && !form.querySelector('.r3-opt[data-req]');
+      oq.classList.toggle('r3-base', only);
+      var ot = only && oq.querySelector('.area_tit .option_title'), vt = document.querySelector('.view_tit');
+      ot && vt && ot.textContent !== clean(vt.textContent) && (ot.textContent = clean(vt.textContent));
+    }
     // (10/29) 옵션 칸이 늦게 그려지면 r3NoOpt 가 '옵션 없는 상품'으로 잘못 보고 합계 칸을 숨겨요 → 옵션 카드나 선택 줄이 있으면 풀어요
     (cards.length || rs.length) && document.documentElement.classList.remove('r3-noopt');
   }

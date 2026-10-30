@@ -149,3 +149,36 @@
     margin:12px 0;
   }
 }
+
+/* (10/30) 선택 옵션만 있는 상품: 기본 상품 줄(아임웹 기본 수량 칸)을 옵션 줄과 같은 모양으로(r3-options mark → r3-base) */
+:root body .sf-pv .order_quantity_area.r3-base {
+  display:block!important;
+  position:relative;
+  height:auto!important;
+  margin:0 0 8px!important;
+  padding:14px 40px 14px 16px!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:var(--sf-surface,#f7f8fa)!important;
+}
+:root body .order_quantity_area.r3-base .area_tit {
+  margin:0 0 8px!important;
+}
+:root body .order_quantity_area.r3-base .area_tit .option_title {
+  display:block;
+  margin:0!important;
+  color:var(--sf-text)!important;
+  font:500 14px/1.45 var(--sf-font)!important;
+}
+:root body .order_quantity_area.r3-base .r3-optrow {
+  margin:0!important;
+  padding:0!important;
+  border-radius:0!important;
+  background:0 0!important;
+}
+/* (10/30) 선택 옵션의 첫 줄(아임웹이 그냥 opt_block 으로 줘요)만 위아래 여백이 38px 더 붙어 있던 것 → 다른 줄과 같은 높이 */
+:root body .goods_payment .opt_block:not(.total):not(.order_quantity_area):has(> .opt_product_area) {
+  padding:0!important;
+  border:0!important;
+  background:0 0!important;
+}
