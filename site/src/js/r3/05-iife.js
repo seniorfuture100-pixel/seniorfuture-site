@@ -85,6 +85,7 @@
         var it = g.items[+b.getAttribute('data-i')], name = it.nm || parse(it.t).name;
         // 앞 단계 카드: 고르기만 해요(이미 고른 값이면 그대로). 아임웹이 다음 단계 목록을 채워 다시 그려요
         if (g.step) {
+          e.isTrusted && restoreTok++; // 손님이 직접 고르면 '다시 고르기'는 멈춰요
           if (b.classList.contains('is-on')) return;
           $$('.r3-opt__card', wrap).forEach(function (c) { c.classList.toggle('is-on', c === b); c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
           if (it.el.closest('[data-sf-pre]')) { pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
@@ -149,17 +150,21 @@
     });
     return o;
   }
-  function restoreSteps(form, st0, n) {
+  // (10/30) 아임웹은 줄을 만든 뒤 약 0.35초 있다가 앞 단계를 비워요 → 2초 동안 지켜보며 비워진 단계를 앞에서부터 하나씩 다시 골라요
+  //   (앞 단계를 고르면 아임웹이 뒤 단계를 다시 그려 비우기도 해서, 한 번에 하나씩 · 다음 확인 때 또)
+  //   손님이 그 사이 앞 단계 카드를 직접 누르면 바로 멈춰요(restoreTok)
+  var restoreTok = 0;
+  function restoreSteps(form, st0, n, tok) {
+    if (tok == null) tok = ++restoreTok;
     setTimeout(function () {
+      if (tok !== restoreTok) return;
       var f = document.querySelector('.goods_form_wrap, [data-r3-goods]') || form, now = stepsNow(f), todo = null;
       Object.keys(st0).forEach(function (lb) { if (!todo && st0[lb] && !now[lb]) todo = lb; });
-      if (!todo) return;
-      var w = $$('.r3-opt[data-step]', f).filter(function (x) { return x.getAttribute('data-lb') === todo; })[0];
+      var w = todo && $$('.r3-opt[data-step]', f).filter(function (x) { return x.getAttribute('data-lb') === todo; })[0];
       var c = w && $$('.r3-opt__card', w).filter(function (b) { return st0[todo].indexOf(clean(b.querySelector('.r3-opt__name').textContent)) === 0; })[0];
-      // (10/30) 앞 단계가 여럿(필수 옵션 3개 이상)이면 하나씩 차례로 다시 골라요
-      if (c) { c.click(); n < 12 && restoreSteps(f, st0, n + 1); }
-      else if (n < 12) restoreSteps(f, st0, n + 1);
-    }, n ? 150 : 300);
+      c && c.click();
+      n < 14 && restoreSteps(f, st0, n + 1, tok);
+    }, 150);
   }
   function findRow(form, name, lb) { var st = stepsNow(form); return rows(form).filter(function (r) { return same(clean(r.textContent), name, lb, st); })[0]; }
   function mark(form, groups) {
