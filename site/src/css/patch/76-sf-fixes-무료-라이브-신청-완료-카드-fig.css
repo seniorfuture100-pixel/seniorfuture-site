@@ -314,3 +314,23 @@ html body .sf-fix-end {
 :root body .sf-pv .goods_payment .order_quantity_area.r3-base {
   padding:14px 16px!important;
 }
+
+/* (10/30 사장님 2차) 결제란 더 간단히 — 본품 줄 숨김(금액은 아래 '상품 금액'에 이미 나와요) · '상품 금액' 위 구분선
+   · 구매 상자의 '수강 기간 …' 줄 숨김(나의 강의실 기간 표시는 그대로) · '상품 금액' 바로 아래 찜·신청 버튼 · 옵션 제목 옆 안내 문구 숨김 */
+:root body .sf-pv .goods_payment .order_quantity_area.r3-base {
+  display:none!important;
+}
+:root body .sf-pv .opt_block.total {
+  margin-top:8px!important;
+  padding-top:20px!important;
+  border-top:1px solid var(--sf-border)!important;
+}
+:root body .sf-pv .sf-pv__side .sf-pv-period {
+  display:none!important;
+}
+:root body .sf-pv .sf-pv__side .buy_btns.pc {
+  margin-top:20px!important;
+}
+:root body .sf-pv .r3-opt__h small {
+  display:none!important;
+}
