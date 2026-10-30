@@ -1105,7 +1105,7 @@
               end: n.end ? Date.parse(n.end) : d ? d + 54e5 : 0,
               title: t.name.replace(p, "").trim(),
               base: "live" === s ? "/live/" : "meet" === s ? "/community/" : "/course/",
-              guess: !n.type && !i // (10/30) 코드 표·상품명 [일시]가 없으면 상품 글 [라이브 안내]·[모임 안내]로 종류·일시를 채워요(아래)
+              guess: !n.type // (10/30) 코드 표에 없는 상품은 상품 글 [라이브 안내]·[모임 안내]로 종류·일시를 채워요(아래 · 상품명 [일시]만 있던 모임도 '강의'로 나오던 것)
             }, f = /취소|반품|환불/.test(t.status), h = !/^0원/.test(t.price), v = f ? t.status.replace("상품준비", "") || "취소" : /입금/.test(t.status) ? "입금 대기" : h ? "결제 완료" : "신청 완료", g = "live" === s ? "무료 라이브" : "meet" === s ? n.kind || "모임" : "강의", b = !f && !/입금/.test(t.status) && "meet" !== s;
             l.push({
               x: u,
