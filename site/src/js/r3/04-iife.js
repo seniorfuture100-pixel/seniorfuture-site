@@ -1104,7 +1104,8 @@
               start: d,
               end: n.end ? Date.parse(n.end) : d ? d + 54e5 : 0,
               title: t.name.replace(p, "").trim(),
-              base: "live" === s ? "/live/" : "meet" === s ? "/community/" : "/course/"
+              base: "live" === s ? "/live/" : "meet" === s ? "/community/" : "/course/",
+              guess: !n.type && !i // (10/30) 코드 표·상품명 [일시]가 없으면 상품 글 [라이브 안내]·[모임 안내]로 종류·일시를 채워요(아래)
             }, f = /취소|반품|환불/.test(t.status), h = !/^0원/.test(t.price), v = f ? t.status.replace("상품준비", "") || "취소" : /입금/.test(t.status) ? "입금 대기" : h ? "결제 완료" : "신청 완료", g = "live" === s ? "무료 라이브" : "meet" === s ? n.kind || "모임" : "강의", b = !f && !/입금/.test(t.status) && "meet" !== s;
             l.push({
               x: u,
@@ -1114,11 +1115,25 @@
         })), t.innerHTML = l.length ? '<ul class="sf-hub-list r3-ord-list">' + l.map((function(t) {
           return t.html;
         })).join("") + "</ul>" : '<div class="r2-my-load">아직 결제·신청한 강의가 없어요. <a href="/course">교육 둘러보기</a> · <a href="/live">무료 라이브</a></div>',
-        l.forEach((function(t) {
+        l.forEach((function(t, k) {
           // (10/29) 강의실 = 공용 강의실(자동), 소통방 = 상품 상세 [톡방]
           "course" !== t.x.type || SFUI.roomInfo(t.x.idx, (function(o) {
             s[t.x.idx] || (s[t.x.idx] = o && o.room || "/class?idx=" + t.x.idx);
             o && o.chat && !t.x.it.chat && (t.x.it = Object.assign({}, t.x.it, { chat: o.chat }));
+          }));
+          // (10/30) 일시를 본문에만 쓴 라이브·모임: 결제 내역도 나의 강의실처럼 [라이브 안내]·[모임 안내]의 종류·일시를 써요(입장 안내 창도)
+          t.x.guess && SFUI.roomInfo(t.x.idx, (function(q) {
+            var mi = q && q.meet;
+            if (!mi || !mi.sec) return;
+            t.x.type = mi.sec, t.x.base = "live" === mi.sec ? "/live/" : "/community/";
+            mi.start && (t.x.start = Date.parse(mi.start)), t.x.end = mi.end ? Date.parse(mi.end) : t.x.start ? t.x.start + 54e5 : 0;
+            q.chat && !t.x.it.chat && (t.x.it = Object.assign({}, t.x.it, { chat: q.chat })), q.replay && !t.x.it.replay && (t.x.it = Object.assign({}, t.x.it, { replay: q.replay }));
+            var li = document.querySelector('.r3-ord[data-ord="' + k + '"]');
+            if (!li) return;
+            var sm = li.querySelector("small"), pp = li.querySelector("p"), gb = li.querySelector(".r3-ord__go");
+            sm && (sm.textContent = "live" === mi.sec ? "무료 라이브" : mi.kind || "모임");
+            pp && t.x.start && pp.textContent.indexOf(o(t.x.start)) < 0 && (pp.textContent = o(t.x.start) + " · " + pp.textContent);
+            "meet" === mi.sec && gb && gb.remove(); // 모임은 입장 창 없이(나의 강의실의 모임 정보로)
           }));
         })),
         t.addEventListener("click", (function(t) {
