@@ -42,7 +42,8 @@
         id: id, name: clean((c.querySelector('.iw-shop-product-name') || {}).textContent), sum: sg.text, cats: sg.cats, focus: sg.focus, best: sg.best,
         img: img ? img.getAttribute('src') || img.getAttribute('data-src') || '' : '', price: amt ? clean(amt.textContent) + '원' : '무료',
         tags: SFUI.badgeTags ? SFUI.badgeTags(c.querySelector('.iw-shop-product-badges')) : null,
-        off: c.getAttribute('data-sold-out') === 'true' || c.getAttribute('data-sale-wait') === 'true'
+        off: c.getAttribute('data-sold-out') === 'true' || c.getAttribute('data-sale-wait') === 'true',
+        so: c.getAttribute('data-sold-out') === 'true', sw: c.getAttribute('data-sale-wait') === 'true', at: (c.querySelector('[data-at]') || { getAttribute: function () { return ''; } }).getAttribute('data-at') || ''
       };
     }).filter(function (x) { return x.id; });
   }).catch(function () { return null; }); };
@@ -127,6 +128,64 @@
       ul.querySelector('a[href*="idx="]') || ul.querySelector('.sf-hc-none') || ul.appendChild(none(w));
     });
   }
+  // (10/30 사장님) 라이브·커뮤니티 칸도 목록에서 바로 만들어요 — 새 상품을 올리면 홈에도 저절로(4칸)
+  //   일시·마감·구분·장소: 코드 표(예전 상품) → 없으면 상품 상세 [라이브 안내]·[모임 안내](SFUI.roomInfo, 5분 기억)
+  //   순서: 신청 받는 중(가까운 날짜 순) → 끝난 것(최근 순) · 판매기간 끝·품절은 '신청 마감'/'모집 마감'
+  var SVG_D = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>';
+  var SVG_P = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+  var dLabel = function (v) { var t = Date.parse(v || ''); if (!t) return ''; var d = new Date(t); return d.getMonth() + 1 + '월 ' + d.getDate() + '일 (' + '일월화수목금토'.charAt(d.getDay()) + ')'; };
+  function infos(list, cb) {
+    var items = SFUI.shopItems ? SFUI.shopItems() : {}, out = {}, wait = 0, fin = false;
+    var end = function () { fin || (fin = true, cb(out)); };
+    list.forEach(function (x) {
+      var it = items[x.id];
+      if (it && it.start) return void (out[x.id] = { start: it.start, end: it.end || '', deadline: it.deadline || '', kind: it.kind, place: it.place, date: it.date });
+      if (!SFUI.roomInfo || wait >= 16) return;
+      wait++;
+      SFUI.roomInfo(x.id, function (o) {
+        var m = o && o.meet || {};
+        out[x.id] = { start: m.start || o && o.start || '', end: m.end || '', deadline: m.deadline || '', kind: m.kind, place: SFUI.meetPlace ? SFUI.meetPlace(m) : m.place, replay: o && o.replay };
+        --wait || end();
+      });
+    });
+    wait ? setTimeout(end, 2000) : end();
+  }
+  var order = function (a, b) { return a.done !== b.done ? (a.done ? 1 : -1) : a.done ? b.st - a.st : (a.st || 9e15) - (b.st || 9e15); };
+  var nm = function (s) { return String(s || '').replace(/\s*\[[^\[\]]*\d{1,2}:\d{2}\]\s*$/, ''); };
+  function buildLive(list, ul) {
+    infos(list, function (inf) {
+      var now = Date.now(), rows = list.map(function (x) {
+        var f = inf[x.id] || {}, st = Date.parse(f.start || '') || 0, en = Date.parse(f.end || '') || 0;
+        return { x: x, f: f, st: st, done: !!st && SFUI.liveOver(st, en, now) };
+      }).sort(order).slice(0, 4);
+      ul.innerHTML = rows.map(function (r) {
+        var x = r.x, f = r.f, ap = '/live/?idx=' + x.id;
+        return '<li><article class="sf-lcard" data-sf-live data-start="' + esc(f.start) + '" data-end="' + esc(f.end) + '" data-deadline="' + esc(f.deadline) + '" data-link-apply="' + ap + '" data-link-live="/classroom"' +
+          (f.replay ? ' data-link-replay="' + esc(f.replay) + '"' : '') + (x.so ? ' data-sold-out="true"' : '') + (x.sw ? ' data-sale-wait="true"' : '') + '>' + (x.at ? '<span data-at="' + esc(x.at) + '" hidden></span>' : '') +
+          '<a class="sf-ccard" href="' + ap + '"><span class="sf-ccard__thumb">' + (x.img ? '<img src="' + esc(x.img) + '" alt="" loading="lazy">' : '') + '</span><span class="sf-ccard__body"><strong>' + esc(nm(x.name)) + '</strong></span></a>' +
+          '<span class="sf-tags"><span class="sf-badge" data-sf-live-badge></span></span><a class="sf-btn" data-sf-live-btn></a></article></li>';
+      }).join('');
+      rows.length ? SFUI.init && SFUI.init(ul) : ul.appendChild(none('라이브'));
+      ul.classList.add('sf-hc-on');
+    });
+  }
+  function buildMeet(list, ul) {
+    infos(list, function (inf) {
+      var now = Date.now(), rows = list.map(function (x) {
+        var f = inf[x.id] || {}, li = { getAttribute: function (k) { return k === 'data-sold-out' ? String(x.so) : k === 'data-sale-wait' ? String(x.sw) : null; }, querySelector: function () { return x.at ? { getAttribute: function () { return x.at; } } : null; } };
+        var s = SFUI.saleOver(li) ? ['ended', '모집 마감'] : SFUI.meetState(f, now);
+        return { x: x, f: f, s: s, st: Date.parse(f.start || '') || 0, done: s[0] === 'ended' };
+      }).sort(order).slice(0, 4);
+      ul.innerHTML = rows.map(function (r) {
+        var x = r.x, f = r.f, ev = SFUI.isEvent ? SFUI.isEvent(f.kind) : f.kind === '이벤트', dt = f.date || dLabel(f.start);
+        return '<li><a class="sf-ccard sf-mcard" href="/community/?idx=' + x.id + '"><span class="sf-ccard__thumb">' + (x.img ? '<img src="' + esc(x.img) + '" alt="" loading="lazy">' : '') + '</span><span class="sf-ccard__body"><span class="sf-tags">' +
+          '<span class="sf-tag sf-tag--' + (ev ? 'event' : 'meet') + '">' + esc(f.kind || '모임') + '</span><span class="sf-tag sf-tag--' + r.s[0] + '">' + r.s[1] + '</span></span><strong>' + esc(nm(x.name)) + '</strong>' +
+          '<span class="sf-mcard__meta">' + (dt ? '<span>' + SVG_D + esc(dt) + '</span>' : '') + (f.place ? '<span>' + SVG_P + esc(f.place) + '</span>' : '') + '</span></span></a></li>';
+      }).join('');
+      rows.length || ul.appendChild(none('모임·이벤트'));
+      ul.classList.add('r3-meet-ok', 'sf-hc-on'); // r3HomeMeet(예전 고정 목록)가 다시 덮지 않게
+    });
+  }
   var done = false, t0 = Date.now();
   function go() {
     if (done) return;
@@ -139,11 +198,15 @@
     done = true;
     Promise.all([got, gotLive, gotMeet]).then(function (r) {
       try { r[0] && paint(r[0]); } catch (x) {}
-      try { r[1] && prune(r[1], LV, '라이브'); r[2] && prune(r[2], MT, '모임·이벤트'); } catch (x) {}
-      show();
+      var lv = LV(), mt = MT(); // 다시 그리기 전에 칸을 잡아 둬요(안내만 남으면 LV()가 못 찾아요)
+      try { r[1] && lv.forEach(function (u) { buildLive(r[1], u); }); } catch (x) { r[1] && prune(r[1], LV, '라이브'); }
+      try { r[2] && mt.forEach(function (u) { buildMeet(r[2], u); }); } catch (x) { r[2] && prune(r[2], MT, '모임·이벤트'); }
+      [].forEach.call(document.querySelectorAll('ul.sf-cards4--grid, ol.sf-top5'), function (e) { e.classList.add('sf-hc-on'); });
+      r[1] || lv.forEach(function (u) { u.classList.add('sf-hc-on'); });
+      r[2] || mt.forEach(function (u) { u.classList.add('sf-hc-on'); });
     });
   }
   go();
-  // 늦어도 3초 뒤엔 보여요(받기가 늦거나 실패하면 지금 카드 그대로)
-  setTimeout(show, 3000);
+  // 늦어도 4초 뒤엔 보여요(받기가 늦거나 실패하면 지금 카드 그대로)
+  setTimeout(show, 4000);
 })()
