@@ -36,3 +36,16 @@
 :root .sf-expert10 a:hover img {
   transform:scale(1.04);
 }
+
+/* (10/30) 홈 '가장 주목받는 강의'·'BEST TOP 5'는 요약 설명 꼬리표 순서를 맞춘 뒤 보여요(patch/26c 가 sf-hc-on) — 예전 카드가 먼저 보였다 바뀌지 않게
+   자리는 그대로 두고 투명하게만, 코드가 못 돌면 3초 뒤 저절로 보여요 */
+:root body ul.sf-cards4--grid:has(> li[data-sf-filter-item]):not(.sf-hc-on),
+:root body ol.sf-top5:not(.sf-hc-on) {
+  visibility:hidden;
+  animation:sfHcShow 0s 3s forwards;
+}
+@keyframes sfHcShow {
+  to {
+    visibility:visible;
+  }
+}

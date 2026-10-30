@@ -238,6 +238,23 @@
       return x ? '<span class="sf-tag sf-tag--' + x[0] + '">' + x[1] + "</span>" : "";
     }).join("");
   };
+  // (10/30) 요약 설명 꼬리표(교육) — '#'로 시작하는 말은 화면에서 모두 지우고, 아는 꼬리표만 읽어요
+  //   분야: #입문 #요양돌봄 #주거 #금융보험 #커머스 #헬스케어 #여가교육일 #창업(SFUI.cats 이름도 됨) · 홈: #주목1~8 · #BEST1~5
+  var CT = { 입문: "intro", 산업이해: "intro", 시니어산업이해: "intro", 요양돌봄: "care", 요양: "care", 돌봄: "care", 주거: "housing", 시니어타운: "housing", 주거시니어타운: "housing",
+    금융보험: "finance", 금융: "finance", 보험: "finance", 커머스: "commerce", 소비: "commerce", 소비커머스: "commerce", 헬스케어: "health", 에이지테크: "health", 헬스케어에이지테크: "health",
+    여가교육일: "life", 여가: "life", 일자리: "life", 창업: "startup", 사업개발: "startup", 창업사업개발: "startup" };
+  SFUI.sumTags = function(v) {
+    var o = { text: "", cats: [], focus: 0, best: 0, had: !1 };
+    o.text = String(v || "").replace(/#[^\s#]+/g, (function(w) {
+      var k = w.slice(1).replace(/[&·,.\/]/g, ""), m;
+      o.had = !0;
+      if (m = /^주목([1-8])$/.exec(k)) o.focus = +m[1];
+      else if (m = /^best([1-5])$/i.exec(k)) o.best = +m[1];
+      else CT[k] && o.cats.indexOf(CT[k]) < 0 && o.cats.push(CT[k]);
+      return "";
+    })).replace(/\s+/g, " ").trim();
+    return o;
+  };
   // (10/30) 커뮤니티 상태: 모집중 · 마감 임박 · 종료 (SFUI.meetState, ui/06)
   function s(t) {
     return SFUI.meetState(t);
@@ -275,7 +292,12 @@
               t.setAttribute("data-sf-card", r);
               var i = t.querySelector(".iw-card-info-link") || t, n = t.querySelector(".iw-shop-product-badges"), ht = SFUI.badgeTags(n), tg = ht || a.tags;
               SFUI.saveBadgeTags(t.getAttribute("data-system-product-id"), ht);
-              if ("course" === r) t.setAttribute("data-category", a.cat || ""), a.past && t.setAttribute("data-past", ""), n && tg && (n.innerHTML = '<span class="sf-tags">' + SFUI.tagHtml(tg) + "</span>"); else if ("live" === r) {
+              // (10/30) 교육 요약 설명 꼬리표: '문장 #요양돌봄 #주목1 #BEST2' → 문장만 보이고, 분야는 토글(data-category), 주목·BEST 는 홈 칸 순서
+              //   이 칸은 우리 스타일을 입히기 전까지 안 보여서(css qa/07 data-sf-ready) 꼬리표가 비치는 순간이 없어요
+              var sm = t.querySelector(".iw-shop-product-summary"), sg = SFUI.sumTags(sm && sm.textContent);
+              sm && sg.had && (sm.textContent = sg.text);
+              sg.focus && t.setAttribute("data-sf-focus", sg.focus), sg.best && t.setAttribute("data-sf-best", sg.best);
+              if ("course" === r) t.setAttribute("data-category", sg.cats.length ? sg.cats.join(" ") : a.cat || ""), a.past && t.setAttribute("data-past", ""), n && tg && (n.innerHTML = '<span class="sf-tags">' + SFUI.tagHtml(tg) + "</span>"); else if ("live" === r) {
                 var o = (t.querySelector('a[href*="idx="]') || {}).getAttribute ? t.querySelector('a[href*="idx="]').getAttribute("href") : "#";
                 t.setAttribute("data-sf-live", ""), t.setAttribute("data-start", a.start || ""), 
                 t.setAttribute("data-end", a.end || ""), t.setAttribute("data-deadline", a.deadline || ""), 

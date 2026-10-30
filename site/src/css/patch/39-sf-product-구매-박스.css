@@ -56,3 +56,8 @@
   background:0 0!important;
   box-shadow:none!important;
 }
+
+/* (10/30) 요약 설명(교육 꼬리표 #분야 #주목N #BEST N 이 들어 있어요)은 상세 화면이 꾸며지기 전에도 안 보이게 */
+:root body.shop_view .goods_summary {
+  display:none!important;
+}
