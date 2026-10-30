@@ -197,13 +197,7 @@
     if (prod0 && /총 결제 금액\s*(무료|0\s*원)/.test(sumTxt)) {
       [sub].concat($$('button.r3pay-mbtn')).forEach(function (b) { b && clean(b.textContent) === '결제하기' && setText(b, '신청하기'); });
     }
-    if (!prod0 && sumBox) $$('span, strong, b, p', sumBox).forEach(function (s) {
-      if (s.children.length || clean(s.textContent) !== '무료') return;
-      // '총 결제 금액' 줄의 값만(배송비 '무료' 같은 줄은 그대로)
-      var row = s.parentElement, k = 0;
-      while (row && row !== sumBox && k++ < 3 && !/총 결제 금액/.test(row.textContent)) row = row.parentElement;
-      row && row !== sumBox && /^총 결제 금액/.test(clean(row.textContent)) && setText(s, '0원');
-    });
+    // ('0원'으로 바꾸기·버튼 되돌리기는 글자만 바뀌어도 도는 r3b/06 에서)
     // 완료 화면(patch/25)이 '무료'를 쓸지 정하도록 적어 둬요
     try { sessionStorage.setItem('sf-pay-free', prod0 ? '1' : '0'); } catch (x) {}
   }
