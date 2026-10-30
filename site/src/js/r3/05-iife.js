@@ -89,7 +89,7 @@
           if (b.classList.contains('is-on')) return;
           $$('.r3-opt__card', wrap).forEach(function (c) { c.classList.toggle('is-on', c === b); c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
           if (it.el.closest('[data-sf-pre]')) { pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
-          g.pick(it); return;
+          later(function () { g.pick(it); }); return;
         }
         var row = findRow(form, name, wrap.getAttribute('data-lb'));
         // 이미 고른 카드를 다시 누르면 체크 해제 = 그 줄의 삭제(×) 버튼을 대신 눌러요
@@ -104,11 +104,13 @@
         var st0 = stepsNow(form);
         if (b.classList.contains('is-wait')) return; // 방금 누른 카드: 아임웹 줄이 올 때까지 두 번 더하지 않아요
         ghost(form, wrap, b, it);
-        g.pick(it);
-        mark(form, groups);
-        setTimeout(function () { mark(form, groups); }, 120);
-        // 조합 줄이 하나 생기면 아임웹이 앞 단계 선택을 비워요 → 같은 수강 형태로 다른 기수를 바로 고를 수 있게 앞 단계를 다시 골라 둬요
-        if (Object.keys(st0).some(function (k) { return st0[k]; })) restoreSteps(form, st0, 0);
+        later(function () {
+          g.pick(it);
+          mark(form, groups);
+          setTimeout(function () { mark(form, groups); }, 120);
+          // 조합 줄이 하나 생기면 아임웹이 앞 단계 선택을 비워요 → 같은 수강 형태로 다른 기수를 바로 고를 수 있게 앞 단계를 다시 골라 둬요
+          if (Object.keys(st0).some(function (k) { return st0[k]; })) restoreSteps(form, st0, 0);
+        });
       });
     });
     mark(form, groups);
@@ -118,6 +120,11 @@
   // (10/30) 옵션 줄 바로 보이기 — 아임웹은 옵션을 더할 때 서버에 금액을 물어봐서(/shop/select_option.cm) 줄·합계가 약 0.25초 늦게 나와요
   //   → 누르는 순간 같은 모양의 '미리 줄'(sf-ghost)과 합계를 그려 두고, 아임웹 진짜 줄이 오면 그 칸을 통째로 바꿔 끼워요(같은 모양이라 화면이 안 움직여요)
   //   금액을 카드에서 확실히 알 때만(카드 가격 = 아임웹 항목의 최종 금액 · 단계 옵션은 앞 단계 금액 + 마지막 금액) 그려요. 결제·계산은 언제나 아임웹 것
+  // (10/30) 아임웹 옵션 고르기는 서버 답을 기다리는 동안 화면을 멈춰요(약 0.2초) → 카드 체크·미리 줄을 먼저 화면에 그린 다음(다음 그림 뒤) 아임웹에 넘겨요
+  function later(fn) {
+    var done = false, go = function () { if (!done) { done = true; setTimeout(fn, 0); } };
+    requestAnimationFrame(go); setTimeout(go, 40); // 뒤에 숨은 탭처럼 그림이 늦으면 0.04초 뒤
+  }
   function won(t) { var m = /([\d,]+)\s*원/.exec(t || ''); return m ? +m[1].replace(/,/g, '') : null; }
   function ghost(form, wrap, b, it) {
     var gp = form.querySelector('#prod_selected_options');
