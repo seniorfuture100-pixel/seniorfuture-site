@@ -334,3 +334,6 @@ html body .sf-fix-end {
 :root body .sf-pv .r3-opt__h small {
   display:none!important;
 }
+:root body .sf-pv .goods_form .goods_payment .opt_block.total.bottom {
+  border-top:1px solid var(--sf-border)!important;
+}
