@@ -11,11 +11,7 @@
   background:#eaebee;
   color:#868b94;
 }
-/* (10/30) 모임 진행 중(시작~끝) · 종료(끝난 뒤) */
-:root .sf-tag--ongoing {
-  background:#1a1c20;
-  color:#fff;
-}
+/* (10/30) 모임 종료(끝난 뒤) */
 :root .sf-tag--ended {
   background:#eaebee;
   color:#5b616e;

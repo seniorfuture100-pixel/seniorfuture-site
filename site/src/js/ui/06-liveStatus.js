@@ -19,15 +19,14 @@ SFUI.liveOver = function (start, end, now) {
   return (now || Date.now()) > Math.max(end || 0, SFUI.dayEnd(start));
 };
 // (10/30 사장님) 모임·이벤트 상태 = 교육 수강 기간처럼 '시작 ~ 끝' 기준
-//   모집중 → 마감 임박(마감 3일 전) → 모집 마감(마감 ~ 시작) → 진행 중(시작 ~ 끝) → 종료(끝난 뒤)
+//   모집중 → 마감 임박(마감 3일 전) → 모집 마감(마감 ~ 끝) → 종료(끝난 뒤) · '진행 중'은 두지 않아요(10/30 사장님)
 //   끝을 안 적었으면 시작한 날 밤 12시까지 · 마감을 안 적었으면 시작 시각이 마감
 SFUI.meetState = function (t, now) {
   now = now || Date.now();
   var P = function (v) { return typeof v === 'number' ? v : SFUI.parseDate(v); };
   var S = P(t && t.start), E = P(t && t.end) || (S ? SFUI.dayEnd(S) : 0), D = P(t && t.deadline) || S;
   if (S && now > E) return ['ended', '종료'];
-  if (S && now >= S) return ['ongoing', '진행 중'];
-  if (D && now >= D) return ['closed', '모집 마감'];
+  if (S && now >= S || D && now >= D) return ['closed', '모집 마감'];
   if (D && D - now <= 2592e5) return ['soon', '마감 임박'];
   return ['recruit', '모집중'];
 };

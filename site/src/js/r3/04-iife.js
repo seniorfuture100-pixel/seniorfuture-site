@@ -751,13 +751,13 @@
             if (li && "course" !== x.ty) {
               // 라이브·모임: 상품 상세 [톡방] 주소가 있고 아직 안 끝났으면 '톡방 입장'
               var g0 = n(".r3-ord__go", li);
-              // (10/30) 모임: [모임 안내] 일시가 기간이면 교육처럼 '일시 11.04 19:30 – 11.25 · D-5' · 상태(참여 예정 · 진행 중 · 종료)
+              // (10/30) 모임: [모임 안내] 일시가 기간이면 교육처럼 '일시 11.04 19:30 – 11.25 · D-5' · 상태(참여 예정 · 종료)
               if ("meet" === x.ty && o && o.meet && (o.meet.start || x.at)) {
                 var ms = o.start || o.meet.start || x.at, me = o.meet.end || "", mst = SFUI.meetState({ start: ms, end: me })[0], S0 = typeof ms === "number" ? ms : Date.parse(ms), E0 = me ? Date.parse(me) : 0;
                 var fd = function(v, t) { var q = new Date(v); return q.getMonth() + 1 + "월 " + q.getDate() + "일 (" + f[q.getDay()] + ")" + (t ? " " + q.getHours() + ":" + String(q.getMinutes()).padStart(2, "0") : ""); };
                 var wh = n(".sf-room-when", li), bd0 = n(".sf-badge", li), dd = Math.ceil((S0 - Date.now()) / 864e5);
-                wh && (wh.innerHTML = "일시 <b>" + fd(S0, 1) + (E0 ? " – " + (new Date(E0).toDateString() === new Date(S0).toDateString() ? new Date(E0).getHours() + ":" + String(new Date(E0).getMinutes()).padStart(2, "0") : fd(E0)) : "") + "</b>" + ("ended" !== mst && "ongoing" !== mst && dd > 0 ? " <em>D-" + dd + "</em>" : ""));
-                bd0 && (bd0.textContent = "ended" === mst ? "종료" : "ongoing" === mst ? "진행 중" : "참여 예정", bd0.className = "sf-badge " + ("ended" === mst ? "sf-badge--neutral" : "sf-badge--brand"));
+                wh && (wh.innerHTML = "일시 <b>" + fd(S0, 1) + (E0 ? " – " + (new Date(E0).toDateString() === new Date(S0).toDateString() ? new Date(E0).getHours() + ":" + String(new Date(E0).getMinutes()).padStart(2, "0") : fd(E0)) : "") + "</b>" + ("ended" !== mst && dd > 0 ? " <em>D-" + dd + "</em>" : ""));
+                bd0 && (bd0.textContent = "ended" === mst ? "종료" : "참여 예정",bd0.className = "sf-badge " + ("ended" === mst ? "sf-badge--neutral" : "sf-badge--brand"));
                 "ended" === mst && !li.classList.contains("is-end") && (li.classList.add("is-end"), li.parentNode.appendChild(li));
                 "ended" !== mst && li.classList.contains("is-end") && li.classList.remove("is-end");
               }
