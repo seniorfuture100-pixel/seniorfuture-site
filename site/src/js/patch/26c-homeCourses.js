@@ -186,6 +186,7 @@
       ul.classList.add('r3-meet-ok', 'sf-hc-on'); // r3HomeMeet(예전 고정 목록)가 다시 덮지 않게
     });
   }
+  SFUI.__homeBuild = { live: buildLive, meet: buildMeet }; // 점검용
   var done = false, t0 = Date.now();
   function go() {
     if (done) return;
