@@ -359,3 +359,8 @@ html body .sf-fix-end {
     box-sizing:border-box;
   }
 }
+/* (10/31) 비밀글(숨긴 예시 글·중복 글)은 게시판 목록 카드에서 빼요 — 아임웹은 비밀글도 자물쇠 카드로 보여 줘요 */
+:root body [data-widget-type="board"] ._post_item_wrap:has(>.card.secret),
+:root body .r3-ins-more ._post_item_wrap:has(>.card.secret) {
+  display:none!important;
+}
