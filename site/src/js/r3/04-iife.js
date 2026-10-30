@@ -739,7 +739,7 @@
           if ("course" !== x.ty) {
             // 라이브·모임: 일시 + 정보 버튼(+ 톡방은 아래에서). 끝나면 '종료'로 맨 아래 — (10/30) 라이브는 그날 밤 12시 지나서,
             //   모임은 [모임 안내] 일시의 끝(없으면 그날 밤 12시) 지나서(아래 roomInfo 에서 기간·D-day 로 다시 그려요)
-            var lv = "live" === x.ty, ag = x.at ? new Date(x.at) : null, end = x.at && (lv ? SFUI.liveOver(x.at) : "ended" === SFUI.meetState({ start: x.at })[0]), w = lv ? "/live/" : "/community/";
+            var lv = "live" === x.ty, ag = x.at ? new Date(x.at) : null, end = x.at && (lv ? SFUI.liveOver(x.at) : SFUI.meetOver({ start: x.at })), w = lv ? "/live/" : "/community/";
             return '<li class="sf-hub-card r3-ord sf-room-card' + (end ? " is-end" : "") + '" data-i="' + i + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>' + (lv ? "무료 라이브" : "모임") + '</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">' + (ag ? "일시 <b>" + (ag.getMonth() + 1) + "월 " + ag.getDate() + "일 (" + f[ag.getDay()] + ") " + ag.getHours() + ":" + String(ag.getMinutes()).padStart(2, "0") + "</b>" : "일시는 " + (lv ? "라이브" : "모임") + " 정보에서 확인해 주세요") + '</p></div><div class="sf-hub-side"><span class="sf-badge ' + (end ? "sf-badge--neutral" : "sf-badge--brand") + '">' + (end ? "종료" : x.badge) + '</span><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + roomPv(w + "?idx=" + x.idx) + '">' + (lv ? "라이브 정보" : "모임 정보") + "</a></div></li>";
           }
           return '<li class="sf-hub-card r3-ord sf-room-card" data-i="' + i + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>강의</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">수강 기간을 확인하고 있어요…</p></div><div class="sf-hub-side"><span class="sf-badge sf-badge--brand">' + x.badge + '</span><span class="sf-btn sf-btn--l r3-ord__go is-off">확인 중</span><a class="r3-ord__detail" href="' + roomPv("/shop_view/?idx=" + x.idx) + '">강의 정보 ›</a></div></li>';
@@ -753,7 +753,7 @@
               var g0 = n(".r3-ord__go", li);
               // (10/30) 모임: [모임 안내] 일시가 기간이면 교육처럼 '일시 11.04 19:30 – 11.25 · D-5' · 상태(참여 예정 · 종료)
               if ("meet" === x.ty && o && o.meet && (o.meet.start || x.at)) {
-                var ms = o.start || o.meet.start || x.at, me = o.meet.end || "", mst = SFUI.meetState({ start: ms, end: me })[0], S0 = typeof ms === "number" ? ms : Date.parse(ms), E0 = me ? Date.parse(me) : 0;
+                var ms = o.start || o.meet.start || x.at, me = o.meet.end || "", mst = SFUI.meetOver({ start: ms, end: me }) ? "ended" : "", S0 = typeof ms === "number" ? ms : Date.parse(ms), E0 = me ? Date.parse(me) : 0;
                 var fd = function(v, t) { var q = new Date(v); return q.getMonth() + 1 + "월 " + q.getDate() + "일 (" + f[q.getDay()] + ")" + (t ? " " + q.getHours() + ":" + String(q.getMinutes()).padStart(2, "0") : ""); };
                 var wh = n(".sf-room-when", li), bd0 = n(".sf-badge", li), dd = Math.ceil((S0 - Date.now()) / 864e5);
                 wh && (wh.innerHTML = "일시 <b>" + fd(S0, 1) + (E0 ? " – " + (new Date(E0).toDateString() === new Date(S0).toDateString() ? new Date(E0).getHours() + ":" + String(new Date(E0).getMinutes()).padStart(2, "0") : fd(E0)) : "") + "</b>" + ("ended" !== mst && dd > 0 ? " <em>D-" + dd + "</em>" : ""));

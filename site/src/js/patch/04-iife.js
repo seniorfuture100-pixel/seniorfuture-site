@@ -238,7 +238,7 @@
       return x ? '<span class="sf-tag sf-tag--' + x[0] + '">' + x[1] + "</span>" : "";
     }).join("");
   };
-  // (10/30) 모임 상태: 모집중 · 마감 임박 · 모집 마감 · 진행 중 · 종료 (SFUI.meetState, ui/06)
+  // (10/30) 커뮤니티 상태: 모집중 · 마감 임박 · 종료 (SFUI.meetState, ui/06)
   function s(t) {
     return SFUI.meetState(t);
   }
@@ -332,7 +332,7 @@
           }(t, a, a.type || f);
         })), "meet" === f && function(t) {
           var e = [].slice.call(t.querySelectorAll("li.iw-shop-card"));
-          // (10/26) 모집 중은 가까운 날짜 순, 마감·지난 행사는 최근 순으로 뒤에 · (10/30) 뒤로 보내는 건 끝난(종료) 모임만 — 마감됐어도 아직 안 열린 모임은 날짜 순
+          // (10/26) 모집 중은 가까운 날짜 순, 마감·지난 행사는 최근 순으로 뒤에 · (10/30) 뒤로 보내는 건 종료(신청 마감이 지난) 모임
           var st = function(x) { return Date.parse(x.getAttribute("data-start") || "") || 0; };
           var op = e.filter(function(x) { return "ended" !== x.getAttribute("data-status"); }).sort(function(x, y) { return st(x) - st(y); });
           var cl = e.filter(function(x) { return "ended" === x.getAttribute("data-status"); }).sort(function(x, y) { return st(y) - st(x); });

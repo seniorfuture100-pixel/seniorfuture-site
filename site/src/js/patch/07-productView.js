@@ -233,11 +233,11 @@ SFUI.register('productView', function() {
       }
       var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
       // (10/23 2차) 꼬리표 = 목록에서 읽어 둔 아임웹 상품 배지(없으면 아래 badgeFetch 가 목록을 한 번 받아 채워요)
-      var ht = null;
+      var ht = null, PE = !1; // PE: 커뮤니티 신청 마감(종료) → 아래에서 신청 버튼을 막아요
       try { ht = (SFUI.__hash || {})[n] || JSON.parse(sessionStorage.getItem("sf_badges") || "{}")[n] || null; } catch (x) {}
       c && (ht || i.tags) && (L = SFUI.tagHtml ? SFUI.tagHtml(ht || i.tags) : ve(i.tags)), o && (L = D + (k && !M ? '<span class="sf-tag sf-tag--dday">D-' + Math.max(0, Math.ceil((k - j) / 864e5)) + "</span>" : "") + '<span class="sf-tag sf-tag--free">무료</span>'), 
-      // (10/30) 모임 상태는 목록과 같게(모집중 · 마감 임박 · 모집 마감 · 진행 중 · 종료)
-      p && (D = SFUI.meetState({ start: i.start, end: MI && MI.end || "", deadline: i.deadline }), D = '<span class="sf-tag sf-tag--' + D[0] + '">' + D[1] + "</span>"),
+      // (10/30) 커뮤니티 상태는 목록과 같게(모집중 · 마감 임박 · 종료)
+      p && (D = SFUI.meetState({ start: i.start, end: MI && MI.end || "", deadline: i.deadline }), PE = "ended" === D[0], D = '<span class="sf-tag sf-tag--' + D[0] + '">' + D[1] + "</span>"),
       p && (L = '<span class="sf-tag sf-tag--' + ((SFUI.isEvent ? SFUI.isEvent(i.kind) : "이벤트" === i.kind) ? "event" : "meet") + '">' + oe(i.kind || "모임") + "</span>" + D),
       ht && !c && SFUI.tagHtml && (L += SFUI.tagHtml(ht));
       U && L && U.insertBefore(pe("div", "sf-tags sf-pv-tags", L), U.firstChild);
@@ -263,6 +263,10 @@ SFUI.register('productView', function() {
       var z = s.querySelector(".buy_btns.pc ._btn_buy"), P = o ? "무료로 신청하기" : p ? "참가 신청하기" : "수강 신청하기";
       z && (z.textContent = P), s.querySelectorAll(".buy_btns.mobile ._btn_buy, .buy_btns.mobile .defualt.buy").forEach((function(e) {
         e.textContent = P;
+      }));
+      // (10/30) 커뮤니티: 신청 마감이 지나 '종료'면 신청 버튼도 막아요(PC·휴대폰)
+      PE && [ z ].concat([].slice.call(s.querySelectorAll(".buy_btns.mobile ._btn_buy, .buy_btns.mobile .defualt.buy"))).forEach((function(e) {
+        e && (e.textContent = "신청이 마감되었어요", e.classList.add("is-disabled"), e.setAttribute("aria-disabled", "true"));
       }));
       var Q = s.querySelector(".opt_block.total .body_font_color_70");
       Q && (Q.textContent = "상품 금액");
