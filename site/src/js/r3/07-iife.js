@@ -191,6 +191,10 @@
       if (!$('.r3pay-agree', bar)) { var ag2 = document.createElement('p'); ag2.className = 'r3pay-agree r3pay-agree--m'; ag2.innerHTML = '강의 및 결제 정보를 확인했으며, <a href="/terms#terms" target="_blank" rel="noopener">이용약관</a> 및 <a href="/terms#refund" target="_blank" rel="noopener">환불 규정</a>에 동의합니다.'; bar.appendChild(ag2); }
       document.documentElement.classList.add('r3pay-hasm');
     });
+    // (10/30) 낼 돈이 없으면(무료 라이브·무료 모임) 버튼은 '신청하기'
+    if (/총 결제 금액\s*(무료|0\s*원)/.test(clean((box(hSum) || {}).textContent))) {
+      [sub].concat($$('button.r3pay-mbtn')).forEach(function (b) { b && clean(b.textContent) === '결제하기' && setText(b, '신청하기'); });
+    }
   }
 
   // (10/27) 쿠폰·적립금 — 아임웹 주문서 기본 기능(쿠폰 선택 창·포인트 입력)을 그대로 쓰고 모양·순서·문구만 정리해요.

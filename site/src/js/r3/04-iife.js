@@ -727,7 +727,22 @@
     var t = n("[data-sf-rooms]");
     if (t && SFUI.once(t, "R3Rooms")) {
       var I = SFUI.shopItems && SFUI.shopItems() || {}, CR = e.classrooms || {};
-      E().then((function(L) {
+      // (10/30) 아임웹은 방금 한 주문을 1분쯤 늦게 목록에 실어요 → 완료 화면에서 적어 둔 주문번호(patch/25)가 아직 없으면
+      //   '불러오는 중' 안내를 띄우고 5초마다 다시 받아요(최대 2분) · 찾으면(또는 시간이 지나면) 평소처럼 그려요
+      var lastNo = "";
+      try { var lo = /^(\d{10,20})\|(\d+)$/.exec(sessionStorage.getItem("sf-last-order") || ""); lo && Date.now() - +lo[2] < 6e5 && (lastNo = lo[1]); } catch (x) {}
+      var waitLast = function(k) {
+        return E().then((function(L) {
+          if (!lastNo || L.some((function(o) { return o.no === lastNo; }))) {
+            try { lastNo && sessionStorage.removeItem("sf-last-order"); } catch (x) {}
+            return L;
+          }
+          if ((k || 0) >= 24) return L;
+          k || (t.innerHTML = '<div class="r2-my-load">방금 신청한 강의를 불러오고 있어요. 1분 정도 걸릴 수 있어요…</div>');
+          return new Promise((function(res) { setTimeout(res, 5e3); })).then((function() { y = null; return waitLast((k || 0) + 1); }));
+        }));
+      };
+      waitLast().then((function(L) {
         var seen = {}, rows = [];
         L.forEach((function(o) {
           // (10/29) 코드 표에 없는 새 상품: 상품명 끝에 일시 '[2026/11/14 14:00]'가 있으면 라이브·모임(SOP 상품명 규칙)이라 강의에서 빼요

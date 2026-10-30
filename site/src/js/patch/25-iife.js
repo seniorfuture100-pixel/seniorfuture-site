@@ -40,6 +40,9 @@
     var host = document.getElementById('oms-shop-payment-complete');
     if (!host || document.querySelector('.sf-done')) return !!host;
     if (!/주문번호/.test(host.textContent)) return false; // 아임웹이 아직 그리는 중
+    // (10/30) 방금 주문번호를 적어 둬요 → 나의 강의실이 아임웹 목록에 실릴 때까지 기다렸다 그려요(r3/04 r3Rooms)
+    var on = (/(\d{12,20})/.exec(new URLSearchParams(location.search).get('order_no') || host.textContent) || [])[1];
+    try { on && sessionStorage.setItem('sf-last-order', on + '|' + Date.now()); } catch (x) {}
     // 입금 안내는 아임웹 화면 그대로 — (10/30) 아임웹 화면은 처음부터 가려져 있어서(css patch/69) 이때만 보이게 풀어요
     if (/입금\s*(계좌|기한|은행)|가상\s*계좌|계좌\s*번호/.test(host.textContent)) return document.documentElement.classList.add('sf-done-off'), true;
     var no = val(host, /^주문번호$/), how = val(host, /^결제\s*정보$/), amt = val(host, /^결제\s*금액$/);
