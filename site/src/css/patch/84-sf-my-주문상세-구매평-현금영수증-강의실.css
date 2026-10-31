@@ -148,7 +148,10 @@ html:root body .ReactModal__Content input:not(#sf-x) {
 }
 html:root body .ReactModal__Content div:has(> input):not(#sf-x) {
   border-radius:10px!important;
-  outline-color:#ff6f0f!important;
+  outline-color:#d9dbe0!important;
+}
+html:root body .ReactModal__Content div:has(> input:focus):not(#sf-x) {
+  outline-color:#ff6f0f!important; /* 입력 중에만 주황 */
 }
 
 /* ── 강의실 페이지(/class?idx=…): 머리 · 커리큘럼 회차를 카드로 · 글자 진하게 · 간격 정리 */
