@@ -424,7 +424,12 @@ html:root body .r3-od .r3-od__item + .r3-od__item:not(#sf-x) {
   html:root body .r3-od .r3-od__ohead:not(#sf-x) {
     margin-bottom:16px!important;
   }
-  /* 휴대폰: 주문번호 …… [상태] 날짜 / 아래 줄에 작은 거래명세서 단추 */
+  /* 휴대폰: 첫 줄 [상태] 날짜 · 둘째 줄 주문번호 · 아래 작은 거래명세서 단추(한 줄에 다 들어가지 않아 위아래로) */
+  html:root body .r3-od .r3-od__ohead > div:has(.r3-od__meta):not(#sf-x) {
+    order:-1;
+    flex-basis:100%;
+    margin:0!important;
+  }
   html:root body .r3-od .r3-od__ohead > div:has(.r3-od__btn):not(#sf-x) {
     order:4;
     flex-basis:100%;
