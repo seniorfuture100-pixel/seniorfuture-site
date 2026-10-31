@@ -467,5 +467,11 @@
   "screen": "home",
   "src": "sf-home",
   "rules": 29
+ },
+ {
+  "file": "78-sf-my-결제내역-강의실-정리.css",
+  "screen": "mypage",
+  "src": "sf-my",
+  "rules": 70
  }
 ]

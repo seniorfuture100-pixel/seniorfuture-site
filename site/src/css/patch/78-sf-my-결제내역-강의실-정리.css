@@ -1,0 +1,400 @@
+/* (10/31) 마이페이지 정리 (js patch/26e) — 결제 내역 주문 카드 · 나의 강의실 다음 일정·탭·지난 일정 */
+/* ── 결제 내역 ── */
+:root .sf-oc-note {
+  margin:0 0 16px;
+  color:#6b7280;
+  font-size:14px;
+}
+:root .sf-oc-note a {
+  color:var(--sf-primary,#ff6f0f);
+  font-weight:600;
+}
+:root .sf-oc-list {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+:root .sf-oc {
+  padding:20px 22px;
+  border:1px solid #e8eaee;
+  border-radius:16px;
+  background:#fff;
+}
+:root .sf-oc__top {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px 12px;
+  margin-bottom:14px;
+  font-size:14px;
+  color:#6b7280;
+}
+:root .sf-oc__st {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-weight:700;
+  font-size:15px;
+  color:#111827;
+}
+:root .sf-oc__st::before {
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#22c55e;
+}
+:root .sf-oc.is-wait .sf-oc__st::before {
+  background:var(--sf-primary,#ff6f0f);
+}
+:root .sf-oc.is-ing .sf-oc__st::before {
+  background:#f59e0b;
+}
+:root .sf-oc.is-cancel .sf-oc__st::before {
+  background:#9ca3af;
+}
+:root .sf-oc.is-cancel .sf-oc__st {
+  color:#6b7280;
+}
+:root .sf-oc__no {
+  margin-left:auto;
+  font-size:13px;
+  color:#9ca3af;
+}
+:root .sf-oc__body {
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+:root .sf-oc__th {
+  flex:none;
+  width:64px;
+  height:64px;
+  border-radius:10px;
+  background:#f2f3f6 center/cover no-repeat;
+}
+:root .sf-oc__tx {
+  min-width:0;
+}
+:root .sf-oc__tx strong {
+  display:block;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.4;
+  color:#111827;
+  word-break:keep-all;
+}
+:root .sf-oc__tx strong em {
+  font-style:normal;
+  font-weight:500;
+  color:#6b7280;
+}
+:root .sf-oc__sum {
+  margin:4px 0 0;
+  font-size:14px;
+  color:#4b5563;
+}
+:root .sf-oc__sum b {
+  font-size:17px;
+  color:#111827;
+}
+:root .sf-oc.is-cancel .sf-oc__sum b {
+  color:#9ca3af;
+  text-decoration:line-through;
+}
+:root .sf-oc__bank {
+  margin-top:14px;
+  padding:14px 16px;
+  border-radius:12px;
+  background:#fff5f0;
+  font-size:14px;
+  color:#374151;
+}
+:root .sf-oc__bank p {
+  margin:0;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px 10px;
+}
+:root .sf-oc__bank p + p {
+  margin-top:6px;
+}
+:root .sf-oc__bank b {
+  font-size:16px;
+  color:#111827;
+}
+:root .sf-oc__bank em {
+  font-style:normal;
+  font-weight:700;
+  color:var(--sf-primary,#ff6f0f);
+}
+:root .sf-oc__copy {
+  padding:6px 12px;
+  border:1px solid var(--sf-primary,#ff6f0f);
+  border-radius:999px;
+  background:#fff;
+  color:var(--sf-primary,#ff6f0f);
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+}
+:root .sf-oc__act {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  margin-top:16px;
+}
+:root .sf-oc__more,
+:root .sf-oc__btn {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  min-height:44px;
+  padding:0 16px;
+  border:1px solid #d9dce2;
+  border-radius:10px;
+  background:#fff;
+  color:#374151;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+}
+:root .sf-oc__more i {
+  width:8px;
+  height:8px;
+  border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;
+  transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform .2s;
+}
+:root .sf-oc__more.is-open i {
+  transform:rotate(-135deg) translate(-2px,-2px);
+}
+:root .sf-oc__btn.is-main {
+  margin-left:auto;
+  border-color:var(--sf-primary,#ff6f0f);
+  background:var(--sf-primary,#ff6f0f);
+  color:#fff;
+}
+:root .sf-oc__detail {
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed #e5e7eb;
+  font-size:14px;
+}
+:root .sf-oc__detail dl {
+  margin:0;
+}
+:root .sf-oc__detail dl div {
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:5px 0;
+}
+:root .sf-oc__detail dt {
+  color:#6b7280;
+  font-weight:400;
+}
+:root .sf-oc__detail dd {
+  margin:0;
+  color:#111827;
+  text-align:right;
+  white-space:nowrap;
+}
+:root .sf-oc__calc {
+  margin-top:8px !important;
+  padding-top:8px;
+  border-top:1px solid #f1f2f4;
+}
+:root .sf-oc__calc .is-total dt,
+:root .sf-oc__calc .is-total dd {
+  font-weight:700;
+  color:#111827;
+}
+:root .sf-oc__imweb {
+  display:inline-block;
+  margin-top:10px;
+  font-size:13px;
+  color:#6b7280;
+}
+/* ── 나의 강의실 ── */
+:root .sf-room-next {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin:0 0 20px;
+  padding:18px 20px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff5f0,#ffe9dc);
+  border:1px solid #ffd9c2;
+}
+:root .sf-room-next__k {
+  flex:none;
+  padding:6px 10px;
+  border-radius:8px;
+  background:var(--sf-primary,#ff6f0f);
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+}
+:root .sf-room-next__tx {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+  flex:1;
+}
+:root .sf-room-next__tx em {
+  font-style:normal;
+  font-size:13px;
+  font-weight:700;
+  color:var(--sf-primary,#ff6f0f);
+}
+:root .sf-room-next__tx strong {
+  font-size:16px;
+  line-height:1.4;
+  color:#111827;
+  word-break:keep-all;
+}
+:root .sf-room-next__tx span {
+  font-size:14px;
+  color:#4b5563;
+}
+:root .sf-room-tabs {
+  display:flex;
+  gap:8px;
+  margin:0 0 16px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+:root .sf-room-tabs::-webkit-scrollbar {
+  display:none;
+}
+:root .sf-room-tabs button {
+  flex:none;
+  min-height:40px;
+  padding:0 16px;
+  border:1px solid #e5e7eb;
+  border-radius:999px;
+  background:#fff;
+  color:#374151;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+:root .sf-room-tabs button b {
+  margin-left:2px;
+  color:#9ca3af;
+}
+:root .sf-room-tabs button.is-active {
+  border-color:#111827;
+  background:#111827;
+  color:#fff;
+}
+:root .sf-room-tabs button.is-active b {
+  color:#ffb27a;
+}
+:root .sf-room-card[hidden] {
+  display:none !important;
+}
+:root .sf-room-card.is-pending {
+  background:#fafafa;
+}
+:root .sf-room-card.is-pending .sf-hub-thumb {
+  filter:grayscale(.6);
+  opacity:.7;
+}
+/* 톡방은 큰 버튼 대신 글자 링크 — 카드마다 큰 버튼은 하나만 */
+:root .sf-room-card .sf-room-chat {
+  min-height:auto !important;
+  padding:4px 0 !important;
+  border:0 !important;
+  background:none !important;
+  color:#6b7280 !important;
+  font-size:14px !important;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+:root .sf-room-past {
+  margin-top:24px;
+  border-top:1px solid #eef0f3;
+  padding-top:8px;
+}
+:root .sf-room-past summary {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-height:48px;
+  font-size:15px;
+  font-weight:700;
+  color:#4b5563;
+  cursor:pointer;
+  list-style:none;
+}
+:root .sf-room-past summary::-webkit-details-marker {
+  display:none;
+}
+:root .sf-room-past summary b {
+  color:#9ca3af;
+  font-weight:600;
+}
+:root .sf-room-past summary::after {
+  content:"";
+  width:8px;
+  height:8px;
+  margin-left:4px;
+  border-right:2px solid #9ca3af;
+  border-bottom:2px solid #9ca3af;
+  transform:rotate(45deg);
+}
+:root .sf-room-past[open] summary::after {
+  transform:rotate(-135deg);
+}
+:root .sf-room-past .sf-room-card {
+  opacity:.75;
+}
+:root .sf-room-empty {
+  margin:8px 0 0;
+  padding:28px 16px;
+  border-radius:14px;
+  background:#f8f9fb;
+  color:#6b7280;
+  font-size:15px;
+  text-align:center;
+}
+:root .sf-room-empty a {
+  color:var(--sf-primary,#ff6f0f);
+  font-weight:600;
+}
+@media (max-width:767.98px) {
+  :root .sf-oc {
+    padding:16px;
+  }
+  :root .sf-oc__no {
+    margin-left:0;
+    width:100%;
+  }
+  :root .sf-oc__th {
+    width:56px;
+    height:56px;
+  }
+  :root .sf-oc__btn.is-main {
+    margin-left:0;
+    flex:1;
+    justify-content:center;
+  }
+  :root .sf-room-next {
+    flex-wrap:wrap;
+    padding:16px;
+  }
+  :root .sf-room-next .sf-btn {
+    width:100%;
+    justify-content:center;
+  }
+}

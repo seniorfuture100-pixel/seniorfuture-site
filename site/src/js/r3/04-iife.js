@@ -643,6 +643,7 @@
     }));
   }));
   var y = null;
+  SFUI.myOrders = function() { return E(); }; // (10/31) 결제 내역(patch/26e)도 같은 목록을 써요
   function E() {
     if (y) return y;
     function t(t) {
@@ -775,19 +776,23 @@
           }));
         }))) : Promise.resolve()).then(draw);
         function draw() {
-        if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>');
+        if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
           if ("course" !== x.ty) {
             // 라이브·모임: 일시 + 정보 버튼(+ 톡방은 아래에서). 끝나면 '종료'로 맨 아래 — (10/30) 라이브는 그날 밤 12시 지나서,
             //   모임은 [모임 안내] 일시의 끝(없으면 그날 밤 12시) 지나서(아래 roomInfo 에서 기간·D-day 로 다시 그려요)
             var lv = "live" === x.ty, ag = x.at ? new Date(x.at) : null, end = x.at && (lv ? SFUI.liveOver(x.at) : SFUI.meetOver({ start: x.at })), w = lv ? "/live/" : "/community/";
-            return '<li class="sf-hub-card r3-ord sf-room-card' + (end ? " is-end" : "") + '" data-i="' + i + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>' + (lv ? "무료 라이브" : "모임") + '</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">' + (ag ? "일시 <b>" + (ag.getMonth() + 1) + "월 " + ag.getDate() + "일 (" + f[ag.getDay()] + ") " + ag.getHours() + ":" + String(ag.getMinutes()).padStart(2, "0") + "</b>" : "일시는 " + (lv ? "라이브" : "모임") + " 정보에서 확인해 주세요") + '</p></div><div class="sf-hub-side"><span class="sf-badge ' + (end ? "sf-badge--neutral" : "sf-badge--brand") + '">' + (end ? "종료" : x.badge) + '</span><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + roomPv(w + "?idx=" + x.idx) + '">' + (lv ? "라이브 정보" : "모임 정보") + "</a></div></li>";
+            return '<li class="sf-hub-card r3-ord sf-room-card' + (end ? " is-end" : "") + '" data-i="' + i + '" data-ty="' + x.ty + '" data-at="' + (x.at || "") + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>' + (lv ? "무료 라이브" : "모임") + '</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">' + (ag ? "일시 <b>" + (ag.getMonth() + 1) + "월 " + ag.getDate() + "일 (" + f[ag.getDay()] + ") " + ag.getHours() + ":" + String(ag.getMinutes()).padStart(2, "0") + "</b>" : "일시는 " + (lv ? "라이브" : "모임") + " 정보에서 확인해 주세요") + '</p></div><div class="sf-hub-side"><span class="sf-badge ' + (end ? "sf-badge--neutral" : "sf-badge--brand") + '">' + (end ? "종료" : x.badge) + '</span><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + roomPv(w + "?idx=" + x.idx) + '">' + (lv ? "라이브 정보" : "모임 정보") + "</a></div></li>";
           }
-          return '<li class="sf-hub-card r3-ord sf-room-card" data-i="' + i + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>강의</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">수강 기간을 확인하고 있어요…</p></div><div class="sf-hub-side"><span class="sf-badge sf-badge--brand">' + x.badge + '</span><span class="sf-btn sf-btn--l r3-ord__go is-off">확인 중</span><a class="r3-ord__detail" href="' + roomPv("/shop_view/?idx=" + x.idx) + '">강의 정보 ›</a></div></li>';
+          return '<li class="sf-hub-card r3-ord sf-room-card" data-i="' + i + '" data-ty="course"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>강의</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">수강 기간을 확인하고 있어요…</p></div><div class="sf-hub-side"><span class="sf-badge sf-badge--brand">' + x.badge + '</span><span class="sf-btn sf-btn--l r3-ord__go is-off">확인 중</span><a class="r3-ord__detail" href="' + roomPv("/shop_view/?idx=" + x.idx) + '">강의 정보 ›</a></div></li>';
         })).join("") + "</ul>";
         a(".sf-room-card.is-end", t).forEach((function(li) { li.parentNode.appendChild(li); }));
+        // (10/31) 탭(교육·무료 라이브·커뮤니티) · 다음 일정 · 지난 일정 · 입금 대기 카드 (patch/26e) — 카드 정보가 채워질 때마다 다시 정리
+        var tidy = function() { SFUI.roomTidy && SFUI.roomTidy(t, rows, rows[0] && rows[0].L || []); }, left = rows.length;
+        tidy();
         rows.forEach((function(x, i) {
           SFUI.roomInfo(x.idx, (function(o) {
+            setTimeout(function() { --left <= 0 && tidy(); }, 0);
             var li = n('.sf-room-card[data-i="' + i + '"]', t);
             if (li && "course" !== x.ty) {
               // 라이브·모임: 상품 상세 [톡방] 주소가 있고 아직 안 끝났으면 '톡방 입장'
@@ -1104,95 +1109,7 @@
         u = !1, h(), n(".r3-bellp__x", i).focus();
       }
     }
-  })), SFUI.register("r3Orders", (function() {
-    var t = n("[data-sf-orders]");
-    if (t && SFUI.once(t, "R3Orders")) {
-      // (10/28) 강의실 주소 = SF_SITE.classrooms + 상품 상세 [강의실] 칸(아래 목록을 그린 뒤 SFUI.roomInfo 로 채워요)
-      var a = SFUI.shopItems && SFUI.shopItems() || {}, s = Object.assign({}, e.classrooms || {}), i = document.createElement("div");
-      i.className = "r3-enter", i.hidden = !0, i.setAttribute("role", "dialog"), i.setAttribute("aria-modal", "true"), 
-      document.body.appendChild(i), i.addEventListener("click", (function(t) {
-        (t.target === i || t.target.closest(".r3-enter__x")) && c();
-        var e = t.target.closest(".r3-enter__acc > button");
-        if (e) {
-          var n = e.parentNode;
-          n.classList.toggle("is-open"), e.setAttribute("aria-expanded", String(n.classList.contains("is-open")));
-        }
-      })), document.addEventListener("keydown", (function(t) {
-        "Escape" !== t.key || i.hidden || c();
-      }));
-      E().then((function(e) {
-        var c = {}, l = [];
-        e.forEach((function(t) {
-          var e = t.no + "-" + t.idx;
-          if (!c[e]) {
-            c[e] = 1;
-            var n = a[t.idx] || {}, s = n.type || (/LIVE|라이브/i.test(t.name) ? "live" : "course"), i = t.name.match(p), d = i ? m(i) : n.start ? Date.parse(n.start) : 0, u = {
-              no: t.no,
-              idx: t.idx,
-              it: n,
-              type: s,
-              start: d,
-              end: n.end ? Date.parse(n.end) : d ? d + 54e5 : 0,
-              title: t.name.replace(p, "").trim(),
-              base: "live" === s ? "/live/" : "meet" === s ? "/community/" : "/course/",
-              guess: !n.type // (10/30) 코드 표에 없는 상품은 상품 글 [라이브 안내]·[모임 안내]로 종류·일시를 채워요(아래 · 상품명 [일시]만 있던 모임도 '강의'로 나오던 것)
-            }, f = /취소|반품|환불/.test(t.status), h = !/^0원/.test(t.price), v = f ? t.status.replace("상품준비", "") || "취소" : /입금/.test(t.status) ? "입금 대기" : h ? "결제 완료" : "신청 완료", g = "live" === s ? "무료 라이브" : "meet" === s ? n.kind || "모임" : "강의", b = !f && !/입금/.test(t.status) && "meet" !== s;
-            l.push({
-              x: u,
-              html: '<li class="sf-hub-card r3-ord' + (f ? " is-cancel" : "") + '" data-ord="' + l.length + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + t.img.replace(/'/g, "") + "')\"></div><div><small>" + g + "</small><h2>" + r(u.title) + "</h2><p>" + (d ? o(d) + " · " : "") + (t.date || "").replace(/-/g, ".") + " 신청 · " + r(/^0\s*원$/.test(t.price) ? "무료" : t.price) + '</p></div><div class="sf-hub-side"><span class="sf-badge ' + (f ? "sf-badge--neutral" : "sf-badge--brand") + '">' + r(v) + "</span>" + (b ? '<button type="button" class="sf-btn sf-btn--primary sf-btn--l r3-ord__go" data-i="' + l.length + '">바로 입장하기</button>' : "") + '<a class="r3-ord__detail" href="/shop_mypage/?m2=order&idx=' + t.no + "&order_no=" + t.no + '">주문 상세 ›</a></div></li>'
-            });
-          }
-        })), t.innerHTML = l.length ? '<ul class="sf-hub-list r3-ord-list">' + l.map((function(t) {
-          return t.html;
-        })).join("") + "</ul>" : '<div class="r2-my-load">아직 결제·신청한 강의가 없어요. <a href="/course">교육 둘러보기</a> · <a href="/live">무료 라이브</a></div>',
-        l.forEach((function(t, k) {
-          // (10/29) 강의실 = 공용 강의실(자동), 소통방 = 상품 상세 [톡방]
-          "course" !== t.x.type || SFUI.roomInfo(t.x.idx, (function(o) {
-            s[t.x.idx] || (s[t.x.idx] = o && o.room || "/class?idx=" + t.x.idx);
-            o && o.chat && !t.x.it.chat && (t.x.it = Object.assign({}, t.x.it, { chat: o.chat }));
-          }));
-          // (10/30) 일시를 본문에만 쓴 라이브·모임: 결제 내역도 나의 강의실처럼 [라이브 안내]·[모임 안내]의 종류·일시를 써요(입장 안내 창도)
-          t.x.guess && SFUI.roomInfo(t.x.idx, (function(q) {
-            var mi = q && q.meet;
-            if (!mi || !mi.sec) return;
-            t.x.type = mi.sec, t.x.base = "live" === mi.sec ? "/live/" : "/community/";
-            mi.start && (t.x.start = Date.parse(mi.start)), t.x.end = mi.end ? Date.parse(mi.end) : t.x.start ? t.x.start + 54e5 : 0;
-            q.chat && !t.x.it.chat && (t.x.it = Object.assign({}, t.x.it, { chat: q.chat })), q.replay && !t.x.it.replay && (t.x.it = Object.assign({}, t.x.it, { replay: q.replay }));
-            var li = document.querySelector('.r3-ord[data-ord="' + k + '"]');
-            if (!li) return;
-            var sm = li.querySelector("small"), pp = li.querySelector("p"), gb = li.querySelector(".r3-ord__go");
-            sm && (sm.textContent = "live" === mi.sec ? "무료 라이브" : mi.kind || "모임");
-            pp && t.x.start && pp.textContent.indexOf(o(t.x.start)) < 0 && (pp.textContent = o(t.x.start) + " · " + pp.textContent);
-            "meet" === mi.sec && gb && gb.remove(); // 모임은 입장 창 없이(나의 강의실의 모임 정보로)
-          }));
-        })),
-        t.addEventListener("click", (function(t) {
-          var e = t.target.closest(".r3-ord__go");
-          e && function(t) {
-            var e = t.it, a = Date.now(), c = "live" === t.type, l = "", u = c ? (t.start || t.end) && SFUI.liveOver(t.start, t.end, a) : t.end && a > t.end, d = t.start && a >= t.start - 12e5 && !u, f = c ? d ? "라이브가 시작됐어요.<br>지금 바로 입장해 주세요!" : u ? "라이브가 끝났어요." + (e.replay ? "<br>다시보기를 확인해 주세요." : "") : t.start ? o(t.start) + " 시작이에요.<br>시작 20분 전부터 입장할 수 있어요." : "라이브 일정은 곧 안내드려요." : s[t.idx] ? "강의실이 열려 있어요.<br>지금 바로 입장해 주세요!" : "강의실은 개강 전에 열려요.<br>열리면 여기서 바로 들어갈 수 있어요.";
-            l += '<div class="r3-enter__in"><div class="r3-enter__h"><b>' + r(t.title) + '</b><button type="button" class="r3-enter__x" aria-label="닫기">×</button></div>', 
-            l += '<div class="r3-enter__ban' + (c && d || !c && s[t.idx] ? " is-on" : "") + '">' + f + "</div>", 
-            c ? (l += "<section><h3>라이브 링크</h3>" + (u ? e.replay ? '<a class="r3-enter__go" href="' + e.replay + '" target="_blank" rel="noopener">다시보기</a>' : '<span class="r3-enter__go is-off">종료</span>' : e.live && d ? '<a class="r3-enter__go" href="' + e.live + '" target="_blank" rel="noopener">Zoom 입장하기</a>' : '<span class="r3-enter__go is-off">' + (e.live ? "시작 20분 전에 열려요" : "입장 링크 준비 중") + "</span>"), 
-            l += '<div class="r3-enter__acc"><button type="button" aria-expanded="false">라이브 참여 방법 안내<i aria-hidden="true"></i></button><ol><li>PC는 Zoom 프로그램, 휴대폰은 Zoom 앱을 미리 설치해 주세요.</li><li>입장할 때 이름을 \'이름(소속)\'으로 바꿔 주세요.</li><li>질문은 채팅창에 남겨 주세요. 끝나고 다시보기를 드려요.</li></ol></div></section>') : l += "<section><h3>강의실</h3>" + (s[t.idx] ? '<a class="r3-enter__go" href="' + roomPv(s[t.idx]) + '">강의실 입장하기</a>' : '<span class="r3-enter__go is-off">개강 전에 열려요</span>') + "</section>", 
-            e.chat && (l += '<section><h3>소통방 입장</h3><a class="r3-enter__chat" href="' + e.chat + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.2-9 7.1 0 2.5 1.6 4.7 4.1 5.9l-.9 3.4c-.1.3.3.6.6.4l4-2.7h1.2c5 0 9-3.2 9-7.1S17 3.5 12 3.5z"/></svg>소통방 입장</a></section>'), 
-            l += '<a class="r3-enter__info" href="' + t.base + "?idx=" + t.idx + '">' + (c ? "라이브" : "강의") + " 정보 보기 ›</a></div>", 
-            i.innerHTML = l, i.hidden = !1, document.documentElement.classList.add("r3-enter-on");
-            var p = n(".r3-enter__x", i);
-            p && p.focus();
-          }(l[+e.getAttribute("data-i")].x);
-        }));
-      })).catch((function() {
-        t.innerHTML = '<div class="r2-my-load">결제 내역을 불러오지 못했어요. <a href="/shop_mypage/?m2=order">아임웹 결제 내역 보기</a></div>';
-      }));
-    }
-    function o(t) {
-      var e = new Date(t);
-      return e.getMonth() + 1 + "월 " + e.getDate() + "일 (" + "일월화수목금토"[e.getDay()] + ") " + e.getHours() + ":" + String(e.getMinutes()).padStart(2, "0");
-    }
-    function c() {
-      i.hidden = !0, document.documentElement.classList.remove("r3-enter-on");
-    }
-  })), SFUI.register("r3FooterBrand", (function() {
+  })), /* (10/31) 결제 내역(r3Orders)은 patch/26e 로 옮겼어요 */ SFUI.register("r3FooterBrand", (function() {
     var t = n(".sf-ft"), e = t && n(".sf-ft-in", t);
     if (e && SFUI.once(t, "R3FtBrand")) {
       var s = n(".r3-ft-ch", t), i = s ? a("a", s) : [], o = {
