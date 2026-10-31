@@ -295,3 +295,20 @@ html:root body .r2-prof .r2-switch:not(#sf-x) {
   flex:none;
   cursor:pointer;
 }
+/* (10/31) 결제 내역: 상세를 기다리는 입금 대기 주문 자리(회색 자리 → 카드로 바뀜) */
+@keyframes sfOcSkel {
+  from {
+    background-position:100% 0;
+  }
+  to {
+    background-position:-100% 0;
+  }
+}
+html:root body .sf-oc.is-skel:not(#sf-x) {
+  display:block!important;
+  min-height:120px;
+  border-color:#eef0f3!important;
+  background:linear-gradient(90deg,#f6f7f9 25%,#eceef1 50%,#f6f7f9 75%)!important;
+  background-size:200% 100%!important;
+  animation:sfOcSkel 1.2s linear infinite;
+}

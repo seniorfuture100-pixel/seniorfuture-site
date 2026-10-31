@@ -111,19 +111,29 @@
       // (10/31) 상세(금액·상태)를 먼저 받고 그려요 — 목록 값으로 먼저 그리면 금액·상태가 바뀌며 깜빡였고,
       //   아임웹 목록은 '입금 전 취소'한 주문을 '입금대기'로 내려 줘서 계좌가 잘못 보였어요. 6초 안에 못 받으면 목록 값으로
       var D = {}, k = 0, done = false;
+      // (10/31 사장님) 바로 열리게: 저장된 상세로 0.3초 안에 그리고, 늦게 온 주문만 그 카드를 바꿔요
+      //   입금 대기로 보이는 주문은 상세가 오기 전엔 회색 자리만(입금 전 취소인데 계좌가 보이던 일을 막아요)
+      var waitish = function (no) { return by[no].some(function (x) { return /입금\s*대기|입금대기/.test(x.status); }); };
+      var skel = function (no) { return '<li class="sf-oc is-skel" data-no="' + esc(no) + '" aria-busy="true"><span></span><span></span></li>'; };
       var render = function () {
         if (done) return; done = true;
-        box.innerHTML = '<ul class="sf-oc-list">' + list.map(function (no) { return card(no, by[no], D[no]); }).join('') + '</ul>';
-        [].forEach.call(box.querySelectorAll('.sf-oc'), function (li) { var d = D[li.getAttribute('data-no')]; d && fill(li, d); });
+        box.innerHTML = '<ul class="sf-oc-list">' + list.map(function (no) { return !(no in D) && waitish(no) ? skel(no) : card(no, by[no], D[no]); }).join('') + '</ul>';
+        [].forEach.call(box.querySelectorAll('.sf-oc:not(.is-skel)'), function (li) { var d = D[li.getAttribute('data-no')]; d && fill(li, d); });
+      };
+      var late = function (no) {
+        var li = box.querySelector('.sf-oc[data-no="' + no + '"]'), w = document.createElement('ul');
+        if (!li) return;
+        w.innerHTML = card(no, by[no], D[no]);
+        var n = w.firstChild; li.parentNode.replaceChild(n, li); D[no] && fill(n, D[no]);
       };
       var left = list.length, next = function () {
         if (k >= list.length) return;
         var no = list[k++];
-        SFUI.omsOrder(no).then(function (d) { D[no] = d; --left || render(); next(); });
+        SFUI.omsOrder(no).then(function (d) { D[no] = d; done && late(no); --left || render(); next(); });
       };
       box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오는 중…</div>';
       for (var i = 0; i < 4; i++) next();
-      setTimeout(render, 1500); // (10/31) 6초 → 1.5초: 상세는 다른 페이지에서 미리 받아 둬요(아래) · 늦은 것만 목록 값으로
+      setTimeout(render, 300);
       box.addEventListener('click', function (e) {
         var c = e.target.closest('.sf-oc__copy');
         if (c) {
