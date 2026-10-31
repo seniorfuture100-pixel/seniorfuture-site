@@ -644,10 +644,24 @@
   }));
   var y = null;
   SFUI.myOrders = function() { return E(); }; // (10/31) 결제 내역(patch/26e)도 같은 목록을 써요
+  // (10/31 사장님) 나의 강의실·결제 내역이 늦게 뜨던 것: 주문 목록을 이 탭에 3분 저장해 다시 열면 바로 · 10초 넘게 걸리면 끊고 저장본으로
+  //   결제·주문 화면에 다녀오면 저장본을 지워 방금 한 주문이 바로 보여요
+  var EK = "sf_myorders1";
+  (/^\/(shop_payment|shop_payment_complete|shop_cart|order)/.test(location.pathname) || /order_no=/.test(location.search)) && function() { try { sessionStorage.removeItem(EK); } catch (x) {} }();
   function E() {
     if (y) return y;
+    var EC = null;
+    try { EC = JSON.parse(sessionStorage.getItem(EK) || "null"); } catch (x) {}
+    var fresh = E0().then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L })); } catch (x) {} return L; }));
+    if (EC && Date.now() - EC.at < 18e4) return fresh["catch"]((function() {})), y = Promise.resolve(EC.L);
+    return y = fresh["catch"]((function(e) { if (EC) return EC.L; y = null; throw e; }));
+  }
+  function E0() {
     function t(t) {
+      var ac = window.AbortController ? new AbortController() : null;
+      ac && setTimeout((function() { ac.abort(); }), 1e4);
       return fetch("/shop/oms/OMS_mypage_order_list.cm", {
+        signal: ac ? ac.signal : void 0,
         method: "POST",
         credentials: "same-origin",
         headers: {
@@ -660,7 +674,7 @@
         return t.json();
       }));
     }
-    return y = t(1).then((function(e) {
+    return t(1).then((function(e) {
       for (var n = Math.min(+e.pageCount || 1, 5), a = [], r = 2; r <= n; r++) a.push(t(r));
       return Promise.all(a).then((function(t) {
         return [ e ].concat(t);
@@ -691,7 +705,7 @@
         })), s;
         var e, r, s;
       })));
-    })), y;
+    }));
   }
   // (10/28) 강의실 도우미 — 미리보기 주소 유지 · 기간 상태(pre 개강 전 / on 수강 중 / end 끝남) · 결제일(같은 상품 중 가장 이른 정상 주문)
   function roomPv(u) {
@@ -851,7 +865,7 @@
         }));
         }
       }))["catch"]((function() {
-        t.innerHTML = '<div class="r2-my-load">강의 목록을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.</div>';
+        t.innerHTML = '<div class="r2-my-load">강의 목록을 불러오지 못했어요. <a href="">다시 불러오기</a></div>';
       }));
     }
   }));
@@ -894,7 +908,7 @@
               return "<li>" + r(d.x) + "</li>";
             })).join("") + "</ul>" : "") + "</div>" + (ok ? '<button type="button" class="sf-btn sf-btn--primary sf-room__go" data-no="' + no + '">바로보기</button>' : '<span class="sf-room__soon">' + (u ? "기간 종료" : "공개 예정") + "</span>") + "</li>";
           }));
-          box.innerHTML = back + '<header class="sf-room__head"><div class="sf-room__thumb"' + (/^https:\/\/[^"'()\s]+$/.test(o.img) ? ' style="background-image:url(\'' + o.img + '\')"' : "") + '></div><div><small>나의 강의실</small><h1>' + r(o.title) + "</h1>" + (lb ? '<p class="sf-room__when">수강 기간 <b>' + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") + "</p>" : "") + ("end" === st ? '<p class="sf-room__end">수강 기간이 끝났어요. 다시 듣고 싶다면 고객센터로 문의해 주세요.</p>' : "pre" === st ? '<p class="sf-room__end">' + SFUI.roomDate(rg.s) + "에 개강해요.</p>" : "") + (o.chat && "end" !== st ? '<a class="sf-btn sf-btn--outline sf-room__chat" href="' + o.chat + '" target="_blank" rel="noopener">톡방 입장</a>' : "") + '</div></header><section class="sf-room__cur"><div class="sf-room__ch"><h2>커리큘럼</h2>' + (its.length ? "<span>" + on + " / " + its.length + "회차 공개</span>" : "") + "</div>" + (its.length ? '<ol class="sf-room__list">' + li.join("") + "</ol>" : '<p class="sf-room__msg">커리큘럼을 준비하고 있어요.</p>') + "</section>";
+          box.innerHTML = back + '<header class="sf-room__head"><div class="sf-room__thumb"' + (/^https:\/\/[^"'()\s]+$/.test(o.img) ? ' style="background-image:url(\'' + o.img + '\')"' : "") + '></div><div><small>나의 강의실</small><h1>' + r(o.title.replace(/\s*(BEST|NEW|HOT|SALE|인기급상승|마감임박)\s*$/, "")) + "</h1>" + (lb ? '<p class="sf-room__when">수강 기간 <b>' + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") + "</p>" : "") + ("end" === st ? '<p class="sf-room__end">수강 기간이 끝났어요. 다시 듣고 싶다면 고객센터로 문의해 주세요.</p>' : "pre" === st ? '<p class="sf-room__end">' + SFUI.roomDate(rg.s) + "에 개강해요.</p>" : "") + '</div></header><section class="sf-room__cur"><div class="sf-room__ch"><h2>커리큘럼</h2>' + (its.length ? "<span>" + on + " / " + its.length + "회차 공개</span>" : "") + "</div>" + (its.length ? '<ol class="sf-room__list">' + li.join("") + "</ol>" : '<p class="sf-room__msg">커리큘럼을 준비하고 있어요.</p>') + "</section>";
         }));
       }));
       // 바로보기 → 영상 창(Vimeo · YouTube 는 화면 안에서, 그 밖의 주소는 새 창)

@@ -50,10 +50,32 @@
 
   // 주문 상세(고객 본인) — 아임웹 주문 상세 화면이 쓰는 것과 같은 주소
   var tok = null, cache = {};
+  // (10/31) 주문 상세도 이 탭에 10분 저장(입금 대기는 바뀔 수 있어 저장 안 함) · 주문 상세 화면에 다녀오면 그 주문은 다시 받아요
+  var OK = 'sf_oms1_', ordNo = qs.get('order_no');
+  ordNo && function () { try { sessionStorage.removeItem(OK + ordNo); } catch (x) {} }();
   SFUI.omsOrder = function (no) {
     if (cache[no]) return cache[no];
+    var S = null;
+    try { S = JSON.parse(sessionStorage.getItem(OK + no) || 'null'); } catch (x) {}
+    if (S && Date.now() - S.at < 6e5) return (cache[no] = Promise.resolve(S.d));
+    return (cache[no] = omsFetch(no).then(function (d) {
+      var p = d && (d.payments || [])[0] || {};
+      // 저장은 화면에 쓰는 금액·상태·상품만(주문자·연락처·계좌 같은 개인정보는 저장 안 함)
+      d && p.statusCd !== 'OPS01' && function () { try { sessionStorage.setItem(OK + no, JSON.stringify({ at: Date.now(), d: slim(d) })); } catch (x) {} }();
+      return d;
+    }));
+  };
+  function slim(d) {
+    var o = {};
+    ['paymentPrice', 'baseItemPrice', 'itemPrice', 'itemCouponDiscount', 'deliveryCouponDiscount', 'itemPointAmount', 'deliveryPointAmount', 'givePoint', 'pgCancelPrice'].forEach(function (k) { o[k] = d[k]; });
+    o.orderSections = (d.orderSections || []).map(function (s) { return { statusCd: s.statusCd }; });
+    o.payments = (d.payments || []).slice(0, 1).map(function (p) { return { methodCd: p.methodCd, statusCd: p.statusCd }; });
+    o.orderItems = (d.orderItems || []).map(function (x) { return { prodName: x.prodName, prodNo: x.prodNo, itemPrice: x.itemPrice, imageUrls: (x.imageUrls || []).slice(0, 1) }; });
+    return o;
+  }
+  function omsFetch(no) {
     tok = tok || fetch('/ajax/oms/OMS_auth.cm', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (j) { return j && j['tok' + 'en']; });
-    return (cache[no] = tok.then(function (k) {
+    return (tok.then(function (k) {
       if (!k) return null;
       return fetch('https://api.oms.imweb.me/customer/v1/orders/' + encodeURIComponent(no), { headers: { Authorization: 'Bearer ' + k } }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { return j && j.data || null; });
     })['catch'](function () { return null; }));
@@ -101,7 +123,7 @@
       };
       box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오는 중…</div>';
       for (var i = 0; i < 4; i++) next();
-      setTimeout(render, 6000);
+      setTimeout(render, 3500); // (10/31) 6초 → 3.5초: 늦은 상세는 목록 값으로
       box.addEventListener('click', function (e) {
         var c = e.target.closest('.sf-oc__copy');
         if (c) {
@@ -110,7 +132,7 @@
         }
       });
     })['catch'](function () {
-      box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.</div>';
+      box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오지 못했어요. <a href="">다시 불러오기</a></div>';
     });
     // 상태: 상세가 있으면 상세 기준(상품 상태 OSS07=취소 완료 · 결제 상태 OPS01=입금 대기), 없으면 목록 글
     function stateApi(items, d) {
@@ -270,6 +292,21 @@
       empty && (empty.hidden = !none, empty.innerHTML = '진행 중인 일정이 없어요. <a href="' + withPv(k === 'live' ? '/live' : k === 'meet' ? '/community' : '/course') + '">' + (k === 'live' ? '무료 라이브' : k === 'meet' ? '커뮤니티' : '교육') + ' 둘러보기</a>');
     }
   };
+  // (10/31 사장님) 아임웹 React 창(현금영수증 신청 등)의 검정 단추(고른 칸 · 신청하기)를 주황으로 — 아임웹 이름표가 매번 바뀌어 색으로 찾아요(CSS patch/84)
+  if (path === '/shop_mypage' && window.MutationObserver && document.body) {
+    var rmScan = function () {
+      [].forEach.call(document.querySelectorAll('.ReactModal__Content button'), function (b) {
+        b.classList.remove('sf-rm-dark');
+        getComputedStyle(b).backgroundColor === 'rgb(54, 54, 54)' && b.classList.add('sf-rm-dark');
+      });
+    };
+    // 창은 body 아래 ReactModalPortal 안에 생겨요 → 아래까지 보되 한 프레임에 한 번만
+    var rmQ = 0;
+    new MutationObserver(function () {
+      rmQ || (rmQ = requestAnimationFrame(function () { rmQ = 0; document.querySelector('.ReactModal__Content') && rmScan(); }));
+    }).observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('click', function (e) { e.target.closest && e.target.closest('.ReactModal__Content') && setTimeout(rmScan, 0); });
+  }
   // (10/31 사장님) 입장 안내 팝업 — 라이브 입장 · 비밀번호가 있는 소통방 입장을 누르면 바로 카카오로 가지 않고 여기서 먼저
   //   ① 소통방 입장(카카오 노랑) + 비밀번호(복사) ② 라이브 링크 입장하기(상품 글 [라이브 링크], 시작 20분 전부터) ③ 신청한 일정 요약
   document.addEventListener('click', function (e) {

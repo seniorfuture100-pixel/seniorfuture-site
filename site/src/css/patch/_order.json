@@ -496,12 +496,18 @@
   "file": "82-sf-my-태블릿도-휴대폰-화면.css",
   "screen": "mypage",
   "src": "sf-my",
-  "rules": 203
+  "rules": 209
  },
  {
   "file": "83-sf-my-강의실-버튼-입장-팝업.css",
   "screen": "mypage",
   "src": "sf-my",
   "rules": 92
+ },
+ {
+  "file": "84-sf-my-주문상세-구매평-현금영수증-강의실.css",
+  "screen": "mypage",
+  "src": "sf-my",
+  "rules": 47
  }
 ]

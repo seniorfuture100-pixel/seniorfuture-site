@@ -1,0 +1,240 @@
+/* (10/31 사장님) 주문 상세 · 구매평 작성 창 · 현금영수증 신청 창 · 강의실 페이지 — 디자인 가이드(글꼴 · 회색 3단계 · 주황 · 10~12px 모서리)로 */
+
+/* ── 주문 상세: 상품 사진이 16:9 그림인데 정사각 60px 에 잘려 깨져 보였어요 → 16:9 상자 */
+html:root body .r3-od a div:has(> img):not(#sf-x) {
+  flex:none!important;
+  width:112px!important;
+  height:63px!important;
+  margin-right:14px!important;
+  border-radius:10px!important;
+  overflow:hidden!important;
+  background:#f2f3f6;
+}
+html:root body .r3-od a div:has(> img) > img:not(#sf-x) {
+  display:block;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+}
+/* PC: 상태(취소완료 등)가 가운데 따로 떠 있던 칸 → 숨기고, 상품명 위 작은 꼬리표로(휴대폰과 같게) */
+html:root body .r3-od a + div:has(> .r3-od__status):not(#sf-x) {
+  display:none!important;
+}
+html:root body .r3-od a div:has(> .r3-od__status):not(#sf-x) {
+  display:block!important;
+  margin-bottom:6px!important;
+}
+/* 상품 줄 높이가 136px 로 고정돼 아래가 텅 비던 것 → 내용만큼 · 버튼은 오른쪽 가운데 */
+html:root body .r3-od div:has(> a div > img):not(#sf-x) {
+  min-height:0!important;
+  height:auto!important;
+  align-items:center!important;
+}
+html:root body .r3-od div:has(> a div > img) > a:not(#sf-x) {
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+@media (max-width:767.98px) {
+  html:root body .r3-od a div:has(> img):not(#sf-x) {
+    width:96px!important;
+    height:54px!important;
+    margin-right:12px!important;
+  }
+}
+
+/* ── 구매평 작성 창(아임웹 .modal_add_review) */
+html:root body .modal_add_review .modal-dialog:not(#sf-x) {
+  width:min(480px, calc(100vw - 32px))!important;
+  max-width:480px;
+}
+html:root body .modal_add_review .modal-content:not(#sf-x) {
+  overflow:hidden;
+  border:0!important;
+  border-radius:20px!important;
+  box-shadow:0 20px 50px rgba(17,24,39,.18)!important;
+  font-family:var(--sf-font)!important;
+}
+html:root body .modal_add_review .modal-header:not(#sf-x) {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:56px;
+  padding:0 20px!important;
+  border-bottom:1px solid #eef0f3!important;
+}
+html:root body .modal_add_review .modal-header .text-16:not(#sf-x) {
+  color:#111827!important;
+  font-size:17px!important;
+  font-weight:700!important;
+}
+html:root body .modal_add_review .modal-body:not(#sf-x) {
+  padding:20px 24px 24px!important;
+}
+html:root body .modal_add_review .tabled.border-gray:not(#sf-x) {
+  padding:12px!important;
+  border:1px solid #e8eaee!important;
+  border-radius:12px!important;
+  background:#fafafa;
+}
+html:root body .modal_add_review .prod_img:not(#sf-x) {
+  width:72px!important;
+  height:72px!important;
+  border-radius:10px;
+  object-fit:cover;
+}
+html:root body .modal_add_review .prod_tit:not(#sf-x) {
+  color:#111827!important;
+  font-size:15px!important;
+  font-weight:600!important;
+}
+html:root body .modal_add_review .text-18 strong:not(#sf-x) {
+  color:#111827;
+  font-size:18px;
+  font-weight:700;
+}
+html:root body .modal_add_review .star_point ._star:not(#sf-x) {
+  color:#d9dbe0!important;
+}
+html:root body .modal_add_review .star_point ._star.active:not(#sf-x) {
+  color:#ff6f0f!important;
+}
+html:root body .modal_add_review textarea:not(#sf-x) {
+  padding:14px 16px!important;
+  border:1px solid #d9dbe0!important;
+  border-radius:12px!important;
+  box-shadow:none!important;
+  color:#111827!important;
+  font-size:15px!important;
+  line-height:1.6!important;
+}
+html:root body .modal_add_review textarea:focus:not(#sf-x) {
+  border-color:#ff6f0f!important;
+  outline:0!important;
+}
+html:root body .modal_add_review .btn_submit:not(#sf-x) {
+  height:52px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#ff6f0f!important;
+  color:#fff!important;
+  font-size:16px!important;
+  font-weight:700!important;
+}
+
+/* ── 현금영수증 신청 창(아임웹 React 창) */
+html:root body .ReactModal__Overlay:not(#sf-x) {
+  background:rgba(17,24,39,.45)!important;
+}
+html:root body .ReactModal__Content:not(#sf-x) {
+  border:0!important;
+  border-radius:20px!important;
+  box-shadow:0 20px 50px rgba(17,24,39,.18)!important;
+  font-family:var(--sf-font)!important;
+}
+html:root body .ReactModal__Content button:not(#sf-x) {
+  border-radius:10px!important;
+  font-family:var(--sf-font)!important;
+  font-weight:600!important;
+}
+/* 고른 칸·신청하기(아임웹 검정 #363636) = 주황 — 검정 단추는 patch/26e 가 sf-rm-dark 로 표시 */
+html:root body .ReactModal__Content button.sf-rm-dark:not(#sf-x) {
+  border-color:#ff6f0f!important;
+  background:#ff6f0f!important;
+  color:#fff!important;
+}
+html:root body .ReactModal__Content input:not(#sf-x) {
+  font-size:15px!important;
+}
+html:root body .ReactModal__Content div:has(> input):not(#sf-x) {
+  border-radius:10px!important;
+  outline-color:#ff6f0f!important;
+}
+
+/* ── 강의실 페이지(/class?idx=…): 머리 · 커리큘럼 회차를 카드로 · 글자 진하게 · 간격 정리 */
+html:root body .sf-room:not(#sf-x) {
+  padding:32px 16px 80px!important;
+}
+html:root body .sf-room__head:not(#sf-x) {
+  grid-template-columns:320px 1fr!important;
+  gap:32px!important;
+  padding-bottom:28px!important;
+}
+html:root body .sf-room__head h1:not(#sf-x) {
+  margin:6px 0 12px!important;
+  font-size:26px!important;
+}
+html:root body .sf-room__when:not(#sf-x) {
+  color:#4b5563!important;
+}
+html:root body .sf-room__end:not(#sf-x) {
+  color:#6b7280!important;
+}
+html:root body .sf-room__cur:not(#sf-x) {
+  padding-top:32px!important;
+}
+html:root body .sf-room__ch:not(#sf-x) {
+  margin-bottom:16px!important;
+}
+html:root body .sf-room__ch span:not(#sf-x) {
+  color:#4b5563!important;
+  font-weight:600;
+}
+html:root body .sf-room__list:not(#sf-x) {
+  display:grid;
+  gap:12px;
+}
+html:root body .sf-room__it:not(#sf-x) {
+  grid-template-columns:36px 1fr auto!important;
+  gap:16px!important;
+  padding:20px 24px!important;
+  border:1px solid #e8eaee!important;
+  border-radius:16px!important;
+  background:#fff;
+}
+html:root body .sf-room__tx small:not(#sf-x) {
+  color:#6b7280!important;
+}
+html:root body .sf-room__tx li:not(#sf-x) {
+  color:#4b5563!important;
+}
+html:root body .sf-room__go:not(#sf-x) {
+  min-width:112px;
+  height:44px!important;
+  border-radius:10px!important;
+  background:#ff6f0f!important;
+  color:#fff!important;
+  font-weight:700!important;
+}
+html:root body .sf-room__soon:not(#sf-x) {
+  min-width:0!important;
+  padding:6px 12px;
+  border-radius:999px;
+  background:#f2f3f6;
+  color:#6b7280!important;
+  font-size:13px!important;
+  font-weight:600;
+}
+@media (max-width:767.98px) {
+  html:root body .sf-room:not(#sf-x) {
+    padding:20px 16px 64px!important;
+  }
+  html:root body .sf-room__head:not(#sf-x) {
+    grid-template-columns:1fr!important;
+    gap:16px!important;
+  }
+  html:root body .sf-room__head h1:not(#sf-x) {
+    font-size:21px!important;
+  }
+  html:root body .sf-room__it:not(#sf-x) {
+    grid-template-columns:28px 1fr!important;
+    gap:12px!important;
+    padding:16px!important;
+  }
+  html:root body .sf-room__it > :last-child:not(#sf-x) {
+    grid-column:2;
+    justify-self:start;
+  }
+  html:root body .sf-room__go:not(#sf-x) {
+    height:40px!important;
+  }
+}

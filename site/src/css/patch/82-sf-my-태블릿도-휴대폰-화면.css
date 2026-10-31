@@ -596,6 +596,28 @@
     font-size:13px!important;
     white-space:nowrap;
   }
+  html:root body .sf-room:not(#sf-x):not(#sf-tab) {
+    padding:20px 16px 64px!important;
+  }
+  html:root body .sf-room__head:not(#sf-x):not(#sf-tab) {
+    grid-template-columns:1fr!important;
+    gap:16px!important;
+  }
+  html:root body .sf-room__head h1:not(#sf-x):not(#sf-tab) {
+    font-size:21px!important;
+  }
+  html:root body .sf-room__it:not(#sf-x):not(#sf-tab) {
+    grid-template-columns:28px 1fr!important;
+    gap:12px!important;
+    padding:16px!important;
+  }
+  html:root body .sf-room__it > :last-child:not(#sf-x):not(#sf-tab) {
+    grid-column:2;
+    justify-self:start;
+  }
+  html:root body .sf-room__go:not(#sf-x):not(#sf-tab) {
+    height:40px!important;
+  }
   :root.r2-my body .shop-content.mypage .row.show-grid:not(#sf-tab) {
     display:block!important;
     padding:20px 16px 120px!important;
