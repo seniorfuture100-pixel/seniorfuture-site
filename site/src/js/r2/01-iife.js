@@ -522,8 +522,10 @@
       }
       if (!btn || !window.SITE_MEMBER || !SITE_MEMBER.joinSubmit) return;
       var hint = cur && cur.querySelector(".r2-prof-hint"), org = cur && cur.querySelector("input[name=passwd_org]");
-      btn.addEventListener("click", (function(ev) {
-        ev.preventDefault(), ev.stopPropagation();
+      // 다른 코드가 클릭을 중간에서 막아 단추까지 오지 않아요 → 맨 바깥(window)에서 먼저 받아요
+      window.addEventListener("click", (function(ev) {
+        if (!ev.target.closest || ev.target.closest("._join_btn") !== btn) return;
+        ev.preventDefault(), ev.stopImmediatePropagation();
         if (btn.disabled) return;
         btn.disabled = !0, btn.textContent = "저장 중…";
         SFUI.__joinDone = function(j) {
