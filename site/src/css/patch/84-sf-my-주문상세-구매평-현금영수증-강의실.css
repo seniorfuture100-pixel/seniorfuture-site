@@ -461,3 +461,8 @@ html:root body .r3-od .r3-od__item + .r3-od__item:not(#sf-x) {
     height:44px!important;
   }
 }
+/* (10/31) 접근성: 하단 회사 정보 줄의 링크(사업자정보 확인·메일)는 색만이 아니라 밑줄로도 구분(WCAG link-in-text-block) */
+html:root body .r3-ft-co a:not(#sf-x) {
+  text-decoration:underline!important;
+  text-underline-offset:2px;
+}
