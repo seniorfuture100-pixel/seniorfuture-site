@@ -294,18 +294,17 @@
   };
   // (10/31 사장님) 아임웹 React 창(현금영수증 신청 등)의 검정 단추(고른 칸 · 신청하기)를 주황으로 — 아임웹 이름표가 매번 바뀌어 색으로 찾아요(CSS patch/84)
   if (path === '/shop_mypage' && window.MutationObserver) {
+    // React 가 고른 칸을 바꾸면 단추 class 를 통째로 새로 써서 우리 표시가 지워져요 → 표시 없는 단추만 원래 색을 보고 다시 붙여요(붙인 단추는 그대로라 되풀이 없음)
     var rmScan = function () {
-      [].forEach.call(document.querySelectorAll('.ReactModal__Content button'), function (b) {
-        b.classList.remove('sf-rm-dark');
+      [].forEach.call(document.querySelectorAll('.ReactModal__Content button:not(.sf-rm-dark)'), function (b) {
         getComputedStyle(b).backgroundColor === 'rgb(54, 54, 54)' && b.classList.add('sf-rm-dark');
       });
     };
-    // 창은 body 아래 ReactModalPortal 안에 생겨요 → 아래까지 보되 한 프레임에 한 번만
+    // 창은 body 아래 ReactModalPortal 안에 생겨요 → 문서 전체(이 코드는 body 가 생기기 전에 돌아요)의 줄·class 변화를 보되 한 프레임에 한 번만
     var rmQ = 0;
     new MutationObserver(function () {
       rmQ || (rmQ = requestAnimationFrame(function () { rmQ = 0; document.querySelector('.ReactModal__Content') && rmScan(); }));
-    }).observe(document.documentElement, { childList: true, subtree: true }); // 이 코드는 body 가 생기기 전에 돌아요
-    document.addEventListener('click', function (e) { e.target.closest && e.target.closest('.ReactModal__Content') && setTimeout(rmScan, 0); });
+    }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
   }
   // (10/31 사장님) 입장 안내 팝업 — 라이브 입장 · 비밀번호가 있는 소통방 입장을 누르면 바로 카카오로 가지 않고 여기서 먼저
   //   ① 소통방 입장(카카오 노랑) + 비밀번호(복사) ② 라이브 링크 입장하기(상품 글 [라이브 링크], 시작 20분 전부터) ③ 신청한 일정 요약
