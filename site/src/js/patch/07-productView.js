@@ -68,7 +68,7 @@ SFUI.roomLabel = function(p, paid) {
 SFUI.roomInfo = function(idx, done) {
   var k = "sf_room5_" + idx, C = null; // (10/29) room3: 모임 안내(meet)·일시(start) 추가 · (10/30) room4: [다시보기](replay) · room5: [라이브 안내](meet.sec)
   try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
-  if (C && Date.now() - C.at < 3e5) return done(C);
+  if (C && Date.now() - C.at < 18e5) return done(C); // (10/31) 5분 → 30분: 나의 강의실이 상품 글을 매번 다시 받느라 느렸어요
   if (!idx || !window.fetch || !window.DOMParser) return done(null);
   fetch("/shop_view/?idx=" + idx + (/preview_mode=1/.test(location.search) ? "&preview_mode=1" : ""), { credentials: "same-origin" }).then((function(r) {
     return r.ok ? r.text() : "";

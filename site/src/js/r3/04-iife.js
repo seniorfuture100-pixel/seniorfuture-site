@@ -766,15 +766,18 @@
           }));
         }));
         var gs = rows.filter((function(x) { return x.guess; }));
-        (gs.length ? Promise.all(gs.map((function(x) {
+        // (10/31) 먼저 그리고(상품명으로 짐작) 상품 글을 다 읽으면 한 번 더 — 예전엔 상품 글 12개를 다 받을 때까지(약 3초) 빈 화면이었어요
+        var chg = false;
+        draw();
+        gs.length && Promise.all(gs.map((function(x) {
           return new Promise((function(res) {
             SFUI.roomInfo(x.idx, (function(o) {
               var mi = o && o.meet;
-              mi && mi.sec && (x.ty = mi.sec, x.at = mi.start ? Date.parse(mi.start) : x.at);
+              mi && mi.sec && (mi.sec !== x.ty || mi.start && Date.parse(mi.start) !== +x.at) && (chg = !0, x.ty = mi.sec, x.at = mi.start ? Date.parse(mi.start) : x.at);
               res();
             }));
           }));
-        }))) : Promise.resolve()).then(draw);
+        }))).then(function() { chg && draw(); });
         function draw() {
         if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {

@@ -236,11 +236,20 @@ html.sf-pt-on body .table-wrap > .bg-brand {
     display:flex!important;
     flex-direction:column;
     gap:8px;
+    align-items:stretch!important; /* (10/31) 화면이 넓어지면 글자가 가운데로 쏠리던 것 → 왼쪽 정렬 */
+    text-align:left!important;
     margin:0!important;
     padding:0!important;
     border:0!important;
     background:none!important;
     box-shadow:none!important;
+  }
+  html:root body [data-sf-rooms] .sf-room-card > *,
+  html:root body [data-sf-rooms] .sf-room-card .sf-hub-side {
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    justify-content:flex-start;
   }
   html:root body [data-sf-rooms] .sf-room-card .sf-hub-thumb {
     width:100%!important;

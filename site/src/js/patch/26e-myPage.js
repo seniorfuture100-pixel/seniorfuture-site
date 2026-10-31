@@ -29,6 +29,16 @@
     };
     put();
   });
+  // (10/31) 같은 상품 글을 동시에 여러 번 받지 않게(나의 강의실이 두 번 그릴 때 등) — 받는 중이면 기다렸다 같은 결과를 줘요
+  if (SFUI.roomInfo && !SFUI.roomInfo.__q) {
+    var rawInfo = SFUI.roomInfo, Q = {};
+    SFUI.roomInfo = function (idx, done) {
+      if (Q[idx]) return void Q[idx].push(done);
+      Q[idx] = [done];
+      rawInfo(idx, function (o) { var l = Q[idx] || []; delete Q[idx]; l.forEach(function (f) { try { f(o); } catch (e) {} }); });
+    };
+    SFUI.roomInfo.__q = 1;
+  }
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
   var won = function (n) { return (Math.round(+n || 0)).toLocaleString('ko-KR') + '원'; };
   var W = '일월화수목금토';
@@ -180,8 +190,8 @@
       t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms"></ul>'; ul = t.firstChild;
     }
     // 입금 대기 카드(한 번만)
-    if (!t.__sfPend) {
-      t.__sfPend = 1;
+    if (!ul.__sfPend) { // 목록을 다시 그리면 ul 이 새로 생겨요 → 입금 대기 카드도 다시
+      ul.__sfPend = 1;
       pendings(L).forEach(function (x) {
         var ty = typeOf(x), li = document.createElement('li');
         li.className = 'sf-hub-card r3-ord sf-room-card is-pending'; li.setAttribute('data-ty', ty);

@@ -491,5 +491,11 @@
   "screen": "mypage",
   "src": "sf-my",
   "rules": 56
+ },
+ {
+  "file": "82-sf-my-태블릿도-휴대폰-화면.css",
+  "screen": "mypage",
+  "src": "sf-my",
+  "rules": 191
  }
 ]
