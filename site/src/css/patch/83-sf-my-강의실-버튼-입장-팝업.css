@@ -461,3 +461,30 @@ html:root body .r3-od .r3-od__btn:not(#sf-x) {
   min-height:44px;
   border-radius:10px!important;
 }
+/* (10/31 사장님) 마이페이지 글자 뚜렷하게: 혜택 3칸(이름 진한 회색 · 값 굵게) · 메뉴 4개(나의 강의실 · 결제 내역 · 찜한 내역 · 열람 내역) 진하게
+   마케팅 파트너스 칸 값은 '수익창출 시작'(r2/01) */
+html:root body .r2-my-perks a span:not(#sf-x) {
+  color:#374151!important;
+  font-weight:600!important;
+}
+html:root body .r2-my-perks b:not(#sf-x) {
+  color:#111827!important;
+  font-weight:800!important;
+}
+html:root body .r2-my-perks a:last-child b:not(#sf-x) {
+  color:var(--sf-text-brand,#e05a00)!important;
+  font-size:13px!important;
+  font-weight:800!important;
+}
+html:root body .r2-my-quick a:not(#sf-x) {
+  color:#1f2937!important;
+  font-weight:600!important;
+}
+html:root body .r2-my-quick a[aria-current="page"]:not(#sf-x) {
+  color:#111827!important;
+  font-weight:800!important;
+}
+html:root body .r2-my-side a:not([aria-current]):not(#sf-x) {
+  color:#1f2937!important;
+  font-weight:600!important;
+}

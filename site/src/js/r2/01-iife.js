@@ -400,7 +400,7 @@
         // (10/31 사장님) 휴대폰: 메뉴 5개가 두 줄로 깨져서 → 위에 쿠폰 · 적립금 · 마케팅 파트너스 3칸, 아래 메뉴 4개
         //   개수는 아임웹 요약(#mypage-summary '포인트 973,390 · 쿠폰 보유 1')에서 읽어요
         var sumT = (l && l.textContent || "").replace(/\s+/g, " "), cpN = (sumT.match(/쿠폰\s*보유\s*([\d,]+)/) || [])[1] || "0", ptN = (sumT.match(/포인트\s*([\d,]+)/) || [])[1] || "0";
-        y = '<nav class="r2-my-perks" aria-label="혜택">' + [ [ "내 쿠폰", cpN + "장", "/shop_mypage/?m2=coupon_list", "m2=coupon_list", '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M15 6v12" stroke-dasharray="2 2"/>' ], [ "적립금", ptN + "원", "/shop_mypage/?m2=point_list", "m2=point_list", '<circle cx="12" cy="12" r="9"/><path d="M10 16V8h3a2.5 2.5 0 010 5h-3"/>' ], [ "마케팅 파트너스", "링크 만들기", "/shop_mypage/?sf=partners", "sf=partners", b.link ] ].map((function(e) {
+        y = '<nav class="r2-my-perks" aria-label="혜택">' + [ [ "내 쿠폰", cpN + "장", "/shop_mypage/?m2=coupon_list", "m2=coupon_list", '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M15 6v12" stroke-dasharray="2 2"/>' ], [ "적립금", ptN + "원", "/shop_mypage/?m2=point_list", "m2=point_list", '<circle cx="12" cy="12" r="9"/><path d="M10 16V8h3a2.5 2.5 0 010 5h-3"/>' ], [ "마케팅 파트너스", "수익창출 시작", "/shop_mypage/?sf=partners", "sf=partners", b.link ] ].map((function(e) {
           return '<a href="' + e[2] + '"' + (e[3] === u ? ' aria-current="page"' : "") + '><svg viewBox="0 0 24 24" aria-hidden="true">' + e[4] + "</svg><span>" + e[0] + "</span><b>" + s(e[1]) + "</b></a>";
         })).join("") + "</nav>" + y;
         // (10/31 사장님) PC 옆 메뉴는 '쿠폰함'·'적립금' 이름만(장 수·금액은 휴대폰 위 3칸에서만)
