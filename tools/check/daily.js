@@ -34,6 +34,7 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
       page.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
       page.on('console', m => { if (m.type() === 'error' && /\[sf-|SFUI|sf\.min/.test(m.text())) errs.push(m.text().slice(0, 160)); });
       let st = 0;
+      await new Promise(z => setTimeout(z, 1500)); // (11/1) 아임웹 서버에 1.5초 간격 — 연달아 열면 429(요청 너무 많음)로 막혀요
       try { const r = await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); st = r ? r.status() : 0; await page.waitForTimeout(2500); } catch (e) { errs.push('열기 실패 ' + String(e.message).slice(0, 80)); }
       const tag = name + ' @' + w;
       if (st === 404) { rows.push([tag, '공개 전(404)', '']); await page.close(); continue; }
@@ -43,7 +44,7 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
           sfui: !!window.SFUI, css: !!q('#sf-css, style#sf-ui-css'), hd: H.classList.contains('sf-hd-on') || vis(q('.sf-mh')),
           ft: vis(q('#doz_footer_wrap')), wide: H.scrollWidth - innerWidth, tab: !m || H.classList.contains('sf-auth-on') || vis(q('.sf-tabbar'))  // 로그인·가입 화면은 일부러 탭바를 숨김
         };
-      }, w < 768).catch(e => ({ err: String(e) }));  // 하단 탭바는 767px 이하에서만(태블릿은 헤더 메뉴)
+      }, w < 768 && !/^\/shop_view/.test(url)).catch(e => ({ err: String(e) }));  // 하단 탭바는 767px 이하에서만(태블릿은 헤더 메뉴) · 상품 상세는 탭바 대신 신청 버튼 줄(설계)
       const p = [];
       if (st && st >= 400) p.push('응답 ' + st);
       if (r.err) p.push(r.err);
@@ -70,6 +71,7 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
     const wctx = await wb.newContext(Object.assign({}, devices['iPhone 13'], { locale: 'ko-KR' }));
     for (const [name, url] of [['상품 교육 82', '/shop_view/?idx=82'], ['상품 모임 97', '/shop_view/?idx=97'], ['상품 라이브 99', '/shop_view/?idx=99']]) {
       const page = await wctx.newPage(), errs = []; page.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
+      await new Promise(z => setTimeout(z, 1500));
       try { await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); await page.waitForTimeout(2500); } catch (e) { errs.push('열기 실패'); }
       const p = await productChecks(page);
       const r = await page.evaluate(() => ({ sfui: !!window.SFUI, wide: document.documentElement.scrollWidth - innerWidth })).catch(() => ({}));
