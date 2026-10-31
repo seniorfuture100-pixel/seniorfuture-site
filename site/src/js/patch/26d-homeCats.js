@@ -61,7 +61,7 @@
   SFUI.register('homeCats', function (root) {
     if (root !== document) return;
     var p = location.pathname.replace(/\/$/, '');
-    if ((p && p !== '/index') || document.getElementById('sf-homecats')) return;
+    if ((p && p !== '/index') || document.querySelector('.sf-homecats')) return; // 시험 모드는 id 뒤에 -off 를 붙여 다시 그려서 class 로 봐요
     var grid = document.querySelector('ul.sf-cards4--grid'), head = grid && grid.closest('section');
     head = head && head.previousElementSibling && head.previousElementSibling.matches('section.sf-sec') ? head.previousElementSibling : head;
     if (!head) return;
