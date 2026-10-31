@@ -71,7 +71,9 @@
       var o = e.company;
       if (o) {
         var c = document.createElement("p");
-        c.className = "r3-ft-co", c.innerHTML = [ r(o.name), "대표 " + r(o.ceo), "사업자등록번호 " + r(o.biz), "통신판매업신고 " + r(o.report), "소재지 " + r(o.addr), "개인정보관리책임자 " + r(o.ceo), "호스팅제공자 (주)아임웹", "문의 " + r(o.tel || ""), '<a href="mailto:' + o.mail + '">' + r(o.mail) + "</a>" ].map((function(t) {
+        // (10/31) 전자상거래법 권장: 공정위 '사업자정보 확인' 링크(PG·간편결제 심사에서도 봐요)
+        var bz = String(o.biz || "").replace(/\D/g, "");
+        c.className = "r3-ft-co", c.innerHTML = [ r(o.name), "대표 " + r(o.ceo), "사업자등록번호 " + r(o.biz) + (10 === bz.length ? ' <a href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=' + bz + '" target="_blank" rel="noopener">사업자정보 확인</a>' : ""), "통신판매업신고 " + r(o.report), "소재지 " + r(o.addr), "개인정보관리책임자 " + r(o.ceo), "호스팅제공자 (주)아임웹", "문의 " + r(o.tel || ""), '<a href="mailto:' + o.mail + '">' + r(o.mail) + "</a>" ].map((function(t) {
           return "<span>" + t + "</span>";
         })).join('<i aria-hidden="true">·</i>'), t.appendChild(c);
       }
@@ -1973,7 +1975,7 @@
           return null;
         }
       }();
-      if (t && t !== i) {
+      if (t && String(t).toUpperCase() !== i) { // 내 코드는 대소문자 상관없이 건너뛰어요
         var e, n = !1;
         r(), (e = new MutationObserver(rafOnce(r))).observe(document.body, {
           childList: !0,
