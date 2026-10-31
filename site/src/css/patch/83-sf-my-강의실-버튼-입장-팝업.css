@@ -5,10 +5,26 @@
   align-items:center;
   gap:6px;
 }
-:root body [data-sf-rooms] .sf-room-meta .sf-badge {
-  padding:2px 8px;
-  font-size:12px;
-  line-height:1.5;
+/* (10/31) 종류(회색 글자) · 상태(색 채운 알약)로 나눠 눈에 띄게 — 예전엔 둘 다 주황이라 묻혔어요 */
+html:root body [data-sf-rooms] .sf-room-meta small {
+  color:#6b7280!important;
+  font-weight:600!important;
+}
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge {
+  padding:2px 8px!important;
+  border:0!important;
+  border-radius:6px!important;
+  font-size:12px!important;
+  font-weight:700!important;
+  line-height:1.5!important;
+}
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge--brand {
+  background:#ff6f0f!important;
+  color:#fff!important;
+}
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge--neutral {
+  background:#eef0f3!important;
+  color:#6b7280!important;
 }
 :root body [data-sf-rooms] a.sf-hub-thumb {
   display:block;
@@ -62,8 +78,15 @@
   height:18px;
 }
 
-/* 휴대폰·태블릿: 카드 폭이 좁아(2~3개씩) 소통방 입장 · 강의실 입장을 위아래로 */
+/* 휴대폰·태블릿: 카드 폭이 좁아(2~3개씩) 소통방 입장 · 강의실 입장을 위아래로
+   (10/31) 제목 줄 수가 달라도 버튼은 같은 줄(카드 맨 아래)에 */
 @media (max-width:767.98px) {
+  html:root body [data-sf-rooms] .sf-room-card > div:not(.sf-hub-side) {
+    flex:1 1 auto;
+  }
+  html:root body [data-sf-rooms] .sf-room-card > .sf-hub-side {
+    margin-top:auto!important;
+  }
   html:root body [data-sf-rooms] .sf-room-card .sf-hub-side {
     flex-direction:column;
     flex-wrap:nowrap;
@@ -113,7 +136,7 @@
 :root .sf-enter__head {
   position:relative;
   padding:22px 52px 20px 22px;
-  background:var(--sf-text-brand,#ff6b00);
+  background:#03a94d;
   color:#fff;
 }
 :root .sf-enter__head b {

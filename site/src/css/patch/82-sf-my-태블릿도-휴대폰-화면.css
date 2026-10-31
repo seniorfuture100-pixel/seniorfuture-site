@@ -541,6 +541,12 @@
     padding:22px 14px;
     font-size:14px;
   }
+  html:root body [data-sf-rooms] .sf-room-card > div:not(.sf-hub-side):not(#sf-tab) {
+    flex:1 1 auto;
+  }
+  html:root body [data-sf-rooms] .sf-room-card > .sf-hub-side:not(#sf-tab) {
+    margin-top:auto!important;
+  }
   html:root body [data-sf-rooms] .sf-room-card .sf-hub-side:not(#sf-tab) {
     flex-direction:column;
     flex-wrap:nowrap;

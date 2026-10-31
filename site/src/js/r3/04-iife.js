@@ -786,7 +786,8 @@
         function BTN(cls, href, txt, ext) { return '<a class="sf-btn sf-btn--l r3-ord__go ' + (/sf-btn--/.test(cls) ? "" : "sf-btn--outline ") + cls + '" href="' + href + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + ">" + txt + "</a>"; };
         function OFF(txt) { return '<span class="sf-btn sf-btn--l r3-ord__go is-off">' + txt + "</span>"; };
         // 비밀번호가 있으면 누를 때 입장 안내 팝업(patch/26e)부터 · 위에서 draw() 를 먼저 부르므로 함수 선언으로
-        function CHAT(o, idx) { return BTN("sf-room-chat is-kakao", o.chat, SFUI.KAKAO + "소통방 입장", 1).replace("<a ", o.chatPw ? '<a data-enter="' + idx + '" ' : "<a "); };
+        //   모임(pop=1)은 비밀번호가 없어도 늘 팝업
+        function CHAT(o, idx, pop) { return BTN("sf-room-chat is-kakao", o.chat, SFUI.KAKAO + "소통방 입장", 1).replace("<a ", o.chatPw || pop ? '<a data-enter="' + idx + '" ' : "<a "); };
         function draw() {
         if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
@@ -826,8 +827,9 @@
               //   진행 전 → 라이브 '라이브 입장'(입장 안내 팝업) · 모임 '소통방 입장'(카카오 노랑, 비밀번호 있으면 팝업) · 주소가 없으면 '준비 중'
               var ed = li.classList.contains("is-end"), lvx = "live" === x.ty;
               g0 && (g0.outerHTML = ed ? lvx ? o && o.replay ? BTN("sf-btn--primary sf-room-replay", o.replay, "다시보기", 1) : OFF("다시보기 준비 중") : OFF("종료된 모임")
-                : lvx ? o && (o.chat || o.live) ? BTN("sf-btn--primary sf-room-enter", o.chat || o.live, "라이브 입장", 1).replace("<a ", '<a data-enter="' + x.idx + '" ') : OFF("입장 준비 중")
-                : o && o.chat ? CHAT(o, x.idx) : OFF("준비 중"));
+                : lvx ? o && o.chat ? BTN("sf-room-chat is-kakao sf-room-enter", o.chat, SFUI.KAKAO + "라이브 입장", 1).replace("<a ", '<a data-enter="' + x.idx + '" ')
+                  : o && o.live ? BTN("sf-btn--primary sf-room-enter", o.live, "라이브 입장", 1).replace("<a ", '<a data-enter="' + x.idx + '" ') : OFF("입장 준비 중")
+                : o && o.chat ? CHAT(o, x.idx, 1) : OFF("준비 중"));
               return;
             }
             if (li && !(o && o.title)) {
