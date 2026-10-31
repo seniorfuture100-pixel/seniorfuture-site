@@ -18,12 +18,25 @@
     if (!box) return false;
     if (box.__sf) return true; box.__sf = 1;
     document.documentElement.classList.add('sf-cp-on');
-    var cards = [].slice.call(box.querySelectorAll('.mypage-coupon-wrap'));
     var h = document.createElement('div');
     h.className = 'sf-bn-head';
-    h.innerHTML = '<h2 class="r2-my-h">쿠폰함</h2><p>사용할 수 있는 쿠폰 <b>' + cards.length + '장</b> · 결제할 때 주문서에서 골라 쓸 수 있어요</p>';
+    h.innerHTML = '<h2 class="r2-my-h">쿠폰함</h2><p>사용할 수 있는 쿠폰 <b>0장</b> · 결제할 때 주문서에서 골라 쓸 수 있어요</p>';
     box.parentNode.insertBefore(h, box);
-    cards.forEach(function (c) {
+    // 아임웹이 쿠폰 카드를 늦게 그려요 → 바뀔 때마다 다시 꾸며요(이미 꾸민 카드는 건너뜀)
+    var deco = function () {
+      var cards = [].slice.call(box.querySelectorAll('.mypage-coupon-wrap'));
+      h.querySelector('b').textContent = cards.length + '장';
+      cards.forEach(dress);
+      var em = box.querySelector('.sf-bn-empty');
+      if (!cards.length && !em) { em = document.createElement('p'); em.className = 'sf-bn-empty'; em.innerHTML = '지금 쓸 수 있는 쿠폰이 없어요.<br>새 쿠폰이 생기면 여기에 보여요.'; box.appendChild(em); }
+      em && (em.hidden = !!cards.length);
+    };
+    var q = 0;
+    new MutationObserver(function () { q || (q = requestAnimationFrame(function () { q = 0; deco(); })); }).observe(box, { childList: true, subtree: true });
+    deco();
+    return true;
+    function dress(c) {
+      if (c.classList.contains('sf-cp')) return;
       c.classList.add('sf-cp');
       var t = c.querySelector('.discount-title'), d = c.querySelector('.coupon-date'), btn = c.querySelector('.coupon_use_btn');
       t && (t.textContent = clean(t.textContent).replace(/\s*할인$/, '') + ' 할인');
@@ -33,13 +46,7 @@
       }
       d && (d.textContent = clean(d.textContent).replace(/-/g, '.').replace(/\s*까지$/, '까지'));
       btn && (btn.textContent = '사용 안내 ›');
-    });
-    if (!cards.length) {
-      var e = document.createElement('p'); e.className = 'sf-bn-empty';
-      e.innerHTML = '지금 쓸 수 있는 쿠폰이 없어요.<br>새 쿠폰이 생기면 여기에 보여요.';
-      box.appendChild(e);
     }
-    return true;
   }
 
   function points(col) {
