@@ -780,13 +780,13 @@
         }))).then(function() { chg && draw(); });
         // (10/31 사장님) 카드 다시 짜기: 종류 옆에 상태(수강 중·참여 예정) · 사진·제목 누르면 상품 페이지 · '정보' 버튼 대신
         //   톡방 입장(카카오 노랑) | 강의실 입장 — 주소가 아직 없으면 '준비 중' · 라이브·모임은 일시 옆에 남은 시간
-        var PG = function(x) { return roomPv(("live" === x.ty ? "/live/" : "meet" === x.ty ? "/community/" : "/shop_view/") + "?idx=" + x.idx); };
-        var META = function(lab, bc, bt) { return '<div class="sf-room-meta"><small>' + lab + '</small><span class="sf-badge ' + bc + '">' + bt + "</span></div>"; };
-        var HEAD = function(x) { return '<a class="sf-hub-thumb" href="' + PG(x) + '" tabindex="-1" aria-hidden="true" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></a>'; };
-        var BTN = function(cls, href, txt, ext) { return '<a class="sf-btn sf-btn--l r3-ord__go ' + (/sf-btn--/.test(cls) ? "" : "sf-btn--outline ") + cls + '" href="' + href + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + ">" + txt + "</a>"; };
-        var OFF = function(txt) { return '<span class="sf-btn sf-btn--l r3-ord__go is-off">' + txt + "</span>"; };
-        // 비밀번호가 있으면 누를 때 입장 안내 팝업(patch/26e)부터
-        var CHAT = function(o, idx) { return BTN("sf-room-chat is-kakao", o.chat, SFUI.KAKAO + "소통방 입장", 1).replace("<a ", o.chatPw ? '<a data-enter="' + idx + '" ' : "<a "); };
+        function PG(x) { return roomPv(("live" === x.ty ? "/live/" : "meet" === x.ty ? "/community/" : "/shop_view/") + "?idx=" + x.idx); };
+        function META(lab, bc, bt) { return '<div class="sf-room-meta"><small>' + lab + '</small><span class="sf-badge ' + bc + '">' + bt + "</span></div>"; };
+        function HEAD(x) { return '<a class="sf-hub-thumb" href="' + PG(x) + '" tabindex="-1" aria-hidden="true" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></a>'; };
+        function BTN(cls, href, txt, ext) { return '<a class="sf-btn sf-btn--l r3-ord__go ' + (/sf-btn--/.test(cls) ? "" : "sf-btn--outline ") + cls + '" href="' + href + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + ">" + txt + "</a>"; };
+        function OFF(txt) { return '<span class="sf-btn sf-btn--l r3-ord__go is-off">' + txt + "</span>"; };
+        // 비밀번호가 있으면 누를 때 입장 안내 팝업(patch/26e)부터 · 위에서 draw() 를 먼저 부르므로 함수 선언으로
+        function CHAT(o, idx) { return BTN("sf-room-chat is-kakao", o.chat, SFUI.KAKAO + "소통방 입장", 1).replace("<a ", o.chatPw ? '<a data-enter="' + idx + '" ' : "<a "); };
         function draw() {
         if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
