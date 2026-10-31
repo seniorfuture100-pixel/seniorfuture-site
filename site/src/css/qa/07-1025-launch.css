@@ -46,13 +46,16 @@
 
 /* 목록(수강평·인사이트·장바구니 등)이 늦게 채워질 때 푸터가 화면 가운데 보였다가 밀려나던 것
    → 내용이 다 불러와질 때까지 푸터는 자리만 지키고 안 보이게(ui/30-footerReady.js). 스크립트가 실패해도 4초 뒤엔 보여요. */
+/* (10/31) 숨기던(visibility) 것을 화면 아래 바깥으로 내려 두는 것으로 바꿈: 보이는 모습은 같고,
+   숨겼다 보이면 '가장 늦게 나타난 큰 글자'(LCP)로 잡혀 인사이트·교육 목록 LCP가 23초로 계산됐어요.
+   transform 이동은 화면 밀림(CLS)에도 잡히지 않아요. */
 html:not(.sf-ft-ready) body #doz_footer_wrap {
-  visibility:hidden;
+  transform:translateY(100vh);
   animation:sfFtLate 0s 4s forwards;
 }
 @keyframes sfFtLate {
   to {
-    visibility:visible;
+    transform:none;
   }
 }
 
