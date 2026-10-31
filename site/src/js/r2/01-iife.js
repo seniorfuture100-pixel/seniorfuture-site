@@ -602,7 +602,7 @@
           W(h || v, "직무 정보", "맞춤 강의 추천에 쓰여요 (선택)"), v) {
             var b = v.querySelector(".mini-tit, label");
             b && (b.textContent = "직급"); // (10/31 사장님) 소속 / 직급
-            var y = v.querySelector("input");
+            var y = v.querySelector("input:not([type=hidden])"); // 앞에 숨은 칸이 있어요
             y && (y.placeholder = "예: 원장, 팀장, 실장 (선택)");
           }
           if (h) {
