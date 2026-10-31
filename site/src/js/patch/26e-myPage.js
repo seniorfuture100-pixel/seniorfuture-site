@@ -62,30 +62,22 @@
       // 처음부터 무료인 신청(상품 가격이 모두 0원)은 결제 내역에서 빼요 — 강의실에서 봐요
       var list = order.filter(function (no) { return !by[no].every(function (x) { return isZero(x.price); }); });
       if (!list.length) return void (box.innerHTML = '<div class="r2-my-load">아직 결제한 내역이 없어요. 무료 라이브·무료 모임 신청은 <a href="' + withPv('/shop_mypage/?sf=room') + '">나의 강의실</a>에서 볼 수 있어요.</div>');
-      box.innerHTML = '<p class="sf-oc-note">유료 주문만 보여요 · 무료 신청은 <a href="' + withPv('/shop_mypage/?sf=room') + '">나의 강의실</a>에서 확인해 주세요</p><ul class="sf-oc-list">' + list.map(function (no) {
-        var items = by[no], st = stateOf(items), first = items[0], more = items.length - 1;
-        var sum = items.reduce(function (a, x) { return a + (+String(x.price).replace(/[^\d]/g, '') || 0); }, 0);
-        var title = first.name.replace(/\s*\[[^\[\]]*\d{1,2}:\d{2}\]\s*$/, '');
-        var detail = withPv('/shop_mypage/?m2=order&idx=' + no + '&order_no=' + no);
-        var conf = items.every(function (x) { return /구매\s*확정/.test(x.status); });
-        return '<li class="sf-oc is-' + st[0] + '" data-no="' + esc(no) + '"' + (conf ? ' data-conf="1"' : '') + '>' +
-          '<div class="sf-oc__top"><span class="sf-oc__st">' + st[1] + '</span><span class="sf-oc__date">' + esc((first.date || '').replace(/-/g, '.')) + '</span><span class="sf-oc__no">주문번호 ' + esc(no) + '</span></div>' +
-          '<div class="sf-oc__body"><span class="sf-oc__th"' + (first.img ? ' style="background-image:url(\'' + esc(first.img).replace(/'/g, '') + '\')"' : '') + '></span>' +
-          '<div class="sf-oc__tx"><strong>' + esc(title) + (more > 0 ? ' <em>외 ' + more + '건</em>' : '') + '</strong><p class="sf-oc__sum"><b>' + won(sum) + '</b><span class="sf-oc__how"></span></p></div></div>' +
-          '<div class="sf-oc__bank" hidden></div>' +
-          '<div class="sf-oc__act"><button type="button" class="sf-oc__more" aria-expanded="false">결제 상세<i aria-hidden="true"></i></button>' +
-          (st[0] === 'wait' ? '<a class="sf-oc__btn" href="' + detail + '">주문 취소</a>' : '') +
-          (st[0] === 'paid' ? '<a class="sf-oc__btn is-main" href="' + withPv('/shop_mypage/?sf=room') + '">강의실로 가기 →</a>' : '') + '</div>' +
-          '<div class="sf-oc__detail" hidden><dl>' + items.map(function (x) { return '<div><dt>' + esc(x.name.replace(/\s*\[[^\[\]]*\d{1,2}:\d{2}\]\s*$/, '')) + '</dt><dd>' + esc(x.price) + '</dd></div>'; }).join('') + '</dl><dl class="sf-oc__calc"></dl>' +
-          '<a class="sf-oc__imweb" href="' + detail + '">영수증 · 취소·환불 요청은 주문 상세에서 ›</a></div></li>';
-      }).join('') + '</ul>';
-      // 금액·할인·결제수단·입금 계좌 채우기 (한 번에 4건씩)
-      var lis = [].slice.call(box.querySelectorAll('.sf-oc')), k = 0;
-      var next = function () {
-        var li = lis[k++]; if (!li) return;
-        SFUI.omsOrder(li.getAttribute('data-no')).then(function (D) { D && fill(li, D); next(); });
+      // (10/31) 상세(금액·상태)를 먼저 받고 그려요 — 목록 값으로 먼저 그리면 금액·상태가 바뀌며 깜빡였고,
+      //   아임웹 목록은 '입금 전 취소'한 주문을 '입금대기'로 내려 줘서 계좌가 잘못 보였어요. 6초 안에 못 받으면 목록 값으로
+      var D = {}, k = 0, done = false;
+      var render = function () {
+        if (done) return; done = true;
+        box.innerHTML = '<p class="sf-oc-note">유료 주문만 보여요 · 무료 신청은 <a href="' + withPv('/shop_mypage/?sf=room') + '">나의 강의실</a>에서 확인해 주세요</p><ul class="sf-oc-list">' + list.map(function (no) { return card(no, by[no], D[no]); }).join('') + '</ul>';
+        [].forEach.call(box.querySelectorAll('.sf-oc'), function (li) { var d = D[li.getAttribute('data-no')]; d && fill(li, d); });
       };
+      var left = list.length, next = function () {
+        if (k >= list.length) return;
+        var no = list[k++];
+        SFUI.omsOrder(no).then(function (d) { D[no] = d; --left || render(); next(); });
+      };
+      box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오는 중…</div>';
       for (var i = 0; i < 4; i++) next();
+      setTimeout(render, 6000);
       box.addEventListener('click', function (e) {
         var b = e.target.closest('.sf-oc__more');
         if (b) {
@@ -101,20 +93,39 @@
     })['catch'](function () {
       box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.</div>';
     });
+    // 상태: 상세가 있으면 상세 기준(상품 상태 OSS07=취소 완료 · 결제 상태 OPS01=입금 대기), 없으면 목록 글
+    function stateApi(items, d) {
+      if (!d) return stateOf(items);
+      var sec = (d.orderSections || []).map(function (s) { return s.statusCd; }), p = (d.payments || [])[0] || {};
+      var s = items.map(function (x) { return x.status || ''; }).join(' ');
+      if (sec.length && sec.every(function (c) { return c === 'OSS07'; })) return /환불/.test(s) || +d.pgCancelPrice > 0 ? ['cancel', '환불 완료'] : ['cancel', '취소 완료'];
+      if (/요청|접수중|진행/.test(s) && /취소|반품|환불/.test(s)) return ['ing', '취소 진행 중'];
+      if (p.statusCd === 'OPS01') return ['wait', '입금 대기'];
+      return ['paid', '결제 완료'];
+    }
+    function card(no, items, d) {
+      var st = stateApi(items, d), first = items[0], oi = d && d.orderItems || [];
+      var name = function (s) { return String(s || '').replace(/\s*\[[^\[\]]*\d{1,2}:\d{2}\]\s*$/, ''); };
+      var title = name(first.name) || (oi[0] && oi[0].prodName) || '', more = Math.max(items.length, oi.length) - 1;
+      var img = first.img || (oi[0] && (oi[0].imageUrls || [])[0]) || '';
+      var sum = d ? +d.paymentPrice || 0 : items.reduce(function (a, x) { return a + (+String(x.price).replace(/[^\d]/g, '') || 0); }, 0);
+      var detail = withPv('/shop_mypage/?m2=order&idx=' + no + '&order_no=' + no);
+      var conf = items.every(function (x) { return /구매\s*확정/.test(x.status); });
+      return '<li class="sf-oc is-' + st[0] + '" data-no="' + esc(no) + '"' + (conf ? ' data-conf="1"' : '') + '>' +
+        '<div class="sf-oc__top"><span class="sf-oc__st">' + st[1] + '</span><span class="sf-oc__date">' + esc((first.date || '').replace(/-/g, '.')) + '</span><span class="sf-oc__no">주문번호 ' + esc(no) + '</span></div>' +
+        '<div class="sf-oc__body"><span class="sf-oc__th"' + (img ? ' style="background-image:url(\'' + esc(img).replace(/'/g, '') + '\')"' : '') + '></span>' +
+        '<div class="sf-oc__tx"><strong>' + esc(title) + (more > 0 ? ' <em>외 ' + more + '건</em>' : '') + '</strong><p class="sf-oc__sum"><b>' + won(sum) + '</b><span class="sf-oc__how"></span></p></div></div>' +
+        '<div class="sf-oc__bank" hidden></div>' +
+        '<div class="sf-oc__act"><button type="button" class="sf-oc__more" aria-expanded="false">결제 상세<i aria-hidden="true"></i></button>' +
+        // 취소·영수증·현금영수증·거래명세서는 아임웹 주문 상세에 있어요 → 상태에 맞는 이름으로 바로 보내요
+        (st[0] === 'wait' ? '<a class="sf-oc__btn" href="' + detail + '">주문 취소</a>' : st[0] === 'paid' ? '<a class="sf-oc__btn" href="' + detail + '">영수증 · 취소 요청</a>' : '<a class="sf-oc__btn" href="' + detail + '">주문 상세</a>') +
+        (st[0] === 'paid' ? '<a class="sf-oc__btn is-main" href="' + withPv('/shop_mypage/?sf=room') + '">강의실로 가기 →</a>' : '') + '</div>' +
+        '<div class="sf-oc__detail" hidden><dl>' + (oi.length ? oi.map(function (x) { return '<div><dt>' + esc(x.prodName) + '</dt><dd>' + won(x.itemPrice) + '</dd></div>'; }) : items.map(function (x) { return '<div><dt>' + esc(name(x.name)) + '</dt><dd>' + esc(x.price) + '</dd></div>'; })).join('') + '</dl><dl class="sf-oc__calc"></dl><ul class="sf-oc__notes"></ul></div></li>';
+    }
     function fill(li, D) {
       var p = (D.payments || [])[0] || {}, how = METHOD[p.methodCd] || '', paid = +D.paymentPrice || 0;
       var cp = (+D.itemCouponDiscount || 0) + (+D.deliveryCouponDiscount || 0), pt = (+D.itemPointAmount || 0) + (+D.deliveryPointAmount || 0), etc = (+D.promotionDiscount || 0) + (+D.gradeDiscount || 0);
       var st = (li.className.match(/is-(wait|paid|cancel|ing)/) || [])[1], gp = +D.givePoint || 0, confirmed = li.hasAttribute('data-conf');
-      li.querySelector('.sf-oc__sum b').textContent = won(paid);
-      // 입금 대기 주문은 아임웹 목록에 상품 이름·사진이 비어 와요 → 상세에서 채워요
-      var oi = D.orderItems || [], tt = li.querySelector('.sf-oc__tx strong');
-      if (oi.length && !tt.textContent.replace(/외\s*\d+건/, '').trim()) {
-        tt.innerHTML = esc(oi[0].prodName) + (oi.length > 1 ? ' <em>외 ' + (oi.length - 1) + '건</em>' : '');
-        var th = li.querySelector('.sf-oc__th'), u = (oi[0].imageUrls || [])[0];
-        u && th && !th.style.backgroundImage && (th.style.backgroundImage = 'url(\'' + String(u).replace(/'/g, '') + '\')');
-        var dl = li.querySelector('.sf-oc__detail dl');
-        dl && (dl.innerHTML = oi.map(function (x) { return '<div><dt>' + esc(x.prodName) + '</dt><dd>' + won(x.itemPrice) + '</dd></div>'; }).join(''));
-      }
       !how && !paid && (pt || cp) && (how = pt ? '적립금 결제' : '쿠폰 결제');
       li.querySelector('.sf-oc__how').textContent = [how, gp && st === 'paid' ? '적립 ' + won(gp) + (confirmed ? '' : ' 예정') : ''].filter(Boolean).map(function (s) { return ' · ' + s; }).join('');
       var rows = [['상품 금액', won(D.baseItemPrice || D.itemPrice)]];
@@ -125,15 +136,25 @@
       how && rows.push(['결제 수단', how]);
       gp && st === 'paid' && rows.push(['적립', won(gp) + (confirmed ? ' 지급 완료' : ' · 수강 확정 후 지급')]);
       li.querySelector('.sf-oc__calc').innerHTML = rows.map(function (r) { return '<div' + (r[2] ? ' class="is-total"' : '') + '><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('');
-      // 입금 대기: 계좌·금액·마감
-      var bt = p.paymentBankTransfer;
+      // 입금 대기: 계좌·금액·마감 (마감이 지났으면 곧 자동 취소된다고 알려요 — 쇼핑 설정 '24시간 미입금 자동 취소')
+      var bt = p.paymentBankTransfer, exp = bt && Date.parse(bt.expireTime), over = exp && Date.now() > exp;
       if (st === 'wait' && bt && bt.bankAccount) {
         var bx = li.querySelector('.sf-oc__bank');
-        bx.innerHTML = '<p><b>' + esc(bt.bankName) + ' ' + esc(bt.bankAccount) + '</b> <span>' + esc(bt.accountHolderName || '') + '</span>' +
+        bx.innerHTML = over ? '<p><em>입금 기한(' + md(exp, 1) + ')이 지났어요.</em> 이 주문은 곧 자동으로 취소돼요. 다시 신청해 주세요.</p>' :
+          '<p><b>' + esc(bt.bankName) + ' ' + esc(bt.bankAccount) + '</b> <span>' + esc(bt.accountHolderName || '') + '</span>' +
           '<button type="button" class="sf-oc__copy" data-v="' + esc(bt.bankAccount) + '">계좌 복사</button></p>' +
-          '<p>' + won(paid) + (bt.expireTime ? ' · <em>' + md(Date.parse(bt.expireTime), 1) + '까지</em> 입금해 주세요' : '') + (bt.depositor ? ' · 입금자 ' + esc(bt.depositor) : '') + '</p>';
+          '<p>' + won(paid) + (exp ? ' · <em>' + md(exp, 1) + '까지</em> 입금해 주세요' : '') + (bt.depositor ? ' · 입금자명 ' + esc(bt.depositor) : '') + '</p>';
+        bx.classList.toggle('is-over', !!over);
         bx.hidden = false;
       }
+      // 안내(펼친 칸 아래): 현금영수증 · 적립 · 취소 규정
+      var notes = [];
+      p.methodCd === 'OPM01' && st !== 'cancel' && notes.push('현금영수증은 주문 상세에서 신청할 수 있어요(주문일로부터 5일 안).');
+      st === 'paid' && notes.push('취소·환불은 <a href="/?mode=policy" target="_blank" rel="noopener">이용약관</a> 제18·19조(청약철회·환불)에 따라 처리돼요.');
+      st === 'cancel' && pt && notes.push('사용한 적립금 ' + won(pt) + '은 돌려드렸어요.');
+      st === 'cancel' && cp && notes.push('사용한 쿠폰은 다시 쓸 수 있어요.');
+      var nu = li.querySelector('.sf-oc__notes');
+      nu && (nu.innerHTML = notes.map(function (s) { return '<li>' + s + '</li>'; }).join(''), nu.hidden = !notes.length);
     }
   });
 
@@ -155,8 +176,12 @@
           '<div class="sf-hub-side"><span class="sf-badge sf-badge--neutral">입금 대기</span><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + withPv('/shop_mypage/?sf=orders') + '">입금 계좌 보기</a></div>';
         ul.appendChild(li);
         // 입금 대기 주문은 목록에 이름·사진이 비어 와요 → 주문 상세에서
-        !x.name.trim() && SFUI.omsOrder(x.no).then(function (D) {
-          var oi = D && (D.orderItems || [])[0]; if (!oi) return;
+        // (10/31) 아임웹 목록은 '입금 전 취소'한 주문도 '입금대기'로 줘요 → 상세로 확인해서 아니면 빼요
+        SFUI.omsOrder(x.no).then(function (D) {
+          if (!D) return;
+          var sec = (D.orderSections || []).map(function (s) { return s.statusCd; }), p = (D.payments || [])[0] || {};
+          if ((sec.length && sec.every(function (c) { return c === 'OSS07'; })) || p.statusCd !== 'OPS01') { li.remove(); SFUI.roomTidy(t, rows, L); return; }
+          var oi = (D.orderItems || [])[0]; if (!oi || x.name.trim()) return;
           li.querySelector('h2').textContent = oi.prodName;
           var u = (oi.imageUrls || [])[0]; u && (li.querySelector('.sf-hub-thumb').style.backgroundImage = 'url(\'' + String(u).replace(/'/g, '') + '\')');
           var it = (SFUI.shopItems && SFUI.shopItems() || {})[oi.prodNo] || {}, ty2 = it.type || typeOf({ idx: oi.prodNo, name: oi.prodName });

@@ -217,6 +217,31 @@
   font-weight:700;
   color:#111827;
 }
+:root .sf-oc__bank.is-over {
+  background:#f6f7f9;
+  color:#4b5563;
+}
+:root .sf-oc__notes {
+  margin:12px 0 0;
+  padding:0;
+  list-style:none;
+  font-size:13px;
+  line-height:1.6;
+  color:#6b7280;
+}
+:root .sf-oc__notes li {
+  position:relative;
+  padding-left:12px;
+}
+:root .sf-oc__notes li::before {
+  content:"·";
+  position:absolute;
+  left:2px;
+}
+:root .sf-oc__notes a {
+  color:#4b5563;
+  text-decoration:underline;
+}
 :root .sf-oc__imweb {
   display:inline-block;
   margin-top:10px;
