@@ -11,7 +11,7 @@
     }
   } catch (e) {}
   var mods = {};
-  function run(n, root) { try { mods[n](root || d); } catch (e) { console.error('[SFUI]', n, e); } }
+  function run(n, root) { try { mods[n](root || d); } catch (e) { console.error('[SFUI]', n, e); if (w.__sfErr) w.__sfErr('[SFUI] ' + n + ': ' + (e && e.message), '', 0); } } // (11/1) 기능 오류도 GA4 로(r3/03b)
   w.SFUI = {
     register: function (n, fn) { mods[n] = fn; if (d.readyState !== 'loading') run(n, d); },
     init: function (root) { Object.keys(mods).forEach(function (n) { run(n, root); }); },

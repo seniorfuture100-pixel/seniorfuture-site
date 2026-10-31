@@ -8,7 +8,22 @@ const { chromium } = require('playwright'), fs = require('fs'), path = require('
 const SITE = process.env.SITE_URL || 'https://seniorfuture.imweb.me';
 const PAGES = [['홈', '/'], ['교육', '/course'], ['무료 라이브', '/live'], ['인사이트', '/insight'], ['커뮤니티', '/community'], ['기업·기관', '/business'],
   ['소개', '/about'], ['파트너 지원', '/partner'], ['파트너', '/partners'], ['전문가', '/experts'], ['고객센터', '/help'], ['수강평', '/review'],
-  ['검색', '/search'], ['로그인', '/login'], ['회원가입', '/site_join_type_choice']];
+  ['검색', '/search'], ['로그인', '/login'], ['회원가입', '/site_join_type_choice'],
+  // (11/1) 상품 상세 — 교육·옵션 마감·모임(/shop_view)·무료 라이브·분야 상품 / 인사이트 글
+  ['상품 교육 82', '/shop_view/?idx=82'], ['상품 옵션마감 94', '/shop_view/?idx=94'], ['상품 모임 97', '/shop_view/?idx=97'],
+  ['상품 라이브 99', '/shop_view/?idx=99'], ['상품 분야 102', '/shop_view/?idx=102'], ['인사이트 글', '/insight/?bmode=view&idx=175163304']];
+// (11/1) 상품 상세만 더 보는 것: 신청 버튼, 구조화 데이터(#sf-ld), 숨긴 칸 주소가 화면에 안 보임, 꾸민 뒤 첫 그림
+async function productChecks(page) {
+  return page.evaluate(() => {
+    const p = [], vis = e => !!e && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden';
+    if (![].some.call(document.querySelectorAll('.buy_btns ._btn_buy, .buy_btns .buy, .buy_btns a.btn'), vis)) p.push('신청 버튼 안 보임');
+    if (!document.getElementById('sf-ld')) p.push('구조화 데이터 없음');
+    if (/open\.kakao\.com|zoom\.us\/j|youtube\.com\/watch|vimeo\.com\/\d/.test(document.body.innerText)) p.push('숨긴 칸 주소가 화면에 보임');
+    const f = performance.getEntriesByName('first-contentful-paint')[0], e = performance.getEntriesByName('sf-early-init')[0];
+    if (f && e && f.startTime < e.startTime - 50) p.push('꾸미기 전에 그려짐(' + Math.round(e.startTime - f.startTime) + 'ms)');
+    return p;
+  }).catch(e => ['상품 검사 실패 ' + String(e).slice(0, 60)]);
+}
 const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
 (async () => {
   const br = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {}), rows = [], bad = [];
@@ -38,6 +53,7 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
       if (!r.ft) p.push('푸터 없음');
       if (r.wide > 2) p.push('가로 넘침 ' + r.wide + 'px');
       if (!r.tab) p.push('하단 탭바 없음');
+      if (/idx=/.test(url) && /^\/shop_view/.test(url)) (await productChecks(page)).forEach(x => p.push(x));
       errs.forEach(e => p.push('오류: ' + e));
       const shot = tag.replace(/[^\w가-힣@]+/g, '_') + '.png';
       await page.screenshot({ path: path.join(out, shot) }).catch(() => {});
@@ -48,6 +64,24 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
     await ctx.close();
   }
   await br.close();
+  // (11/1) 아이폰(사파리 엔진 WebKit, 실제 아이폰 정보) — 아임웹은 휴대폰 정보로 접속하면 휴대폰용 화면을 보내요. 상품 상세 3곳
+  try {
+    const { webkit, devices } = require('playwright'), wb = await webkit.launch();
+    const wctx = await wb.newContext(Object.assign({}, devices['iPhone 13'], { locale: 'ko-KR' }));
+    for (const [name, url] of [['상품 교육 82', '/shop_view/?idx=82'], ['상품 모임 97', '/shop_view/?idx=97'], ['상품 라이브 99', '/shop_view/?idx=99']]) {
+      const page = await wctx.newPage(), errs = []; page.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
+      try { await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); await page.waitForTimeout(2500); } catch (e) { errs.push('열기 실패'); }
+      const p = await productChecks(page);
+      const r = await page.evaluate(() => ({ sfui: !!window.SFUI, wide: document.documentElement.scrollWidth - innerWidth })).catch(() => ({}));
+      if (!r.sfui) p.push('꾸밈 JS 안 읽힘'); if (r.wide > 2) p.push('가로 넘침 ' + r.wide + 'px');
+      errs.forEach(e => p.push('오류: ' + e));
+      const tag = name + ' @iPhone', shot = tag.replace(/[^\w가-힣@]+/g, '_') + '.png';
+      await page.screenshot({ path: path.join(out, shot) }).catch(() => {});
+      rows.push([tag, p.length ? '❌ ' + p.join(' / ') : '✅', shot]); if (p.length) bad.push(tag);
+      await page.close();
+    }
+    await wb.close();
+  } catch (e) { rows.push(['아이폰(WebKit)', '⏭ 건너뜀: ' + String(e.message).slice(0, 80), '']); }
   const md = '# 사이트 매일 점검 ' + new Date().toISOString().slice(0, 10) + '\n\n' + (bad.length ? '**문제 ' + bad.length + '곳** — ' + bad.join(', ') : '**모두 정상**') +
     '\n\n| 화면 | 결과 |\n|---|---|\n' + rows.map(r => '| ' + r[0] + ' | ' + r[1] + ' |').join('\n') + '\n\n화면 사진은 Actions 실행 결과의 daily-report 에 있어요.\n';
   fs.writeFileSync(path.join(out, 'report.md'), md);

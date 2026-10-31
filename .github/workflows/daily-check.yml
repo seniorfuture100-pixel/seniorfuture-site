@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install --no-audit --no-fund playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: npm install --no-audit --no-fund playwright@1.48.2 && npx playwright install --with-deps chromium webkit
       - name: 점검
         id: run
         run: node tools/check/daily.js

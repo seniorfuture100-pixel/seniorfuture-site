@@ -12,6 +12,10 @@
   "stmt": false
  },
  {
+  "file": "03b-vitals.js",
+  "stmt": false
+ },
+ {
   "file": "04-iife.js",
   "stmt": false
  },
