@@ -27,17 +27,21 @@ async function productChecks(page) {
 const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
 (async () => {
   const br = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {}), rows = [], bad = [];
-  for (const [w, h, mobile] of [[390, 844, true], [768, 1024, true], [1280, 860, false]]) {
+  // WIDTHS=1280 처럼 일부 너비만(내 컴퓨터에서 다시 볼 때). IPHONE=0 이면 아이폰 점검 건너뜀
+  const WIDTHS = (process.env.WIDTHS || '390,768,1280').split(',').map(Number);
+  for (const [w, h, mobile] of [[390, 844, true], [768, 1024, true], [1280, 860, false]].filter(x => WIDTHS.includes(x[0]))) {
     const ctx = await br.newContext({ viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile, locale: 'ko-KR' });
     for (const [name, url] of PAGES) {
       const page = await ctx.newPage(), errs = [];
       page.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
       page.on('console', m => { if (m.type() === 'error' && /\[sf-|SFUI|sf\.min/.test(m.text())) errs.push(m.text().slice(0, 160)); });
       let st = 0;
-      await new Promise(z => setTimeout(z, 1500)); // (11/1) 아임웹 서버에 1.5초 간격 — 연달아 열면 429(요청 너무 많음)로 막혀요
-      try { const r = await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); st = r ? r.status() : 0; await page.waitForTimeout(2500); } catch (e) { errs.push('열기 실패 ' + String(e.message).slice(0, 80)); }
+      // (11/1) 아임웹은 같은 주소에서 페이지를 몰아 열면 429(요청 과다)로 몇 분 막아요 → 4초 간격, 429면 1분 쉬고 한 번 더, 그래도면 '건너뜀'(실패 아님)
+      const open = async () => { await new Promise(z => setTimeout(z, 4000)); const r = await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); await page.waitForTimeout(2500); return r ? r.status() : 0; };
+      try { st = await open(); if (st === 429) { await new Promise(z => setTimeout(z, 60000)); st = await open(); } } catch (e) { errs.push('열기 실패 ' + String(e.message).slice(0, 80)); }
       const tag = name + ' @' + w;
       if (st === 404) { rows.push([tag, '공개 전(404)', '']); await page.close(); continue; }
+      if (st === 429) { rows.push([tag, '⏭ 건너뜀(아임웹 요청 과다 429)', '']); await page.close(); continue; }
       const r = await page.evaluate(m => {
         const H = document.documentElement, q = s => document.querySelector(s), vis = e => !!e && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden';
         return {
@@ -66,13 +70,15 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
   }
   await br.close();
   // (11/1) 아이폰(사파리 엔진 WebKit, 실제 아이폰 정보) — 아임웹은 휴대폰 정보로 접속하면 휴대폰용 화면을 보내요. 상품 상세 3곳
-  try {
+  if (process.env.IPHONE !== '0') try {
     const { webkit, devices } = require('playwright'), wb = await webkit.launch();
     const wctx = await wb.newContext(Object.assign({}, devices['iPhone 13'], { locale: 'ko-KR' }));
     for (const [name, url] of [['상품 교육 82', '/shop_view/?idx=82'], ['상품 모임 97', '/shop_view/?idx=97'], ['상품 라이브 99', '/shop_view/?idx=99']]) {
       const page = await wctx.newPage(), errs = []; page.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
-      await new Promise(z => setTimeout(z, 1500));
-      try { await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); await page.waitForTimeout(2500); } catch (e) { errs.push('열기 실패'); }
+      let st = 0;
+      const open = async () => { await new Promise(z => setTimeout(z, 4000)); const r = await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); await page.waitForTimeout(2500); return r ? r.status() : 0; };
+      try { st = await open(); if (st === 429) { await new Promise(z => setTimeout(z, 60000)); st = await open(); } } catch (e) { errs.push('열기 실패'); }
+      if (st === 429) { rows.push([name + ' @iPhone', '⏭ 건너뜀(아임웹 요청 과다 429)', '']); await page.close(); continue; }
       const p = await productChecks(page);
       const r = await page.evaluate(() => ({ sfui: !!window.SFUI, wide: document.documentElement.scrollWidth - innerWidth })).catch(() => ({}));
       if (!r.sfui) p.push('꾸밈 JS 안 읽힘'); if (r.wide > 2) p.push('가로 넘침 ' + r.wide + 'px');
