@@ -655,7 +655,11 @@
     var EC = null;
     try { EC = JSON.parse(sessionStorage.getItem(EK) || "null"); } catch (x) {}
     var fresh = E0().then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L })); } catch (x) {} return L; }));
-    if (EC && Date.now() - EC.at < 6e5) return fresh["catch"]((function() {})), y = Promise.resolve(EC.L);
+    // (10/31 QA) 저장본에 없는 새 주문이 생겼으면(아임웹 목록이 조금 늦게 반영될 때) 연 지 15초 안이면 한 번 새로 그려요
+    if (EC && Date.now() - EC.at < 6e5) return fresh.then((function(L) {
+      var key = function(A) { return (A || []).map((function(x) { return x.no + x.status; })).join(); };
+      key(L) !== key(EC.L) && /^\/shop_mypage/.test(location.pathname) && /sf=(room|orders)/.test(location.search) && performance.now() < 15e3 && location.reload();
+    }))["catch"]((function() {})), y = Promise.resolve(EC.L);
     return y = fresh["catch"]((function(e) { if (EC) return EC.L; y = null; throw e; }));
   }
   function E0() {
