@@ -187,14 +187,17 @@ SFUI.register('productView', SFUI.__pv = function() {
       })));
       return;
     }
-    // (10/31) 모임·라이브 상품을 /shop_view/ 로 열면(아임웹 주문 내역·검색 링크) 교육 모양이 돼서 → 본문 [모임 안내]·[라이브 안내]를 보고 그 목록 주소로 옮겨요
-    if (/^\/shop_view/.test(location.pathname) && !window.__sfPvMove) {
-      var tpM = document.getElementById("prodDetailPC") || document.getElementById("prodDetailMobile"), mv = SFUI.meetParse(tpM && tpM.content || document.getElementById("prod_detail_body"));
-      if (mv.sec) { window.__sfPvMove = 1; location.replace((mv.sec === "live" ? "/live/" : "/community/") + location.search + location.hash); return; }
-    }
     var e = document.querySelector(".goods_wrapper"), s = document.querySelector(".goods_form_wrap");
     if (e && s && SFUI.once(e, "ProductView")) {
-      var t, a = window.SF_SITE || {}, n = new URLSearchParams(location.search).get("idx"), i = SFUI.shopItems && SFUI.shopItems()[n] || {}, r = i.type || (/^\/community/.test(location.pathname) ? "meet" : /^\/live/.test(location.pathname) ? "live" : "course"), c = "course" === r, o = "live" === r, p = "meet" === r, d = s.querySelector(".view_tit"), l = d ? d.textContent.trim() : document.title, f = String.fromCharCode(38), v = document.createElement("div"), u = [ "일", "월", "화", "수", "목", "금", "토" ], h = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>', b = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>', g = {
+      // (10/31) 모임·라이브 상품을 /shop_view/ 로 열면(아임웹 주문 내역·검색 링크) 교육 모양이 됐어요 → 본문 [모임 안내]·[라이브 안내]로 종류를 정해요
+      //   (주소를 옮기지 않는 이유: 게시 전엔 손님에게 /community·/live 메뉴가 없어 홈으로 가요)
+      var pvKind = function() {
+        if (/^\/community/.test(location.pathname)) return "meet";
+        if (/^\/live/.test(location.pathname)) return "live";
+        var tpM = document.getElementById("prodDetailPC") || document.getElementById("prodDetailMobile"), mv = SFUI.meetParse(tpM && tpM.content || document.getElementById("prod_detail_body"));
+        return mv.sec || "course";
+      };
+      var t, a = window.SF_SITE || {}, n = new URLSearchParams(location.search).get("idx"), i = SFUI.shopItems && SFUI.shopItems()[n] || {}, r = i.type || pvKind(), c = "course" === r, o = "live" === r, p = "meet" === r, d = s.querySelector(".view_tit"), l = d ? d.textContent.trim() : document.title, f = String.fromCharCode(38), v = document.createElement("div"), u = [ "일", "월", "화", "수", "목", "금", "토" ], h = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>', b = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>', g = {
         3: [ "장기요양기관 운영 실무 입문: 인력·수가·평가까지 한 번에", "현장 운영자가 알려주는 6주 실무 과정", "763c8869ed481.jpg" ],
         4: [ "시니어 산업 지도: 2027 시장 구조와 기회 읽기", "숫자로 보는 시니어 시장과 진입 기회", "52414c2f66081.jpg" ],
         6: [ "시니어 고객을 위한 보험·신탁 상품 설계 실무", "연금·보험·신탁 상품 설계 실전", "c44590cd1fc7b.jpg" ],
