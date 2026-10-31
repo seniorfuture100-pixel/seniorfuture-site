@@ -575,27 +575,26 @@
     font-size:12px!important;
   }
   html:root body .sf-oc:not(#sf-x):not(#sf-tab) {
-    grid-template-columns:auto minmax(0,1fr);
-    column-gap:12px;
-    align-items:start;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    column-gap:10px;
+    align-items:center;
+  }
+  html:root body .sf-oc .sf-oc__th:not(#sf-x):not(#sf-tab) {
+    width:64px!important;
+    height:64px!important;
   }
   html:root body .sf-oc > .sf-oc__act:not(#sf-x):not(#sf-tab) {
-    grid-column:2;
-    grid-row:3;
-    justify-content:flex-start!important;
-    margin-top:10px!important;
-  }
-  html:root body .sf-oc > .sf-oc__bank:not(#sf-x):not(#sf-tab) {
-    grid-row:4;
+    justify-content:flex-end!important;
   }
   html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x):not(#sf-tab) {
     flex:none!important;
     min-width:0;
     height:34px!important;
     min-height:34px!important;
-    padding:0 14px!important;
+    padding:0 12px!important;
     border-radius:8px!important;
     font-size:13px!important;
+    white-space:nowrap;
   }
   :root.r2-my body .shop-content.mypage .row.show-grid:not(#sf-tab) {
     display:block!important;
