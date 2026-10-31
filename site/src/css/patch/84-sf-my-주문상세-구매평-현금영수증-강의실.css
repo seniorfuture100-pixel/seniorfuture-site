@@ -132,6 +132,7 @@ html:root body .ReactModal__Content:not(#sf-x) {
   font-family:var(--sf-font)!important;
 }
 html:root body .ReactModal__Content button:not(#sf-x) {
+  transition:none!important; /* 0.3초 색 바뀜 중간에 색을 읽어 주황 표시를 놓쳤어요 */
   border-radius:10px!important;
   font-family:var(--sf-font)!important;
   font-weight:600!important;
