@@ -1,0 +1,242 @@
+/* (10/31 사장님) 휴대폰 마이페이지 글자·크기 다듬기 — 혜택 3칸이 너무 커 보이던 것 · 양옆 여백 30→16px · 결제 내역·강의실 카드 촘촘하게 */
+@media (max-width:767.98px) {
+  /* 양옆 여백: 아임웹 칸 여백이 겹쳐 30px → 16px */
+  html:root body.shop_mypage .shop-content.mypage .row.show-grid {
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  /* 프로필 */
+  html:root body .r2-my-mob .r2-my-av {
+    width:64px!important;
+    height:64px!important;
+  }
+  html:root body .r2-my-mob .r2-my-who b {
+    font-size:17px!important;
+  }
+  html:root body .r2-my-mob .r2-my-intro {
+    font-size:13px!important;
+  }
+  html:root body .r2-my-mob .r2-my-edit {
+    min-height:36px!important;
+    height:36px!important;
+    font-size:13px!important;
+  }
+  /* 혜택 3칸: 글자 12/14px · 그림 20px · 높이 약 84px */
+  html:root body .r2-my-perks {
+    margin:16px 0 0!important;
+    padding:10px 2px!important;
+    border-radius:14px!important;
+  }
+  html:root body .r2-my-perks a {
+    gap:2px!important;
+    padding:2px!important;
+    font-size:12px!important;
+    line-height:1.35;
+  }
+  html:root body .r2-my-perks svg {
+    width:20px!important;
+    height:20px!important;
+    margin-bottom:2px;
+  }
+  html:root body .r2-my-perks a span {
+    font-size:12px!important;
+    font-weight:500;
+    color:#6b7280;
+  }
+  html:root body .r2-my-perks b {
+    font-size:14px!important;
+    font-weight:700!important;
+  }
+  html:root body .r2-my-perks a:last-child b {
+    font-size:12px!important;
+    font-weight:600!important;
+  }
+  /* 메뉴 4개 */
+  html:root body .r2-my-quick {
+    margin:12px 0 20px!important;
+  }
+  html:root body .r2-my-quick a {
+    padding:10px 0!important;
+    gap:4px!important;
+    font-size:13px!important;
+  }
+  html:root body .r2-my-quick svg {
+    width:20px!important;
+    height:20px!important;
+  }
+  /* 칸 제목 */
+  html:root body .r2-my-pane .r2-my-h,
+  html:root body .sf-bn-head .r2-my-h,
+  html:root body .sf-pt-top .r2-my-h {
+    font-size:19px!important;
+    margin-bottom:12px!important;
+  }
+
+  /* ── 결제 내역 카드 ── */
+  :root .sf-oc-note {
+    margin:0 0 12px;
+    font-size:13px;
+  }
+  :root .sf-oc-list {
+    gap:10px;
+  }
+  :root .sf-oc {
+    padding:14px 14px 12px;
+    border-radius:14px;
+  }
+  :root .sf-oc__top {
+    gap:2px 8px;
+    margin-bottom:10px;
+    font-size:12px;
+  }
+  :root .sf-oc__st {
+    font-size:14px;
+  }
+  :root .sf-oc__no {
+    font-size:12px;
+  }
+  :root .sf-oc__body {
+    gap:12px;
+    align-items:flex-start;
+  }
+  :root .sf-oc__th {
+    width:52px;
+    height:52px;
+    border-radius:8px;
+  }
+  :root .sf-oc__tx strong {
+    font-size:15px;
+    line-height:1.4;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  :root .sf-oc__sum {
+    font-size:13px;
+  }
+  :root .sf-oc__sum b {
+    font-size:15px;
+  }
+  :root .sf-oc__bank {
+    margin-top:10px;
+    padding:12px;
+    font-size:13px;
+  }
+  :root .sf-oc__bank b {
+    font-size:14px;
+  }
+  :root .sf-oc__copy {
+    padding:4px 10px;
+    font-size:12px;
+  }
+  /* 버튼: 한 줄에 작게 — 결제 상세는 글자 단추, 나머지는 38px */
+  :root .sf-oc__act {
+    flex-wrap:nowrap;
+    gap:6px;
+    margin-top:12px;
+  }
+  :root .sf-oc__more {
+    min-height:38px;
+    padding:0 4px;
+    border:0;
+    background:none;
+    color:#6b7280;
+    font-size:13px;
+    white-space:nowrap;
+  }
+  :root .sf-oc__btn {
+    min-height:38px;
+    padding:0 10px;
+    border-radius:9px;
+    font-size:13px;
+    white-space:nowrap;
+  }
+  :root .sf-oc__btn.is-main {
+    flex:1;
+    margin-left:0;
+    justify-content:center;
+  }
+  :root .sf-oc__act .sf-oc__btn:not(.is-main) {
+    margin-left:auto;
+  }
+  :root .sf-oc__act .sf-oc__btn:not(.is-main) + .sf-oc__btn.is-main {
+    margin-left:0;
+  }
+  :root .sf-oc__detail {
+    margin-top:10px;
+    padding-top:10px;
+    font-size:13px;
+  }
+  :root .sf-oc__detail dl div {
+    padding:4px 0;
+  }
+
+  /* ── 나의 강의실 ── */
+  :root .sf-room-next {
+    flex-wrap:nowrap!important;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+    padding:14px!important;
+    border-radius:14px;
+  }
+  :root .sf-room-next__k {
+    display:none;
+  }
+  :root .sf-room-next__tx em {
+    font-size:12px;
+  }
+  :root .sf-room-next__tx strong {
+    font-size:15px;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  :root .sf-room-next__tx span {
+    font-size:13px;
+  }
+  :root .sf-room-next .sf-btn {
+    flex:none;
+    width:auto!important;
+    min-height:38px!important;
+    height:38px!important;
+    padding:0 12px!important;
+    border-radius:10px!important;
+    font-size:13px!important;
+  }
+  :root .sf-room-tabs {
+    gap:6px;
+    margin-bottom:14px;
+  }
+  :root .sf-room-tabs button {
+    min-height:34px;
+    padding:0 12px;
+    font-size:13px;
+  }
+  html:root body [data-sf-rooms] .sf-room-card h2 {
+    font-size:14px!important;
+  }
+  html:root body [data-sf-rooms] .sf-room-when {
+    font-size:12px!important;
+  }
+  html:root body [data-sf-rooms] .sf-hub-side .sf-badge {
+    padding:2px 8px!important;
+    font-size:11px!important;
+  }
+  html:root body [data-sf-rooms] .sf-hub-side .r3-ord__go,
+  html:root body [data-sf-rooms] .sf-hub-side .sf-room-chat {
+    min-height:34px!important;
+    font-size:12px!important;
+    border-radius:9px!important;
+  }
+  :root .sf-room-past summary {
+    min-height:44px;
+    font-size:14px;
+  }
+  :root .sf-room-empty {
+    padding:22px 14px;
+    font-size:14px;
+  }
+}
