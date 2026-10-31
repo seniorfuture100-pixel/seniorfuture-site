@@ -72,6 +72,18 @@
 :root .sf-homecats + .sf-sec [data-sf-filter-group] {
   display:none;
 }
+/* 칩이 빠진 자리만큼 제목↔카드 간격을 다른 칸(약 20px)과 맞춰요 */
+:root .sf-homecats + .sf-sec {
+  padding-bottom:0;
+}
+:root .sf-homecats + .sf-sec + .sf-sec--grid {
+  padding-top:24px;
+}
+@media (max-width:767.98px) {
+  :root .sf-homecats + .sf-sec + .sf-sec--grid {
+    padding-top:20px;
+  }
+}
 @media (max-width:1240px) and (min-width:768px) {
   :root .sf-homecats {
     padding-left:24px;
