@@ -40,7 +40,7 @@
   height:56px;
   display:block;
 }
-/* (10/31) 이름은 늘 한 줄 — PC 는 전체 이름, 휴대폰은 짧은 이름 */
+/* (10/31) 이름은 늘 한 줄 — PC·휴대폰 같은 짧은 이름 */
 :root .sf-homecats__t {
   font-size:14px;
   font-weight:600;
@@ -49,9 +49,6 @@
   text-align:center;
   white-space:nowrap;
   transition:color .2s;
-}
-:root .sf-homecats__t .is-short {
-  display:none;
 }
 @media (hover:hover) {
   :root .sf-homecats a:hover .sf-homecats__ic {
@@ -71,6 +68,10 @@
 :root .sf-homecats + .sf-sec {
   padding-top:40px;
 }
+/* (10/31 사장님) 아이콘 줄이 같은 분야를 보여 줘서, 홈 '가장 주목받는 강의' 아래 분야 칩은 숨겨요(교육 화면 칩은 그대로) */
+:root .sf-homecats + .sf-sec [data-sf-filter-group] {
+  display:none;
+}
 @media (max-width:1240px) and (min-width:768px) {
   :root .sf-homecats {
     padding-left:24px;
@@ -89,18 +90,18 @@
     font-size:13px;
   }
 }
-/* 휴대폰: 패스트캠퍼스 크기(칸 52px · 그림 32px · 글자 13px) — 화면을 덜 차지하게 */
+/* 휴대폰: 칸 52px · 그림 32px · 글자 13px, 간격은 월부 기준(배너→아이콘 26 · 아이콘→이름 8 · 줄 사이 20 · 아래 제목까지 40 · 첫 칸 왼쪽 16) */
 @media (max-width:767.98px) {
   :root .sf-homecats {
-    padding:24px 12px 0;
+    padding:27px 6px 0;
   }
   :root .sf-homecats ul {
     grid-template-columns:repeat(5,minmax(0,1fr));
-    row-gap:16px;
+    row-gap:20px;
     column-gap:0;
   }
   :root .sf-homecats a {
-    gap:7px;
+    gap:8px;
     padding:0;
   }
   :root .sf-homecats__ic {
@@ -117,20 +118,14 @@
     font-weight:500;
     color:#444;
   }
-  :root .sf-homecats__t .is-full {
-    display:none;
-  }
-  :root .sf-homecats__t .is-short {
-    display:inline;
-  }
   :root .sf-homecats + .sf-sec {
-    padding-top:28px;
+    padding-top:40px;
   }
 }
 @media (max-width:374.98px) {
   :root .sf-homecats {
-    padding-left:8px;
-    padding-right:8px;
+    padding-left:4px;
+    padding-right:4px;
   }
   :root .sf-homecats__ic {
     width:48px;
