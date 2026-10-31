@@ -94,6 +94,8 @@
           var nb = last.cloneNode(false);
           nb.setAttribute(s[1], c[0]); nb.textContent = c[1]; nb.classList.remove('is-active'); nb.setAttribute('aria-pressed', 'false');
           last.parentNode.insertBefore(nb, last.nextSibling); last = nb;
+          // 주소가 ?cat=이 분야면 바로 골라요(목록 거르기가 칩보다 먼저 돌았을 수 있어서 — 누르기는 문서 전체에서 받아요, patch/04)
+          new URLSearchParams(location.search).get('cat') === c[0] && setTimeout(function () { nb.click(); }, 0);
         });
       });
     });
