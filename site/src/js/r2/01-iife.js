@@ -498,6 +498,63 @@
     function k(e) {
       return '<a href="' + e[1] + '" data-k="' + e[2] + '"' + (e[2] === u ? ' aria-current="page"' : "") + ">" + e[0] + "</a>";
     }
+    // (10/31 사장님) 프로필 정리: 회원 그룹 글 숨김 · 기본 정보 = 이름 · 연락처 · 이메일 · [비밀번호 변경]을 누르면 바로 아래에 새 비밀번호·현재 비밀번호
+    //   저장 = 바로 저장(아임웹이 본인 확인을 요구하면 그때 '현재 비밀번호' 칸을 열고 거기로 이동) — 예전엔 저장을 눌러도 아무 일이 없었어요
+    function r2ProfTidy(c, pw, nm, tel, cur, btn) {
+      var g = c.querySelector(".input_block.text-center");
+      g && !g.querySelector("input, img, label") && g.classList.add("r2-hide");
+      var tg = c.querySelector(".r2-pw-toggle"), at = tel || nm;
+      var uid = pw && pw.querySelector("input[name=uid]");
+      if (at && uid && /@/.test(uid.value)) {
+        var em = document.createElement("div");
+        em.className = "input_block form-group r2-prof-email";
+        em.innerHTML = '<label class="mini-tit">이메일</label><input type="email" class="form-control" readonly aria-readonly="true">';
+        em.querySelector("input").value = uid.value;
+        at.parentNode.insertBefore(em, at.nextSibling), at = em;
+      }
+      tg && at && at.parentNode.insertBefore(tg, at.nextSibling);
+      pw && tg && tg.parentNode.insertBefore(pw, tg.nextSibling);
+      if (cur) {
+        cur.classList.add("r2-hide");
+        (pw || tg) && (pw || tg).parentNode.insertBefore(cur, (pw || tg).nextSibling);
+        cur.insertAdjacentHTML("beforeend", '<p class="r2-prof-hint" hidden></p>');
+        tg && tg.addEventListener("click", (function() { cur.classList.toggle("r2-hide", !pw.classList.contains("is-open")); }));
+      }
+      if (!btn || !window.SITE_MEMBER || !SITE_MEMBER.joinSubmit) return;
+      var hint = cur && cur.querySelector(".r2-prof-hint"), org = cur && cur.querySelector("input[name=passwd_org]");
+      btn.addEventListener("click", (function(ev) {
+        ev.preventDefault(), ev.stopPropagation();
+        if (btn.disabled) return;
+        btn.disabled = !0, btn.textContent = "저장 중…";
+        SFUI.__joinDone = function(j) {
+          btn.disabled = !1, btn.textContent = "저장";
+          if (j && j.flag) {
+            // 아임웹이 '현재 비밀번호'(passwdorg) 등을 요구 → 그 칸을 열고 안내
+            cur && cur.classList.remove("r2-hide");
+            hint && (hint.hidden = !1, hint.textContent = "passwdorg" === j.flag ? (org && org.value ? "현재 비밀번호가 맞지 않아요. 다시 확인해 주세요." : "본인 확인을 위해 현재 비밀번호를 넣고 저장을 다시 눌러 주세요.") : j.msg || "저장하지 못했어요. 입력한 내용을 확인해 주세요.");
+            org && (org.scrollIntoView({ block: "center", behavior: "smooth" }), org.focus({ preventScroll: !0 }));
+            return;
+          }
+          hint && (hint.hidden = !0);
+          SFUI.toast ? SFUI.toast("프로필을 저장했어요") : alert("프로필을 저장했어요");
+        };
+        SITE_MEMBER.joinSubmit(!1);
+        setTimeout((function() { btn.disabled && (btn.disabled = !1, btn.textContent = "저장"); }), 15e3);
+      }), !0);
+    }
+    // 아임웹 저장 응답(/backpg/join.cm)을 읽어 위 저장 버튼에 알려요(이 페이지에서만)
+    if (window.XMLHttpRequest && !XMLHttpRequest.prototype.__sfJoin) {
+      XMLHttpRequest.prototype.__sfJoin = 1;
+      var xo = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function(m, url) {
+        /\/backpg\/join\.cm/.test(String(url)) && this.addEventListener("load", (function() {
+          var j = null;
+          try { j = JSON.parse(this.responseText); } catch (x) {}
+          SFUI.__joinDone && SFUI.__joinDone(j);
+        }));
+        return xo.apply(this, arguments);
+      };
+    }
     function q() {
       S.innerHTML = '<h2 class="r2-my-h">프로필 설정</h2><div class="r2-prof"><div class="r2-prof-skel" aria-label="불러오는 중"><i class="is-av"></i><i></i><i></i><i></i><i></i><i></i></div></div>', 
       n.classList.add("r2-prof-wait");
@@ -544,9 +601,9 @@
           if (g && g.classList.add("r2-hide"), h && v && v.parentNode.insertBefore(h, v), 
           W(h || v, "직무 정보", "맞춤 강의 추천에 쓰여요 (선택)"), v) {
             var b = v.querySelector(".mini-tit, label");
-            b && /직군/.test(b.textContent) && (b.textContent = "직무");
+            b && (b.textContent = "직급"); // (10/31 사장님) 소속 / 직급
             var y = v.querySelector("input");
-            y && !y.placeholder && (y.placeholder = "예: 요양원 운영, 시니어 마케팅");
+            y && (y.placeholder = "예: 원장, 팀장, 실장 (선택)");
           }
           if (h) {
             var w = h.querySelector("input");
@@ -577,10 +634,13 @@
             if (q && M) {
               k.classList.add("r2-hide");
               var C = document.createElement("div");
-              C.className = "r2-noti", C.innerHTML = '<div class="r2-prof-h">알림 설정</div><label class="r2-noti__row"><span><b>마케팅 정보 수신 동의</b><small>강의·라이브·이벤트 소식을 이메일·문자로 받아요. 언제든 끌 수 있어요.</small></span><input type="checkbox" class="r2-switch" role="switch"' + (q.checked ? " checked" : "") + "></label>";
+              // (10/31) 실제 수신 동의(문자·이메일 칸)와 맞춰 켜고 끄기 — 예전엔 동의돼 있어도 꺼진 채로 보였어요
+              var MK = o("input[name=marketing_sms_agree], input[name=marketing_email_agree]", c), on0 = q.checked || MK.some((function(e) { return e.checked; }));
+              C.className = "r2-noti", C.innerHTML = '<div class="r2-prof-h">알림 설정</div><label class="r2-noti__row"><span><b>마케팅 정보 수신 동의</b><small>강의·라이브·이벤트 소식을 이메일·문자로 받아요. 언제든 끌 수 있어요.</small></span><input type="checkbox" class="r2-switch" role="switch"' + (on0 ? " checked" : "") + "></label>";
               var T = C.querySelector("input");
-              T.setAttribute("aria-checked", String(q.checked)), T.addEventListener("change", (function() {
+              T.setAttribute("aria-checked", String(on0)), T.addEventListener("change", (function() {
                 (T.checked ? q : M).click(), (T.checked ? q : M).checked = !0, T.setAttribute("aria-checked", String(T.checked));
+                MK.forEach((function(e) { e.checked = T.checked; }));
               }));
               var B = E || v || h;
               B && B.parentNode.insertBefore(C, B.nextSibling);
@@ -588,7 +648,9 @@
           }
           var A = D("한줄소개");
           if (A && d) {
-            d.parentNode.insertBefore(A, d.nextSibling);
+            // (10/31 사장님) 기본 정보는 이름 · 연락처 · 이메일만 → 한 줄 소개는 직무 정보(소속 · 직급 다음)로
+            var A0 = v || h;
+            A0 ? A0.parentNode.insertBefore(A, A0.nextSibling) : d.parentNode.insertBefore(A, d.nextSibling);
             var I = A.querySelector("input, textarea");
             I && (I.placeholder = "예: 요양기관 운영 10년차 · 시니어 주거에 관심");
           }
@@ -609,6 +671,7 @@
             var P = c.querySelector("input[name=passwd]");
             P && (P.placeholder = "새 비밀번호 (바꿀 때만)");
           }
+          r2ProfTidy(c, l, d, f, j, F);
         }
         function O(e) {
           var t = c.querySelector(e);

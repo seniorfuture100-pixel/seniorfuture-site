@@ -644,7 +644,7 @@
   }));
   var y = null;
   SFUI.myOrders = function() { return E(); }; // (10/31) 결제 내역(patch/26e)도 같은 목록을 써요
-  // (10/31 사장님) 나의 강의실·결제 내역이 늦게 뜨던 것: 주문 목록을 이 탭에 3분 저장해 다시 열면 바로 · 10초 넘게 걸리면 끊고 저장본으로
+  // (10/31 사장님) 나의 강의실·결제 내역이 늦게 뜨던 것: 주문 목록을 이 탭에 10분 저장해 다시 열면 바로(받는 건 뒤에서 늘 새로) · 10초 넘게 걸리면 끊고 저장본으로
   //   결제·주문 화면에 다녀오면 저장본을 지워 방금 한 주문이 바로 보여요
   var EK = "sf_myorders1";
   (/^\/(shop_payment|shop_payment_complete|shop_cart|order)/.test(location.pathname) || /order_no=/.test(location.search)) && function() { try { sessionStorage.removeItem(EK); } catch (x) {} }();
@@ -653,7 +653,7 @@
     var EC = null;
     try { EC = JSON.parse(sessionStorage.getItem(EK) || "null"); } catch (x) {}
     var fresh = E0().then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L })); } catch (x) {} return L; }));
-    if (EC && Date.now() - EC.at < 18e4) return fresh["catch"]((function() {})), y = Promise.resolve(EC.L);
+    if (EC && Date.now() - EC.at < 6e5) return fresh["catch"]((function() {})), y = Promise.resolve(EC.L);
     return y = fresh["catch"]((function(e) { if (EC) return EC.L; y = null; throw e; }));
   }
   function E0() {
@@ -857,6 +857,8 @@
               var p = roomPer(x.L, x.idx, o && o.period), rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "/class?idx=" + x.idx, go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
               n(".sf-room-when", li).innerHTML = lb ? "수강 기간 <b>" + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") : "수강 기간은 강의 정보에서 확인해 주세요";
               st && (bd.textContent = "end" === st ? "수강 종료" : "pre" === st ? "개강 전" : "수강 중", bd.className = "sf-badge " + ("end" === st ? "sf-badge--neutral" : "sf-badge--brand"));
+              // (10/31) 교육 탭의 '다음 일정'(patch/26e)이 쓰는 개강일 · 상태
+              st && li.setAttribute("data-st", st), rg && rg.s && li.setAttribute("data-start", +new Date(rg.s));
               // (10/31) 소통방 입장(카카오 노랑 · [톡방] 주소가 있을 때) | 강의실 입장 — 수강 기간이 끝나면 '수강 기간 종료' 하나
               go.outerHTML = ("end" !== st && o && o.chat ? CHAT(o, x.idx) : "") + (rm && "end" !== st ? BTN("sf-btn--primary", roomPv(rm), "강의실 입장") : OFF("end" === st ? "수강 기간 종료" : "강의실 준비 중"));
               "end" === st && (li.classList.add("is-end"), li.parentNode.appendChild(li));

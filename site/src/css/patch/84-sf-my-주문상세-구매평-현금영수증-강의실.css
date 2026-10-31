@@ -247,3 +247,51 @@ html:root body .sf-room__soon:not(#sf-x) {
     height:40px!important;
   }
 }
+
+/* (10/31 사장님) 마이페이지 탭을 옮길 때 내용이 그려지기 전 잠깐 짧아져 아래 회사 정보(푸터)가 위로 튀었다 내려가던 것 → 본문 칸 최소 높이 */
+html:root body.shop_mypage .shop-content.mypage .col-md-10:not(#sf-x),
+html:root body.shop_mypage .r2-my-pane:not(#sf-x) {
+  min-height:72vh;
+}
+
+/* (10/31 사장님) 프로필 설정: 사진 가운데 · 이메일(읽기 전용) · 현재 비밀번호 안내 · 알림 설정 간격 */
+html:root body .r2-prof .fileupload_profile_img:not(#sf-x) {
+  margin:8px auto 24px!important;
+  justify-content:center;
+}
+html:root body .r2-prof .r2-prof-email input:not(#sf-x) {
+  background:#f6f7f9!important;
+  color:#4b5563!important;
+  cursor:default;
+}
+html:root body .r2-prof .r2-prof-hint:not(#sf-x) {
+  margin:8px 0 0;
+  color:#e05a00;
+  font-size:13px;
+  font-weight:600;
+}
+html:root body .r2-prof .r2-pw-toggle:not(#sf-x) {
+  margin:4px 0 8px!important;
+}
+html:root body .r2-prof .r2-noti:not(#sf-x) {
+  margin:32px 0 28px!important;
+}
+html:root body .r2-prof .r2-noti .r2-prof-h:not(#sf-x) {
+  margin-bottom:16px!important;
+}
+html:root body .r2-prof .r2-noti__row:not(#sf-x) {
+  display:flex!important;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:4px 0;
+  cursor:pointer;
+}
+html:root body .r2-prof .r2-noti__row small:not(#sf-x) {
+  display:block;
+  margin-top:4px;
+}
+html:root body .r2-prof .r2-switch:not(#sf-x) {
+  flex:none;
+  cursor:pointer;
+}

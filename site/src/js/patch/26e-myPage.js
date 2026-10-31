@@ -123,7 +123,7 @@
       };
       box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오는 중…</div>';
       for (var i = 0; i < 4; i++) next();
-      setTimeout(render, 3500); // (10/31) 6초 → 3.5초: 늦은 상세는 목록 값으로
+      setTimeout(render, 1500); // (10/31) 6초 → 1.5초: 상세는 다른 페이지에서 미리 받아 둬요(아래) · 늦은 것만 목록 값으로
       box.addEventListener('click', function (e) {
         var c = e.target.closest('.sf-oc__copy');
         if (c) {
@@ -252,7 +252,8 @@
     past.hidden = !pul.children.length;
     // 다음 일정(가까운 라이브·모임 하나) — (10/31) 고른 탭에 맞춰요: 무료 라이브 탭은 라이브만 · 커뮤니티 탭은 모임만 · 교육 탭은 숨김
     function setHero(k) {
-      var nx = [].filter.call(ul.children, function (li) { var ty = li.getAttribute('data-ty'); return !li.classList.contains('is-pending') && at(li) > now - 3 * 36e5 && ty !== 'course' && (k === 'all' || ty === k); })
+      if (k === 'course') return courseHero();
+      var nx =[].filter.call(ul.children, function (li) { var ty = li.getAttribute('data-ty'); return !li.classList.contains('is-pending') && at(li) > now - 3 * 36e5 && ty !== 'course' && (k === 'all' || ty === k); })
         .sort(function (a, b) { return at(a) - at(b); })[0];
       var hero = t.querySelector('.sf-room-next');
       if (!nx) return void (hero && hero.remove());
@@ -262,6 +263,19 @@
       var go = nx.querySelector('.r3-ord__go:not(.sf-btn--primary[href*="/class"])'), cp = go && go.cloneNode(true);
       cp && cp.classList.remove('r3-ord__go');
       hero.innerHTML = '<span class="sf-room-next__k">다음 일정</span><div class="sf-room-next__tx"><em>' + (SFUI.roomLeft(a0) || '오늘') + ' · ' + (lv ? '무료 라이브' : '모임') + '</em><strong>' + esc((nx.querySelector('h2') || {}).textContent) + '</strong><span>' + md(a0, 1) + '</span></div>' + (cp ? cp.outerHTML : '');
+    }
+    // (10/31 사장님) 교육 탭: 가장 가까운 개강(개강 전) → 없으면 수강 중인 교육 하나 · 둘 다 없으면 숨김
+    function courseHero() {
+      var cs = [].filter.call(ul.children, function (li) { return li.getAttribute('data-ty') === 'course' && !li.classList.contains('is-pending') && /^(pre|on)$/.test(li.getAttribute('data-st') || ''); });
+      var st = function (li) { return +li.getAttribute('data-start') || 9e15; };
+      var nx = cs.filter(function (li) { return li.getAttribute('data-st') === 'pre'; }).sort(function (a, b) { return st(a) - st(b); })[0] || cs.filter(function (li) { return li.getAttribute('data-st') === 'on'; })[0];
+      var hero = t.querySelector('.sf-room-next');
+      if (!nx) return void (hero && hero.remove());
+      hero || (hero = document.createElement('div'), hero.className = 'sf-room-next', t.insertBefore(hero, t.firstChild));
+      var pre = nx.getAttribute('data-st') === 'pre', go = nx.querySelector('a.sf-btn--primary.r3-ord__go'), cp = go && go.cloneNode(true);
+      cp && cp.classList.remove('r3-ord__go');
+      var wh = (nx.querySelector('.sf-room-when') || {}).textContent || '';
+      hero.innerHTML = '<span class="sf-room-next__k">다음 일정</span><div class="sf-room-next__tx"><em>' + (pre ? (SFUI.roomLeft(st(nx)) || '곧') + ' · 교육 개강' : '수강 중 · 교육') + '</em><strong>' + esc((nx.querySelector('h2') || {}).textContent) + '</strong><span>' + esc(pre ? md(st(nx)) + ' 개강' : wh.replace(/\s*D-\d+\s*$/, '')) + '</span></div>' + (cp ? cp.outerHTML : '');
     }
     // 탭(전체 · 교육 · 무료 라이브 · 커뮤니티) — 개수는 진행 중만
     var nav = t.querySelector('.sf-room-tabs'), cur = nav ? nav.getAttribute('data-on') : 'all';
@@ -292,6 +306,27 @@
       empty && (empty.hidden = !none, empty.innerHTML = '진행 중인 일정이 없어요. <a href="' + withPv(k === 'live' ? '/live' : k === 'meet' ? '/community' : '/course') + '">' + (k === 'live' ? '무료 라이브' : k === 'meet' ? '커뮤니티' : '교육') + ' 둘러보기</a>');
     }
   };
+  // (10/31 사장님) 처음 열 때도 바로: 로그인한 사람은 어느 페이지에서든 쉬는 틈에 주문 목록·상세(최대 40건)를 미리 받아 둬요
+  //   (목록 10분 · 상세 10분 저장 — r3/04 · 위 omsOrder) → 나의 강의실·결제 내역을 누르면 저장본으로 바로 그려요
+  window.addEventListener('load', function () {
+    var pre = function () {
+      if (!document.body || !document.body.classList.contains('loggedin') || !SFUI.myOrders) return;
+      SFUI.myOrders().then(function (L) {
+        var nos = [];
+        (L || []).forEach(function (x) { nos.indexOf(x.no) < 0 && nos.push(x.no); });
+        nos = nos.slice(0, 40);
+        var i = 0, next = function () { i < nos.length && SFUI.omsOrder(nos[i++]).then(function () { setTimeout(next, 120); }); };
+        next(), next();
+        // 강의실 카드의 기간·버튼에 쓰는 상품 글도(30분 저장 · patch/07) 한 개씩
+        var ids = [];
+        (L || []).forEach(function (x) { x.idx && ids.indexOf(x.idx) < 0 && ids.push(x.idx); });
+        ids = ids.slice(0, 15);
+        var k = 0, nextR = function () { k < ids.length && SFUI.roomInfo && SFUI.roomInfo(ids[k++], function () { setTimeout(nextR, 150); }); };
+        nextR();
+      })['catch'](function () {});
+    };
+    setTimeout(function () { (window.requestIdleCallback || function (f) { f(); })(pre); }, 1200);
+  });
   // (10/31 사장님) 아임웹 React 창(현금영수증 신청 등)의 검정 단추(고른 칸 · 신청하기)를 주황으로 — 아임웹 이름표가 매번 바뀌어 색으로 찾아요(CSS patch/84)
   if (path === '/shop_mypage' && window.MutationObserver) {
     // React 가 고른 칸을 바꾸면 단추 class 를 통째로 새로 써서 우리 표시가 지워져요 → 표시 없는 단추만 원래 색을 보고 다시 붙여요(붙인 단추는 그대로라 되풀이 없음)
