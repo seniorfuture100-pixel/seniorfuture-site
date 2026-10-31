@@ -293,7 +293,7 @@
     }
   };
   // (10/31 사장님) 아임웹 React 창(현금영수증 신청 등)의 검정 단추(고른 칸 · 신청하기)를 주황으로 — 아임웹 이름표가 매번 바뀌어 색으로 찾아요(CSS patch/84)
-  if (path === '/shop_mypage' && window.MutationObserver && document.body) {
+  if (path === '/shop_mypage' && window.MutationObserver) {
     var rmScan = function () {
       [].forEach.call(document.querySelectorAll('.ReactModal__Content button'), function (b) {
         b.classList.remove('sf-rm-dark');
@@ -304,7 +304,7 @@
     var rmQ = 0;
     new MutationObserver(function () {
       rmQ || (rmQ = requestAnimationFrame(function () { rmQ = 0; document.querySelector('.ReactModal__Content') && rmScan(); }));
-    }).observe(document.body, { childList: true, subtree: true });
+    }).observe(document.documentElement, { childList: true, subtree: true }); // 이 코드는 body 가 생기기 전에 돌아요
     document.addEventListener('click', function (e) { e.target.closest && e.target.closest('.ReactModal__Content') && setTimeout(rmScan, 0); });
   }
   // (10/31 사장님) 입장 안내 팝업 — 라이브 입장 · 비밀번호가 있는 소통방 입장을 누르면 바로 카카오로 가지 않고 여기서 먼저
