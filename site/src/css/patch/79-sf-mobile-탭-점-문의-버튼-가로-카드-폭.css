@@ -29,3 +29,16 @@
     column-gap:12px!important;
   }
 }
+
+/* (10/31 사장님) 홈 '이달의 BEST 강의 TOP 5'(휴대폰): 카드가 화면을 거의 다 채워 옆 카드가 잘 안 보였어요
+   → 카드 폭 58vw(390px 화면 약 226px) · 다음 카드가 절반쯤 보이게 · 순위 숫자 28 → 22px */
+@media (max-width:767.98px) {
+  html:root body ol.sf-top5 {
+    grid-auto-columns:clamp(200px,58vw,260px)!important;
+    column-gap:12px!important;
+  }
+  html:root body ol.sf-top5>li::before {
+    font-size:22px!important;
+    line-height:28px!important;
+  }
+}
