@@ -55,6 +55,8 @@
       '<path d="M50 6l1.3 3.2L54.5 10.5 51.3 11.8 50 15 48.7 11.8 45.5 10.5 48.7 9.2z" fill="#fbbf24"/>'
   };
   var LABEL = { all: '전체 교육' };
+  // (10/31) 휴대폰은 한 칸이 약 70px 라 긴 이름이 두 줄이 돼요 → 한 줄에 드는 짧은 이름(전체 이름은 aria-label)
+  var SHORT = { intro: '산업 이해', care: '요양/돌봄', housing: '시니어주거', finance: '금융/보험', commerce: '소비/커머스', health: '헬스케어', life: '여가/교육', startup: '창업/사업', ai: 'AI/AX', all: '전체 보기' };
   SFUI.catIcon = function (k) { return ICON[k] ? '<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">' + ICON[k] + '</svg>' : ''; };
 
   // ① 홈 아이콘 줄
@@ -71,8 +73,8 @@
     var nav = document.createElement('nav');
     nav.id = 'sf-homecats'; nav.className = 'sf-homecats'; nav.setAttribute('aria-label', '교육 분야');
     nav.innerHTML = '<ul>' + list.map(function (c) {
-      var name = c[1].replace(/\//g, '/<wbr>');
-      return '<li><a href="' + link(c[0]) + '" data-cat="' + c[0] + '"><span class="sf-homecats__ic">' + SFUI.catIcon(c[0]) + '</span><span class="sf-homecats__t">' + name + '</span></a></li>';
+      return '<li><a href="' + link(c[0]) + '" data-cat="' + c[0] + '" aria-label="' + c[1] + '"><span class="sf-homecats__ic">' + SFUI.catIcon(c[0]) + '</span>' +
+        '<span class="sf-homecats__t" aria-hidden="true"><span class="is-full">' + c[1] + '</span><span class="is-short">' + (SHORT[c[0]] || c[1]) + '</span></span></a></li>';
     }).join('') + '</ul>';
     head.parentNode.insertBefore(nav, head);
   });
