@@ -23,6 +23,7 @@ SFUI.experts = {
   },
   // 게시판 목록 카드(._post_item_wrap) → { idx, title, name, org, img, act }
   card: function (it) {
+    if (it.querySelector('.card.secret')) return null; // (10/31) 비밀글(숨긴 시험 글)은 카드로 안 그려요
     var a = it.querySelector('a[href*="idx="]'), tt = it.querySelector('.title'), tx = it.querySelector('.text');
     var idx = a && ((a.getAttribute('href') || '').match(/idx=(\d+)/) || [])[1];
     if (!idx || !tt) return null;
