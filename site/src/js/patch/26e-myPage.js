@@ -103,11 +103,6 @@
       for (var i = 0; i < 4; i++) next();
       setTimeout(render, 6000);
       box.addEventListener('click', function (e) {
-        var b = e.target.closest('.sf-oc__more');
-        if (b) {
-          var d = b.closest('.sf-oc').querySelector('.sf-oc__detail'), on = d.hidden;
-          d.hidden = !on; b.setAttribute('aria-expanded', String(on)); b.classList.toggle('is-open', on);
-        }
         var c = e.target.closest('.sf-oc__copy');
         if (c) {
           var v = c.getAttribute('data-v'), ok = function () { SFUI.toast ? SFUI.toast('계좌번호를 복사했어요') : (c.textContent = '복사됨'); };
@@ -140,28 +135,20 @@
         '<div class="sf-oc__body"><span class="sf-oc__th"' + (img ? ' style="background-image:url(\'' + esc(img).replace(/'/g, '') + '\')"' : '') + '></span>' +
         '<div class="sf-oc__tx"><strong>' + esc(title) + (more > 0 ? ' <em>외 ' + more + '건</em>' : '') + '</strong><p class="sf-oc__sum"><b>' + won(sum) + '</b><span class="sf-oc__how"></span></p></div></div>' +
         '<div class="sf-oc__bank" hidden></div>' +
-        '<div class="sf-oc__act"><button type="button" class="sf-oc__more" aria-expanded="false">결제 상세<i aria-hidden="true"></i></button>' +
+        '<div class="sf-oc__act">' + // (10/31 사장님) '결제 상세' 펼치기는 뺐어요 — 금액·할인은 주문 상세에서
         // (10/31 사장님) 버튼은 '주문 상세' 하나 — 취소·영수증·현금영수증은 아임웹 주문 상세 안에 있어요
-        '<a class="sf-oc__btn" href="' + detail + '">주문 상세</a></div>' +
-        '<div class="sf-oc__detail" hidden><dl>' + (oi.length ? oi.map(function (x) { return '<div><dt>' + esc(x.prodName) + '</dt><dd>' + won(x.itemPrice) + '</dd></div>'; }) : items.map(function (x) { return '<div><dt>' + esc(name(x.name)) + '</dt><dd>' + esc(x.price) + '</dd></div>'; })).join('') + '</dl><dl class="sf-oc__calc"></dl><ul class="sf-oc__notes"></ul></div></li>';
+        '<a class="sf-oc__btn" href="' + detail + '">주문 상세</a></div></li>';
     }
     function fill(li, D) {
       var p = (D.payments || [])[0] || {}, how = METHOD[p.methodCd] || '', paid = +D.paymentPrice || 0;
-      var cp = (+D.itemCouponDiscount || 0) + (+D.deliveryCouponDiscount || 0), pt = (+D.itemPointAmount || 0) + (+D.deliveryPointAmount || 0), etc = (+D.promotionDiscount || 0) + (+D.gradeDiscount || 0);
+      var cp = (+D.itemCouponDiscount || 0) + (+D.deliveryCouponDiscount || 0), pt = (+D.itemPointAmount || 0) + (+D.deliveryPointAmount || 0);
       var st = (li.className.match(/is-(wait|paid|cancel|ing)/) || [])[1], gp = +D.givePoint || 0, confirmed = li.hasAttribute('data-conf');
       !how && !paid && (pt || cp) && (how = pt ? '적립금 결제' : '쿠폰 결제');
       !how && !paid && !pt && !cp && (how = '무료 신청');
       li.querySelector('.sf-oc__how').textContent = [how, gp && st === 'paid' ? '적립 ' + won(gp) + (confirmed ? '' : ' 예정') : ''].filter(Boolean).map(function (s) { return ' · ' + s; }).join('');
-      var rows = [['상품 금액', won(D.baseItemPrice || D.itemPrice)]];
-      cp && rows.push(['쿠폰 할인', '-' + won(cp)]);
-      etc && rows.push(['기타 할인', '-' + won(etc)]);
-      pt && rows.push(['적립금 사용', '-' + won(pt)]);
-      // 입금 전에 취소한 주문(결제 상태 대기·취소, 카드 취소 금액 없음)은 낸 돈이 없어요
+      // 입금 전에 취소한 주문(결제 상태 대기·취소, 카드 취소 금액 없음)은 낸 돈이 없어요 · (10/31) 금액 내역 칸은 뺐어요(주문 상세에서)
       var unpaid = st === 'cancel' && /^(OPS01|OPS08)$/.test(p.statusCd) && !(+D.pgCancelPrice > 0);
-      unpaid ? (rows.push(['주문 금액', won(paid)]), rows.push(['결제된 금액', '0원 (입금 전 취소)', 1]), li.querySelector('.sf-oc__how').textContent = ' · 입금 전 취소') : rows.push(['결제 금액', won(paid), 1]);
-      how && rows.push(['결제 수단', how]);
-      gp && st === 'paid' && rows.push(['적립', won(gp) + (confirmed ? ' 지급 완료' : ' · 수강 확정 후 지급')]);
-      li.querySelector('.sf-oc__calc').innerHTML = rows.map(function (r) { return '<div' + (r[2] ? ' class="is-total"' : '') + '><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('');
+      unpaid && (li.querySelector('.sf-oc__how').textContent = ' · 입금 전 취소');
       // 입금 대기: 계좌·금액·마감 (마감이 지났으면 곧 자동 취소된다고 알려요 — 쇼핑 설정 '24시간 미입금 자동 취소')
       var bt = p.paymentBankTransfer, exp = bt && Date.parse(bt.expireTime), over = exp && Date.now() > exp;
       if (st === 'wait' && bt && bt.bankAccount) {
@@ -173,14 +160,6 @@
         bx.classList.toggle('is-over', !!over);
         bx.hidden = false;
       }
-      // 안내(펼친 칸 아래): 현금영수증 · 적립 · 취소 규정
-      var notes = [];
-      p.methodCd === 'OPM01' && st !== 'cancel' && notes.push('현금영수증은 주문 상세에서 신청할 수 있어요(주문일로부터 5일 안).');
-      st === 'paid' && notes.push('취소·환불은 <a href="/?mode=policy" target="_blank" rel="noopener">이용약관</a> 제18·19조(청약철회·환불)에 따라 처리돼요.');
-      st === 'cancel' && pt && notes.push('사용한 적립금 ' + won(pt) + '은 돌려드렸어요.');
-      st === 'cancel' && cp && notes.push('사용한 쿠폰은 다시 쓸 수 있어요.');
-      var nu = li.querySelector('.sf-oc__notes');
-      nu && (nu.innerHTML = notes.map(function (s) { return '<li>' + s + '</li>'; }).join(''), nu.hidden = !notes.length);
     }
   });
 
@@ -223,6 +202,11 @@
         var g = li.querySelector('.r3-ord__go'); g && g.remove();
         li.classList.add('is-end');
       }
+    });
+    // (10/31 사장님) 상태 칸 색을 상황마다(디자인 가이드 색): 수강 중·진행 중 초록 · 예정(신청 완료·참여 예정·개강 전) 주황 · 입금 대기 진회색 · 종료 회색
+    [].forEach.call(t.querySelectorAll('.sf-room-meta .sf-badge'), function (b) {
+      var s = b.textContent;
+      b.setAttribute('data-tone', /수강 중|진행 중/.test(s) ? 'on' : /입금/.test(s) ? 'wait' : /종료/.test(s) ? 'end' : 'plan');
     });
     // 지난 일정 접기
     var past = t.querySelector('.sf-room-past');

@@ -541,19 +541,19 @@
     padding:22px 14px;
     font-size:14px;
   }
-  html:root body [data-sf-rooms] .sf-room-card > div:not(.sf-hub-side):not(#sf-tab) {
+  html:root body [data-sf-rooms] .sf-room-card > div:not(.sf-hub-side):not(#sf-x):not(#sf-tab) {
     flex:1 1 auto;
   }
-  html:root body [data-sf-rooms] .sf-room-card > .sf-hub-side:not(#sf-tab) {
+  html:root body [data-sf-rooms] .sf-room-card > .sf-hub-side:not(#sf-x):not(#sf-tab) {
     margin-top:auto!important;
   }
-  html:root body [data-sf-rooms] .sf-room-card .sf-hub-side:not(#sf-tab) {
+  html:root body [data-sf-rooms] .sf-room-card .sf-hub-side:not(#sf-x):not(#sf-tab) {
     flex-direction:column;
     flex-wrap:nowrap;
     align-items:stretch;
     gap:6px;
   }
-  html:root body [data-sf-rooms] .sf-hub-side .r3-ord__go:not(#sf-tab) {
+  html:root body [data-sf-rooms] .sf-hub-side .r3-ord__go:not(#sf-x):not(#sf-tab) {
     flex:none!important;
     width:100%!important;
   }
@@ -561,6 +561,18 @@
     width:72px;
     height:72px;
     border-radius:10px;
+  }
+  html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x):not(#sf-tab) {
+    flex:1 1 auto!important;
+    height:42px!important;
+    min-height:42px!important;
+    font-size:14px!important;
+  }
+  html:root body .sf-oc .sf-oc__act:not(#sf-x):not(#sf-tab) {
+    margin-top:14px!important;
+  }
+  html:root body .sf-oc .sf-oc__no:not(#sf-x):not(#sf-tab) {
+    font-size:12px!important;
   }
   :root.r2-my body .shop-content.mypage .row.show-grid:not(#sf-tab) {
     display:block!important;

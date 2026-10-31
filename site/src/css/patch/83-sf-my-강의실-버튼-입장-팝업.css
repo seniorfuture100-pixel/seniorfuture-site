@@ -6,11 +6,11 @@
   gap:6px;
 }
 /* (10/31) 종류(회색 글자) · 상태(색 채운 알약)로 나눠 눈에 띄게 — 예전엔 둘 다 주황이라 묻혔어요 */
-html:root body [data-sf-rooms] .sf-room-meta small {
+html:root body [data-sf-rooms] .sf-room-meta small:not(#sf-x) {
   color:#6b7280!important;
   font-weight:600!important;
 }
-html:root body [data-sf-rooms] .sf-room-meta .sf-badge {
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge:not(#sf-x) {
   padding:2px 8px!important;
   border:0!important;
   border-radius:6px!important;
@@ -18,13 +18,115 @@ html:root body [data-sf-rooms] .sf-room-meta .sf-badge {
   font-weight:700!important;
   line-height:1.5!important;
 }
-html:root body [data-sf-rooms] .sf-room-meta .sf-badge--brand {
+/* 상태 색(디자인 가이드: 성공 #1aa174 · 브랜드 주황 · 회색) — data-tone 은 patch/26e 가 붙여요 */
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge:not(#sf-x),
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="plan"]:not(#sf-x) {
+  background:#fff1e6!important;
+  color:#e05a00!important;
+}
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="on"]:not(#sf-x) {
+  background:#e6f6f0!important;
+  color:#1aa174!important;
+}
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="wait"]:not(#sf-x) {
+  background:#374151!important;
+  color:#fff!important;
+}
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="end"]:not(#sf-x) {
+  background:#eef0f3!important;
+  color:#6b7280!important;
+}
+
+/* (10/31 사장님) 버튼 3가지(소통방 입장 · 강의실 입장 · 준비 중) 같은 크기·모양 — 휴대폰 40px · PC 48px · 테두리 없음
+   맨 위 '다음 일정' 상자 버튼도 같은 모양(예전엔 복사하며 모양이 빠져 투명했어요) */
+html:root body [data-sf-rooms] .sf-room-card .sf-hub-side .r3-ord__go:not(#sf-x),
+html:root body [data-sf-rooms] .sf-room-next .sf-btn:not(#sf-x) {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px;
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 12px!important;
+  border:0!important;
+  border-radius:10px!important;
+  box-shadow:none!important;
+  font-size:14px!important;
+  font-weight:700!important;
+  line-height:1!important;
+  white-space:nowrap;
+  text-decoration:none!important;
+}
+html:root body [data-sf-rooms] .sf-btn.is-kakao:not(#sf-x) {
+  background:#fee500!important;
+  color:#191919!important;
+}
+html:root body [data-sf-rooms] .sf-btn.sf-btn--primary:not(#sf-x) {
   background:#ff6f0f!important;
   color:#fff!important;
 }
-html:root body [data-sf-rooms] .sf-room-meta .sf-badge--neutral {
-  background:#eef0f3!important;
-  color:#6b7280!important;
+html:root body [data-sf-rooms] .sf-btn.is-off:not(#sf-x) {
+  background:#f2f3f6!important;
+  color:#9ca3af!important;
+  cursor:default;
+}
+html:root body [data-sf-rooms] .sf-room-next .sf-btn:not(#sf-x) {
+  flex:none!important;
+  width:auto!important;
+}
+@media (min-width:1024px) {
+  html:root body [data-sf-rooms] .sf-room-card .sf-hub-side .r3-ord__go:not(#sf-x),
+  html:root body [data-sf-rooms] .sf-room-next .sf-btn:not(#sf-x) {
+    height:48px!important;
+    min-height:48px!important;
+    padding:0 18px!important;
+    border-radius:12px!important;
+    font-size:15px!important;
+  }
+}
+
+/* (10/31 사장님) 결제 내역 카드: 위 줄 = 상태 · 날짜 …… 주문번호(오른쪽) · 아래 = '주문 상세' 하나 */
+html:root body .sf-oc .sf-oc__top:not(#sf-x) {
+  flex-wrap:nowrap!important;
+  gap:8px!important;
+}
+html:root body .sf-oc .sf-oc__st:not(#sf-x),
+html:root body .sf-oc .sf-oc__date:not(#sf-x) {
+  flex:none;
+  white-space:nowrap;
+}
+html:root body .sf-oc .sf-oc__no:not(#sf-x) {
+  min-width:0;
+  margin-left:auto!important;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  text-align:right;
+}
+html:root body .sf-oc .sf-oc__act:not(#sf-x) {
+  display:flex!important;
+  justify-content:flex-end!important;
+  margin-top:16px!important;
+}
+html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x) {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:140px;
+  height:44px!important;
+  min-height:44px!important;
+  margin:0!important;
+  padding:0 20px!important;
+  border:1px solid #d9dbe0!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  color:#111827!important;
+  font-size:15px!important;
+  font-weight:700!important;
+  text-decoration:none!important;
+}
+html:root body .sf-oc .sf-oc__act .sf-oc__btn:hover:not(#sf-x) {
+  border-color:#9ca3af!important;
 }
 :root body [data-sf-rooms] a.sf-hub-thumb {
   display:block;
@@ -81,19 +183,19 @@ html:root body [data-sf-rooms] .sf-room-meta .sf-badge--neutral {
 /* 휴대폰·태블릿: 카드 폭이 좁아(2~3개씩) 소통방 입장 · 강의실 입장을 위아래로
    (10/31) 제목 줄 수가 달라도 버튼은 같은 줄(카드 맨 아래)에 */
 @media (max-width:767.98px) {
-  html:root body [data-sf-rooms] .sf-room-card > div:not(.sf-hub-side) {
+  html:root body [data-sf-rooms] .sf-room-card > div:not(.sf-hub-side):not(#sf-x) {
     flex:1 1 auto;
   }
-  html:root body [data-sf-rooms] .sf-room-card > .sf-hub-side {
+  html:root body [data-sf-rooms] .sf-room-card > .sf-hub-side:not(#sf-x) {
     margin-top:auto!important;
   }
-  html:root body [data-sf-rooms] .sf-room-card .sf-hub-side {
+  html:root body [data-sf-rooms] .sf-room-card .sf-hub-side:not(#sf-x) {
     flex-direction:column;
     flex-wrap:nowrap;
     align-items:stretch;
     gap:6px;
   }
-  html:root body [data-sf-rooms] .sf-hub-side .r3-ord__go {
+  html:root body [data-sf-rooms] .sf-hub-side .r3-ord__go:not(#sf-x) {
     flex:none!important;
     width:100%!important;
   }
@@ -110,6 +212,19 @@ html:root body [data-sf-rooms] .sf-room-meta .sf-badge--neutral {
     width:72px;
     height:72px;
     border-radius:10px;
+  }
+  /* 휴대폰: 주문 상세 버튼은 카드 폭 가득 */
+  html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x) {
+    flex:1 1 auto!important;
+    height:42px!important;
+    min-height:42px!important;
+    font-size:14px!important;
+  }
+  html:root body .sf-oc .sf-oc__act:not(#sf-x) {
+    margin-top:14px!important;
+  }
+  html:root body .sf-oc .sf-oc__no:not(#sf-x) {
+    font-size:12px!important;
   }
 }
 
