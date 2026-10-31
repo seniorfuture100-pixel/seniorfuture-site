@@ -381,7 +381,7 @@
         var a = r.get("m2") || "", c = r.get("sf") || (a ? "" : "orders"), l = document.getElementById("mypage-summary"), f = l && (l.textContent.match(/([^\s]+)\s*님/) || [])[1] || "", u = (l && (l.textContent.match(/([\d,]+)\s*원/) || [])[1], 
         c ? "sf=" + c : "m2=" + a), p = o(".shop-content.mypage .left-menu a").filter((function(e) {
           return /탈퇴/.test(e.textContent);
-        }))[0], m = p && p.getAttribute("href") || "#", h = [ [ "학습", [ [ "나의 강의실", "/shop_mypage/?sf=room", "sf=room" ], [ "결제 내역", "/shop_mypage/?sf=orders", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "sf=recent" ] ] ], [ "파트너스", [ [ "링크 생성하기", "/shop_mypage/?sf=partners", "sf=partners" ] ] ], [ "계정", [ [ "로그아웃", "/logout.cm?back_url=Lw==", "out" ], [ "회원탈퇴", m, "leave" ] ] ] ], v = [];
+        }))[0], m = p && p.getAttribute("href") || "#", h = [ [ "학습", [ [ "나의 강의실", "/shop_mypage/?sf=room", "sf=room" ], [ "결제 내역", "/shop_mypage/?sf=orders", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "sf=recent" ] ] ], [ "파트너스", [ [ "링크 생성하기", "/shop_mypage/?sf=partners", "sf=partners" ] ] ], [ "혜택", [ [ "쿠폰함", "/shop_mypage/?m2=coupon_list", "m2=coupon_list" ], [ "적립금", "/shop_mypage/?m2=point_list", "m2=point_list" ] ] ], [ "계정", [ [ "로그아웃", "/logout.cm?back_url=Lw==", "out" ], [ "회원탈퇴", m, "leave" ] ] ] ], v = [];
         h.forEach((function(e) {
           e[1].forEach((function(e) {
             v.push(e);
@@ -394,9 +394,16 @@
           bell: '<path d="M6 16V11a6 6 0 0112 0v5l2 2H4z"/><path d="M10 20a2 2 0 004 0"/>',
           eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
           link: '<path d="M10 14a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 10a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/>'
-        }, y = '<nav class="r2-my-quick" aria-label="바로가기">' + [ [ "나의 강의실", "/shop_mypage/?sf=room", "play", "sf=room" ], [ "결제 내역", "/shop_mypage/?sf=orders", "order", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "wish", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "eye", "sf=recent" ], [ "파트너스", "/shop_mypage/?sf=partners", "link", "sf=partners" ] ].map((function(e) {
+        }, y = '<nav class="r2-my-quick" aria-label="바로가기">' + [ [ "나의 강의실", "/shop_mypage/?sf=room", "play", "sf=room" ], [ "결제 내역", "/shop_mypage/?sf=orders", "order", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "wish", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "eye", "sf=recent" ] ].map((function(e) {
           return '<a href="' + e[1] + '"' + (e[3] === u ? ' aria-current="page"' : "") + '><svg viewBox="0 0 24 24" aria-hidden="true">' + b[e[2]] + "</svg><span>" + e[0] + "</span></a>";
         })).join("") + "</nav>", w = document.createElement("aside");
+        // (10/31 사장님) 휴대폰: 메뉴 5개가 두 줄로 깨져서 → 위에 쿠폰 · 적립금 · 마케팅 파트너스 3칸, 아래 메뉴 4개
+        //   개수는 아임웹 요약(#mypage-summary '포인트 973,390 · 쿠폰 보유 1')에서 읽어요
+        var sumT = (l && l.textContent || "").replace(/\s+/g, " "), cpN = (sumT.match(/쿠폰\s*보유\s*([\d,]+)/) || [])[1] || "0", ptN = (sumT.match(/포인트\s*([\d,]+)/) || [])[1] || "0";
+        y = '<nav class="r2-my-perks" aria-label="혜택">' + [ [ "내 쿠폰", cpN + "장", "/shop_mypage/?m2=coupon_list", "m2=coupon_list", '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M15 6v12" stroke-dasharray="2 2"/>' ], [ "적립금", ptN + "원", "/shop_mypage/?m2=point_list", "m2=point_list", '<circle cx="12" cy="12" r="9"/><path d="M10 16V8h3a2.5 2.5 0 010 5h-3"/>' ], [ "마케팅 파트너스", "링크 만들기", "/shop_mypage/?sf=partners", "sf=partners", b.link ] ].map((function(e) {
+          return '<a href="' + e[2] + '"' + (e[3] === u ? ' aria-current="page"' : "") + '><svg viewBox="0 0 24 24" aria-hidden="true">' + e[4] + "</svg><span>" + e[0] + "</span><b>" + s(e[1]) + "</b></a>";
+        })).join("") + "</nav>" + y;
+        v.forEach((function(x) { "m2=coupon_list" === x[2] && (x[0] = "쿠폰함 · " + cpN + "장"), "m2=point_list" === x[2] && (x[0] = "적립금 · " + ptN + "원"); }));
         w.className = "r2-my-side", w.innerHTML = g + h.map((function(e) {
           return '<nav aria-label="' + e[0] + '"><small>' + e[0] + "</small>" + e[1].map(k).join("") + "</nav>";
         })).join(""), e.insertBefore(w, e.firstChild);

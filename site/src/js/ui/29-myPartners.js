@@ -48,10 +48,12 @@
   function renderLinks(pane) {
     var c = cfg(), cats = SFUI.cats || [], items = SFUI.shopItems ? SFUI.shopItems() : {};
     pane.innerHTML = head() +
-      '<div class="sf-myp-code"><div><small>내 추천 코드</small><b>' + esc(c.code || '-') + '</b></div><p>강의 링크 뒤에 내 코드가 붙어요. 이 링크로 들어온 분이 결제하면 결제 금액의 <em>' + c.rate + '%</em>를 수익으로 받을 수 있어요.</p></div>' +
+      // (10/31 사장님) 코드 바로 옆에 복사
+      '<div class="sf-myp-code"><div><small>내 추천 코드</small><span class="sf-myp-codev"><b>' + esc(c.code || '-') + '</b>' + (c.code ? '<button type="button" class="sf-myp-cp" data-v="' + esc(c.code) + '">복사</button>' : '') + '</span></div><p>강의 링크 뒤에 내 코드가 붙어요. 이 링크로 들어온 분이 결제하면 결제 금액의 <em>' + c.rate + '%</em>를 수익으로 받을 수 있어요.</p></div>' +
       '<div class="sf-myp-flt"><select aria-label="분야"><option value="">전체 분야</option>' + cats.map(function (k) { return '<option value="' + k[0] + '">' + esc(k[1]) + '</option>'; }).join('') + '</select>' +
             '</div>' +
-      '<div class="sf-myp-wrap"><table class="sf-myp-tb"><thead><tr><th>강의</th><th>가격</th><th>수익률</th><th>예상 수익</th><th>홍보 링크</th></tr></thead><tbody><tr><td colspan="5" class="sf-myp-msg">강의를 불러오는 중…</td></tr></tbody></table></div>' +
+      // (10/31 사장님) 가격 · 예상 수익을 한 칸으로(수익률은 수익 옆에) — 휴대폰에서는 표가 카드로 바뀌어요(css patch/80)
+      '<div class="sf-myp-wrap"><table class="sf-myp-tb"><thead><tr><th>강의</th><th>가격 · 예상 수익</th><th>홍보 링크</th></tr></thead><tbody><tr><td colspan="3" class="sf-myp-msg">강의를 불러오는 중…</td></tr></tbody></table></div>' +
       '<p class="sf-myp-note">예상 수익은 지금 판매 가격 기준이에요. 실제 수익은 결제 금액(쿠폰·적립금 사용 등)에 따라 달라지고, 결제가 취소·환불되면 수익도 취소돼요.</p>';
     var sel = pane.querySelector('.sf-myp-flt select'), body = pane.querySelector('tbody'), all = [];
     function draw() {
@@ -61,14 +63,20 @@
       body.innerHTML = rows.length ? rows.map(function (x) {
         var earn = Math.floor(x.price * c.rate / 100);
         return '<tr><td><a class="sf-myp-c" href="/course/?idx=' + x.id + '">' + (x.img ? '<img src="' + esc(x.img) + '" alt="" loading="lazy">' : '<i></i>') + '<b>' + esc(x.name) + '</b></a></td>' +
-          '<td class="sf-myp-pr">' + (x.list && x.list > x.price ? '<s>' + won(x.list) + '</s>' : '') + '<span>' + won(x.price) + '</span></td>' +
-          '<td><em class="sf-myp-rate">' + c.rate + '%</em></td><td class="sf-myp-earn"><small>예상 수익</small><strong>' + won(earn) + '</strong></td>' +
+          '<td class="sf-myp-pe"><span class="sf-myp-pr">' + (x.list && x.list > x.price ? '<s>' + won(x.list) + '</s>' : '') + '<span>' + won(x.price) + '</span></span>' +
+          '<span class="sf-myp-earn">예상 수익 <strong>' + won(earn) + '</strong> <em class="sf-myp-rate">' + c.rate + '%</em></span></td>' +
           '<td><button type="button" class="sf-myp-lk" data-id="' + x.id + '" data-title="' + esc(x.name) + '" aria-label="' + esc(x.name) + ' 홍보 링크 복사">' + LINK + '<span>링크 복사</span></button></td></tr>';
-      }).join('') : '<tr><td colspan="5" class="sf-myp-msg">' + (all.length ? '조건에 맞는 강의가 없어요' : '아직 추천할 수 있는 강의가 없어요') + '</td></tr>';
+      }).join('') : '<tr><td colspan="3" class="sf-myp-msg">' + (all.length ? '조건에 맞는 강의가 없어요' : '아직 추천할 수 있는 강의가 없어요') + '</td></tr>';
     }
-    loadCourses().then(function (l) { all = l; draw(); }, function () { body.innerHTML = '<tr><td colspan="5" class="sf-myp-msg">강의 목록을 불러오지 못했어요. <a href="/course">교육 페이지</a>에서 강의를 골라 [공유하고 수익받기]를 눌러 주세요.</td></tr>'; });
+    loadCourses().then(function (l) { all = l; draw(); }, function () { body.innerHTML = '<tr><td colspan="3" class="sf-myp-msg">강의 목록을 불러오지 못했어요. <a href="/course">교육 페이지</a>에서 강의를 골라 [공유하고 수익받기]를 눌러 주세요.</td></tr>'; });
     sel.addEventListener('change', draw);
     pane.addEventListener('click', function (e) {
+      var cp = e.target.closest('.sf-myp-cp');
+      if (cp) {
+        var v = cp.getAttribute('data-v'), done = function () { toast('추천 코드를 복사했어요'); };
+        navigator.clipboard ? navigator.clipboard.writeText(v).then(done, function () { toast('코드: ' + v); }) : toast('코드: ' + v);
+        return;
+      }
       var b = e.target.closest('.sf-myp-lk'); if (!b) return;
       if (!c.code) { toast('로그인 정보를 확인하지 못했어요. 새로고침 후 다시 눌러 주세요'); return; }
       pane.querySelectorAll('.sf-myp-lk.is-on').forEach(function (x) { x.classList.remove('is-on'); });

@@ -479,5 +479,11 @@
   "screen": "common",
   "src": "sf-mobile",
   "rules": 3
+ },
+ {
+  "file": "80-sf-my-혜택-2열-파트너스.css",
+  "screen": "mypage",
+  "src": "sf-my",
+  "rules": 64
  }
 ]

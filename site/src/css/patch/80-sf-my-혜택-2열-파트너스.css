@@ -1,0 +1,398 @@
+/* (10/31 사장님) 마이페이지 2차 — 혜택 3칸 · 메뉴 4개 · 쿠폰함 · 적립금 · 휴대폰 2열 · 버튼 좌우 · 파트너스 (js r2/01 · patch/26f · ui/29) */
+/* ── 휴대폰 혜택 3칸(내 쿠폰 · 적립금 · 마케팅 파트너스) ── PC 는 왼쪽 메뉴 '혜택'으로 */
+:root body .r2-my-perks {
+  display:none;
+}
+@media (max-width:767.98px) {
+  html:root body .r2-my-perks {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    margin:20px 0 4px;
+    padding:14px 4px;
+    border-radius:16px;
+    background:#f7f8fa;
+  }
+  html:root body .r2-my-perks a {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    padding:4px 2px;
+    color:#4b5563!important;
+    font-size:13px;
+    text-decoration:none;
+  }
+  html:root body .r2-my-perks a + a {
+    border-left:1px solid #e5e7eb;
+  }
+  html:root body .r2-my-perks svg {
+    width:24px;
+    height:24px;
+    fill:none;
+    stroke:#6b7280;
+    stroke-width:1.7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  html:root body .r2-my-perks b {
+    color:var(--sf-primary,#ff6f0f);
+    font-size:15px;
+    font-weight:800;
+    white-space:nowrap;
+  }
+  html:root body .r2-my-perks a:last-child b {
+    font-size:13px;
+    font-weight:700;
+  }
+  /* 메뉴 4개 한 줄 */
+  html:root body .r2-my-quick {
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+}
+/* ── 쿠폰함 (아임웹 ?m2=coupon_list 를 꾸밈) ── */
+html.sf-cp-on body #couopn_list > .table-wrap > h6 {
+  display:none!important;
+}
+:root .sf-bn-head p {
+  margin:-6px 0 18px;
+  color:#6b7280;
+  font-size:14px;
+}
+:root .sf-bn-head p b {
+  color:var(--sf-primary,#ff6f0f);
+}
+html.sf-cp-on body .mypage_coupon_list {
+  display:flex!important;
+  flex-direction:column;
+  gap:14px;
+}
+html.sf-cp-on body .mypage-coupon-wrap.sf-cp {
+  display:flex!important;
+  flex-direction:column!important;
+  margin:0!important;
+  border:1px solid #e5e7eb!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  overflow:hidden;
+}
+html.sf-cp-on body .sf-cp > .d-flex {
+  display:block!important;
+  padding:20px 22px 16px!important;
+}
+html.sf-cp-on body .sf-cp .coupon-head {
+  display:flex!important;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+html.sf-cp-on body .sf-cp .discount-title {
+  margin:0!important;
+  color:#111827!important;
+  font-size:24px!important;
+  font-weight:800!important;
+  letter-spacing:-.02em;
+}
+html.sf-cp-on body .sf-cp__st {
+  flex:none;
+  padding:4px 10px;
+  border-radius:999px;
+  background:#fff1e8;
+  color:var(--sf-primary,#ff6f0f);
+  font-size:13px;
+  font-weight:700;
+}
+html.sf-cp-on body .sf-cp .sale-coupon-name-text {
+  color:#374151!important;
+  font-size:16px!important;
+  font-weight:600!important;
+  line-height:1.45;
+}
+html.sf-cp-on body .sf-cp .coupon-desc,
+html.sf-cp-on body .sf-cp .coupon-date {
+  margin-top:4px!important;
+  color:#6b7280!important;
+  font-size:14px!important;
+}
+html.sf-cp-on body .sf-cp .coupon-use-btn {
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid #f1f2f4;
+  text-align:center;
+}
+html.sf-cp-on body .sf-cp .coupon_use_btn {
+  display:inline-flex!important;
+  align-items:center;
+  min-height:32px;
+  padding:0!important;
+  border:0!important;
+  background:none!important;
+  color:#6b7280!important;
+  font-size:14px!important;
+  font-weight:600;
+}
+html.sf-cp-on body .sf-cp .mypage-download-btn {
+  display:none!important;
+}
+:root .sf-bn-empty {
+  margin:0;
+  padding:36px 16px;
+  border-radius:14px;
+  background:#f8f9fb;
+  color:#6b7280;
+  font-size:15px;
+  line-height:1.6;
+  text-align:center;
+  list-style:none;
+}
+/* ── 적립금 (아임웹 ?m2=point_list 를 꾸밈) ── */
+html.sf-pt-on body #shop_mypage_pointlist_table,
+html.sf-pt-on body #shop_mypage_pointlist_empty,
+html.sf-pt-on body .table-wrap > h6,
+html.sf-pt-on body .table-wrap > .bg-brand {
+  display:none!important;
+}
+:root .sf-pt-bal {
+  margin:0 0 24px;
+  padding:22px 22px 18px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff5f0,#ffe9dc);
+  border:1px solid #ffd9c2;
+}
+:root .sf-pt-bal span {
+  color:#6b7280;
+  font-size:14px;
+  font-weight:600;
+}
+:root .sf-pt-bal b {
+  display:block;
+  margin-top:4px;
+  color:#111827;
+  font-size:28px;
+  font-weight:800;
+  letter-spacing:-.02em;
+}
+:root .sf-pt-bal p {
+  margin:8px 0 0;
+  color:#6b7280;
+  font-size:13px;
+  line-height:1.6;
+}
+:root .sf-pt-list {
+  margin:0;
+  padding:0;
+  list-style:none;
+  border-top:1px solid #eef0f3;
+}
+:root .sf-pt-list li {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px 2px;
+  border-bottom:1px solid #eef0f3;
+}
+:root .sf-pt-list li div {
+  min-width:0;
+}
+:root .sf-pt-list li b {
+  display:block;
+  color:#111827;
+  font-size:15px;
+  font-weight:700;
+}
+:root .sf-pt-list li small {
+  display:block;
+  margin-top:2px;
+  color:#9ca3af;
+  font-size:13px;
+}
+:root .sf-pt-list li small a {
+  color:#6b7280;
+  text-decoration:underline;
+}
+:root .sf-pt-list li strong {
+  flex:none;
+  font-size:16px;
+  font-weight:800;
+  color:#6b7280;
+}
+:root .sf-pt-list li.is-plus strong {
+  color:var(--sf-primary,#ff6f0f);
+}
+:root .sf-pt-list li.sf-bn-empty {
+  display:block;
+  border:0;
+}
+/* ── 휴대폰: 나의 강의실·열람 내역 한 줄에 2개 · 카드 버튼은 작게 좌우로 ── */
+@media (max-width:767.98px) {
+  html:root body [data-sf-rooms] ul.sf-rooms,
+  html:root body [data-sf-rooms] .sf-room-past ul {
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px 12px!important;
+  }
+  html:root body [data-sf-rooms] .sf-room-card {
+    display:flex!important;
+    flex-direction:column;
+    gap:8px;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    background:none!important;
+    box-shadow:none!important;
+  }
+  html:root body [data-sf-rooms] .sf-room-card .sf-hub-thumb {
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:16/10;
+    border-radius:10px;
+  }
+  html:root body [data-sf-rooms] .sf-room-card small {
+    font-size:12px!important;
+  }
+  html:root body [data-sf-rooms] .sf-room-card h2 {
+    margin:2px 0 0!important;
+    font-size:15px!important;
+    line-height:1.4!important;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  html:root body [data-sf-rooms] .sf-room-when {
+    margin:4px 0 0!important;
+    font-size:13px!important;
+    line-height:1.45!important;
+  }
+  html:root body [data-sf-rooms] .sf-room-when em {
+    display:inline-block;
+  }
+  html:root body [data-sf-rooms] .sf-hub-side {
+    display:flex!important;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px!important;
+    margin:0!important;
+    padding:0!important;
+    width:auto!important;
+  }
+  html:root body [data-sf-rooms] .sf-hub-side .sf-badge {
+    flex:0 0 100%;
+    width:max-content;
+    max-width:max-content;
+    font-size:12px!important;
+  }
+  html:root body [data-sf-rooms] .sf-hub-side .r3-ord__go {
+    flex:1 1 0;
+    min-width:0;
+    min-height:38px!important;
+    height:auto!important;
+    padding:0 6px!important;
+    border-radius:10px!important;
+    font-size:13px!important;
+    white-space:nowrap;
+  }
+  html:root body [data-sf-rooms] .sf-hub-side .sf-room-chat {
+    flex:1 1 0;
+    min-height:38px!important;
+    padding:0 6px!important;
+    border:1px solid #e5e7eb!important;
+    border-radius:10px!important;
+    text-decoration:none!important;
+    color:#4b5563!important;
+    font-size:13px!important;
+    display:inline-flex!important;
+    align-items:center;
+    justify-content:center;
+  }
+  html:root body [data-sf-rooms] .r3-ord__detail {
+    flex:0 0 100%;
+    font-size:13px!important;
+  }
+  /* 열람 내역 */
+  html:root body .r2-my-recent {
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px 12px!important;
+  }
+  html:root body .r2-my-recent li a {
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    gap:8px!important;
+  }
+  html:root body .r2-my-recent__th {
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:16/10;
+    border-radius:10px;
+  }
+  html:root body .r2-my-recent li b {
+    font-size:15px;
+    line-height:1.4;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+}
+/* ── 파트너스: 코드 옆 복사 · 가격과 예상 수익 한 칸 · 휴대폰 카드 ── */
+:root body .sf-myp-codev {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+:root body .sf-myp-cp {
+  min-height:32px;
+  padding:0 14px;
+  border:1px solid var(--sf-primary,#ff6f0f);
+  border-radius:999px;
+  background:#fff;
+  color:var(--sf-primary,#ff6f0f);
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+:root body .sf-myp-pe {
+  white-space:nowrap;
+}
+:root body .sf-myp-pe .sf-myp-pr {
+  display:block;
+  font-weight:700;
+}
+:root body .sf-myp-pe .sf-myp-earn {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:4px;
+  color:#6b7280;
+  font-size:13px;
+}
+:root body .sf-myp-pe .sf-myp-earn strong {
+  color:#e8590c;
+  font-size:14px;
+}
+:root body .sf-myp-pe .sf-myp-rate {
+  padding:2px 7px;
+  font-size:11px;
+}
+@media (max-width:767.98px) {
+  html:root body .sf-myp-tb tr {
+    grid-template-columns:1fr auto!important;
+  }
+  html:root body .sf-myp-tb td:nth-child(2) {
+    display:block!important;
+    grid-column:1;
+    grid-row:2;
+  }
+  html:root body .sf-myp-tb td:nth-child(3) {
+    display:block!important;
+    grid-column:2;
+    grid-row:2;
+    align-self:center;
+  }
+  html:root body .sf-myp-code .sf-myp-codev b {
+    margin:0;
+  }
+}
