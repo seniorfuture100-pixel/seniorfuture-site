@@ -778,6 +778,15 @@
             }));
           }));
         }))).then(function() { chg && draw(); });
+        // (10/31 사장님) 카드 다시 짜기: 종류 옆에 상태(수강 중·참여 예정) · 사진·제목 누르면 상품 페이지 · '정보' 버튼 대신
+        //   톡방 입장(카카오 노랑) | 강의실 입장 — 주소가 아직 없으면 '준비 중' · 라이브·모임은 일시 옆에 남은 시간
+        var PG = function(x) { return roomPv(("live" === x.ty ? "/live/" : "meet" === x.ty ? "/community/" : "/shop_view/") + "?idx=" + x.idx); };
+        var META = function(lab, bc, bt) { return '<div class="sf-room-meta"><small>' + lab + '</small><span class="sf-badge ' + bc + '">' + bt + "</span></div>"; };
+        var HEAD = function(x) { return '<a class="sf-hub-thumb" href="' + PG(x) + '" tabindex="-1" aria-hidden="true" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></a>'; };
+        var BTN = function(cls, href, txt, ext) { return '<a class="sf-btn sf-btn--l r3-ord__go ' + (/sf-btn--/.test(cls) ? "" : "sf-btn--outline ") + cls + '" href="' + href + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + ">" + txt + "</a>"; };
+        var OFF = function(txt) { return '<span class="sf-btn sf-btn--l r3-ord__go is-off">' + txt + "</span>"; };
+        // 비밀번호가 있으면 누를 때 입장 안내 팝업(patch/26e)부터
+        var CHAT = function(o, idx) { return BTN("sf-room-chat is-kakao", o.chat, SFUI.KAKAO + "소통방 입장", 1).replace("<a ", o.chatPw ? '<a data-enter="' + idx + '" ' : "<a "); };
         function draw() {
         if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
@@ -785,9 +794,10 @@
             // 라이브·모임: 일시 + 정보 버튼(+ 톡방은 아래에서). 끝나면 '종료'로 맨 아래 — (10/30) 라이브는 그날 밤 12시 지나서,
             //   모임은 [모임 안내] 일시의 끝(없으면 그날 밤 12시) 지나서(아래 roomInfo 에서 기간·D-day 로 다시 그려요)
             var lv = "live" === x.ty, ag = x.at ? new Date(x.at) : null, end = x.at && (lv ? SFUI.liveOver(x.at) : SFUI.meetOver({ start: x.at })), w = lv ? "/live/" : "/community/";
-            return '<li class="sf-hub-card r3-ord sf-room-card' + (end ? " is-end" : "") + '" data-i="' + i + '" data-ty="' + x.ty + '" data-at="' + (+x.at || "") + '"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>' + (lv ? "무료 라이브" : "모임") + '</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">' + (ag ? "일시 <b>" + (ag.getMonth() + 1) + "월 " + ag.getDate() + "일 (" + f[ag.getDay()] + ") " + ag.getHours() + ":" + String(ag.getMinutes()).padStart(2, "0") + "</b>" : "일시는 " + (lv ? "라이브" : "모임") + " 정보에서 확인해 주세요") + '</p></div><div class="sf-hub-side"><span class="sf-badge ' + (end ? "sf-badge--neutral" : "sf-badge--brand") + '">' + (end ? "종료" : x.badge) + '</span><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + roomPv(w + "?idx=" + x.idx) + '">' + (lv ? "라이브 정보" : "모임 정보") + "</a></div></li>";
+            var lt = !end && SFUI.roomLeft(x.at);
+            return '<li class="sf-hub-card r3-ord sf-room-card' + (end ? " is-end" : "") + '" data-i="' + i + '" data-ty="' + x.ty + '" data-at="' + (+x.at || "") + '">' + HEAD(x) + "<div>" + META(lv ? "무료 라이브" : "모임", end ? "sf-badge--neutral" : "sf-badge--brand", end ? "종료" : lv ? x.badge : "참여 예정") + '<h2><a href="' + PG(x) + '">' + r(x.title) + '</a></h2><p class="sf-room-when">' + (ag ? "일시 <b>" + (ag.getMonth() + 1) + "월 " + ag.getDate() + "일 (" + f[ag.getDay()] + ") " + ag.getHours() + ":" + String(ag.getMinutes()).padStart(2, "0") + "</b>" + (lt ? " <em>" + lt + "</em>" : "") : "일시는 " + (lv ? "라이브" : "모임") + " 페이지에서 확인해 주세요") + '</p></div><div class="sf-hub-side">' + OFF("확인 중") + "</div></li>";
           }
-          return '<li class="sf-hub-card r3-ord sf-room-card" data-i="' + i + '" data-ty="course"><div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + x.img.replace(/'/g, "") + '\')"></div><div><small>강의</small><h2>' + r(x.title) + '</h2><p class="sf-room-when">수강 기간을 확인하고 있어요…</p></div><div class="sf-hub-side"><span class="sf-badge sf-badge--brand">' + x.badge + '</span><span class="sf-btn sf-btn--l r3-ord__go is-off">확인 중</span><a class="r3-ord__detail" href="' + roomPv("/shop_view/?idx=" + x.idx) + '">강의 정보 ›</a></div></li>';
+          return '<li class="sf-hub-card r3-ord sf-room-card" data-i="' + i + '" data-ty="course">' + HEAD(x) + "<div>" + META("교육", "sf-badge--brand", x.badge) + '<h2><a href="' + PG(x) + '">' + r(x.title) + '</a></h2><p class="sf-room-when">수강 기간을 확인하고 있어요…</p></div><div class="sf-hub-side">' + OFF("확인 중") + "</div></li>";
         })).join("") + "</ul>";
         a(".sf-room-card.is-end", t).forEach((function(li) { li.parentNode.appendChild(li); }));
         // (10/31) 탭(교육·무료 라이브·커뮤니티) · 다음 일정 · 지난 일정 · 입금 대기 카드 (patch/26e) — 카드 정보가 채워질 때마다 다시 정리
@@ -806,14 +816,18 @@
                 var fd = function(v, t) { var q = new Date(v); return q.getMonth() + 1 + "월 " + q.getDate() + "일 (" + f[q.getDay()] + ")" + (t ? " " + q.getHours() + ":" + String(q.getMinutes()).padStart(2, "0") : ""); };
                 var wh = n(".sf-room-when", li), bd0 = n(".sf-badge", li), dd = Math.ceil((S0 - Date.now()) / 864e5);
                 S0 && li.setAttribute("data-at", S0); // (10/31) 강의실 정리(patch/26e)가 날짜 순으로 놓아요
-                wh && (wh.innerHTML = "일시 <b>" + fd(S0, 1) + (E0 ? " – " + (new Date(E0).toDateString() === new Date(S0).toDateString() ? new Date(E0).getHours() + ":" + String(new Date(E0).getMinutes()).padStart(2, "0") : fd(E0)) : "") + "</b>" + ("ended" !== mst && dd > 0 ? " <em>D-" + dd + "</em>" : ""));
+                var lt0 = "ended" !== mst && SFUI.roomLeft(S0);
+                wh && (wh.innerHTML = "일시 <b>" + fd(S0, 1) + (E0 ? " – " + (new Date(E0).toDateString() === new Date(S0).toDateString() ? new Date(E0).getHours() + ":" + String(new Date(E0).getMinutes()).padStart(2, "0") : fd(E0)) : "") + "</b>" + (lt0 ? " <em>" + lt0 + "</em>" : ""));
                 bd0 && (bd0.textContent = "ended" === mst ? "종료" : "참여 예정",bd0.className = "sf-badge " + ("ended" === mst ? "sf-badge--neutral" : "sf-badge--brand"));
                 "ended" === mst && !li.classList.contains("is-end") && (li.classList.add("is-end"), li.parentNode.appendChild(li));
                 "ended" !== mst && li.classList.contains("is-end") && li.classList.remove("is-end");
               }
-              // (10/30) 끝난 라이브 + 상품 상세 [다시보기] 주소 → '다시보기'
-              o && o.replay && "live" === x.ty && li.classList.contains("is-end") && g0 && g0.insertAdjacentHTML("beforebegin", '<a class="sf-btn sf-btn--primary sf-btn--l r3-ord__go sf-room-replay" href="' + o.replay + '" target="_blank" rel="noopener">다시보기</a>');
-              o && o.chat && !li.classList.contains("is-end") && g0 && g0.insertAdjacentHTML("afterend", '<a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go sf-room-chat" href="' + o.chat + '" target="_blank" rel="noopener">톡방 입장</a>');
+              // (10/31) 버튼 하나: 끝남 → 라이브 '다시보기'(주소 없으면 준비 중) · 모임 '종료된 모임'
+              //   진행 전 → 라이브 '라이브 입장'(입장 안내 팝업) · 모임 '소통방 입장'(카카오 노랑, 비밀번호 있으면 팝업) · 주소가 없으면 '준비 중'
+              var ed = li.classList.contains("is-end"), lvx = "live" === x.ty;
+              g0 && (g0.outerHTML = ed ? lvx ? o && o.replay ? BTN("sf-btn--primary sf-room-replay", o.replay, "다시보기", 1) : OFF("다시보기 준비 중") : OFF("종료된 모임")
+                : lvx ? o && (o.chat || o.live) ? BTN("sf-btn--primary sf-room-enter", o.chat || o.live, "라이브 입장", 1).replace("<a ", '<a data-enter="' + x.idx + '" ') : OFF("입장 준비 중")
+                : o && o.chat ? CHAT(o, x.idx) : OFF("준비 중"));
               return;
             }
             if (li && !(o && o.title)) {
@@ -827,15 +841,8 @@
               var p = roomPer(x.L, x.idx, o && o.period), rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "/class?idx=" + x.idx, go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
               n(".sf-room-when", li).innerHTML = lb ? "수강 기간 <b>" + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") : "수강 기간은 강의 정보에서 확인해 주세요";
               st && (bd.textContent = "end" === st ? "수강 종료" : "pre" === st ? "개강 전" : "수강 중", bd.className = "sf-badge " + ("end" === st ? "sf-badge--neutral" : "sf-badge--brand"));
-              if (rm && "end" !== st) {
-                var a2 = document.createElement("a");
-                a2.className = "sf-btn sf-btn--primary sf-btn--l r3-ord__go", a2.href = roomPv(rm), a2.textContent = "강의실 입장", go.parentNode.replaceChild(a2, go), go = a2;
-              } else go.textContent = "end" === st ? "수강 기간 종료" : "강의실 준비 중";
-              // 상품 상세 [톡방] 주소 → '톡방 입장'(수강 기간 중에만)
-              if (o && o.chat && "end" !== st) {
-                var ch = document.createElement("a");
-                ch.className = "sf-btn sf-btn--outline sf-btn--l r3-ord__go sf-room-chat", ch.href = o.chat, ch.target = "_blank", ch.rel = "noopener", ch.textContent = "톡방 입장", go.parentNode.insertBefore(ch, go.nextSibling);
-              }
+              // (10/31) 소통방 입장(카카오 노랑 · [톡방] 주소가 있을 때) | 강의실 입장 — 수강 기간이 끝나면 '수강 기간 종료' 하나
+              go.outerHTML = ("end" !== st && o && o.chat ? CHAT(o, x.idx) : "") + (rm && "end" !== st ? BTN("sf-btn--primary", roomPv(rm), "강의실 입장") : OFF("end" === st ? "수강 기간 종료" : "강의실 준비 중"));
               "end" === st && (li.classList.add("is-end"), li.parentNode.appendChild(li));
             }
           }));
@@ -927,7 +934,7 @@
           t.forEach((function(t) {
             if (!/취소|반품|환불/.test(t.status) && !e[t.idx]) {
               e[t.idx] = 1;
-              var a, s = i[t.idx] || {}, d = s.type || (/LIVE|라이브/i.test(t.name) ? "live" : "course"), u = t.name.match(p), f = u ? m(u) : s.start ? Date.parse(s.start) : 0, h = s.end ? Date.parse(s.end) : f ? f + 54e5 : 0, v = t.name.replace(p, "").trim(), g = !/^0원/.test(t.price), b = /입금/.test(t.status) ? "입금 대기" : g ? "결제 완료" : "신청 완료", _ = "live" === d ? "무료 라이브" : "meet" === d ? s.kind || "모임" : "강의", w = "live" === d ? "/live/" : "meet" === d ? "/community/" : "/course/";
+              var a, s = i[t.idx] || {}, d = s.type || (/LIVE|라이브/i.test(t.name) ? "live" : "course"), u = t.name.match(p), f = u ? m(u) : s.start ? Date.parse(s.start) : 0, h = s.end ? Date.parse(s.end) : f ? f + 54e5 : 0, v = t.name.replace(p, "").trim(), g = !/^0원/.test(t.price), b = /입금/.test(t.status) ? "입금 대기" : g ? "결제 완료" : "신청 완료", _ = "live" === d ? "무료 라이브" : "meet" === d ? s.kind || "모임" : "교육", w = "live" === d ? "/live/" : "meet" === d ? "/community/" : "/course/";
               a = "live" === d ? (h || f) && SFUI.liveOver(f, h, l) ? s.replay ? '<a class="sf-btn sf-btn--neutral sf-btn--l" href="' + s.replay + '" target="_blank" rel="noopener">다시보기</a>' : '<a class="sf-btn sf-btn--neutral sf-btn--l" href="' + w + "?idx=" + t.idx + '">다시보기 안내</a>' : f && l >= f - 12e5 && s.live ? '<a class="sf-btn sf-btn--primary sf-btn--l" href="' + s.live + '" target="_blank" rel="noopener">라이브 입장</a>' : '<a class="sf-btn sf-btn--outline sf-btn--l" href="' + w + "?idx=" + t.idx + '">라이브 정보</a>' : o[t.idx] ? '<a class="sf-btn sf-btn--primary sf-btn--l" href="' + o[t.idx] + '">강의실 입장</a>' : '<a class="sf-btn sf-btn--outline sf-btn--l" href="' + w + "?idx=" + t.idx + '">' + ("meet" === d ? "모임 정보" : "강의 정보") + "</a>";
               var y, E = f ? (y = new Date(f)).getMonth() + 1 + "월 " + y.getDate() + "일 (" + "일월화수목금토"[y.getDay()] + ") " + y.getHours() + ":" + String(y.getMinutes()).padStart(2, "0") : "", x = "course" !== d || o[t.idx] ? "live" !== d || s.live || h && l > h ? "" : "<p>입장 링크는 시작 전에 안내드려요</p>" : "<p>강의실 링크는 개강 전에 안내드려요</p>", S = '<li class="sf-hub-card"><div class="sf-hub-thumb" style="background:center/cover no-repeat url(\'' + t.img.replace(/'/g, "") + '\')" role="img" aria-label=""></div><div><small>' + _ + "</small><h2>" + r(v) + "</h2><p>" + (E ? E + " · " : "") + "신청일 " + (t.date || "").replace(/-/g, ".") + "</p>" + x + '</div><div class="sf-hub-side"><span class="sf-badge sf-badge--brand">' + b + "</span>" + a + "</div></li>";
               (h && l > h ? c : n).push(S);
@@ -1181,7 +1188,14 @@
               /\(결제\s*완료\)$|\(입금\s*대기\)$/.test(x) && t.classList.add("r3-od__lab");
             }));
             a("a, button", s).forEach((function(t) {
-              /^(취소|거래명세서 출력|영수증|반품|교환)/.test(t.textContent.replace(/\s+/g, " ").trim()) && t.classList.add("r3-od__btn");
+              // (10/31) 상품 줄(사진+'취소완료 …상품명')까지 버튼으로 잡혀 가운데로 쏠렸어요 → 사진 있는 것·긴 글은 빼요
+              var bx = t.textContent.replace(/\s+/g, " ").trim();
+              /^(취소|거래명세서 출력|영수증|반품|교환)/.test(bx) && bx.length < 16 && !t.querySelector("img") && t.classList.add("r3-od__btn");
+            }));
+            // (10/31) 모두 취소된 주문인데 아임웹이 '…까지 입금해 주세요'·계좌를 그대로 보여줘요 → 숨김
+            var sts = a(".r3-od__status", s);
+            sts.length && sts.every((function(x) { return /^(취소|환불)/.test(x.textContent.trim()); })) && a(".r3-od__sec", s).forEach((function(x) {
+              /까지 입금해 주세요/.test(x.textContent) && (x.style.display = "none");
             }));
           }
         }

@@ -1,0 +1,293 @@
+/* (10/31 사장님) 나의 강의실 카드: 종류 옆 상태 · 사진·제목 → 상품 페이지 · 소통방 입장(카카오 노랑) · 입장 안내 팝업 · 결제 내역 사진 크게 */
+:root body [data-sf-rooms] .sf-room-meta {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px;
+}
+:root body [data-sf-rooms] .sf-room-meta .sf-badge {
+  padding:2px 8px;
+  font-size:12px;
+  line-height:1.5;
+}
+:root body [data-sf-rooms] a.sf-hub-thumb {
+  display:block;
+}
+:root body [data-sf-rooms] .sf-room-card h2 a {
+  color:inherit;
+  text-decoration:none;
+}
+:root body [data-sf-rooms] .sf-room-card h2 a:hover {
+  text-decoration:underline;
+}
+:root body [data-sf-rooms] .sf-room-when em {
+  margin-left:4px;
+  color:var(--sf-text-brand);
+  font-style:normal;
+  font-weight:700;
+}
+/* PC: 버튼은 오른쪽에 세로로(소통방 입장 위 · 강의실 입장 아래) */
+@media (min-width:768px) {
+  :root body [data-sf-rooms] .r3-ord-list .sf-hub-side {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    min-width:168px;
+  }
+}
+/* 소통방 입장 = 카카오 노랑 */
+:root body .sf-room-chat.is-kakao,
+:root body .sf-enter__kakao {
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  border:0!important;
+  background:#fee500!important;
+  box-shadow:none!important;
+  color:#191919!important;
+  font-weight:700;
+}
+:root body .sf-room-chat.is-kakao:hover,
+:root body .sf-enter__kakao:hover {
+  background:#f5dc00!important;
+}
+:root body .sf-kakao-ic {
+  flex:none;
+  width:18px;
+  height:18px;
+}
+
+/* 결제 내역: 사진 크게 */
+:root .sf-oc__th {
+  width:88px;
+  height:88px;
+  border-radius:12px;
+}
+@media (max-width:767.98px) {
+  :root .sf-oc__th {
+    width:72px;
+    height:72px;
+    border-radius:10px;
+  }
+}
+
+/* 입장 안내 팝업 — 휴대폰은 아래에서 올라오는 판, PC는 가운데 */
+:root .sf-enter {
+  position:fixed;
+  inset:0;
+  z-index:10050;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  background:rgba(17,17,17,.5);
+  font-family:var(--sf-font);
+}
+:root .sf-enter__box {
+  width:100%;
+  max-width:440px;
+  max-height:90vh;
+  overflow:auto;
+  border-radius:20px;
+  background:#fff;
+}
+:root .sf-enter__head {
+  position:relative;
+  padding:22px 52px 20px 22px;
+  background:var(--sf-text-brand,#ff6b00);
+  color:#fff;
+}
+:root .sf-enter__head b {
+  display:block;
+  font-size:20px;
+  line-height:1.4;
+}
+:root .sf-enter__head p {
+  margin:4px 0 0;
+  font-size:14px;
+  line-height:1.5;
+  opacity:.95;
+}
+:root .sf-enter__x {
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:40px;
+  height:40px;
+  border:0;
+  background:none;
+  color:#fff;
+  font-size:26px;
+  line-height:1;
+  cursor:pointer;
+}
+:root .sf-enter section {
+  padding:20px 22px;
+  border-top:1px solid #eee;
+}
+:root .sf-enter__head + section {
+  border-top:0;
+}
+:root .sf-enter h3 {
+  margin:0 0 12px;
+  color:#111;
+  font-size:17px;
+  font-weight:700;
+}
+:root .sf-enter__kakao,
+:root .sf-enter__live {
+  display:flex!important;
+  width:100%;
+  min-height:52px;
+  border-radius:12px;
+  font-size:17px;
+  text-decoration:none!important;
+}
+:root .sf-enter__kakao .sf-kakao-ic {
+  width:22px;
+  height:22px;
+}
+:root .sf-enter__live {
+  align-items:center;
+  justify-content:center;
+  background:var(--sf-text-brand,#ff6b00);
+  color:#fff!important;
+  font-weight:700;
+}
+:root .sf-enter__live.is-off {
+  background:#e6e6e6;
+  color:#9a9a9a!important;
+  cursor:default;
+}
+:root .sf-enter__pw {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:12px;
+  background:#f6f7f9;
+  font-size:14px;
+  color:#555;
+}
+:root .sf-enter__pw b {
+  color:#111;
+  font-size:18px;
+  letter-spacing:.04em;
+}
+:root .sf-enter__copy {
+  margin-left:auto;
+  min-height:36px;
+  padding:0 14px;
+  border:1px solid #d9dbe0;
+  border-radius:9px;
+  background:#fff;
+  color:#333;
+  font-size:13px;
+  cursor:pointer;
+}
+:root .sf-enter__how {
+  margin:12px 0 0;
+  padding-left:20px;
+  color:#555;
+  font-size:14px;
+  line-height:1.6;
+}
+:root .sf-enter__wait {
+  margin:0;
+  padding:14px;
+  border-radius:12px;
+  background:#f6f7f9;
+  color:#555;
+  font-size:14px;
+}
+:root .sf-enter__when {
+  margin-top:12px;
+  padding:14px 16px;
+  border:1px solid #eceef1;
+  border-radius:12px;
+  background:#fafafa;
+}
+:root .sf-enter__when b {
+  display:block;
+  color:#111;
+  font-size:15px;
+}
+:root .sf-enter__when p {
+  margin:4px 0 0;
+  color:#666;
+  font-size:14px;
+}
+:root .sf-enter__item {
+  background:#fff;
+}
+:root .sf-enter__chip,
+:root .sf-enter__type {
+  display:inline-block;
+  margin-right:6px;
+  padding:3px 10px;
+  border-radius:8px;
+  font-size:13px;
+}
+:root .sf-enter__chip {
+  background:#fff0ef;
+  color:#e5483b;
+}
+:root .sf-enter__chip.is-end {
+  background:#f1f2f4;
+  color:#777;
+}
+:root .sf-enter__type {
+  background:#f1f2f4;
+  color:#555;
+}
+:root .sf-enter__row {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:14px;
+}
+:root .sf-enter__th {
+  flex:none;
+  width:64px;
+  height:64px;
+  border-radius:10px;
+  background:#f2f3f6 center/cover no-repeat;
+}
+:root .sf-enter__row strong {
+  display:block;
+  color:#111;
+  font-size:15px;
+  line-height:1.45;
+}
+:root .sf-enter__row small {
+  display:block;
+  margin-top:4px;
+  color:#777;
+  font-size:13px;
+}
+:root .sf-enter__help {
+  margin:0;
+  padding:16px 22px 22px;
+  border-top:1px solid #eee;
+  background:#f7f7f8;
+  color:#888;
+  font-size:14px;
+  text-align:center;
+}
+:root .sf-enter__help a {
+  color:#555;
+  text-decoration:underline;
+}
+@media (max-width:767.98px) {
+  :root .sf-enter {
+    align-items:flex-end;
+    padding:0;
+  }
+  :root .sf-enter__box {
+    max-width:none;
+    border-radius:20px 20px 0 0;
+  }
+}

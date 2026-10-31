@@ -403,7 +403,7 @@
         y = '<nav class="r2-my-perks" aria-label="혜택">' + [ [ "내 쿠폰", cpN + "장", "/shop_mypage/?m2=coupon_list", "m2=coupon_list", '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M15 6v12" stroke-dasharray="2 2"/>' ], [ "적립금", ptN + "원", "/shop_mypage/?m2=point_list", "m2=point_list", '<circle cx="12" cy="12" r="9"/><path d="M10 16V8h3a2.5 2.5 0 010 5h-3"/>' ], [ "마케팅 파트너스", "링크 만들기", "/shop_mypage/?sf=partners", "sf=partners", b.link ] ].map((function(e) {
           return '<a href="' + e[2] + '"' + (e[3] === u ? ' aria-current="page"' : "") + '><svg viewBox="0 0 24 24" aria-hidden="true">' + e[4] + "</svg><span>" + e[0] + "</span><b>" + s(e[1]) + "</b></a>";
         })).join("") + "</nav>" + y;
-        v.forEach((function(x) { "m2=coupon_list" === x[2] && (x[0] = "쿠폰함 · " + cpN + "장"), "m2=point_list" === x[2] && (x[0] = "적립금 · " + ptN + "원"); }));
+        // (10/31 사장님) PC 옆 메뉴는 '쿠폰함'·'적립금' 이름만(장 수·금액은 휴대폰 위 3칸에서만)
         w.className = "r2-my-side", w.innerHTML = g + h.map((function(e) {
           return '<nav aria-label="' + e[0] + '"><small>' + e[0] + "</small>" + e[1].map(k).join("") + "</nav>";
         })).join(""), e.insertBefore(w, e.firstChild);

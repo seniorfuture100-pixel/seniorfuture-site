@@ -18,17 +18,20 @@
     });
   });
 
-  // 아임웹 주문 상세(영수증·취소)에서 결제 내역으로 돌아가는 길
-  SFUI.register('orderBack', function (root) {
-    if (root !== document || qs.get('m2') !== 'order' || !qs.get('order_no') || document.querySelector('.sf-od-back')) return;
-    var n = 0, put = function () {
-      var col = document.querySelector('.shop-content.mypage .col-md-10');
-      if (!col) return void (n++ < 40 && setTimeout(put, 250));
-      var a = document.createElement('a'); a.className = 'sf-od-back'; a.href = withPv('/shop_mypage/?sf=orders'); a.textContent = '← 결제 내역';
-      col.insertBefore(a, col.firstChild);
-    };
-    put();
-  });
+  // (10/31 사장님) 주문 상세 위 '← 결제 내역' 링크는 뺐어요 — 아임웹 ← 화살표가 결제 내역(?m2=order → ?sf=orders)으로 가요
+
+  // (10/31) 카카오 말풍선(소통방 입장 버튼) · 남은 시간 글자(D-12 / 3시간 20분 남음 / 진행 중)
+  SFUI.KAKAO = '<svg class="sf-kakao-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.8 5.2 4.6 6.6l-.9 3.5c-.1.4.3.7.7.5l4.1-2.7c.5.1 1 .1 1.5.1 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/></svg>';
+  SFUI.roomLeft = function (at) {
+    at = +at || 0;
+    if (!at) return '';
+    var ms = at - Date.now();
+    if (ms <= 0) return ms > -2 * 36e5 ? '진행 중' : '';
+    var dd = Math.round((new Date(at).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 864e5);
+    if (dd > 0) return 'D-' + dd;
+    var h = Math.floor(ms / 36e5), mi = Math.floor(ms % 36e5 / 6e4);
+    return (h ? h + '시간 ' : '') + (mi || !h ? Math.max(mi, 1) + '분 ' : '') + '남음';
+  };
   // (10/31) 같은 상품 글을 동시에 여러 번 받지 않게(나의 강의실이 두 번 그릴 때 등) — 받는 중이면 기다렸다 같은 결과를 줘요
   if (SFUI.roomInfo && !SFUI.roomInfo.__q) {
     var rawInfo = SFUI.roomInfo, Q = {};
@@ -80,15 +83,15 @@
     SFUI.myOrders().then(function (L) {
       var by = {}, order = [];
       L.forEach(function (x) { by[x.no] || (by[x.no] = [], order.push(x.no)); by[x.no].push(x); });
-      // 처음부터 무료인 신청(상품 가격이 모두 0원)은 결제 내역에서 빼요 — 강의실에서 봐요
-      var list = order.filter(function (no) { return !by[no].every(function (x) { return isZero(x.price); }); });
-      if (!list.length) return void (box.innerHTML = '<div class="r2-my-load">아직 결제한 내역이 없어요. 무료 라이브·무료 모임 신청은 <a href="' + withPv('/shop_mypage/?sf=room') + '">나의 강의실</a>에서 볼 수 있어요.</div>');
+      // (10/31 사장님) 무료 신청(0원)도 모두 보여요
+      var list = order;
+      if (!list.length) return void (box.innerHTML = '<div class="r2-my-load">아직 결제·신청한 내역이 없어요.</div>');
       // (10/31) 상세(금액·상태)를 먼저 받고 그려요 — 목록 값으로 먼저 그리면 금액·상태가 바뀌며 깜빡였고,
       //   아임웹 목록은 '입금 전 취소'한 주문을 '입금대기'로 내려 줘서 계좌가 잘못 보였어요. 6초 안에 못 받으면 목록 값으로
       var D = {}, k = 0, done = false;
       var render = function () {
         if (done) return; done = true;
-        box.innerHTML = '<p class="sf-oc-note">유료 주문만 보여요 · 무료 신청은 <a href="' + withPv('/shop_mypage/?sf=room') + '">나의 강의실</a>에서 확인해 주세요</p><ul class="sf-oc-list">' + list.map(function (no) { return card(no, by[no], D[no]); }).join('') + '</ul>';
+        box.innerHTML = '<ul class="sf-oc-list">' + list.map(function (no) { return card(no, by[no], D[no]); }).join('') + '</ul>';
         [].forEach.call(box.querySelectorAll('.sf-oc'), function (li) { var d = D[li.getAttribute('data-no')]; d && fill(li, d); });
       };
       var left = list.length, next = function () {
@@ -138,9 +141,8 @@
         '<div class="sf-oc__tx"><strong>' + esc(title) + (more > 0 ? ' <em>외 ' + more + '건</em>' : '') + '</strong><p class="sf-oc__sum"><b>' + won(sum) + '</b><span class="sf-oc__how"></span></p></div></div>' +
         '<div class="sf-oc__bank" hidden></div>' +
         '<div class="sf-oc__act"><button type="button" class="sf-oc__more" aria-expanded="false">결제 상세<i aria-hidden="true"></i></button>' +
-        // 취소·영수증·현금영수증·거래명세서는 아임웹 주문 상세에 있어요 → 상태에 맞는 이름으로 바로 보내요
-        (st[0] === 'wait' ? '<a class="sf-oc__btn" href="' + detail + '">주문 취소</a>' : st[0] === 'paid' ? '<a class="sf-oc__btn" href="' + detail + '">영수증 · 취소 요청</a>' : '<a class="sf-oc__btn" href="' + detail + '">주문 상세</a>') +
-        (st[0] === 'paid' ? '<a class="sf-oc__btn is-main" href="' + withPv('/shop_mypage/?sf=room') + '">강의실로 가기 →</a>' : '') + '</div>' +
+        // (10/31 사장님) 버튼은 '주문 상세' 하나 — 취소·영수증·현금영수증은 아임웹 주문 상세 안에 있어요
+        '<a class="sf-oc__btn" href="' + detail + '">주문 상세</a></div>' +
         '<div class="sf-oc__detail" hidden><dl>' + (oi.length ? oi.map(function (x) { return '<div><dt>' + esc(x.prodName) + '</dt><dd>' + won(x.itemPrice) + '</dd></div>'; }) : items.map(function (x) { return '<div><dt>' + esc(name(x.name)) + '</dt><dd>' + esc(x.price) + '</dd></div>'; })).join('') + '</dl><dl class="sf-oc__calc"></dl><ul class="sf-oc__notes"></ul></div></li>';
     }
     function fill(li, D) {
@@ -148,6 +150,7 @@
       var cp = (+D.itemCouponDiscount || 0) + (+D.deliveryCouponDiscount || 0), pt = (+D.itemPointAmount || 0) + (+D.deliveryPointAmount || 0), etc = (+D.promotionDiscount || 0) + (+D.gradeDiscount || 0);
       var st = (li.className.match(/is-(wait|paid|cancel|ing)/) || [])[1], gp = +D.givePoint || 0, confirmed = li.hasAttribute('data-conf');
       !how && !paid && (pt || cp) && (how = pt ? '적립금 결제' : '쿠폰 결제');
+      !how && !paid && !pt && !cp && (how = '무료 신청');
       li.querySelector('.sf-oc__how').textContent = [how, gp && st === 'paid' ? '적립 ' + won(gp) + (confirmed ? '' : ' 예정') : ''].filter(Boolean).map(function (s) { return ' · ' + s; }).join('');
       var rows = [['상품 금액', won(D.baseItemPrice || D.itemPrice)]];
       cp && rows.push(['쿠폰 할인', '-' + won(cp)]);
@@ -195,8 +198,8 @@
       pendings(L).forEach(function (x) {
         var ty = typeOf(x), li = document.createElement('li');
         li.className = 'sf-hub-card r3-ord sf-room-card is-pending'; li.setAttribute('data-ty', ty);
-        li.innerHTML = '<div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + esc(x.img).replace(/'/g, '') + '\')"></div><div><small>' + (ty === 'live' ? '무료 라이브' : ty === 'meet' ? '모임' : '강의') + '</small><h2>' + esc(x.name.replace(/\s*\[[^\[\]]*\d{1,2}:\d{2}\]\s*$/, '')) + '</h2><p class="sf-room-when">입금이 확인되면 열려요</p></div>' +
-          '<div class="sf-hub-side"><span class="sf-badge sf-badge--neutral">입금 대기</span><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + withPv('/shop_mypage/?sf=orders') + '">입금 계좌 보기</a></div>';
+        li.innerHTML = '<div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + esc(x.img).replace(/'/g, '') + '\')"></div><div><div class="sf-room-meta"><small>' + (ty === 'live' ? '무료 라이브' : ty === 'meet' ? '모임' : '교육') + '</small><span class="sf-badge sf-badge--neutral">입금 대기</span></div><h2>' + esc(x.name.replace(/\s*\[[^\[\]]*\d{1,2}:\d{2}\]\s*$/, '')) + '</h2><p class="sf-room-when">입금이 확인되면 열려요</p></div>' +
+          '<div class="sf-hub-side"><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + withPv('/shop_mypage/?sf=orders') + '">입금 계좌 보기</a></div>';
         ul.appendChild(li);
         // 입금 대기 주문은 목록에 이름·사진이 비어 와요 → 주문 상세에서
         // (10/31) 아임웹 목록은 '입금 전 취소'한 주문도 '입금대기'로 줘요 → 상세로 확인해서 아니면 빼요
@@ -208,7 +211,7 @@
           li.querySelector('h2').textContent = oi.prodName;
           var u = (oi.imageUrls || [])[0]; u && (li.querySelector('.sf-hub-thumb').style.backgroundImage = 'url(\'' + String(u).replace(/'/g, '') + '\')');
           var it = (SFUI.shopItems && SFUI.shopItems() || {})[oi.prodNo] || {}, ty2 = it.type || typeOf({ idx: oi.prodNo, name: oi.prodName });
-          li.setAttribute('data-ty', ty2); li.querySelector('small').textContent = ty2 === 'live' ? '무료 라이브' : ty2 === 'meet' ? '모임' : '강의';
+          li.setAttribute('data-ty', ty2); li.querySelector('small').textContent = ty2 === 'live' ? '무료 라이브' : ty2 === 'meet' ? '모임' : '교육';
         });
       });
     }
@@ -247,10 +250,11 @@
     var hero = t.querySelector('.sf-room-next');
     if (nx) {
       hero || (hero = document.createElement('div'), hero.className = 'sf-room-next', t.insertBefore(hero, t.firstChild));
-      var a0 = at(nx), dd = Math.ceil((new Date(a0).setHours(0, 0, 0, 0) - new Date(now).setHours(0, 0, 0, 0)) / 864e5), lv = nx.getAttribute('data-ty') === 'live';
-      var go = nx.querySelector('a.r3-ord__go');
-      hero.innerHTML = '<span class="sf-room-next__k">다음 일정</span><div class="sf-room-next__tx"><em>' + (dd <= 0 ? '오늘' : 'D-' + dd) + ' · ' + (lv ? '무료 라이브' : '모임') + '</em><strong>' + esc((nx.querySelector('h2') || {}).textContent) + '</strong><span>' + md(a0, 1) + '</span></div>' +
-        (go ? '<a class="sf-btn sf-btn--primary sf-btn--l" href="' + esc(go.getAttribute('href')) + '"' + (go.target ? ' target="_blank" rel="noopener"' : '') + '>' + esc(go.textContent) + '</a>' : '');
+      var a0 = at(nx), lv = nx.getAttribute('data-ty') === 'live';
+      // (10/31) 카드와 같은 버튼(소통방 입장 노랑 · 라이브 입장 · 준비 중)을 그대로 복사 — 팝업(data-enter)도 같이 동작
+      var go = nx.querySelector('.r3-ord__go:not(.sf-btn--primary[href*="/class"])'), cp = go && go.cloneNode(true);
+      cp && cp.classList.remove('r3-ord__go');
+      hero.innerHTML = '<span class="sf-room-next__k">다음 일정</span><div class="sf-room-next__tx"><em>' + (SFUI.roomLeft(a0) || '오늘') + ' · ' + (lv ? '무료 라이브' : '모임') + '</em><strong>' + esc((nx.querySelector('h2') || {}).textContent) + '</strong><span>' + md(a0, 1) + '</span></div>' + (cp ? cp.outerHTML : '');
     } else hero && hero.remove();
     // 탭(전체 · 교육 · 무료 라이브 · 커뮤니티) — 개수는 진행 중만
     var nav = t.querySelector('.sf-room-tabs'), cur = nav ? nav.getAttribute('data-on') : 'all';
@@ -276,6 +280,55 @@
       empty && (empty.hidden = !none, empty.innerHTML = '진행 중인 일정이 없어요. <a href="' + withPv(k === 'live' ? '/live' : k === 'meet' ? '/community' : '/course') + '">' + (k === 'live' ? '무료 라이브' : k === 'meet' ? '커뮤니티' : '교육') + ' 둘러보기</a>');
     }
   };
+  // (10/31 사장님) 입장 안내 팝업 — 라이브 입장 · 비밀번호가 있는 소통방 입장을 누르면 바로 카카오로 가지 않고 여기서 먼저
+  //   ① 소통방 입장(카카오 노랑) + 비밀번호(복사) ② 라이브 링크 입장하기(상품 글 [라이브 링크], 시작 20분 전부터) ③ 신청한 일정 요약
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('a[data-enter]');
+    if (!b || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    e.preventDefault();
+    // 다음 일정 상자의 버튼은 카드 버튼을 복사한 것 → 같은 번호의 카드에서 일시·사진을 읽어요
+    var idx = b.getAttribute('data-enter'), cb = document.querySelector('.sf-room-card a[data-enter="' + idx + '"]');
+    var li = b.closest('.sf-room-card') || (cb && cb.closest('.sf-room-card'));
+    SFUI.roomInfo(idx, function (o) { o ? enterPop(o, li) : window.open(b.href, '_blank', 'noopener'); });
+  });
+  function enterPop(o, li) {
+    var ty = li && li.getAttribute('data-ty') || 'meet', lv = ty === 'live', at = li && +li.getAttribute('data-at') || 0;
+    var who = ((document.querySelector('.r2-my-who b') || {}).textContent || '').trim();
+    var title = li && (li.querySelector('h2') || {}).textContent || o.title || '';
+    var img = li && li.querySelector('.sf-hub-thumb') ? li.querySelector('.sf-hub-thumb').style.backgroundImage : '';
+    var now = Date.now(), open = o.live && at && now >= at - 12e5, over = at && now > at + 3 * 36e5;
+    var left = SFUI.roomLeft(at), chip = over ? '종료' : left === '진행 중' ? '진행 중' : lv ? '시작 예정' : '참여 예정';
+    var hm = function (t) { var d = new Date(t), h = d.getHours(); return (d.getMonth() + 1) + '월 ' + d.getDate() + '일(' + W.charAt(d.getDay()) + ') ' + (h < 12 ? '오전 ' : '오후 ') + (h % 12 || 12) + ':' + String(d.getMinutes()).padStart(2, '0'); };
+    var h = '<div class="sf-enter__head"><b>' + (who ? esc(who) + '님, ' : '') + '환영해요!</b><p>' + (lv ? '소통방에서 먼저 안내를 받고, 라이브에서 만나요.' : ty === 'course' ? '소통방에서 공지를 받고 질문도 나눠요.' : '소통방에서 모임 안내를 받아 보세요.') + '</p>' +
+      '<button type="button" class="sf-enter__x" aria-label="닫기">×</button></div>';
+    h += '<section><h3>소통방 입장</h3>' + (o.chat ?
+      '<a class="sf-enter__kakao" href="' + esc(o.chat) + '" target="_blank" rel="noopener">' + SFUI.KAKAO + '소통방 입장</a>' +
+      (o.chatPw ? '<div class="sf-enter__pw"><span>입장 비밀번호</span><b>' + esc(o.chatPw) + '</b><button type="button" class="sf-enter__copy" data-v="' + esc(o.chatPw) + '">복사</button></div>' : '') +
+      '<ol class="sf-enter__how"><li>위 버튼을 누르면 카카오톡 오픈채팅이 열려요.</li>' + (o.chatPw ? '<li>참여하기를 누르고 비밀번호 <b>' + esc(o.chatPw) + '</b>를 넣으면 입장돼요.</li>' : '<li>참여하기를 누르면 바로 입장돼요.</li>') + '</ol>'
+      : '<p class="sf-enter__wait">소통방은 준비 중이에요. 열리면 여기에 입장 버튼이 생겨요.</p>') + '</section>';
+    lv && (h += '<section><h3>라이브 링크</h3>' +
+      (o.live && open && !over ? '<a class="sf-enter__live" href="' + esc(o.live) + '" target="_blank" rel="noopener">라이브 링크 입장하기</a>' : '<span class="sf-enter__live is-off">라이브 링크 입장하기</span>') +
+      '<div class="sf-enter__when">' + (at ? '<b>🕒 ' + hm(at) + '에 시작돼요.</b>' : '') + '<p>' + (over ? '라이브가 끝났어요. 다시보기는 나의 강의실에서 안내드려요.' : o.live ? '시작 20분 전부터 입장할 수 있어요. 조금만 기다려 주세요!' : '입장 링크는 시작 전에 이곳과 소통방에 안내드려요.') + '</p></div></section>');
+    h += '<section class="sf-enter__item"><div><span class="sf-enter__chip' + (over ? ' is-end' : '') + '">' + chip + '</span><span class="sf-enter__type">' + (lv ? '무료 라이브' : ty === 'course' ? '교육' : '모임') + '</span></div>' +
+      '<div class="sf-enter__row"><span class="sf-enter__th" style="background-image:' + esc(img).replace(/"/g, "'") + '"></span><div><strong>' + esc(title) + '</strong>' + (at ? '<small>일시 : ' + hm(at) + (left && !over ? ' · ' + left : '') + '</small>' : '') + '</div></div></section>';
+    h += '<p class="sf-enter__help">문제가 생겼나요? <a href="' + withPv('/help') + '">고객센터 연락하기</a></p>';
+    var bg = document.createElement('div');
+    bg.className = 'sf-enter'; bg.setAttribute('role', 'dialog'); bg.setAttribute('aria-modal', 'true'); bg.setAttribute('aria-label', '입장 안내');
+    bg.innerHTML = '<div class="sf-enter__box">' + h + '</div>';
+    var prevFocus = document.activeElement, close = function () { bg.remove(); document.removeEventListener('keydown', key); prevFocus && prevFocus.focus && prevFocus.focus(); };
+    var key = function (ev) { ev.key === 'Escape' && close(); };
+    bg.addEventListener('click', function (ev) {
+      if (ev.target === bg || ev.target.closest('.sf-enter__x')) return close();
+      var c = ev.target.closest('.sf-enter__copy');
+      if (c) {
+        var v = c.getAttribute('data-v'), ok = function () { SFUI.toast ? SFUI.toast('비밀번호를 복사했어요') : (c.textContent = '복사됨'); };
+        navigator.clipboard ? navigator.clipboard.writeText(v).then(ok, function () {}) : ok();
+      }
+    });
+    document.addEventListener('keydown', key);
+    document.body.appendChild(bg);
+    (bg.querySelector('.sf-enter__kakao, .sf-enter__x') || bg).focus();
+  }
   function pendings(L) {
     var seen = {};
     return (L || []).filter(function (x) { return /입금\s*대기|입금대기/.test(x.status) && !isZero(x.price) && !seen[x.idx] && (seen[x.idx] = 1); });
