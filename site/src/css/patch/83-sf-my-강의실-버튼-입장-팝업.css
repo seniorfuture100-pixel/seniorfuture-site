@@ -35,6 +35,9 @@
     gap:8px;
     min-width:168px;
   }
+  :root body [data-sf-rooms] .r3-ord-list .sf-hub-side .r3-ord__go {
+    min-height:48px;
+  }
 }
 /* 소통방 입장 = 카카오 노랑 */
 :root body .sf-room-chat.is-kakao,
@@ -57,6 +60,20 @@
   flex:none;
   width:18px;
   height:18px;
+}
+
+/* 휴대폰·태블릿: 카드 폭이 좁아(2~3개씩) 소통방 입장 · 강의실 입장을 위아래로 */
+@media (max-width:767.98px) {
+  html:root body [data-sf-rooms] .sf-room-card .sf-hub-side {
+    flex-direction:column;
+    flex-wrap:nowrap;
+    align-items:stretch;
+    gap:6px;
+  }
+  html:root body [data-sf-rooms] .sf-hub-side .r3-ord__go {
+    flex:none!important;
+    width:100%!important;
+  }
 }
 
 /* 결제 내역: 사진 크게 */
