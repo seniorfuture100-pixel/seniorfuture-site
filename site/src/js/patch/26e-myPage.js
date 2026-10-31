@@ -228,18 +228,19 @@
     }).forEach(function (li) { ul.appendChild(li); });
     past.querySelector('summary b').textContent = pul.children.length;
     past.hidden = !pul.children.length;
-    // 다음 일정(가까운 라이브·모임 하나)
-    var nx = [].filter.call(ul.children, function (li) { return !li.classList.contains('is-pending') && at(li) > now - 3 * 36e5 && li.getAttribute('data-ty') !== 'course'; })
-      .sort(function (a, b) { return at(a) - at(b); })[0];
-    var hero = t.querySelector('.sf-room-next');
-    if (nx) {
+    // 다음 일정(가까운 라이브·모임 하나) — (10/31) 고른 탭에 맞춰요: 무료 라이브 탭은 라이브만 · 커뮤니티 탭은 모임만 · 교육 탭은 숨김
+    function setHero(k) {
+      var nx = [].filter.call(ul.children, function (li) { var ty = li.getAttribute('data-ty'); return !li.classList.contains('is-pending') && at(li) > now - 3 * 36e5 && ty !== 'course' && (k === 'all' || ty === k); })
+        .sort(function (a, b) { return at(a) - at(b); })[0];
+      var hero = t.querySelector('.sf-room-next');
+      if (!nx) return void (hero && hero.remove());
       hero || (hero = document.createElement('div'), hero.className = 'sf-room-next', t.insertBefore(hero, t.firstChild));
       var a0 = at(nx), lv = nx.getAttribute('data-ty') === 'live';
       // (10/31) 카드와 같은 버튼(소통방 입장 노랑 · 라이브 입장 · 준비 중)을 그대로 복사 — 팝업(data-enter)도 같이 동작
       var go = nx.querySelector('.r3-ord__go:not(.sf-btn--primary[href*="/class"])'), cp = go && go.cloneNode(true);
       cp && cp.classList.remove('r3-ord__go');
       hero.innerHTML = '<span class="sf-room-next__k">다음 일정</span><div class="sf-room-next__tx"><em>' + (SFUI.roomLeft(a0) || '오늘') + ' · ' + (lv ? '무료 라이브' : '모임') + '</em><strong>' + esc((nx.querySelector('h2') || {}).textContent) + '</strong><span>' + md(a0, 1) + '</span></div>' + (cp ? cp.outerHTML : '');
-    } else hero && hero.remove();
+    }
     // 탭(전체 · 교육 · 무료 라이브 · 커뮤니티) — 개수는 진행 중만
     var nav = t.querySelector('.sf-room-tabs'), cur = nav ? nav.getAttribute('data-on') : 'all';
     if (!nav) {
@@ -258,6 +259,11 @@
       var k = nav.getAttribute('data-on') || 'all';
       [].forEach.call(nav.querySelectorAll('button'), function (b) { var on = b.getAttribute('data-k') === k; b.classList.toggle('is-active', on); b.setAttribute('aria-selected', String(on)); });
       [].forEach.call(t.querySelectorAll('.sf-room-card'), function (li) { li.hidden = k !== 'all' && li.getAttribute('data-ty') !== k; });
+      setHero(k);
+      // 지난 일정도 고른 탭 것만 세요(없으면 접는 칸째 숨김)
+      var pn = [].filter.call(pul.children, function (li) { return !li.hidden; }).length;
+      past.querySelector('summary b').textContent = pn;
+      past.hidden = !pn;
       var empty = t.querySelector('.sf-room-empty');
       var none = ![].some.call(ul.children, function (li) { return !li.hidden; });
       if (none && !empty) { empty = document.createElement('p'); empty.className = 'sf-room-empty'; ul.parentNode.insertBefore(empty, ul.nextSibling); }
