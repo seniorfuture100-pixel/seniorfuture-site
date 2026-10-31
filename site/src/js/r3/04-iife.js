@@ -802,6 +802,7 @@
                 var ms = o.start || o.meet.start || x.at, me = o.meet.end || "", mst = SFUI.meetOver({ start: ms, end: me }) ? "ended" : "", S0 = typeof ms === "number" ? ms : Date.parse(ms), E0 = me ? Date.parse(me) : 0;
                 var fd = function(v, t) { var q = new Date(v); return q.getMonth() + 1 + "월 " + q.getDate() + "일 (" + f[q.getDay()] + ")" + (t ? " " + q.getHours() + ":" + String(q.getMinutes()).padStart(2, "0") : ""); };
                 var wh = n(".sf-room-when", li), bd0 = n(".sf-badge", li), dd = Math.ceil((S0 - Date.now()) / 864e5);
+                S0 && li.setAttribute("data-at", S0); // (10/31) 강의실 정리(patch/26e)가 날짜 순으로 놓아요
                 wh && (wh.innerHTML = "일시 <b>" + fd(S0, 1) + (E0 ? " – " + (new Date(E0).toDateString() === new Date(S0).toDateString() ? new Date(E0).getHours() + ":" + String(new Date(E0).getMinutes()).padStart(2, "0") : fd(E0)) : "") + "</b>" + ("ended" !== mst && dd > 0 ? " <em>D-" + dd + "</em>" : ""));
                 bd0 && (bd0.textContent = "ended" === mst ? "종료" : "참여 예정",bd0.className = "sf-badge " + ("ended" === mst ? "sf-badge--neutral" : "sf-badge--brand"));
                 "ended" === mst && !li.classList.contains("is-end") && (li.classList.add("is-end"), li.parentNode.appendChild(li));
