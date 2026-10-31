@@ -882,4 +882,12 @@
     min-width:0;
     text-align:left;
   }
+  html:root body.shop_mypage .shop-content.mypage:not(#sf-tab) {
+    zoom:1.1765;
+  }
+  html:root body [data-sf-rooms] ul.sf-rooms:not(#sf-tab),
+  html:root body [data-sf-rooms] .sf-room-past ul:not(#sf-tab) {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:24px 16px!important;
+  }
 }

@@ -405,3 +405,12 @@ html.sf-pt-on body .table-wrap > .bg-brand {
     margin:0;
   }
 }
+
+/* (10/31) 큰 휴대폰·작은 태블릿(600~767px): 강의실 카드가 두 개면 너무 넓어 버튼이 길쭉해져요 → 한 줄에 3개 */
+@media (min-width:600px) and (max-width:767.98px) {
+  html:root body [data-sf-rooms] ul.sf-rooms,
+  html:root body [data-sf-rooms] .sf-room-past ul {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:24px 16px!important;
+  }
+}
