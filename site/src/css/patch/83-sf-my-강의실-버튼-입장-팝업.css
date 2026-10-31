@@ -488,3 +488,64 @@ html:root body .r2-my-side a:not([aria-current]):not(#sf-x) {
   color:#1f2937!important;
   font-weight:600!important;
 }
+/* (10/31 사장님) 결제 내역 카드 배치: 사진 | 상품명·금액 | (PC) 주문 상세 — 카드 아래 빈 줄 없애기
+   휴대폰은 금액 아래 작은 '주문 상세' 버튼 · 입금 계좌 칸은 맨 아래 가득 */
+html:root body .sf-oc:not(#sf-x) {
+  display:grid!important;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  column-gap:16px;
+  align-items:center;
+}
+html:root body .sf-oc > .sf-oc__top:not(#sf-x) {
+  grid-column:1 / -1;
+}
+html:root body .sf-oc > .sf-oc__body:not(#sf-x) {
+  display:contents!important;
+}
+html:root body .sf-oc .sf-oc__th:not(#sf-x) {
+  grid-column:1;
+  grid-row:2;
+}
+html:root body .sf-oc .sf-oc__tx:not(#sf-x) {
+  grid-column:2;
+  grid-row:2;
+}
+html:root body .sf-oc > .sf-oc__act:not(#sf-x) {
+  grid-column:3;
+  grid-row:2;
+  margin:0!important;
+}
+html:root body .sf-oc > .sf-oc__bank:not(#sf-x) {
+  grid-column:1 / -1;
+  grid-row:3;
+}
+html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x) {
+  min-width:120px;
+  height:44px!important;
+  min-height:44px!important;
+}
+@media (max-width:767.98px) {
+  html:root body .sf-oc:not(#sf-x) {
+    grid-template-columns:auto minmax(0,1fr);
+    column-gap:12px;
+    align-items:start;
+  }
+  html:root body .sf-oc > .sf-oc__act:not(#sf-x) {
+    grid-column:2;
+    grid-row:3;
+    justify-content:flex-start!important;
+    margin-top:10px!important;
+  }
+  html:root body .sf-oc > .sf-oc__bank:not(#sf-x) {
+    grid-row:4;
+  }
+  html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x) {
+    flex:none!important;
+    min-width:0;
+    height:34px!important;
+    min-height:34px!important;
+    padding:0 14px!important;
+    border-radius:8px!important;
+    font-size:13px!important;
+  }
+}
