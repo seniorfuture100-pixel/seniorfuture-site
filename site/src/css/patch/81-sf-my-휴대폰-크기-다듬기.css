@@ -240,3 +240,23 @@
     font-size:14px;
   }
 }
+/* 좁은 휴대폰(360px 등): 결제 내역 버튼 세 개가 한 줄에 들어가게 */
+@media (max-width:374.98px) {
+  :root .sf-oc {
+    padding:12px;
+  }
+  :root .sf-oc__act {
+    gap:4px;
+  }
+  :root .sf-oc__more {
+    padding:0 2px;
+    font-size:12px;
+  }
+  :root .sf-oc__btn {
+    padding:0 8px;
+    font-size:12px;
+  }
+  :root .sf-oc__btn.is-main {
+    min-width:0;
+  }
+}
