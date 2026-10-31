@@ -187,6 +187,11 @@ SFUI.register('productView', SFUI.__pv = function() {
       })));
       return;
     }
+    // (10/31) 모임·라이브 상품을 /shop_view/ 로 열면(아임웹 주문 내역·검색 링크) 교육 모양이 돼서 → 본문 [모임 안내]·[라이브 안내]를 보고 그 목록 주소로 옮겨요
+    if (/^\/shop_view/.test(location.pathname) && !window.__sfPvMove) {
+      var tpM = document.getElementById("prodDetailPC") || document.getElementById("prodDetailMobile"), mv = SFUI.meetParse(tpM && tpM.content || document.getElementById("prod_detail_body"));
+      if (mv.sec) { window.__sfPvMove = 1; location.replace((mv.sec === "live" ? "/live/" : "/community/") + location.search + location.hash); return; }
+    }
     var e = document.querySelector(".goods_wrapper"), s = document.querySelector(".goods_form_wrap");
     if (e && s && SFUI.once(e, "ProductView")) {
       var t, a = window.SF_SITE || {}, n = new URLSearchParams(location.search).get("idx"), i = SFUI.shopItems && SFUI.shopItems()[n] || {}, r = i.type || (/^\/community/.test(location.pathname) ? "meet" : /^\/live/.test(location.pathname) ? "live" : "course"), c = "course" === r, o = "live" === r, p = "meet" === r, d = s.querySelector(".view_tit"), l = d ? d.textContent.trim() : document.title, f = String.fromCharCode(38), v = document.createElement("div"), u = [ "일", "월", "화", "수", "목", "금", "토" ], h = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>', b = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>', g = {
@@ -308,7 +313,8 @@ SFUI.register('productView', SFUI.__pv = function() {
       Q && (Q.textContent = "상품 금액");
       var V = s.querySelector(".buy_btns.pc");
       if (o) {
-        U && k && !SO && U.appendChild(pe("div", "sf-countdown sf-pv-cd", '<span data-sf-countdown-label>신청 마감까지 남은 시간</span><span class="sf-pv-cd__t"><b data-unit="d">0</b>일 <b data-unit="h">00</b>시간 <b data-unit="m">00</b>분 <b data-unit="s">00</b>초</span>'));
+        // (10/31) 본문에 따로 '마감'을 안 적으면 시작 시각까지 세요 → 문구도 '시작까지'
+        U && k && !SO && U.appendChild(pe("div", "sf-countdown sf-pv-cd", '<span data-sf-countdown-label>' + (i.deadline && i.deadline !== i.start ? "신청 마감까지" : "시작까지") + ' 남은 시간</span><span class="sf-pv-cd__t"><b data-unit="d">0</b>일 <b data-unit="h">00</b>시간 <b data-unit="m">00</b>분 <b data-unit="s">00</b>초</span>'));
         var K = U && U.querySelector(".sf-pv-cd");
         K && (K.setAttribute("data-sf-countdown", ""), K.setAttribute("data-deadline", i.deadline), 
         K.setAttribute("data-ended-text", "신청이 마감되었어요"), d && U.insertBefore(K, d)), B && V && V.parentNode.insertBefore(pe("p", "sf-pv-when", h + "<span>" + le(B) + " " + fe(B) + (E ? " – " + fe(E) : "") + "</span>"), V), 

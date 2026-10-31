@@ -19,7 +19,8 @@ const CSS = ['ui', 'patch', 'r2', 'r3', 'r3p', 'nav', 'qa'], JS = ['ui', 'patch'
   const css = CSS.map(b => '/*sf-' + b + '*/' + rd('build/css/' + b + '.css')).join('\n');
   const shadow = 'window.SF_SHADOW_CSS=' + JSON.stringify(rd('build/css/ui.css') + '\n' + rd('build/css/patch.css')) + ';';
   const js = JS.map(b => '/* sf-' + b + ' */\ntry {\n' + rd('build/js/' + b + '.js') + '\n} catch (e) { console.error("[sf-' + b + ']", e); }').join('\n');
-  const min = await terser.minify(shadow + '\n' + js, { compress: { passes: 1 }, mangle: true, format: { comments: false } });
+  // (10/31) 묶음 버전 — 배포하면 탭 임시 저장본을 비우는 데 써요(js/ui/01 core)
+  const min = await terser.minify('window.SF_VER=' + JSON.stringify(ver) + ';' + shadow + '\n' + js, { compress: { passes: 1 }, mangle: true, format: { comments: false } });
   fs.mkdirSync(path.join(root, 'dist'), { recursive: true });
   fs.writeFileSync(path.join(root, 'dist/sf.min.css'), css);
   fs.writeFileSync(path.join(root, 'dist/sf.min.js'), '/*! seniorfuture-site ' + ver + ' */\n' + min.code);

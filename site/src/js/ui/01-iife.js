@@ -2,6 +2,14 @@
 /* SFUI core — 모든 기능 파일 맨 위에 같은 코드가 들어있어요(한 번만 실행됨) */
 (function (w, d) {
   if (w.SFUI) return;
+  // (10/31) 새 버전이 배포되면 이 탭의 임시 저장본(주문·강의실·전문가 목록 등)을 비워 바뀐 코드로 새로 받아요. 추천 코드·시험 모드 값은 그대로
+  try {
+    var S = w.sessionStorage, V = w.SF_VER;
+    if (S && V && S.getItem('sf_ver') !== V) {
+      Object.keys(S).forEach(function (k) { if (/^sf_(myorders|oms|room|exhome|experts|exv|pt_courses|badges)/.test(k)) S.removeItem(k); });
+      S.setItem('sf_ver', V);
+    }
+  } catch (e) {}
   var mods = {};
   function run(n, root) { try { mods[n](root || d); } catch (e) { console.error('[SFUI]', n, e); } }
   w.SFUI = {

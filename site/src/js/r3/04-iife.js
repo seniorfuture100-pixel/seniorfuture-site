@@ -648,13 +648,25 @@
   SFUI.myOrders = function() { return E(); }; // (10/31) 결제 내역(patch/26e)도 같은 목록을 써요
   // (10/31 사장님) 나의 강의실·결제 내역이 늦게 뜨던 것: 주문 목록을 이 탭에 10분 저장해 다시 열면 바로(받는 건 뒤에서 늘 새로) · 10초 넘게 걸리면 끊고 저장본으로
   //   결제·주문 화면에 다녀오면 저장본을 지워 방금 한 주문이 바로 보여요
-  var EK = "sf_myorders1";
+  var EK = "sf_myorders1", NK = "sf_neworder";
   (/^\/(shop_payment|shop_payment_complete|shop_cart|order)/.test(location.pathname) || /order_no=/.test(location.search)) && function() { try { sessionStorage.removeItem(EK); } catch (x) {} }();
+  // (10/31) 신청·결제 직후엔 아임웹 주문 목록에 새 주문이 몇 초 늦게 들어와서 나의 강의실에 안 보였어요 → 완료 화면의 주문번호를 기억해 두고, 목록에 없으면 2.5초 뒤 다시 받아요(최대 3번, 5분 안)
+  /^\/shop_payment_complete/.test(location.pathname) && function() { var m = /order_no=(\d+)/.exec(location.search); try { m && sessionStorage.setItem(NK, JSON.stringify({ no: m[1], t: Date.now() })); } catch (x) {} }();
+  function E1(n) {
+    var nw = null;
+    try { nw = JSON.parse(sessionStorage.getItem(NK) || "null"); } catch (x) {}
+    return E0().then((function(L) {
+      var has = nw && L.some((function(x) { return x.no === nw.no; }));
+      if (nw && !has && n < 3 && Date.now() - nw.t < 3e5) return new Promise((function(r) { setTimeout(r, 2500); })).then((function() { return E1(n + 1); }));
+      if (nw && (has || Date.now() - nw.t >= 3e5)) try { sessionStorage.removeItem(NK); } catch (x) {}
+      return L;
+    }));
+  }
   function E() {
     if (y) return y;
     var EC = null;
     try { EC = JSON.parse(sessionStorage.getItem(EK) || "null"); } catch (x) {}
-    var fresh = E0().then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L })); } catch (x) {} return L; }));
+    var fresh = E1(0).then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L })); } catch (x) {} return L; }));
     // (10/31 QA) 저장본에 없는 새 주문이 생겼으면(아임웹 목록이 조금 늦게 반영될 때) 연 지 15초 안이면 한 번 새로 그려요
     if (EC && Date.now() - EC.at < 6e5) return fresh.then((function(L) {
       var key = function(A) { return (A || []).map((function(x) { return x.no + x.status; })).join(); };

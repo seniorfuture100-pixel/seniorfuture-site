@@ -69,6 +69,16 @@ if (fs.existsSync(cssf)) {
   note.push('묶음 크기 — JS ' + Math.round(fs.statSync(js).size / 1024) + 'KB, CSS ' + Math.round(fs.statSync(cssf).size / 1024) + 'KB');
 }
 
+// ⑤ (10/31) 크기 한도 — jsDelivr 가 보내는 brotli 크기 기준. 느린 망에선 이 파일이 다 와야 첫 화면이 그려져요(10/31 측정: 1KB ≈ 5ms)
+//    넘으면 실패: 늘어난 이유를 확인하고, 꼭 필요하면 한도를 올리며 이유를 여기 적기
+const BUDGET = { 'dist/sf.min.js': 145, 'dist/sf.min.css': 62 };
+Object.keys(BUDGET).forEach(f => {
+  const p = path.join(root, f); if (!fs.existsSync(p)) return;
+  const kb = Math.round(require('zlib').brotliCompressSync(fs.readFileSync(p)).length / 1024);
+  note.push('압축 크기 ' + f + ' ' + kb + 'KB / 한도 ' + BUDGET[f] + 'KB');
+  if (kb > BUDGET[f]) bad.push('크기 한도 넘음: ' + f + ' ' + kb + 'KB > ' + BUDGET[f] + 'KB');
+});
+
 console.log('부품 ' + Object.keys(reg).length + '개 확인');
 note.slice(0, 40).forEach(x => console.log('· ' + x));
 bad.forEach(x => console.log('✗ ' + x));
