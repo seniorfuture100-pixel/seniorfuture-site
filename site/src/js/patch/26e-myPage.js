@@ -18,6 +18,17 @@
     });
   });
 
+  // 아임웹 주문 상세(영수증·취소)에서 결제 내역으로 돌아가는 길
+  SFUI.register('orderBack', function (root) {
+    if (root !== document || qs.get('m2') !== 'order' || !qs.get('order_no') || document.querySelector('.sf-od-back')) return;
+    var n = 0, put = function () {
+      var col = document.querySelector('.shop-content.mypage .col-md-10');
+      if (!col) return void (n++ < 40 && setTimeout(put, 250));
+      var a = document.createElement('a'); a.className = 'sf-od-back'; a.href = withPv('/shop_mypage/?sf=orders'); a.textContent = '← 결제 내역';
+      col.insertBefore(a, col.firstChild);
+    };
+    put();
+  });
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
   var won = function (n) { return (Math.round(+n || 0)).toLocaleString('ko-KR') + '원'; };
   var W = '일월화수목금토';

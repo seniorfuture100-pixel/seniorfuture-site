@@ -248,6 +248,16 @@
   font-size:13px;
   color:#6b7280;
 }
+:root .sf-od-back {
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  margin:0 0 8px;
+  color:#4b5563;
+  font-size:15px;
+  font-weight:600;
+  text-decoration:none;
+}
 /* ── 나의 강의실 ── */
 :root .sf-room-next {
   display:flex;
