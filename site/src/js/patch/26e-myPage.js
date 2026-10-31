@@ -99,8 +99,8 @@
       var sec = (d.orderSections || []).map(function (s) { return s.statusCd; }), p = (d.payments || [])[0] || {};
       var s = items.map(function (x) { return x.status || ''; }).join(' ');
       if (sec.length && sec.every(function (c) { return c === 'OSS07'; })) return /환불/.test(s) || +d.pgCancelPrice > 0 ? ['cancel', '환불 완료'] : ['cancel', '취소 완료'];
-      if (/요청|접수중|진행/.test(s) && /취소|반품|환불/.test(s)) return ['ing', '취소 진행 중'];
-      if (p.statusCd === 'OPS01') return ['wait', '입금 대기'];
+      if (p.statusCd === 'OPS01') return ['wait', '입금 대기']; // 입금대기 줄의 '부분 취소는 입금 완료 후 진행…' 안내를 취소로 읽지 않게 먼저
+      if (/(취소|반품|환불)\s*(요청|접수)/.test(s)) return ['ing', '취소 진행 중'];
       return ['paid', '결제 완료'];
     }
     function card(no, items, d) {
@@ -132,7 +132,9 @@
       cp && rows.push(['쿠폰 할인', '-' + won(cp)]);
       etc && rows.push(['기타 할인', '-' + won(etc)]);
       pt && rows.push(['적립금 사용', '-' + won(pt)]);
-      rows.push(['결제 금액', won(paid), 1]);
+      // 입금 전에 취소한 주문(결제 상태 대기·취소, 카드 취소 금액 없음)은 낸 돈이 없어요
+      var unpaid = st === 'cancel' && /^(OPS01|OPS08)$/.test(p.statusCd) && !(+D.pgCancelPrice > 0);
+      unpaid ? (rows.push(['주문 금액', won(paid)]), rows.push(['결제된 금액', '0원 (입금 전 취소)', 1]), li.querySelector('.sf-oc__how').textContent = ' · 입금 전 취소') : rows.push(['결제 금액', won(paid), 1]);
       how && rows.push(['결제 수단', how]);
       gp && st === 'paid' && rows.push(['적립', won(gp) + (confirmed ? ' 지급 완료' : ' · 수강 확정 후 지급')]);
       li.querySelector('.sf-oc__calc').innerHTML = rows.map(function (r) { return '<div' + (r[2] ? ' class="is-total"' : '') + '><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('');
