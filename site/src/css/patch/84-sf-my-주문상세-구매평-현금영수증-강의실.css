@@ -1,11 +1,11 @@
-/* (10/31 사장님) 주문 상세 · 구매평 작성 창 · 현금영수증 신청 창 · 강의실 페이지 — 디자인 가이드(글꼴 · 회색 3단계 · 주황 · 10~12px 모서리)로 */
-
-/* ── 주문 상세: 상품 사진이 16:9 그림인데 정사각 60px 에 잘려 깨져 보였어요 → 16:9 상자 */
+/* ── 주문 상세: 상품 사진 — (10/31 사장님) 칸에 억지로 맞춰 자르지 않고 사진 비율 그대로(폭만 정하고 높이는 사진대로) */
 html:root body .r3-od a div:has(> img):not(#sf-x) {
   flex:none!important;
-  width:112px!important;
-  height:63px!important;
-  margin-right:14px!important;
+  align-self:flex-start;
+  width:128px!important;
+  height:auto!important;
+  max-height:none!important;
+  margin-right:16px!important;
   border-radius:10px!important;
   overflow:hidden!important;
   background:#f2f3f6;
@@ -13,8 +13,9 @@ html:root body .r3-od a div:has(> img):not(#sf-x) {
 html:root body .r3-od a div:has(> img) > img:not(#sf-x) {
   display:block;
   width:100%!important;
-  height:100%!important;
-  object-fit:cover!important;
+  height:auto!important;
+  max-height:none!important;
+  object-fit:contain!important;
 }
 /* PC: 상태(취소완료 등)가 가운데 따로 떠 있던 칸 → 숨기고, 상품명 위 작은 꼬리표로(휴대폰과 같게) */
 html:root body .r3-od a + div:has(> .r3-od__status):not(#sf-x) {
@@ -36,8 +37,7 @@ html:root body .r3-od div:has(> a div > img) > a:not(#sf-x) {
 }
 @media (max-width:767.98px) {
   html:root body .r3-od a div:has(> img):not(#sf-x) {
-    width:96px!important;
-    height:54px!important;
+    width:104px!important;
     margin-right:12px!important;
   }
   /* 휴대폰: 상품 아래 버튼(취소상세·구매평 작성 등)은 폭 가득 */

@@ -1170,16 +1170,19 @@
       !function e() {
         var r = n(".shop-content.mypage .col-md-10");
         if (r) {
+          // (10/31) 높이로 고르면 쿠폰·적립금 같은 다른 칸을 잘못 잡아 주문 상세가 꾸며지지 않을 때가 있었어요 → '주문 상세 내역' 제목이 든 칸으로
           var s = [].filter.call(r.children, (function(t) {
-            return !/r2-my-|r3-/.test(t.className || "") && t.getBoundingClientRect().height > 200;
+            return !/r2-my-|sf-my-/.test(t.className || "") && /주문\s*상세\s*내역/.test(t.textContent || "");
           }))[0];
-          if (!s || s.children.length < 3) t++ < 40 && setTimeout(e, 250); else {
+          if (!s || s.children.length < 3) t++ < 80 && setTimeout(e, 200); else {
             // (10/29) 아임웹(React)이 칸을 펼치고 접을 때 class 를 새로 써서 우리 표시가 지워져요 → 바뀔 때마다 다시 붙여요(이미 있으면 아무 변화 없음)
             var q = 0;
             new MutationObserver((function() {
               q || (q = requestAnimationFrame((function() { q = 0; tag(); })));
             })).observe(s, { childList: !0, subtree: !0, attributes: !0, attributeFilter: [ "class" ] });
             tag();
+            // 아임웹이 상세 칸을 통째로 새로 그리면(뒤로 가기 등) 새 칸을 다시 찾아요
+            new MutationObserver((function(m, o) { !s.isConnected && (o.disconnect(), t = 0, e()); })).observe(r, { childList: !0 });
           }
           function tag() {
             s.classList.add("r3-od");
