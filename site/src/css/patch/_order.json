@@ -473,5 +473,11 @@
   "screen": "mypage",
   "src": "sf-my",
   "rules": 76
+ },
+ {
+  "file": "79-sf-mobile-탭-점-문의-버튼-가로-카드-폭.css",
+  "screen": "common",
+  "src": "sf-mobile",
+  "rules": 3
  }
 ]

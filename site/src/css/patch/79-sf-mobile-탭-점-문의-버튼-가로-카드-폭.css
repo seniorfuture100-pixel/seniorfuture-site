@@ -1,0 +1,31 @@
+/* (10/31 사장님) 휴대폰 다듬기 — 월부 휴대폰(375·430px) 기준
+   ① 하단 탭 '무료 라이브' 아이콘의 빨간 점 → 아이콘과 같은 색(꺼진 탭은 회색)
+   ② 1:1 문의 버튼: 88×44 알약 → 48px 동그라미(1:1 / 문의 두 줄) · 월부 44px
+   ③ 가로로 넘기는 카드 폭: 260px 고정 → 화면 폭의 69%(월부와 같음) · 넓은 휴대폰에서도 다음 카드가 약 35%만 보여 '옆에 더 있음'이 분명해요 */
+@media (max-width:767.98px) {
+  html:root .sf-tabbar a svg .sf-tab-dot {
+    fill:currentColor;
+  }
+  html:root body .sf-fab.r2-fab {
+    min-width:0;
+    width:48px;
+    height:48px;
+    padding:0 9px; /* 글자 칸을 좁혀 '1:1' / '문의' 두 줄로 */
+    border-radius:50%;
+    font-size:12px;
+    font-weight:700;
+    line-height:1.15;
+    white-space:normal;
+    word-break:keep-all;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(17,24,39,.22);
+  }
+  html:root body .sf-cards4.sf-cards4--grid,
+  html:root body .sf-cards4:has(>li>.sf-lcard),
+  html:root body .sf-cards4--meet,
+  html:root body .sf-home-video .sf-cards4.sf-cards4--grid,
+  html:root body [data-widget-type=newest].r2-bgrid .type_grid.type_grid {
+    grid-auto-columns:clamp(232px,69vw,320px)!important;
+    column-gap:12px!important;
+  }
+}
