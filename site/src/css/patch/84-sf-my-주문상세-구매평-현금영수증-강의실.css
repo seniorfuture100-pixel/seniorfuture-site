@@ -322,6 +322,10 @@ html:root body .r3-od .r3-od__ohead:not(#sf-x) {
   gap:8px 12px!important;
   margin-bottom:20px!important;
 }
+html:root body .r3-od .r3-od__ohead > div:not(#sf-x) {
+  flex:0 0 auto!important;
+  width:auto!important;
+}
 html:root body .r3-od .r3-od__ohead > div:has(.r3-od__meta):not(#sf-x) {
   order:3;
   margin:0 0 0 auto!important;
@@ -405,7 +409,12 @@ html:root body .r3-od .r3-od__iprice > :last-child:not(#sf-x) {
   font-size:15px!important;
   font-weight:500!important;
 }
-/* 상품이 여러 개면 사이에 얇은 줄 */
+/* 상품이 여러 개면 사이에 얇은 줄(같은 칸 안의 줄끼리 · 다른 칸끼리 둘 다) */
+html:root body .r3-od .r3-od__irow ~ .r3-od__irow:not(#sf-x) {
+  margin-top:20px!important;
+  padding-top:20px!important;
+  border-top:1px solid #eef0f3!important;
+}
 html:root body .r3-od .r3-od__item + .r3-od__item:not(#sf-x) {
   margin-top:4px!important;
   padding-top:20px!important;

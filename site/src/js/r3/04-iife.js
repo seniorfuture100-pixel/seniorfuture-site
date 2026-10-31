@@ -1220,7 +1220,7 @@
             a("a", s).forEach((function(lk) {
               var im = n("img", lk), tx = im && im.parentNode.nextElementSibling;
               if (!tx) return;
-              tx.classList.add("r3-od__itx");
+              tx.classList.add("r3-od__itx"), lk.parentNode.classList.add("r3-od__irow");
               [].forEach.call(tx.children, (function(c, i) {
                 c.querySelector(".r3-od__status") ? c.classList.add("r3-od__ichip") : /원\s*$/.test((c.firstElementChild || c).textContent.trim()) ? c.classList.add("r3-od__iprice") : c.classList.contains("r3-od__opt") || c.querySelector(".r3-od__opt") || tx.querySelector(".r3-od__iname") || c.classList.add("r3-od__iname");
               }));
