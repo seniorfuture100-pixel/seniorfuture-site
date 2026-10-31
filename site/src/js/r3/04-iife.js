@@ -1175,7 +1175,7 @@
             i.forEach((function(t, e) {
               t.classList.add("r3-od__sec"), 0 === e && t.classList.add("is-first"), e === i.length - 1 && t.classList.add("is-last");
             })), s.children[0] && s.children[0].classList.add("r3-od__head"), a(".r3-od__sec *", s).forEach((function(t) {
-              !t.children.length && /^(주문자|배송지|결제정보|결제 정보|주문 상품)$/.test(t.textContent.trim()) && t.classList.add("r3-od__t");
+              !t.children.length && /^(주문자|배송지|결제정보|결제 정보|주문 상품|할인정보|할인 정보|환불정보|환불 정보|취소정보|취소 정보)$/.test(t.textContent.trim()) && t.classList.add("r3-od__t"); // (10/31) 할인·환불·취소 정보 제목도 18px 로 같게
             }));
             // (10/29) 디자인 기준에 맞춰 역할 표시 → CSS(r3/23): 제목 28px · 날짜 연한 회색 · 상태 꼬리표(주황) · 옵션 회색 · 금액 이름 회색 · 버튼 모양 통일
             a(".r3-od *", s).forEach((function(t) {
@@ -1192,7 +1192,8 @@
             a("a, button", s).forEach((function(t) {
               // (10/31) 상품 줄(사진+'취소완료 …상품명')까지 버튼으로 잡혀 가운데로 쏠렸어요 → 사진 있는 것·긴 글은 빼요
               var bx = t.textContent.replace(/\s+/g, " ").trim();
-              /^(취소|거래명세서 출력|영수증|반품|교환)/.test(bx) && bx.length < 16 && !t.querySelector("img") && t.classList.add("r3-od__btn");
+              // (10/31) '구매평 작성'도 — 아임웹 검정 단추에 사이트 글자색(검정)이 겹쳐 글자가 안 보였어요
+              /^(취소|거래명세서 출력|영수증|반품|교환|구매평)/.test(bx) && bx.length < 16 && !t.querySelector("img") && t.classList.add("r3-od__btn");
             }));
             // (10/31) 모두 취소된 주문인데 아임웹이 '…까지 입금해 주세요'·계좌를 그대로 보여줘요 → 숨김
             var sts = a(".r3-od__status", s);

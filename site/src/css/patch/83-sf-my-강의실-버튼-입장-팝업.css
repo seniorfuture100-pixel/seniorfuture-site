@@ -446,3 +446,18 @@ html:root body .sf-oc .sf-oc__act .sf-oc__btn:hover:not(#sf-x) {
     border-radius:20px 20px 0 0;
   }
 }
+
+/* (10/31 사장님) 주문 상세(아임웹 화면) 다듬기: 첫 칸이 오른쪽으로 30px 삐져나오던 것 · 상품명이 '(VO D)'처럼 낱글자로 끊기던 것 */
+html:root body .r3-od>.r3-od__sec:not(#sf-x) {
+  box-sizing:border-box!important;
+  max-width:100%!important;
+}
+html:root body .r3-od:not(#sf-x),
+html:root body .r3-od *:not(#sf-x) {
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+html:root body .r3-od .r3-od__btn:not(#sf-x) {
+  min-height:44px;
+  border-radius:10px!important;
+}
