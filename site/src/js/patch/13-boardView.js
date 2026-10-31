@@ -88,7 +88,8 @@ SFUI.register('boardView', function () {
     // 관련 강의: 분야 이름 → 강의
     var MAP = { '전문가 인사이트': 5, '기업 사례 분석': 3, '트렌드': 4, '뉴스레터': 4 };
     var items = SFUI.shopItems ? SFUI.shopItems() : {}, ci = MAP[cat], key;
-    var catKey = (SFUI.cats || []).filter(function (c) { return c[1] === cat; })[0];
+    var nk = function (s) { return String(s || '').replace(/[\s&\/·]/g, ''); }; // (10/31) 분야 이름 '&'→'/' 바뀌어도 같은 분야로
+    var catKey = (SFUI.cats || []).filter(function (c) { return nk(c[1]) === nk(cat); })[0];
     if (!ci && catKey) for (key in items) if (items[key].type === 'course' && items[key].cat === catKey[0]) { ci = key; break; }
     var cc = !isNotice && ci && SFUI.courseCards[ci];
     if (cc) insertAfterBody(el('a', 'sf-bv-course', '<img src="' + SFUI.courseImg + cc[2] + '" alt=""><span><small>' + (isReview ? '이 후기의 강의' : '이 글과 관련된 강의') + '</small><strong>' + esc(cc[0]) + '</strong><em>' + esc(cc[1]) + '</em></span><b>강의 보러 가기</b>'));

@@ -242,7 +242,8 @@
   //   분야: #입문 #요양돌봄 #주거 #금융보험 #커머스 #헬스케어 #여가교육일 #창업(SFUI.cats 이름도 됨) · 홈: #주목1~8 · #BEST1~5
   var CT = { 입문: "intro", 산업이해: "intro", 시니어산업이해: "intro", 요양돌봄: "care", 요양: "care", 돌봄: "care", 주거: "housing", 시니어타운: "housing", 주거시니어타운: "housing",
     금융보험: "finance", 금융: "finance", 보험: "finance", 커머스: "commerce", 소비: "commerce", 소비커머스: "commerce", 헬스케어: "health", 에이지테크: "health", 헬스케어에이지테크: "health",
-    여가교육일: "life", 여가: "life", 일자리: "life", 창업: "startup", 사업개발: "startup", 창업사업개발: "startup" };
+    여가교육일: "life", 여가: "life", 일자리: "life", 창업: "startup", 사업개발: "startup", 창업사업개발: "startup",
+    AI: "ai", ai: "ai", AX: "ai", ax: "ai", AIAX: "ai", aiax: "ai", 인공지능: "ai" };
   SFUI.sumTags = function(v) {
     // (10/30) #NEW(#신상품): 아임웹은 '신상품' 체크를 목록·상세 어디에도 내보내지 않아요 → 요약 설명 꼬리표로 NEW 태그
     var o = { text: "", cats: [], focus: 0, best: 0, had: !1, tags: [] };
