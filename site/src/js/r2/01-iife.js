@@ -26,12 +26,15 @@
       var t = document.getElementById("doz_header_wrap");
       t && (e = t.getBoundingClientRect().bottom);
     }
-    n.style.setProperty("--r2-hb", Math.max(0, Math.round(e)) + "px");
+    // (10/31) 값이 바뀔 때만 써요 — 스크롤마다 같은 값을 다시 써서 페이지 전체 스타일을 다시 계산했어요
+    var hb = Math.max(0, Math.round(e)) + "px";
+    hb !== f.last && (f.last = hb, n.style.setProperty("--r2-hb", hb));
   }
+  var fq = 0, fr = function() { fq || (fq = requestAnimationFrame((function() { fq = 0; f(); }))); }; // 스크롤은 한 프레임에 한 번만
   document.addEventListener("click", (function(e) {
     e.target.closest && e.target.closest("[data-r2-kakao-todo]") && (e.preventDefault(), 
     e.stopPropagation(), window.SFUI && SFUI.toast && SFUI.toast("카카오톡 채널 연결을 준비하고 있어요"));
-  }), !0), window.addEventListener("scroll", f, {
+  }), !0), window.addEventListener("scroll", fr, {
     passive: !0
   }), window.addEventListener("resize", f), document.addEventListener("mouseover", (function(e) {
     e.target.closest && e.target.closest(".sf-nav-edu") && f();

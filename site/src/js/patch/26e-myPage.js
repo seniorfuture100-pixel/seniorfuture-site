@@ -230,7 +230,7 @@
     [].forEach.call(ul.parentNode.querySelectorAll('.sf-room-card'), function (li) {
       var w = li.querySelector('.sf-room-when');
       if (w && /불러오지 못했어요/.test(w.textContent)) {
-        w.textContent = '판매가 끝난 강의예요. 궁금한 점은 고객센터로 문의해 주세요.';
+        w.textContent = '판매가 끝난 교육이에요. 궁금한 점은 고객센터로 문의해 주세요.';
         var g = li.querySelector('.r3-ord__go'); g && g.remove();
         li.classList.add('is-end');
       }
@@ -345,11 +345,21 @@
         getComputedStyle(b).backgroundColor === 'rgb(54, 54, 54)' && b.classList.add('sf-rm-dark');
       });
     };
-    // 창은 body 아래 ReactModalPortal 안에 생겨요 → 문서 전체(이 코드는 body 가 생기기 전에 돌아요)의 줄·class 변화를 보되 한 프레임에 한 번만
-    var rmQ = 0;
+    // 창은 body 아래 ReactModalPortal 안에 생겨요 → 문서 전체는 '줄이 생기고 없어짐'만 보고(이 코드는 body 가 생기기 전에 돌아요),
+    //   class 변화는 창이 열려 있는 동안 창 안에서만 봐요 — (10/31) 예전엔 스크롤 중 페이지의 모든 class 변화마다 깨어났어요
+    var rmQ = 0, rmBox = null, rmIn = null;
     new MutationObserver(function () {
-      rmQ || (rmQ = requestAnimationFrame(function () { rmQ = 0; document.querySelector('.ReactModal__Content') && rmScan(); }));
-    }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+      rmQ || (rmQ = requestAnimationFrame(function () {
+        rmQ = 0;
+        var m = document.querySelector('.ReactModal__Content');
+        if (m === rmBox) return;
+        rmIn && rmIn.disconnect(), rmIn = null, rmBox = m;
+        if (!m) return;
+        rmScan();
+        rmIn = new MutationObserver(function () { requestAnimationFrame(rmScan); });
+        rmIn.observe(m, { subtree: true, attributes: true, attributeFilter: ['class'] });
+      }));
+    }).observe(document.documentElement, { childList: true, subtree: true });
   }
   // (10/31 사장님) 입장 안내 팝업 — 라이브 입장 · 비밀번호가 있는 소통방 입장을 누르면 바로 카카오로 가지 않고 여기서 먼저
   //   ① 소통방 입장(카카오 노랑) + 비밀번호(복사) ② 라이브 링크 입장하기(상품 글 [라이브 링크], 시작 20분 전부터) ③ 신청한 일정 요약

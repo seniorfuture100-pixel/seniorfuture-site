@@ -749,7 +749,7 @@
       //   (10/30) 취소한 주문은 목록에 아예 안 실려서 기다리면 안 끝나요 → 지금 목록은 바로 그리고, 안내만 위에 띄운 채 뒤에서 다시 받아요(최대 90초)
       var build, note = function(on) {
         var el = n(".sf-room-wait", t.parentNode);
-        on ? el || t.insertAdjacentHTML("beforebegin", '<div class="r2-my-load sf-room-wait">방금 신청한 강의를 불러오고 있어요. 1분 정도 걸릴 수 있어요…</div>') : el && el.parentNode.removeChild(el);
+        on ? el || t.insertAdjacentHTML("beforebegin", '<div class="r2-my-load sf-room-wait">방금 신청한 교육을 불러오고 있어요. 1분 정도 걸릴 수 있어요…</div>') : el && el.parentNode.removeChild(el);
       }, found = function(L) {
         return !lastNo || L.some((function(o) { return o.no === lastNo; }));
       }, done = function() {
@@ -803,7 +803,7 @@
         //   모임(pop=1)은 비밀번호가 없어도 늘 팝업
         function CHAT(o, idx, pop) { return BTN("sf-room-chat is-kakao", o.chat, SFUI.KAKAO + "소통방 입장", 1).replace("<a ", o.chatPw || pop ? '<a data-enter="' + idx + '" ' : "<a "); };
         function draw() {
-        if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 강의가 없어요. <a href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
+        if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 교육이 없어요. <a href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
           if ("course" !== x.ty) {
             // 라이브·모임: 일시 + 정보 버튼(+ 톡방은 아래에서). 끝나면 '종료'로 맨 아래 — (10/30) 라이브는 그날 밤 12시 지나서,
@@ -848,14 +848,14 @@
             }
             if (li && !(o && o.title)) {
               // (10/29) 상품 상세를 못 읽음(삭제·숨김 상품 — 아임웹은 200 으로 빈 화면을 줘요) → 빈 강의실로 보내지 않아요
-              n(".sf-room-when", li).textContent = "강의 정보를 불러오지 못했어요. 판매가 끝난 강의라면 고객센터로 문의해 주세요.";
+              n(".sf-room-when", li).textContent = "교육 정보를 불러오지 못했어요. 판매가 끝난 교육이라면 고객센터로 문의해 주세요.";
               n(".r3-ord__go", li).textContent = "강의실 준비 중";
               return;
             }
             if (li) {
               // (10/29) 강의실 = 공용 강의실 /class?idx=상품번호(자동). 예전 방식 [강의실]·SF_SITE.classrooms 주소가 있으면 그쪽
               var p = roomPer(x.L, x.idx, o && o.period), rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "/class?idx=" + x.idx, go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
-              n(".sf-room-when", li).innerHTML = lb ? "수강 기간 <b>" + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") : "수강 기간은 강의 정보에서 확인해 주세요";
+              n(".sf-room-when", li).innerHTML = lb ? "수강 기간 <b>" + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") : "수강 기간은 교육 정보에서 확인해 주세요";
               st && (bd.textContent = "end" === st ? "수강 종료" : "pre" === st ? "개강 전" : "수강 중", bd.className = "sf-badge " + ("end" === st ? "sf-badge--neutral" : "sf-badge--brand"));
               // (10/31) 교육 탭의 '다음 일정'(patch/26e)이 쓰는 개강일 · 상태
               st && li.setAttribute("data-st", st), rg && rg.s && li.setAttribute("data-start", +new Date(rg.s));
@@ -867,7 +867,7 @@
         }));
         }
       }))["catch"]((function() {
-        t.innerHTML = '<div class="r2-my-load">강의 목록을 불러오지 못했어요. <a href="">다시 불러오기</a></div>';
+        t.innerHTML = '<div class="r2-my-load">교육 목록을 불러오지 못했어요. <a href="">다시 불러오기</a></div>';
       }));
     }
   }));
@@ -889,10 +889,10 @@
       box.className = "sf-room", t.appendChild(box);
       if (!document.documentElement.classList.contains("sf-logged-in")) return void (box.innerHTML = '<p class="sf-room__msg">로그인하면 강의실을 볼 수 있어요. <a href="/login?back_url=' + encodeURIComponent(btoa(location.pathname)) + '">로그인하기</a></p>');
       var back = '<a class="sf-room__back" href="' + roomPv("/shop_mypage/?sf=room") + '">← 나의 강의실</a>';
-      if (!idx) return void (box.innerHTML = back + '<p class="sf-room__msg">강의를 찾을 수 없어요. 나의 강의실에서 다시 들어와 주세요.</p>');
+      if (!idx) return void (box.innerHTML = back + '<p class="sf-room__msg">교육을 찾을 수 없어요. 나의 강의실에서 다시 들어와 주세요.</p>');
       box.innerHTML = '<p class="sf-room__msg">강의실을 불러오고 있어요…</p>';
       SFUI.roomInfo(idx, (function(o) {
-        if (!o) return void (box.innerHTML = back + '<p class="sf-room__msg">강의 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
+        if (!o) return void (box.innerHTML = back + '<p class="sf-room__msg">교육 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
         V = Object.assign({}, o.videos || {}, PV);
         var per = o.period;
         E().then((function(L) {
@@ -901,7 +901,7 @@
           return "";
         })).then((function(paid) {
           // 이 강의를 정상 결제(0원 신청 포함)한 회원만 — 취소·반품·환불·입금 대기는 막아요
-          if (!paid) return void (box.innerHTML = back + '<p class="sf-room__msg">이 강의를 신청·결제한 회원만 강의실을 볼 수 있어요.</p>');
+          if (!paid) return void (box.innerHTML = back + '<p class="sf-room__msg">이 교육을 신청·결제한 회원만 강의실을 볼 수 있어요.</p>');
           var rg = SFUI.roomRange(per, paid), st = roomState(rg), lb = SFUI.roomLabel(per, paid), its = o.prog && o.prog.items || [], on = 0;
           var li = its.map((function(it, i) {
             var no = i + 1, u = V[no], ok = u && "end" !== st;
@@ -945,7 +945,7 @@
     if (t && SFUI.once(t, "R3Hub")) {
       var a = n("#hub-now", t), s = n("#hub-past", t);
       if (a) if (document.documentElement.classList.contains("sf-logged-in")) {
-        a.innerHTML = '<li class="sf-hub-help is-loading">신청한 강의를 불러오고 있어요…</li>';
+        a.innerHTML = '<li class="sf-hub-help is-loading">신청한 교육을 불러오고 있어요…</li>';
         var i = SFUI.shopItems && SFUI.shopItems() || {}, o = e.classrooms || {};
         E().then((function(t) {
           var e = {}, n = [], c = [], l = Date.now();
@@ -957,12 +957,12 @@
               var y, E = f ? (y = new Date(f)).getMonth() + 1 + "월 " + y.getDate() + "일 (" + "일월화수목금토"[y.getDay()] + ") " + y.getHours() + ":" + String(y.getMinutes()).padStart(2, "0") : "", x = "course" !== d || o[t.idx] ? "live" !== d || s.live || h && l > h ? "" : "<p>입장 링크는 시작 전에 안내드려요</p>" : "<p>강의실 링크는 개강 전에 안내드려요</p>", S = '<li class="sf-hub-card"><div class="sf-hub-thumb" style="background:center/cover no-repeat url(\'' + t.img.replace(/'/g, "") + '\')" role="img" aria-label=""></div><div><small>' + _ + "</small><h2>" + r(v) + "</h2><p>" + (E ? E + " · " : "") + "신청일 " + (t.date || "").replace(/-/g, ".") + "</p>" + x + '</div><div class="sf-hub-side"><span class="sf-badge sf-badge--brand">' + b + "</span>" + a + "</div></li>";
               (h && l > h ? c : n).push(S);
             }
-          })), a.innerHTML = n.join("") || '<li class="sf-hub-help">아직 신청한 강의가 없어요. <a href="/course">교육 둘러보기</a> · <a href="/live">무료 라이브</a></li>', 
-          s && (s.innerHTML = c.join("") || '<li class="sf-hub-help">지난 강의가 아직 없어요.</li>');
+          })), a.innerHTML = n.join("") || '<li class="sf-hub-help">아직 신청한 교육이 없어요. <a href="/course">교육 둘러보기</a> · <a href="/live">무료 라이브</a></li>', 
+          s && (s.innerHTML = c.join("") || '<li class="sf-hub-help">지난 교육이 아직 없어요.</li>');
         })).catch((function() {
           a.innerHTML = '<li class="sf-hub-help">신청 내역을 불러오지 못했어요. <a href="/shop_mypage/?m2=order">결제 내역</a>에서 확인해 주세요.</li>';
         }));
-      } else a.innerHTML = '<li class="sf-hub-help">로그인하면 신청·결제한 강의가 여기에 보여요. <a href="/login?back_url=' + encodeURIComponent(btoa("/classroom")) + '">로그인하기</a></li>';
+      } else a.innerHTML = '<li class="sf-hub-help">로그인하면 신청·결제한 교육이 여기에 보여요. <a href="/login?back_url=' + encodeURIComponent(btoa("/classroom")) + '">로그인하기</a></li>';
     }
   })), SFUI.register("r3SideSticky", (function() {
     var t = n(".sf-pv__side");
@@ -1248,8 +1248,9 @@
       t && t.classList.contains("is-hidden") && window.scrollY + window.innerHeight >= e.scrollHeight - 80 && (t.classList.remove("is-hidden"), 
       e.classList.remove("sf-tabbar-hidden"));
     }
+    var tq = 0; // (10/31) 스크롤마다 페이지 높이를 두 번 재던 것 → 한 프레임에 한 번
     window.__r3TabbarEnd || (window.__r3TabbarEnd = 1, window.addEventListener("scroll", (function() {
-      t(), requestAnimationFrame(t);
+      tq || (tq = requestAnimationFrame((function() { tq = 0; t(); })));
     }), {
       passive: !0
     }), function e(a) {
@@ -1550,7 +1551,7 @@
         } else {
           var w = n(".clearfix", t), q = document.createElement("div");
           w && w.classList.add("r3-wish-src"), q.className = "sf-scope r3-wish r3-wish--empty",
-          q.innerHTML = '<strong>아직 찜한 강의가 없어요</strong><span>마음에 드는 강의의 하트를 누르면 여기에 모여요</span><a class="sf-btn sf-btn--s" href="/course">강의 둘러보기</a>',
+          q.innerHTML = '<strong>아직 찜한 교육이 없어요</strong><span>마음에 드는 교육의 하트를 누르면 여기에 모여요</span><a class="sf-btn sf-btn--s" href="/course">강의 둘러보기</a>',
           t.appendChild(q), t.classList.add("r3-wish-on", "r3-wish-empty");
         }
       }
