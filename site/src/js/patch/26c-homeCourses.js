@@ -47,7 +47,9 @@
       };
     }).filter(function (x) { return x.id; });
   }).catch(function () { return null; }); };
-  var got = fetchList('/course'), gotLive = fetchList('/live'), gotMeet = fetchList('/community');
+  // (10/31) 받기가 실패하면(null) 1.2초 뒤 두 번까지 다시 — 실패하면 예전 예시 카드(없는 상품)가 그대로 남았어요
+  var again = function (path, n) { return fetchList(path).then(function (x) { return x || !n ? x : new Promise(function (ok) { setTimeout(ok, 1200); }).then(function () { return again(path, n - 1); }); }); };
+  var got = again('/course', 2), gotLive = again('/live', 2), gotMeet = again('/community', 2);
 
   // 자리 채우기: key = 'focus'|'best', size = 칸 수, base = 지금 칸에 있는 상품 번호 순서
   function slots(list, key, size, base) {
