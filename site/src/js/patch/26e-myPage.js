@@ -106,6 +106,16 @@
       var cp = (+D.itemCouponDiscount || 0) + (+D.deliveryCouponDiscount || 0), pt = (+D.itemPointAmount || 0) + (+D.deliveryPointAmount || 0), etc = (+D.promotionDiscount || 0) + (+D.gradeDiscount || 0);
       var st = (li.className.match(/is-(wait|paid|cancel|ing)/) || [])[1], gp = +D.givePoint || 0, confirmed = li.hasAttribute('data-conf');
       li.querySelector('.sf-oc__sum b').textContent = won(paid);
+      // 입금 대기 주문은 아임웹 목록에 상품 이름·사진이 비어 와요 → 상세에서 채워요
+      var oi = D.orderItems || [], tt = li.querySelector('.sf-oc__tx strong');
+      if (oi.length && !tt.textContent.replace(/외\s*\d+건/, '').trim()) {
+        tt.innerHTML = esc(oi[0].prodName) + (oi.length > 1 ? ' <em>외 ' + (oi.length - 1) + '건</em>' : '');
+        var th = li.querySelector('.sf-oc__th'), u = (oi[0].imageUrls || [])[0];
+        u && th && !th.style.backgroundImage && (th.style.backgroundImage = 'url(\'' + String(u).replace(/'/g, '') + '\')');
+        var dl = li.querySelector('.sf-oc__detail dl');
+        dl && (dl.innerHTML = oi.map(function (x) { return '<div><dt>' + esc(x.prodName) + '</dt><dd>' + won(x.itemPrice) + '</dd></div>'; }).join(''));
+      }
+      !how && !paid && (pt || cp) && (how = pt ? '적립금 결제' : '쿠폰 결제');
       li.querySelector('.sf-oc__how').textContent = [how, gp && st === 'paid' ? '적립 ' + won(gp) + (confirmed ? '' : ' 예정') : ''].filter(Boolean).map(function (s) { return ' · ' + s; }).join('');
       var rows = [['상품 금액', won(D.baseItemPrice || D.itemPrice)]];
       cp && rows.push(['쿠폰 할인', '-' + won(cp)]);
