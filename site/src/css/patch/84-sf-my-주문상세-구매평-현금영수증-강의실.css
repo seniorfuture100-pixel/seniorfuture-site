@@ -312,3 +312,138 @@ html:root body .sf-oc.is-skel:not(#sf-x) {
   background-size:200% 100%!important;
   animation:sfOcSkel 1.2s linear infinite;
 }
+
+/* (10/31 사장님) 주문 상세 2차: 상태는 날짜 옆 · 사진·제목·금액 크게 · 상품 줄 왼쪽 정렬 · 상품 사이 구분선 */
+/* 주문번호 줄: 주문번호 · (PC) 거래명세서 …… [상태] 날짜 */
+html:root body .r3-od .r3-od__ohead:not(#sf-x) {
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:8px 12px!important;
+  margin-bottom:20px!important;
+}
+html:root body .r3-od .r3-od__ohead > div:has(.r3-od__meta):not(#sf-x) {
+  order:3;
+  margin:0 0 0 auto!important;
+}
+html:root body .r3-od .r3-od__ohead .r3-od__meta:not(#sf-x) {
+  display:inline-flex!important;
+  align-items:center;
+  gap:8px;
+  color:#6b7280!important;
+  font-size:14px!important;
+}
+html:root body .r3-od.sf-od-one .r3-od__ohead .r3-od__meta[data-st]:not(#sf-x)::before {
+  content:attr(data-st);
+  display:inline-flex;
+  align-items:center;
+  padding:3px 10px;
+  border-radius:999px;
+  background:#fff1e6;
+  color:#e05a00;
+  font:700 13px/1.4 var(--sf-font);
+}
+html:root body .r3-od.sf-od-one .r3-od__ohead .r3-od__meta[data-tone="end"]:not(#sf-x)::before {
+  background:#eef0f3;
+  color:#4b5563;
+}
+html:root body .r3-od.sf-od-one .r3-od__ichip:not(#sf-x) {
+  display:none!important;
+}
+/* 상품 줄 */
+html:root body .r3-od a:has(img):not(#sf-x) {
+  display:flex!important;
+  justify-content:flex-start!important;
+  margin-left:0!important;
+}
+html:root body .r3-od a:has(img) > div:not(#sf-x) {
+  width:100%;
+  align-items:flex-start!important;
+}
+html:root body .r3-od a div:has(> img):not(#sf-x) {
+  width:160px!important;
+  margin-right:20px!important;
+  border-radius:12px!important;
+}
+html:root body .r3-od .r3-od__itx:not(#sf-x) {
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+  min-width:0;
+}
+html:root body .r3-od .r3-od__iname:not(#sf-x) {
+  display:-webkit-box!important;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  color:#111827!important;
+  font-size:17px!important;
+  font-weight:700!important;
+  line-height:1.45!important;
+}
+html:root body .r3-od .r3-od__itx .r3-od__opt:not(#sf-x) {
+  font-size:14px!important;
+}
+html:root body .r3-od .r3-od__iprice:not(#sf-x) {
+  display:flex!important;
+  align-items:baseline!important;
+  gap:6px!important;
+}
+html:root body .r3-od .r3-od__iprice > :first-child:not(#sf-x) {
+  color:#111827!important;
+  font-size:18px!important;
+  font-weight:700!important;
+}
+html:root body .r3-od .r3-od__iprice > :nth-child(2):not(#sf-x) {
+  display:none!important;
+}
+html:root body .r3-od .r3-od__iprice > :last-child:not(#sf-x)::before {
+  content:"· ";
+}
+html:root body .r3-od .r3-od__iprice > :last-child:not(#sf-x) {
+  color:#6b7280!important;
+  font-size:15px!important;
+  font-weight:500!important;
+}
+/* 상품이 여러 개면 사이에 얇은 줄 */
+html:root body .r3-od .r3-od__item + .r3-od__item:not(#sf-x) {
+  margin-top:4px!important;
+  padding-top:20px!important;
+  border-top:1px solid #eef0f3!important;
+}
+@media (max-width:767.98px) {
+  html:root body .r3-od .r3-od__ohead:not(#sf-x) {
+    margin-bottom:16px!important;
+  }
+  /* 휴대폰: 주문번호 …… [상태] 날짜 / 아래 줄에 작은 거래명세서 단추 */
+  html:root body .r3-od .r3-od__ohead > div:has(.r3-od__btn):not(#sf-x) {
+    order:4;
+    flex-basis:100%;
+  }
+  html:root body .r3-od .r3-od__ohead .r3-od__btn:not(#sf-x) {
+    min-height:36px!important;
+    height:36px!important;
+    padding:0 12px!important;
+    font-size:13px!important;
+  }
+  html:root body .r3-od div:has(> a div > img):not(#sf-x) {
+    align-items:stretch!important;
+  }
+  html:root body .r3-od a div:has(> img):not(#sf-x) {
+    width:120px!important;
+    margin-right:14px!important;
+    border-radius:10px!important;
+  }
+  html:root body .r3-od .r3-od__iname:not(#sf-x) {
+    font-size:16px!important;
+  }
+  html:root body .r3-od .r3-od__iprice > :first-child:not(#sf-x) {
+    font-size:17px!important;
+  }
+  html:root body .r3-od div:has(> a div > img) > div:has(.r3-od__btn):not(#sf-x) {
+    margin-top:14px!important;
+  }
+  html:root body .r3-od div:has(> a div > img) .r3-od__btn:not(#sf-x) {
+    height:44px!important;
+  }
+}

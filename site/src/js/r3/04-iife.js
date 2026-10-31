@@ -1214,6 +1214,25 @@
               // (10/31) '구매평 작성'도 — 아임웹 검정 단추에 사이트 글자색(검정)이 겹쳐 글자가 안 보였어요
               /^(취소|거래명세서 출력|영수증|반품|교환|구매평)/.test(bx) && bx.length < 16 && !t.querySelector("img") && t.classList.add("r3-od__btn");
             }));
+            // (10/31 사장님) 주문 상세 상품 줄 다듬기(CSS patch/84): 주문번호 줄 · 상품(사진/제목/옵션/금액) 이름표 · 상품 사이 구분
+            var sec0 = n(".r3-od__sec.is-first", s);
+            sec0 && sec0.firstElementChild && sec0.firstElementChild.classList.add("r3-od__ohead");
+            a("a", s).forEach((function(lk) {
+              var im = n("img", lk), tx = im && im.parentNode.nextElementSibling;
+              if (!tx) return;
+              tx.classList.add("r3-od__itx");
+              [].forEach.call(tx.children, (function(c, i) {
+                c.querySelector(".r3-od__status") ? c.classList.add("r3-od__ichip") : /원\s*$/.test((c.firstElementChild || c).textContent.trim()) ? c.classList.add("r3-od__iprice") : c.classList.contains("r3-od__opt") || c.querySelector(".r3-od__opt") || tx.querySelector(".r3-od__iname") || c.classList.add("r3-od__iname");
+              }));
+              for (var w = lk; w && w.parentNode !== sec0; ) w = w.parentNode;
+              w && w !== sec0.firstElementChild && w.classList.add("r3-od__item");
+            }));
+            // 상품 상태가 모두 같으면 날짜 옆에 하나만(상품마다 있던 표시는 숨김) · 다르면 상품마다 그대로
+            var ist = a(".r3-od__itx .r3-od__status", s).map((function(x) { return x.textContent.trim(); })).filter((function(v, i, l) { return l.indexOf(v) === i; })), dm = n(".r3-od__ohead .r3-od__meta", s);
+            if (dm && 1 === ist.length) {
+              dm.getAttribute("data-st") !== ist[0] && dm.setAttribute("data-st", ist[0]);
+              dm.setAttribute("data-tone", /취소|환불|반품/.test(ist[0]) ? "end" : "on"), s.classList.add("sf-od-one");
+            } else s.classList.remove("sf-od-one");
             // (10/31) 모두 취소된 주문인데 아임웹이 '…까지 입금해 주세요'·계좌를 그대로 보여줘요 → 숨김
             var sts = a(".r3-od__status", s);
             sts.length && sts.every((function(x) { return /^(취소|환불)/.test(x.textContent.trim()); })) && a(".r3-od__sec", s).forEach((function(x) {
