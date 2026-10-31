@@ -40,6 +40,11 @@ html:root body .r3-od div:has(> a div > img) > a:not(#sf-x) {
     height:54px!important;
     margin-right:12px!important;
   }
+  /* 휴대폰: 상품 아래 버튼(취소상세·구매평 작성 등)은 폭 가득 */
+  html:root body .r3-od div:has(> a div > img) > div:has(.r3-od__btn):not(#sf-x),
+  html:root body .r3-od div:has(> a div > img) .r3-od__btn:not(#sf-x) {
+    width:100%!important;
+  }
 }
 
 /* ── 구매평 작성 창(아임웹 .modal_add_review) */
