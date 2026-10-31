@@ -533,7 +533,7 @@
           if (j && j.flag) {
             // 아임웹이 '현재 비밀번호'(passwdorg) 등을 요구 → 그 칸을 열고 안내
             cur && cur.classList.remove("r2-hide");
-            hint && (hint.hidden = !1, hint.textContent = "passwdorg" === j.flag ? (org && org.value ? "현재 비밀번호가 맞지 않아요. 다시 확인해 주세요." : "본인 확인을 위해 현재 비밀번호를 넣고 저장을 다시 눌러 주세요.") : j.msg || "저장하지 못했어요. 입력한 내용을 확인해 주세요.");
+            hint && (hint.hidden = !1, hint.textContent = /passwd/i.test(j.flag) ? (org && org.value ? "현재 비밀번호가 맞지 않아요. 다시 확인해 주세요." : "본인 확인을 위해 현재 비밀번호를 넣고 저장을 다시 눌러 주세요.") : j.msg || "저장하지 못했어요. 입력한 내용을 확인해 주세요.");
             org && (org.scrollIntoView({ block: "center", behavior: "smooth" }), org.focus({ preventScroll: !0 }));
             return;
           }
