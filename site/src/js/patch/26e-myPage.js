@@ -154,6 +154,14 @@
         li.innerHTML = '<div class="sf-hub-thumb" style="background:#f2f3f6 center/cover no-repeat url(\'' + esc(x.img).replace(/'/g, '') + '\')"></div><div><small>' + (ty === 'live' ? '무료 라이브' : ty === 'meet' ? '모임' : '강의') + '</small><h2>' + esc(x.name.replace(/\s*\[[^\[\]]*\d{1,2}:\d{2}\]\s*$/, '')) + '</h2><p class="sf-room-when">입금이 확인되면 열려요</p></div>' +
           '<div class="sf-hub-side"><span class="sf-badge sf-badge--neutral">입금 대기</span><a class="sf-btn sf-btn--outline sf-btn--l r3-ord__go" href="' + withPv('/shop_mypage/?sf=orders') + '">입금 계좌 보기</a></div>';
         ul.appendChild(li);
+        // 입금 대기 주문은 목록에 이름·사진이 비어 와요 → 주문 상세에서
+        !x.name.trim() && SFUI.omsOrder(x.no).then(function (D) {
+          var oi = D && (D.orderItems || [])[0]; if (!oi) return;
+          li.querySelector('h2').textContent = oi.prodName;
+          var u = (oi.imageUrls || [])[0]; u && (li.querySelector('.sf-hub-thumb').style.backgroundImage = 'url(\'' + String(u).replace(/'/g, '') + '\')');
+          var it = (SFUI.shopItems && SFUI.shopItems() || {})[oi.prodNo] || {}, ty2 = it.type || typeOf({ idx: oi.prodNo, name: oi.prodName });
+          li.setAttribute('data-ty', ty2); li.querySelector('small').textContent = ty2 === 'live' ? '무료 라이브' : ty2 === 'meet' ? '모임' : '강의';
+        });
       });
     }
     // 판매가 끝난 강의(상세를 못 읽음)는 지난 일정으로
