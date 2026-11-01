@@ -29,14 +29,16 @@
   if (q.get('bmode') || !/^\/insight\/?$/.test(p)) return;
 
   // 글 하나 읽기: 본문 끝 '#인기N' + 미리보기 제목·설명·사진
+  // (11/2 속도) 글 한 장(약 330KB)을 통째로 DOM 으로 만들던 것 → 글자에서 바로 찾아요(느린 휴대폰에서 멈춤이 컸어요)
+  var dec = function (s) { var x = document.createElement('textarea'); x.innerHTML = s || ''; return x.value; };
   function readPost(idx) {
     return fetch('/insight/?bmode=view&idx=' + idx + pv, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
-      var d = t && new DOMParser().parseFromString(t, 'text/html'), box = d && d.querySelector('.board_txt_area');
-      if (!box) return null;
-      var all = box.textContent.match(new RegExp(RE.source, 'g'));
+      var at = t ? t.indexOf('board_txt_area') : -1;
+      if (at < 0) return null;
+      var body = t.slice(at).replace(/<[^>]+>/g, ''), all = body.match(new RegExp(RE.source, 'g'));
       if (!all) return null;
-      var meta = function (k) { var m = d.querySelector('meta[property="og:' + k + '"]'); return m ? m.getAttribute('content') || '' : ''; };
-      var tt = meta('title') || d.title || '', cut = tt.lastIndexOf(' : ');
+      var meta = function (k) { var m = new RegExp('<meta[^>]+property="og:' + k + '"[^>]+content="([^"]*)"').exec(t); return m ? dec(m[1]) : ''; };
+      var tt = meta('title') || dec((/<title>([^<]*)/.exec(t) || [])[1]), cut = tt.lastIndexOf(' : ');
       return { idx: idx, rank: +RE.exec(all[all.length - 1])[1], title: (cut > 0 ? tt.slice(0, cut) : tt).trim(), img: meta('image'), desc: meta('description').replace(/\s+/g, ' ').trim() };
     }).catch(function () { return null; });
   }
@@ -70,18 +72,22 @@
       cand.push({ idx: m[1], cat: em ? em.textContent.trim() : '' });
     });
     if (!cand.length) return;
-    Promise.all(cand.slice(0, 10).map(function (c) {
-      return readPost(c.idx).then(function (x) { return x && (x.cat = c.cat, x); });
-    })).then(function (r) {
-      var list = r.filter(Boolean).sort(function (a, b) { return a.rank - b.rank; });
-      try { sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), list: list })); } catch (x) {}
-      paint(list);
-    });
+    // (11/2 속도) 10개를 한꺼번에 받던 것 → 하나씩 받다가 4칸이 차면 멈춰요(느린 망에서 3MB 넘게 받았어요)
+    var got = [], ranks = {};
+    (function next(i) {
+      if (i >= Math.min(cand.length, 10) || Object.keys(ranks).length >= 4) {
+        var list = got.sort(function (a, b) { return a.rank - b.rank; });
+        try { sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), list: list })); } catch (x) {}
+        return paint(list);
+      }
+      readPost(cand[i].idx).then(function (x) { x && (x.cat = cand[i].cat, got.push(x), ranks[x.rank] = 1); next(i + 1); });
+    })(0);
   }
   window.SFUI && (SFUI.__insBest = { read: readPost, paint: paint }); // 점검용
   var n1 = 0;
   (function wait() {
-    if (document.querySelector('[data-widget-type="board"] ._post_item_wrap') && document.querySelector('.sf-cards4--ins')) return void setTimeout(run, 300);
+    // (11/2 속도) 페이지를 다 받은 뒤에 시작해요(첫 화면 그리는 동안 글 받기가 망을 같이 쓰지 않게)
+    if (document.querySelector('[data-widget-type="board"] ._post_item_wrap') && document.querySelector('.sf-cards4--ins')) return void (document.readyState === 'complete' ? setTimeout(run, 300) : window.addEventListener('load', function () { setTimeout(run, 300); }, { once: true }));
     ++n1 < 60 && setTimeout(wait, 200);
   })();
 })()

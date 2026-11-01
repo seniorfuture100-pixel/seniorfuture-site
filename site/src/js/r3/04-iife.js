@@ -169,9 +169,14 @@
         var s = null, i = [];
         r.addEventListener("click", (function() {
           requestAnimationFrame(l); // (10/26) 다음 그림 전에 채움 — 줄었다 커지던 것 없앰
-        })), setTimeout((function() {
-          l(), c(); // 다른 페이지 글을 미리 받아 둬서 분류를 처음 눌러도 바로 채워져요
-        }), 700);
+        }));
+        // (11/2 속도) 예전엔 열고 0.7초 뒤 모든 쪽(8쪽 × 약 300KB)을 받아 160개 글을 한꺼번에 붙여, 느린 휴대폰에서 화면이 10~20초 멈췄어요(TBT 3.7초 → 14~24초)
+        //   → 첫 쪽 마지막 글이 화면 가까이(800px) 오거나 분류를 누를 때 받아요. 감시 기능이 없으면 예전처럼
+        var last = a('[data-widget-type="board"] ._card_wrap').pop(), once = function() { once = function() {}; l(); };
+        if (last && window.IntersectionObserver) {
+          var io = new IntersectionObserver((function(es) { es.some((function(x) { return x.isIntersecting; })) && (io.disconnect(), once()); }), { rootMargin: "800px 0px" });
+          io.observe(last);
+        } else setTimeout(once, 700);
       }
     }
     function o(t) {
@@ -233,6 +238,7 @@
                   u.classList.add("r3-ins-more"), u.style.display = "", a('[style*="display"]', u).forEach((function(t) {
                     /display:\s*none/.test(t.getAttribute("style")) && (t.style.display = "");
                   })), a("img[data-src]", u).forEach((function(t) {
+                    t.loading = "lazy"; // (11/2 속도) 붙인 글 그림은 화면에 가까워질 때 받아요
                     t.getAttribute("src") && !/blank|data:/.test(t.getAttribute("src")) || (t.src = t.getAttribute("data-src"));
                   })), a(".sf-hidden", u).forEach((function(t) {
                     t.classList.remove("sf-hidden");
