@@ -192,8 +192,9 @@
   // (11/2 Codex CX-r3-05) 옵션 값은 이름이 같거나 '이름 + 금액'일 때만 같은 옵션 — 예전엔 앞부분만 봐서 '온라인'과 '온라인+오프라인'을 같은 줄로 보고 지웠어요
   var optEq = function (v, name) { return !!name && (v === name || (v.indexOf(name) === 0 && /^\s*[(（]?\s*[+\-]?[\d,]+\s*원\s*[)）]?\s*$/.test(v.slice(name.length)))); }; // 금액 뒤에 다른 글이 붙으면(예: '톡방 10,000원 패키지') 다른 옵션
   function same(t, name, lb, steps) {
+    t = t.replace(/\bminus\s+plus\b/g, '').replace(/\s+/g, ' ').trim(); // 수량 버튼 글자('minus plus' 한 쌍)만 빼요 — 모든 줄 모양에서(11/2 Codex)
     var i = t.indexOf(': ');
-    if (i < 0) return optEq(t.replace(/\bminus\s+plus\b/g, '').replace(/\s+/g, ' ').trim(), name); // 그룹명 없는 줄: 수량 버튼 글자('minus plus' 한 쌍)만 빼고 이름(+금액)만
+    if (i < 0) return optEq(t, name); // 그룹명 없는 줄: 이름(+금액)만
     var map = {}, keys = [];
     t.split(' / ').forEach(function (p) { var j = p.indexOf(': '); if (j > 0) { var k = clean(p.slice(0, j)); map[k] = clean(p.slice(j + 2)); keys.push(k); } });
     var key = lb ? keys.filter(function (k) { return lbEq(k, lb); })[0] : keys[0];
