@@ -1,8 +1,10 @@
 /* 화면 묶음: course-detail | 원본: src/r3-options.css · 모바일 '수강 옵션' 시트 (r3-sheet.js) */
 /* (11/1) 옵션 없는 상품: 아래 바를 누르면 시트를 안 보이게 열고 바로 신청 화면으로(r3/06 r3-sheet-skip) */
-html.r3-sheet-skip body .opt-group,
-html.r3-sheet-skip body .opt-group-bg {
+html.r3-sheet-skip:root body .sf-pv .opt-group:not(#sf-x),
+html.r3-sheet-skip:root body .opt-group:not(#sf-x),
+html.r3-sheet-skip:root body .opt-group-bg:not(#sf-x) {
   visibility:hidden!important;
+  opacity:0!important;
 }
 @media (max-width:767.98px) {
   :root body .sf-pv .opt-group>.r3-sheet-h {
