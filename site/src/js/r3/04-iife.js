@@ -652,7 +652,7 @@
   (/^\/(shop_payment|shop_payment_complete|shop_cart|order)/.test(location.pathname) || /order_no=/.test(location.search)) && function() { try { sessionStorage.removeItem(EK); } catch (x) {} }();
   // (11/1) 방금 한 주문을 기다리며 목록을 여러 번 받던 것(최대 15초 빈 화면)은 뺐어요 — 나의 강의실은 주문 상세로 바로 그려요(r3Rooms)
   //   force: 저장본 말고 새로 받기(강의실이 새 주문을 찾을 때). 저장본과 새 목록이 다르면 화면을 통째로 다시 열지 않고(위쪽이 떴다 사라짐)
-  //   'sf:orders' 알림으로 그 자리에서 다시 그려요 · 결제 내역은 예전처럼 새로 열기
+  //   'sf:orders' 알림으로 그 자리에서 다시 그려요(나의 강의실 r3Rooms · 결제 내역 patch/26e)
   function E(force) {
     if (y && !force) return y;
     var EC = null;
@@ -663,7 +663,6 @@
       if (key(L) === key(EC.L)) return;
       y = Promise.resolve(L);
       try { document.dispatchEvent(new CustomEvent("sf:orders", { detail: L })); } catch (x) {}
-      /^\/shop_mypage/.test(location.pathname) && /sf=orders/.test(location.search) && performance.now() < 15e3 && location.reload();
     }))["catch"]((function() {})), y = Promise.resolve(EC.L);
     return y = fresh["catch"]((function(e) { if (EC) return EC.L; y = null; throw e; }));
   }

@@ -1,4 +1,14 @@
 /* (10/31 사장님) 마이페이지 2차 — 혜택 3칸 · 메뉴 4개 · 쿠폰함 · 적립금 · 휴대폰 2열 · 버튼 좌우 · 파트너스 (js r2/01 · patch/26f · ui/29) */
+/* (11/1 사장님) 쿠폰함·적립금: 시니어퓨처 모양으로 꾸미기 전(sf-cp-on · sf-pt-on 전)엔 아임웹 원래 목록을 가려 둬요
+   꾸미는 코드가 늦거나 멈춰도 2.5초 뒤엔 보이게(안전장치) */
+html:not(.sf-cp-on) body.shop_mypage #couopn_list,
+html:not(.sf-pt-on) body.shop_mypage .table-wrap:has(#shop_mypage_pointlist) {
+  visibility:hidden;
+  animation:sfMyReveal 0s linear 2.5s forwards;
+}
+@keyframes sfMyReveal {
+  to { visibility:visible; }
+}
 /* ── 휴대폰 혜택 3칸(내 쿠폰 · 적립금 · 마케팅 파트너스) ── PC 는 왼쪽 메뉴 '혜택'으로 */
 :root body .r2-my-perks {
   display:none;

@@ -1,5 +1,5 @@
 // (10/27) 전문가 네트워크 = /experts 안 아임웹 게시판(b202610278eed02abba21d '전문가 네트워크')
-//   글 제목 = '이름 소속'(예: 김난도 서울대학교 교수), 본문 = 사진 + [함께한 활동] [한 줄 소개] [핵심 이력] [자기소개] (내용 있는 칸만 보여요)
+//   글 제목 = '이름 소속'(예: 김난도 서울대학교 교수), 본문 = 사진 + [자기소개] [경력사항] [함께한 활동] (11/1~, 내용 있는 칸만 보여요 · 주소는 자동 링크)
 //   목록: 예전 코드 위젯(.sf-ex) 모양 그대로 두고, 카드만 게시판 글로 다시 채워요(사진 · 이름 소속 진하게 · 함께한 활동 연하게).
 //         분야 버튼·예전 프로필 칸은 숨기고, 게시판 원래 목록은 안 보여요(관리자 '글쓰기' 줄만 남김). 게시판이 없는 페이지면 아무것도 안 바꿔요.
 //   홈·상품 상세의 '/experts#eN' 바로가기 → 그 사람 글로
@@ -10,16 +10,38 @@ SFUI.experts = {
     175296852, 175296850, 175296846, 175296842, 175296841, 175296836, 175296831, 175296828, 175296824, 175296823, 175296819,
     175296813, 175296812, 175296811, 175296806, 175296802, 175296799, 175296797, 175296794, 175296792, 175296790, 175296783],
   url: function (idx) { return '/experts/?bmode=view' + String.fromCharCode(38) + 'idx=' + idx; },
-  // 본문 글자 → { 함께한활동, 한줄소개, 핵심이력, 자기소개 } (빈 칸은 '')
+  // (11/1 사장님) 전문가 글 칸은 [자기소개] [경력사항] [함께한 활동] 세 가지. 예전 이름도 같은 칸으로 읽어요
+  //   [한 줄 소개] → 자기소개 맨 앞 · [핵심 이력]·[이력사항]·[경력]·[이력]·[주요 경력] → 경력사항. 목록·글 보기·상품 강사 카드가 같이 써요
+  heads: '자기\\s*소개|한\\s*줄\\s*소개|경력\\s*사항|핵심\\s*이력|이력\\s*사항|주요\\s*경력|경력|이력|함께한\\s*활동',
+  key: function (h) {
+    h = String(h || '').replace(/\s+/g, '');
+    return /^자기소개$/.test(h) ? '자기소개' : /^한줄소개$/.test(h) ? '한줄소개' : /^(경력사항|핵심이력|이력사항|주요경력|경력|이력)$/.test(h) ? '경력사항' : /^함께한활동$/.test(h) ? '함께한활동' : '';
+  },
+  label: { '자기소개': '자기소개', '한줄소개': '자기소개', '경력사항': '경력사항', '함께한활동': '함께한 활동' },
+  // 본문 글자 → { 함께한활동, 한줄소개, 경력사항, 자기소개 } (빈 칸은 '')
   secs: function (t) {
-    var o = {}, re = /\[\s*(함께한\s*활동|한\s*줄\s*소개|핵심\s*이력|자기\s*소개)\s*\]/g, m, last = null, pos = 0;
+    var o = {}, re = new RegExp('\\[\\s*(' + SFUI.experts.heads + ')\\s*\\]', 'g'), m, last = null, pos = 0, put = function (s) { o[last] = (o[last] ? o[last] + ' ' : '') + s; };
     t = String(t || '');
     while ((m = re.exec(t))) {
-      if (last) o[last] = t.slice(pos, m.index).replace(/^[\s\-–]+$/, '').trim();
-      last = m[1].replace(/\s+/g, ''); pos = re.lastIndex;
+      if (last) put(t.slice(pos, m.index).replace(/^[\s\-–]+$/, '').trim());
+      last = SFUI.experts.key(m[1]); pos = re.lastIndex;
     }
-    if (last) o[last] = t.slice(pos).replace(/^[\s\-–]+$/, '').trim();
+    if (last) put(t.slice(pos).replace(/^[\s\-–]+$/, '').trim());
     return o;
+  },
+  // 글자 한 줄 → 주소를 누를 수 있는 링크로(새 창). '블로그 | https://…' 처럼 앞에 이름을 쓰면 이름으로, 아니면 사이트 주소로 보여요
+  linkify: function (s) {
+    var esc = function (x) { return String(x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+    var a = function (u, t) { return '<a class="sf-ex-link" href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(t) + ' ↗</a>'; };
+    var host = function (u) { return u.replace(/^https?:\/\/(www\.)?/, '').replace(/[\/?#].*$/, ''); };
+    s = String(s || '');
+    var m = /^(.{1,20}?)\s*[|｜:：]\s*(https?:\/\/\S+)$/.exec(s);
+    if (m && !/https?:/.test(m[1])) return a(m[2], m[1]);
+    return s.split(/(https?:\/\/[^\s<>"]+)/).map(function (x, i) {
+      if (!(i % 2)) return esc(x);
+      var t = (/[.,)]+$/.exec(x) || [''])[0], u = x.slice(0, x.length - t.length); // 문장 끝 마침표·괄호는 주소에서 빼요
+      return a(u, host(u)) + esc(t);
+    }).join('');
   },
   // 게시판 목록 카드(._post_item_wrap) → { idx, title, name, org, img, act }
   card: function (it) {

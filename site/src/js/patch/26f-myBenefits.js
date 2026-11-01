@@ -6,11 +6,14 @@
   if (!/^\/shop_mypage/.test(location.pathname) || !/^(coupon_list|point_list)$/.test(m2 || '')) return;
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
   var clean = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
-  var n = 0;
+  // (11/1) 아임웹 목록이 생기는 순간 바로 꾸며요 — 예전엔 0.2초마다 살펴서 아임웹 원래 목록이 잠깐 보였어요(CSS 가 꾸미기 전까지 가려 둬요, patch/80)
+  var n = 0, mo = null;
   (function wait() {
     var col = document.querySelector('.shop-content.mypage .col-md-10');
     var ok = col && (m2 === 'coupon_list' ? coupons(col) : points(col));
-    ok || n++ > 60 || setTimeout(wait, 200);
+    if (ok) return void (mo && mo.disconnect());
+    if (!mo && window.MutationObserver) { mo = new MutationObserver(function () { wait(); }); mo.observe(document.documentElement, { childList: true, subtree: true }); }
+    n++ > 60 || setTimeout(wait, 200);
   })();
 
   function coupons(col) {

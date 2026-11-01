@@ -102,7 +102,19 @@
   SFUI.register('sfOrders', function (root) {
     var box = root.querySelector('[data-sf-orders]');
     if (!box || !SFUI.once(box, 'SfOrders') || !SFUI.myOrders) return;
-    SFUI.myOrders().then(function (L) {
+    // (11/1) 저장본으로 먼저 그린 뒤 새 목록이 다르면(r3 E 'sf:orders') 페이지를 다시 열지 않고 그 자리에서 다시 그려요 — 예전엔 새로 열며 화면이 깜빡였어요
+    document.addEventListener('sf:orders', function (e) { show(e.detail || [], 1); });
+    box.addEventListener('click', function (e) {
+      var c = e.target.closest('.sf-oc__copy');
+      if (c) {
+        var v = c.getAttribute('data-v'), ok = function () { SFUI.toast ? SFUI.toast('계좌번호를 복사했어요') : (c.textContent = '복사됨'); };
+        navigator.clipboard ? navigator.clipboard.writeText(v).then(ok, function () { c.textContent = v; }) : (c.textContent = v);
+      }
+    });
+    SFUI.myOrders().then(function (L) { show(L); })['catch'](function () {
+      box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오지 못했어요. <a href="">다시 불러오기</a></div>';
+    });
+    function show(L, again) {
       var by = {}, order = [];
       L.forEach(function (x) { by[x.no] || (by[x.no] = [], order.push(x.no)); by[x.no].push(x); });
       // (10/31 사장님) 무료 신청(0원)도 모두 보여요
@@ -131,19 +143,10 @@
         var no = list[k++];
         SFUI.omsOrder(no).then(function (d) { D[no] = d; done && late(no); --left || render(); next(); });
       };
-      box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오는 중…</div>';
+      again || (box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오는 중…</div>'); // 다시 그릴 땐 지금 목록을 둔 채로
       for (var i = 0; i < 4; i++) next();
-      setTimeout(render, 300);
-      box.addEventListener('click', function (e) {
-        var c = e.target.closest('.sf-oc__copy');
-        if (c) {
-          var v = c.getAttribute('data-v'), ok = function () { SFUI.toast ? SFUI.toast('계좌번호를 복사했어요') : (c.textContent = '복사됨'); };
-          navigator.clipboard ? navigator.clipboard.writeText(v).then(ok, function () { c.textContent = v; }) : (c.textContent = v);
-        }
-      });
-    })['catch'](function () {
-      box.innerHTML = '<div class="r2-my-load">결제 내역을 불러오지 못했어요. <a href="">다시 불러오기</a></div>';
-    });
+      setTimeout(render, again ? 0 : 300);
+    }
     // 상태: 상세가 있으면 상세 기준(상품 상태 OSS07=취소 완료 · 결제 상태 OPS01=입금 대기), 없으면 목록 글
     function stateApi(items, d) {
       if (!d) return stateOf(items);

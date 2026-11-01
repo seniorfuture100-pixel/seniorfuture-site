@@ -561,9 +561,10 @@ SFUI.register('productView', SFUI.__pv = function() {
             var key = tx.split(/\s*[·(（|,\/]\s*|\s+-\s+/)[0].replace(/\s*(님|강사|연사|호스트|대표)$/, "").trim(), x = key.length < 12 && EX[key];
             if (!x && tx.length < 30 && !e.querySelector("img,iframe,video")) key = tx.split(" ")[0], x = EX[key]; // '김난도 서울대학교 교수'처럼 이름 소속을 같이 쓴 줄
             if (x) {
-              // (10/27) 카드 = 사진 · 이름 · 소속 · 한 줄 소개, '프로필 더 보기'로 핵심 이력·자기소개 (분야·함께한 활동은 안 보여요)
+              // (11/1 사장님) 카드 = 사진 · 이름 · 소속 + 오른쪽 '더보기'(전문가 네트워크 글로) ── 회색 실선 아래 전문가 글의 [자기소개] · [경력사항]
+              //   펼치기 버튼은 없앴어요 · [함께한 활동]은 안 보여요 · 쓴 칸이 없으면 실선도 없어요
               var href = x[0] ? SFUI.experts.url(x[0]) + (/preview_mode=1/.test(location.search) ? "&preview_mode=1" : "") : "/experts";
-              card = pe("div", "sf-pv-teacher sf-pv-tcard", '<span class="sf-pv-teacher__photo" aria-hidden="true"></span><div class="sf-pv-tcard__txt"><strong>' + oe(key) + "</strong>" + (x[2] ? "<small>" + oe(x[2]) + "</small>" : "") + '<p class="sf-pv-tone" hidden></p><div class="sf-pv-tmore" hidden></div><button type="button" class="sf-pv-tmorebtn" aria-expanded="false" hidden>프로필 더 보기</button><a class="sf-pv-tlink" href="' + oe(href) + '">' + TL + ' 프로필 보기 <span aria-hidden="true">›</span></a></div>');
+              card = pe("div", "sf-pv-teacher sf-pv-tcard", '<span class="sf-pv-teacher__photo" aria-hidden="true"></span><div class="sf-pv-tcard__txt"><strong>' + oe(key) + "</strong>" + (x[2] ? "<small>" + oe(x[2]) + "</small>" : "") + '</div><a class="sf-pv-tgo" href="' + oe(href) + '" aria-label="' + oe(key) + " " + TL + ' 프로필 더보기">더보기</a><div class="sf-pv-tbody" hidden></div>');
               /^https:\/\/[^"'()\s]+$/.test(x[1]) && (card.firstChild.style.backgroundImage = 'url("' + x[1] + '")');
               x[1] || (card.firstChild.classList.add("is-ini"), card.firstChild.setAttribute("style", SFUI.experts.tile(key, 0)), card.firstChild.textContent = key.charAt(0));
               bd.insertBefore(card, e), bd.removeChild(e);
@@ -572,35 +573,29 @@ SFUI.register('productView', SFUI.__pv = function() {
               // (11/1) 직함과 같은 줄('케어닥 대표')은 카드에 두 번 보이지 않게 빼요
               var rl = ((card.querySelector("small") || {}).textContent || "").replace(/\s+/g, " ").trim();
               if (rl && tx === rl) return void bd.removeChild(e);
-              var lk = card.querySelector(".sf-pv-tmorebtn");
-              lk.parentNode.insertBefore(e, lk), e.classList.add("sf-pv-tbio");
+              card.querySelector(".sf-pv-tcard__txt").appendChild(e), e.classList.add("sf-pv-tbio"); // 상품 글에 이름 다음 줄로 쓴 소개는 소속 아래
             }
           }));
           card && secEl.classList.add("has-cards");
         }));
       }
-      // 전문가 글의 칸 → 카드 안 한 줄 소개 / 펼침
-      //   (11/1 사장님) 핵심 이력·자기소개만 보이던 것 → 전문가 글에 쓴 칸을 모두 쓴 순서대로 펼침에 보여요(함께한 활동·저서·수상 등 아무 칸이나).
-      //   [한 줄 소개]는 카드에 바로 · 칸 없이 쓴 앞 글은 '소개'로 · 안 쓴 칸은 안 보여요
-      var TNAME = { "핵심이력": "핵심 이력", "자기소개": "자기소개", "함께한활동": "시니어퓨처와 함께한 활동", "소개": "소개" };
+      // 전문가 글의 칸 → 실선 아래 내용: 자기소개(문단, [한 줄 소개]는 맨 앞) → 경력사항(목록) → 그 밖에 쓴 칸(제목 그대로)
+      //   [함께한 활동]은 빼요 · 주소는 누를 수 있는 링크로(SFUI.experts.linkify)
       function tFill(card) {
         return function(S) {
-          var one = card.querySelector(".sf-pv-tone"), more = card.querySelector(".sf-pv-tmore"), btn = card.querySelector(".sf-pv-tmorebtn");
-          (S["한줄소개"] || []).length && (one.textContent = S["한줄소개"].join(" "), one.hidden = !1);
-          var h = (S.__order || [ "핵심이력", "자기소개" ]).filter((function(k) { return "한줄소개" !== k; })).map((function(k) {
-            var L = S[k] || [], t = TNAME[k] || S.__title && S.__title[k] || k;
-            if (!L.length) return "";
-            // 글처럼 쓴 칸(자기소개·소개, 또는 줄이 길고 '-'로 시작하지 않는 칸)은 문단, 나머지는 목록
-            var prose = /^(자기소개|소개)$/.test(k) || L.every((function(s) { return !/^[-–•·]\s*/.test(s) && s.length > 40; }));
-            if (prose) return "<h4>" + oe(t) + "</h4>" + L.map((function(s) { return "<p>" + oe(s) + "</p>"; })).join("");
-            return "<h4>" + oe(t) + "</h4>" + (L.length > 1 ? "<ul>" + L.map((function(s) { return "<li>" + oe(s.replace(/^[-–•·]\s*/, "")) + "</li>"; })).join("") + "</ul>" : "<p>" + oe(L[0].replace(/^[-–•·]\s*/, "")) + "</p>");
-          })).join("");
-          if (!h) return;
-          more.innerHTML = h, btn.hidden = !1;
-          btn.addEventListener("click", (function() {
-            var op = more.hidden;
-            more.hidden = !op, btn.setAttribute("aria-expanded", op ? "true" : "false"), btn.textContent = op ? "프로필 접기" : "프로필 더 보기";
+          var body = card.querySelector(".sf-pv-tbody"), X = SFUI.experts, G = {}, rest = [];
+          (S.__order || []).forEach((function(k) {
+            var c = X.key(k) || k, L = S[k] || [];
+            "한줄소개" === c && (c = "자기소개");
+            if ("함께한활동" === c || !L.length) return;
+            G[c] || (G[c] = { t: S.__title && S.__title[k] || k, L: [] }, X.key(c) || rest.push(c));
+            G[c].L = "한줄소개" === X.key(k) ? L.concat(G[c].L) : G[c].L.concat(L); // 한 줄 소개는 자기소개 맨 앞
           }));
+          var dash = function(s) { return s.replace(/^[-–•·]\s*/, ""); }, list = function(L) { return "<ul>" + L.map((function(s) { return "<li>" + X.linkify(dash(s)) + "</li>"; })).join("") + "</ul>"; };
+          var h = (G["자기소개"] ? '<div class="sf-pv-tintro">' + G["자기소개"].L.map((function(s) { return "<p>" + X.linkify(s) + "</p>"; })).join("") + "</div>" : "") +
+            (G["경력사항"] ? "<h4>경력사항</h4>" + list(G["경력사항"].L) : "") +
+            rest.map((function(c) { var L = G[c].L; return "<h4>" + oe(G[c].t) + "</h4>" + (L.length > 1 ? list(L) : "<p>" + X.linkify(dash(L[0])) + "</p>"); })).join("");
+          h && (body.innerHTML = h, body.hidden = !1);
         };
       }
       OG && ([].forEach.call(ne.querySelectorAll("[data-sf-own-g]"), (function(e) {
@@ -718,10 +713,10 @@ SFUI.register('productView', SFUI.__pv = function() {
       done(out);
     }))["catch"]((function() {}));
   }
-  // 전문가 글 한 개의 칸 → { 한줄소개: [줄…], 핵심이력: [...], 자기소개: [...], (그 밖에 쓴 칸), __order: [쓴 순서], __title: {칸: 쓴 제목} } (탭 안에서는 다시 안 받아요)
-  //   (11/1) 정해 둔 4칸만 읽던 것 → [아무 제목]이나 칸으로 · 칸 없이 앞에 쓴 글은 '소개'
+  // 전문가 글 한 개의 칸 → { 자기소개: [줄…], 경력사항(또는 예전 이름): [...], (그 밖에 쓴 칸), __order: [쓴 순서], __title: {칸: 쓴 제목} } (탭 안에서는 다시 안 받아요)
+  //   칸 이름 정리는 tFill 이 SFUI.experts.key 로 해요 · 칸 없이 앞에 쓴 글은 자기소개
   function expertDetail(idx, done) {
-    var k = "sf_exv2_" + idx, C = null;
+    var k = "sf_exv3_" + idx, C = null;
     try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
     if (C) return done(C);
     if (!window.fetch || !window.DOMParser) return;
@@ -733,10 +728,11 @@ SFUI.register('productView', SFUI.__pv = function() {
       if (!b) return;
       [].forEach.call(b.querySelectorAll("p, h1, h2, h3, h4, li, div"), (function(x) {
         if (x.querySelector("p, div, li, h1, h2, h3, h4")) return;
-        var m = HD.exec(x.textContent), s = x.textContent.replace(/\s+/g, " ").trim();
+        var m = HD.exec(x.textContent), s = x.textContent.replace(/\s+/g, " ").trim(), a0 = x.querySelector('a[href^="http"]');
         if (m) return void (cur = m[1].replace(/\s+/g, ""), o[cur] || (o[cur] = [], o.__order.push(cur), o.__title[cur] = m[1].trim()));
         if (!s || /^[\-–]$/.test(s)) return;
-        cur || (cur = "소개", o[cur] = [], o.__order.push(cur));
+        a0 && !/https?:\/\//.test(s) && (s += " | " + a0.getAttribute("href")); // 글자에 링크를 건 줄('블로그')도 주소를 살려요
+        cur || (cur = "자기소개", o[cur] = [], o.__order.push(cur)); // 칸 없이 앞에 쓴 글은 자기소개로
         o[cur].push(s);
       }));
       try { sessionStorage.setItem(k, JSON.stringify(o)); } catch (x) {}

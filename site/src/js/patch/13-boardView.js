@@ -49,8 +49,10 @@ SFUI.register('boardView', function () {
   if (sum) sum.classList.add('sf-bv-sum');
   // (10/27) 전문가 글 본문: 첫 사진을 맨 위 큰 사진으로, '[함께한 활동]' 같은 칸 제목 → 굵은 제목, 내용 없는 칸은 제목째 빼요
   if (isExpert && bodyEl) {
+    // (11/1) 전문가 칸: [자기소개] [경력사항] [함께한 활동] + 예전 이름([핵심 이력]→경력사항 · [한 줄 소개]→제목 없이 맨 앞 문장) — SFUI.experts.heads
+    var EXK = !G && SFUI.experts && SFUI.experts.key;
     var HD = G ? new RegExp('^\\s*\\[\\s*(' + G.heads.map(function (h) { return h.replace(/\s+/g, '\\s*'); }).join('|') + ')\\s*\\]\\s*$')
-      : /^\s*\[\s*(함께한\s*활동|한\s*줄\s*소개|핵심\s*이력|자기\s*소개)\s*\]\s*$/, cur = null, grp = [];
+      : new RegExp('^\\s*\\[\\s*(' + SFUI.experts.heads + ')\\s*\\]\\s*$'), cur = null, grp = [];
     var blocks = [].filter.call(bodyEl.querySelectorAll('p, h1, h2, h3, h4, li, div'), function (x) { return !x.querySelector('p, div, li, h1, h2, h3, h4'); });
     blocks.forEach(function (x) {
       var m = HD.exec(x.textContent);
@@ -59,7 +61,11 @@ SFUI.register('boardView', function () {
     grp.forEach(function (g) {
       var has = g.n.some(function (x) { return x.querySelector('img, iframe, video') || /[^\s\-–]/.test(x.textContent); });
       if (!has) { g.n.concat([g.h]).forEach(function (x) { if (x.parentNode) x.parentNode.removeChild(x); }); return; }
-      var h = el('h3', 'sf-exv-h'); h.textContent = g.t; g.h.parentNode.replaceChild(h, g.h);
+      // 주소가 글자로만 있는 줄은 누를 수 있는 링크로(새 창)
+      EXK && g.n.forEach(function (x) { if (!x.querySelector('a, img, iframe, video') && /https?:\/\//.test(x.textContent)) x.innerHTML = SFUI.experts.linkify(x.textContent.replace(/\s+/g, ' ').trim()); });
+      var k = EXK ? EXK(g.t) : '';
+      if (k === '한줄소개') { g.n.forEach(function (x) { x.classList.add('sf-exv-lead'); }); g.h.parentNode.removeChild(g.h); return; }
+      var h = el('h3', 'sf-exv-h'); h.textContent = k ? SFUI.experts.label[k] : g.t; g.h.parentNode.replaceChild(h, g.h);
     });
     var pimg = bodyEl.querySelector('img');
     if (pimg) { pimg.classList.add('sf-exv-photo'); (pimg.closest('p') || pimg).classList.add('sf-exv-ph'); }

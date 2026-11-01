@@ -114,6 +114,17 @@ html.sf-bv--expert body .board_view h3.sf-exv-h {
 html.sf-bv--expert body .board_view .sf-exv-ph + h3.sf-exv-h {
   margin-top:24px!important;
 }
+/* (11/1) 예전 [한 줄 소개] 줄: 제목 없이 맨 앞 문장으로(조금 굵게) · 글자 주소는 링크(SFUI.experts.linkify) */
+html.sf-bv--expert body .board_view .sf-exv-lead {
+  margin-top:24px!important;
+  color:var(--sf-text)!important;
+  font-weight:600!important;
+}
+html.sf-bv--expert body .board_view .sf-ex-link {
+  color:var(--sf-text-brand, #e05a00);
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
 /* 다른 전문가: 한 줄 5명, 사진 1:1 */
 :root body .sf-bv-more__list.is-5 {
   grid-template-columns:repeat(5,minmax(0,1fr));
