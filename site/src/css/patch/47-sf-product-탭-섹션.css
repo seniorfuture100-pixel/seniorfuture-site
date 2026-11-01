@@ -188,8 +188,14 @@ html:root body .sf-pv-tcard .sf-pv-tone:not(#sf-x) {
   color:var(--sf-text);
   font:400 16px/1.7 var(--sf-font);
 }
+/* 한 줄 소개(전문가 글 [한 줄 소개])는 상품 글 추가 소개보다 한 단계 굵게 */
+html:root body .sf-pv-tcard .sf-pv-tone:not(#sf-x) {
+  font-weight:500;
+}
 html:root body .sf-pv-tcard .sf-pv-tmore:not(#sf-x),
-html:root body .sf-pv-tcard .sf-pv-tmore h4:not(#sf-x) {
+html:root body .sf-pv-tcard .sf-pv-tmore h4:not(#sf-x),
+html:root body .sf-pv-tcard .sf-pv-tmore p:not(#sf-x),
+html:root body .sf-pv-tcard .sf-pv-tmore li:not(#sf-x) {
   font-size:15px;
   line-height:1.7;
 }
