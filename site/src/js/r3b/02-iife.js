@@ -29,7 +29,7 @@
     var url = typeof u === 'string' ? u : (u && u.url) || '', m = ((o && o.method) || 'GET').toUpperCase();
     url = url.replace(location.origin, '');
     if (m === 'GET' && (url === '/help' || url === '/review')) return 'g' + url;
-    if (m === 'POST' && url === '/shop/oms/OMS_mypage_order_list.cm' && o && typeof o.body === 'string') return 'o:' + o.body;
+    // (11/2 Codex CX-r3b-01) 주문 목록은 여기서 저장하지 않아요 — 로그인 Y/N 만으로 나눠서 다른 계정 주문이 보일 수 있었고, 새로 받기(E(1))도 5분 동안 옛 목록을 받았어요. 주문 저장본은 r3/04 E(sf_myorders1)가 맡아요
     return null;
   }
   var f = function (u, o) {

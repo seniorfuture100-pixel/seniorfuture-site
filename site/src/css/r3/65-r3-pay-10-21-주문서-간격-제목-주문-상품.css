@@ -325,12 +325,19 @@ html.r3pay-on body .r3pay-w--point form>button * {
   letter-spacing:-.01em;
 }
 html.r3pay-on body .r3pay-w--point form>button:focus,
-html.r3pay-on body .r3pay-w--point form>button:active,
-html.r3pay-on body .r3pay-w--point form>button:focus-visible {
+html.r3pay-on body .r3pay-w--point form>button:active {
   outline:0!important;
   box-shadow:none!important;
   border-color:#DADDE2!important;
 }
+/* (11/2 Codex CX-css-01·02) 키보드로 왔을 때는 테두리를 보여요 · 지우기(×)는 보이는 크기 24px 그대로, 누르는 곳은 44px */
+html.r3pay-on body .r3pay-w--point form>button:focus-visible,
+html.r3pay-on body .r3pay-w--point form>div button:focus-visible {
+  outline:2px solid #1F2937!important;
+  outline-offset:2px;
+}
+html.r3pay-on body .r3pay-w--point form>div button { position:relative; }
+html.r3pay-on body .r3pay-w--point form>div button::before { content:""; position:absolute; inset:-10px; }
 html.r3pay-on body .r3pay-w--point form>div button {
   flex:none;
   width:24px!important;

@@ -35,7 +35,7 @@ const CSS = ['ui', 'patch', 'r2', 'r3', 'r3p', 'nav', 'qa'], JS = ['ui', 'patch'
       // 외부 CSS(한 번 받으면 브라우저에 저장돼 다음부터 바로 씀) + 다른 코드가 덧붙여 쓰는 빈 자리
       '<link rel="stylesheet" id="sf-css" href="' + CDN + 'sf.min.css" onerror="this.onerror=null;this.href=\'' + ALT + 'sf.min.css\'"' + tag + '>',
       '<style id="sf-patch-css"' + tag + '></style>',
-      '<script id="sf-js" src="' + CDN + 'sf.min.js" onerror="var s=document.createElement(\'script\');s.src=\'' + ALT + 'sf.min.js\';s.onload=function(){window.SFUI&&SFUI.init(document)};document.head.appendChild(s)"' + tag + '></script>',
+      '<script id="sf-js" src="' + CDN + 'sf.min.js" onerror="var s=document.createElement(\'script\');s.src=\'' + ALT + 'sf.min.js\';s.onload=function(){document.readyState!==\'loading\'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)"' + tag + '></script>',
       '<script id="sf-early"' + tag + '>' + early + '</script>'
     ].filter(Boolean).join('\n');
   }

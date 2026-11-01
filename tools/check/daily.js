@@ -40,7 +40,8 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
       const open = async () => { await new Promise(z => setTimeout(z, 4000)); const r = await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); await page.waitForTimeout(2500); return r ? r.status() : 0; };
       try { st = await open(); if (st === 429) { await new Promise(z => setTimeout(z, 60000)); st = await open(); } } catch (e) { errs.push('열기 실패 ' + String(e.message).slice(0, 80)); }
       const tag = name + ' @' + w;
-      if (st === 404) { rows.push([tag, '공개 전(404)', '']); await page.close(); continue; }
+      // (11/2 Codex CX-check-01) 11/1 게시 뒤로는 404 = 장애 → 실패로 셈(예전엔 '공개 전'으로 넘겨 전부 404여도 '모두 정상')
+      if (st === 404) { rows.push([tag, '❌ 응답 404', '']); bad.push(tag); await page.close(); continue; }
       if (st === 429) { rows.push([tag, '⏭ 건너뜀(아임웹 요청 과다 429)', '']); await page.close(); continue; }
       const r = await page.evaluate(m => {
         const H = document.documentElement, q = s => document.querySelector(s), vis = e => !!e && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden';
@@ -90,6 +91,7 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
     }
     await wb.close();
   } catch (e) { rows.push(['아이폰(WebKit)', '⏭ 건너뜀: ' + String(e.message).slice(0, 80), '']); }
+  if (!rows.some(r => r[1] === '✅')) bad.push('통과한 화면 0개');
   const md = '# 사이트 매일 점검 ' + new Date().toISOString().slice(0, 10) + '\n\n' + (bad.length ? '**문제 ' + bad.length + '곳** — ' + bad.join(', ') : '**모두 정상**') +
     '\n\n| 화면 | 결과 |\n|---|---|\n' + rows.map(r => '| ' + r[0] + ' | ' + r[1] + ' |').join('\n') + '\n\n화면 사진은 Actions 실행 결과의 daily-report 에 있어요.\n';
   fs.writeFileSync(path.join(out, 'report.md'), md);

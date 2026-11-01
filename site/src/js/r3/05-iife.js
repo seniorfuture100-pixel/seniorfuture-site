@@ -95,7 +95,7 @@
         if (g.step) {
           e.isTrusted && (restoreTok++, keepUntil = 0); // 손님이 직접 고르면 '다시 고르기'는 멈춰요
           // 이미 아임웹에도 골라져 있으면 그대로(화면 체크만 보고 판단하면, 다시 고르는 동안 직전 체크를 유지해 둔 카드를 못 눌러요)
-          if ((stepsNow(form)[wrap.getAttribute('data-lb')] || '').indexOf(name) === 0) return;
+          if (optEq(stepsNow(form)[wrap.getAttribute('data-lb')] || '', name)) return;
           $$('.r3-opt__card', wrap).forEach(function (c) { c.classList.toggle('is-on', c === b); c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
           if (it.el.closest('[data-sf-pre]')) { pending = { lb: wrap.getAttribute('data-lb'), name: name }; return; }
           later(function () { g.pick(it); }); return;
@@ -189,16 +189,18 @@
   //   (예전엔 이름이 들어 있기만 하면 같다고 봐서, 그룹명 '1:1컨설팅'과 다른 그룹의 옵션 '1:1컨설팅'이 섞였어요)
   //   (10/29) 조합 옵션 줄은 '수강 형태: 오프라인 / 기수: 11월반 30,000원' → ' / '로 나눠 그룹마다 맞춰 보고, 앞 단계에서 지금 고른 값과 같은 줄만 봐요
   var lbEq = function (a, b) { return a === b || a.indexOf(b) === 0 || b.indexOf(a) === 0; };
+  // (11/2 Codex CX-r3-05) 옵션 값은 이름이 같거나 '이름 + 금액'일 때만 같은 옵션 — 예전엔 앞부분만 봐서 '온라인'과 '온라인+오프라인'을 같은 줄로 보고 지웠어요
+  var optEq = function (v, name) { return !!name && (v === name || (v.indexOf(name) === 0 && /^\s*[(（]?\s*[+\-]?[\d,]+\s*원/.test(v.slice(name.length)))); };
   function same(t, name, lb, steps) {
     var i = t.indexOf(': ');
     if (i < 0) return t.indexOf(name) >= 0;
     var map = {}, keys = [];
     t.split(' / ').forEach(function (p) { var j = p.indexOf(': '); if (j > 0) { var k = clean(p.slice(0, j)); map[k] = clean(p.slice(j + 2)); keys.push(k); } });
     var key = lb ? keys.filter(function (k) { return lbEq(k, lb); })[0] : keys[0];
-    if (!key || map[key].indexOf(name) !== 0) return false;
+    if (!key || !optEq(map[key], name)) return false;
     for (var s in steps || {}) {
       var sk = keys.filter(function (k) { return lbEq(k, s); })[0];
-      if (sk && sk !== key && steps[s] && map[sk].indexOf(steps[s]) !== 0) return false;
+      if (sk && sk !== key && steps[s] && !optEq(map[sk], steps[s])) return false;
     }
     return true;
   }
@@ -226,7 +228,7 @@
       var f = document.querySelector('.goods_form_wrap, [data-r3-goods]') || form, now = stepsNow(f), todo = null;
       Object.keys(st0).forEach(function (lb) { if (!todo && st0[lb] && !now[lb]) todo = lb; });
       var w = todo && $$('.r3-opt[data-step]', f).filter(function (x) { return x.getAttribute('data-lb') === todo; })[0];
-      var c = w && $$('.r3-opt__card', w).filter(function (b) { return st0[todo].indexOf(clean(b.querySelector('.r3-opt__name').textContent)) === 0; })[0];
+      var c = w && $$('.r3-opt__card', w).filter(function (b) { return optEq(st0[todo], clean(b.querySelector('.r3-opt__name').textContent)); })[0];
       c && c.click();
       n < 14 && restoreSteps(f, st0, n + 1, tok);
     }, 150);

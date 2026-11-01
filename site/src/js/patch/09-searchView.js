@@ -39,7 +39,8 @@ SFUI.register('searchView', function() {
     var s = e.querySelector(".sw2-body");
     if (s) {
       var o = s.querySelector(".sw2-result > .sw2-grid:not(.sf-sr-grid)"), c = o ? [].slice.call(o.querySelectorAll(".sw2-card")) : [], i = s.querySelectorAll(".sw2-card").length;
-      a.innerHTML = "‘" + l(r) + "’ 검색 결과 <b>" + i + "</b>개";
+      var ah = "‘" + l(r) + "’ 검색 결과 <b>" + i + "</b>개";
+      a.__h !== ah && (a.innerHTML = a.__h = ah); // (11/2 Codex CX-patch-04) 같은 글이면 안 써요 — 쓸 때마다 감시가 다시 깨워 60ms마다 되풀이했어요
       var d = s.querySelector(".sw2-empty");
       if (d && !d.querySelector(".sf-sr-pop") && d.insertAdjacentHTML("beforeend", '<div class="sf-sr-pop"><strong>이런 검색어는 어때요?</strong><div class="sf-chips">' + n.map((function(e) {
         return '<a class="sf-chip" href="/search?keyword=' + encodeURIComponent(e) + '">' + l(e) + "</a>";

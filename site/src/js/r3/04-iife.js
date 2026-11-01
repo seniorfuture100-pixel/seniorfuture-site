@@ -657,7 +657,10 @@
     if (y && !force) return y;
     var EC = null;
     try { EC = force ? null : JSON.parse(sessionStorage.getItem(EK) || "null"); } catch (x) {}
-    var fresh = E0().then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L })); } catch (x) {} return L; }));
+    // (11/2 Codex CX-ui-01) 다른 탭에서 계정을 바꿔도 로그인 쿠키 조합이 같으면 저장본이 남아요 → 회원 고유값이 다르면 저장본을 안 써요
+    var MH = window.MEMBER_HASH ? String(window.MEMBER_HASH) : "";
+    EC && EC.m && MH && EC.m !== MH && (EC = null);
+    var fresh = E0().then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L, m: window.MEMBER_HASH ? String(window.MEMBER_HASH) : "" })); } catch (x) {} return L; }));
     if (EC && Date.now() - EC.at < 6e5) return fresh.then((function(L) {
       var key = function(A) { return (A || []).map((function(x) { return x.no + x.status; })).join(); };
       if (key(L) === key(EC.L)) return;
@@ -734,7 +737,7 @@
   function roomPaid(L, idx) {
     var d = "";
     L.forEach((function(t) {
-      t.idx === idx && roomOk(t) && t.date && (!d || t.date < d) && (d = t.date);
+      t.idx === idx && roomOk(t) && t.date && (!d || t.date > d) && (d = t.date); // (11/2 Codex CX-r3-03) 다시 산 경우 가장 최근 결제일부터 — 예전엔 첫 결제일이라 재구매해도 '기간 종료'
     }));
     return d;
   }
@@ -919,12 +922,14 @@
       }));
       var box = document.createElement("div");
       box.className = "sf-room", t.appendChild(box);
-      if (!document.documentElement.classList.contains("sf-logged-in")) return void (box.innerHTML = '<p class="sf-room__msg">로그인하면 강의실을 볼 수 있어요. <a href="/login?back_url=' + encodeURIComponent(btoa(location.pathname)) + '">로그인하기</a></p>');
+      if (!document.documentElement.classList.contains("sf-logged-in")) return void (box.innerHTML = '<p class="sf-room__msg">로그인하면 강의실을 볼 수 있어요. <a href="/login?back_url=' + encodeURIComponent(btoa(location.pathname + location.search)) + '">로그인하기</a></p>'); // (11/2 Codex CX-r3-06) ?idx= 까지 돌아오게
       var back = '<a class="sf-room__back" href="' + roomPv("/shop_mypage/?sf=room") + '">← 나의 강의실</a>';
       if (!idx) return void (box.innerHTML = back + '<p class="sf-room__msg">교육을 찾을 수 없어요. 나의 강의실에서 다시 들어와 주세요.</p>');
       box.innerHTML = '<p class="sf-room__msg">강의실을 불러오고 있어요…</p>';
       // (11/1) 상품 글의 [강의 영상]·[톡방]이 바뀌었으면(patch/07 다시 읽기) 새 내용으로 다시 그려요
       document.addEventListener("sf:roominfo", (function(e) { e.detail && e.detail.idx === idx && SFUI.roomInfo(idx, show); }));
+      // (11/2 Codex CX-r3-01) 저장본 주문으로 열었다가 새 주문 목록이 다르면(환불·취소 등) 권한을 다시 판단해요 — 열린 영상 창도 닫아요
+      document.addEventListener("sf:orders", (function() { pop && !pop.hidden && shut(); SFUI.roomInfo(idx, show); }));
       SFUI.roomInfo(idx, show);
       function show(o) {
         if (!o) return void (box.innerHTML = back + '<p class="sf-room__msg">교육 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
@@ -1211,11 +1216,11 @@
           }))[0];
           if (!s || s.children.length < 3) t++ < 80 && setTimeout(e, 200); else {
             // (10/29) 아임웹(React)이 칸을 펼치고 접을 때 class 를 새로 써서 우리 표시가 지워져요 → 바뀔 때마다 다시 붙여요(이미 있으면 아무 변화 없음)
-            var q = 0;
-            new MutationObserver((function() {
-              q || (q = requestAnimationFrame((function() { q = 0; tag(); })));
-            })).observe(s, { childList: !0, subtree: !0, attributes: !0, attributeFilter: [ "class" ] });
-            tag();
+            // (11/2 Codex CX-r3-07) 우리가 붙이는 class 도 감시에 걸려 매 프레임 되풀이했어요 → 꾸미는 동안 감시를 잠깐 꺼요
+            var q = 0, MO = { childList: !0, subtree: !0, attributes: !0, attributeFilter: [ "class" ] }, mo = new MutationObserver((function() {
+              q || (q = requestAnimationFrame((function() { q = 0; run(); })));
+            })), run = function() { mo.disconnect(); tag(); mo.takeRecords(); s.isConnected && mo.observe(s, MO); };
+            run();
             // 아임웹이 상세 칸을 통째로 새로 그리면(뒤로 가기 등) 새 칸을 다시 찾아요
             new MutationObserver((function(m, o) { !s.isConnected && (o.disconnect(), t = 0, e()); })).observe(r, { childList: !0 });
           }

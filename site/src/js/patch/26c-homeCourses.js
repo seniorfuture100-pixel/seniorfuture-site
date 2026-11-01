@@ -73,6 +73,15 @@
       '</span><span class="sf-ccard__body"><strong>' + esc(x.name) + '</strong>' + (x.sum ? '<p>' + esc(x.sum) + '</p>' : '') +
       '<span class="sf-tags">' + (SFUI.tagHtml ? SFUI.tagHtml(x.tags || it.tags) : '') + '</span><span class="sf-ccard__price">' + esc(x.price) + '</span></span></a>';
   }
+  // (11/2) 홈 코드에 있던 카드는 모양(일정 줄 등)은 두고 이름·가격·그림·꼬리표만 지금 목록 값으로
+  function fresh(li, x, items) {
+    if (!x) return;
+    var q = function (s) { return li.querySelector(s); }, im = q('.sf-ccard__thumb img'), tg = q('.sf-tags');
+    q('.sf-ccard__body strong') && (q('.sf-ccard__body strong').textContent = x.name);
+    q('.sf-ccard__price') && (q('.sf-ccard__price').textContent = x.price);
+    im && x.img && im.getAttribute('src') !== x.img && im.setAttribute('src', x.img);
+    tg && SFUI.tagHtml && (x.tags || (items[x.id] || {}).tags) && (tg.innerHTML = SFUI.tagHtml(x.tags || items[x.id].tags));
+  }
   // (10/30) 홈 칸은 지금 교육 목록에 보이는 상품만 — 숨김·삭제한 상품은 홈 코드에 카드가 남아 있어도 빼고,
   //   빈 자리는 남은 홈 카드 순서 → 목록의 다른 상품(최근 등록 순)으로 채워요 · 하나도 없으면 '준비 중' 안내
   var none = function (w) { var li = document.createElement('li'); li.className = 'sf-hc-none'; li.textContent = '새로운 ' + w + '를 준비하고 있어요. 곧 업데이트될 예정이에요.'; return li; };
@@ -93,6 +102,7 @@
       ids.forEach(function (i) {
         var x = by[i], li = keep[i];
         if (!li) { li = document.createElement('li'); li.setAttribute('data-sf-filter-item', grp); li.innerHTML = card(x, items); }
+        else fresh(li, x, items); // (11/2 Codex CX-patch-03) 있던 카드도 새 목록 값(가격·제목·그림·꼬리표)으로
         // 분야: 꼬리표가 있으면 꼬리표, 없으면 원래 칸 값(코드 표)
         x && x.cats.length && li.setAttribute('data-category', x.cats.join(' '));
         !li.getAttribute('data-category') && li.setAttribute('data-category', (items[i] || {}).cat || '');
@@ -114,6 +124,7 @@
       i2.forEach(function (i) {
         var li = k2[i];
         if (!li) { li = document.createElement('li'); li.innerHTML = card(by[i], items); }
+        else fresh(li, by[i], items);
         f2.appendChild(li);
       });
       i2.length || f2.appendChild(none('강의'));
@@ -137,7 +148,7 @@
   var SVG_P = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
   var dLabel = function (v) { var t = Date.parse(v || ''); if (!t) return ''; var d = new Date(t); return d.getMonth() + 1 + '월 ' + d.getDate() + '일 (' + '일월화수목금토'.charAt(d.getDay()) + ')'; };
   function infos(list, cb) {
-    var items = SFUI.shopItems ? SFUI.shopItems() : {}, out = {}, wait = 0, fin = false;
+    var items = SFUI.shopItems ? SFUI.shopItems() : {}, out = {}, wait = 0, fin = false, going = true; // (11/2 Codex CX-patch-02) 저장본은 바로 답해서 첫 상품만 받고 끝냈어요 → 다 돌기 전엔 안 끝내요
     var end = function () { fin || (fin = true, cb(out)); };
     list.forEach(function (x) {
       var it = items[x.id];
@@ -147,9 +158,10 @@
       SFUI.roomInfo(x.id, function (o) {
         var m = o && o.meet || {};
         out[x.id] = { start: m.start || o && o.start || '', end: m.end || '', deadline: m.deadline || '', kind: m.kind, place: SFUI.meetPlace ? SFUI.meetPlace(m) : m.place, replay: o && o.replay };
-        --wait || end();
+        --wait || going || end();
       });
     });
+    going = false;
     wait ? setTimeout(end, 2000) : end();
   }
   var order = function (a, b) { return a.done !== b.done ? (a.done ? 1 : -1) : a.done ? b.st - a.st : (a.st || 9e15) - (b.st || 9e15); };
