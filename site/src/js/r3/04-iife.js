@@ -755,7 +755,7 @@
       var I = SFUI.shopItems && SFUI.shopItems() || {}, CR = e.classrooms || {};
       // (10/30) 아임웹은 방금 한 주문을 1분쯤 늦게 목록에 실어요 → 완료 화면에서 적어 둔 주문번호(patch/25)가 아직 없으면
       //   '불러오는 중' 안내를 띄우고 5초마다 다시 받아요(최대 2분) · 찾으면(또는 시간이 지나면) 평소처럼 그려요
-      var lastNo = "", AT = {}; // AT: 상품 글에서 읽은 라이브·모임 일시(다시 그릴 때 '다음 일정'이 사라졌다 나오지 않게)
+      var lastNo = "", lastL = null, rt = 0, AT = {}; // lastL: 마지막으로 그린 목록 · AT: 상품 글에서 읽은 라이브·모임 일시(다시 그릴 때 '다음 일정'이 사라졌다 나오지 않게)
       try { var lo = /^(\d{10,20})\|(\d+)$/.exec(sessionStorage.getItem("sf-last-order") || ""); lo && Date.now() - +lo[2] < 6e5 && (lastNo = lo[1]); } catch (x) {}
       //   (10/30) 취소한 주문은 목록에 아예 안 실려서 기다리면 안 끝나요 → 지금 목록은 바로 그리고, 안내만 위에 띄운 채 뒤에서 다시 받아요(최대 90초)
       var build, note = function(on) {
@@ -789,7 +789,10 @@
       };
       // 저장본으로 먼저 그린 뒤 새 목록이 다르면(r3 E) 그 자리에서 다시 그려요
       document.addEventListener("sf:orders", (function(e) { lastNo || build && build(e.detail); }));
+      // (11/1) 상품 글의 톡방·비밀번호·라이브 링크가 바뀌었으면(patch/07 다시 읽기) 같은 목록으로 다시 그려요
+      document.addEventListener("sf:roominfo", (function() { clearTimeout(rt), rt = setTimeout((function() { lastL && build(lastL); }), 300); }));
       E().then((function(L) { return found(L) ? (done(), L) : quick(L); })).then(build = (function(L) {
+        lastL = L;
         var seen = {}, rows = [];
         L.forEach((function(o) {
           // (10/29) 코드 표에 없는 새 상품: 상품명 끝에 일시 '[2026/11/14 14:00]'가 있으면 라이브·모임(SOP 상품명 규칙)이라 강의에서 빼요
@@ -921,7 +924,10 @@
       var back = '<a class="sf-room__back" href="' + roomPv("/shop_mypage/?sf=room") + '">← 나의 강의실</a>';
       if (!idx) return void (box.innerHTML = back + '<p class="sf-room__msg">교육을 찾을 수 없어요. 나의 강의실에서 다시 들어와 주세요.</p>');
       box.innerHTML = '<p class="sf-room__msg">강의실을 불러오고 있어요…</p>';
-      SFUI.roomInfo(idx, (function(o) {
+      // (11/1) 상품 글의 [강의 영상]·[톡방]이 바뀌었으면(patch/07 다시 읽기) 새 내용으로 다시 그려요
+      document.addEventListener("sf:roominfo", (function(e) { e.detail && e.detail.idx === idx && SFUI.roomInfo(idx, show); }));
+      SFUI.roomInfo(idx, show);
+      function show(o) {
         if (!o) return void (box.innerHTML = back + '<p class="sf-room__msg">교육 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
         V = Object.assign({}, o.videos || {}, PV);
         var per = o.period;
@@ -942,7 +948,7 @@
           }));
           box.innerHTML = back + '<header class="sf-room__head"><div class="sf-room__thumb"' + (/^https:\/\/[^"'()\s]+$/.test(o.img) ? ' style="background-image:url(\'' + o.img + '\')"' : "") + '></div><div><small>나의 강의실</small><h1>' + r(o.title.replace(/\s*(BEST|NEW|HOT|SALE|인기급상승|마감임박)\s*$/, "")) + "</h1>" + (lb ? '<p class="sf-room__when">수강 기간 <b>' + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") + "</p>" : "") + ("end" === st ? '<p class="sf-room__end">수강 기간이 끝났어요. 다시 듣고 싶다면 고객센터로 문의해 주세요.</p>' : "pre" === st ? '<p class="sf-room__end">' + SFUI.roomDate(rg.s) + "에 개강해요.</p>" : "") + '</div></header><section class="sf-room__cur"><div class="sf-room__ch"><h2>커리큘럼</h2>' + (its.length ? "<span>" + on + " / " + its.length + "회차 공개</span>" : "") + "</div>" + (its.length ? '<ol class="sf-room__list">' + li.join("") + "</ol>" : '<p class="sf-room__msg">커리큘럼을 준비하고 있어요.</p>') + "</section>";
         }));
-      }));
+      }
       // 바로보기 → 영상 창(Vimeo · YouTube 는 화면 안에서, 그 밖의 주소는 새 창)
       var pop = null, shut = function() {
         pop.innerHTML = "", pop.hidden = !0, document.documentElement.classList.remove("sf-room-pop-on");

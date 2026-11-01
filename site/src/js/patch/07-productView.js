@@ -65,10 +65,26 @@ SFUI.roomLabel = function(p, paid) {
 };
 // (10/28) 강의실용 상품 정보: 상품 상세 글의 [프로그램]·[수강 기간]·[강의실] 칸을 읽어요
 //   → done({ idx, title, img, prog:{desc,items}|null, period, room:'/class-x' }) · 못 읽으면 done(null) · 같은 탭에서 5분 동안 다시 안 받아요
+var roomRev = {};
 SFUI.roomInfo = function(idx, done) {
   var k = "sf_room6_" + idx, C = null; // (10/31) room6: [톡방 비밀번호](chatPw)·[라이브 링크](live) // (10/29) room3: 모임 안내(meet)·일시(start) 추가 · (10/30) room4: [다시보기](replay) · room5: [라이브 안내](meet.sec)
   try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
-  if (C && Date.now() - C.at < 18e5) return done(C); // (10/31) 5분 → 30분: 나의 강의실이 상품 글을 매번 다시 받느라 느렸어요
+  if (C && Date.now() - C.at < 18e5) { // (10/31) 5분 → 30분: 나의 강의실이 상품 글을 매번 다시 받느라 느렸어요
+    done(C);
+    // (11/1) 저장본으로 먼저 그리고, 나의 강의실·강의실에서는 1분 넘은 저장본이면 상품 글을 뒤에서 한 번 다시 읽어요
+    //   → [톡방]·[톡방 비밀번호]·[강의 영상]·[라이브 링크]를 지우거나 바꾸면 30분 기다리지 않고 'sf:roominfo' 알림으로 그 자리에서 다시 그려요
+    if (Date.now() - C.at > 6e4 && !roomRev[idx] && (/sf=room/.test(location.search) || /^\/class\/?$/.test(location.pathname))) {
+      roomRev[idx] = 1;
+      roomLoad(idx, k, (function(o) {
+        var sig = function(v) { return JSON.stringify([v.title, v.chat, v.chatPw, v.live, v.replay, v.room, v.videos, v.period, v.prog, v.meet, v.start]); };
+        if (o && sig(o) !== sig(C)) try { document.dispatchEvent(new CustomEvent("sf:roominfo", { detail: { idx: +idx } })); } catch (x) {}
+      }));
+    }
+    return;
+  }
+  roomLoad(idx, k, done);
+};
+function roomLoad(idx, k, done) {
   if (!idx || !window.fetch || !window.DOMParser) return done(null);
   fetch("/shop_view/?idx=" + idx + (/preview_mode=1/.test(location.search) ? "&preview_mode=1" : ""), { credentials: "same-origin" }).then((function(r) {
     return r.ok ? r.text() : "";
