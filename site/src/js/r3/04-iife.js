@@ -2017,11 +2017,13 @@
       }();
       if (t && String(t).toUpperCase() !== i) { // 내 코드는 대소문자 상관없이 건너뛰어요
         var e, n = !1;
+        // (11/2 QA) 화면 그리기 신호(rAF)는 앱을 잠깐 벗어나거나 창이 가려지면 멈춰요 → 1초마다 한 번 더 확인(30초까지)
+        var iv = setInterval(r, 1e3);
         r(), (e = new MutationObserver(rafOnce(r))).observe(document.body, {
           childList: !0,
           subtree: !0
         }), setTimeout((function() {
-          e && e.disconnect();
+          e && e.disconnect(), clearInterval(iv);
         }), 3e4);
       }
     }
