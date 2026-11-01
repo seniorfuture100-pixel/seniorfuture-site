@@ -929,7 +929,8 @@
       // (11/1) 상품 글의 [강의 영상]·[톡방]이 바뀌었으면(patch/07 다시 읽기) 새 내용으로 다시 그려요
       document.addEventListener("sf:roominfo", (function(e) { e.detail && e.detail.idx === idx && SFUI.roomInfo(idx, show); }));
       // (11/2 Codex CX-r3-01) 저장본 주문으로 열었다가 새 주문 목록이 다르면(환불·취소 등) 권한을 다시 판단해요 — 열린 영상 창도 닫아요
-      document.addEventListener("sf:orders", (function() { SFUI.roomInfo(idx, show); })); // 영상 창은 권한이 없어졌을 때만 닫아요(show)
+      // 영상 창은 권한이 없어졌을 때만 닫아요 — 권한 판단은 상품 정보 받기와 따로(상품 정보를 못 받아도 환불이면 닫힘)
+      document.addEventListener("sf:orders", (function(ev) { roomPaid(ev.detail || [], idx) || (pop && !pop.hidden && shut()); SFUI.roomInfo(idx, show); }));
       SFUI.roomInfo(idx, show);
       function show(o) {
         if (!o) return void (box.innerHTML = back + '<p class="sf-room__msg">교육 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
@@ -2038,13 +2039,13 @@
             // (11/2 QA) 위로 올라가다 글 칸이 둘 이상인 칸에 닿으면 멈춰요 — 결제 화면이 그려지는 중엔 제목만 먼저 와서 적립금 칸을 잡고 멈췄어요(11/2 운영 재현: 추천인 코드가 안 들어감)
             for (var i = s, o = null, c = 0; c < 6 && i && !o; c++) {
               var qs = (i = i.parentElement) ? i.querySelectorAll("input[type=text], input:not([type]), textarea") : [];
-              if (qs.length > 1) break;
+              if (qs.length > 1 || /적립금|쿠폰|포인트/.test(i.textContent || "")) break; // 적립금·쿠폰 칸까지 올라가면 멈춰요
               o = qs[0] || null;
             }
             // (11/2 QA) 한 번 넣고 멈추면, 결제 화면이 곧바로 다시 그려지며 칸이 비어 코드가 빠졌어요(11/2 운영 재현) → 30초 동안 비면 다시 넣어요
             //   손님이 칸을 직접 고치면(isTrusted 입력) 그때부터는 손대지 않아요
             if (o && !o.__sfRefUser) {
-              o.__sfRefBound || (o.__sfRefBound = 1, o.addEventListener("input", (function(ev) { ev.isTrusted && (o.__sfRefUser = 1); })));
+              o.__sfRefBound || (o.__sfRefBound = 1, o.addEventListener("input", (function(ev) { ev.isTrusted && (o.__sfRefUser = 1, n = !0, e && e.disconnect(), clearInterval(iv)); }))); // 손님이 고치면 그 자리에서 완전히 멈춰요(칸이 새로 그려져도)
               if (!o.value) {
                 var l = "TEXTAREA" === o.tagName ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
                 Object.getOwnPropertyDescriptor(l, "value").set.call(o, t), o.dispatchEvent(new Event("input", {
