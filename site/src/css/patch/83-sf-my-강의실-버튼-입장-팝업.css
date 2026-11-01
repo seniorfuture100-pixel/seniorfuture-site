@@ -10,13 +10,14 @@ html:root body [data-sf-rooms] .sf-room-meta small:not(#sf-x) {
   color:#6b7280!important;
   font-weight:600!important;
 }
+/* (11/1 사장님) 상태(신청 완료·참여 예정)가 종류 글자보다 커 보이던 것 → 글자 크기·굵기를 종류와 같게(12px · 600), 알약 여백도 줄여요 */
 html:root body [data-sf-rooms] .sf-room-meta .sf-badge:not(#sf-x) {
-  padding:2px 8px!important;
+  padding:1px 6px!important;
   border:0!important;
-  border-radius:6px!important;
+  border-radius:5px!important;
   font-size:12px!important;
-  font-weight:700!important;
-  line-height:1.5!important;
+  font-weight:600!important;
+  line-height:1.4!important;
 }
 /* 상태 색(디자인 가이드: 성공 #1aa174 · 브랜드 주황 · 회색) — data-tone 은 patch/26e 가 붙여요 */
 html:root body [data-sf-rooms] .sf-room-meta .sf-badge:not(#sf-x),

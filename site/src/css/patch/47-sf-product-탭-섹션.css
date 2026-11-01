@@ -175,6 +175,28 @@
 :root body .sf-pv-more2 [data-sf-acc-trigger] {
   font-weight:500;
 }
+/* (11/1 사장님) 강사 카드 글자가 본문(17px)보다 작고 흐려 읽기 어려웠어요 → 이름 20 · 직함 16 · 소개 16(본문 색) · 펼침 15 · 버튼 14 (휴대폰은 한 단계씩 작게) */
+html:root body .sf-pv-tcard strong:not(#sf-x) {
+  color:var(--sf-text);
+  font:700 20px/1.4 var(--sf-font);
+}
+html:root body .sf-pv-tcard small:not(#sf-x) {
+  font:500 16px/1.5 var(--sf-font);
+}
+html:root body .sf-pv-tcard .sf-pv-tbio:not(#sf-x),
+html:root body .sf-pv-tcard .sf-pv-tone:not(#sf-x) {
+  color:var(--sf-text);
+  font:400 16px/1.7 var(--sf-font);
+}
+html:root body .sf-pv-tcard .sf-pv-tmore:not(#sf-x),
+html:root body .sf-pv-tcard .sf-pv-tmore h4:not(#sf-x) {
+  font-size:15px;
+  line-height:1.7;
+}
+html:root body .sf-pv-tcard .sf-pv-tmorebtn:not(#sf-x),
+html:root body .sf-pv-tcard .sf-pv-tlink:not(#sf-x) {
+  font-size:14px;
+}
 @media (max-width:767px) {
   :root body .sf-pv-chdet {
     padding-left:0;
@@ -182,5 +204,13 @@
   :root body .sf-pv-tcard .sf-pv-teacher__photo {
     width:72px;
     height:72px;
+  }
+  html:root body .sf-pv-tcard strong:not(#sf-x) {
+    font-size:18px;
+  }
+  html:root body .sf-pv-tcard small:not(#sf-x),
+  html:root body .sf-pv-tcard .sf-pv-tbio:not(#sf-x),
+  html:root body .sf-pv-tcard .sf-pv-tone:not(#sf-x) {
+    font-size:15px;
   }
 }

@@ -569,6 +569,9 @@ SFUI.register('productView', SFUI.__pv = function() {
               bd.insertBefore(card, e), bd.removeChild(e);
               x[0] && expertDetail(x[0], tFill(card));
             } else if (card) {
+              // (11/1) 직함과 같은 줄('케어닥 대표')은 카드에 두 번 보이지 않게 빼요
+              var rl = ((card.querySelector("small") || {}).textContent || "").replace(/\s+/g, " ").trim();
+              if (rl && tx === rl) return void bd.removeChild(e);
               var lk = card.querySelector(".sf-pv-tmorebtn");
               lk.parentNode.insertBefore(e, lk), e.classList.add("sf-pv-tbio");
             }
