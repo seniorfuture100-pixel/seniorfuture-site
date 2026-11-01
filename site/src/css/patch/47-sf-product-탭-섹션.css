@@ -204,12 +204,18 @@ html:root body .sf-pv-tcard .sf-pv-tlink:not(#sf-x) {
   font-size:14px;
 }
 /* (11/1 사장님) 강사 카드 v2: 사진 · 이름 · 소속 | 오른쪽 '더보기' ── 회색 실선 ── 자기소개 · 경력사항 (펼치기 없음) */
+/* (11/1) 휴대폰은 r3/43 이 위쪽 맞춤(!important)으로 덮어써서 '더보기'가 위에 붙었어요 → 사진·이름·버튼 세로 가운데 */
 html:root body .sf-pv-tcard:not(#sf-x) {
-  flex-direction:row;
+  flex-direction:row!important;
   flex-wrap:wrap;
-  align-items:center;
+  align-items:center!important;
   column-gap:20px;
   row-gap:0;
+}
+html:root body .sf-pv-tcard > .sf-pv-teacher__photo:not(#sf-x),
+html:root body .sf-pv-tcard > .sf-pv-tcard__txt:not(#sf-x),
+html:root body .sf-pv-tcard > .sf-pv-tgo:not(#sf-x) {
+  align-self:center;
 }
 html:root body .sf-pv-tcard .sf-pv-tcard__txt:not(#sf-x) {
   flex:1 1 0;
