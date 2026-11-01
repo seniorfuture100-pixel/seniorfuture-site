@@ -1,5 +1,9 @@
 /* 화면 묶음: pages-r2 | 원본: src/r2.css · 1:1 문의 버튼 (월부식 알약)
    함께 들어 있음: r2 · 인사이트: 빈칸 없는 격자 · 분야 탭이면 BEST 숨김 · 구독 띠·글쓰기 없음 */
+/* (11/1) 아임웹 '카카오톡 채널' 상담을 켜면 노란 '문의' 버튼이 하나 더 떠요 → 숨기고 1:1 문의 버튼 하나만(카카오 공유 SDK 는 그대로 써요) */
+:root body #kakao-talk-channel-chat-button {
+  display:none!important;
+}
 :root body .sf-fab.r2-fab {
   display:inline-flex;
   align-items:center;
