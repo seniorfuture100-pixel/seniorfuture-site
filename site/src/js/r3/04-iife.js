@@ -1117,7 +1117,7 @@
         e.parentNode.insertBefore(s, e);
         var i = document.createElement("div");
         i.className = "r3-bellp", i.hidden = !0, i.setAttribute("role", "dialog"), i.setAttribute("aria-label", "알림"), 
-        i.innerHTML = '<div class="r3-bellp__in"><div class="r3-bellp__h"><b>알림</b><button type="button" class="r3-bellp__x" aria-label="알림 닫기">×</button></div><section><h3>내 일정</h3><ul class="r3-bellp__my"><li class="r3-bellp__empty">불러오는 중…</li></ul></section><section><h3>공지사항</h3><ul class="r3-bellp__nt"><li class="r3-bellp__empty">불러오는 중…</li></ul><a class="r3-bellp__more" href="/help#notice">공지 전체보기 ›</a></section></div>', 
+        i.innerHTML = '<div class="r3-bellp__in"><div class="r3-bellp__h"><b>알림</b><button type="button" class="r3-bellp__x" aria-label="알림 닫기">×</button></div><section><h3>내 일정</h3><ul class="r3-bellp__my"><li class="r3-bellp__empty">불러오는 중…</li></ul></section><section><h3>공지사항</h3><ul class="r3-bellp__nt"><li class="r3-bellp__empty">불러오는 중…</li></ul><a class="r3-bellp__more" href="/help#notice">공지 전체 보기 ›</a></section></div>', 
         document.body.appendChild(i);
         var o = n(".r3-bell__dot", s), c = document.documentElement.classList.contains("sf-logged-in"), l = SFUI.shopItems && SFUI.shopItems() || {}, d = 0, u = !1, f = n(".r3-bellp__my", i);
         c ? E().then((function(t) {
@@ -1152,7 +1152,7 @@
           var e = (new DOMParser).parseFromString(t, "text/html"), s = {}, o = [];
           a('a[href*="bmode=view"]', e).forEach((function(t) {
             var e = +(t.getAttribute("href").match(/idx=(\d+)/) || [])[1], n = t.textContent.replace(/\s+/g, " ").trim();
-            e && n && !s[e] && (s[e] = 1, o.push({
+            e && n && !s[e] && !(SFUI.sampleHide || {})[e] && (s[e] = 1, o.push({
               id: e,
               tx: n
             }));
@@ -1740,7 +1740,7 @@
       })).slice(0, 4);
       t.innerHTML = o.map((function(t) {
         var e = t.it, n = (SFUI.isEvent ? SFUI.isEvent(e.kind) : "이벤트" === e.kind);
-        return '<li><a class="sf-ccard sf-mcard" href="/community/?idx=' + t.idx + '"><span class="sf-ccard__thumb"><img src="' + t.img + '" alt="" loading="lazy"></span><span class="sf-ccard__body"><span class="sf-tags"><span class="sf-tag sf-tag--' + (n ? "event" : "meet") + '">' + r(e.kind || "모임") + "</span>" + (t.open ? '<span class="sf-tag sf-tag--recruit">모집중</span>' : '<span class="sf-tag sf-tag--closed">모집 마감</span>') + "</span><strong>" + r(t.name) + '</strong><span class="sf-mcard__meta">' + (e.date ? "<span>" + (i[0] || "") + r(e.date) + "</span>" : "") + (e.place ? "<span>" + (i[1] || "") + r(e.place) + "</span>" : "") + "</span></span></a></li>";
+        return '<li><a class="sf-ccard sf-mcard" href="/community/?idx=' + t.idx + '"><span class="sf-ccard__thumb"><img src="' + t.img + '" alt="" loading="lazy"></span><span class="sf-ccard__body"><span class="sf-tags"><span class="sf-tag sf-tag--' + (n ? "event" : "meet") + '">' + r(e.kind || "모임") + "</span>" + (t.open ? '<span class="sf-tag sf-tag--recruit">모집 중</span>' : '<span class="sf-tag sf-tag--closed">모집 마감</span>') + "</span><strong>" + r(t.name) + '</strong><span class="sf-mcard__meta">' + (e.date ? "<span>" + (i[0] || "") + r(e.date) + "</span>" : "") + (e.place ? "<span>" + (i[1] || "") + r(e.place) + "</span>" : "") + "</span></span></a></li>";
       })).join(""), t.classList.add("r3-meet-ok");
     }
   })), SFUI.register("r3BizFloat", (function t() {

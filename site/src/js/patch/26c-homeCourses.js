@@ -218,6 +218,10 @@
       var lv = LV(), mt = MT(); // 다시 그리기 전에 칸을 잡아 둬요(안내만 남으면 LV()가 못 찾아요)
       try { r[1] && lv.forEach(function (u) { buildLive(r[1], u); }); } catch (x) { r[1] && prune(r[1], LV, '라이브'); }
       try { r[2] && mt.forEach(function (u) { buildMeet(r[2], u); }); } catch (x) { r[2] && prune(r[2], MT, '모임·이벤트'); }
+      // (11/2) TOP 5 가 '가장 주목받는 강의'와 같은 강의뿐이면(강의가 적은 지금) 같은 카드가 두 번 보여 → TOP 5 칸을 숨겨요. 강의가 늘면 저절로 다시 보여요
+      var ids = function (e) { return e ? [].map.call(e.querySelectorAll('a[href*="idx="]'), function (a) { var m = /idx=(\d+)/.exec(a.getAttribute('href')); return m && m[1]; }).filter(Boolean) : []; };
+      var gi = ids(document.querySelector('ul.sf-cards4--grid')), t5 = document.querySelector('ol.sf-top5'), ti = ids(t5), sec = t5 && t5.closest('section');
+      sec && ti.length && ti.every(function (x) { return gi.indexOf(x) > -1; }) && (sec.style.display = 'none');
       [].forEach.call(document.querySelectorAll('ul.sf-cards4--grid, ol.sf-top5'), function (e) { e.classList.add('sf-hc-on'); });
       r[1] || lv.forEach(function (u) { u.classList.add('sf-hc-on'); });
       r[2] || mt.forEach(function (u) { u.classList.add('sf-hc-on'); });

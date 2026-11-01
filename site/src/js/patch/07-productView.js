@@ -300,7 +300,7 @@ SFUI.register('productView', SFUI.__pv = function() {
       }
       // (10/30) SO: 아임웹 '판매기간 설정' 종료일이 지났거나 품절 → 아임웹이 구매 상자에 '판매 기간이 마감된 상품입니다'를 띄우고 버튼을 막아요 → 모집 마감
       var SO = /판매\s?기간이 마감/.test(s.textContent || "") || /품절/.test((s.querySelector(".buy_btns.pc") || {}).textContent || "");
-      var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = SO || B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집중</span>', L = "";
+      var U = s.querySelector("header"), j = Date.now(), k = SFUI.parseDate(i.deadline), B = SFUI.parseDate(i.start), E = SFUI.parseDate(i.end), M = SO || B && j >= B || k && j >= k, D = M ? '<span class="sf-tag sf-tag--closed">모집 마감</span>' : !M && k && k - j <= 2592e5 ? '<span class="sf-tag sf-tag--soon">마감 임박</span>' : '<span class="sf-tag sf-tag--recruit">모집 중</span>', L = "";
       // (10/23 2차) 꼬리표 = 목록에서 읽어 둔 아임웹 상품 배지(없으면 아래 badgeFetch 가 목록을 한 번 받아 채워요)
       var ht = null, PE = !1; // PE: 커뮤니티 신청 마감(종료) → 아래에서 신청 버튼을 막아요
       // (10/30) 상세 화면에 아임웹이 넣어 주는 상품 배지(제목 옆 .prod_icon)를 바로 읽어요 — 목록을 받아 오느라 1~2초 늦게 붙으면서
@@ -564,7 +564,7 @@ SFUI.register('productView', SFUI.__pv = function() {
               // (11/1 사장님) 카드 = 사진 · 이름 · 소속 + 오른쪽 '더보기'(전문가 네트워크 글로) ── 회색 실선 아래 전문가 글의 [자기소개] · [경력사항]
               //   펼치기 버튼은 없앴어요 · [함께한 활동]은 안 보여요 · 쓴 칸이 없으면 실선도 없어요
               var href = x[0] ? SFUI.experts.url(x[0]) + (/preview_mode=1/.test(location.search) ? "&preview_mode=1" : "") : "/experts";
-              card = pe("div", "sf-pv-teacher sf-pv-tcard", '<span class="sf-pv-teacher__photo" aria-hidden="true"></span><div class="sf-pv-tcard__txt"><strong>' + oe(key) + "</strong>" + (x[2] ? "<small>" + oe(x[2]) + "</small>" : "") + '</div><a class="sf-pv-tgo" href="' + oe(href) + '" aria-label="' + oe(key) + " " + TL + ' 프로필 더보기">더보기</a><div class="sf-pv-tbody" hidden></div>');
+              card = pe("div", "sf-pv-teacher sf-pv-tcard", '<span class="sf-pv-teacher__photo" aria-hidden="true"></span><div class="sf-pv-tcard__txt"><strong>' + oe(key) + "</strong>" + (x[2] ? "<small>" + oe(x[2]) + "</small>" : "") + '</div><a class="sf-pv-tgo" href="' + oe(href) + '" aria-label="' + oe(key) + " " + TL + ' 프로필 더 보기">더 보기</a><div class="sf-pv-tbody" hidden></div>');
               /^https:\/\/[^"'()\s]+$/.test(x[1]) && (card.firstChild.style.backgroundImage = 'url("' + x[1] + '")');
               x[1] || (card.firstChild.classList.add("is-ini"), card.firstChild.setAttribute("style", SFUI.experts.tile(key, 0)), card.firstChild.textContent = key.charAt(0));
               bd.insertBefore(card, e), bd.removeChild(e);
@@ -795,7 +795,7 @@ SFUI.register('productView', SFUI.__pv = function() {
       var t = document.querySelector("#sf-pv-review .sf-pv-reviews");
       t && t.insertAdjacentHTML("beforeend", rest.map(rc).join(""));
     }), 0); }));
-    return '<section id="sf-pv-review" class="sf-pv-sec"><div data-sf-carousel><div class="sf-pv-sechead"><div><h2>수강생 후기</h2><p class="sf-pv-sub">시니어퓨처 스터디·네트워킹에 함께한 멤버들의 후기예요</p></div><div class="sf-pv-arrows"><button type="button" class="sf-arrow" data-sf-prev aria-label="이전 후기">‹</button><button type="button" class="sf-arrow" data-sf-next aria-label="다음 후기">›</button></div></div><div class="sf-track sf-pv-reviews" data-sf-track>' + m.slice(0, N).map(rc).join("") + '</div></div><a class="sf-pv-allreview" href="/review">후기 전체보기 →</a></section>';
+    return '<section id="sf-pv-review" class="sf-pv-sec"><div data-sf-carousel><div class="sf-pv-sechead"><div><h2>참가자 후기</h2><p class="sf-pv-sub">시니어퓨처 스터디·네트워킹에 함께한 멤버들의 후기예요</p></div><div class="sf-pv-arrows"><button type="button" class="sf-arrow" data-sf-prev aria-label="이전 후기">‹</button><button type="button" class="sf-arrow" data-sf-next aria-label="다음 후기">›</button></div></div><div class="sf-track sf-pv-reviews" data-sf-track>' + m.slice(0, N).map(rc).join("") + '</div></div><a class="sf-pv-allreview" href="/review">후기 전체 보기 →</a></section>';
   }
   function he(e) {
     return '<ul class="sf-pv-who">' + e.map((function(e) {

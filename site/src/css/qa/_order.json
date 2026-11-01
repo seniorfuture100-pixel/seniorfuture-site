@@ -58,5 +58,11 @@
   "screen": "common",
   "src": null,
   "note": "10/28 나의 강의실 수강 기간·강의실 페이지 커리큘럼·영상 창"
+ },
+ {
+  "file": "11-1102-uiux.css",
+  "screen": "common",
+  "src": null,
+  "note": "11/2 공통 토큰(간격·글자·모서리), 인사이트 BEST 견본 숨김, 섹션 설명 14px, 섹션 링크 44px, 큰 안내 카드 모서리 20px"
  }
 ]

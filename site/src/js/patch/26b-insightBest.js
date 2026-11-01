@@ -1,5 +1,5 @@
 // (10/30 사장님) 인사이트 인기글: 게시판에서 '공지'로 체크한 글 중 본문 맨 끝에 '#인기1'~'#인기4'가 있는 글을
-//   인사이트 맨 위 'BEST 이번 주 많이 읽은 인사이트' 4칸에 번호 순서대로 채워요(모자란 칸은 원래 카드 그대로)
+//   인사이트 맨 위 'BEST 이번 주 많이 읽은 인사이트' 4칸에 번호 순서대로 채워요(모자란 칸은 비우고, 하나도 없으면 칸째 숨김)
 //   번호를 제목이 아니라 본문 끝에 두는 까닭: 제목은 카톡·검색 미리보기 제목이 되고, 미리보기 설명은 본문 앞부분이라 끝 줄은 안 나와요
 //   글 보기 화면에서는 '#인기N' 글자를 숨겨요
 (function () {
@@ -27,6 +27,23 @@
     return;
   }
   if (q.get('bmode') || !/^\/insight\/?$/.test(p)) return;
+  // (11/2) 목록 카드 요약 글 다듬기: 아임웹이 본문 앞 100자를 자르면서 원문 태그('<title>…</title>')·잘린 문자 코드('&#', '&quo')·
+  //   블로그에서 옮긴 사진 설명 자리('사진 설명을 입력하세요.')가 그대로 보였어요 → 화면 글자만 고쳐요(글 자체는 그대로)
+  var ta = document.createElement('textarea');
+  function tidy(t) {
+    t = t.replace(/<title>[\s\S]*?<\/title>/gi, ' ').replace(/<\/?[a-z][^>]*>/gi, ' ').replace(/&[#a-z0-9]*$/i, '');
+    ta.innerHTML = t.replace(/</g, '&lt;'); // 문자 코드만 풀어요(태그는 위에서 지움)
+    return ta.value.replace(/사진 설명을 입력하세요\.?/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  function tidyAll() {
+    [].forEach.call(document.querySelectorAll('.show_body > span:not([data-sf-tidy])'), function (s) {
+      var t = s.textContent, c = tidy(t);
+      c !== t.trim() && (s.textContent = c);
+      s.setAttribute('data-sf-tidy', '');
+    });
+  }
+  tidyAll(); document.addEventListener('DOMContentLoaded', tidyAll); window.addEventListener('load', tidyAll);
+  var bw = 0; (function watch() { var b = document.querySelector('[data-widget-type="board"]'); if (b) return void new MutationObserver(tidyAll).observe(b, { childList: true, subtree: true }); ++bw < 50 && setTimeout(watch, 200); })();
 
   // 글 하나 읽기: 본문 끝 '#인기N' + 미리보기 제목·설명·사진
   function readPost(idx) {
@@ -46,14 +63,12 @@
       (x.img ? '<img src="' + esc(x.img) + '" alt="" class="sf-fade is-loaded">' : '') + '</span><span class="sf-ccard__body">' +
       (x.cat ? '<span class="sf-icat">' + esc(x.cat) + '</span>' : '') + '<strong>' + esc(x.title) + '</strong>' + (ds ? '<p>' + esc(ds) + '</p>' : '') + '</span></a></li>';
   }
+  // (11/2) 디자인에 들어 있는 4칸은 견본 글(예시 숫자)이라 채우지 않아요 → 진짜 인기글만, 하나도 없으면 칸 전체를 숨겨요(CSS r3/12)
   function paint(list) {
     var ul = document.querySelector('.sf-cards4--ins');
-    if (!ul || !list.length || ul.getAttribute('data-sf-pop')) return;
-    var old = [].slice.call(ul.children), ids = list.map(function (x) { return String(x.idx); });
-    var keep = old.filter(function (li) { var a = li.querySelector('a[href*="idx="]'), m = a && /idx=(\d+)/.exec(a.getAttribute('href')); return !(m && ids.indexOf(m[1]) > -1); });
+    if (!ul || ul.getAttribute('data-sf-pop')) return;
     ul.innerHTML = list.slice(0, 4).map(card).join('');
-    keep.slice(0, Math.max(0, 4 - list.length)).forEach(function (li) { ul.appendChild(li); });
-    ul.setAttribute('data-sf-pop', '1');
+    ul.setAttribute('data-sf-pop', list.length ? '1' : '0');
   }
   function run() {
     var C = null;
@@ -69,7 +84,7 @@
       var em = it.querySelector('.r2-icat') || it.querySelector('.title em:not(.notice-block):not(.addon-badge)');
       cand.push({ idx: m[1], cat: em ? em.textContent.trim() : '' });
     });
-    if (!cand.length) return;
+    if (!cand.length) return paint([]);
     // (11/2 속도) 10개를 한꺼번에 받던 것 → 하나씩 받다가 4칸이 차면 멈춰요(느린 망에서 3MB 넘게 받았어요)
     var got = [], ranks = {};
     (function next(i) {

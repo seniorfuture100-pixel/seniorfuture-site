@@ -86,7 +86,7 @@ SFUI.register('expertsBoard', function (root) {
   var ul = old.querySelector('.sf-ex-grid');
   if (!cards.length || !ul) return;
   var sub = old.querySelector('.sf-ex__sub');
-  if (sub) sub.textContent = '학계·산업·기관·기업 전문가 50+가 시니어퓨처와 함께한 네트워크';
+  if (sub) sub.textContent = '학계·산업·기관 전문가 50명 이상이 강연과 자문으로 함께했어요';
   var ti = 0;
   ul.innerHTML = cards.map(function (c) {
     var ph = c.img ? '<span class="sf-ex-ph" role="img" aria-label="' + esc(c.name) + ' 사진" style="background:#eef0f3 url(' + esc(c.img) + ') 50% 30%/cover no-repeat"></span>'

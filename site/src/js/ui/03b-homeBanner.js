@@ -36,12 +36,12 @@ SFUI.register('homeBanner', function () {
   ];
   function person(c) { return '<span class="hb-av" style="--c:' + c + '">' + svg(I.user) + '</span>'; }
   var SLIDES = [
-    { k: 'edu', href: '/course', badge: '교육', title: '현장 전문가에게 배우는<br>시니어 산업 실무 교육', sub: '8개 분야 · VOD와 기수제 스터디',
+    { k: 'edu', href: '/course', badge: '교육', title: '현장 전문가에게 배우는<br>시니어 산업 실무 교육', sub: '분야별 VOD 강의와 기수제 스터디',
       art: '<i class="hb-glow"></i>' +
         '<span class="hb-tablet"><span class="hb-screen"><span class="hb-thumb"><b>' + CATS[0][0] + '</b><small>' + CATS[0][1] + '</small><span class="hb-playbtn">' + svg(I.play) + '</span></span><span class="hb-progress"><i></i></span></span></span>' +
         '<span class="hb-cats">' + CATS.map(function (c, i) { return '<i' + (i ? '' : ' class="is-on"') + '>' + c[2] + '</i>'; }).join('') + '</span>' +
         '<span class="hb-medal">' + svg(I.check) + '<b>수료</b></span>' },
-    { k: 'live', href: '/live', badge: '무료 라이브', title: '매달 열리는 무료 라이브,<br>현장 이야기를 실시간으로', sub: '1~2시간 · 질의응답 · 다시보기 제공',
+    { k: 'live', href: '/live', badge: '무료 라이브', title: '현장 전문가 무료 라이브,<br>실시간으로 묻고 답해요', sub: '1~2시간 · 질의응답 · 다시보기 제공',
       art: '<i class="hb-glow"></i>' +
         '<span class="hb-phone"><span class="hb-screen"><span class="hb-onair"><i></i>LIVE</span><span class="hb-speaker">' + svg(I.user) + '</span><span class="hb-caption"><b>시니어 산업 트렌드</b><small>현장 전문가 라이브</small></span></span></span>' +
         '<span class="hb-chip c-join">' + svg(I.bolt) + '실시간 참여</span>' +

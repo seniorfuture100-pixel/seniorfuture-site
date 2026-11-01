@@ -1,0 +1,31 @@
+/* (11/2) 게시 후 UI/UX 다듬기 — 공통 토큰 + 전 화면 점검에서 나온 것
+   토큰: 새로 만드는 칸·고치는 칸은 아래 값만 써요(px 직접 쓰지 않기). 이미 있는 화면은 고칠 때 하나씩 옮겨요. */
+:root {
+  /* 간격: 4px 단위 */
+  --sf-space-1: 4px; --sf-space-2: 8px; --sf-space-3: 12px; --sf-space-4: 16px; --sf-space-5: 20px; --sf-space-6: 24px;
+  --sf-space-8: 32px; --sf-space-10: 40px; --sf-space-12: 48px; --sf-space-16: 64px; --sf-space-20: 80px;
+  --sf-gutter: 16px;      /* 화면 좌우 여백 */
+  --sf-sec-y: 48px;       /* 섹션 위아래 안쪽 여백 */
+  --sf-head-gap: 20px;    /* 섹션 제목 묶음 → 내용 */
+  /* 글자 */
+  --sf-fs-caption: 13px; --sf-fs-sub: 14px; --sf-fs-body: 16px; --sf-fs-h3: 18px; --sf-fs-h2: 20px; --sf-fs-h1: 26px;
+  /* 누르는 곳·모서리 */
+  --sf-tap: 44px; --sf-btn-h: 48px; --sf-btn-h-s: 40px; --sf-input-h: 48px;
+  --sf-radius-card: 12px; --sf-radius-panel: 20px; --sf-radius-pill: 999px;
+}
+@media (min-width: 768px) {
+  :root { --sf-gutter: 24px; --sf-sec-y: 64px; --sf-head-gap: 24px; --sf-fs-h2: 24px; --sf-fs-h1: 32px; }
+}
+
+/* 인사이트 BEST: 디자인에 든 4칸은 견본 글(예시 숫자)이라 숨겨요 — 진짜 인기글(patch/26b 가 채운 칸)만, 하나도 없으면 칸째 숨김 */
+.sf-cards4--ins > li:not([data-sf-pop]) { display: none !important; }
+.sf-sec:has(> .sf-cards4--ins:not([data-sf-pop="1"])) { display: none !important; }
+
+/* 섹션 설명 줄: 휴대폰 13px → 14px(본문 다음 단계, 시니어 가독성) */
+.sf-sec-head__t p { font-size: var(--sf-fs-sub); }
+
+/* '전체 보기' 같은 섹션 링크: 휴대폰에서 누르는 높이 44px */
+.sf-sec-more { min-height: var(--sf-tap); display: inline-flex; align-items: center; }
+
+/* 큰 안내 카드 모서리 통일(20px): 파트너 지원 활동 카드·파트너 후기 카드 22px, 마케팅 파트너스 혜택 카드 26px 였어요 */
+a.pa-way, article.r3ap-rv, article.pt3-ben__a { border-radius: var(--sf-radius-panel) !important; }

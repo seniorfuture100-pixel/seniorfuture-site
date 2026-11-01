@@ -44,12 +44,12 @@ SFUI.meetState = function (t, now) {
   var S = P(t && t.start), D = P(t && t.deadline) || S;
   if (D && now >= D || SFUI.meetOver(t, now)) return ['ended', '모집 마감'];
   if (D && D - now <= 2592e5) return ['soon', '마감 임박'];
-  return ['recruit', '모집중'];
+  return ['recruit', '모집 중'];
 };
 SFUI.register('liveStatus', function (root) {
   var DAY = 24 * 60 * 60 * 1000;
   var STATE = {
-    open:    { label: '모집중',       badge: 'sf-badge--brand',   btn: '무료 신청',  cls: 'sf-btn--outline', link: 'data-link-apply' },
+    open:    { label: '모집 중',       badge: 'sf-badge--brand',   btn: '무료 신청',  cls: 'sf-btn--outline', link: 'data-link-apply' },
     closing: { label: '마감 임박',    badge: 'sf-badge--live',    btn: '무료 신청',  cls: 'sf-btn--outline', link: 'data-link-apply' },
     closed:  { label: '신청 마감',    badge: 'sf-badge--neutral', btn: '신청 마감',  cls: 'sf-btn--neutral', link: null },
     live:    { label: 'LIVE',         badge: 'sf-badge--live',    btn: '입장하기',   cls: 'sf-btn--primary', link: 'data-link-live' },
