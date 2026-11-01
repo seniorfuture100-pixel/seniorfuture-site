@@ -18,7 +18,8 @@
 
   function dress() {
     var p = $('.sf-pv'); if (!p) return;
-    $$('.buy_btns.mobile ._btn_buy').forEach(function (b) { if (b.textContent !== GO) b.textContent = GO; });
+    // 시트를 건너뛰는 중(r3-sheet-skip)엔 아래 바 글자를 바꾸지 않아요(잠깐 '신청 이동하기'로 바뀌어 보이지 않게)
+    document.documentElement.classList.contains('r3-sheet-skip') || $$('.buy_btns.mobile ._btn_buy').forEach(function (b) { if (b.textContent !== GO) b.textContent = GO; });
     $$('.buy_btns.mobile a.buy:not(._btn_buy), .buy_btns.mobile .defualt.buy:not(._btn_buy)').forEach(function (b) { if (!b.classList.contains('is-disabled') && clean(b.textContent) !== BAR && !/마감/.test(b.textContent)) b.textContent = BAR; });
     var g = $('.opt-group', p); if (!g) return;
     if (!$('.r3-sheet-h', g)) {
@@ -49,4 +50,19 @@
 
   if (window.SFUI && SFUI.register) SFUI.register('r3Sheet', function () { dress(); setTimeout(dress, 800); setTimeout(dress, 2000); });
   document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.buy_btns.mobile')) { setTimeout(dress, 30); setTimeout(dress, 400); } }, true);
+  // (11/1 사장님) 옵션 없는 상품(무료 라이브 등, html.r3-noopt): 아래 바를 누르면 시트를 보여 주지 않고 바로 신청·결제 화면으로
+  //   아임웹 시트가 0.6초 뒤에 올라와 한 번 더 눌러야 했어요. 시트는 아임웹이 그대로 열되(주문 준비) 안 보이게 두고, 열리면 안의 신청 버튼을 대신 눌러요.
+  //   아임웹이 막거나(마감·로그인 등) 3초 안에 넘어가지 않으면 시트를 다시 보여 줘요
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.buy_btns.mobile .defualt.buy');
+    var H = document.documentElement;
+    if (!b || !H.classList.contains('r3-noopt') || b.classList.contains('is-disabled') || /마감/.test(b.textContent)) return;
+    H.classList.add('r3-sheet-skip');
+    var n = 0, back = function () { H.classList.remove('r3-sheet-skip'); };
+    (function go() {
+      var buy = $('.buy_btns.mobile ._btn_buy');
+      if (buy && buy.offsetParent) return void (buy.click(), setTimeout(back, 3000));
+      n++ < 30 ? setTimeout(go, 50) : back();
+    })();
+  });
 })()
