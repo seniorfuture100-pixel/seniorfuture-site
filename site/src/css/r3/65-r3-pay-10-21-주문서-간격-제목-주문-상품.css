@@ -343,7 +343,7 @@ html.r3pay-on body .r3pay-w--point form>div button {
   width:24px!important;
   height:24px!important;
   min-width:0!important;
-  margin:0 0 0 8px!important;
+  margin:0 0 0 10px!important; /* (11/2) 누르는 곳(앞뒤 10px)이 입력칸을 덮지 않게 8 → 10px */
   padding:0!important;
   border:0!important;
   border-radius:50%!important;

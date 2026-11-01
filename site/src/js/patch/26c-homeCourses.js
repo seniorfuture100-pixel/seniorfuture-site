@@ -76,11 +76,13 @@
   // (11/2) 홈 코드에 있던 카드는 모양(일정 줄 등)은 두고 이름·가격·그림·꼬리표만 지금 목록 값으로
   function fresh(li, x, items) {
     if (!x) return;
-    var q = function (s) { return li.querySelector(s); }, im = q('.sf-ccard__thumb img'), tg = q('.sf-tags');
+    var q = function (s) { return li.querySelector(s); }, th = q('.sf-ccard__thumb'), im = q('.sf-ccard__thumb img'), tg = q('.sf-tags');
     q('.sf-ccard__body strong') && (q('.sf-ccard__body strong').textContent = x.name);
     q('.sf-ccard__price') && (q('.sf-ccard__price').textContent = x.price);
-    im && x.img && im.getAttribute('src') !== x.img && im.setAttribute('src', x.img);
-    tg && SFUI.tagHtml && (x.tags || (items[x.id] || {}).tags) && (tg.innerHTML = SFUI.tagHtml(x.tags || items[x.id].tags));
+    // 그림: 새로 생김 → 만들고, 바뀜 → 바꾸고, 없어짐 → 빼요 (11/2 Codex 2차)
+    if (x.img && th) { im || (im = document.createElement('img'), im.alt = '', im.className = 'sf-fade is-loaded', im.loading = 'lazy', th.insertBefore(im, th.firstChild)); im.getAttribute('src') !== x.img && im.setAttribute('src', x.img); }
+    else im && im.parentNode.removeChild(im);
+    tg && SFUI.tagHtml && (tg.innerHTML = SFUI.tagHtml(x.tags || (items[x.id] || {}).tags || []));
   }
   // (10/30) 홈 칸은 지금 교육 목록에 보이는 상품만 — 숨김·삭제한 상품은 홈 코드에 카드가 남아 있어도 빼고,
   //   빈 자리는 남은 홈 카드 순서 → 목록의 다른 상품(최근 등록 순)으로 채워요 · 하나도 없으면 '준비 중' 안내

@@ -659,7 +659,7 @@
     try { EC = force ? null : JSON.parse(sessionStorage.getItem(EK) || "null"); } catch (x) {}
     // (11/2 Codex CX-ui-01) 다른 탭에서 계정을 바꿔도 로그인 쿠키 조합이 같으면 저장본이 남아요 → 회원 고유값이 다르면 저장본을 안 써요
     var MH = window.MEMBER_HASH ? String(window.MEMBER_HASH) : "";
-    EC && EC.m && MH && EC.m !== MH && (EC = null);
+    EC && !(EC.m && MH && EC.m === MH) && (EC = null); // 회원값을 모르거나 다르면 저장본 안 씀
     var fresh = E0().then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L, m: window.MEMBER_HASH ? String(window.MEMBER_HASH) : "" })); } catch (x) {} return L; }));
     if (EC && Date.now() - EC.at < 6e5) return fresh.then((function(L) {
       var key = function(A) { return (A || []).map((function(x) { return x.no + x.status; })).join(); };
@@ -744,8 +744,8 @@
   // (10/30 사장님) 수강 기간: 회원그룹 이용권 상품이면 아임웹 '이용기간'(결제 내역 '그룹명 60일')을 결제일부터 N일로 — 본문 [수강 기간]보다 먼저
   //   (아임웹 그룹이 풀리는 날과 강의실이 닫히는 날을 맞춰요) · 일반 상품은 지금처럼 본문 [수강 기간]
   function roomPer(L, idx, p) {
-    var n0 = 0;
-    L.forEach((function(t) { t.idx === idx && roomOk(t) && t.pass && (n0 = t.pass); }));
+    var n0 = 0, d0 = ""; // (11/2 Codex) 이용일수도 roomPaid 와 같은 주문(가장 최근 정상 결제)에서
+    L.forEach((function(t) { t.idx === idx && roomOk(t) && t.date && (!d0 || t.date > d0) && (d0 = t.date, n0 = t.pass || 0); }));
     return n0 ? { n: n0, u: "d" } : p;
   }
   // (10/28) 나의 강의실(마이페이지 › 학습 › 나의 강의실 = r2My 의 sf=room 칸): 결제 내역 카드 모양 + 수강 기간 + 강의실 입장
@@ -929,7 +929,7 @@
       // (11/1) 상품 글의 [강의 영상]·[톡방]이 바뀌었으면(patch/07 다시 읽기) 새 내용으로 다시 그려요
       document.addEventListener("sf:roominfo", (function(e) { e.detail && e.detail.idx === idx && SFUI.roomInfo(idx, show); }));
       // (11/2 Codex CX-r3-01) 저장본 주문으로 열었다가 새 주문 목록이 다르면(환불·취소 등) 권한을 다시 판단해요 — 열린 영상 창도 닫아요
-      document.addEventListener("sf:orders", (function() { pop && !pop.hidden && shut(); SFUI.roomInfo(idx, show); }));
+      document.addEventListener("sf:orders", (function() { SFUI.roomInfo(idx, show); })); // 영상 창은 권한이 없어졌을 때만 닫아요(show)
       SFUI.roomInfo(idx, show);
       function show(o) {
         if (!o) return void (box.innerHTML = back + '<p class="sf-room__msg">교육 정보를 불러오지 못했어요. 새로고침해 주세요.</p>');
@@ -941,8 +941,10 @@
           return "";
         })).then((function(paid) {
           // 이 강의를 정상 결제(0원 신청 포함)한 회원만 — 취소·반품·환불·입금 대기는 막아요
-          if (!paid) return void (box.innerHTML = back + '<p class="sf-room__msg">이 교육을 신청·결제한 회원만 강의실을 볼 수 있어요.</p>');
-          var rg = SFUI.roomRange(per, paid), st = roomState(rg), lb = SFUI.roomLabel(per, paid), its = o.prog && o.prog.items || [], on = 0;
+          if (!paid) return pop && !pop.hidden && shut(), void (box.innerHTML = back + '<p class="sf-room__msg">이 교육을 신청·결제한 회원만 강의실을 볼 수 있어요.</p>');
+          var rg = SFUI.roomRange(per, paid), st = roomState(rg);
+          "end" === st && pop && !pop.hidden && shut();
+          var lb = SFUI.roomLabel(per, paid), its = o.prog && o.prog.items || [], on = 0;
           var li = its.map((function(it, i) {
             var no = i + 1, u = V[no], ok = u && "end" !== st;
             ok && on++;
@@ -2031,17 +2033,26 @@
             return !t.children.length && /^추천인 코드/.test(t.textContent.trim());
           }))[0];
           if (s) {
-            for (var i = s, o = null, c = 0; c < 6 && i && !o; c++) o = (i = i.parentElement) && i.querySelector("input[type=text], input:not([type]), textarea");
-            if (o && !o.value) {
-              var l = "TEXTAREA" === o.tagName ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
-              Object.getOwnPropertyDescriptor(l, "value").set.call(o, t), o.dispatchEvent(new Event("input", {
-                bubbles: !0
-              })), o.dispatchEvent(new Event("change", {
-                bubbles: !0
-              })), n = !0, e && e.disconnect(), window.SFT && SFT.track("referral_checkout", {
-                ref: t
-              });
-            } else n = !!o;
+            // (11/2 QA) 위로 올라가다 글 칸이 둘 이상인 칸에 닿으면 멈춰요 — 결제 화면이 그려지는 중엔 제목만 먼저 와서 적립금 칸을 잡고 멈췄어요(11/2 운영 재현: 추천인 코드가 안 들어감)
+            for (var i = s, o = null, c = 0; c < 6 && i && !o; c++) {
+              var qs = (i = i.parentElement) ? i.querySelectorAll("input[type=text], input:not([type]), textarea") : [];
+              if (qs.length > 1) break;
+              o = qs[0] || null;
+            }
+            // (11/2 QA) 한 번 넣고 멈추면, 결제 화면이 곧바로 다시 그려지며 칸이 비어 코드가 빠졌어요(11/2 운영 재현) → 30초 동안 비면 다시 넣어요
+            //   손님이 칸을 직접 고치면(isTrusted 입력) 그때부터는 손대지 않아요
+            if (o && !o.__sfRefUser) {
+              o.__sfRefBound || (o.__sfRefBound = 1, o.addEventListener("input", (function(ev) { ev.isTrusted && (o.__sfRefUser = 1); })));
+              if (!o.value) {
+                var l = "TEXTAREA" === o.tagName ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+                Object.getOwnPropertyDescriptor(l, "value").set.call(o, t), o.dispatchEvent(new Event("input", {
+                  bubbles: !0
+                })), o.dispatchEvent(new Event("change", {
+                  bubbles: !0
+                }));
+                window.__sfRefTracked || (window.__sfRefTracked = 1, window.SFT && SFT.track("referral_checkout", { ref: t }));
+              }
+            } else o && (n = !0, e && e.disconnect());
           }
         }
       }

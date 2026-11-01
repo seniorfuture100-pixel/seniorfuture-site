@@ -57,11 +57,13 @@
     if (cache[no]) return cache[no];
     var S = null;
     try { S = JSON.parse(sessionStorage.getItem(OK + no) || 'null'); } catch (x) {}
-    if (S && Date.now() - S.at < 6e5) return (cache[no] = Promise.resolve(S.d));
+    // (11/2 Codex CX-ui-01) 저장한 회원과 지금 회원이 같을 때만 저장본 — 다른 탭에서 계정을 바꾸면 쿠키 조합이 같아도 남아 있었어요. 회원값을 모르면 저장본을 안 써요
+    var MH = window.MEMBER_HASH ? String(window.MEMBER_HASH) : '';
+    if (S && Date.now() - S.at < 6e5 && MH && S.m === MH) return (cache[no] = Promise.resolve(S.d));
     return (cache[no] = omsFetch(no).then(function (d) {
       var p = d && (d.payments || [])[0] || {};
       // 저장은 화면에 쓰는 금액·상태·상품만(주문자·연락처·계좌 같은 개인정보는 저장 안 함)
-      d && p.statusCd !== 'OPS01' && function () { try { sessionStorage.setItem(OK + no, JSON.stringify({ at: Date.now(), d: slim(d) })); } catch (x) {} }();
+      d && p.statusCd !== 'OPS01' && function () { try { sessionStorage.setItem(OK + no, JSON.stringify({ at: Date.now(), d: slim(d), m: window.MEMBER_HASH ? String(window.MEMBER_HASH) : '' })); } catch (x) {} }();
       return d;
     }));
   };
