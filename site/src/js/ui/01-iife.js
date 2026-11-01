@@ -9,6 +9,13 @@
       Object.keys(S).forEach(function (k) { if (/^sf_(myorders|oms|room|exhome|experts|exv|pt_courses|badges)/.test(k)) S.removeItem(k); });
       S.setItem('sf_ver', V);
     }
+    // (11/1) 같은 탭에서 로그아웃·다른 계정 로그인을 하면 이전 계정의 주문 목록·방금 한 주문·소개 글이 먼저 보였어요 → 로그인 상태(Y/N)·방식이 바뀌면 비워요
+    var ck = function (n) { return (d.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')) || [])[1] || ''; };
+    var who = ck('_imweb_login_state') + '|' + ck('login_lately');
+    if (S && S.getItem('sf_who') !== who) {
+      Object.keys(S).forEach(function (k) { if (/^(sf_(myorders|oms)|sf-last-order$|sf-pay-free$|r3MyIntro$)/.test(k)) S.removeItem(k); });
+      S.setItem('sf_who', who);
+    }
   } catch (e) {}
   var mods = {};
   function run(n, root) { try { mods[n](root || d); } catch (e) { console.error('[SFUI]', n, e); if (w.__sfErr) w.__sfErr('[SFUI] ' + n + ': ' + (e && e.message), '', 0); } } // (11/1) 기능 오류도 GA4 로(r3/03b)
