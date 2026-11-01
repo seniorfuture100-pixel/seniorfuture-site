@@ -2039,7 +2039,7 @@
             // (11/2 QA) 위로 올라가다 글 칸이 둘 이상인 칸에 닿으면 멈춰요 — 결제 화면이 그려지는 중엔 제목만 먼저 와서 적립금 칸을 잡고 멈췄어요(11/2 운영 재현: 추천인 코드가 안 들어감)
             for (var i = s, o = null, c = 0; c < 6 && i && !o; c++) {
               var qs = (i = i.parentElement) ? i.querySelectorAll("input[type=text], input:not([type]), textarea") : [];
-              if (qs.length > 1 || /적립금|쿠폰|포인트/.test(i.textContent || "")) break; // 적립금·쿠폰 칸까지 올라가면 멈춰요
+              if (!i || qs.length > 1 || /적립금|쿠폰|포인트/.test(i.textContent || "")) break; // 적립금·쿠폰 칸까지 올라가면 멈춰요
               o = qs[0] || null;
             }
             // (11/2 QA) 한 번 넣고 멈추면, 결제 화면이 곧바로 다시 그려지며 칸이 비어 코드가 빠졌어요(11/2 운영 재현) → 30초 동안 비면 다시 넣어요

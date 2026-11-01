@@ -193,7 +193,7 @@
   var optEq = function (v, name) { return !!name && (v === name || (v.indexOf(name) === 0 && /^\s*[(（]?\s*[+\-]?[\d,]+\s*원\s*[)）]?\s*$/.test(v.slice(name.length)))); }; // 금액 뒤에 다른 글이 붙으면(예: '톡방 10,000원 패키지') 다른 옵션
   function same(t, name, lb, steps) {
     var i = t.indexOf(': ');
-    if (i < 0) return optEq(t.replace(/\b(minus|plus)\b/g, '').replace(/\s+/g, ' ').trim(), name); // 그룹명 없는 줄: 수량 버튼 글자를 빼고 이름(+금액)만
+    if (i < 0) return optEq(t.replace(/\bminus\s+plus\b/g, '').replace(/\s+/g, ' ').trim(), name); // 그룹명 없는 줄: 수량 버튼 글자('minus plus' 한 쌍)만 빼고 이름(+금액)만
     var map = {}, keys = [];
     t.split(' / ').forEach(function (p) { var j = p.indexOf(': '); if (j > 0) { var k = clean(p.slice(0, j)); map[k] = clean(p.slice(j + 2)); keys.push(k); } });
     var key = lb ? keys.filter(function (k) { return lbEq(k, lb); })[0] : keys[0];
