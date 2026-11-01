@@ -1,0 +1,6 @@
+﻿// 약관 위젯 HTML → 아임웹 관리자 약관 설정 글자 형식(제목 / 문단 / "- 항목" / "칸 | 칸", 빈 줄로 구분)
+const { chromium } = require('playwright'); const fs=require('fs'); const path=require('path');
+(async()=>{const [src,out]=process.argv.slice(2); const b=await chromium.launch({channel:'chrome'}); const p=await b.newPage();
+await p.setContent(fs.readFileSync(src,'utf8'));
+const r=await p.evaluate(()=>{const T=s=>s.replace(/\s+/g,' ').trim(); const conv=id=>{const out=[]; document.querySelectorAll('#'+id+' .sf-tm-body > section').forEach(sec=>{for(const el of sec.children){ if(/^H[23]$/.test(el.tagName)) out.push(T(el.textContent)); else if(el.tagName==='P') out.push(T(el.textContent)); else if(/^(OL|UL)$/.test(el.tagName)) el.querySelectorAll(':scope > li').forEach(li=>out.push('- '+T(li.textContent))); else if(el.classList.contains('sf-tm-table')) el.querySelectorAll('tr').forEach(tr=>out.push([...tr.children].map(c=>T(c.textContent)).join(' | '))); }}); return out.join('\n\n');}; return {terms:conv('terms'), privacy:conv('privacy')};});
+fs.writeFileSync(path.join(out,'admin-terms.txt'),r.terms); fs.writeFileSync(path.join(out,'admin-privacy.txt'),r.privacy); console.log(r.terms.length, r.privacy.length); await b.close();})();
