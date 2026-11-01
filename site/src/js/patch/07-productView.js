@@ -65,6 +65,19 @@ SFUI.roomLabel = function(p, paid) {
 };
 // (10/28) 강의실용 상품 정보: 상품 상세 글의 [프로그램]·[수강 기간]·[강의실] 칸을 읽어요
 //   → done({ idx, title, img, prog:{desc,items}|null, period, room:'/class-x' }) · 못 읽으면 done(null) · 같은 탭에서 5분 동안 다시 안 받아요
+// (11/1) 섞은 줄 풀기: 상품 글의 [톡방]·[톡방 비밀번호]·[강의 영상]·[라이브 링크]·[다시보기] 값은 'SF1:…'로 섞어 넣어요(변환 도구)
+//   상품 페이지 원본(HTML)은 로그인 없이 누구나 볼 수 있어서, 주소·비밀번호가 글자 그대로 보이지 않게 하려는 것 — 마음먹고 풀면 풀리는 가림이지 잠금은 아니에요
+//   형식: 'SF1:' + base64url(UTF-8 글자 ^ 키). 섞지 않은 예전 줄도 그대로 읽어요
+var SF1K = "sf-room|2026", SF1R = /^\s*SF1:([A-Za-z0-9_\-]+)\s*$/;
+SFUI.unSF1 = function(tx) {
+  var m = SF1R.exec(tx || "");
+  if (!m) return tx;
+  try {
+    var b = atob(m[1].replace(/-/g, "+").replace(/_/g, "/")), u = new Uint8Array(b.length);
+    for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i) ^ SF1K.charCodeAt(i % SF1K.length);
+    return new TextDecoder().decode(u).replace(/\s+/g, " ").trim();
+  } catch (x) { return ""; }
+};
 var roomRev = {}, roomQ = [], roomBusy = 0;
 // 다시 읽기는 한 번에 2개씩(상품 글 한 장이 약 280KB라 강의실 카드 20개를 한꺼번에 받으면 느려요)
 function roomQueue(f) {
@@ -108,7 +121,7 @@ function roomLoad(idx, k, done) {
     o.videos = {};
     W && [].forEach.call(W.querySelectorAll("p,h1,h2,h3,h4,h5,h6,li,div"), (function(x) {
       if (x.querySelector("p,div,li,h1,h2,h3,h4,h5,h6")) return;
-      var tx = (x.textContent || "").replace(/\s+/g, " ").trim(), m = RE.exec(tx);
+      var tx = SFUI.unSF1((x.textContent || "").replace(/\s+/g, " ").trim()), m = RE.exec(tx);
       if (m) return void (sec = m[1].replace(/\s+/g, ""));
       if (!tx) return;
       if (/^(프로그램|커리큘럼|회차|수업구성)/.test(sec)) P.push(x);
@@ -646,7 +659,8 @@ SFUI.register('productView', SFUI.__pv = function() {
     while (top.parentElement && top.parentElement !== W) top = top.parentElement;
     var t = [], a = [], n = null;
     [].slice.call(e.childNodes).forEach((function(e) {
-      if (1 !== e.nodeType || !/^(STYLE|SCRIPT)$/.test(e.tagName)) {
+      // (11/1) 섞은 줄(SF1:…)은 어느 칸에 있든 화면에 안 보여요 — [톡방] 같은 제목 줄만 지우고 값 줄이 남아도 앞 칸에 붙어 보이지 않게
+      if ((1 !== e.nodeType || !/^(STYLE|SCRIPT)$/.test(e.tagName)) && !SF1R.test(e.textContent || "")) {
         var s = 1 === e.nodeType && !e.querySelector("img,iframe,video,table") && RE.exec(e.textContent);
         s ? (n = { t: s[1], n: [] }, t.push(n)) : (n ? n.n : a).push(e);
       }
