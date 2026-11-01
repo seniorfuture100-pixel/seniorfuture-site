@@ -100,7 +100,7 @@ Zoom Video Communications, Inc. (개인정보 문의 연락처 확인 후 기재
 
 Google LLC (개인정보 문의: support.google.com/policies) | 미국 | 쿠키, 접속 기록, 이용 행태 정보, 광고 클릭 식별값 | 방문·이용 통계 분석(Google Analytics), 광고 성과(전환) 측정(Google Ads) | 사이트 방문 시 네트워크를 통해 전송 | Google Analytics·Google Ads의 데이터 보존 설정과 수탁자 정책에 따름
 
-Meta Platforms, Inc. (도입 예정) | 미국 | 쿠키, 이용 행태 정보 | 광고 성과 측정, 맞춤형 광고(Meta 픽셀) | 사이트 방문 시 네트워크를 통해 전송 | 수탁자 정책에 따름
+Meta Platforms, Inc. (개인정보 문의: facebook.com/privacy) | 미국 | 쿠키, 이용 행태 정보 | 광고 성과 측정, 맞춤형 광고(Meta 픽셀) | 사이트 방문 시 네트워크를 통해 전송 | 수탁자 정책에 따름
 
 국외 이전을 원하지 않으면 라이브 강의는 회사에 문의해 대체 참여 방법을 협의할 수 있고, 분석·광고 도구는 11·12번의 방법으로 쿠키 저장을 거부할 수 있어요. 다만 Zoom 이전을 거부하면 라이브 강의에 참여하기 어려울 수 있어요.
 
@@ -150,9 +150,9 @@ Meta Platforms, Inc. (도입 예정) | 미국 | 쿠키, 이용 행태 정보 | �
 
 방문 페이지, 클릭·검색 기록, 신청·결제 이벤트, 방문 일시, 유입 경로, 기기·브라우저 정보, 광고 식별자 | 사이트 방문 시 아래 도구가 자동 수집 | 이용 통계 분석, 광고 성과 측정, 관심사 기반 광고 | 수집일부터 최대 2년(도구별 설정값 확정 후 기재)
 
-행태정보를 수집·처리하도록 허용한 사업자: Google LLC(Google Analytics, Google Ads 전환 추적) — 사용 중이에요. Meta Platforms, Inc.(Meta 픽셀), (주)카카오(카카오 픽셀), 네이버(주)(네이버 애널리틱스) — 도입 예정이에요.
+행태정보를 수집·처리하도록 허용한 사업자: Google LLC(Google Analytics, Google Ads 전환 추적), Meta Platforms, Inc.(Meta 픽셀) — 사용 중이에요. (주)카카오(카카오 픽셀), 네이버(주)(네이버 애널리틱스) — 도입 예정이에요.
 
-거부 방법: 11번의 쿠키 거부 설정, Google Analytics 차단 브라우저 부가기능 설치, Google 광고 설정(adssettings.google.com)에서 맞춤 광고 끄기, 휴대폰의 광고 식별자 재설정·맞춤형 광고 제한(Android: 설정 › Google › 광고 / iOS: 설정 › 개인정보 보호 및 보안 › 추적) 등으로 거부할 수 있어요. 행태정보 관련 문의는 16번의 개인정보 보호책임자에게 해 주세요.
+거부 방법: 11번의 쿠키 거부 설정, Google Analytics 차단 브라우저 부가기능 설치, Google 광고 설정(adssettings.google.com)에서 맞춤 광고 끄기, Facebook·Instagram 광고 기본 설정(facebook.com/adpreferences)에서 맞춤 광고 끄기, 휴대폰의 광고 식별자 재설정·맞춤형 광고 제한(Android: 설정 › Google › 광고 / iOS: 설정 › 개인정보 보호 및 보안 › 추적) 등으로 거부할 수 있어요. 행태정보 관련 문의는 16번의 개인정보 보호책임자에게 해 주세요.
 
 13. 추가적인 이용·제공 판단 기준
 
