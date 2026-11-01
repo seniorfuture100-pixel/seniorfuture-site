@@ -579,15 +579,21 @@ SFUI.register('productView', SFUI.__pv = function() {
           card && secEl.classList.add("has-cards");
         }));
       }
-      // 전문가 글의 칸 → 카드 안 한 줄 소개 / 펼침(핵심 이력·자기소개)
+      // 전문가 글의 칸 → 카드 안 한 줄 소개 / 펼침
+      //   (11/1 사장님) 핵심 이력·자기소개만 보이던 것 → 전문가 글에 쓴 칸을 모두 쓴 순서대로 펼침에 보여요(함께한 활동·저서·수상 등 아무 칸이나).
+      //   [한 줄 소개]는 카드에 바로 · 칸 없이 쓴 앞 글은 '소개'로 · 안 쓴 칸은 안 보여요
+      var TNAME = { "핵심이력": "핵심 이력", "자기소개": "자기소개", "함께한활동": "시니어퓨처와 함께한 활동", "소개": "소개" };
       function tFill(card) {
         return function(S) {
           var one = card.querySelector(".sf-pv-tone"), more = card.querySelector(".sf-pv-tmore"), btn = card.querySelector(".sf-pv-tmorebtn");
           (S["한줄소개"] || []).length && (one.textContent = S["한줄소개"].join(" "), one.hidden = !1);
-          var h = [ [ "핵심이력", "핵심 이력" ], [ "자기소개", "자기소개" ] ].map((function(k) {
-            var L = S[k[0]] || [];
-            if (L.length && "자기소개" === k[0]) return "<h4>" + k[1] + "</h4>" + L.map((function(s) { return "<p>" + oe(s) + "</p>"; })).join("");
-            return L.length ? "<h4>" + k[1] + "</h4>" + (L.length > 1 ? "<ul>" + L.map((function(s) { return "<li>" + oe(s.replace(/^[-–•]\s*/, "")) + "</li>"; })).join("") + "</ul>" : "<p>" + oe(L[0].replace(/^[-–•]\s*/, "")) + "</p>") : "";
+          var h = (S.__order || [ "핵심이력", "자기소개" ]).filter((function(k) { return "한줄소개" !== k; })).map((function(k) {
+            var L = S[k] || [], t = TNAME[k] || S.__title && S.__title[k] || k;
+            if (!L.length) return "";
+            // 글처럼 쓴 칸(자기소개·소개, 또는 줄이 길고 '-'로 시작하지 않는 칸)은 문단, 나머지는 목록
+            var prose = /^(자기소개|소개)$/.test(k) || L.every((function(s) { return !/^[-–•·]\s*/.test(s) && s.length > 40; }));
+            if (prose) return "<h4>" + oe(t) + "</h4>" + L.map((function(s) { return "<p>" + oe(s) + "</p>"; })).join("");
+            return "<h4>" + oe(t) + "</h4>" + (L.length > 1 ? "<ul>" + L.map((function(s) { return "<li>" + oe(s.replace(/^[-–•·]\s*/, "")) + "</li>"; })).join("") + "</ul>" : "<p>" + oe(L[0].replace(/^[-–•·]\s*/, "")) + "</p>");
           })).join("");
           if (!h) return;
           more.innerHTML = h, btn.hidden = !1;
@@ -712,22 +718,26 @@ SFUI.register('productView', SFUI.__pv = function() {
       done(out);
     }))["catch"]((function() {}));
   }
-  // 전문가 글 한 개의 칸 → { 한줄소개: [줄…], 핵심이력: [...], 자기소개: [...] } (탭 안에서는 다시 안 받아요)
+  // 전문가 글 한 개의 칸 → { 한줄소개: [줄…], 핵심이력: [...], 자기소개: [...], (그 밖에 쓴 칸), __order: [쓴 순서], __title: {칸: 쓴 제목} } (탭 안에서는 다시 안 받아요)
+  //   (11/1) 정해 둔 4칸만 읽던 것 → [아무 제목]이나 칸으로 · 칸 없이 앞에 쓴 글은 '소개'
   function expertDetail(idx, done) {
-    var k = "sf_exv_" + idx, C = null;
+    var k = "sf_exv2_" + idx, C = null;
     try { C = JSON.parse(sessionStorage.getItem(k) || "null"); } catch (x) {}
     if (C) return done(C);
     if (!window.fetch || !window.DOMParser) return;
     fetch(SFUI.experts.url(idx) + (/preview_mode=1/.test(location.search) ? "&preview_mode=1" : ""), { credentials: "same-origin" }).then((function(r) {
       return r.ok ? r.text() : "";
     })).then((function(t) {
-      var d = t && new DOMParser().parseFromString(t, "text/html"), b = d && d.querySelector(".board_txt_area"), o = {}, cur = null;
-      var HD = /^\s*\[\s*(함께한\s*활동|한\s*줄\s*소개|핵심\s*이력|자기\s*소개)\s*\]\s*$/;
+      var d = t && new DOMParser().parseFromString(t, "text/html"), b = d && d.querySelector(".board_txt_area"), o = { __order: [], __title: {} }, cur = null;
+      var HD = /^\s*[\[【]\s*([^\[\]【】]{1,20}?)\s*[\]】]\s*$/;
       if (!b) return;
       [].forEach.call(b.querySelectorAll("p, h1, h2, h3, h4, li, div"), (function(x) {
         if (x.querySelector("p, div, li, h1, h2, h3, h4")) return;
         var m = HD.exec(x.textContent), s = x.textContent.replace(/\s+/g, " ").trim();
-        m ? (cur = m[1].replace(/\s+/g, ""), o[cur] = []) : cur && s && !/^[\-–]$/.test(s) && o[cur].push(s);
+        if (m) return void (cur = m[1].replace(/\s+/g, ""), o[cur] || (o[cur] = [], o.__order.push(cur), o.__title[cur] = m[1].trim()));
+        if (!s || /^[\-–]$/.test(s)) return;
+        cur || (cur = "소개", o[cur] = [], o.__order.push(cur));
+        o[cur].push(s);
       }));
       try { sessionStorage.setItem(k, JSON.stringify(o)); } catch (x) {}
       done(o);
