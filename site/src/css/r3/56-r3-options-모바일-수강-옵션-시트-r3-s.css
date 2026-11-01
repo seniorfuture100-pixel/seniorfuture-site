@@ -6,6 +6,10 @@ html.r3-sheet-skip:root body .opt-group-bg:not(#sf-x) {
   visibility:hidden!important;
   opacity:0!important;
 }
+html.r3-sheet-skip:root body .buy_btns.mobile ._btn_buy:not(#sf-x) {
+  opacity:.7;
+  pointer-events:none;
+}
 @media (max-width:767.98px) {
   :root body .sf-pv .opt-group>.r3-sheet-h {
     display:flex;

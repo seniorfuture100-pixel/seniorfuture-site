@@ -58,10 +58,12 @@
     var H = document.documentElement;
     if (!b || !H.classList.contains('r3-noopt') || b.classList.contains('is-disabled') || /마감/.test(b.textContent)) return;
     H.classList.add('r3-sheet-skip');
-    var n = 0, back = function () { H.classList.remove('r3-sheet-skip'); };
+    var n = 0, buy = null, txt0 = '', back = function () { H.classList.remove('r3-sheet-skip'); buy && (buy.textContent = txt0); };
     (function go() {
-      var buy = $('.buy_btns.mobile ._btn_buy');
-      if (buy && buy.offsetParent) return void (buy.click(), setTimeout(back, 3000));
+      buy = $('.buy_btns.mobile ._btn_buy');
+      // 아임웹이 신청 화면을 만드는 1~2초 동안 '이동 중'으로 보여 줘요(두 번 누르지 않게, CSS 가 누르기도 막아요)
+      if (buy && buy.offsetParent) return void (txt0 = buy.textContent, buy.click(), buy.textContent = '신청 화면으로 이동 중…', setTimeout(back, 3000));
+      buy = null;
       n++ < 30 ? setTimeout(go, 50) : back();
     })();
   });
