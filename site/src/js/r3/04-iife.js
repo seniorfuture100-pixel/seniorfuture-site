@@ -648,29 +648,22 @@
   SFUI.myOrders = function() { return E(); }; // (10/31) 결제 내역(patch/26e)도 같은 목록을 써요
   // (10/31 사장님) 나의 강의실·결제 내역이 늦게 뜨던 것: 주문 목록을 이 탭에 10분 저장해 다시 열면 바로(받는 건 뒤에서 늘 새로) · 10초 넘게 걸리면 끊고 저장본으로
   //   결제·주문 화면에 다녀오면 저장본을 지워 방금 한 주문이 바로 보여요
-  var EK = "sf_myorders1", NK = "sf_neworder";
+  var EK = "sf_myorders1";
   (/^\/(shop_payment|shop_payment_complete|shop_cart|order)/.test(location.pathname) || /order_no=/.test(location.search)) && function() { try { sessionStorage.removeItem(EK); } catch (x) {} }();
-  // (10/31) 신청·결제 직후엔 아임웹 주문 목록에 새 주문이 몇 초 늦게 들어와서 나의 강의실에 안 보였어요 → 완료 화면의 주문번호를 기억해 두고, 목록에 없으면 2.5초 뒤 다시 받아요(최대 3번, 5분 안)
-  /^\/shop_payment_complete/.test(location.pathname) && function() { var m = /order_no=(\d+)/.exec(location.search); try { m && sessionStorage.setItem(NK, JSON.stringify({ no: m[1], t: Date.now() })); } catch (x) {} }();
-  function E1(n) {
-    var nw = null;
-    try { nw = JSON.parse(sessionStorage.getItem(NK) || "null"); } catch (x) {}
-    return E0().then((function(L) {
-      var has = nw && L.some((function(x) { return x.no === nw.no; }));
-      if (nw && !has && n < 3 && Date.now() - nw.t < 3e5) return new Promise((function(r) { setTimeout(r, 2500); })).then((function() { return E1(n + 1); }));
-      if (nw && (has || Date.now() - nw.t >= 3e5)) try { sessionStorage.removeItem(NK); } catch (x) {}
-      return L;
-    }));
-  }
-  function E() {
-    if (y) return y;
+  // (11/1) 방금 한 주문을 기다리며 목록을 여러 번 받던 것(최대 15초 빈 화면)은 뺐어요 — 나의 강의실은 주문 상세로 바로 그려요(r3Rooms)
+  //   force: 저장본 말고 새로 받기(강의실이 새 주문을 찾을 때). 저장본과 새 목록이 다르면 화면을 통째로 다시 열지 않고(위쪽이 떴다 사라짐)
+  //   'sf:orders' 알림으로 그 자리에서 다시 그려요 · 결제 내역은 예전처럼 새로 열기
+  function E(force) {
+    if (y && !force) return y;
     var EC = null;
-    try { EC = JSON.parse(sessionStorage.getItem(EK) || "null"); } catch (x) {}
-    var fresh = E1(0).then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L })); } catch (x) {} return L; }));
-    // (10/31 QA) 저장본에 없는 새 주문이 생겼으면(아임웹 목록이 조금 늦게 반영될 때) 연 지 15초 안이면 한 번 새로 그려요
+    try { EC = force ? null : JSON.parse(sessionStorage.getItem(EK) || "null"); } catch (x) {}
+    var fresh = E0().then((function(L) { try { sessionStorage.setItem(EK, JSON.stringify({ at: Date.now(), L: L })); } catch (x) {} return L; }));
     if (EC && Date.now() - EC.at < 6e5) return fresh.then((function(L) {
       var key = function(A) { return (A || []).map((function(x) { return x.no + x.status; })).join(); };
-      key(L) !== key(EC.L) && /^\/shop_mypage/.test(location.pathname) && /sf=(room|orders)/.test(location.search) && performance.now() < 15e3 && location.reload();
+      if (key(L) === key(EC.L)) return;
+      y = Promise.resolve(L);
+      try { document.dispatchEvent(new CustomEvent("sf:orders", { detail: L })); } catch (x) {}
+      /^\/shop_mypage/.test(location.pathname) && /sf=orders/.test(location.search) && performance.now() < 15e3 && location.reload();
     }))["catch"]((function() {})), y = Promise.resolve(EC.L);
     return y = fresh["catch"]((function(e) { if (EC) return EC.L; y = null; throw e; }));
   }
@@ -762,7 +755,7 @@
       var I = SFUI.shopItems && SFUI.shopItems() || {}, CR = e.classrooms || {};
       // (10/30) 아임웹은 방금 한 주문을 1분쯤 늦게 목록에 실어요 → 완료 화면에서 적어 둔 주문번호(patch/25)가 아직 없으면
       //   '불러오는 중' 안내를 띄우고 5초마다 다시 받아요(최대 2분) · 찾으면(또는 시간이 지나면) 평소처럼 그려요
-      var lastNo = "";
+      var lastNo = "", AT = {}; // AT: 상품 글에서 읽은 라이브·모임 일시(다시 그릴 때 '다음 일정'이 사라졌다 나오지 않게)
       try { var lo = /^(\d{10,20})\|(\d+)$/.exec(sessionStorage.getItem("sf-last-order") || ""); lo && Date.now() - +lo[2] < 6e5 && (lastNo = lo[1]); } catch (x) {}
       //   (10/30) 취소한 주문은 목록에 아예 안 실려서 기다리면 안 끝나요 → 지금 목록은 바로 그리고, 안내만 위에 띄운 채 뒤에서 다시 받아요(최대 90초)
       var build, note = function(on) {
@@ -774,17 +767,35 @@
         try { lastNo && sessionStorage.removeItem("sf-last-order"); } catch (x) {}
         lastNo = "", note(0);
       }, poll = function(k) {
+        // (11/1) 저장본(10분)이 아니라 늘 새로 받아요 — 예전엔 저장본만 다시 봐서 90초 내내 '불러오는 중'이었어요
         setTimeout((function() {
-          y = null, E().then((function(L) { found(L) ? (done(), build(L)) : k < 18 ? poll(k + 1) : done(); }))["catch"](done);
+          E(1).then((function(L) { found(L) ? (done(), build(L)) : k < 18 ? poll(k + 1) : (done(), build(L)); }))["catch"](done);
         }), 5e3);
+      }, ymd = function() {
+        var d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      }, quick = function(L) {
+        // (11/1) 방금 한 주문은 주문 상세(0.1초 · patch/26e omsOrder)로 카드를 먼저 그려요. 목록에 실리면(약 1분) 뒤에서 조용히 바꿔요
+        //   상세도 못 받거나 입금 대기·취소면 예전처럼 안내를 띄우고 기다려요
+        return (SFUI.omsOrder ? SFUI.omsOrder(lastNo)["catch"]((function() { return null; })) : Promise.resolve(null)).then((function(D) {
+          var p = D && (D.payments || [])[0] || {}, sec = (D && D.orderSections || []).map((function(s) { return s.statusCd; }));
+          var ok = D && p.statusCd !== "OPS01" && !(sec.length && sec.every((function(c) { return c === "OSS07"; })));
+          var add = ok ? (D.orderItems || []).filter((function(oi) { return +oi.prodNo; })).map((function(oi) {
+            return { no: lastNo, date: ymd(), idx: +oi.prodNo, name: oi.prodName || "", status: "", price: +D.paymentPrice ? D.paymentPrice + "원" : "0원", img: (oi.imageUrls || [])[0] || "", pass: 0 };
+          })) : [];
+          add.length || note(1);
+          poll(1);
+          return add.concat(L);
+        }));
       };
-      E().then((function(L) { return found(L) ? done() : (note(1), poll(1)), L; })).then(build = (function(L) {
+      // 저장본으로 먼저 그린 뒤 새 목록이 다르면(r3 E) 그 자리에서 다시 그려요
+      document.addEventListener("sf:orders", (function(e) { lastNo || build && build(e.detail); }));
+      E().then((function(L) { return found(L) ? (done(), L) : quick(L); })).then(build = (function(L) {
         var seen = {}, rows = [];
         L.forEach((function(o) {
           // (10/29) 코드 표에 없는 새 상품: 상품명 끝에 일시 '[2026/11/14 14:00]'가 있으면 라이브·모임(SOP 상품명 규칙)이라 강의에서 빼요
           var it = I[o.idx] || {}, ty = it.type || (/LIVE|라이브/i.test(o.name) ? "live" : p.test(o.name) ? "meet" : "course");
           // (10/29) 무료 라이브·모임도 카드로(라이브 상세가 '나의 강의실에서도 확인'이라고 안내해요) — 강의실 대신 일시 · 라이브/모임 정보 · 톡방
-          var u = o.name.match(p), at = u ? m(u) : it.start ? Date.parse(it.start) : 0;
+          var u = o.name.match(p), at = u ? m(u) : it.start ? Date.parse(it.start) : AT[o.idx] || 0;
           !roomOk(o) || seen[o.idx] || (seen[o.idx] = 1, rows.push({
             idx: o.idx,
             ty: ty,
@@ -806,6 +817,7 @@
             SFUI.roomInfo(x.idx, (function(o) {
               var mi = o && o.meet;
               mi && mi.sec && (mi.sec !== x.ty || mi.start && Date.parse(mi.start) !== +x.at) && (chg = !0, x.ty = mi.sec, x.at = mi.start ? Date.parse(mi.start) : x.at);
+              x.at && (AT[x.idx] = +x.at);
               res();
             }));
           }));
@@ -848,7 +860,7 @@
                 var ms = o.start || o.meet.start || x.at, me = o.meet.end || "", mst = SFUI.meetOver({ start: ms, end: me }) ? "ended" : "", S0 = typeof ms === "number" ? ms : Date.parse(ms), E0 = me ? Date.parse(me) : 0;
                 var fd = function(v, t) { var q = new Date(v); return q.getMonth() + 1 + "월 " + q.getDate() + "일 (" + f[q.getDay()] + ")" + (t ? " " + q.getHours() + ":" + String(q.getMinutes()).padStart(2, "0") : ""); };
                 var wh = n(".sf-room-when", li), bd0 = n(".sf-badge", li), dd = Math.ceil((S0 - Date.now()) / 864e5);
-                S0 && li.setAttribute("data-at", S0); // (10/31) 강의실 정리(patch/26e)가 날짜 순으로 놓아요
+                S0 && (li.setAttribute("data-at", S0), AT[x.idx] = S0); // (10/31) 강의실 정리(patch/26e)가 날짜 순으로 놓아요
                 var lt0 = "ended" !== mst && SFUI.roomLeft(S0);
                 wh && (wh.innerHTML = "일시 <b>" + fd(S0, 1) + (E0 ? " – " + (new Date(E0).toDateString() === new Date(S0).toDateString() ? new Date(E0).getHours() + ":" + String(new Date(E0).getMinutes()).padStart(2, "0") : fd(E0)) : "") + "</b>" + (lt0 ? " <em>" + lt0 + "</em>" : ""));
                 bd0 && (bd0.textContent = "ended" === mst ? "종료" : "참여 예정",bd0.className = "sf-badge " + ("ended" === mst ? "sf-badge--neutral" : "sf-badge--brand"));
