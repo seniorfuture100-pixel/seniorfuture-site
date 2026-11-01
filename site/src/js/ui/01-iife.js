@@ -13,7 +13,7 @@
     var ck = function (n) { return (d.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')) || [])[1] || ''; };
     var who = ck('_imweb_login_state') + '|' + ck('login_lately');
     if (S && S.getItem('sf_who') !== who) {
-      Object.keys(S).forEach(function (k) { if (/^(sf_(myorders|oms)|sf-last-order$|sf-pay-free$|r3MyIntro$)/.test(k)) S.removeItem(k); });
+      Object.keys(S).forEach(function (k) { if (/^(sf_(myorders|oms)|sf-last-order$|sf-pay-free$|r3MyIntro$|sf_myav$)/.test(k)) S.removeItem(k); });
       S.setItem('sf_who', who);
     }
   } catch (e) {}
