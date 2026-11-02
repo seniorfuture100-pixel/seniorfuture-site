@@ -42,12 +42,12 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
 });
 // (11/2) PG 재심사 스위치 — true 면 파트너 모집·추천 수익 안내를 가려요(코드·내용은 그대로). 심사 통과 뒤 false 로 바꿔 배포하면 원래 화면으로 돌아와요.
 //   쓰는 곳: css/qa/12-1102-pg-hide.css(html.sf-pg-hide), js/ui/03b-homeBanner.js(파트너 모집 배너), js/r2/01-iife.js(마이페이지 '파트너스' 메뉴)
-window.SF_PG_HIDE = true;
+window.SF_PG_HIDE = false;   // (11/2 사장님) 숨기지 않고 문구(강사료·포인트)로 가기로 함
 if (window.SF_PG_HIDE) document.documentElement.classList.add('sf-pg-hide');
 </script>
-<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.173/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
+<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.174/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
 <style id="sf-patch-css" data-sf-stage></style>
-<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.173/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){document.readyState!=='loading'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
+<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.174/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){document.readyState!=='loading'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
 <script id="sf-early" data-sf-stage>/* sf-early.js — 첫 화면부터 꾸민 모습 (아임웹 원본이 한 번도 그려지지 않게)
    배치: 공통 코드 Header Code 맨 끝, 꾸밈 JS 묶음(sf-ui-js · sf-patch-js · sf-r2-js · sf-r3-js) 바로 뒤.
    ① 본문: MutationObserver 콜백은 화면을 그리기 전에 실행돼요. 본문·푸터를 다 읽은 순간 꾸밈을 한 번 돌려요.

@@ -43,7 +43,7 @@
         });
         var note = document.createElement('p');
         note.className = 'sf-pj-note';
-        note.innerHTML = '수익금 정산은 <a href="/terms#partners" target="_blank" rel="noopener">시니어퓨처 마케팅 파트너스 약관</a>(제7조·제10조)에 따라 진행돼요.';
+        note.innerHTML = '포인트 기준은 <a href="/terms#partners" target="_blank" rel="noopener">시니어퓨처 마케팅 파트너스 약관</a>(제7조)을 따라요.';
         var lab = g.querySelector('.control-label');
         if (lab && lab.nextSibling) g.insertBefore(note, lab.nextSibling); else g.appendChild(note);
         var sp = wrap.querySelector('span'); if (sp) sp.textContent = '마케팅 파트너스 이용약관 동의';
@@ -54,7 +54,7 @@
     var gs = [].slice.call(f.querySelectorAll('.form-group'));
     var gPhone = gs.filter(function (g) { return /^휴대폰 번호/.test(label(g)); })[0], gMail = gs.filter(function (g) { return /^이메일/.test(label(g)); })[0];
     if (gPhone && gMail && gPhone.parentNode === gMail.parentNode) gPhone.parentNode.insertBefore(gMail, gPhone);
-    var b = f.querySelector('._input_form_submit'); if (b) b.textContent = '정산 신청하기';
+    var b = f.querySelector('._input_form_submit'); if (b) b.textContent = '문의 남기기';
     return true;
   }
   function tryLater() { var n = 0; (function go() { if (setup() || ++n > 60) return; setTimeout(go, 250); })(); }

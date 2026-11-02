@@ -54,7 +54,7 @@
           t.classList.add("r3-rsh");
           var a = n(".sf-pv-share__btn", t);
           a && (a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13.5a4 4 0 0 0 5.7.3l3-3a4 4 0 0 0-5.7-5.6l-1.2 1.1"/><path d="M14 10.5a4 4 0 0 0-5.7-.3l-3 3a4 4 0 0 0 5.7 5.6l1.1-1.1"/></svg><span>링크 복사</span>', 
-          a.setAttribute("aria-label", "내 추천 링크 복사")), e.className = "r3-rsh__t", e.innerHTML = '<i class="r3-rsh__coin" aria-hidden="true">P</i><div><strong>친구에게 추천하고 수익 받기</strong><a class="r3-rsh__more" href="/partners">어떻게 받나요? 자세히 보기 ›</a></div>';
+          a.setAttribute("aria-label", "내 추천 링크 복사")), e.className = "r3-rsh__t", e.innerHTML = '<i class="r3-rsh__coin" aria-hidden="true">P</i><div><strong>친구에게 추천하고 포인트 받기</strong><a class="r3-rsh__more" href="/partners">어떻게 받나요? 자세히 보기 ›</a></div>';
         }
       }
     }));
@@ -1476,7 +1476,7 @@
       var e = n(".sf-rw-star", t), a = "M32 5.5c1.6 0 3 .9 3.7 2.4l6.1 12.4 13.7 2c1.6.2 2.9 1.3 3.4 2.9.5 1.5.1 3.2-1.1 4.3l-9.9 9.6 2.3 13.6c.3 1.6-.4 3.2-1.7 4.1-1.3.9-3 1-4.4.3L32 50.6l-12.2 6.5c-1.4.7-3.1.6-4.4-.3-1.3-.9-2-2.5-1.7-4.1L16 39.1l-9.9-9.6c-1.2-1.1-1.6-2.8-1.1-4.3.5-1.6 1.8-2.7 3.4-2.9l13.7-2 6.1-12.4C29 6.4 30.4 5.5 32 5.5z";
       e && (e.outerHTML = '<span class="r3-star" aria-hidden="true"><svg viewBox="0 0 64 64"><defs><linearGradient id="r3sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6a8"/><stop offset=".45" stop-color="#ffd33d"/><stop offset="1" stop-color="#f5a300"/></linearGradient><radialGradient id="r3sh" cx=".35" cy=".3" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs><path d="' + a + '" fill="url(#r3sg)"/><path d="' + a + '" fill="url(#r3sh)"/></svg><i></i></span>');
       var s = n("h2", t);
-      s && (s.textContent = "누군가의 성장이 나의 수익으로!");
+      s && (s.textContent = "누군가의 성장이 나의 포인트로!");
       var i = n(".sf-rw-ok", t);
       i && (i.textContent = "링크 복사 완료");
       var o = n(".sf-rw-kakao", t);
@@ -1491,7 +1491,7 @@
     }
     function l() {
       var e = n(".sf-rw-done-p", t);
-      e && (e.innerHTML = "내 링크로 들어온 친구가 강의를 결제하면<br>결제 금액의 <em>" + r(window.SF_SHARE && SF_SHARE.rate || "10%") + "</em>를 수익으로 받을 수 있어요!");
+      e && (e.innerHTML = "내 링크로 들어온 친구가 강의를 결제하면<br>결제 금액의 <em>" + r(window.SF_SHARE && SF_SHARE.rate || "10%") + "</em>를 포인트로 받을 수 있어요!");
     }
   })), SFUI.register("r3LoginPill", (function() {
     if (!SFUI.loggedIn) {

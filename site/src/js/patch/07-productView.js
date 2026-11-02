@@ -3,7 +3,7 @@
    - (10/27) 세 종류 모두 탭 = 소개 · 프로그램 · 강사(라이브 '연사' · 커뮤니티 '호스트') · 후기, 후기 아래 '더 알아보기'(운영 정책 · 환불 규정 펼치기)
    - (10/27 v2) 본문 큰 제목 숨김 · [프로그램] '# 제목 | 90분' 회차 목록 · [강사] 이름 → 전문가 네트워크 카드 (사용법: docs/상품-상세-등록-안내.md)
    - 교육(PC/교육 상세 20:1011): 왼쪽 이미지 · 고정 탭 · 본문 / 오른쪽 고정 구매 박스
-     (태그 · 제목 · 할인가 · 상품 금액 · 찜 + 수강 신청하기 · 공유하고 수익받기)
+     (태그 · 제목 · 할인가 · 상품 금액 · 찜 + 수강 신청하기 · 공유하고 포인트 받기)
    - 무료 라이브(PC/무료 라이브 상세 22:1451): 오른쪽 신청 카드(상태 태그 · 마감 카운트다운 · 일시 · 무료로 신청하기 · 공유하기)
      왼쪽 이런 내용을 다뤄요 · 연사 소개 · 진행 안내 · 라이브 후 더 깊게 · 수강생 후기
    - 모임(PC/모임 상세 28:2452): 태그(모임/이벤트 · 모집 상태) · 참가비 · 참여 신청하기, 왼쪽 모임 안내 · 모임 소개 · 일정 · 호스트 · 장소
@@ -366,7 +366,7 @@ SFUI.register('productView', SFUI.__pv = function() {
         Z && (Z.type = "button", Z.setAttribute("data-sf-share-link", "")), M && z && (z.textContent = "신청이 마감되었어요", 
         z.classList.add("is-disabled"));
       } else {
-        var $ = pe("div", "sf-pv-share", "<div><strong>링크로 구매 시, 최대 " + oe(window.SF_SHARE && SF_SHARE.rate || "00%") + ' 적립</strong><span>친구가 결제하면 적립금이 쌓여요</span></div><button type="button" class="sf-pv-share__btn" data-sf-reward-share data-title="' + oe(l) + '">공유하고 수익받기</button>');
+        var $ = pe("div", "sf-pv-share", "<div><strong>링크로 구매 시, 최대 " + oe(window.SF_SHARE && SF_SHARE.rate || "00%") + ' 적립</strong><span>친구가 결제하면 적립금이 쌓여요</span></div><button type="button" class="sf-pv-share__btn" data-sf-reward-share data-title="' + oe(l) + '">공유하고 포인트 받기</button>');
         V && V.parentNode.insertBefore($, V.nextSibling);
       }
       function meetInfo(ttl) {

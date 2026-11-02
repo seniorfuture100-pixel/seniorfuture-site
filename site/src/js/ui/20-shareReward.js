@@ -1,6 +1,6 @@
 // 원본: src/share-reward.js
-/* share-reward.js — 결제란 '공유하고 수익받기' · 제목 옆 공유(↗)
-   <button type="button" data-sf-reward-share data-title="강의 이름">공유하고 수익받기</button>
+/* share-reward.js — 결제란 '공유하고 포인트 받기' · 제목 옆 공유(↗)
+   <button type="button" data-sf-reward-share data-title="강의 이름">공유하고 포인트 받기</button>
    - 로그인 회원: 고르는 창 없이 내 코드 링크(주소?ref=내 코드)를 바로 복사 → '링크를 복사했어요!' 창
                  (카카오톡에 바로 공유 / 확인 / 마케팅 파트너스 보러 가기)
    - 비로그인: '로그인이 필요해요' 창 — 카카오·네이버·구글 + 이메일(작게). 로그인 후 지금 페이지로 돌아와요.
@@ -75,7 +75,7 @@ SFUI.register('shareReward', function (root) {
     var c = cfg();
     state.opener = btn; state.title = btn.getAttribute('data-title') || document.title;
     if (!c.member) {
-      loginBox.querySelector('.sf-rw-desc').innerHTML = '로그인하면 내 링크로 친구가 결제할 때<br>결제 금액의 ' + esc(c.rate) + '를 수익으로 받을 수 있어요.';
+      loginBox.querySelector('.sf-rw-desc').innerHTML = '로그인하면 내 링크로 친구가 결제할 때<br>결제 금액의 ' + esc(c.rate) + '를 포인트로 받을 수 있어요.';
       loginBox.querySelectorAll('[data-rw-login]').forEach(function (a) { a.href = back(c.login[a.getAttribute('data-rw-login')]); });
       show(loginBox, loginBox.querySelector('.sf-rw-x'));
       return;
