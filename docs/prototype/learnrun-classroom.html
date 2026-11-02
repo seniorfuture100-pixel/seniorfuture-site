@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나의 강의실 + 런런 — 화면 예시</title>
+<style>
+  :root { --o:#ff6f0f; --t:#191f28; --s:#6b7280; --b:#e5e7eb; --bg:#f6f7f9; --lr:#eef2ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:'Pretendard','Noto Sans KR',system-ui,sans-serif; color:var(--t); background:var(--bg); }
+  .wrap { max-width:1600px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .note { color:var(--s); font-size:14px; line-height:1.6; margin:0 0 20px; }
+  .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:13px; margin-bottom:24px; }
+  .legend span { display:inline-flex; align-items:center; gap:6px; }
+  .sw { width:16px; height:16px; border-radius:4px; display:inline-block; }
+  .sw.sf { background:#fff; border:2px solid var(--o); }
+  .sw.lr { background:var(--lr); border:2px dashed #6366f1; }
+  .row { display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap; }
+  .frame { background:#fff; border:1px solid var(--b); border-radius:16px; overflow:hidden; box-shadow:0 6px 24px rgba(0,0,0,.06); }
+  .frame-cap { font-size:13px; font-weight:700; color:var(--s); margin:0 0 8px; }
+  .pc { width:min(980px,100%); }
+  .m { width:390px; max-width:100%; }
+  .row > div { min-width:0; max-width:100%; }
+  .card { min-width:0; } .card > div { min-width:0; }
+  .hd { display:flex; align-items:center; gap:18px; padding:14px 22px; border-bottom:1px solid var(--b); font-size:14px; }
+  .hd b { color:var(--o); }
+  .hd .sp { flex:1; }
+  .hd .room { border:1px solid var(--t); border-radius:999px; padding:6px 12px; font-weight:700; }
+  .body { padding:22px; }
+  .title { font-size:22px; font-weight:800; margin:0 0 4px; }
+  .sub { color:var(--s); font-size:13px; margin:0 0 16px; }
+  .tabs { display:flex; gap:8px; margin:0 0 16px; }
+  .tabs i { font-style:normal; font-size:13px; padding:7px 14px; border-radius:999px; border:1px solid var(--b); }
+  .tabs i.on { background:var(--t); color:#fff; border-color:var(--t); }
+  .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .m .grid { grid-template-columns:1fr; }
+  .card { border:2px solid var(--o); border-radius:14px; padding:14px; display:flex; gap:12px; background:#fff; }
+  .thumb { width:96px; aspect-ratio:16/9; border-radius:8px; background:linear-gradient(135deg,#ffd9c7,#ff8a3d); flex:none; }
+  .thumb.navy { background:linear-gradient(135deg,#0f1b33,#23406e); }
+  .thumb.live { background:linear-gradient(135deg,#140c08,#3a1d10); }
+  .thumb.meet { background:linear-gradient(135deg,#fff8db,#ffe9a6); }
+  .card h3 { font-size:15px; margin:0 0 4px; }
+  .meta { font-size:12px; color:var(--s); margin:0 0 8px; }
+  .tag { display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; background:#fff4ec; color:#c2410c; margin-right:4px; }
+  .btn { display:inline-block; font-size:13px; font-weight:700; padding:9px 14px; border-radius:10px; background:var(--t); color:#fff; text-decoration:none; }
+  .btn.kakao { background:#fee500; color:#191919; }
+  .btn.ghost { background:#fff; color:var(--t); border:1px solid var(--b); }
+  .to-lr { font-size:11px; color:#4f46e5; margin-left:6px; }
+  .lr { margin-top:18px; background:var(--lr); border:2px dashed #6366f1; border-radius:14px; padding:16px; }
+  .lr h4 { margin:0 0 6px; font-size:14px; color:#3730a3; }
+  .lr p { margin:0; font-size:12px; color:#4b5563; line-height:1.6; }
+  .lr ul { margin:8px 0 0; padding-left:18px; font-size:12px; color:#4b5563; line-height:1.7; }
+  .state { margin-top:16px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .m .state { grid-template-columns:1fr; }
+  .st { border:1px solid var(--b); border-radius:12px; padding:12px; font-size:12px; color:var(--s); background:#fff; }
+  .st b { display:block; color:var(--t); font-size:13px; margin-bottom:4px; }
+  .tabbar { display:flex; justify-content:space-around; border-top:1px solid var(--b); padding:10px 0; font-size:11px; color:var(--s); }
+  .tabbar .on { color:var(--o); font-weight:700; }
+  .flow { margin-top:32px; background:#fff; border:1px solid var(--b); border-radius:16px; padding:20px; font-size:14px; line-height:1.8; }
+  .flow code { background:#f3f4f6; padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>나의 강의실 + 런런 — 추천안(A+) 화면 예시</h1>
+  <p class="note">로컬 기획 예시예요(운영 사이트와 관계없음). 상품은 지금 판매 중인 82·83·84·85 기준이에요. 주황 테두리는 <b>시니어퓨처가 만드는 화면(우리 코드)</b>, 보라 점선은 <b>실제 런런 화면이 들어갈 자리</b>예요. 런런 화면 모양은 확인 전이라 그리지 않았어요.</p>
+  <div class="legend"><span><i class="sw sf"></i>시니어퓨처 기획 화면</span><span><i class="sw lr"></i>실제 런런 화면 자리(미확인)</span></div>
+
+  <div class="row">
+    <div>
+      <p class="frame-cap">PC 1280 — /shop_mypage/?sf=room (지금 주소 그대로)</p>
+      <div class="frame pc">
+        <div class="hd"><b>●</b><strong>시니어퓨처</strong><span>교육</span><span>무료 라이브</span><span>커뮤니티</span><span class="sp"></span><span class="room">나의 강의실</span><span>마이페이지</span></div>
+        <div class="body">
+          <p class="title">나의 강의실</p>
+          <p class="sub">신청한 교육·라이브·모임이 여기에 모여요</p>
+          <div class="tabs"><i class="on">수강 중 3</i><i>수강 예정 1</i><i>완료·만료 2</i></div>
+          <div class="grid">
+            <div class="card"><span class="thumb"></span><div><span class="tag">온라인 강의</span><h3>초고령사회 대전환 지도 (VOD)</h3><p class="meta">결제일부터 30일 · 진도·이어보기는 온라인 강의실에서</p><a class="btn" href="#lr">이어서 듣기 →</a><span class="to-lr">/learn-run 으로</span></div></div>
+            <div class="card"><span class="thumb navy"></span><div><span class="tag">기수제</span><h3>12기 비즈니스 스터디</h3><p class="meta">12.5(토) 09:00 시작 · 공덕역 FRONT1</p><a class="btn kakao" href="#">기수 톡방 입장</a> <a class="btn ghost" href="#lr">다시보기·자료</a></div></div>
+            <div class="card"><span class="thumb live"></span><div><span class="tag">무료 라이브</span><h3>시니어 케어 & 하우징</h3><p class="meta">11.19(목) 19:30 · 시작 20분 전부터 입장</p><a class="btn" href="#">라이브 입장</a></div></div>
+            <div class="card"><span class="thumb meet"></span><div><span class="tag">커뮤니티</span><h3>커피챗 네트워킹 12월</h3><p class="meta">12.4(금) 18:30 · 공덕역 FRONT1</p><a class="btn kakao" href="#">모임 톡방</a></div></div>
+          </div>
+          <div class="lr" id="lr"><h4>↓ '이어서 듣기'를 누르면: 실제 런런 강의실 (/learn-run, 아임웹 메뉴 페이지)</h4>
+            <p>여기는 런런이 그리는 화면이에요. 우리가 바꿀 수 있는 건 테마 색·커스텀 CSS 범위(공식 S5)뿐이에요. 다음 항목은 공식 문서에 있다고 적혀 있지만, 실제 모양과 동작은 테스트 강좌로 확인해야 해요.</p>
+            <ul><li>강좌 목록 → 강좌 → 강의 재생, 진도율, 마지막 시청 시점 (S7)</li><li>자료 다운로드 기록, Q&amp;A, 댓글, 과제 (S5·S7)</li><li>수료 조건을 채우면 수료증 PDF (S8)</li><li>재로그인 여부, 이어보기 위치, 카카오 인앱 재생 → 미확인 (테스트 T3·T12·T13)</li></ul></div>
+          <div class="state">
+            <div class="st"><b>빈 목록</b>아직 신청한 강의가 없어요 → [교육 보러 가기]</div>
+            <div class="st"><b>로그인 만료</b>다시 로그인하면 이 화면으로 돌아와요 (back_url = 나의 강의실)</div>
+            <div class="st"><b>재생 오류</b>카카오톡에서 열었다면 크롬으로 열어 주세요 · 1:1 문의</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="frame-cap">모바일 390 — 하단 탭 MY → 나의 강의실</p>
+      <div class="frame m">
+        <div class="hd"><b>●</b><strong>시니어퓨처</strong><span class="sp"></span><span>☰</span></div>
+        <div class="body">
+          <p class="title">나의 강의실</p>
+          <div class="tabs"><i class="on">수강 중</i><i>예정</i><i>완료</i></div>
+          <div class="grid">
+            <div class="card"><span class="thumb"></span><div><h3>초고령사회 대전환 지도</h3><p class="meta">D-24 · 온라인 강의</p><a class="btn" href="#lrm">이어서 듣기 →</a></div></div>
+            <div class="card"><span class="thumb navy"></span><div><h3>12기 비즈니스 스터디</h3><p class="meta">12.5(토) 시작</p><a class="btn kakao" href="#">톡방 입장</a></div></div>
+            <div class="card"><span class="thumb live"></span><div><h3>시니어 케어 & 하우징</h3><p class="meta">11.19(목) 19:30</p><a class="btn" href="#">라이브 입장</a></div></div>
+          </div>
+          <div class="lr" id="lrm"><h4>실제 런런 강의실 자리 (미확인)</h4><p>휴대폰 영상 전체 화면과 '나의 강의실로 돌아가기'는 런런 화면 안에서 가능한지 확인 필요해요. 돌아갈 때는 아임웹 헤더나 탭바 MY를 써요.</p></div>
+        </div>
+        <div class="tabbar"><span>홈</span><span>교육</span><span>라이브</span><span>커뮤니티</span><span class="on">MY</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow">
+    <b>흐름 요약</b><br>
+    ① 헤더·탭바 '나의 강의실' → (로그인 안 됨) 로그인 → <b>나의 강의실로 복귀</b> (지금은 주문 목록 <code>/shop_mypage/?m2=order</code>로 돌아가서 고쳐야 해요)<br>
+    ② 온라인 강의 카드 '이어서 듣기' → <code>/learn-run</code>(런런) — 실제 시청 권한은 런런 서버가 판단해요. 카드가 보이는 것은 권한의 근거가 아니에요.<br>
+    ③ 기수 톡방·무료 라이브·모임은 지금 방식 유지 (런런 문서에 라이브·출석 기능 없음)<br>
+    ④ 되돌리기: 카드 링크만 원래 <code>/class?idx=</code>로 바꾸면 원복
+  </div>
+</div>
+</body>
+</html>
