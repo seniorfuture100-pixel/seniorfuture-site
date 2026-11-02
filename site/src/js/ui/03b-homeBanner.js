@@ -57,9 +57,9 @@ SFUI.register('homeBanner', function () {
         '<span class="hb-crowd">' + person('#ffa94d') + person('#74c0fc') + person('#ffd43b') + person('#63e6be') + person('#e599f7') + '</span>' +
         '<span class="hb-event"><span class="hb-evicon">' + svg(I.cal) + '</span><span><small>이번 달 모임</small><b>현장 탐방 · 네트워킹</b></span><em>참여 신청</em></span>' +
         '<span class="hb-bubble q1">반가워요!</span><span class="hb-bubble q2">' + svg(I.chat) + '같이 가요</span>' },
-    { k: 'partner', href: '/partner', badge: '파트너 모집', title: '현장 전문가를<br>파트너로 모십니다', sub: '강사 · 라이브 연사 · 기고 · 커뮤니티 운영',
+    { k: 'partner', href: '/partner', badge: '파트너 모집', title: '전문가 네트워크에<br>함께할 파트너를 모십니다', sub: '강사 · 라이브 연사 · 기고 · 커뮤니티 운영',
       art: '<i class="hb-glow"></i>' +
-        '<span class="hb-profile"><span class="hb-pava">' + svg(I.user) + '<i>' + svg(I.check) + '</i></span><b>현장 전문가</b><small>시니어 산업 파트너</small><span class="hb-ptags"><i>강의</i><i>라이브</i><i>기고</i></span></span>' +
+        '<span class="hb-profile"><span class="hb-pava">' + svg(I.user) + '<i>' + svg(I.check) + '</i></span><b>전문가 네트워크</b><small>시니어 산업 파트너</small><span class="hb-ptags"><i>강의</i><i>라이브</i><i>기고</i></span></span>' +
         '<i class="hb-pill p1">요양·돌봄</i><i class="hb-pill p2">시니어 주거</i><i class="hb-pill p3">헬스케어</i><i class="hb-pill p4">에이지테크</i>' +
         '<span class="hb-chip c-time">' + svg(I.bolt) + '지원 5분</span>' },
     { k: 'biz', href: '/business', badge: '기업·기관', title: '기업·공공기관을 위한<br>시니어 비즈니스 파트너', sub: '맞춤 교육 · 콘텐츠·행사 협업 · 공동 프로젝트',
