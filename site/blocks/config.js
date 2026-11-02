@@ -42,3 +42,11 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
 //   쓰는 곳: css/qa/12-1102-pg-hide.css(html.sf-pg-hide), js/ui/03b-homeBanner.js(파트너 모집 배너), js/r2/01-iife.js(마이페이지 '파트너스' 메뉴)
 window.SF_PG_HIDE = false;   // (11/2 사장님) 숨기지 않고 문구(강사료·포인트)로 가기로 함
 if (window.SF_PG_HIDE) document.documentElement.classList.add('sf-pg-hide');
+// (11/2 사장님) Microsoft Clarity 히트맵·화면 녹화 — 프로젝트 '시니어퓨처 아임웹 (2026.11~)'(z7cxscbz9h), 가림 '엄격'(화면 글자 모두 가림 → 회원 정보가 녹화에 안 남음)
+//   끄려면 이 블록만 지우고 배포. 개인정보처리방침 '행태정보'에 Microsoft Corporation(Clarity) 명시
+(function (c, l, a, r, i, t, y) {
+  if (c[a]) return;
+  c[a] = function () { (c[a].q = c[a].q || []).push(arguments); };
+  t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+  y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+})(window, document, 'clarity', 'script', 'z7cxscbz9h');
