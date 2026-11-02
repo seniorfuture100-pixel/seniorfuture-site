@@ -40,8 +40,6 @@ a.pa-way, article.r3ap-rv, article.pt3-ben__a { border-radius: var(--sf-radius-p
 :root body .sf-auth .sf-auth__head .sf-logo--img { --lg-h: 48px; --lg-fs: 24px; --lg-gap: 12px; display: inline-flex !important; flex-direction: row !important; justify-content: center; } /* 로그인 창 옛 글자 로고 규칙(.sf-auth .sf-auth__head .sf-logo)이 더 무거워서 위아래로 쌓였어요 */
 :root body #doz_footer_wrap .r3-ft-logo .sf-logo--img { --lg-h: 40px; --lg-fs: 20px; --lg-gap: 10px; }
 :root body .sf-logo--on-dark .sf-logo__txt { color: #fff; }
-:root body .sf-logo--on-dark img { box-shadow: 0 0 0 1px rgba(255, 255, 255, .22); } /* 엠블럼 바탕(#1f1f1f)이 푸터 바탕과 같아 동그라미 테두리만 살짝 */
-
 /* 회원가입 입력 창(가입 팝업 안 #join_form — 마이페이지 프로필 설정도 같은 폼을 꺼내 쓰므로 팝업 안으로만): 아임웹 칸 테두리(감싸개)와 우리 둥근 칸이 겹쳐 두 줄로 보이던 것 → 칸만 남기고 8px 띄움,
    선택 칸·가입 버튼을 디자인 시스템 칸(52px·12px 모서리)·검정 버튼과 같게 */
 #cocoaModal #join_form .input_form { border: 0 !important; background: none !important; margin-top: 0 !important; }
