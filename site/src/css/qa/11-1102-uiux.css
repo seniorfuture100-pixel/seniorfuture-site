@@ -98,3 +98,12 @@ html:root body [data-sf-rooms] .sf-room-when em:not(#sf-x) { display: inline-blo
    → 우리 화면(r2/01 r2My 가 html.r2-my)이 만들어질 때까지 가려 둬요. 스크립트가 못 돌면 2.5초 뒤 그대로 보여요 */
 html:not(.r2-my) body.shop_mypage .shop-content.mypage { visibility: hidden; animation: sfMyShow 0s 2.5s forwards; }
 @keyframes sfMyShow { to { visibility: visible; } }
+/* (11/2 사장님) 파트너 이용약관 탭 위 '시행일·운영사' 글줄 숨김(약관 위젯 원본에서도 뺐어요 — 디자인 게시 전에도 바로 적용) */
+:root body #cpartner .sf-tm-meta { display: none !important; }
+
+/* (11/2 사장님) 정기구독 상품(멤버십) 버튼
+   PC: '정기구독'을 고르면(아임웹 .detail-regularly) '수강 신청하기'는 숨기고 '정기구독 신청하기'를 같은 주황 버튼으로(아임웹 회색 기본 모양 → 디자인 시스템) */
+html:root body .shop-content.detail-regularly .buy_btns.pc ._btn_buy:not(.im-regularly) { display: none !important; }
+html:root body .shop-content.detail-regularly .buy_btns.pc ._btn_regularly { display: flex !important; flex: 1 1 0%; align-items: center; justify-content: center; height: 46px !important; margin: 0 !important; padding: 0 16px !important; border: 0 !important; border-radius: 12px !important; background: var(--sf-primary) !important; color: #fff !important; font: 700 16px/1 var(--sf-font) !important; }
+/* 휴대폰 아래 고정 바: 왼쪽 '정기구독 신청'(검정) · 오른쪽 '1회 수강 신청'(주황) — 글자는 patch/07 */
+html:root body .shop-content.use-regularly .buy_btns.mobile .defualt.buy.im-regularly { background: var(--sf-dark) !important; border-color: var(--sf-dark) !important; color: #fff !important; }

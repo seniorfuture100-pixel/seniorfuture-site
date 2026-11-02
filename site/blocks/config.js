@@ -2,7 +2,7 @@
    모든 주소·수치는 공식 채널(apply.seniorfuture.kr · 링크트리)에서 확인한 값이에요. (2026-10-19) */
 window.SF_SITE = Object.assign(window.SF_SITE || {}, {
   kakao: 'https://pf.kakao.com/_ZYaLG/chat',
-  topbanner: { key: '2026-11-platform-open', text: '🎉 시니어 산업 플랫폼 시니어퓨처 오픈! 교육 · 라이브 · 커뮤니티를 한곳에서', href: '/course' },   // (11/2 사장님) 외부 멤버십 사이트 대신 오픈 안내
+  topbanner: { key: '2026-11-platform-renewal', text: '🎉 시니어 산업 플랫폼 시니어퓨처 리뉴얼! 교육 · 무료 라이브 · 인사이트 · 커뮤니티를 한곳에서!', href: '/course' },   // (11/2 사장님) 오픈 → 리뉴얼 안내(key 바꿔 닫은 분께도 다시 보여요)
   sns: {
     instagram: 'https://www.instagram.com/senior_future/',
     youtube: 'https://www.youtube.com/@seniorfuture',

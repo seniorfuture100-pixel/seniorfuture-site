@@ -340,9 +340,17 @@ SFUI.register('productView', SFUI.__pv = function() {
         T && /^\s*0\s*원\s*$/.test(T.textContent) && (T.textContent = "무료");
       }
       var z = s.querySelector(".buy_btns.pc ._btn_buy"), P = o ? "무료로 신청하기" : p ? "참가 신청하기" : "수강 신청하기";
-      z && (z.textContent = P), s.querySelectorAll(".buy_btns.mobile ._btn_buy, .buy_btns.mobile .defualt.buy").forEach((function(e) {
+      z && (z.textContent = P), s.querySelectorAll(".buy_btns.mobile ._btn_buy:not(.im-regularly), .buy_btns.mobile .defualt.buy:not(.im-regularly)").forEach((function(e) {
         e.textContent = P;
       }));
+      // (11/2 사장님) 정기구독 상품(멤버십): 휴대폰 아래 두 버튼이 모두 '수강 신청하기'로 보였어요 → '정기구독 신청' · '1회 수강 신청'으로 나눠요
+      //   PC 는 '정기구독'을 고르면 '정기구독 신청하기' 하나만(CSS qa/11)
+      var RG = document.querySelector(".shop-content.use-regularly");
+      RG && (s.querySelectorAll(".buy_btns .im-regularly").forEach((function(e) {
+        e.textContent = e.classList.contains("_btn_regularly") ? "정기구독 신청하기" : "정기구독 신청";
+      })), s.querySelectorAll(".buy_btns.mobile .defualt.buy:not(.im-regularly)").forEach((function(e) {
+        e.textContent = "1회 수강 신청";
+      })));
       // (10/30) 휴대폰: 옵션 시트를 열면 아임웹이 아래 버튼 글자를 '결제 이동하기'로 바꿔요(무료 라이브에도) → 종류에 맞는 글자로 되돌려요
       var MW = s.querySelector(".buy_btns.mobile"), fixM = function() {
         MW && !PE && [].forEach.call(MW.querySelectorAll("._btn_buy"), (function(e) { /(결제|신청)\s*이동|구매하기/.test(e.textContent) && (e.textContent = P); }));

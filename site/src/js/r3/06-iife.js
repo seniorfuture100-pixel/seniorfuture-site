@@ -20,7 +20,9 @@
     var p = $('.sf-pv'); if (!p) return;
     // 시트를 건너뛰는 중(r3-sheet-skip)엔 아래 바 글자를 바꾸지 않아요(잠깐 '신청 이동하기'로 바뀌어 보이지 않게)
     document.documentElement.classList.contains('r3-sheet-skip') || $$('.buy_btns.mobile ._btn_buy').forEach(function (b) { if (b.textContent !== GO) b.textContent = GO; });
-    $$('.buy_btns.mobile a.buy:not(._btn_buy), .buy_btns.mobile .defualt.buy:not(._btn_buy)').forEach(function (b) { if (!b.classList.contains('is-disabled') && clean(b.textContent) !== BAR && !/마감/.test(b.textContent)) b.textContent = BAR; });
+    // (11/2) 정기구독 버튼(.im-regularly)과 정기구독 상품의 '1회 수강 신청'은 patch/07 이 정한 글자 그대로
+    var RG = !!$('.shop-content.use-regularly');
+    $$('.buy_btns.mobile a.buy:not(._btn_buy):not(.im-regularly), .buy_btns.mobile .defualt.buy:not(._btn_buy):not(.im-regularly)').forEach(function (b) { if (!RG && !b.classList.contains('is-disabled') && clean(b.textContent) !== BAR && !/마감/.test(b.textContent)) b.textContent = BAR; });
     var g = $('.opt-group', p); if (!g) return;
     if (!$('.r3-sheet-h', g)) {
       var w = document.createElement('div');
@@ -56,7 +58,8 @@
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.buy_btns.mobile .defualt.buy');
     var H = document.documentElement;
-    if (!b || !H.classList.contains('r3-noopt') || b.classList.contains('is-disabled') || /마감/.test(b.textContent)) return;
+    // (11/2) 정기구독 상품은 시트에서 1회·정기구독을 고르므로 건너뛰지 않아요(정기구독을 눌렀는데 1회 구매 버튼을 대신 누르지 않게)
+    if (!b || !H.classList.contains('r3-noopt') || document.querySelector('.shop-content.use-regularly') || b.classList.contains('is-disabled') || /마감/.test(b.textContent)) return;
     H.classList.add('r3-sheet-skip');
     var n = 0, buy = null, txt0 = '', back = function () { H.classList.remove('r3-sheet-skip'); buy && (buy.textContent = txt0); };
     (function go() {
