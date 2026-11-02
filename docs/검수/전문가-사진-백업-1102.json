@@ -1,0 +1,17 @@
+{
+ "note": "11/2 전문가 사진 교체 전 상태(되돌리기용). 각 글: 관리자 글 수정(bmode=write&idx=…&board=b202610278eed02abba21d) → 본문 첫 사진을 old 로, 대표 이미지(represent_img)를 oldRep 로. 업로드 경로 앞 = https://cdn.imweb.me",
+ "items": [
+  {"idx": "175296852", "name": "이은정 하나은행 본부장", "oldRep": "/upload/S20261016dceb77aecc2e2/47dc6b4cb2b14.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/982edd4b310b5.jpg", "src": "뉴스핌 2025-05-05 인물 사진(0002859572_002)"},
+  {"idx": "175296857", "name": "이춘희 마송돌봄요양원 이사", "oldRep": "/upload/S20261016dceb77aecc2e2/6cda94ec6049b.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/e3d9400ad5aa1.jpg", "src": "Care-Tech 2026 포스터 속 인물 사진(옛 페이지 1024px)"},
+  {"idx": "175296846", "name": "이정준 메모리올 대표", "oldRep": "/upload/S20261016dceb77aecc2e2/352fdfb65fba8.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/226314c339be5.jpg", "src": "이투데이 브라보 2026-10-20 인물 사진"},
+  {"idx": "175296828", "name": "주수산나 연세대학교 연구교수", "oldRep": "/upload/S20261016dceb77aecc2e2/fe9452f01bfdb.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/37c759266a12d.jpg", "src": "강연 사진(옛 페이지 1024px)에서 얼굴"},
+  {"idx": "175296806", "name": "김일준 고파크 대표", "oldRep": "/upload/S20261016dceb77aecc2e2/358f2f4561b71.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/c5ff902b3fd85.jpg", "src": "[스타트UP] 2025-07-06 인물 사진(0001090247_001)"},
+  {"idx": "175296882", "name": "임희숙 경희대학교 교수", "oldRep": "/upload/S20261016dceb77aecc2e2/25e92deb68e0e.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/fa9cdada6f9c6.jpg", "src": "강연 사진에서 얼굴(원본 작음)"},
+  {"idx": "175296790", "name": "박동명 한국공공정책평가원 원장", "oldRep": "/upload/S20261016dceb77aecc2e2/57cc0dd6ccfb0.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/78f32e1c56bca.jpg", "src": "강연 사진에서 얼굴"},
+  {"idx": "175296783", "name": "신동민 이투데이 대표", "oldRep": "/upload/S20261016dceb77aecc2e2/b6d53a0c0389d.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/de339caf8a2b6.jpg", "src": "북토크 사진에서 얼굴(원본 작음)"},
+  {"idx": "175296877", "name": "하정화 서울대학교 교수", "oldRep": "/upload/S20261016dceb77aecc2e2/75422defb5650.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/62cd45368e239.jpg", "src": "강연 사진에서 얼굴(원본 작음)"},
+  {"idx": "175297227", "name": "김두영 케어링 마케팅리드", "oldRep": "/upload/S20261016dceb77aecc2e2/3499024e0cd83.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/cf86a4ee5551e.jpg", "src": "발표 사진에서 얼굴"},
+  {"idx": "175297222", "name": "윤희정 경희대학교 연구원", "oldRep": "/upload/S20261016dceb77aecc2e2/5fdf3da10d389.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/f37aba09544fa.jpg", "src": "행사 사진에서 얼굴(원본 작음)"},
+  {"idx": "175296869", "name": "김견원 케어네이션 대표", "oldRep": "/upload/S20261016dceb77aecc2e2/2fadf01588215.jpg", "newRep": "/upload/S20261016dceb77aecc2e2/581c93831a33a.jpg", "src": "인터뷰 2026-02-16 인물 사진(0000039838_001)"}
+ ]
+}
