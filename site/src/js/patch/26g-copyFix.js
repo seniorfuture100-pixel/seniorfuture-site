@@ -55,7 +55,7 @@ SFUI.register('copyFix', function () {
   function run() {
     [].forEach.call(document.querySelectorAll('.sf-scope'), fixText); hideSamples();
     // (11/2 사장님) 무료 라이브 주황 안내 상자: 굵은 줄('매주 수요일…')만 빼고 강의실 안내 줄은 남겨요
-    p === '/live' && [].forEach.call(document.querySelectorAll('.sf-notice-box > strong'), function (s) { /매주 수요일 저녁/.test(s.textContent) && s.style.setProperty('display', 'none', 'important'); });
+    /^\/live\/?$/.test(location.pathname) && [].forEach.call(document.querySelectorAll('.sf-notice-box > strong'), function (s) { /매주 수요일 저녁/.test(s.textContent) && s.style.setProperty('display', 'none', 'important'); });
   }
   run();
   // 게시판 목록은 아임웹이 본문을 다 읽은 뒤에 그려요 → 조금 뒤에 한 번 더
