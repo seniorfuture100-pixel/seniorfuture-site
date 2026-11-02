@@ -61,7 +61,7 @@ SFUI.register('authView', function () {
     w.classList.add('sf-auth', isLogin ? 'sf-auth--login' : 'sf-auth--join');
     var head = document.createElement('div');
     head.className = 'sf-auth__head';
-    head.innerHTML = '<span class="sf-logo"><b>SENIOR</b> FUTURE</span>' +
+    head.innerHTML = SFUI.logo() +
       '<h1 class="sf-auth__sr">' + (isLogin ? '로그인' : '회원가입') + '</h1>' +
       '<p class="sf-auth__promo">' + GIFT + '<span>지금 가입하고 무료 라이브·신규 강의 소식 먼저 받아보세요</span></p>';
     var close = w.querySelector(':scope > button.close');

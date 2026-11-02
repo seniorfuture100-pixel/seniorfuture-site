@@ -1,4 +1,7 @@
 // 원본: src/site-header.js
+// (11/2 사장님 제공) 로고 그림 — 커밋 고정 주소라 버전이 바뀌어도 그대로. white = 어두운 바탕용(글자 흰색)
+SFUI.LOGO = 'https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@af6d7ac4a0a7d27c1e92432a1c7949130e31f7e1/site/assets/logo/';
+SFUI.logo = function (white) { return '<span class="sf-logo sf-logo--img"><img src="' + SFUI.LOGO + 'seniorfuture-logo' + (white ? '-white' : '') + '.png" alt="SENIOR FUTURE 시니어퓨처" width="516" height="176" decoding="async"></span>'; };
 SFUI.register('siteHeader', function () {
   var cfg = window.SF_SITE || {};
   var kakao = cfg.kakao || '/help';
@@ -45,9 +48,9 @@ SFUI.register('siteHeader', function () {
     wrap.parentNode.insertBefore(bar, wrap);
   }
 
-  // ② 로고: SENIOR(주황) FUTURE(검정)
+  // ② 로고 그림
   [].forEach.call(wrap.querySelectorAll('.logo_title a'), function (a) {
-    a.innerHTML = '<span class="sf-logo"><b>SENIOR</b> FUTURE</span>';
+    a.innerHTML = SFUI.logo();
     a.setAttribute('aria-label', '시니어퓨처 홈');
   });
 
@@ -96,7 +99,7 @@ SFUI.register('siteHeader', function () {
 
   // ⑤ 모바일 헤더 (Figma Header/Mobile: 로고 · 검색 · 메뉴) — 아임웹 모바일 헤더는 숨겨요
   var mh = el('div', 'sf-mh',
-    '<a class="sf-mh__logo" href="/" aria-label="시니어퓨처 홈"><span class="sf-logo"><b>SENIOR</b> FUTURE</span></a>' +
+    '<a class="sf-mh__logo" href="/" aria-label="시니어퓨처 홈">' + SFUI.logo() + '</a>' +
     '<button type="button" class="sf-mh__btn" data-sf-search-open aria-label="검색">' + ICON.search + '</button>' +
     '<button type="button" class="sf-mh__btn" data-sf-open="sf-menu" aria-label="전체 메뉴">' + ICON.menu + '</button>');
   wrap.insertBefore(mh, wrap.firstChild);
@@ -109,7 +112,7 @@ SFUI.register('siteHeader', function () {
   var menu = el('div', 'sf-drawer sf-drawer--full',
     '<div class="sf-drawer__dim" data-sf-drawer-close></div>' +
     '<nav class="sf-drawer__panel sf-menu" role="dialog" aria-modal="true" aria-label="전체 메뉴">' +
-      '<div class="sf-menu__head"><span class="sf-logo"><b>SENIOR</b> FUTURE</span><button type="button" class="sf-mh__btn" data-sf-drawer-close aria-label="메뉴 닫기">' + ICON.close + '</button></div>' +
+      '<div class="sf-menu__head">' + SFUI.logo() + '<button type="button" class="sf-mh__btn" data-sf-drawer-close aria-label="메뉴 닫기">' + ICON.close + '</button></div>' +
       '<div class="sf-menu__auth">' + auth + '</div>' +
       '<div class="sf-menu__list" data-sf-accordion>' +
         '<div class="sf-menu__group" data-sf-acc-item>' +

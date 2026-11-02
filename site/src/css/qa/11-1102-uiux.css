@@ -30,3 +30,24 @@
 
 /* 큰 안내 카드 모서리 통일(20px): 파트너 지원 활동 카드·파트너 후기 카드 22px, 마케팅 파트너스 혜택 카드 26px 였어요 */
 a.pa-way, article.r3ap-rv, article.pt3-ben__a { border-radius: var(--sf-radius-panel) !important; }
+
+/* (11/2 사장님 제공) 로고 그림 — 헤더 36 · 휴대폰 헤더·메뉴 30 · 로그인 창 44 · 푸터 40px 높이 */
+:root body .sf-logo--img { display: inline-flex; align-items: center; line-height: 0; }
+:root body .sf-logo--img img { display: block; width: auto; height: 36px; max-width: none; }
+:root body .sf-mh__logo .sf-logo--img img, :root body .sf-menu__head .sf-logo--img img { height: 30px; }
+:root body .sf-auth__head .sf-logo--img { justify-content: center; }
+:root body .sf-auth__head .sf-logo--img img { height: 44px; }
+:root body .r3-ft-logo .sf-logo--img img { height: 40px; }
+
+/* 회원가입 입력 창(아임웹 기본 폼 #join_form): 아임웹 칸 테두리(감싸개)와 우리 둥근 칸이 겹쳐 두 줄로 보이던 것 → 칸만 남기고 8px 띄움,
+   선택 칸·가입 버튼을 디자인 시스템 칸(52px·12px 모서리)·검정 버튼과 같게 */
+#join_form .input_form { border: 0 !important; background: none !important; margin-top: 0 !important; }
+#join_form .input_form + .input_form { margin-top: var(--sf-space-2) !important; }
+#join_form .select-block { display: flex; gap: var(--sf-space-2); }
+#join_form .select-block .selectbox { flex: 1; float: none !important; width: auto !important; margin: 0 !important; }
+#join_form .selectbox { position: relative; height: var(--sf-input-h); border: 0 !important; border-radius: var(--sf-radius-card) !important; box-shadow: inset 0 0 0 1px var(--sf-border); background: #fff; }
+#join_form .selectbox:focus-within { box-shadow: inset 0 0 0 2px var(--sf-text); }
+#join_form .selectbox select { height: 100% !important; padding: 0 36px 0 16px !important; border: 0 !important; background: transparent !important; font: 400 15px/1.5 var(--sf-font); color: var(--sf-text); appearance: none; -webkit-appearance: none; }
+#join_form .selectbox .spin-down { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); pointer-events: none; line-height: 1; }
+#join_form input[type=checkbox], #join_form input[type=radio] { accent-color: var(--sf-dark); }
+#join_form ._join_btn { height: 52px !important; padding: 0 !important; border: 0 !important; border-radius: var(--sf-radius-card) !important; background: var(--sf-dark) !important; color: #fff !important; font: 700 16px/52px var(--sf-font) !important; }
