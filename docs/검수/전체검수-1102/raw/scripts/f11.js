@@ -1,0 +1,2 @@
+﻿// 흐름11: 푸터·떠 있는 버튼 링크 모으기(누르지 않음)
+log(await page.evaluate(() => { const a = [...document.querySelectorAll('#doz_footer_wrap a[href], footer a[href], .sf-ft a[href], a[href*="pf.kakao"], a[href*="kakao"], [class*=float] a[href], a[class*=inquiry], a[class*=cs]')]; return [...new Map(a.map(x => [x.href, (x.textContent.trim() || x.getAttribute('aria-label') || x.title || '(아이콘)').replace(/\s+/g, ' ').slice(0, 20) + ' | ' + x.href + ' | ' + (x.getBoundingClientRect().height > 0 ? '보임' : '숨김') + ' | target=' + (x.target || '')])).values()]; }));

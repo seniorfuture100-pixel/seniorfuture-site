@@ -1,0 +1,11 @@
+﻿// 흐름9 전문가: 목록 → 글(사진 크기·얼굴) → 강의 상품 강사 동그라미
+const T = Date.now();
+log('목록 카드', await page.evaluate(() => { const a = [...document.querySelectorAll('a[href*="bmode=view"]')].filter(x => x.getBoundingClientRect().height > 0); const im = [...document.querySelectorAll('img')].filter(i => i.getBoundingClientRect().width > 80 && i.complete); return { links: new Set(a.map(x => x.href.match(/idx=(\d+)/)[1])).size, imgs: im.length, broken: im.filter(i => i.naturalWidth === 0).length, nat: [...new Set(im.slice(0, 50).map(i => i.naturalWidth + 'x' + i.naturalHeight))].slice(0, 6) }; }));
+await page.goto('https://seniorfuture.kr/experts/?bmode=view&idx=175296882'); await page.waitForTimeout(3500);
+log('글', await page.evaluate(() => { const im = [...document.querySelectorAll('img')].filter(i => i.getBoundingClientRect().width > 150).slice(0, 3); return im.map(i => { const r = i.getBoundingClientRect(), s = getComputedStyle(i); return i.naturalWidth + 'x' + i.naturalHeight + ' 표시' + Math.round(r.width) + 'x' + Math.round(r.height) + ' r' + s.borderRadius + ' fit' + s.objectFit + ' pos' + s.objectPosition + ' ' + i.src.slice(-40); }); }));
+log('글 제목·소속', await page.evaluate(() => document.body.innerText.split('\n').map(x => x.trim()).filter(x => x).slice(0, 0).concat([...document.querySelectorAll('h1,h2,h3,strong')].filter(e => e.getBoundingClientRect().height > 0 && !e.closest('header,#doz_header_wrap,footer,#doz_footer_wrap')).slice(0, 5).map(e => e.textContent.trim().replace(/\s+/g, ' ').slice(0, 40)))));
+await page.screenshot({ path: process.env.SH + '-post.jpg', type: 'jpeg', quality: 70 });
+// 그 전문가 강의(박재병 → 상품 84) 강사 동그라미
+await page.goto('https://seniorfuture.kr/course/?idx=84'); await page.waitForTimeout(3500);
+log('상품84 강사 사진', await page.evaluate(() => [...document.querySelectorAll('img')].filter(i => { const r = i.getBoundingClientRect(), s = getComputedStyle(i); return r.width >= 40 && r.width <= 200 && Math.abs(r.width - r.height) < 2 && /50%|999|100/.test(s.borderRadius); }).slice(0, 4).map(i => { const r = i.getBoundingClientRect(), s = getComputedStyle(i); return Math.round(r.width) + 'px r' + s.borderRadius + ' fit' + s.objectFit + ' pos' + s.objectPosition + ' nat' + i.naturalWidth + 'x' + i.naturalHeight + ' ' + i.src.slice(-36); })));
+log('ms', Date.now() - T);

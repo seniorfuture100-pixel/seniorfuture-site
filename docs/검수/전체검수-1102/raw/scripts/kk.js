@@ -1,0 +1,2 @@
+﻿// 카카오 채널 링크: 이동 없이 pointerdown 만 보내 리퍼러 정책이 붙는지 확인(클릭·발송 없음)
+log(await page.evaluate(() => [...document.querySelectorAll('a[href*="pf.kakao.com"]')].map(a => { const before = a.referrerPolicy; a.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); return (a.textContent.trim() || a.getAttribute('aria-label') || '(아이콘)').slice(0, 12) + ' ' + a.href + ' before=' + (before || '-') + ' after=' + a.referrerPolicy + ' rel=' + a.rel; })));

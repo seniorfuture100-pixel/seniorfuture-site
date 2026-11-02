@@ -1,0 +1,62 @@
+{
+ "home": {
+  "frames": 1800,
+  "H": 6823,
+  "over50": 6,
+  "over100": 4,
+  "max": 133,
+  "p95": 17,
+  "long": 500,
+  "cls": 0,
+  "top": [
+   "scrollBy :-1:-1 817ms",
+   "(anon) jquery.js?1627517460:3:31603 662ms",
+   "querySelector :-1:-1 332ms",
+   "(anon) sf.min.js:1:239232 222ms",
+   "querySelectorAll :-1:-1 213ms",
+   "step :6:15 147ms",
+   "n.fn.init jquery.js?1627517460:1:24484 135ms",
+   "fa jquery.js?1627517460:1:6364 113ms"
+  ]
+ },
+ "insight": {
+  "frames": 1864,
+  "H": 20963,
+  "over50": 4,
+  "over100": 4,
+  "max": 1600,
+  "p95": 17,
+  "long": 2047,
+  "cls": 0,
+  "top": [
+   "scrollBy :-1:-1 1360ms",
+   "querySelector :-1:-1 388ms",
+   "parseFromString :-1:-1 364ms",
+   "(anon) jquery.js?1627517460:3:31603 288ms",
+   "querySelectorAll :-1:-1 217ms",
+   "step :6:15 132ms",
+   "fa jquery.js?1627517460:1:6364 102ms",
+   "n.fn.init jquery.js?1627517460:1:24484 95ms"
+  ]
+ },
+ "review": {
+  "frames": 1868,
+  "H": 8249,
+  "over50": 1,
+  "over100": 1,
+  "max": 117,
+  "p95": 17,
+  "long": 0,
+  "cls": 0,
+  "top": [
+   "querySelector :-1:-1 306ms",
+   "scrollBy :-1:-1 225ms",
+   "querySelectorAll :-1:-1 177ms",
+   "(anon) jquery.js?1627517460:3:31603 154ms",
+   "step :6:15 116ms",
+   "n.fn.init jquery.js?1627517460:1:24484 111ms",
+   "fa jquery.js?1627517460:1:6364 98ms",
+   "requestAnimationFrame :-1:-1 82ms"
+  ]
+ }
+}

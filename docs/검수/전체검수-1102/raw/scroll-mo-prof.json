@@ -1,0 +1,62 @@
+{
+ "home": {
+  "frames": 1830,
+  "H": 6823,
+  "over50": 4,
+  "over100": 3,
+  "max": 200,
+  "p95": 17,
+  "long": 392,
+  "cls": 0,
+  "top": [
+   "caretPositionFromPoint :-1:-1 1744ms",
+   "scrollBy :-1:-1 559ms",
+   "Ja clarity.js:1:17058 528ms",
+   "querySelector :-1:-1 408ms",
+   "(anon) sf.min.js:1:239232 369ms",
+   "querySelectorAll :-1:-1 219ms",
+   "step :6:15 149ms",
+   "n.fn.init jquery.js?1627517460:1:24484 116ms"
+  ]
+ },
+ "insight": {
+  "frames": 1861,
+  "H": 20963,
+  "over50": 6,
+  "over100": 5,
+  "max": 2183,
+  "p95": 17,
+  "long": 2753,
+  "cls": 0,
+  "top": [
+   "caretPositionFromPoint :-1:-1 3377ms",
+   "scrollBy :-1:-1 1724ms",
+   "querySelector :-1:-1 627ms",
+   "Ja clarity.js:1:17058 468ms",
+   "parseFromString :-1:-1 405ms",
+   "querySelectorAll :-1:-1 292ms",
+   "step :6:15 158ms",
+   "n.fn.init jquery.js?1627517460:1:24484 139ms"
+  ]
+ },
+ "review": {
+  "frames": 1784,
+  "H": 8249,
+  "over50": 3,
+  "over100": 3,
+  "max": 133,
+  "p95": 17,
+  "long": 124,
+  "cls": 0,
+  "top": [
+   "caretPositionFromPoint :-1:-1 1721ms",
+   "querySelector :-1:-1 425ms",
+   "Ja clarity.js:1:17058 238ms",
+   "scrollBy :-1:-1 218ms",
+   "querySelectorAll :-1:-1 181ms",
+   "step :6:15 141ms",
+   "fa jquery.js?1627517460:1:6364 112ms",
+   "n.fn.init jquery.js?1627517460:1:24484 105ms"
+  ]
+ }
+}

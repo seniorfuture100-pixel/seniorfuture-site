@@ -1,0 +1,1122 @@
+[
+ {
+  "id": "about",
+  "W": 1280,
+  "path": "/about",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "about",
+  "W": 390,
+  "path": "/about",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/about:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "business",
+  "W": 1280,
+  "path": "/business",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "business",
+  "W": 390,
+  "path": "/business",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-ai",
+  "W": 1280,
+  "path": "/course?cat=ai",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-ai",
+  "W": 390,
+  "path": "/course?cat=ai",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-care",
+  "W": 1280,
+  "path": "/course?cat=care",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-care",
+  "W": 390,
+  "path": "/course?cat=care",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-commerce",
+  "W": 1280,
+  "path": "/course?cat=commerce",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-commerce",
+  "W": 390,
+  "path": "/course?cat=commerce",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   },
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/course:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-finance",
+  "W": 1280,
+  "path": "/course?cat=finance",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-finance",
+  "W": 390,
+  "path": "/course?cat=finance",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-health",
+  "W": 1280,
+  "path": "/course?cat=health",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-health",
+  "W": 390,
+  "path": "/course?cat=health",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-housing",
+  "W": 1280,
+  "path": "/course?cat=housing",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-housing",
+  "W": 390,
+  "path": "/course?cat=housing",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-intro",
+  "W": 1280,
+  "path": "/course?cat=intro",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   },
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/course:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-intro",
+  "W": 390,
+  "path": "/course?cat=intro",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   },
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/course:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-life",
+  "W": 1280,
+  "path": "/course?cat=life",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-life",
+  "W": 390,
+  "path": "/course?cat=life",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-startup",
+  "W": 1280,
+  "path": "/course?cat=startup",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   },
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/course:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "cat-startup",
+  "W": 390,
+  "path": "/course?cat=startup",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "community",
+  "W": 1280,
+  "path": "/community",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "community",
+  "W": 390,
+  "path": "/community",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   },
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/community:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "course",
+  "W": 1280,
+  "path": "/course",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "course",
+  "W": 390,
+  "path": "/course",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "course",
+  "W": 768,
+  "path": "/course",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "err-abc",
+  "W": 1280,
+  "path": "/abc",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "err-abc",
+  "W": 390,
+  "path": "/abc",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "err-idx",
+  "W": 1280,
+  "path": "/course/?idx=999999",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "err-idx",
+  "W": 390,
+  "path": "/course/?idx=999999",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "err-mypage",
+  "W": 1280,
+  "path": "/shop_mypage/?sf=room",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "err-mypage",
+  "W": 390,
+  "path": "/shop_mypage/?sf=room",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "exp175296882",
+  "W": 1280,
+  "path": "/experts/?bmode=view&idx=175296882",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "exp175296882",
+  "W": 390,
+  "path": "/experts/?bmode=view&idx=175296882",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "exp175296887",
+  "W": 1280,
+  "path": "/experts/?bmode=view&idx=175296887",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "exp175296887",
+  "W": 390,
+  "path": "/experts/?bmode=view&idx=175296887",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/experts/:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "exp175296891",
+  "W": 1280,
+  "path": "/experts/?bmode=view&idx=175296891",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "exp175296891",
+  "W": 390,
+  "path": "/experts/?bmode=view&idx=175296891",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/experts/:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "experts",
+  "W": 1280,
+  "path": "/experts",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "experts",
+  "W": 390,
+  "path": "/experts",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "experts",
+  "W": 768,
+  "path": "/experts",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/experts:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "faq175309588",
+  "W": 1280,
+  "path": "/faq/?bmode=view&idx=175309588",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "faq175309588",
+  "W": 390,
+  "path": "/faq/?bmode=view&idx=175309588",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "help",
+  "W": 1280,
+  "path": "/help",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "help",
+  "W": 390,
+  "path": "/help",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "home",
+  "W": 1280,
+  "path": "/",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "home",
+  "W": 390,
+  "path": "/",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "home",
+  "W": 768,
+  "path": "/",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "ins175350197",
+  "W": 1280,
+  "path": "/insight/?bmode=view&idx=175350197",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "ins175350197",
+  "W": 390,
+  "path": "/insight/?bmode=view&idx=175350197",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/insight/:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "ins175350198",
+  "W": 1280,
+  "path": "/insight/?bmode=view&idx=175350198",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/insight/:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "ins175350198",
+  "W": 390,
+  "path": "/insight/?bmode=view&idx=175350198",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "ins175350199",
+  "W": 1280,
+  "path": "/insight/?bmode=view&idx=175350199",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/insight/:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "ins175350199",
+  "W": 390,
+  "path": "/insight/?bmode=view&idx=175350199",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/insight/:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "insight",
+  "W": 1280,
+  "path": "/insight",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/insight:0",
+    "ours": false
+   },
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/insight:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "insight",
+  "W": 390,
+  "path": "/insight",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/insight:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "insight",
+  "W": 768,
+  "path": "/insight",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/insight:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "join",
+  "W": 1280,
+  "path": "/site_join_type_choice",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "join",
+  "W": 390,
+  "path": "/site_join_type_choice",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "live84",
+  "W": 1280,
+  "path": "/live/?idx=84",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "live84",
+  "W": 390,
+  "path": "/live/?idx=84",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "live",
+  "W": 1280,
+  "path": "/live",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "live",
+  "W": 390,
+  "path": "/live",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+    "at": "https://imweb.me/_/wkernel/webinit-slim/boot.mjs:552",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "login",
+  "W": 1280,
+  "path": "/login",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "login",
+  "W": 390,
+  "path": "/login",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "meet50",
+  "W": 1280,
+  "path": "/community/?idx=50",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "meet50",
+  "W": 390,
+  "path": "/community/?idx=50",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "meet85",
+  "W": 1280,
+  "path": "/community/?idx=85",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "meet85",
+  "W": 390,
+  "path": "/community/?idx=85",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "news175306094",
+  "W": 1280,
+  "path": "/news/?bmode=view&idx=175306094",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "news175306094",
+  "W": 390,
+  "path": "/news/?bmode=view&idx=175306094",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "news",
+  "W": 1280,
+  "path": "/news",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "news",
+  "W": 390,
+  "path": "/news",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "partner",
+  "W": 1280,
+  "path": "/partner",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/partner:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "partner",
+  "W": 390,
+  "path": "/partner",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/partner:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "partners",
+  "W": 1280,
+  "path": "/partners",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/partners:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "partners",
+  "W": 390,
+  "path": "/partners",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/partners:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "prj175305941",
+  "W": 1280,
+  "path": "/projects/?bmode=view&idx=175305941",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "prj175305941",
+  "W": 390,
+  "path": "/projects/?bmode=view&idx=175305941",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "projects",
+  "W": 1280,
+  "path": "/projects",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "projects",
+  "W": 390,
+  "path": "/projects",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv103",
+  "W": 1280,
+  "path": "/course/?idx=103",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv103",
+  "W": 390,
+  "path": "/course/?idx=103",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv82",
+  "W": 1280,
+  "path": "/course/?idx=82",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv82",
+  "W": 390,
+  "path": "/course/?idx=82",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv82",
+  "W": 768,
+  "path": "/course/?idx=82",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv84",
+  "W": 1280,
+  "path": "/course/?idx=84",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv84",
+  "W": 390,
+  "path": "/course/?idx=84",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv85",
+  "W": 1280,
+  "path": "/course/?idx=85",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv85",
+  "W": 390,
+  "path": "/course/?idx=85",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv94",
+  "W": 1280,
+  "path": "/course/?idx=94",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "pv94",
+  "W": 390,
+  "path": "/course/?idx=94",
+  "errs": [],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "review",
+  "W": 1280,
+  "path": "/review",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/review:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "review",
+  "W": 390,
+  "path": "/review",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/review:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "terms",
+  "W": 1280,
+  "path": "/terms",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/terms:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ },
+ {
+  "id": "terms",
+  "W": 390,
+  "path": "/terms",
+  "errs": [
+   {
+    "type": "warning",
+    "msg": "The resource https://vendor-cdn.imweb.me/images/site/image-placeholder.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an a",
+    "at": "https://seniorfuture.kr/terms:0",
+    "ours": false
+   }
+  ],
+  "fails": [],
+  "bad": []
+ }
+]

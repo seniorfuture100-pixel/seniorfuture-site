@@ -1,0 +1,22 @@
+{
+ "insight": {
+  "frames": 2136,
+  "H": 20963,
+  "over50": 4,
+  "over100": 3,
+  "max": 1083,
+  "p95": 17,
+  "long": 1406,
+  "cls": 0,
+  "top": [
+   "(anon) jquery.js?1627517460:3:31603 965ms",
+   "querySelector :-1:-1 278ms",
+   "parseFromString :-1:-1 218ms",
+   "scrollBy :-1:-1 190ms",
+   "querySelectorAll :-1:-1 143ms",
+   "step :6:15 71ms",
+   "fa jquery.js?1627517460:1:6364 64ms",
+   "n.fn.init jquery.js?1627517460:1:24484 61ms"
+  ]
+ }
+}

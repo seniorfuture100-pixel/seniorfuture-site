@@ -1,0 +1,182 @@
+{
+ "home": {
+  "frames": 1822,
+  "H": 6725,
+  "over50": 1,
+  "over100": 0,
+  "max": 50,
+  "p95": 17,
+  "long": 52,
+  "cls": 0
+ },
+ "course": {
+  "frames": 414,
+  "H": 1647,
+  "over50": 0,
+  "over100": 0,
+  "max": 17,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "live": {
+  "frames": 411,
+  "H": 1653,
+  "over50": 0,
+  "over100": 0,
+  "max": 18,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "insight": {
+  "frames": 1643,
+  "H": 12426,
+  "over50": 0,
+  "over100": 0,
+  "max": 50,
+  "p95": 17,
+  "long": 63,
+  "cls": 0
+ },
+ "community": {
+  "frames": 1414,
+  "H": 3597,
+  "over50": 0,
+  "over100": 0,
+  "max": 17,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "business": {
+  "frames": 1842,
+  "H": 11151,
+  "over50": 0,
+  "over100": 0,
+  "max": 33,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "about": {
+  "frames": 1847,
+  "H": 13041,
+  "over50": 0,
+  "over100": 0,
+  "max": 33,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "partner": {
+  "frames": 1840,
+  "H": 8087,
+  "over50": 0,
+  "over100": 0,
+  "max": 33,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "partners": {
+  "frames": 1840,
+  "H": 8196,
+  "over50": 0,
+  "over100": 0,
+  "max": 17,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "review": {
+  "frames": 1812,
+  "H": 7042,
+  "over50": 1,
+  "over100": 0,
+  "max": 50,
+  "p95": 17,
+  "long": 52,
+  "cls": 0
+ },
+ "experts": {
+  "frames": 1813,
+  "H": 4423,
+  "over50": 0,
+  "over100": 0,
+  "max": 18,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "projects": {
+  "frames": 1377,
+  "H": 3526,
+  "over50": 0,
+  "over100": 0,
+  "max": 17,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "news": {
+  "frames": 1563,
+  "H": 3852,
+  "over50": 0,
+  "over100": 0,
+  "max": 17,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "help": {
+  "frames": 432,
+  "H": 1698,
+  "over50": 0,
+  "over100": 0,
+  "max": 17,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "terms": {
+  "frames": 1815,
+  "H": 7651,
+  "over50": 0,
+  "over100": 0,
+  "max": 18,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "pv82": {
+  "frames": 1802,
+  "H": 6639,
+  "over50": 0,
+  "over100": 0,
+  "max": 17,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "live84": {
+  "frames": 1792,
+  "H": 4307,
+  "over50": 0,
+  "over100": 0,
+  "max": 18,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ },
+ "meet85": {
+  "frames": 1801,
+  "H": 4373,
+  "over50": 0,
+  "over100": 0,
+  "max": 17,
+  "p95": 17,
+  "long": 0,
+  "cls": 0
+ }
+}
