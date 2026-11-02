@@ -93,5 +93,7 @@ SFUI.register('carousel', function (root) {
       ['mouseleave', 'focusout', 'touchend'].forEach(function (ev) { el.addEventListener(ev, function () { paused = false; }, { passive: true }); });
     }
     update();
+    // (11/2 사장님) 다른 페이지에 갔다가 '뒤로'로 돌아오면 브라우저가 페이지를 그대로 되살려(bfcache) 보던 배너(예: 5/6)에서 시작했어요 → 다시 1번째부터
+    if (peek) window.addEventListener('pageshow', function (e) { if (e.persisted) { jump(step() * CL); update(); } });
   });
 })
