@@ -1,0 +1,216 @@
+<style>
+/* 10/25 파트너 지원 02~08 새 디자인(참고: 인프런 지식공유) — 첫 화면은 그대로 */
+:root body .r3ap .r3ap-nums ul{grid-template-columns:repeat(4,1fr)!important}
+:root body .r3ap .pa-sec{padding:120px 0;background:#fff;text-align:center}
+:root body .r3ap .pa-sec--gray{width:var(--r2-vw,100vw);margin-left:calc(50% - var(--r2-vw,100vw)/2);box-sizing:border-box;background:#f5f6f8}
+:root body .r3ap .pa-h{margin:0;color:#191f28!important;font-size:44px;line-height:1.3;font-weight:800;letter-spacing:-.03em}
+:root body .r3ap .pa-sub{max-width:640px;margin:16px auto 0;color:#4e5968;font-size:17px;line-height:1.7}
+:root body .r3ap .pa-center{margin-top:40px}
+:root body .r3ap .pa-btn{display:inline-flex;height:54px;padding:0 30px;align-items:center;justify-content:center;border-radius:999px;font-size:16px;font-weight:700;text-decoration:none;transition:transform .2s}
+:root body .r3ap .pa-btn:hover{transform:translateY(-2px)}
+:root body .r3ap .pa-btn--dark{background:#191f28;color:#fff!important}
+:root body .r3ap .pa-btn--white{background:#fff;color:#191f28!important}
+:root body .r3ap .pa-emo{display:flex;width:56px;height:56px;flex:none;align-items:center;justify-content:center;border-radius:16px;background:rgba(255,255,255,.75);font-size:28px}
+/* 02 고민 */
+:root body .r3ap .pa-worry{width:var(--r2-vw,100vw);margin-left:calc(50% - var(--r2-vw,100vw)/2);box-sizing:border-box;background:linear-gradient(180deg,#fff7f1 0%,#fff 70%)}
+:root body .r3ap .pa-notes-t{margin:48px 0 0;color:#ff6a0f;font-size:15px;font-weight:800;text-align:center}
+:root body .r3ap .pa-notes{position:relative;height:300px;max-width:900px;margin:20px auto 0}
+:root body .r3ap .pa-note{position:absolute;display:inline-flex;align-items:center;gap:8px;padding:14px 18px;border-radius:12px;background:#fff;color:#191f28;font-size:16px;font-weight:600;white-space:nowrap;box-shadow:0 10px 24px rgba(25,31,40,.08)}
+:root body .r3ap .pa-note i{width:9px;height:9px;border-radius:50%;background:#ff8a3d}
+:root body .r3ap .pa-note--1{left:0;top:4px;transform:rotate(-3deg);background:#fff4d6}
+:root body .r3ap .pa-note--2{right:0;top:60px;transform:rotate(2.5deg)}
+:root body .r3ap .pa-note--3{left:4%;top:118px;transform:rotate(2deg);background:#eef2ff}
+:root body .r3ap .pa-note--4{right:2%;top:176px;transform:rotate(-2.5deg)}
+:root body .r3ap .pa-note--5{left:10%;top:236px;transform:rotate(-1.5deg);background:#f3eeff}
+:root body .r3ap .pa-ans{display:flex;flex-direction:column;gap:14px;max-width:880px;margin:40px auto 0;text-align:left}
+:root body .r3ap .pa-an{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px 32px;border-radius:20px}
+:root body .r3ap .pa-an small{display:block;color:#6b7684;font-size:14px;font-weight:600}
+:root body .r3ap .pa-an b{display:block;margin-top:6px;color:#191f28;font-size:20px;font-weight:800}
+:root body .r3ap .pa-an p{margin:6px 0 0;color:#4e5968;font-size:15px;line-height:1.65}
+:root body .r3ap .pa-an.is-a{background:#fff6dc}
+:root body .r3ap .pa-an.is-b{background:#eaf2ff}
+:root body .r3ap .pa-an.is-c{background:#e9f8f1}
+:root body .r3ap .pa-an.is-d{background:#fff0e6}
+:root body .r3ap .pa-an.is-e{background:#f3eeff}
+/* 03 방식 */
+:root body .r3ap .pa-ways{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1120px;margin:56px auto 0;text-align:left}
+:root body .r3ap .pa-way{display:flex;flex-direction:column;padding:28px 24px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px #e5e8eb;color:inherit!important;text-decoration:none;transition:transform .2s,box-shadow .2s}
+:root body .r3ap .pa-way:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1.5px #ff9652,0 14px 30px rgba(255,106,15,.1)}
+:root body .r3ap .pa-way__ic{display:flex;width:48px;height:48px;align-items:center;justify-content:center;border-radius:14px;background:#fff4ec;font-size:24px}
+:root body .r3ap .pa-way small{margin-top:16px;color:#ff6a0f;font-size:13px;font-weight:800}
+:root body .r3ap .pa-way b{margin-top:4px;color:#191f28;font-size:20px;font-weight:800}
+:root body .r3ap .pa-way p{margin:8px 0 0;color:#4e5968;font-size:14px;line-height:1.6}
+:root body .r3ap .pa-way em{margin-top:18px;color:#8b95a1;font-size:12px;font-style:normal;font-weight:700}
+:root body .r3ap .pa-way ul{margin:8px 0 0;padding:0;list-style:none}
+:root body .r3ap .pa-way li{position:relative;padding-left:14px;color:#333d4b;font-size:14px;line-height:1.7}
+:root body .r3ap .pa-way li::before{content:"";position:absolute;left:2px;top:.7em;width:5px;height:5px;border-radius:50%;background:#ff8a3d}
+:root body .r3ap .pa-way__go{margin-top:auto;padding-top:20px;color:#ff6a0f;font-size:14px;font-weight:700}
+/* 04 단계 */
+:root body .r3ap .pa-steps{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1120px;margin:56px auto 0;padding:0;list-style:none;text-align:left}
+:root body .r3ap .pa-steps li{padding:26px 22px;border-radius:20px;background:#f5f6f8}
+:root body .r3ap .pa-step{display:inline-flex;padding:5px 10px;border-radius:999px;background:#ff6a0f;color:#fff;font-size:12px;font-weight:800}
+:root body .r3ap .pa-steps b{display:block;margin-top:14px;color:#191f28;font-size:19px;font-weight:800}
+:root body .r3ap .pa-steps p{margin:8px 0 0;color:#4e5968;font-size:14px;line-height:1.65}
+/* 05 혜택 */
+:root body .r3ap .pa-bens{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:1000px;margin:56px auto 0;text-align:left}
+:root body .r3ap .pa-bens article{display:flex;flex-direction:column;padding:30px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px #e5e8eb}
+:root body .r3ap .pa-bens .pa-emo{background:#fff4ec}
+:root body .r3ap .pa-bens small{margin-top:16px;color:#ff6a0f;font-size:13px;font-weight:800}
+:root body .r3ap .pa-bens b{margin-top:4px;color:#191f28;font-size:21px;font-weight:800}
+:root body .r3ap .pa-bens p{margin:8px 0 0;color:#4e5968;font-size:15px;line-height:1.65}
+:root body .r3ap .pa-bens .pa-ben--wide{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;column-gap:22px;align-items:center;background:#fff7f1;box-shadow:inset 0 0 0 1px #ffdcc4}
+:root body .r3ap .pa-bens .pa-ben--wide .pa-emo{grid-row:1/4;background:#fff}
+:root body .r3ap .pa-bens .pa-ben--wide small{margin-top:0}
+@media (max-width:767.98px){:root body .r3ap .pa-bens .pa-ben--wide{display:flex}:root body .r3ap .pa-bens .pa-ben--wide small{margin-top:16px}}
+/* 06 전문가 */
+:root body .r3ap .pa-band{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:1120px;margin:0 auto;padding:48px 52px;border-radius:28px;background:linear-gradient(120deg,#13284a,#5a2a14 65%,#ff6a0f);text-align:left}
+:root body .r3ap .pa-band h2{margin:0;color:#fff!important;font-size:32px;line-height:1.35;font-weight:800}
+:root body .r3ap .pa-band p{margin:12px 0 0;max-width:560px;color:rgba(255,255,255,.78);font-size:16px;line-height:1.65}
+:root body .r3ap .pa-band .pa-btn{flex:none}
+/* 07 FAQ · 08 마지막 */
+:root body .r3ap .pa-dark{width:var(--r2-vw,100vw);margin-left:calc(50% - var(--r2-vw,100vw)/2);box-sizing:border-box;padding:120px 0 40px;background:#16191f;text-align:center}
+:root body .r3ap .pa-dark .pa-h{color:#fff!important}
+:root body .r3ap .pa-faq{max-width:820px;margin:48px auto 0!important;text-align:left}
+:root body .r3ap .pa-faq [data-sf-acc-item]{margin:0 0 10px!important;border:0!important;border-radius:16px!important;background:#24282f!important;overflow:hidden}
+:root body .r3ap .pa-faq [data-sf-acc-trigger]{width:100%;padding:22px 24px!important;background:none!important;color:#fff!important;font-size:16px!important;font-weight:700!important;text-align:left}
+:root body .r3ap .pa-faq [data-sf-acc-panel],:root body .r3ap .pa-faq [data-sf-acc-panel] *{background:transparent!important;box-shadow:none!important}
+:root body .r3ap .pa-faq [data-sf-acc-panel]{padding:0 24px 22px!important;color:#aeb5bf!important;font-size:15px;line-height:1.7}
+:root body .r3ap .pa-dark--end{padding-bottom:110px}
+:root body .r3ap .pa-sec--cta{padding-top:0}
+:root body .r3ap .pa-btn--brand{background:#ff6a0f;color:#fff!important;box-shadow:0 10px 24px rgba(255,106,15,.35)}
+:root body .r3ap .pa-btn--brand:hover{background:#f25f05}
+:root body .r3ap .pa-final{max-width:none;margin:0 auto;padding:76px 24px;border-radius:30px;background:radial-gradient(circle at 88% 0%,rgba(255,106,15,.32),rgba(255,106,15,0) 42%),radial-gradient(circle at 8% 100%,rgba(255,138,61,.14),rgba(255,138,61,0) 36%),#191f28;text-align:center}
+:root body .r3ap .pa-final h2{margin:0;color:#fff!important;font-size:38px;line-height:1.38;font-weight:800;letter-spacing:-.02em}
+:root body .r3ap .pa-final p{max-width:600px;margin:18px auto 0;color:#d1d6db;font-size:17px;line-height:1.7}
+:root body .r3ap .pa-final .pa-btn{margin-top:34px}
+:root body .r3ap .pa-final small{display:block;margin-top:16px;color:#9aa3ae;font-size:14px}
+@media (max-width:1023.98px){:root body .r3ap .pa-ways,:root body .r3ap .pa-steps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:767.98px){
+:root body .r3ap .r3ap-nums ul{grid-template-columns:repeat(2,1fr)!important}
+:root body .r3ap .pa-sec{padding:80px 0}
+:root body .r3ap .pa-h{font-size:28px}
+:root body .r3ap .pa-sub{font-size:15px}
+:root body .r3ap .pa-notes{display:none}
+:root body .r3ap .pa-ans{margin-top:16px}
+:root body .r3ap .pa-notes-t{margin-top:32px}
+:root body .r3ap .pa-an{padding:22px 20px;align-items:flex-start}
+:root body .r3ap .pa-an b{font-size:17px}
+:root body .r3ap .pa-an .pa-emo{width:44px;height:44px;font-size:22px}
+:root body .r3ap .pa-ways,:root body .r3ap .pa-steps,:root body .r3ap .pa-bens{grid-template-columns:1fr;margin-top:36px}
+:root body .r3ap .pa-band{flex-direction:column;align-items:flex-start;padding:32px 22px}
+:root body .r3ap .pa-band h2{font-size:24px}
+:root body .r3ap .pa-dark{padding:80px 0 24px}
+:root body .r3ap .pa-faq [data-sf-acc-trigger]{padding:18px!important;font-size:15px!important}
+:root body .r3ap .pa-final{padding:52px 20px;border-radius:22px}
+:root body .r3ap .pa-final p{font-size:15px}
+:root body .r3ap .pa-final h2{font-size:24px}
+:root body .r3ap .pa-btn{height:48px;padding:0 22px;font-size:15px}
+}
+</style>
+<div class="sf-scope">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="r3ap-go" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb27a"/><stop offset=".5" stop-color="#ff7a1f"/><stop offset="1" stop-color="#d94e00"/></linearGradient>
+    <linearGradient id="r3ap-gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fb6ff"/><stop offset=".5" stop-color="#3f7bf0"/><stop offset="1" stop-color="#1f4fc2"/></linearGradient>
+    <linearGradient id="r3ap-gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fe3bd"/><stop offset=".5" stop-color="#25b07a"/><stop offset="1" stop-color="#11794f"/></linearGradient>
+    <linearGradient id="r3ap-gy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6a8"/><stop offset=".45" stop-color="#ffd33d"/><stop offset="1" stop-color="#f5a300"/></linearGradient>
+    <linearGradient id="r3ap-gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b5f68"/><stop offset="1" stop-color="#25272c"/></linearGradient>
+    <radialGradient id="r3ap-hi" cx=".3" cy=".25" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <symbol id="r3ap-mic" viewBox="0 0 64 64"><path d="M20 52h24v5H20z" fill="url(#r3ap-gd)"/><path d="M30 42h4v11h-4z" fill="url(#r3ap-gd)"/><path d="M14 28a18 18 0 0 0 36 0" fill="none" stroke="url(#r3ap-gd)" stroke-width="4" stroke-linecap="round"/><rect x="21" y="5" width="22" height="36" rx="11" fill="url(#r3ap-go)"/><rect x="21" y="5" width="22" height="36" rx="11" fill="url(#r3ap-hi)"/><path d="M25 16h14M25 22h14M25 28h14" stroke="#fff" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="r3ap-book" viewBox="0 0 64 64"><path d="M32 16c-6-5-15-6-25-4v38c10-2 19-1 25 4z" fill="url(#r3ap-gb)"/><path d="M32 16c6-5 15-6 25-4v38c-10-2-19-1-25 4z" fill="url(#r3ap-gb)" opacity=".85"/><path d="M32 16c-6-5-15-6-25-4v38c10-2 19-1 25 4z" fill="url(#r3ap-hi)"/><path d="M13 22c5-1 10-.5 14 1.5M13 29c5-1 10-.5 14 1.5M37 23.5c4-2 9-2.5 14-1.5M37 30.5c4-2 9-2.5 14-1.5" stroke="#fff" stroke-opacity=".6" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="r3ap-chat" viewBox="0 0 64 64"><path d="M10 12h44a6 6 0 0 1 6 6v22a6 6 0 0 1-6 6H30l-12 10v-10h-8a6 6 0 0 1-6-6V18a6 6 0 0 1 6-6z" fill="url(#r3ap-gg)"/><path d="M10 12h44a6 6 0 0 1 6 6v22a6 6 0 0 1-6 6H30l-12 10v-10h-8a6 6 0 0 1-6-6V18a6 6 0 0 1 6-6z" fill="url(#r3ap-hi)"/><circle cx="20" cy="29" r="3.6" fill="#fff"/><circle cx="32" cy="29" r="3.6" fill="#fff"/><circle cx="44" cy="29" r="3.6" fill="#fff"/></symbol>
+    <symbol id="r3ap-star" viewBox="0 0 64 64"><path d="M32 5.5c1.6 0 3 .9 3.7 2.4l6.1 12.4 13.7 2c1.6.2 2.9 1.3 3.4 2.9.5 1.5.1 3.2-1.1 4.3l-9.9 9.6 2.3 13.6c.3 1.6-.4 3.2-1.7 4.1-1.3.9-3 1-4.4.3L32 50.6l-12.2 6.5c-1.4.7-3.1.6-4.4-.3-1.3-.9-2-2.5-1.7-4.1L16 39.1l-9.9-9.6c-1.2-1.1-1.6-2.8-1.1-4.3.5-1.6 1.8-2.7 3.4-2.9l13.7-2 6.1-12.4C29 6.4 30.4 5.5 32 5.5z" fill="url(#r3ap-gy)"/><path d="M32 5.5c1.6 0 3 .9 3.7 2.4l6.1 12.4 13.7 2c1.6.2 2.9 1.3 3.4 2.9.5 1.5.1 3.2-1.1 4.3l-9.9 9.6 2.3 13.6c.3 1.6-.4 3.2-1.7 4.1-1.3.9-3 1-4.4.3L32 50.6l-12.2 6.5c-1.4.7-3.1.6-4.4-.3-1.3-.9-2-2.5-1.7-4.1L16 39.1l-9.9-9.6c-1.2-1.1-1.6-2.8-1.1-4.3.5-1.6 1.8-2.7 3.4-2.9l13.7-2 6.1-12.4C29 6.4 30.4 5.5 32 5.5z" fill="url(#r3ap-hi)"/></symbol>
+  </defs>
+</svg>
+<main class="sf-pt sf-ap r3ap">
+
+  <!-- 1. 첫 화면 -->
+  <section class="r3ap-hero" aria-labelledby="ap-h1">
+    <div class="r3ap-objs" aria-hidden="true">
+      <span class="r3ap-obj r3ap-obj--mic"><svg><use href="#r3ap-mic"/></svg></span>
+      <span class="r3ap-obj r3ap-obj--book"><svg><use href="#r3ap-book"/></svg></span>
+      <span class="r3ap-obj r3ap-obj--chat"><svg><use href="#r3ap-chat"/></svg></span>
+      <span class="r3ap-obj r3ap-obj--star"><svg><use href="#r3ap-star"/></svg></span>
+      <i class="r3ap-orb r3ap-orb--1"></i><i class="r3ap-orb r3ap-orb--2"></i>
+    </div>
+    <div class="sf-wrap">
+      <span class="r3ap-pill">시니어퓨처 파트너 모집</span>
+      <h1 id="ap-h1">현장에서 쌓은 경험이<br><em>새로운 기회와 보람</em>으로</h1>
+      <p class="r3ap-lead">요양·주거·금융·헬스케어·여가·일자리 등 현장에서 쌓아 온 노하우, <br>시니어 산업에 들어오는 사람들이 기다리고 있어요.</p>
+      <a class="sf-btn sf-btn--primary sf-btn--l r3ap-cta" href="/partner-apply">파트너 지원하기 <span aria-hidden="true">→</span></a>
+      <p class="r3ap-micro">강의 준비는 신청한 뒤에 매니저와 천천히 시작해도 괜찮아요</p>
+    </div>
+  </section>
+
+  <!-- 2. 숫자 -->
+  <section class="r3ap-nums" aria-label="시니어퓨처 숫자">
+    <div class="sf-wrap">
+      <ul>
+        <li><b>200만 회+</b><span>SNS 누적 조회수</span></li>
+        <li><b>2,000명+</b><span>누적 참여</span></li>
+        <li><b>50회+</b><span>전문가 세미나·포럼</span></li>
+        <li><b>650명+</b><span>비즈니스 커뮤니티</span></li>
+      </ul>
+      <p class="r3ap-note">2023.09 ~ 2026.10 · 시니어퓨처 집계</p>
+    </div>
+  </section>
+
+  <!-- 3. 걱정 -->
+    <section class="pa-sec pa-worry" aria-labelledby="ap-worry">
+    <div class="sf-wrap">
+      <h2 id="ap-worry" class="pa-h r3ap-rv">전문성은 있지만<br>이를 확장할 기회가 부족하셨나요?</h2>
+      <p class="pa-sub r3ap-rv">현장에서 축적한 경험과 노하우가 더 많은 사람에게 전달되고, 새로운 비즈니스 기회로 이어질 수 있도록 시니어퓨처가 함께합니다.</p>
+      <p class="pa-notes-t r3ap-rv">전문가들이 겪는 고민</p>
+      <div class="pa-notes" aria-hidden="true"><span class="pa-note pa-note--1"><i></i>현장 경험과 노하우를 강의나 콘텐츠로 만들고 싶습니다.</span><span class="pa-note pa-note--2"><i></i>전문성을 알릴 수 있는 채널과 기회가 부족합니다.</span><span class="pa-note pa-note--3"><i></i>시니어 산업의 다양한 기업·전문가와 교류하고 싶습니다.</span><span class="pa-note pa-note--4"><i></i>일회성 활동을 넘어 지속적인 협업 기회를 만들고 싶습니다.</span><span class="pa-note pa-note--5"><i></i>강의를 어떻게 준비하고 운영해야 할지 막막합니다.</span></div>
+      <div class="pa-ans"><article class="pa-an is-a r3ap-rv"><div><small>현장 경험과 노하우를 강의나 콘텐츠로 만들고 싶습니다.</small><b>실무에서 쌓은 전문성이 있다면 충분합니다.</b><p>교육 경험이 없어도 콘텐츠 구성과 진행 방식을 함께 고민합니다.</p></div><span class="pa-emo" aria-hidden="true">🎓</span></article><article class="pa-an is-b r3ap-rv"><div><small>전문성을 알릴 수 있는 채널과 기회가 부족합니다.</small><b>전문성을 알릴 무대를 함께 만듭니다.</b><p>강의·세미나·칼럼 등 다양한 활동으로 전문 분야의 경험과 관점을 선보일 기회를 만듭니다.</p></div><span class="pa-emo" aria-hidden="true">🎤</span></article><article class="pa-an is-c r3ap-rv"><div><small>시니어 산업의 다양한 기업·전문가와 교류하고 싶습니다.</small><b>산업 네트워크로 연결합니다.</b><p>세미나·포럼과 비즈니스 커뮤니티에서 기업 관계자와 전문가들을 만나 교류할 수 있습니다.</p></div><span class="pa-emo" aria-hidden="true">🌐</span></article><article class="pa-an is-d r3ap-rv"><div><small>일회성 활동을 넘어 지속적인 협업 기회를 만들고 싶습니다.</small><b>다음 기회까지 함께 모색합니다.</b><p>교육과 콘텐츠 활동을 시작으로 전문가 브랜딩, 업계 네트워킹, 후속 협업 기회를 함께 모색합니다.</p></div><span class="pa-emo" aria-hidden="true">🚀</span></article><article class="pa-an is-e r3ap-rv"><div><small>강의를 어떻게 준비하고 운영해야 할지 막막합니다.</small><b>기획·판매·운영은 시니어퓨처가 맡습니다.</b><p>커리큘럼 기획, 판매페이지 제작, 홍보, 수강생 모집과 결제·환불 응대는 시니어퓨처가 하고, 파트너님은 강의에만 집중하시면 됩니다.</p></div><span class="pa-emo" aria-hidden="true">🎨</span></article></div>
+    </div>
+  </section>
+  <section class="pa-sec pa-sec--gray" aria-labelledby="ap-ways">
+    <div class="sf-wrap">
+      <h2 id="ap-ways" class="pa-h r3ap-rv">당신의 전문성을,<br>다양한 방식으로 나누세요.</h2>
+      <p class="pa-sub r3ap-rv">강의부터 콘텐츠 기고까지, 전문 분야와 활동 방식에 맞는 참여 기회를 제안합니다.</p>
+      <div class="pa-ways"><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">📘</span><small>01</small><b>교육 집필</b><p>실무 경험과 전문지식을 체계적인 교육 콘텐츠로 만들어보세요.</p><em>주요 활동</em><ul><li>교육 커리큘럼 및 교안 개발</li><li>실무 중심 교육 콘텐츠 제작</li></ul><span class="pa-way__go">교육 콘텐츠 참여하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">🎤</span><small>02</small><b>라이브 연사</b><p>현장에서 얻은 인사이트를 강연과 온라인 세미나를 통해 공유하세요.</p><em>주요 활동</em><ul><li>온라인·오프라인 강연</li><li>실무 세미나 및 전문가 토론</li></ul><span class="pa-way__go">강연 파트너 신청하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">✍️</span><small>03</small><b>인사이트 기고</b><p>현장의 변화와 산업의 흐름을 전문 콘텐츠로 전달하세요.</p><em>주요 활동</em><ul><li>시니어 산업 트렌드 및 사례 분석</li><li>전문 칼럼·인사이트 콘텐츠 기고</li></ul><span class="pa-way__go">콘텐츠 기고 참여하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">👥</span><small>04</small><b>커뮤니티 운영</b><p>공통 관심사를 가진 산업 관계자들과 함께 배우고 교류하는 자리를 만들어보세요.</p><em>주요 활동</em><ul><li>전문 스터디 및 네트워킹 모임</li><li>산업별 토론·교류 프로그램 운영</li></ul><span class="pa-way__go">커뮤니티 파트너 신청하기 →</span></a></div>
+    </div>
+  </section>
+  <section class="pa-sec" aria-labelledby="ap-steps">
+    <div class="sf-wrap">
+      <h2 id="ap-steps" class="pa-h r3ap-rv">파트너 참여는<br>이렇게 진행됩니다.</h2>
+      <p class="pa-sub r3ap-rv">전문 분야와 활동 목적에 맞는 협업 방식을 논의하고, 콘텐츠 기획부터 운영까지 함께합니다.</p>
+      <ol class="pa-steps"><li class="r3ap-rv"><span class="pa-step">STEP 01</span><b>전문가 참여 신청</b><p>전문 분야와 주요 경력, 희망하는 활동 방식을 작성해 주세요.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 02</span><b>참여 검토 및 협업 논의</b><p>전문성과 활동 방향을 검토한 후 적합한 협업 방식을 논의합니다.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 03</span><b>강의 기획 및 용역 계약</b><p>시니어퓨처가 기획한 과정에 맞춰 주제·일정·분량과 강사료를 정하고 강의 용역 계약을 맺습니다.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 04</span><b>강의 진행 및 강사료 지급</b><p>계약한 일정에 따라 강의를 진행하고, 시니어퓨처는 계약에서 정한 강사료를 지급합니다.</p></li></ol>
+      <div class="pa-center"><a class="pa-btn pa-btn--dark" href="/partner-apply">전문가 참여 신청하기 →</a></div>
+    </div>
+  </section>
+  <section class="pa-sec pa-sec--gray" aria-labelledby="ap-ben">
+    <div class="sf-wrap">
+      <h2 id="ap-ben" class="pa-h r3ap-rv">강의를 넘어,<br>전문가로서의 가능성을 확장하세요.</h2>
+      <p class="pa-sub r3ap-rv">시니어퓨처는 전문가의 경험과 지식이 새로운 콘텐츠와 협업, 비즈니스 기회로 이어질 수 있도록 연결합니다.</p>
+      <div class="pa-bens"><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">💰</span><small>01</small><b>전문성을 살리는 활동 기회</b><p>유료 교육과 강연, 프로젝트 등 전문성을 활용한 다양한 활동 기회를 만들 수 있습니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">🏢</span><small>02</small><b>기업·기관 협업 기회</b><p>전문성을 필요로 하는 기업과 기관의 교육·자문·프로젝트에 참여할 기회를 연결합니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">🌐</span><small>03</small><b>산업 네트워크 확대</b><p>시니어 산업의 다양한 전문가와 기업 관계자들을 만나 교류할 수 있습니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">⭐</span><small>04</small><b>전문가 브랜딩 강화</b><p>콘텐츠와 강연 활동을 통해 전문 분야의 경험과 관점을 알리고 활동 이력을 축적합니다.</p></article><article class="r3ap-rv pa-ben--wide"><span class="pa-emo" aria-hidden="true">🎨</span><small>05</small><b>강의에만 집중하는 환경</b><p>커리큘럼 기획과 촬영, 판매페이지 제작·홍보, 수강생 응대까지 시니어퓨처가 맡아 강의 준비에만 집중할 수 있습니다.</p></article></div>
+    </div>
+  </section>
+  <section class="pa-sec" aria-labelledby="ap-ex">
+    <div class="sf-wrap">
+      <div class="pa-band r3ap-rv">
+        <div><h2 id="ap-ex">시니어 산업의 현장을 이끄는<br>전문가들과 함께합니다.</h2><p>돌봄·헬스케어·시니어 주거·에이지테크 등 다양한 분야의 경험과 전문성이 강의와 콘텐츠로 이어집니다.</p></div>
+        <a class="pa-btn pa-btn--white" href="/experts">함께하는 전문가 보기 →</a>
+      </div>
+    </div>
+  </section>
+  <section class="pa-sec pa-sec--cta" aria-labelledby="ap-cta">
+    <div class="sf-wrap">
+      <div class="pa-final r3ap-rv">
+        <h2 id="ap-cta">당신의 전문성이,<br>누군가의 새로운 시작이 됩니다.</h2>
+        <p>현장에서 쌓은 경험과 지식이 더 많은 사람의 성장과 산업의 변화를 이끌 수 있도록, 시니어퓨처와 함께해 주세요.</p>
+        <a class="pa-btn pa-btn--brand" href="/partner-apply">파트너 신청하기 →</a>
+        <small>전문 분야와 희망 활동을 남겨주시면 신청 내용을 검토한 후 안내드립니다.</small>
+      </div>
+    </div>
+  </section>
+  <section class="pa-dark pa-dark--end" aria-labelledby="ap-faq">
+    <div class="sf-wrap">
+      <h2 id="ap-faq" class="pa-h">자주 묻는 질문</h2>
+      <div class="sf-pt-faq pa-faq" data-sf-accordion data-single><div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger>Q1. 어떤 사람이 파트너로 참여할 수 있나요?</button><div data-sf-acc-panel>시니어 산업과 관련된 실무 경험이나 전문지식을 보유한 분이라면 신청할 수 있습니다. 현장 실무자, 기업 관계자, 연구자, 전문직 등 다양한 분야의 참여를 환영합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q2. 강의 경험이 없어도 신청할 수 있나요?</button><div data-sf-acc-panel>네. 강의 경력뿐 아니라 현장에서 축적한 실무 경험과 전문성을 중요하게 생각합니다. 참여 방식과 콘텐츠 구성은 미팅을 통해 함께 논의합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q3. 어떤 방식으로 활동할 수 있나요?</button><div data-sf-acc-panel>온라인 강의, 오프라인 특강, 실무 교육 콘텐츠 제작, 전문 칼럼 기고, 커뮤니티 모임 등 다양한 형태로 참여할 수 있습니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q4. 콘텐츠 제작과 운영을 지원하나요?</button><div data-sf-acc-panel>교육의 주제 기획, 커리큘럼 구성, 촬영, 판매페이지 제작, 홍보와 운영은 시니어퓨처가 맡습니다. 파트너님은 강의와 강의 자료 준비에 집중하시면 됩니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q5. 강사료는 어떻게 정해지나요?</button><div data-sf-acc-panel>강의 시간·회차, 강의 형식(온라인·오프라인·VOD 촬영), 교안 제작 분량에 따라 정한 금액을 강의 용역 계약에서 미리 정합니다. 강사료는 강의 판매량과 관계없이 계약한 금액으로 지급합니다. 모든 교육상품은 시니어퓨처가 직접 기획·판매하고 결제·환불·수강생 응대도 시니어퓨처가 맡습니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q6. 신청 후에는 어떤 절차로 진행되나요?</button><div data-sf-acc-panel>신청서를 검토한 뒤 협업 가능성이 있는 분께 개별적으로 연락드립니다. 이후 미팅을 통해 참여 분야와 강의 일정·강사료를 협의하고, 조건이 맞으면 강의 용역 계약을 맺습니다.</div></div></div>
+    </div>
+  </section>
+</main>
+<!-- 동작(등장·전체 폭)은 공통 코드 sf-r3b-js (src/r3-partner.js) — 코드 위젯 안 script는 아임웹이 지워요 -->
+</div>
