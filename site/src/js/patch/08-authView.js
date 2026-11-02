@@ -14,7 +14,8 @@ SFUI.register('authView', function () {
   var NAMES = { naver: '네이버', google: '구글', apple: '애플', facebook: '페이스북', line: '라인' };
   // (10/23) 카카오 · 네이버 · 구글 세 버튼을 같은 크기로 위아래로. 네이버·구글은 관리자에서 아직 안 켰으면
   //   같은 모양의 '준비 중' 버튼을 대신 두고(누르면 안내), 켜면 아임웹 진짜 버튼이 그 자리에 들어가요
-  var WIDE = ['naver', 'google'];
+  // (11/2 사장님) 월급쟁이부자들처럼 카카오만 긴 버튼, 네이버·구글은 아래 동그라미 줄로 → 긴 버튼 목록 비움(관리자에서 켠 버튼만 동그라미로 나와요)
+  var WIDE = [];
   var ICON = {
     naver: '<svg class="sf-auth__bicon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.6 12.6 8.1 2H2v20h6.4V11.4L15.9 22H22V2h-6.4z"/></svg>',
     google: '<svg class="sf-auth__bicon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2.1-1.9 3.3-4.7 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.5-2.7c-1 .7-2.3 1.1-3.8 1.1-2.9 0-5.4-2-6.3-4.6H2.1v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.7 14.1a6.6 6.6 0 0 1 0-4.2V7.1H2.1a11 11 0 0 0 0 9.8z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2A11 11 0 0 0 2.1 7.1l3.6 2.8C6.6 7.3 9.1 5.4 12 5.4z"/></svg>'
@@ -61,9 +62,9 @@ SFUI.register('authView', function () {
     w.classList.add('sf-auth', isLogin ? 'sf-auth--login' : 'sf-auth--join');
     var head = document.createElement('div');
     head.className = 'sf-auth__head';
-    head.innerHTML = SFUI.logo() +
-      '<h1 class="sf-auth__sr">' + (isLogin ? '로그인' : '회원가입') + '</h1>' +
-      '<p class="sf-auth__promo">' + GIFT + '<span>지금 가입하고 무료 라이브·신규 강의 소식 먼저 받아보세요</span></p>';
+    // (11/2 사장님) 엠블럼 로고는 헤더와 겹쳐 보여서 빼고 글자 제목만: 로그인 '시니어퓨처' · 가입 '회원가입'
+    head.innerHTML = '<h1 class="sf-auth__title">' + (isLogin ? '시니어퓨처' : '회원가입') + '</h1>' +
+      '<p class="sf-auth__promo">' + GIFT + '<span>지금 가입하고<br><b>무료 라이브·신규 강의 소식</b> 먼저 받아보세요</span></p>';
     var close = w.querySelector(':scope > button.close');
     w.insertBefore(head, close ? close.nextSibling : w.firstChild);
     social(w);
