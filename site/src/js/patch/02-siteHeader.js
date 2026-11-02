@@ -1,7 +1,8 @@
 // 원본: src/site-header.js
-// (11/2 사장님 제공) 로고 그림 — 커밋 고정 주소라 버전이 바뀌어도 그대로. white = 어두운 바탕용(글자 흰색)
-SFUI.LOGO = 'https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@af6d7ac4a0a7d27c1e92432a1c7949130e31f7e1/site/assets/logo/';
-SFUI.logo = function (white) { return '<span class="sf-logo sf-logo--img"><img src="' + SFUI.LOGO + 'seniorfuture-logo' + (white ? '-white' : '') + '.png" alt="SENIOR FUTURE 시니어퓨처" width="516" height="176" decoding="async"></span>'; };
+// (11/2 사장님 제공) 로고 = 동그라미 엠블럼 그림 + '시니어퓨처' 글자(그림이 아닌 글자라 크기·간격을 자리마다 맞춰요)
+//   그림은 커밋 고정 주소라 버전이 바뀌어도 그대로. white = 어두운 바탕용(글자 흰색)
+SFUI.LOGO = 'https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@3d5bedf18b9dc91f1314dff8a602bf7ba3a5e009/site/assets/logo/seniorfuture-mark.png';
+SFUI.logo = function (white) { return '<span class="sf-logo sf-logo--img' + (white ? ' sf-logo--on-dark' : '') + '"><img src="' + SFUI.LOGO + '" alt="" width="192" height="192" decoding="async"><span class="sf-logo__txt">시니어퓨처</span></span>'; };
 SFUI.register('siteHeader', function () {
   var cfg = window.SF_SITE || {};
   var kakao = cfg.kakao || '/help';
