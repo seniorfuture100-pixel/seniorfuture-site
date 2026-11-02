@@ -10,7 +10,8 @@
    - 아임웹이 폼을 페이지가 뜬 뒤에 그려서, 내용이 생길 때까지 기다렸다가 적용해요. */
 SFUI.register('authView', function () {
   var KAKAO = '<svg class="sf-auth__kicon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.5C6.75 3.5 2.5 6.86 2.5 11c0 2.66 1.76 5 4.41 6.33l-.9 3.3c-.08.3.26.54.52.37l3.93-2.6c.5.07 1.02.1 1.54.1 5.25 0 9.5-3.36 9.5-7.5S17.25 3.5 12 3.5z"/></svg>';
-  var GIFT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 7h-2.18A3 3 0 0 0 12 4.02 3 3 0 0 0 6.18 7H4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zm-5-1a1 1 0 1 1 0 2h-2V7a1 1 0 0 1 1-1zm-6 0a1 1 0 0 1 1 1v1H8a1 1 0 1 1 0-2zm2 14H6v-8h5v8zm0-10H5V9h6v1zm7 10h-5v-8h5v8zm1-10h-6V9h6v1z"/></svg>';
+  // (11/2 사장님) 혜택 줄 아이콘: 주황 선 아이콘 → 3D 선물 상자(site/assets/logo/gift-3d.svg, 커밋 고정 주소)
+  var GIFT3D = '<img class="sf-auth__gift" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@24cdd944b1e7212d1f430fa5bde13e3a47d783bb/site/assets/logo/gift-3d.svg" alt="" width="48" height="48">';
   var NAMES = { naver: '네이버', google: '구글', apple: '애플', facebook: '페이스북', line: '라인' };
   // (10/23) 카카오 · 네이버 · 구글 세 버튼을 같은 크기로 위아래로. 네이버·구글은 관리자에서 아직 안 켰으면
   //   같은 모양의 '준비 중' 버튼을 대신 두고(누르면 안내), 켜면 아임웹 진짜 버튼이 그 자리에 들어가요
@@ -64,7 +65,7 @@ SFUI.register('authView', function () {
     head.className = 'sf-auth__head';
     // (11/2 사장님) 엠블럼 로고는 헤더와 겹쳐 보여서 빼고 글자 제목만: 로그인 '시니어퓨처' · 가입 '회원가입'
     head.innerHTML = '<h1 class="sf-auth__title">' + (isLogin ? '시니어퓨처' : '회원가입') + '</h1>' +
-      '<p class="sf-auth__promo">' + GIFT + '<span>지금 가입하고<br><b>무료 라이브·신규 강의 소식</b> 먼저 받아보세요</span></p>';
+      '<p class="sf-auth__promo">' + GIFT3D + '<span>지금 가입하고<br><b>무료 라이브·신규 강의 소식</b> 먼저 받아보세요</span></p>';
     var close = w.querySelector(':scope > button.close');
     w.insertBefore(head, close ? close.nextSibling : w.firstChild);
     social(w);
