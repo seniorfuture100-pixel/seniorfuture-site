@@ -218,12 +218,14 @@
       var lv = LV(), mt = MT(); // 다시 그리기 전에 칸을 잡아 둬요(안내만 남으면 LV()가 못 찾아요)
       try { r[1] && lv.forEach(function (u) { buildLive(r[1], u); }); } catch (x) { r[1] && prune(r[1], LV, '라이브'); }
       try { r[2] && mt.forEach(function (u) { buildMeet(r[2], u); }); } catch (x) { r[2] && prune(r[2], MT, '모임·이벤트'); }
-      [].forEach.call(document.querySelectorAll('ul.sf-cards4--grid, ol.sf-top5'), function (e) { e.classList.add('sf-hc-on'); });
-      r[1] || lv.forEach(function (u) { u.classList.add('sf-hc-on'); });
-      r[2] || mt.forEach(function (u) { u.classList.add('sf-hc-on'); });
+      // (11/2) 목록을 끝내 못 받으면(null) 디자인 예시 카드(없는 상품)를 보여 주지 않고 그 칸을 숨겨요
+      var off = function (els) { els.forEach(function (e) { var s = e.closest('section, .sf-sec'); (s || e).style.display = 'none'; }); };
+      var grid = [].slice.call(document.querySelectorAll('ul.sf-cards4--grid, ol.sf-top5'));
+      r[0] ? grid.forEach(function (e) { e.classList.add('sf-hc-on'); }) : off(grid);
+      r[1] || off(lv);
+      r[2] || off(mt);
     });
   }
   go();
-  // 늦어도 4초 뒤엔 보여요(받기가 늦거나 실패하면 지금 카드 그대로)
-  setTimeout(show, 4000);
+  // (11/2) 예전엔 4초 뒤 무조건 보여서, 받기가 늦으면 예시 카드(없는 상품)가 잠깐 또는 계속 보였어요 → 받은 뒤에만 보여요
 })()

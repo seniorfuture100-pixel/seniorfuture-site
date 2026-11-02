@@ -4,6 +4,12 @@
    - 푸터: 링크 4묶음 + 고객센터를 넣고, 템플릿 문구·SNS 아이콘은 숨겨요.
      이용약관·개인정보처리방침·사업자 정보는 아임웹 값을 그대로 써요(환경설정에서 바꾸면 바로 반영).
    카카오톡 채널 주소: window.SF_SITE = { kakao: 'http://pf.kakao.com/_xxxx/chat' } 를 이 코드보다 위에 두면 연결돼요. */
+// (11/2 사장님) 카카오 채널 채팅 첫 말풍선의 '- 이전 페이지: 주소' 줄은 카카오가 이동 전 주소(리퍼러)를 받아 붙여요
+//   → 카카오 채널로 가는 모든 링크(디자인 위젯 포함)에서 이전 주소를 넘기지 않아요
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest && e.target.closest('a[href*="pf.kakao.com"]');
+  if (a) { a.setAttribute('rel', ((a.getAttribute('rel') || '') + ' noreferrer noopener').trim()); a.referrerPolicy = 'no-referrer'; }
+}, true);
 SFUI.register('siteChrome', function () {
   var cfg = window.SF_SITE || {};
   var kakao = cfg.kakao || '/help';
