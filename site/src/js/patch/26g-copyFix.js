@@ -4,19 +4,21 @@
 //  ② 고객센터 공지·자주 묻는 질문의 예시 글(SFUI.sampleHide, patch/06a) — 목록에서 숨김
 SFUI.register('copyFix', function () {
   var p = location.pathname.replace(/\/$/, '') || '/';
+  // 상품 상세: /shop_view/?idx= 말고 /course/?idx= 처럼 목록 주소로도 열려요(Codex) → 아임웹 body 클래스로도 판별
+  var PVR = /^\/shop_view/, PV = PVR.test(p) || document.body.classList.contains('shop_view') || (/[?&]idx=\d+/.test(location.search) && /^\/(course|live|community)$/.test(p));
   // [주소 규칙, 바꿀 글자, 새 글자]  — 주소 규칙 null = 모든 화면
   var R = [
     // 무료 라이브: 실제 일정(11/19 목)과 다른 '매주 수요일', 보내지 않는 문자·이메일 안내를 사실대로
-    [/^\/live$/, '매주 수요일 저녁, 현업 전문가에게 무료로 배우고 바로 질문해요', '전문가 네트워크에서 무료로 배우고, 궁금한 점은 실시간으로 물어보세요'],
+    [/^\/live$/, '매주 수요일 저녁, 현업 전문가에게 무료로 배우고 바로 질문해요', '전문가 네트워크의 연사에게 무료로 배우고, 궁금한 점은 실시간으로 물어보세요'],
     [/^\/live$/, '매주 수요일 저녁, 현업 전문가와 무료로 만나요', '신청은 무료, 참여는 온라인(Zoom)으로 해요'],
     [/^\/live$/, '신청하면 시작 30분 전에 입장 링크를 문자와 이메일로 보내드려요', '신청한 라이브는 마이페이지 › 나의 강의실에서 입장할 수 있어요'],
     // 홈: 모집 중인 모임이 있는데 '최근 열린 모임' / 전문가 호칭 통일
     [/^\/$/, '최근 열린 모임이에요 · 다음 소식은', '모집 중인 모임과 지난 모임이에요 · 새 모임 소식은'],
-    [/^\/$/, '현업 전문가에게 무료로 배우고, 질문도 바로 해보세요', '전문가 네트워크에서 무료로 배우고, 궁금한 점은 바로 물어보세요'],
+    [/^\/$/, '현업 전문가에게 무료로 배우고, 질문도 바로 해보세요', '전문가 네트워크의 연사에게 무료로 배우고, 궁금한 점은 바로 물어보세요'],
     // (11/2 사장님) 전문가 호칭 = '전문가 네트워크'(현장·현업 전문가 대신)
     [/^\/course$/, '시니어 산업 현장 전문가의 실무 교육을 분야별로 찾아보세요', '시니어퓨처 전문가 네트워크의 실무 교육을 분야별로 찾아보세요'],
     [/^\/business$/, '현업 전문가 세미나·포럼', '전문가 네트워크 세미나·포럼'],
-    [/^\/shop_view/, '현업 전문가와 직접 토론하며', '전문가 네트워크와 직접 토론하며'],
+    [PVR, '현업 전문가와 직접 토론하며', '전문가 네트워크 참여자들과 직접 토론하며'],
     // 파트너 지원: 활동 이름을 신청서 분야(교육 강사·라이브 연사·인사이트 기고·커뮤니티 운영)와 같게, 버튼 이름 하나로
     [/^\/partner$/, '교육 집필', '교육 강사'],
     [/^\/partner$/, '교육 콘텐츠 참여하기', '교육 강사 지원하기'],
@@ -33,7 +35,7 @@ SFUI.register('copyFix', function () {
     [null, '전체보기', '전체 보기'],
     [null, '더보기', '더 보기'],
     [null, '모집중', '모집 중']
-  ].filter(function (r) { return !r[0] || r[0].test(p); });
+  ].filter(function (r) { return !r[0] || (r[0] === PVR ? PV : r[0].test(p)); });
   var SKIP = 'script, style, textarea, input, select, [contenteditable], .board_txt_area, .sf-review, .sf-pv-reviews, .sf-rv-list';
   function fixText(root) {
     var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), t;
@@ -57,7 +59,7 @@ SFUI.register('copyFix', function () {
     });
   }
   // 상품 상세는 설명 본문(관리자가 쓴 상품 글)에도 호칭 규칙만 적용 — 원문은 관리자에서 고치면 이 규칙은 할 일이 없어져요
-  var ROOT = /^\/shop_view/.test(p) ? '.sf-scope, .sf-pv-ownbody, .detail_detail_wrap' : '.sf-scope';
+  var ROOT = PV ? '.sf-scope, .sf-pv-ownbody, .detail_detail_wrap' : '.sf-scope';
   function run() { [].forEach.call(document.querySelectorAll(ROOT), fixText); hideSamples(); }
   run();
   // 게시판 목록은 아임웹이 본문을 다 읽은 뒤에 그려요 → 조금 뒤에 한 번 더
