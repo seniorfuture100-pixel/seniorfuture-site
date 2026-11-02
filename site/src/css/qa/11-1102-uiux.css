@@ -40,6 +40,9 @@ a.pa-way, article.r3ap-rv, article.pt3-ben__a { border-radius: var(--sf-radius-p
 :root body .sf-auth .sf-auth__head .sf-logo--img { --lg-h: 48px; --lg-fs: 24px; --lg-gap: 12px; display: inline-flex !important; flex-direction: row !important; justify-content: center; } /* 로그인 창 옛 글자 로고 규칙(.sf-auth .sf-auth__head .sf-logo)이 더 무거워서 위아래로 쌓였어요 */
 :root body #doz_footer_wrap .r3-ft-logo .sf-logo--img { --lg-h: 40px; --lg-fs: 20px; --lg-gap: 10px; }
 :root body .sf-logo--on-dark .sf-logo__txt { color: #fff; }
+/* PC 헤더: 아임웹 로고 칸(.logo_title, 43px)이 블록이라 로고(36px)가 칸 위쪽에 붙어 메뉴 글자보다 3.5px 떠 있었어요 → 칸 안 세로 가운데 */
+html.sf-hd-on #doz_header_wrap .logo_title { display: flex; align-items: center; }
+html.sf-hd-on #doz_header_wrap .logo_title a { line-height: 1 !important; }
 
 /* (11/2 사장님) 띠배너: 휴대폰에서는 '…오픈!' 다음에 줄을 나눠요(PC는 한 줄) */
 :root body .sf-topbanner .sf-tb-br { display: none; }
