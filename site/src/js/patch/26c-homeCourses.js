@@ -209,23 +209,29 @@
     // (10/30 사장님) 홈 칸 이름: '커뮤니티 모임 · 이벤트' → '커뮤니티' (홈 코드 위젯 글자는 디자인 모드에서 바꾸기 전까지 여기서)
     var hm = document.getElementById('h-meet');
     hm && hm.textContent !== '커뮤니티' && (hm.textContent = '커뮤니티');
-    var ready = document.querySelector('ol.sf-top5') && document.querySelector('ul.sf-cards4--grid li[data-sf-filter-item]');
-    if (!ready && document.readyState === 'complete' || Date.now() - t0 > 6000) { done = true; return show(); }
-    if (!ready) return void setTimeout(go, 40);
+    var ready = EDU().length === 2;
+    if (!ready && document.readyState !== 'complete' && Date.now() - t0 <= 6000) return void setTimeout(go, 40);
     done = true;
-    Promise.all([got, gotLive, gotMeet]).then(function (r) {
-      try { r[0] && paint(r[0]); } catch (x) {}
-      var lv = LV(), mt = MT(); // 다시 그리기 전에 칸을 잡아 둬요(안내만 남으면 LV()가 못 찾아요)
-      try { r[1] && lv.forEach(function (u) { buildLive(r[1], u); }); } catch (x) { r[1] && prune(r[1], LV, '라이브'); }
-      try { r[2] && mt.forEach(function (u) { buildMeet(r[2], u); }); } catch (x) { r[2] && prune(r[2], MT, '모임·이벤트'); }
-      // (11/2) 목록을 끝내 못 받으면(null) 디자인 예시 카드(없는 상품)를 보여 주지 않고 그 칸을 숨겨요
-      var off = function (els) { els.forEach(function (e) { var s = e.closest('section, .sf-sec'); (s || e).style.display = 'none'; }); };
-      var grid = [].slice.call(document.querySelectorAll('ul.sf-cards4--grid, ol.sf-top5'));
-      r[0] ? grid.forEach(function (e) { e.classList.add('sf-hc-on'); }) : off(grid);
-      r[1] || off(lv);
-      r[2] || off(mt);
+    // (11/2) 예전엔 4초 뒤(+CSS 3초 뒤) 무조건 보여서, 받기가 늦거나 실패하면 디자인 예시 카드(없는 상품)가 보였어요
+    //  → 칸마다 따로: 받아서 다 그리면 보이고, 실패·예외·12초 넘김이면 그 칸만 숨겨요(Codex)
+    var lv = LV(), mt = MT(); // 다시 그리기 전에 칸을 잡아 둬요(안내만 남으면 LV()가 못 찾아요)
+    finish(got, EDU, function (x) { paint(x); return true; });
+    // 라이브·모임은 만들기 함수가 일정 정보를 받은 뒤(최대 2초) 스스로 보이게 해요 → 5초 안에 안 보이면(중간 예외) 없는 상품만 빼고 보여요
+    var side = function (els, build, w) { return function (x) { try { els.forEach(function (u) { build(x, u); }); } catch (e) { prune(x, function () { return els; }, w); return true; }
+      setTimeout(function () { els.forEach(function (u) { u.classList.contains('sf-hc-on') || (prune(x, function () { return [u]; }, w), u.classList.add('sf-hc-on')); }); }, 5000); return false; }; };
+    finish(gotLive, function () { return lv; }, side(lv, buildLive, '라이브'));
+    finish(gotMeet, function () { return mt; }, side(mt, buildMeet, '모임·이벤트'));
+  }
+  // 홈 교육 칸 = 분야 칩이 붙은 '가장 주목받는 강의'(첫 sf-cards4--grid) + TOP 5 — 유튜브 영상 목록(같은 sf-cards4--grid)은 빼요(Codex)
+  function EDU() { var g = document.querySelector('ul.sf-cards4--grid'); return [g && g.querySelector('li[data-sf-filter-item]') ? g : null, document.querySelector('ol.sf-top5')].filter(Boolean); }
+  function finish(p, els, build) {
+    var cap = new Promise(function (ok) { setTimeout(function () { ok(null); }, 12000); });
+    var hide = function () { els().forEach(function (e) { var s = e.closest('section, .sf-sec'); (s || e).style.display = 'none'; }); };
+    Promise.race([p, cap]).then(function (x) {
+      if (!x) return hide();
+      var showNow; try { showNow = build(x); } catch (e) { return hide(); }
+      showNow && els().forEach(function (e) { e.classList.add('sf-hc-on'); }); // build 가 true 면 지금 보이고, false 면 build 쪽이 스스로 보여요
     });
   }
   go();
-  // (11/2) 예전엔 4초 뒤 무조건 보여서, 받기가 늦으면 예시 카드(없는 상품)가 잠깐 또는 계속 보였어요 → 받은 뒤에만 보여요
 })()

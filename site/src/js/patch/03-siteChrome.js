@@ -6,10 +6,13 @@
    카카오톡 채널 주소: window.SF_SITE = { kakao: 'http://pf.kakao.com/_xxxx/chat' } 를 이 코드보다 위에 두면 연결돼요. */
 // (11/2 사장님) 카카오 채널 채팅 첫 말풍선의 '- 이전 페이지: 주소' 줄은 카카오가 이동 전 주소(리퍼러)를 받아 붙여요
 //   → 카카오 채널로 가는 모든 링크(디자인 위젯 포함)에서 이전 주소를 넘기지 않아요
-document.addEventListener('click', function (e) {
-  var a = e.target && e.target.closest && e.target.closest('a[href*="pf.kakao.com"]');
-  if (a) { a.setAttribute('rel', ((a.getAttribute('rel') || '') + ' noreferrer noopener').trim()); a.referrerPolicy = 'no-referrer'; }
-}, true);
+//   클릭뿐 아니라 가운데 클릭·오른쪽 메뉴(새 탭)·키보드 초점에서도 미리 달아요(Codex)
+['pointerdown', 'click', 'auxclick', 'contextmenu', 'focusin'].forEach(function (t) {
+  document.addEventListener(t, function (e) {
+    var a = e.target && e.target.closest && e.target.closest('a[href*="pf.kakao.com"]');
+    if (a && a.referrerPolicy !== 'no-referrer') { a.relList.add('noreferrer', 'noopener'); a.referrerPolicy = 'no-referrer'; }
+  }, true);
+});
 SFUI.register('siteChrome', function () {
   var cfg = window.SF_SITE || {};
   var kakao = cfg.kakao || '/help';
