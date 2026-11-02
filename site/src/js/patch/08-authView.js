@@ -55,8 +55,9 @@ SFUI.register('authView', function () {
       list.appendChild(a);
     });
     if (!sns) return;
-    sns.parentNode.insertBefore(list, sns.nextSibling);
-    if (row.children.length) list.parentNode.insertBefore(row, list.nextSibling);
+    var at = sns; // 긴 버튼이 없으면(지금) 빈 목록은 넣지 않고 동그라미 줄을 카카오 바로 아래에(Codex)
+    if (list.children.length) { sns.parentNode.insertBefore(list, sns.nextSibling); at = list; }
+    if (row.children.length) at.parentNode.insertBefore(row, at.nextSibling);
   }
   function decorate(w, isLogin) {
     if (w.querySelector('.sf-auth__head')) return;
