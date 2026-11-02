@@ -45,9 +45,9 @@ SFUI.register('copyFix', function () {
     var H = SFUI.sampleHide || {};
     [].forEach.call(document.querySelectorAll('a[href*="bmode=view"]'), function (a) {
       var m = /idx=(\d+)/.exec(a.getAttribute('href') || '');
-      if (!m || !H[m[1]]) return;
+      if (!m || !H[m[1]] || a.closest(SKIP)) return; // 글 본문 안 링크는 그대로
       // 줄 전체(목록 줄 ul.li_body · 카드 · 표 줄)를 숨겨요 — closest 하나로 찾으면 더 가까운 제목 칸(li.tit)만 숨겨져서 하나씩 찾아요
-      var row = a.closest('ul.li_body') || a.closest('._post_item_wrap') || a.closest('tr') || a.closest('li');
+      var row = a.closest('ul.li_body') || a.closest('._post_item_wrap') || a.closest('tr') || a.closest('[data-widget-type="board"] li, .li_board li, .sf-help li, .r3-bellp li'); // 목록 칸 안의 줄만(Codex)
       row && row.style.setProperty('display', 'none', 'important'); // 공지 목록 CSS 의 display:flex!important 를 이겨야 해요
     });
   }
@@ -56,7 +56,11 @@ SFUI.register('copyFix', function () {
   // 게시판 목록은 아임웹이 본문을 다 읽은 뒤에 그려요 → 조금 뒤에 한 번 더
   // 고객센터 자주 묻는 질문은 우리 코드(patch/16)가 /faq 를 받아 늦게 붙여요 → 바뀔 때마다 숨김만 다시(가벼운 일만 해요)
   window.addEventListener('load', run, { once: true });
-  var mo = new MutationObserver(function () { clearTimeout(mo.t); mo.t = setTimeout(hideSamples, 120); });
+  // 글 링크가 새로 붙을 때만 다시 봐요(다른 변화는 무시), 같은 화면에서 두 번 걸지 않아요(Codex)
+  if (SFUI.__copyFixMo) SFUI.__copyFixMo.disconnect();
+  var LINK = 'a[href*="bmode=view"]', mo = SFUI.__copyFixMo = new MutationObserver(function (ms) {
+    for (var i = 0; i < ms.length; i++) for (var j = 0; j < ms[i].addedNodes.length; j++) { var n = ms[i].addedNodes[j]; if (n.nodeType === 1 && (n.matches(LINK) || n.querySelector(LINK))) { clearTimeout(mo.t); mo.t = setTimeout(hideSamples, 120); return; } }
+  });
   mo.observe(document.body, { childList: true, subtree: true });
   // 고객센터·FAQ·공지 화면은 목록이 언제 붙을지 몰라 계속 지켜봐요(그 밖의 화면은 10초)
   /^\/(help|faq|notice)/.test(p) || setTimeout(function () { mo.disconnect(); run(); }, 10000);
