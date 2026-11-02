@@ -64,5 +64,11 @@
   "screen": "common",
   "src": null,
   "note": "11/2 공통 토큰(간격·글자·모서리), 인사이트 BEST 견본 숨김, 섹션 설명 14px, 섹션 링크 44px, 큰 안내 카드 모서리 20px"
+ },
+ {
+  "file": "12-1102-pg-hide.css",
+  "screen": "common",
+  "src": null,
+  "note": "11/2 PG 재심사 스위치(SF_PG_HIDE) 켜졌을 때 파트너 모집·추천 수익 링크 가리기"
  }
 ]

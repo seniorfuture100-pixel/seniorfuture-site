@@ -385,6 +385,7 @@
         c ? "sf=" + c : "m2=" + a), p = o(".shop-content.mypage .left-menu a").filter((function(e) {
           return /탈퇴/.test(e.textContent);
         }))[0], m = p && p.getAttribute("href") || "#", h = [ [ "학습", [ [ "나의 강의실", "/shop_mypage/?sf=room", "sf=room" ], [ "결제 내역", "/shop_mypage/?sf=orders", "sf=orders" ], [ "찜한 내역", "/shop_mypage/?m2=wish_list", "m2=wish_list" ], [ "열람 내역", "/shop_mypage/?sf=recent", "sf=recent" ] ] ], [ "파트너스", [ [ "링크 생성하기", "/shop_mypage/?sf=partners", "sf=partners" ] ] ], [ "혜택", [ [ "쿠폰함", "/shop_mypage/?m2=coupon_list", "m2=coupon_list" ], [ "적립금", "/shop_mypage/?m2=point_list", "m2=point_list" ] ] ], [ "계정", [ [ "로그아웃", "/logout.cm?back_url=Lw==", "out" ], [ "회원탈퇴", m, "leave" ] ] ] ], v = [];
+        window.SF_PG_HIDE && (h = h.filter((function(e) { return e[0] !== "파트너스"; })));   // (11/2) PG 재심사 스위치(blocks/config.js) — 끄면 다시 보여요
         h.forEach((function(e) {
           e[1].forEach((function(e) {
             v.push(e);

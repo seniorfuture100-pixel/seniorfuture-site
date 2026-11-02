@@ -1,0 +1,16 @@
+/* (11/2) PG 재심사 스위치(site/blocks/config.js 의 SF_PG_HIDE)가 켜졌을 때만 파트너 모집·추천 수익 안내를 숨겨요.
+   지우는 게 아니라 가리기만 해요 → 스위치를 false 로 바꿔 배포하면 원래 화면 그대로 돌아와요. */
+:root.sf-pg-hide body a[href="/partner"],
+:root.sf-pg-hide body a[href^="/partner?"],
+:root.sf-pg-hide body a[href="/partner-apply"],
+:root.sf-pg-hide body a[href^="/partners"],
+:root.sf-pg-hide body a[href="/terms#cpartner"],
+:root.sf-pg-hide body a[href="/terms#partners"],
+:root.sf-pg-hide body a[href="#cpartner"],
+:root.sf-pg-hide body a[href="#partners"],
+:root.sf-pg-hide body li:has(> a[href="/partner"]),
+:root.sf-pg-hide body li:has(> a[href^="/partners"]),
+:root.sf-pg-hide body li:has(> a[href="/terms#cpartner"]),
+:root.sf-pg-hide body .sf-hd-partner,
+:root.sf-pg-hide body .r3-rsh__t,
+:root.sf-pg-hide body .r3-spop__more {display:none !important}

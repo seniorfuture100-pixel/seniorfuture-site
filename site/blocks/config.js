@@ -39,3 +39,7 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
     { o: '매일경제', t: '"시니어 비즈니스 지금이 기회" 기업과 청년의 새로운 전장으로', d: '2025-04-30', href: 'https://n.news.naver.com/article/030/0003308822', g: 'g-b' }
   ]
 });
+// (11/2) PG 재심사 스위치 — true 면 파트너 모집·추천 수익 안내를 가려요(코드·내용은 그대로). 심사 통과 뒤 false 로 바꿔 배포하면 원래 화면으로 돌아와요.
+//   쓰는 곳: css/qa/12-1102-pg-hide.css(html.sf-pg-hide), js/ui/03b-homeBanner.js(파트너 모집 배너), js/r2/01-iife.js(마이페이지 '파트너스' 메뉴)
+window.SF_PG_HIDE = true;
+if (window.SF_PG_HIDE) document.documentElement.classList.add('sf-pg-hide');

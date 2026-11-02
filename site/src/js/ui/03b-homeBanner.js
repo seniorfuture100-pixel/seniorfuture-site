@@ -68,6 +68,7 @@ SFUI.register('homeBanner', function () {
         '<span class="hb-chip c-50"><b>50곳+</b>대학·공공기관·기업·미디어</span>' +
         '<span class="hb-check k1">' + svg(I.check) + '맞춤 교육</span><span class="hb-check k2">' + svg(I.check) + '행사 협업</span><span class="hb-check k3">' + svg(I.check) + '공동 프로젝트</span>' }
   ];
+  if (window.SF_PG_HIDE) SLIDES = SLIDES.filter(function (s) { return s.k !== 'partner'; });   // (11/2) PG 재심사 스위치(blocks/config.js) — 끄면 다시 보여요
   track.innerHTML = SLIDES.map(function (s) {
     return '<a class="sfw-banner__slide sf-hb sf-hb--' + s.k + '" href="' + s.href + '">' +
       '<span class="sfw-banner__copy"><span class="sf-badge sf-badge--dark">' + s.badge + '</span><strong>' + s.title + '</strong><span>' + s.sub + '</span><em>자세히 보기' + svg(I.arrow) + '</em></span>' +
