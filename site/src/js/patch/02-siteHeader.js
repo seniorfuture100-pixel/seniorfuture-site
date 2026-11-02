@@ -44,7 +44,7 @@ SFUI.register('siteHeader', function () {
   // ① 띠배너 (헤더 위)
   var tb = cfg.topbanner === false ? null : (cfg.topbanner || { key: '2026-11-open', text: '11월 신규 교육 오픈 · 얼리버드 모집 중', href: '/course' });
   if (tb) {
-    var bar = el('div', 'sf-topbanner', '<a href="' + tb.href + '">' + txt(tb.text) + '</a><button type="button" data-sf-close aria-label="띠배너 닫기">' + ICON.close + '</button>');
+    var bar = el('div', 'sf-topbanner', '<a href="' + tb.href + '">' + txt(tb.text).replace('! ', '!<br class="sf-tb-br"> ') + '</a><button type="button" data-sf-close aria-label="띠배너 닫기">' + ICON.close + '</button>');
     bar.setAttribute('data-sf-topbanner', tb.key);
     wrap.parentNode.insertBefore(bar, wrap);
   }
