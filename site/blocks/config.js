@@ -2,7 +2,7 @@
    모든 주소·수치는 공식 채널(apply.seniorfuture.kr · 링크트리)에서 확인한 값이에요. (2026-10-19) */
 window.SF_SITE = Object.assign(window.SF_SITE || {}, {
   kakao: 'https://pf.kakao.com/_ZYaLG/chat',
-  topbanner: { key: '2026-10-membership', text: '시니어퓨처 멤버십 모집 중 · 뉴스레터 · 심층 콘텐츠 · 웨비나 · 네트워킹', href: 'https://seniorfuturemembership.netlify.app/' },
+  topbanner: { key: '2026-11-platform-open', text: '🎉 시니어 산업 플랫폼 시니어퓨처 오픈! 교육 · 라이브 · 커뮤니티를 한곳에서', href: '/course' },   // (11/2 사장님) 외부 멤버십 사이트 대신 오픈 안내
   sns: {
     instagram: 'https://www.instagram.com/senior_future/',
     youtube: 'https://www.youtube.com/@seniorfuture',
@@ -11,7 +11,6 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
   },
   channels: [
     ['뉴스레터 무료 구독', 'https://walla.my/v/HdUG9uCe2rRx9tw1X91u'],
-    ['멤버십', 'https://seniorfuturemembership.netlify.app/'],
     ['네이버 카페', 'https://cafe.naver.com/seniorfuture2311'],
     ['네이버 프리미엄콘텐츠', 'https://contents.premium.naver.com/seniorfuture/seniorfutureinsight'],
     ['스레드', 'https://www.threads.com/@senior_future'],
