@@ -83,7 +83,7 @@
       seen[m[1]] = 1;
       var vw = [].filter.call(it.querySelectorAll('small'), function (s) { return /조회/.test(s.textContent); })[0];
       var tt = it.querySelector('.title'), tc = tt && tt.cloneNode(true);
-      tc && [].forEach.call(tc.querySelectorAll('em, span, .icons'), function (x) { x.parentNode && x.parentNode.removeChild(x); });
+      tc && [].forEach.call(tc.querySelectorAll('em, .r2-icat, .icons, .addon-badge'), function (x) { x.parentNode && x.parentNode.removeChild(x); }); // 제목 글자는 span 안에 있을 수 있어 span 은 남겨요
       var cw = it.querySelector('.card_wrapper'), im = cw && /url\(\s*["']?([^"')]+)/.exec((cw.getAttribute('style') || '').replace(/&quot;/g, '"'));
       var em = it.querySelector('.r2-icat') || it.querySelector('.title em:not(.notice-block):not(.addon-badge)'), sb = it.querySelector('.show_body > span');
       out.push({ idx: m[1], rank: 0, views: vw ? +(vw.textContent.replace(/\D/g, '') || 0) : 0, title: tc ? tc.textContent.replace(/\s+/g, ' ').trim() : '', img: im && !/no-image/.test(im[1]) ? im[1] : '', desc: sb ? tidy(sb.textContent) : '', cat: em ? em.textContent.trim() : '' });
