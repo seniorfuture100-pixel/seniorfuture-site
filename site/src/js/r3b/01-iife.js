@@ -73,12 +73,18 @@
     document.addEventListener('touchstart', function (e) { var a = anchorOf(e); if (a) want(urlOf(a.href)); }, { passive: true });
     // 모바일: 상세 링크가 화면에 0.4초 이상 보이면(그림자 DOM 안 상품 카드 포함)
     if (window.IntersectionObserver && window.matchMedia && matchMedia('(hover: none)').matches) {
-      var timers = new WeakMap(), watched = new WeakSet();
+      // (11/2) 스크롤하는 동안엔 미리 그리지 않고, 멈춘 뒤 화면에 남은 링크만 — 내리는 중에 지나가는 카드마다 미리 그려서 휴대폰 스크롤이 끊겼어요
+      var timers = new WeakMap(), watched = new WeakSet(), lastScroll = 0, idleT = 0, inView = [];
+      var tryWant = function (a) { if (Date.now() - lastScroll < 450) return; if (inView.indexOf(a) >= 0) want(urlOf(a.href)); };
+      window.addEventListener('scroll', function () {
+        lastScroll = Date.now(); clearTimeout(idleT);
+        idleT = setTimeout(function () { inView.slice(-2).forEach(function (a) { want(urlOf(a.href)); }); }, 600);
+      }, { passive: true });
       var io = new IntersectionObserver(function (ents) {
         ents.forEach(function (en) {
-          var a = en.target;
-          if (en.isIntersecting) timers.set(a, setTimeout(function () { want(urlOf(a.href)); }, 400));
-          else clearTimeout(timers.get(a));
+          var a = en.target, i = inView.indexOf(a);
+          if (en.isIntersecting) { if (i < 0) inView.push(a); timers.set(a, setTimeout(function () { tryWant(a); }, 400)); }
+          else { if (i >= 0) inView.splice(i, 1); clearTimeout(timers.get(a)); }
         });
       }, { threshold: 0.5 });
       var scan = function (root) {

@@ -103,7 +103,8 @@
     // ②
     // ⑥ 다른 코드가 --r2-vw를 다시 넣거나 아임웹이 축소 비율을 바꾸면 바로 고쳐요
     fixVw(); window.addEventListener('load', fixVw);
-    var mo6 = new MutationObserver(fixVw); mo6.observe(H, { attributes: true, attributeFilter: ['style'] }); mo6.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'] });
+    // (11/2) 바뀔 때마다 바로 재지 않고 다음 그리기 직전에 한 번 — 바로 재면 그 자리에서 페이지 전체 스타일을 다시 계산했어요
+    var vq = 0, mo6 = new MutationObserver(function () { vq || (vq = requestAnimationFrame(function () { vq = 0; fixVw(); })); }); mo6.observe(H, { attributes: true, attributeFilter: ['style'] }); mo6.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'] });
     var ft = document.getElementById('doz_footer_wrap');
     if (ft && window.IntersectionObserver) new IntersectionObserver(function (es) { H.classList.toggle('sf-at-foot', es[0].isIntersecting); }, { rootMargin: '0px 0px -40px 0px' }).observe(ft);
   });

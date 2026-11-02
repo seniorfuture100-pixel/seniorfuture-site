@@ -23,6 +23,7 @@ SFUI.register('dropdown', function (root) {
   root.querySelectorAll('[data-sf-sticky-header]').forEach(function (h) {
     if (!SFUI.once(h, 'StickyHeader')) return;
     function onScroll() { h.classList.toggle('is-stuck', window.scrollY > 4); }
-    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    var q = 0; // (11/2) 한 프레임에 한 번(강제 레이아웃 방지)
+    window.addEventListener('scroll', function () { q || (q = requestAnimationFrame(function () { q = 0; onScroll(); })); }, { passive: true }); onScroll();
   });
 })

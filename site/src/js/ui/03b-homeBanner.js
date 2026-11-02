@@ -130,5 +130,8 @@ SFUI.register('homeBanner', function () {
       sl.querySelectorAll('.hb-cats i').forEach(function (x, j) { x.classList.toggle('is-on', j === ci); });
     });
   }
-  setInterval(function () { if (document.hidden) return; ci = (ci + 1) % CATS.length; paint(); }, 2200);
+  // (11/2) 배너가 화면 밖이면 쉬어요 — offsetWidth 로 다시 그리기를 강제해서, 아래로 스크롤하는 중에도 2.2초마다 끊김이 생겼어요
+  var seen = true;
+  if (window.IntersectionObserver) new IntersectionObserver(function (es) { seen = es[es.length - 1].isIntersecting; }).observe(el);
+  setInterval(function () { if (document.hidden || !seen) return; ci = (ci + 1) % CATS.length; paint(); }, 2200);
 });

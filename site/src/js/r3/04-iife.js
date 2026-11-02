@@ -1038,10 +1038,10 @@
   })), SFUI.register("r3AutoplayPause", (function() {
     if (!window.__r3AP) {
       window.__r3AP = 1;
-      var t = null, e = !1;
+      var t = null, e = !1, n = [];
       window.addEventListener("scroll", (function() {
-        var n = a("[data-sf-carousel][data-autoplay]");
-        e || (e = !0, n.forEach((function(t) {
+        // (11/2) 스크롤 이벤트마다 페이지 전체를 뒤지던 것 → 스크롤이 시작될 때 한 번만
+        e || (n = a("[data-sf-carousel][data-autoplay]"), e = !0, n.forEach((function(t) {
           t.dispatchEvent(new Event("mouseenter"));
         }))), clearTimeout(t), t = setTimeout((function() {
           e = !1, n.forEach((function(t) {
@@ -1467,12 +1467,18 @@
         }));
       }), 3e3));
     }
+    // (11/2) 한 프레임에 한 번, 먼저 모두 재고 나서 한꺼번에 표시 — 스크롤 이벤트마다 '재기·바꾸기'를 번갈아 해서 강제 레이아웃이 카드 수만큼 생겼어요
     function r() {
-      var t = window.innerHeight || document.documentElement.clientHeight;
-      e = e.filter((function(e) {
-        var n = e.getBoundingClientRect();
-        return !(n.top < .92 * t && n.bottom > 0) || (e.classList.add("is-in"), !1);
-      })), e.length || (document.removeEventListener("scroll", r, !0), window.removeEventListener("resize", r));
+      r.q || (r.q = requestAnimationFrame((function() {
+        r.q = 0;
+        var t = window.innerHeight || document.documentElement.clientHeight, on = [];
+        e = e.filter((function(e) {
+          var n = e.getBoundingClientRect();
+          return !(n.top < .92 * t && n.bottom > 0) || (on.push(e), !1);
+        })), on.forEach((function(e) {
+          e.classList.add("is-in");
+        })), e.length || (document.removeEventListener("scroll", r, !0), window.removeEventListener("resize", r));
+      })));
     }
   })), SFUI.register("r3RewardDone", (function() {
     var t = n(".sf-rw-done");

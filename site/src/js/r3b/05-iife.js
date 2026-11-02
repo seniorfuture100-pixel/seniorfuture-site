@@ -175,7 +175,9 @@
   var ys = {}, eid = 0;
   function newId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
   function saveY() { if (eid) ys[eid] = window.scrollY; }
-  window.addEventListener('scroll', function () { saveY(); }, { passive: true });
+  // (11/2) 한 프레임에 한 번만 — 스크롤 이벤트마다 scrollY 를 읽으면 다른 코드가 바꾼 화면을 그 자리에서 다시 계산(강제 레이아웃)했어요. 이동 직전엔 swap 이 saveY() 를 바로 불러요
+  var yq = 0;
+  window.addEventListener('scroll', function () { yq || (yq = requestAnimationFrame(function () { yq = 0; saveY(); })); }, { passive: true });
 
   function swap(u, nd, oldDoc, push, y) {
     var nl = mid(nd), cl = mid(document);

@@ -187,6 +187,8 @@ SFUI.register('siteHeader', function () {
 
   // ⑩ 스크롤하면 헤더 위쪽 고정 + 그림자
   // 스크롤하면 헤더 아래 선
-  window.addEventListener('scroll', function () { wrap.classList.toggle('is-stuck', window.scrollY > 4); }, { passive: true });
+  // (11/2) 한 프레임에 한 번·바뀔 때만 — 스크롤 이벤트마다 scrollY 를 읽고 class 를 다시 쓰면 강제 레이아웃이 생겼어요
+  var stq = 0, stuck = null;
+  window.addEventListener('scroll', function () { stq || (stq = requestAnimationFrame(function () { stq = 0; var s = window.scrollY > 4; if (s !== stuck) { stuck = s; wrap.classList.toggle('is-stuck', s); } })); }, { passive: true });
   SFUI.init(document);
 })

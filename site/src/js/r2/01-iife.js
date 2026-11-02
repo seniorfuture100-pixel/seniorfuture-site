@@ -30,7 +30,8 @@
     var hb = Math.max(0, Math.round(e)) + "px";
     hb !== f.last && (f.last = hb, n.style.setProperty("--r2-hb", hb));
   }
-  var fq = 0, fr = function() { fq || (fq = requestAnimationFrame((function() { fq = 0; f(); }))); }; // 스크롤은 한 프레임에 한 번만
+  // (11/2) 스크롤 중엔 쓰지 않고 멈춘 뒤 한 번만 — :root 변수를 바꾸면 페이지 전체 스타일을 다시 계산해 휴대폰 스크롤이 끊겼어요(맨 위 100px 동안 매 프레임)
+  var fq = 0, fr = function() { clearTimeout(fq); fq = setTimeout(f, 150); };
   document.addEventListener("click", (function(e) {
     e.target.closest && e.target.closest("[data-r2-kakao-todo]") && (e.preventDefault(), 
     e.stopPropagation(), window.SFUI && SFUI.toast && SFUI.toast("카카오톡 채널 연결을 준비하고 있어요"));
