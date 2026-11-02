@@ -241,10 +241,20 @@
       }
     });
     // (10/31 사장님) 상태 칸 색을 상황마다(디자인 가이드 색): 수강 중·진행 중 초록 · 예정(신청 완료·참여 예정·개강 전) 주황 · 입금 대기 진회색 · 종료 회색
-    [].forEach.call(t.querySelectorAll('.sf-room-meta .sf-badge'), function (b) {
-      var s = b.textContent;
-      b.setAttribute('data-tone', /수강 중|진행 중/.test(s) ? 'on' : /입금/.test(s) ? 'wait' : /종료/.test(s) ? 'end' : 'plan');
-    });
+    // (11/2 사장님) 예정도 종류마다 다른 색: 신청 완료(라이브) 주황 · 참여 예정(모임) 보라 · 개강 전(교육) 파랑
+    //   · D-day 는 '일시'·'수강 기간' 글자 바로 옆에 작게. 상태 글자는 강의 정보를 받은 뒤 바뀌므로 바뀔 때마다 다시 맞춰요
+    function tone() {
+      [].forEach.call(t.querySelectorAll('.sf-room-meta .sf-badge'), function (b) {
+        var s = b.textContent, v = /수강 중|진행 중/.test(s) ? 'on' : /입금/.test(s) ? 'wait' : /종료/.test(s) ? 'end' : /참여 예정/.test(s) ? 'meet' : /개강 전/.test(s) ? 'pre' : 'plan';
+        b.getAttribute('data-tone') !== v && b.setAttribute('data-tone', v);
+      });
+      [].forEach.call(t.querySelectorAll('.sf-room-when em'), function (em) {
+        var p = em.parentNode, f = p.firstChild;
+        f && f.nodeType === 3 && f.nextSibling !== em && p.insertBefore(em, f.nextSibling);
+      });
+    }
+    tone();
+    if (!t.__sfToneMo) { t.__sfToneMo = new MutationObserver(function () { clearTimeout(t.__sfToneT); t.__sfToneT = setTimeout(tone, 60); }); t.__sfToneMo.observe(t, { childList: true, subtree: true, characterData: true }); }
     // 지난 일정 접기
     var past = t.querySelector('.sf-room-past');
     if (!past) {
@@ -290,7 +300,7 @@
       var pre = nx.getAttribute('data-st') === 'pre', go = nx.querySelector('a.sf-btn--primary.r3-ord__go'), cp = go && go.cloneNode(true);
       cp && cp.classList.remove('r3-ord__go');
       var wh = (nx.querySelector('.sf-room-when') || {}).textContent || '';
-      hero.innerHTML = '<span class="sf-room-next__k">다음 일정</span><div class="sf-room-next__tx"><em>' + (pre ? (SFUI.roomLeft(st(nx)) || '곧') + ' · 교육 개강' : '수강 중 · 교육') + '</em><strong>' + esc((nx.querySelector('h2') || {}).textContent) + '</strong><span>' + esc(pre ? md(st(nx)) + ' 개강' : wh.replace(/\s*D-\d+\s*$/, '')) + '</span></div>' + (cp ? cp.outerHTML : '');
+      hero.innerHTML = '<span class="sf-room-next__k">다음 일정</span><div class="sf-room-next__tx"><em>' + (pre ? (SFUI.roomLeft(st(nx)) || '곧') + ' · 교육 개강' : '수강 중 · 교육') + '</em><strong>' + esc((nx.querySelector('h2') || {}).textContent) + '</strong><span>' + esc(pre ? md(st(nx)) + ' 개강' : wh.replace(/\s*D-\d+\s*/, ' ').trim()) + '</span></div>' + (cp ? cp.outerHTML : '');
     }
     // 탭(전체 · 교육 · 무료 라이브 · 커뮤니티) — 개수는 진행 중만
     var nav = t.querySelector('.sf-room-tabs'), cur = nav ? nav.getAttribute('data-on') : 'all';

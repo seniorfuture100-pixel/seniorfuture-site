@@ -74,10 +74,26 @@
     ul.setAttribute('data-sf-pop', list.length ? '1' : '0');
     var sec = ul.closest('section'); sec && sec.classList.toggle('sf-ins-empty', !list.length); // :has() 못 쓰는 브라우저용
   }
+  // (11/2 사장님) '#인기N' 글이 없으면 칸을 숨기지 말고, 목록에 보이는 글 중 조회수 높은 4편으로 채워요
+  function byViews() {
+    var seen = {}, out = [];
+    [].forEach.call(document.querySelectorAll('[data-widget-type="board"] ._post_item_wrap'), function (it) {
+      var a = it.querySelector('a[href*="idx="]'), m = a && /[?&;]idx=(\d+)/.exec(a.getAttribute('href'));
+      if (!m || seen[m[1]] || it.querySelector('.card.secret')) return;
+      seen[m[1]] = 1;
+      var vw = [].filter.call(it.querySelectorAll('small'), function (s) { return /조회/.test(s.textContent); })[0];
+      var tt = it.querySelector('.title'), tc = tt && tt.cloneNode(true);
+      tc && [].forEach.call(tc.querySelectorAll('em, span, .icons'), function (x) { x.parentNode && x.parentNode.removeChild(x); });
+      var cw = it.querySelector('.card_wrapper'), im = cw && /url\(\s*["']?([^"')]+)/.exec((cw.getAttribute('style') || '').replace(/&quot;/g, '"'));
+      var em = it.querySelector('.r2-icat') || it.querySelector('.title em:not(.notice-block):not(.addon-badge)'), sb = it.querySelector('.show_body > span');
+      out.push({ idx: m[1], rank: 0, views: vw ? +(vw.textContent.replace(/\D/g, '') || 0) : 0, title: tc ? tc.textContent.replace(/\s+/g, ' ').trim() : '', img: im && !/no-image/.test(im[1]) ? im[1] : '', desc: sb ? tidy(sb.textContent) : '', cat: em ? em.textContent.trim() : '' });
+    });
+    return out.filter(function (x) { return x.title; }).sort(function (a, b) { return b.views - a.views; }).slice(0, 4).map(function (x, i) { x.rank = i + 1; return x; });
+  }
   function run() {
     var C = null;
     try { C = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (x) {}
-    if (C && Date.now() - C.at < 3e5) return paint(C.list);
+    if (C && Date.now() - C.at < 3e5 && C.list.length) return paint(C.list);
     // 공지로 체크한 글만 후보(아임웹은 공지 글에만 '공지' 딱지를 보여 줘요)
     //   다른 페이지에서 가져와 붙인 글(r3-ins-more, r3InsightAll)은 숨김 표시가 지워져 있어 빼요
     var items = [].slice.call(document.querySelectorAll('[data-widget-type="board"] ._post_item_wrap')), cand = [], seen = {};
@@ -88,14 +104,14 @@
       var em = it.querySelector('.r2-icat') || it.querySelector('.title em:not(.notice-block):not(.addon-badge)');
       cand.push({ idx: m[1], cat: em ? em.textContent.trim() : '' });
     });
-    if (!cand.length) return paint([]);
+    if (!cand.length) return paint(byViews());
     // (11/2 속도) 10개를 한꺼번에 받던 것 → 하나씩 받다가 4칸이 차면 멈춰요(느린 망에서 3MB 넘게 받았어요)
     var got = [], ranks = {};
     (function next(i) {
       if (i >= Math.min(cand.length, 10) || (ranks[1] && ranks[2] && ranks[3] && ranks[4])) { // 1~4위가 모두 찼을 때만 일찍 멈춰요
         var list = got.sort(function (a, b) { return a.rank - b.rank; });
-        try { sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), list: list })); } catch (x) {}
-        return paint(list);
+        try { list.length && sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), list: list })); } catch (x) {}
+        return paint(list.length ? list : byViews());
       }
       readPost(cand[i].idx).then(function (x) { x && (x.cat = cand[i].cat, got.push(x), ranks[x.rank] = 1); next(i + 1); });
     })(0);

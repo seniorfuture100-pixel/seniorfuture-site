@@ -1204,7 +1204,9 @@
       var d = document.createElement("div");
       if (d.className = "r3-ft-brand", d.innerHTML = '<a class="r3-ft-logo" href="/" aria-label="시니어퓨처 홈">' + SFUI.logo(1) + '</a><p>시니어 산업에 들어오는 사람과 기업을 교육·콘텐츠·커뮤니티로 모으고,<br>협업과 공동 프로젝트로 잇는 곳이에요.</p>' + (c.length ? '<div class="r3-ft-sns">' + c.map((function(t) {
         return '<a href="' + t[1] + '" target="_blank" rel="noopener" aria-label="' + t[0] + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + o[t[0]] + "</svg></a>";
-      })).join("") + "</div>" : ""), t.insertBefore(d, t.firstChild), l.length) {
+      })).join("") + "</div>" : ""), t.insertBefore(d, t.firstChild),
+      // (11/2 사장님) PC 채널 줄: 아이콘이 있는 채널은 휴대폰처럼 아이콘으로(글자 칩은 숨김), 나머지는 글자 칩 그대로
+      s && c.length && (i.forEach((function(t) { o[t.textContent.trim()] && t.setAttribute("data-sf-ico", ""); })), s.insertBefore(n(".r3-ft-sns", d).cloneNode(!0), s.firstChild)), l.length) {
         var u = document.createElement("nav");
         u.className = "sf-ft-col r3-ft-more", u.innerHTML = "<h3>구독 · 커뮤니티</h3><ul>" + l.map((function(t) {
           return '<li><a href="' + t[1] + '" target="_blank" rel="noopener">' + r(t[0]) + "</a></li>";

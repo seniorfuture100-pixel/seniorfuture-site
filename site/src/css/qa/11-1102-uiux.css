@@ -60,6 +60,21 @@ html.sf-hd-on #doz_header_wrap .logo_title a { line-height: 1 !important; }
 /* (11/2 사장님) 떠 있는 '1:1 문의' 버튼: 휴대폰만 숨기던 것을 PC 에도 — 푸터가 보이면 숨겨 푸터 고객센터·사업자 정보와 겹치지 않게(푸터에 '1:1 문의하기' 버튼이 따로 있어요) */
 html.sf-at-foot body .sf-fab { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; transition: opacity .2s, visibility 0s .2s; }
 
+/* (11/2 사장님) 나의 강의실: 예정 상태를 종류마다 다른 색(26e 가 data-tone 을 붙여요) · D-day 는 '일시' 바로 옆 작은 알약 */
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="meet"]:not(#sf-x) { background: #f0ebff !important; color: #6941e0 !important; }
+html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="pre"]:not(#sf-x) { background: #e8f0fe !important; color: #1d5fd6 !important; }
+html:root body [data-sf-rooms] .sf-room-when em:not(#sf-x) { display: inline-block !important; margin: 0 4px 0 2px !important; padding: 0 6px !important; border-radius: 5px !important; background: var(--sf-brand-tint) !important; color: var(--sf-text-brand) !important; font: 700 11px/18px var(--sf-font) !important; vertical-align: 1px; white-space: nowrap; }
+
+/* (11/2 사장님) PC 푸터 채널 줄: 인스타그램·스레드·유튜브·블로그·카카오톡은 아이콘(휴대폰과 같은 모양), 나머지는 글자 칩 */
+@media (min-width: 768px) {
+  :root body .sf-ft .r3-ft-ch { align-items: center; }
+  :root body .sf-ft .r3-ft-ch a[data-sf-ico] { display: none !important; }
+  :root body .sf-ft .r3-ft-ch .r3-ft-sns { display: flex; gap: 8px; margin: 0 8px 0 0; }
+  :root body .sf-ft .r3-ft-ch .r3-ft-sns a { display: flex !important; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0 !important; border-radius: 50% !important; background: rgba(255, 255, 255, .1) !important; color: #fff !important; }
+  :root body .sf-ft .r3-ft-ch .r3-ft-sns a:hover { background: rgba(255, 255, 255, .2) !important; }
+  :root body .sf-ft .r3-ft-ch .r3-ft-sns svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+}
+
 /* (11/2 사장님) 띠배너: 휴대폰에서는 '…오픈!' 다음에 줄을 나눠요(PC는 한 줄) */
 :root body .sf-topbanner .sf-tb-br { display: none; }
 @media (max-width: 767.98px) { :root body .sf-topbanner .sf-tb-br { display: inline; } }
