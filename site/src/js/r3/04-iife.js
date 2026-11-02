@@ -844,7 +844,8 @@
         //   모임(pop=1)은 비밀번호가 없어도 늘 팝업
         function CHAT(o, idx, pop) { return BTN("sf-room-chat is-kakao", o.chat, SFUI.KAKAO + "소통방 입장", 1).replace("<a ", o.chatPw || pop ? '<a data-enter="' + idx + '" ' : "<a "); };
         function draw() {
-        if (!rows.length) return void (t.innerHTML = '<div class="r2-my-load">아직 수강 중인 교육이 없어요. <a href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
+        // (11/2 사장님) 빈 화면은 찜한 내역과 같은 카드 모양
+        if (!rows.length) return void (t.innerHTML = '<div class="sf-scope r3-wish--empty"><strong>아직 신청한 교육이 없어요</strong><span>교육·무료 라이브·모임을 신청하면 여기에서 바로 입장할 수 있어요</span><a class="sf-btn sf-btn--s" href="/course">교육 둘러보기</a></div>', SFUI.roomTidy && SFUI.roomTidy(t, [], L));
         t.innerHTML = '<ul class="sf-hub-list r3-ord-list sf-rooms">' + rows.map((function(x, i) {
           if ("course" !== x.ty) {
             // 라이브·모임: 일시 + 정보 버튼(+ 톡방은 아래에서). 끝나면 '종료'로 맨 아래 — (10/30) 라이브는 그날 밤 12시 지나서,
@@ -1333,7 +1334,8 @@
     }
   })), SFUI.register("r3RefLinks", (function() {
     function t() {
-      a("[data-sf-reward-share]").forEach((function(t) {
+      // (11/2 사장님) 링크 생성하기(ui/29)처럼 상품 주소를 직접 넣은 단추는 그대로 — 예전엔 마이페이지 주소로 덮어써서 마이페이지가 복사됐어요
+      a("[data-sf-reward-share]:not([data-sf-own-url])").forEach((function(t) {
         var e = new URL(location.href);
         e.hash = "", [ "ref", "utm_source", "utm_medium", "utm_campaign", "utm_content", "preview_mode" ].forEach((function(t) {
           e.searchParams.delete(t);
@@ -1604,6 +1606,12 @@
           w && w.classList.add("r3-wish-src"), q.className = "sf-scope r3-wish r3-wish--empty",
           q.innerHTML = '<strong>아직 찜한 교육이 없어요</strong><span>마음에 드는 교육의 하트를 누르면 여기에 모여요</span><a class="sf-btn sf-btn--s" href="/course">강의 둘러보기</a>',
           t.appendChild(q), t.classList.add("r3-wish-on", "r3-wish-empty");
+          // (11/2 사장님) 아임웹 '위시리스트가 없습니다' 글이 우리 빈 카드 위에 한 번 더 보였어요 → 그 글 줄은 숨겨요
+          a("*", t).forEach((function(x) {
+            if (q.contains(x) || x.children.length || !/(위시리스트|찜).*없|없습니다/.test(x.textContent)) return;
+            var z = x.closest("p, div, li, td, tr");
+            (z && !z.contains(q) && t.contains(z) && z !== t ? z : x).classList.add("r3-wish-src");
+          }));
         }
       }
     }

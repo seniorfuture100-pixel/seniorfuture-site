@@ -65,10 +65,10 @@ html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="meet"]:not(#sf
 html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="pre"]:not(#sf-x) { background: #e8f0fe !important; color: #1d5fd6 !important; }
 html:root body [data-sf-rooms] .sf-room-when em:not(#sf-x) { display: inline-block !important; margin: 0 4px 0 2px !important; padding: 0 6px !important; border-radius: 5px !important; background: var(--sf-brand-tint) !important; color: var(--sf-text-brand) !important; font: 700 11px/18px var(--sf-font) !important; vertical-align: 1px; white-space: nowrap; }
 
-/* (11/2 사장님) PC 푸터 채널 줄: 인스타그램·스레드·유튜브·블로그·카카오톡은 아이콘(휴대폰과 같은 모양), 나머지는 글자 칩 */
+/* (11/2 사장님) PC 푸터 채널 줄: 인스타그램·스레드·유튜브·블로그·카카오톡 아이콘만(휴대폰과 같은 모양) — 글자 칩(카페·프리미엄·오픈채팅·뉴스레터)은 숨김 */
 @media (min-width: 768px) {
   :root body .sf-ft .r3-ft-ch { align-items: center; }
-  :root body .sf-ft .r3-ft-ch a[data-sf-ico] { display: none !important; }
+  :root body .sf-ft .r3-ft-ch > a { display: none !important; }
   :root body .sf-ft .r3-ft-ch .r3-ft-sns { display: flex; gap: 8px; margin: 0 8px 0 0; }
   :root body .sf-ft .r3-ft-ch .r3-ft-sns a { display: flex !important; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0 !important; border-radius: 50% !important; background: rgba(255, 255, 255, .1) !important; color: #fff !important; }
   :root body .sf-ft .r3-ft-ch .r3-ft-sns a:hover { background: rgba(255, 255, 255, .2) !important; }
@@ -91,3 +91,10 @@ html:root body [data-sf-rooms] .sf-room-when em:not(#sf-x) { display: inline-blo
 #cocoaModal #join_form input[type=checkbox], #cocoaModal #join_form input[type=radio] { accent-color: var(--sf-dark); }
 #cocoaModal #join_form .icon-required { background-color: var(--sf-primary) !important; } /* 필수 표시 점: 아임웹 파랑 → 약관 '(필수)'와 같은 브랜드 주황 */
 #cocoaModal #join_form ._join_btn { height: 52px !important; padding: 0 !important; border: 0 !important; border-radius: var(--sf-radius-card) !important; background: var(--sf-dark) !important; color: #fff !important; font: 700 16px/52px var(--sf-font) !important; }
+
+/* (11/2 사장님) 마이페이지 빈 화면(나의 강의실·결제 내역·열람 내역·쿠폰함·적립금)을 찜한 내역 빈 카드(qa/07 r3-wish--empty)와 같게 */
+:root body .r3-wish--empty[hidden], :root body .sf-pt-list[hidden] { display: none !important; }
+:root body .sf-bn-empty.r3-wish--empty { margin: 0; padding: 72px 16px; border-radius: 16px; background: var(--sf-surface, #f7f8fa); color: inherit; }/* (11/2 사장님) 마이페이지 메뉴(결제 내역 등)를 누르면 아임웹 기본 마이페이지(기본 프로필·주문 목록)가 잠깐 보였다가 바뀌었어요
+   → 우리 화면(r2/01 r2My 가 html.r2-my)이 만들어질 때까지 가려 둬요. 스크립트가 못 돌면 2.5초 뒤 그대로 보여요 */
+html:not(.r2-my) body.shop_mypage .shop-content.mypage { visibility: hidden; animation: sfMyShow 0s 2.5s forwards; }
+@keyframes sfMyShow { to { visibility: visible; } }

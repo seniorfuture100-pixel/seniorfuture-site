@@ -83,7 +83,7 @@
       b.classList.add('is-on');
       // 상품 페이지와 같은 별 창: 숨은 공유 단추(shareReward)를 거쳐 복사 → '링크를 복사했어요!' 창
       var h = pane.querySelector('.sf-myp-share');
-      if (!h) { h = document.createElement('button'); h.type = 'button'; h.className = 'sf-myp-share'; h.hidden = true; h.setAttribute('data-sf-reward-share', ''); pane.appendChild(h); }
+      if (!h) { h = document.createElement('button'); h.type = 'button'; h.className = 'sf-myp-share'; h.hidden = true; h.setAttribute('data-sf-reward-share', ''); h.setAttribute('data-sf-own-url', ''); pane.appendChild(h); }
       h.setAttribute('data-url', location.origin + '/course/?idx=' + b.getAttribute('data-id'));
       h.setAttribute('data-title', b.getAttribute('data-title') || '');
       if (SFUI.init) SFUI.init(pane);

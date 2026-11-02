@@ -392,7 +392,9 @@
           }));
         }));
         // (11/1) 프로필 사진은 회원 정보를 받은 뒤에 넣어서 탭을 옮길 때마다 기본 아이콘 → 사진으로 바뀌었어요(카카오 회원) → 이 탭에 기억해 둔 사진으로 처음부터 그려요(계정이 바뀌면 ui/01 이 지움)
-        var avP = ""; try { avP = sessionStorage.getItem("sf_myav") || ""; } catch (x) {}
+        // (11/2 사장님) 새 탭에서 열면 기본 얼굴 → 카카오 사진으로 바뀌었어요 → 이 기기에도 같은 로그인일 때만 쓰는 사진을 기억해요(로그인이 바뀌면 안 써요)
+        var ckv = function(k) { return (document.cookie.match(new RegExp("(?:^|; )" + k + "=([^;]*)")) || [])[1] || ""; }, whoA = ckv("_imweb_login_state") + "|" + ckv("login_lately");
+        var avP = ""; try { avP = sessionStorage.getItem("sf_myav") || ""; if (!avP) { var avL = JSON.parse(localStorage.getItem("sf_myav2") || "null"); whoA !== "|" && avL && avL.w === whoA && (avP = avL.u || ""); } } catch (x) {}
         var g = '<div class="r2-my-card"><span class="r2-my-av">' + (avP ? '<img src="' + avP.replace(/"/g, "") + '" alt="">' : '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>') + '</span><div class="r2-my-who"><b>' + s(f || "회원") + '</b><p class="r2-my-intro"></p></div><a class="r2-my-edit" href="/shop_mypage/?sf=profile">프로필 수정</a></div>', b = {
           play: '<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 8.5v5l4.5-2.5z"/><path d="M8 21h8"/>',
           order: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
@@ -436,7 +438,7 @@
             e.textContent = n || "한 줄 소개를 적어 보세요", e.classList.toggle("is-empty", !n);
           }));
           var av = r && !/default_profile/.test(r) ? r.replace(/"/g, "") : "";
-          try { av ? sessionStorage.setItem("sf_myav", av) : sessionStorage.removeItem("sf_myav"); } catch (x) {}
+          try { av ? sessionStorage.setItem("sf_myav", av) : sessionStorage.removeItem("sf_myav"); av && whoA !== "|" ? localStorage.setItem("sf_myav2", JSON.stringify({ w: whoA, u: av })) : localStorage.removeItem("sf_myav2"); } catch (x) {}
           av !== avP && o(".r2-my-av").forEach((function(e) {
             e.innerHTML = av ? '<img src="' + av + '" alt="">' : '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>';
           }));
@@ -479,7 +481,7 @@
             } catch (e) {}
             S.innerHTML = '<h2 class="r2-my-h">열람 내역</h2>' + (x.length ? '<ul class="r2-my-recent">' + x.map((function(e) {
               return '<li><a href="' + e.u + '"><span class="r2-my-recent__th"' + (e.img ? ' style="background-image:url(' + encodeURI(String(e.img)).replace(/[()'"]/g, "") + ')"' : "") + "></span><span><small>" + s(e.k || "") + "</small><b>" + s(e.n || "") + "</b></span></a></li>";
-            })).join("") + '</ul><p class="r2-my-note">최근 본 강의·라이브·모임 20개까지 이 기기에 보관돼요.</p>' : '<div class="r2-my-load">아직 본 강의가 없어요. <a href="/course">교육 둘러보기</a></div>');
+            })).join("") + '</ul><p class="r2-my-note">최근 본 강의·라이브·모임 20개까지 이 기기에 보관돼요.</p>' : '<div class="sf-scope r3-wish--empty"><strong>아직 본 교육이 없어요</strong><span>교육·라이브·모임을 둘러보면 최근 본 순서로 여기에 모여요</span><a class="sf-btn sf-btn--s" href="/course">교육 둘러보기</a></div>'); // (11/2 사장님) 찜한 내역과 같은 빈 카드
           }
           "profile" === c && q(), o(".r2-my-edit").forEach((function(e) {
             e.addEventListener("click", (function(e) {

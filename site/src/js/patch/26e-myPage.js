@@ -121,7 +121,8 @@
       L.forEach(function (x) { by[x.no] || (by[x.no] = [], order.push(x.no)); by[x.no].push(x); });
       // (10/31 사장님) 무료 신청(0원)도 모두 보여요
       var list = order;
-      if (!list.length) return void (box.innerHTML = '<div class="r2-my-load">아직 결제·신청한 내역이 없어요.</div>');
+      // (11/2 사장님) 빈 화면은 찜한 내역과 같은 카드 모양(css qa/07 r3-wish--empty)
+      if (!list.length) return void (box.innerHTML = '<div class="sf-scope r3-wish--empty"><strong>아직 결제·신청한 내역이 없어요</strong><span>교육을 결제하거나 무료 라이브를 신청하면 여기에 모여요</span><a class="sf-btn sf-btn--s" href="' + withPv('/course') + '">교육 둘러보기</a></div>');
       // (10/31) 상세(금액·상태)를 먼저 받고 그려요 — 목록 값으로 먼저 그리면 금액·상태가 바뀌며 깜빡였고,
       //   아임웹 목록은 '입금 전 취소'한 주문을 '입금대기'로 내려 줘서 계좌가 잘못 보였어요. 6초 안에 못 받으면 목록 값으로
       var D = {}, k = 0, done = false;

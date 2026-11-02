@@ -36,30 +36,45 @@
     var row = lab && lab.parentElement;
     return row ? clean(row.textContent).replace(clean(lab.textContent), '').trim() : '';
   };
+  var paid0 = ''; try { paid0 = sessionStorage.getItem('sf-pay-free') || ''; } catch (x) {}
+  // (11/2 사장님) 무료 신청(상품 0원 — 무료 라이브·모임)은 입금 안내가 있을 수 없어서, 아임웹이 주문을 그릴 때까지 기다리지 않고 완료 카드를 바로 보여요
+  //   주문번호·금액 줄은 아임웹이 그리면 채워요
+  var early = paid0 === '1' && kind !== 'order', c = null, filled = false;
+  var make = function (host) {
+    c = document.createElement('section');
+    c.className = 'sf-done sf-done--' + kind; c.setAttribute('aria-labelledby', 'sf-done-h');
+    c.innerHTML = '<span class="sf-done-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' +
+      '<h1 id="sf-done-h">' + C.h + '</h1><p>' + C.p + '</p><dl class="sf-done-info" hidden></dl>' +
+      '<div class="sf-done-btns"><a class="sf-done-home" href="/">홈으로</a><a class="sf-done-main" href="' + room + '">마이페이지</a></div>';
+    host.parentNode.insertBefore(c, host);
+    document.documentElement.classList.add('sf-done-on');
+  };
   var draw = function () {
     var host = document.getElementById('oms-shop-payment-complete');
-    if (!host || document.querySelector('.sf-done')) return !!host;
+    if (!host) return false;
+    if (filled) return true;
+    early && !c && make(host);
     if (!/주문번호/.test(host.textContent)) return false; // 아임웹이 아직 그리는 중
+    filled = true;
     // (10/30) 방금 주문번호를 적어 둬요 → 나의 강의실이 아임웹 목록에 실릴 때까지 기다렸다 그려요(r3/04 r3Rooms)
     var on = (/(\d{12,20})/.exec(new URLSearchParams(location.search).get('order_no') || host.textContent) || [])[1];
     try { on && sessionStorage.setItem('sf-last-order', on + '|' + Date.now()); } catch (x) {}
     // 입금 안내는 아임웹 화면 그대로 — (10/30) 아임웹 화면은 처음부터 가려져 있어서(css patch/69) 이때만 보이게 풀어요
-    if (/입금\s*(계좌|기한|은행)|가상\s*계좌|계좌\s*번호/.test(host.textContent)) return document.documentElement.classList.add('sf-done-off'), true;
+    if (/입금\s*(계좌|기한|은행)|가상\s*계좌|계좌\s*번호/.test(host.textContent)) {
+      c && c.remove();
+      document.documentElement.classList.remove('sf-done-on');
+      return document.documentElement.classList.add('sf-done-off'), true;
+    }
     var no = val(host, /^주문번호$/), how = val(host, /^결제\s*정보$/), amt = val(host, /^결제\s*금액$/);
     // (10/30) 0원은 '무료' — 단, 쿠폰·적립금으로 0원이 된 유료 주문은 '0원'(주문서 r3/07 이 적어 둔 값)
-    var paid0 = ''; try { paid0 = sessionStorage.getItem('sf-pay-free') || ''; } catch (x) {}
     /^(0\s*원|무료)$/.test(amt) && (amt = paid0 === '0' ? '0원' : '무료');
     var rows = [['주문번호', no], ['결제 금액', amt + (how && !/^무료/.test(how) ? ' · ' + how : '')]].filter(function (r) { return r[1]; });
-    var c = document.createElement('section');
-    c.className = 'sf-done sf-done--' + kind; c.setAttribute('aria-labelledby', 'sf-done-h');
-    c.innerHTML = '<span class="sf-done-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' +
-      '<h1 id="sf-done-h">' + C.h + '</h1><p>' + C.p + '</p>' +
-      (rows.length ? '<dl class="sf-done-info">' + rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' : '') +
-      '<div class="sf-done-btns"><a class="sf-done-home" href="/">홈으로</a><a class="sf-done-main" href="' + room + '">마이페이지</a></div>';
-    host.parentNode.insertBefore(c, host);
-    document.documentElement.classList.add('sf-done-on');
+    c || make(host);
+    var dl = c.querySelector('.sf-done-info');
+    dl.innerHTML = rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('');
+    dl.hidden = !rows.length;
     return true;
   };
-  // 못 그리면(6초) 아임웹 화면을 보여 줘요
-  if (!draw()) { var n = 0, iv = setInterval(function () { if (draw()) clearInterval(iv); else if (++n > 40) { clearInterval(iv); document.documentElement.classList.add('sf-done-off'); } }, 150); }
+  // 못 그리면(6초) 아임웹 화면을 보여 줘요 — 무료 신청 카드를 이미 띄웠으면 카드는 그대로 둬요
+  if (!draw()) { var n = 0, iv = setInterval(function () { if (draw()) clearInterval(iv); else if (++n > 60) { clearInterval(iv); c || document.documentElement.classList.add('sf-done-off'); } }, 100); }
 })()

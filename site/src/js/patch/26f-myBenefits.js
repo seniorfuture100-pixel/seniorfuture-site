@@ -26,12 +26,15 @@
     h.innerHTML = '<h2 class="r2-my-h">쿠폰함</h2><p>사용할 수 있는 쿠폰 <b>0장</b> · 결제할 때 주문서에서 골라 쓸 수 있어요</p>';
     box.parentNode.insertBefore(h, box);
     // 아임웹이 쿠폰 카드를 늦게 그려요 → 바뀔 때마다 다시 꾸며요(이미 꾸민 카드는 건너뜀)
+    // (11/2 사장님) 쿠폰이 없으면 바로 빈 카드(찜한 내역과 같은 모양) — 아임웹 요약의 '쿠폰 보유 N'이 0이면 카드를 기다리지 않아요
+    var sumT = ((document.getElementById('mypage-summary') || {}).textContent || '').replace(/\s+/g, ' ');
+    var has = +((sumT.match(/쿠폰\s*보유\s*([\d,]+)/) || [])[1] || '').replace(/,/g, '');
     var deco = function () {
       var cards = [].slice.call(box.querySelectorAll('.mypage-coupon-wrap'));
-      h.querySelector('b').textContent = cards.length + '장';
+      h.querySelector('b').textContent = (cards.length || (has > 0 ? has : 0)) + '장';
       cards.forEach(dress);
       var em = box.querySelector('.sf-bn-empty');
-      if (!cards.length && !em) { em = document.createElement('p'); em.className = 'sf-bn-empty'; em.innerHTML = '지금 쓸 수 있는 쿠폰이 없어요.<br>새 쿠폰이 생기면 여기에 보여요.'; box.appendChild(em); }
+      if (!cards.length && !em && !(has > 0)) { em = document.createElement('div'); em.className = 'sf-bn-empty sf-scope r3-wish--empty'; em.innerHTML = '<strong>지금 쓸 수 있는 쿠폰이 없어요</strong><span>새 쿠폰이 생기면 여기에 보여요. 결제할 때 주문서에서 골라 쓸 수 있어요</span><a class="sf-btn sf-btn--s" href="/course">교육 둘러보기</a>'; box.appendChild(em); }
       em && (em.hidden = !!cards.length);
     };
     var q = 0;
@@ -66,15 +69,21 @@
     var list = document.createElement('ul');
     list.className = 'sf-pt-list';
     wrap.parentNode.insertBefore(list, wrap.nextSibling);
+    // (11/2 사장님) 내역이 없으면 찜한 내역과 같은 빈 카드
+    var none = document.createElement('div');
+    none.className = 'sf-bn-empty sf-scope r3-wish--empty';
+    none.innerHTML = '<strong>아직 적립·사용 내역이 없어요</strong><span>교육을 수강 확정하면 결제 금액의 10%가 적립돼요</span><a class="sf-btn sf-btn--s" href="/course">교육 둘러보기</a>';
+    wrap.parentNode.insertBefore(none, list.nextSibling);
     var draw = function () {
       var rows = [].slice.call(tb.querySelectorAll('tr.content'));
+      list.hidden = !rows.length; none.hidden = !!rows.length;
       list.innerHTML = rows.length ? rows.map(function (tr) {
         var td = tr.children, date = clean(td[0] && td[0].textContent), why = td[1], ch = clean(td[2] && td[2].textContent);
         var plus = /^\+/.test(ch), a = why && why.querySelector('a'), wt = clean(why && why.textContent);
         var label = a ? (plus ? '수강 적립' : '결제 시 사용') : (wt || (plus ? '적립' : '사용'));
         return '<li class="' + (plus ? 'is-plus' : 'is-minus') + '"><div><b>' + esc(label) + '</b><small>' + esc(date.replace(/-/g, '.')) +
           (a ? ' · 주문 <a href="' + esc(a.getAttribute('href') || '#') + '">' + esc(clean(a.textContent)) + '</a>' : '') + '</small></div><strong>' + esc(ch.replace(/\s*포인트$/, '원')) + '</strong></li>';
-      }).join('') : '<li class="sf-bn-empty">아직 적립·사용 내역이 없어요.</li>';
+      }).join('') : '';
     };
     draw();
     new MutationObserver(function () { requestAnimationFrame(draw); }).observe(tb, { childList: true });

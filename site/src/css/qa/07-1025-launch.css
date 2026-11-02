@@ -58,6 +58,15 @@ html:not(.sf-ft-ready) body #doz_footer_wrap {
     transform:none;
   }
 }
+/* (11/2 사장님) 짧은 화면(신청 완료·마이페이지)에서 푸터가 아래에서 툭 올라와 '줄었다 당겨지는' 것처럼 보였어요 → 제자리에서 살짝 나타나게 */
+html.sf-ft-ready body #doz_footer_wrap {
+  animation:sfFtIn .3s ease-out both;
+}
+@keyframes sfFtIn {
+  from {
+    opacity:0;
+  }
+}
 
 /* 1·5번: 767~1024px 에서 아임웹이 body 를 85%로 줄여요(custom.cm: body{zoom:.85}).
    '화면 끝까지 펴기' 폭(--r2-vw)을 스크립트(r3b/07 fixVw)가 나중에 고쳐서, 첫 화면이 좁게 그려졌다가 넓어졌음 → 처음부터 CSS로 같은 값 */
