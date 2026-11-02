@@ -94,6 +94,10 @@ SFUI.register('carousel', function (root) {
     }
     update();
     // (11/2 사장님) 다른 페이지에 갔다가 '뒤로'로 돌아오면 브라우저가 페이지를 그대로 되살려(bfcache) 보던 배너(예: 5/6)에서 시작했어요 → 다시 1번째부터
-    if (peek) window.addEventListener('pageshow', function (e) { if (e.persisted) { jump(step() * CL); update(); } });
+    //   폭이 아직 0이면(레이아웃 전) 잡힐 때까지 잠깐 기다려요(최대 2초, Codex)
+    if (peek) window.addEventListener('pageshow', function (e) {
+      if (!e.persisted) return;
+      var n = 0; (function back() { if (step() > 0) { jump(step() * CL); update(); } else if (n++ < 40) setTimeout(back, 50); })();
+    });
   });
 })

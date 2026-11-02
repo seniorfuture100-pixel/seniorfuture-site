@@ -15,7 +15,6 @@
   var LV = function () { return [].filter.call(document.querySelectorAll('ul.sf-cards4'), function (u) { return u.querySelector('.sf-lcard'); }); };
   var MT = function () { return [].slice.call(document.querySelectorAll('ul.sf-cards4--meet')); };
   document.documentElement.classList.add('sf-hc-wait'); // 라이브·커뮤니티 칸도 정리 끝날 때까지 가려요(css patch/21)
-  var show = function () { [].slice.call(document.querySelectorAll('ul.sf-cards4--grid, ol.sf-top5')).concat(LV(), MT()).forEach(function (e) { e.classList.add('sf-hc-on'); }); };
   // 교육 목록 받기(페이지가 열리자마자 · 페이지가 여럿이면 모두)
   // (10/30) 무료 라이브·커뮤니티도 같은 방식으로 받아서, 목록에 없는(숨김·삭제) 상품 카드는 홈에서 빼요
   var fetchList = function (path) { return fetch(path + pv, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
@@ -214,13 +213,19 @@
     done = true;
     // (11/2) 예전엔 4초 뒤(+CSS 3초 뒤) 무조건 보여서, 받기가 늦거나 실패하면 디자인 예시 카드(없는 상품)가 보였어요
     //  → 칸마다 따로: 받아서 다 그리면 보이고, 실패·예외·12초 넘김이면 그 칸만 숨겨요(Codex)
-    var lv = LV(), mt = MT(); // 다시 그리기 전에 칸을 잡아 둬요(안내만 남으면 LV()가 못 찾아요)
+    // 다시 그리기 전에 칸을 잡아 둬요(안내만 남으면 LV()가 못 찾아요) + 받기가 끝날 때 늦게 붙은 칸도 같이(Codex)
+    var lv0 = LV(), mt0 = MT();
+    var join = function (a, f) { return function () { var r = a.slice(); f().forEach(function (u) { r.indexOf(u) < 0 && r.push(u); }); return r; }; };
     finish(got, EDU, function (x) { paint(x); return true; });
-    // 라이브·모임은 만들기 함수가 일정 정보를 받은 뒤(최대 2초) 스스로 보이게 해요 → 5초 안에 안 보이면(중간 예외) 없는 상품만 빼고 보여요
-    var side = function (els, build, w) { return function (x) { try { els.forEach(function (u) { build(x, u); }); } catch (e) { prune(x, function () { return els; }, w); return true; }
-      setTimeout(function () { els.forEach(function (u) { u.classList.contains('sf-hc-on') || (prune(x, function () { return [u]; }, w), u.classList.add('sf-hc-on')); }); }, 5000); return false; }; };
-    finish(gotLive, function () { return lv; }, side(lv, buildLive, '라이브'));
-    finish(gotMeet, function () { return mt; }, side(mt, buildMeet, '모임·이벤트'));
+    // 라이브·모임은 만들기 함수가 일정 정보를 받은 뒤(최대 2초) 스스로 보이게 해요 → 예외면 없는 상품만 빼고 보이고, 5초 안에 안 보여도 같게
+    //   ok = 보일 때 붙일 표시(모임은 r3-meet-ok — 없으면 r3HomeMeet 가 예전 고정 목록으로 덮어요)
+    var side = function (els, build, w, ok) { return function (x) {
+      var fall = function (u) { prune(x, function () { return [u]; }, w); u.classList.add.apply(u.classList, ok); };
+      try { els().forEach(function (u) { build(x, u); }); } catch (e) { els().forEach(fall); return false; }
+      setTimeout(function () { els().forEach(function (u) { u.classList.contains('sf-hc-on') || fall(u); }); }, 5000); return false; }; };
+    var lv = join(lv0, LV), mt = join(mt0, MT);
+    finish(gotLive, lv, side(lv, buildLive, '라이브', ['sf-hc-on']));
+    finish(gotMeet, mt, side(mt, buildMeet, '모임·이벤트', ['r3-meet-ok', 'sf-hc-on']));
   }
   // 홈 교육 칸 = 분야 칩이 붙은 '가장 주목받는 강의'(첫 sf-cards4--grid) + TOP 5 — 유튜브 영상 목록(같은 sf-cards4--grid)은 빼요(Codex)
   function EDU() { var g = document.querySelector('ul.sf-cards4--grid'); return [g && g.querySelector('li[data-sf-filter-item]') ? g : null, document.querySelector('ol.sf-top5')].filter(Boolean); }
