@@ -29,12 +29,15 @@ SFUI.register('copyFix', function () {
     [null, '더보기', '더 보기'],
     [null, '모집중', '모집 중']
   ].filter(function (r) { return !r[0] || r[0].test(p); });
+  var SKIP = 'script, style, textarea, input, select, [contenteditable], .board_txt_area, .sf-review, .sf-pv-reviews, .sf-rv-list';
   function fixText(root) {
     var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), t;
     while ((t = w.nextNode())) {
-      var v = t.nodeValue, o = v;
-      if (!v.trim()) continue;
-      for (var i = 0; i < R.length; i++) v.indexOf(R[i][1]) > -1 && (v = v.split(R[i][1]).join(R[i][2]));
+      var v = t.nodeValue, o = v, pe = t.parentElement;
+      // (Codex) 글 본문·후기·입력칸·코드는 건드리지 않아요. 띄어쓰기 규칙(주소 null)은 링크·버튼·꼬리표 글자에만
+      if (!v.trim() || !pe || pe.closest(SKIP)) continue;
+      var ui = !!pe.closest('a, button, .sf-tag, .sf-badge');
+      for (var i = 0; i < R.length; i++) (R[i][0] || ui) && v.indexOf(R[i][1]) > -1 && (v = v.split(R[i][1]).join(R[i][2]));
       v !== o && (t.nodeValue = v);
     }
   }
@@ -43,13 +46,18 @@ SFUI.register('copyFix', function () {
     [].forEach.call(document.querySelectorAll('a[href*="bmode=view"]'), function (a) {
       var m = /idx=(\d+)/.exec(a.getAttribute('href') || '');
       if (!m || !H[m[1]]) return;
-      var row = a.closest('li, tr, ._post_item_wrap, .li_board, [class*="_post_row"]');
-      row && (row.style.display = 'none');
+      // 줄 전체(목록 줄 ul.li_body · 카드 · 표 줄)를 숨겨요 — closest 하나로 찾으면 더 가까운 제목 칸(li.tit)만 숨겨져서 하나씩 찾아요
+      var row = a.closest('ul.li_body') || a.closest('._post_item_wrap') || a.closest('tr') || a.closest('li');
+      row && row.style.setProperty('display', 'none', 'important'); // 공지 목록 CSS 의 display:flex!important 를 이겨야 해요
     });
   }
   function run() { [].forEach.call(document.querySelectorAll('.sf-scope'), fixText); hideSamples(); }
   run();
   // 게시판 목록은 아임웹이 본문을 다 읽은 뒤에 그려요 → 조금 뒤에 한 번 더
+  // 고객센터 자주 묻는 질문은 우리 코드(patch/16)가 /faq 를 받아 늦게 붙여요 → 바뀔 때마다 숨김만 다시(가벼운 일만 해요)
   window.addEventListener('load', run, { once: true });
-  setTimeout(run, 1500);
+  var mo = new MutationObserver(function () { clearTimeout(mo.t); mo.t = setTimeout(hideSamples, 120); });
+  mo.observe(document.body, { childList: true, subtree: true });
+  // 고객센터·FAQ·공지 화면은 목록이 언제 붙을지 몰라 계속 지켜봐요(그 밖의 화면은 10초)
+  /^\/(help|faq|notice)/.test(p) || setTimeout(function () { mo.disconnect(); run(); }, 10000);
 });

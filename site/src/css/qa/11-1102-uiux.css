@@ -19,13 +19,13 @@
 
 /* 인사이트 BEST: 디자인에 든 4칸은 견본 글(예시 숫자)이라 숨겨요 — 진짜 인기글(patch/26b 가 채운 칸)만, 하나도 없으면 칸째 숨김 */
 .sf-cards4--ins > li:not([data-sf-pop]) { display: none !important; }
-.sf-sec:has(> .sf-cards4--ins:not([data-sf-pop="1"])) { display: none !important; }
+.sf-sec:has(> .sf-cards4--ins:not([data-sf-pop="1"])), .sf-sec.sf-ins-empty { display: none !important; }
 
 /* 섹션 설명 줄: 휴대폰 13px → 14px(본문 다음 단계, 시니어 가독성) */
-.sf-sec-head__t p { font-size: var(--sf-fs-sub); }
+:root body .sf-sec-head .sf-sec-head__t p { font-size: var(--sf-fs-sub); } /* :root .sf-sec-head p(13px)·r3/44 보다 무겁게 */
 
 /* '전체 보기' 같은 섹션 링크: 휴대폰에서 누르는 높이 44px */
-.sf-sec-more { min-height: var(--sf-tap); display: inline-flex; align-items: center; }
+:root body .sf-sec-head .sf-sec-more { min-height: var(--sf-tap); display: inline-flex; align-items: center; } /* :root body .sf-sec-more(40px) 보다 무겁게 */
 
 /* 큰 안내 카드 모서리 통일(20px): 파트너 지원 활동 카드·파트너 후기 카드 22px, 마케팅 파트너스 혜택 카드 26px 였어요 */
 a.pa-way, article.r3ap-rv, article.pt3-ben__a { border-radius: var(--sf-radius-panel) !important; }

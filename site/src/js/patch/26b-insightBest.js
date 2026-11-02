@@ -29,9 +29,12 @@
   if (q.get('bmode') || !/^\/insight\/?$/.test(p)) return;
   // (11/2) 목록 카드 요약 글 다듬기: 아임웹이 본문 앞 100자를 자르면서 원문 태그('<title>…</title>')·잘린 문자 코드('&#', '&quo')·
   //   블로그에서 옮긴 사진 설명 자리('사진 설명을 입력하세요.')가 그대로 보였어요 → 화면 글자만 고쳐요(글 자체는 그대로)
-  var ta = document.createElement('textarea');
+  var ta = document.createElement('textarea'), ENT = ['quot', 'amp', 'lt', 'gt', 'nbsp', 'apos', 'hellip', 'middot', 'lsquo', 'rsquo', 'ldquo', 'rdquo', 'ndash', 'mdash'];
   function tidy(t) {
-    t = t.replace(/<title>[\s\S]*?<\/title>/gi, ' ').replace(/<\/?[a-z][^>]*>/gi, ' ').replace(/&[#a-z0-9]*$/i, '');
+    t = t.replace(/<title>[\s\S]*?<\/title>/gi, ' ').replace(/<\/?[a-z][^>]*>/gi, ' ');
+    // 끝에서 잘린 문자 코드만 지워요('&#', '&quo') — AT&T·R&D·Q&A 같은 보통 글자는 그대로(Codex)
+    var m = /&(#x?[0-9a-fA-F]*|[a-z]{0,7})$/.exec(t);
+    m && (m[1].charAt(0) === '#' || !m[1] || ENT.some(function (e) { return e.indexOf(m[1]) === 0; })) && (t = t.slice(0, m.index));
     ta.innerHTML = t.replace(/</g, '&lt;'); // 문자 코드만 풀어요(태그는 위에서 지움)
     return ta.value.replace(/사진 설명을 입력하세요\.?/g, ' ').replace(/\s+/g, ' ').trim();
   }
@@ -69,6 +72,7 @@
     if (!ul || ul.getAttribute('data-sf-pop')) return;
     ul.innerHTML = list.slice(0, 4).map(card).join('');
     ul.setAttribute('data-sf-pop', list.length ? '1' : '0');
+    var sec = ul.closest('section'); sec && sec.classList.toggle('sf-ins-empty', !list.length); // :has() 못 쓰는 브라우저용
   }
   function run() {
     var C = null;
