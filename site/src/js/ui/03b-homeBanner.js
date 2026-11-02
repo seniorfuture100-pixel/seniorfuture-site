@@ -36,14 +36,14 @@ SFUI.register('homeBanner', function () {
   ];
   function person(c) { return '<span class="hb-av" style="--c:' + c + '">' + svg(I.user) + '</span>'; }
   var SLIDES = [
-    { k: 'edu', href: '/course', badge: '교육', title: '현장 전문가에게 배우는<br>시니어 산업 실무 교육', sub: '분야별 VOD 강의와 기수제 스터디',
+    { k: 'edu', href: '/course', badge: '교육', title: '전문가 네트워크와 함께하는<br>시니어 산업 실무 교육', sub: '분야별 VOD 강의와 기수제 스터디',
       art: '<i class="hb-glow"></i>' +
         '<span class="hb-tablet"><span class="hb-screen"><span class="hb-thumb"><b>' + CATS[0][0] + '</b><small>' + CATS[0][1] + '</small><span class="hb-playbtn">' + svg(I.play) + '</span></span><span class="hb-progress"><i></i></span></span></span>' +
         '<span class="hb-cats">' + CATS.map(function (c, i) { return '<i' + (i ? '' : ' class="is-on"') + '>' + c[2] + '</i>'; }).join('') + '</span>' +
         '<span class="hb-medal">' + svg(I.check) + '<b>수료</b></span>' },
-    { k: 'live', href: '/live', badge: '무료 라이브', title: '현장 전문가 무료 라이브,<br>실시간으로 묻고 답해요', sub: '1~2시간 · 질의응답 · 다시보기 제공',
+    { k: 'live', href: '/live', badge: '무료 라이브', title: '전문가 네트워크 무료 라이브,<br>실시간으로 묻고 답해요', sub: '1~2시간 · 질의응답 · 다시보기 제공',
       art: '<i class="hb-glow"></i>' +
-        '<span class="hb-phone"><span class="hb-screen"><span class="hb-onair"><i></i>LIVE</span><span class="hb-speaker">' + svg(I.user) + '</span><span class="hb-caption"><b>시니어 산업 트렌드</b><small>현장 전문가 라이브</small></span></span></span>' +
+        '<span class="hb-phone"><span class="hb-screen"><span class="hb-onair"><i></i>LIVE</span><span class="hb-speaker">' + svg(I.user) + '</span><span class="hb-caption"><b>시니어 산업 트렌드</b><small>전문가 네트워크 라이브</small></span></span></span>' +
         '<span class="hb-chip c-join">' + svg(I.bolt) + '실시간 참여</span>' +
         '<span class="hb-bubble q1">질문 있어요!</span><span class="hb-bubble q2">현장 이야기 좋아요</span>' +
         '<span class="hb-heart h1">' + svg(I.heart) + '</span><span class="hb-heart h2">' + svg(I.heart) + '</span><span class="hb-heart h3">' + svg(I.heart) + '</span>' },
@@ -57,9 +57,9 @@ SFUI.register('homeBanner', function () {
         '<span class="hb-crowd">' + person('#ffa94d') + person('#74c0fc') + person('#ffd43b') + person('#63e6be') + person('#e599f7') + '</span>' +
         '<span class="hb-event"><span class="hb-evicon">' + svg(I.cal) + '</span><span><small>이번 달 모임</small><b>현장 탐방 · 네트워킹</b></span><em>참여 신청</em></span>' +
         '<span class="hb-bubble q1">반가워요!</span><span class="hb-bubble q2">' + svg(I.chat) + '같이 가요</span>' },
-    { k: 'partner', href: '/partner', badge: '파트너 모집', title: '현장 전문가를<br>파트너로 모십니다', sub: '강사 · 라이브 연사 · 기고 · 커뮤니티 운영',
+    { k: 'partner', href: '/partner', badge: '파트너 모집', title: '전문가 네트워크에<br>함께할 파트너를 모십니다', sub: '강사 · 라이브 연사 · 기고 · 커뮤니티 운영',
       art: '<i class="hb-glow"></i>' +
-        '<span class="hb-profile"><span class="hb-pava">' + svg(I.user) + '<i>' + svg(I.check) + '</i></span><b>현장 전문가</b><small>시니어 산업 파트너</small><span class="hb-ptags"><i>강의</i><i>라이브</i><i>기고</i></span></span>' +
+        '<span class="hb-profile"><span class="hb-pava">' + svg(I.user) + '<i>' + svg(I.check) + '</i></span><b>전문가 네트워크</b><small>시니어 산업 파트너</small><span class="hb-ptags"><i>강의</i><i>라이브</i><i>기고</i></span></span>' +
         '<i class="hb-pill p1">요양·돌봄</i><i class="hb-pill p2">시니어 주거</i><i class="hb-pill p3">헬스케어</i><i class="hb-pill p4">에이지테크</i>' +
         '<span class="hb-chip c-time">' + svg(I.bolt) + '지원 5분</span>' },
     { k: 'biz', href: '/business', badge: '기업·기관', title: '기업·공공기관을 위한<br>시니어 비즈니스 파트너', sub: '맞춤 교육 · 콘텐츠·행사 협업 · 공동 프로젝트',
