@@ -19,7 +19,8 @@ const thumb = o => `<!doctype html><html><head><meta charset="utf-8">${FONT}<sty
 .tx{position:absolute;left:80px;top:0;bottom:0;width:700px;display:flex;flex-direction:column;justify-content:center;gap:28px}
 .tag{align-self:flex-start;background:${o.tagBg || '#ff6f0f'};color:#fff;font-weight:700;font-size:30px;padding:10px 22px;border-radius:10px}
 h1{font-size:76px;line-height:1.18;font-weight:800;letter-spacing:-2px}
-.by{font-size:30px;font-weight:600;opacity:.85}</style></head><body><div class="t"><div class="ph"></div><div class="tx">
+.by{font-size:30px;font-weight:600;opacity:.85}
+.mk{position:absolute;right:60px;bottom:-30px;font-size:330px;font-weight:900;letter-spacing:-20px;line-height:1;color:${o.fg || '#fff'};opacity:.08}</style></head><body><div class="t">${o.photo ? '<div class="ph"></div>' : ''}${o.mark ? `<div class="mk">${o.mark}</div>` : ''}<div class="tx">
 <span class="tag">${o.tag}</span><h1>${o.title}</h1><p class="by">${o.by}</p></div></div></body></html>`;
 
 // 상세 세로 이미지: 큰 제목 + 설명 + (선택) 카드 목록 · 사진
@@ -49,6 +50,19 @@ const JOBS = {
     ['멤버십 혜택 포함', '트렌드 뉴스레터·기업 분석 콘텐츠·웨비나·현장 탐방 우선 참여'],
     ['소수 정예 10명', '토요일 오전 · 공덕역 FRONT1 · 정규 4회 출석 시 수료증']] }),
   'study12-d3': detail({ bg: '#fff5f0', kicker: '3회차 특강', title: 'AI 시대,<br>시니어 산업의 미래와 기회', photo: PHOTO.kts, name: '김태성', role: '케어링 대표' }),
+  // (11/3 사장님) 11기 — 시니어퓨처가 직접 기획·운영하는 형태(PG 심사: 외부 강사 카드 대신 자체 운영 안내)
+  'study11-thumb': thumb({ bg: '#1b2a4a', tag: '11기 모집', title: '시니어 비즈니스<br>실전 4주 스터디', by: '시니어퓨처가 직접 기획·운영해요', mark: '11기' }),
+  'study11-d1': detail({ bg: '#1b2a4a', fg: '#fff', sub: '#c9d3e6', kicker: '시니어퓨처 11기 비즈니스 스터디', title: '시니어 시장,<br>뉴스로만 보고 계신가요?', sub2: '선도 기업의 수익모델과 고객 전략을 데이터로 해부하고<br>함께 토론하며 내 관점을 정리하는 4주예요.' }),
+  'study11-d2': detail({ kicker: '4주 동안 이렇게 배워요', title: '분석하고, 토론하고,<br>내 관점으로 정리해요', items: [
+    ['Deep-Dive 기업 분석', '선도 기업의 수익모델·고객 정의·채널 전략·확장 방식을 데이터로 해부해요'],
+    ['현장 초청 특강 · 워크숍', '시니어퓨처가 초청한 현업 전문가의 이야기를 듣고 피어러닝으로 토론해요'],
+    ['멤버십 혜택 포함', '트렌드 뉴스레터·기업 분석 콘텐츠·웨비나·현장 탐방 우선 참여'],
+    ['소수 정예 10명', '토요일 오전 · 공덕역 FRONT1 · 정규 4회 출석 시 수료증']] }),
+  'study11-d3': detail({ bg: '#fff5f0', kicker: '운영', title: '기획부터 수료까지<br>시니어퓨처가 직접 운영해요', items: [
+    ['커리큘럼 기획', '4주 과정과 분석할 기업을 시니어퓨처가 직접 구성해요'],
+    ['진행 · 피드백', '매 회차 진행과 토론, 분석 리포트 피드백을 시니어퓨처 운영진이 맡아요'],
+    ['신청 · 결제 · 환불', '모든 신청과 결제, 환불과 문의는 시니어퓨처가 직접 처리해요'],
+    ['3회차 초청 특강', '시니어퓨처가 초청한 현업 전문가가 특강을 진행해요']] }),
   // 2) 교육 · VOD (회원그룹 이용권 30일)
   'trend-thumb': thumb({ bg: '#0f3d3a', tag: 'VOD · 30일 수강', title: '초고령사회<br>대전환 지도', by: '시니어트렌드 2027 · 최학희 대표', photo: PHOTO.chh }),
   'trend-d1': detail({ bg: '#0f3d3a', fg: '#fff', sub: '#cfe3df', kicker: '시니어트렌드 2027', title: '2027년, 시니어 시장은<br>무엇이 달라질까요?', sub2: '숫자와 사례로 초고령사회의 큰 흐름을 한 번에 정리해요.<br>언제든, 결제일부터 30일 동안 들을 수 있어요.' }),
