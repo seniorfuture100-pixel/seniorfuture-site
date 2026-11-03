@@ -50,11 +50,5 @@ if (window.SF_PG_HIDE) {
   // 파트너 지원·신청·마케팅 파트너스 페이지는 주소로 들어와도 홈으로(페이지·내용은 그대로 둠 → 스위치 끄면 원래대로)
   if (/^\/(partner|partners|partner-apply)(\/|$)/.test(location.pathname)) location.replace('/');
 }
-// (11/2 사장님) Microsoft Clarity 히트맵·화면 녹화 — 프로젝트 '시니어퓨처 아임웹 (2026.11~)'(z7cxscbz9h), 가림 '엄격'(화면 글자 모두 가림 → 회원 정보가 녹화에 안 남음)
-//   끄려면 이 블록만 지우고 배포. 개인정보처리방침 '행태정보'에 Microsoft Corporation(Clarity) 명시
-(function (c, l, a, r, i, t, y) {
-  if (c[a]) return;
-  c[a] = function () { (c[a].q = c[a].q || []).push(arguments); };
-  t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
-  y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-})(window, document, 'clarity', 'script', 'z7cxscbz9h');
+// (11/3 사장님) Microsoft Clarity 히트맵 끔 — 휴대폰 스크롤 때마다 화면 위치를 다시 계산해 0.1~0.2초씩 멈췄어요.
+//   다시 켜려면 v1.0.208 의 이 자리 블록(프로젝트 z7cxscbz9h)을 되살려 배포. Clarity 계정·프로젝트는 그대로 있어요
