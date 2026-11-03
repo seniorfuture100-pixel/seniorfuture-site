@@ -40,8 +40,12 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
 });
 // (11/2) PG 재심사 스위치 — true 면 파트너 모집·추천 수익 안내를 가려요(코드·내용은 그대로). 심사 통과 뒤 false 로 바꿔 배포하면 원래 화면으로 돌아와요.
 //   쓰는 곳: css/qa/12-1102-pg-hide.css(html.sf-pg-hide), js/ui/03b-homeBanner.js(파트너 모집 배너), js/r2/01-iife.js(마이페이지 '파트너스' 메뉴)
-window.SF_PG_HIDE = false;   // (11/2 사장님) 숨기지 않고 문구(강사료·포인트)로 가기로 함
-if (window.SF_PG_HIDE) document.documentElement.classList.add('sf-pg-hide');
+window.SF_PG_HIDE = true;   // (11/3 사장님) 토스페이 2차 반려 — '파트너 지원 등 가맹점↔파트너 계약 구조가 보이는 화면·경로 모두 삭제' 요구로 다시 켬
+if (window.SF_PG_HIDE) {
+  document.documentElement.classList.add('sf-pg-hide');
+  // 파트너 지원·신청·마케팅 파트너스 페이지는 주소로 들어와도 홈으로(페이지·내용은 그대로 둠 → 스위치 끄면 원래대로)
+  if (/^\/(partner|partners|partner-apply)(\/|$)/.test(location.pathname)) location.replace('/');
+}
 // (11/2 사장님) Microsoft Clarity 히트맵·화면 녹화 — 프로젝트 '시니어퓨처 아임웹 (2026.11~)'(z7cxscbz9h), 가림 '엄격'(화면 글자 모두 가림 → 회원 정보가 녹화에 안 남음)
 //   끄려면 이 블록만 지우고 배포. 개인정보처리방침 '행태정보'에 Microsoft Corporation(Clarity) 명시
 (function (c, l, a, r, i, t, y) {
