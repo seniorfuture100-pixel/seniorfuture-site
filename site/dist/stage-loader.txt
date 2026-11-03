@@ -4,9 +4,10 @@
 window.SF_SITE = Object.assign(window.SF_SITE || {}, {
   kakao: 'https://pf.kakao.com/_ZYaLG/chat',
   topbanner: { key: '2026-11-platform-renewal', text: '🎉 시니어 산업 플랫폼 시니어퓨처 리뉴얼! 교육 · 무료 라이브 · 인사이트 · 커뮤니티를 한곳에서!', href: '/course' },   // (11/2 사장님) 오픈 → 리뉴얼 안내(key 바꿔 닫은 분께도 다시 보여요)
-  // (11/3 사장님) 홈 '시니어퓨처 전문가 네트워크' 20명 순서 — 옛 전문가 페이지(apply.seniorfuture.kr/expertnetworkservice) 순서에서
-  //   안정기·박동명·황규만·김현미 빼고, 김태성 뒤에 박재병(케어닥)·김견원(케어네이션)·이은정·이보람 추가, 최학희↔하정화 자리 바꿈. 이름은 전문가 게시판 글 제목 맨 앞 이름 그대로
-  homeExperts: ['김난도', '정순둘', '임희숙', '최학희', '김태성', '박재병', '김견원', '이은정', '이보람', '권정현', '장준표', '함동수', '지창대', '하정화', '김동원', '김진수', '이준호', '김두영', '정현강', '김민지'],
+  // (11/3 사장님) 홈 '시니어퓨처 전문가 네트워크' 20명 순서 — 옛 페이지 '기업·기관·학계 연사 초청' 순서에서
+  //   안정기·황규만·김현미·박동명 빼고(김용근 교수는 전문가 게시판 글이 없어 뺌), 최학희↔하정화 자리 바꿈, 박재병(케어닥)·김견원(케어네이션)·이은정 추가,
+  //   빈자리는 정한나·김지희·신승준·이정준(제안 — 사장님이 순서·사람 바꿀 예정). 이름은 전문가 게시판 글 제목 맨 앞 이름 그대로
+  homeExperts: ['김난도', '김영선', '정순둘', '최학희', '주수산나', '홍주화', '박영란', '김정태', '김태성', '이보람', '하정화', '임희숙', '장진호', '박재병', '김견원', '이은정', '정한나', '김지희', '신승준', '이정준'],
   sns: {
     instagram: 'https://www.instagram.com/senior_future/',
     youtube: 'https://www.youtube.com/@seniorfuture',
@@ -59,9 +60,9 @@ if (window.SF_PG_HIDE) {
   y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
 })(window, document, 'clarity', 'script', 'z7cxscbz9h');
 </script>
-<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.204/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
+<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.205/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
 <style id="sf-patch-css" data-sf-stage></style>
-<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.204/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){document.readyState!=='loading'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
+<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.205/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){document.readyState!=='loading'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
 <script id="sf-early" data-sf-stage>/* sf-early.js — 첫 화면부터 꾸민 모습 (아임웹 원본이 한 번도 그려지지 않게)
    배치: 공통 코드 Header Code 맨 끝, 꾸밈 JS 묶음(sf-ui-js · sf-patch-js · sf-r2-js · sf-r3-js) 바로 뒤.
    ① 본문: MutationObserver 콜백은 화면을 그리기 전에 실행돼요. 본문·푸터를 다 읽은 순간 꾸밈을 한 번 돌려요.
