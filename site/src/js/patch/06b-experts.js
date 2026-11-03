@@ -175,6 +175,13 @@ SFUI.register('homeExperts20', function () {
   var X = SFUI.experts, AMP = String.fromCharCode(38), tmp = document.createElement('div');
   function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML.replace(/"/g, AMP + '#34;'); }
   function add(cards) {
+    // (11/3 사장님) 홈 디자인에 박힌 앞 10명 사진은 옛 노션 사진이라 게시판에서 바꾼 사진이 안 보였어요 → 이름이 같은 게시판 사진으로 바꿔 끼워요
+    var byName = {};
+    cards.forEach(function (c) { c.img && (byName[c.name] = c.img); });
+    [].forEach.call(ul.querySelectorAll('.sf-expert10'), function (li) {
+      var s = li.querySelector('strong'), ph = li.querySelector('.sf-expert10__ph'), u = s && byName[s.textContent.trim()];
+      u && ph && ph.style.backgroundImage.indexOf(u) < 0 && (ph.style.backgroundImage = 'url("' + u.replace(/"/g, '') + '")');
+    });
     var have = [].map.call(ul.querySelectorAll('.sf-expert10 strong'), function (s) { return s.textContent.trim(); }), html = '', ti = 0;
     cards.forEach(function (c) {
       if (have.length >= 20 || have.indexOf(c.name) >= 0) return;
@@ -186,13 +193,13 @@ SFUI.register('homeExperts20', function () {
     if (html) ul.insertAdjacentHTML('beforeend', html);
   }
   var cache = null;
-  try { cache = JSON.parse(sessionStorage.getItem('sf_exhome') || 'null'); } catch (e) {}
+  try { cache = JSON.parse(sessionStorage.getItem('sf_exhome2') || 'null'); } catch (e) {} // 2 = 전체 명단 저장(앞 10명 사진 바꾸기용)
   if (cache) return add(cache);
   fetch('/experts/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
     if (!t) return;
     var d = new DOMParser().parseFromString(t, 'text/html');
-    var cards = X.sort([].map.call(d.querySelectorAll('._post_item_wrap'), X.card).filter(Boolean)).slice(0, 30);
-    try { sessionStorage.setItem('sf_exhome', JSON.stringify(cards)); } catch (e) {}
+    var cards = X.sort([].map.call(d.querySelectorAll('._post_item_wrap'), X.card).filter(Boolean));
+    try { sessionStorage.setItem('sf_exhome2', JSON.stringify(cards)); } catch (e) {}
     add(cards);
   }).catch(function () {});
 });
