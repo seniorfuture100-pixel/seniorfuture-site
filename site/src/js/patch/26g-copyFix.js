@@ -10,8 +10,6 @@ SFUI.register('copyFix', function () {
     // (11/2 사장님) 설명 = 홈과 같은 문장, 주황 안내 상자의 굵은 줄은 빼요(아래 run 에서 숨김)
     [/^\/live$/, '매주 수요일 저녁, 현업 전문가에게 무료로 배우고 바로 질문해요', '인사이트를 습득하고, 궁금한 점은 바로 물어보세요'],
     [/^\/live$/, '신청하면 시작 30분 전에 입장 링크를 문자와 이메일로 보내드려요', '신청한 라이브는 마이페이지 › 나의 강의실에서 입장할 수 있어요'],
-    // 홈: 모집 중인 모임이 있는데 '최근 열린 모임'
-    [/^\/$/, '최근 열린 모임이에요 · 다음 소식은', '모집 중인 모임과 지난 모임이에요 · 새 모임 소식은'],
     [/^\/$/, '현업 전문가에게 무료로 배우고, 질문도 바로 해보세요', '인사이트를 습득하고, 궁금한 점은 바로 물어보세요'],
     // 파트너 지원: 활동 이름을 신청서 분야(교육 강사·라이브 연사·인사이트 기고·커뮤니티 운영)와 같게, 버튼 이름 하나로
     [/^\/partner$/, '교육 집필', '교육 강사'],
@@ -52,8 +50,24 @@ SFUI.register('copyFix', function () {
       row && row.style.setProperty('display', 'none', 'important'); // 공지 목록 CSS 의 display:flex!important 를 이겨야 해요
     });
   }
+  // (11/3 사장님) 홈 세 섹션의 제목·설명만 교체해요. 카드·글 본문·다른 화면은 그대로 둬요.
+  function homeCopy() {
+    if (p !== '/') return;
+    var copy = [
+      ['h-meet', '', '네트워킹부터 현장 탐방까지, 시니어 산업을 함께 알아가는 만남을 소개해요'],
+      ['h-top', '이달의 BEST', '시니어 비즈니스의 시야를 넓혀줄 이번 달 추천 프로그램이에요'],
+      ['h-ex', '', '시니어퓨처의 강연과 자문에 함께한 학계·산업·기관 전문가들을 소개해요']
+    ];
+    copy.forEach(function (c) {
+      var h = document.getElementById(c[0]), head = h && h.closest('.sf-scope .sf-sec-head'), sub = head && head.querySelector('p');
+      if (!head) return;
+      if (c[1] && h.textContent !== c[1]) h.textContent = c[1];
+      if (sub && sub.textContent !== c[2]) sub.textContent = c[2];
+    });
+  }
   function run() {
     [].forEach.call(document.querySelectorAll('.sf-scope'), fixText); hideSamples();
+    homeCopy();
     // (11/2 사장님) 무료 라이브 주황 안내 상자: 굵은 줄('매주 수요일…')만 빼고 강의실 안내 줄은 남겨요
     /^\/live\/?$/.test(location.pathname) && [].forEach.call(document.querySelectorAll('.sf-notice-box > strong'), function (s) { /매주 수요일 저녁/.test(s.textContent) && s.style.setProperty('display', 'none', 'important'); });
   }
