@@ -198,7 +198,7 @@ SFUI.register('homeExperts20', function () {
     if (HO && HO.length) {
       var by = {}; cards.forEach(function (c) { by[c.name] = c; });
       var list = HO.map(function (n) { return by[n]; }).filter(Boolean);
-      if (list.length >= 10) { ul.innerHTML = ''; return add(list); } // 게시판을 못 읽었으면 홈 디자인 그대로
+      if (list.length >= 10) { ul.innerHTML = ''; ul.setAttribute('data-sf-n', list.length); return add(list); } // 게시판을 못 읽었으면 홈 디자인 그대로 · 칸 수는 CSS(qa/11)가 맞춤
     }
     add(cards);
   };

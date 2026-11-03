@@ -107,3 +107,5 @@ html:root body .shop-content.detail-regularly .buy_btns.pc ._btn_buy:not(.im-reg
 html:root body .shop-content.detail-regularly .buy_btns.pc ._btn_regularly { display: flex !important; flex: 1 1 0%; align-items: center; justify-content: center; height: 46px !important; margin: 0 !important; padding: 0 16px !important; border: 0 !important; border-radius: 12px !important; background: var(--sf-primary) !important; color: #fff !important; font: 700 16px/1 var(--sf-font) !important; }
 /* 휴대폰 아래 고정 바: 왼쪽 '정기구독 신청'(검정) · 오른쪽 '1회 수강 신청'(주황) — 글자는 patch/07 */
 html:root body .shop-content.use-regularly .buy_btns.mobile .defualt.buy.im-regularly { background: var(--sf-dark) !important; border-color: var(--sf-dark) !important; color: #fff !important; }
+/* (11/3 사장님) 홈 전문가 네트워크를 16명으로 줄이면 PC 5칸 그리드에서 마지막 줄에 1명만 남아요 → 16명일 때 PC는 4칸(4×4). 휴대폰 가로 넘김은 그대로 */
+@media (min-width: 768px) { :root body .sf-experts10[data-sf-n="16"] { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
