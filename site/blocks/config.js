@@ -3,6 +3,9 @@
 window.SF_SITE = Object.assign(window.SF_SITE || {}, {
   kakao: 'https://pf.kakao.com/_ZYaLG/chat',
   topbanner: { key: '2026-11-platform-renewal', text: '🎉 시니어 산업 플랫폼 시니어퓨처 리뉴얼! 교육 · 무료 라이브 · 인사이트 · 커뮤니티를 한곳에서!', href: '/course' },   // (11/2 사장님) 오픈 → 리뉴얼 안내(key 바꿔 닫은 분께도 다시 보여요)
+  // (11/3 사장님) 홈 '시니어퓨처 전문가 네트워크' 20명 순서 — 옛 전문가 페이지(apply.seniorfuture.kr/expertnetworkservice) 순서에서
+  //   안정기·박동명·황규만·김현미 빼고, 김태성 뒤에 박재병(케어닥)·김견원(케어네이션)·이은정·이보람 추가, 최학희↔하정화 자리 바꿈. 이름은 전문가 게시판 글 제목 맨 앞 이름 그대로
+  homeExperts: ['김난도', '정순둘', '임희숙', '최학희', '김태성', '박재병', '김견원', '이은정', '이보람', '권정현', '장준표', '함동수', '지창대', '하정화', '김동원', '김진수', '이준호', '김두영', '정현강', '김민지'],
   sns: {
     instagram: 'https://www.instagram.com/senior_future/',
     youtube: 'https://www.youtube.com/@seniorfuture',

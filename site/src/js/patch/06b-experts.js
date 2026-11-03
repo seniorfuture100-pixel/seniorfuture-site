@@ -192,14 +192,24 @@ SFUI.register('homeExperts20', function () {
     });
     if (html) ul.insertAdjacentHTML('beforeend', html);
   }
+  // (11/3 사장님) 홈 20명 순서는 설정(site/blocks/config.js SF_SITE.homeExperts, 이름 목록)대로 — 목록에 있는 분만 그 순서로 다시 그려요
+  var HO = (window.SF_SITE || {}).homeExperts;
+  var show = function (cards) {
+    if (HO && HO.length) {
+      var by = {}; cards.forEach(function (c) { by[c.name] = c; });
+      var list = HO.map(function (n) { return by[n]; }).filter(Boolean);
+      if (list.length >= 10) { ul.innerHTML = ''; return add(list); } // 게시판을 못 읽었으면 홈 디자인 그대로
+    }
+    add(cards);
+  };
   var cache = null;
   try { cache = JSON.parse(sessionStorage.getItem('sf_exhome2') || 'null'); } catch (e) {} // 2 = 전체 명단 저장(앞 10명 사진 바꾸기용)
-  if (cache) return add(cache);
+  if (cache) return show(cache);
   fetch('/experts/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
     if (!t) return;
     var d = new DOMParser().parseFromString(t, 'text/html');
     var cards = X.sort([].map.call(d.querySelectorAll('._post_item_wrap'), X.card).filter(Boolean));
     try { sessionStorage.setItem('sf_exhome2', JSON.stringify(cards)); } catch (e) {}
-    add(cards);
+    show(cards);
   }).catch(function () {});
 });
