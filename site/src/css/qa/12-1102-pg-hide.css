@@ -22,3 +22,6 @@
 :root.sf-pg-hide body li:has(> a[href*="sf=partners"]),
 :root.sf-pg-hide body .sf-tm-panel#cpartner,
 :root.sf-pg-hide body .sf-tm-panel#partners {display:none !important}
+
+/* (11/3) PC 헤더 '파트너 지원' 버튼: 헤더 꾸밈 규칙(r2/16·20 '#doz_header_wrap .sf-hd-partner.r2-pill' display:inline-flex!important)이 더 무거워 위 규칙이 안 먹었어요 → 같은 무게 + 스위치 클래스로 */
+html:root.sf-pg-hide body #doz_header_wrap .sf-hd-partner.r2-pill, html:root.sf-pg-hide body #doz_header_wrap a[href="/partner"] {display:none !important}
