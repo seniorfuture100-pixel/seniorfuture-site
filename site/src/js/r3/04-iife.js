@@ -166,7 +166,7 @@
     if (/^\/insight/.test(t) && !e.get("bmode")) {
       var r = n("[data-sf-board-filter]");
       if (r && SFUI.once(r, "R3All")) {
-        var s = null, i = [];
+        var s = null, i = [], mio = null, gen = 0;
         r.addEventListener("click", (function() {
           requestAnimationFrame(l); // (10/26) 다음 그림 전에 채움 — 줄었다 커지던 것 없앰
         }));
@@ -195,21 +195,21 @@
         credentials: "same-origin"
       }).then((function(t) {
         return t.text();
+      })).then((function(t) {
+        // (11/3 속도) 쪽마다 받자마자 따로 읽어요 — 8쪽을 한 번에 읽으면 휴대폰에서 0.3초 넘게 멈췄어요
+        return a('[data-widget-type="board"] ._card_wrap', (new DOMParser).parseFromString(t, "text/html"));
       })).catch((function() {
-        return "";
+        return [];
       })));
       return Promise.all(r).then((function(t) {
-        return s = [], t.forEach((function(t) {
-          a('[data-widget-type="board"] ._card_wrap', (new DOMParser).parseFromString(t, "text/html")).forEach((function(t) {
-            s.push(t);
-          }));
-        })), s;
+        return s = [].concat.apply([], t);
       }));
     }
     function l() {
       i.forEach((function(t) {
         t.remove();
-      })), i = [];
+      })), i = [], mio && mio.disconnect(), mio = null;
+      var g = ++gen, todo = [];
       var t = r.querySelector("[data-cat].is-active"), e = t ? t.getAttribute("data-cat") : "all";
       a('[data-widget-type="board"] .paging-block, [data-widget-type="board"] .pagination').forEach((function(t) {
         t.style.display = "none"; // (10/26) 페이지 번호 없이 전체 글을 한 번에
@@ -255,7 +255,7 @@
                       var s = document.createElement("span");
                       s.className = "r2-ttl", s.textContent = a.trim(), e.appendChild(s);
                     }
-                  }(u.querySelector("._post_item_wrap") || u), c.appendChild(u), i.push(u), d(u);
+                  }(u.querySelector("._post_item_wrap") || u), todo.push(u);
                 }
               }
             }
@@ -265,12 +265,26 @@
               var e = t.querySelector(".title em:not(.notice-block):not(.addon-badge)");
               return e ? e.textContent.trim() : "";
             }(t) === e);
-          })).length;
+          })).length + todo.length;
+          r.setAttribute("data-sf-count", e + ":" + u); // 아직 안 붙인 글까지 센 수 — r2 분류 제목이 다시 그릴 때 이 수를 써요
           a(".r2-count").forEach((function(t) {
             t.textContent = u + "개의 글";
           }));
           var f = document.getElementById("sf-board-empty");
           f && (f.hidden = u > 0);
+          // (11/3 속도) 160개를 한 번에 붙이면 스크롤 중 휴대폰에서 1초 넘게 멈췄어요 → 12개씩, 붙인 마지막 글이 화면 1200px 안에 오면 다음 12개
+          var feed = function() {
+            if (g !== gen) return;
+            todo.splice(0, window.IntersectionObserver ? 12 : todo.length).forEach((function(u) {
+              c.appendChild(u), i.push(u), d(u);
+            }));
+            if (!todo.length) return;
+            mio = new IntersectionObserver((function(es) {
+              es.some((function(x) { return x.isIntersecting; })) && (mio.disconnect(), mio = null, requestAnimationFrame(feed));
+            }), { rootMargin: "1200px 0px" });
+            mio.observe(i[i.length - 1]);
+          };
+          feed();
         }
       }));
     }
