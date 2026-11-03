@@ -25,3 +25,5 @@
 
 /* (11/3) PC 헤더 '파트너 지원' 버튼: 헤더 꾸밈 규칙(r2/16·20 '#doz_header_wrap .sf-hd-partner.r2-pill' display:inline-flex!important)이 더 무거워 위 규칙이 안 먹었어요 → 같은 무게 + 스위치 클래스로. 로그인 버튼도 같은 class(sf-hd-partner r2-pill r3-login)라 주소가 /partner 인 것만 */
 html:root.sf-pg-hide body #doz_header_wrap .sf-hd-partner.r2-pill[href="/partner"]:not(.r3-login), html:root.sf-pg-hide body #doz_header_wrap .sf-hd-partner.r2-pill[href^="/partner?"]:not(.r3-login) {display:none !important}
+/* (11/3) 상품 상세 '친구에게 추천하고 포인트 받기' 상자: 글자(.r3-rsh__t)만 숨겨서 빈 분홍 상자 + 링크 아이콘만 남았어요 → 상자째 숨김(제목 옆 공유 버튼은 그대로) */
+html:root.sf-pg-hide body .sf-pv-share.r3-rsh, html:root.sf-pg-hide body .sf-pv .sf-pv-share {display:none !important}
