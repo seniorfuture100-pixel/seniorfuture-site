@@ -1,0 +1,241 @@
+{
+  "at": "2026-11-03T03:13:07.719Z",
+  "base": "https://seniorfuture.kr",
+  "routes": {
+    "/learn-run": "301 → /",
+    "/learn-run/": "301 → /"
+  },
+  "pages": {
+    "/": {
+      "status": 200,
+      "loader": "@v1.0.200",
+      "scriptHosts": [
+        "crm-onsite.imweb.me",
+        "developers.kakao.com",
+        "imweb.me",
+        "seniorfuture.kr",
+        "seniorfuture100-pixel.github.io",
+        "static-cdn.crm.imweb.me",
+        "static.imweb.me",
+        "t1.kakaocdn.net",
+        "vendor-cdn.imweb.me",
+        "wcs.naver.net",
+        "www.googletagmanager.com"
+      ],
+      "iframes": [
+        "about:blank"
+      ],
+      "learnRun": false
+    },
+    "/course": {
+      "status": 200,
+      "loader": "@v1.0.200",
+      "scriptHosts": [
+        "crm-onsite.imweb.me",
+        "developers.kakao.com",
+        "imweb.me",
+        "seniorfuture.kr",
+        "seniorfuture100-pixel.github.io",
+        "static-cdn.crm.imweb.me",
+        "static.imweb.me",
+        "t1.kakaocdn.net",
+        "vendor-cdn.imweb.me",
+        "wcs.naver.net",
+        "www.googletagmanager.com"
+      ],
+      "iframes": [
+        "about:blank"
+      ],
+      "learnRun": false
+    },
+    "/live": {
+      "status": 200,
+      "loader": "@v1.0.200",
+      "scriptHosts": [
+        "crm-onsite.imweb.me",
+        "developers.kakao.com",
+        "imweb.me",
+        "seniorfuture.kr",
+        "seniorfuture100-pixel.github.io",
+        "static-cdn.crm.imweb.me",
+        "static.imweb.me",
+        "t1.kakaocdn.net",
+        "vendor-cdn.imweb.me",
+        "wcs.naver.net",
+        "www.googletagmanager.com"
+      ],
+      "iframes": [
+        "about:blank"
+      ],
+      "learnRun": false
+    },
+    "/community": {
+      "status": 200,
+      "loader": "@v1.0.200",
+      "scriptHosts": [
+        "crm-onsite.imweb.me",
+        "developers.kakao.com",
+        "imweb.me",
+        "seniorfuture.kr",
+        "seniorfuture100-pixel.github.io",
+        "static-cdn.crm.imweb.me",
+        "static.imweb.me",
+        "t1.kakaocdn.net",
+        "vendor-cdn.imweb.me",
+        "wcs.naver.net",
+        "www.googletagmanager.com"
+      ],
+      "iframes": [
+        "about:blank"
+      ],
+      "learnRun": false
+    },
+    "/shop_view/?idx=82": {
+      "status": 200,
+      "loader": "@v1.0.200",
+      "scriptHosts": [
+        "crm-onsite.imweb.me",
+        "developers.kakao.com",
+        "imweb.me",
+        "seniorfuture.kr",
+        "seniorfuture100-pixel.github.io",
+        "sstatic-g.rmcnmv.naver.net",
+        "static-cdn.crm.imweb.me",
+        "static.imweb.me",
+        "t1.kakaocdn.net",
+        "vendor-cdn.imweb.me",
+        "wcs.naver.net",
+        "www.googletagmanager.com"
+      ],
+      "iframes": [
+        "about:blank"
+      ],
+      "learnRun": false
+    },
+    "/shop_view/?idx=83": {
+      "status": 301,
+      "loader": "",
+      "scriptHosts": [],
+      "iframes": [],
+      "learnRun": false
+    },
+    "/shop_view/?idx=84": {
+      "status": 200,
+      "loader": "@v1.0.200",
+      "scriptHosts": [
+        "crm-onsite.imweb.me",
+        "developers.kakao.com",
+        "imweb.me",
+        "seniorfuture.kr",
+        "seniorfuture100-pixel.github.io",
+        "sstatic-g.rmcnmv.naver.net",
+        "static-cdn.crm.imweb.me",
+        "static.imweb.me",
+        "t1.kakaocdn.net",
+        "vendor-cdn.imweb.me",
+        "wcs.naver.net",
+        "www.googletagmanager.com"
+      ],
+      "iframes": [
+        "about:blank"
+      ],
+      "learnRun": false
+    },
+    "/shop_view/?idx=85": {
+      "status": 200,
+      "loader": "@v1.0.200",
+      "scriptHosts": [
+        "crm-onsite.imweb.me",
+        "developers.kakao.com",
+        "imweb.me",
+        "seniorfuture.kr",
+        "seniorfuture100-pixel.github.io",
+        "sstatic-g.rmcnmv.naver.net",
+        "static-cdn.crm.imweb.me",
+        "static.imweb.me",
+        "t1.kakaocdn.net",
+        "vendor-cdn.imweb.me",
+        "wcs.naver.net",
+        "www.googletagmanager.com"
+      ],
+      "iframes": [
+        "about:blank"
+      ],
+      "learnRun": false
+    },
+    "/shop_view/?idx=103": {
+      "status": 200,
+      "loader": "@v1.0.200",
+      "scriptHosts": [
+        "crm-onsite.imweb.me",
+        "developers.kakao.com",
+        "imweb.me",
+        "seniorfuture.kr",
+        "seniorfuture100-pixel.github.io",
+        "sstatic-g.rmcnmv.naver.net",
+        "static-cdn.crm.imweb.me",
+        "static.imweb.me",
+        "t1.kakaocdn.net",
+        "vendor-cdn.imweb.me",
+        "wcs.naver.net",
+        "www.googletagmanager.com"
+      ],
+      "iframes": [
+        "about:blank"
+      ],
+      "learnRun": false
+    }
+  },
+  "products": {
+    "82": {
+      "status": 200,
+      "hasRoomLine": false,
+      "room": ""
+    },
+    "83": {
+      "status": 301,
+      "hasRoomLine": false,
+      "room": ""
+    },
+    "84": {
+      "status": 200,
+      "hasRoomLine": false,
+      "room": ""
+    },
+    "85": {
+      "status": 200,
+      "hasRoomLine": false,
+      "room": ""
+    },
+    "103": {
+      "status": 200,
+      "hasRoomLine": false,
+      "room": ""
+    }
+  },
+  "sitemap": [
+    "/30",
+    "/about",
+    "/business",
+    "/classroom",
+    "/community",
+    "/course",
+    "/experts",
+    "/faq",
+    "/help",
+    "/index",
+    "/insight",
+    "/live",
+    "/news",
+    "/partner",
+    "/partner-apply",
+    "/partners",
+    "/projects",
+    "/review",
+    "/shop_view/103",
+    "/shop_view/82",
+    "/shop_view/84",
+    "/shop_view/85",
+    "/terms"
+  ]
+}
