@@ -57,7 +57,7 @@ SFUI.register('copyFix', function () {
       ['h-live', '무료 라이브 강의', '전문가에게 배우고, 궁금한 점은 바로 물어보세요'],
       ['h-meet', '커뮤니티', '네트워킹·현장 탐방으로 배우고 연결돼요'],
       ['h-top', '이달의 BEST', '시니어 비즈니스에 필요한 배움을 골랐어요'],
-      ['h-ex', '시니어퓨처 전문가 네트워크', '강연·자문에 함께한 학계·산업·기관 전문가']
+      ['h-ex', '시니어퓨처 전문가 네트워크', '강연·자문 등으로 함께한 학계·산업·기관 전문가']
     ];
     copy.forEach(function (c) {
       var h = document.getElementById(c[0]), head = h && h.closest('.sf-scope .sf-sec-head'), sub = head && head.querySelector('p');
