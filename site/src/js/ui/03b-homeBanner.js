@@ -126,12 +126,14 @@ SFUI.register('homeBanner', function () {
       var t = sl.querySelector('.hb-thumb'); if (!t) return;
       t.style.setProperty('--t1', c[3]); t.style.setProperty('--t2', c[4]); t.style.setProperty('--ink', c[5]);
       t.querySelector('b').textContent = c[0]; t.querySelector('small').textContent = c[1];
-      t.classList.remove('is-swap'); void t.offsetWidth; t.classList.add('is-swap');
+      var on = t.classList.contains('is-swap'); t.classList.toggle('is-swap', !on); t.classList.toggle('is-swap2', on);
       sl.querySelectorAll('.hb-cats i').forEach(function (x, j) { x.classList.toggle('is-on', j === ci); });
     });
   }
   // (11/2) 배너가 화면 밖이면 쉬어요 — offsetWidth 로 다시 그리기를 강제해서, 아래로 스크롤하는 중에도 2.2초마다 끊김이 생겼어요
   var seen = true;
   if (window.IntersectionObserver) new IntersectionObserver(function (es) { seen = es[es.length - 1].isIntersecting; }).observe(el);
-  setInterval(function () { if (document.hidden || !seen) return; ci = (ci + 1) % CATS.length; paint(); }, 2200);
+  // (11/3) 스크롤 중(멈춘 지 0.4초 안)엔 바꾸지 않아요 — 글자·색 바꾸기도 스타일 재계산이라 휴대폰에서 끊김이 보였어요
+  var sy = 0; window.addEventListener('scroll', function () { sy = Date.now(); }, { passive: true });
+  setInterval(function () { if (document.hidden || !seen || Date.now() - sy < 400) return; ci = (ci + 1) % CATS.length; paint(); }, 2200);
 });

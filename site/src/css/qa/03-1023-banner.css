@@ -91,7 +91,7 @@
 }
 @media (prefers-reduced-motion:reduce) {
   .sf-hb.is-current .sf-hb__art>* { animation:none!important; }
-  .hb-thumb.is-swap b, .hb-thumb.is-swap small { animation:none!important; }
+  .hb-thumb.is-swap b, .hb-thumb.is-swap small, .hb-thumb.is-swap2 b, .hb-thumb.is-swap2 small { animation:none!important; }
 }
 /* 재료 */
 .hb-glow { left:50%; top:50%; width:300px; height:300px; margin:-150px 0 0 -150px; border-radius:50%; background:radial-gradient(circle,var(--hb-glow) 0,transparent 68%); opacity:.35; filter:blur(8px); }
@@ -117,6 +117,10 @@
 .hb-thumb small { margin-top:4px; color:var(--ink,#b45309); opacity:.8; font-size:11px; }
 .hb-thumb.is-swap b, .hb-thumb.is-swap small { animation:sfHbSwap .45s ease both; }
 .hb-thumb.is-swap small { animation-delay:.06s; }
+/* (11/3) is-swap ↔ is-swap2 를 번갈아 붙여 애니메이션을 다시 시작 — 지우고 다시 붙이려고 offsetWidth 를 읽으면 2.2초마다 화면 전체 배치를 다시 계산해 스크롤이 끊겼어요 */
+.hb-thumb.is-swap2 b, .hb-thumb.is-swap2 small { animation:sfHbSwap2 .45s ease both; }
+.hb-thumb.is-swap2 small { animation-delay:.06s; }
+@keyframes sfHbSwap2 { from { opacity:0; translate:0 6px; } to { opacity:1; translate:0 0; } }
 @keyframes sfHbSwap { from { opacity:0; translate:0 6px; } to { opacity:1; translate:0 0; } }
 /* (10/23 3차) 교육 분야 칩 8개: 태블릿 아래 두 줄, 겹치지 않게 */
 .sf-hb--edu .hb-tablet { top:24px; }
