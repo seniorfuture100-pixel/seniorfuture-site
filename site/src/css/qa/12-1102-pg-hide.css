@@ -11,7 +11,7 @@
 :root.sf-pg-hide body li:has(> a[href="/partner"]),
 :root.sf-pg-hide body li:has(> a[href^="/partners"]),
 :root.sf-pg-hide body li:has(> a[href="/terms#cpartner"]),
-:root.sf-pg-hide body .sf-hd-partner,
+:root.sf-pg-hide body .sf-hd-partner[href^="/partner"],
 :root.sf-pg-hide body .r3-rsh__t,
 :root.sf-pg-hide body .r3-spop__more,
 /* (11/3) 2차: 파트너 링크 변형·마이페이지 '마케팅 파트너스' 칸·약관의 파트너 이용약관/마케팅 파트너스 약관 본문 */
@@ -23,5 +23,5 @@
 :root.sf-pg-hide body .sf-tm-panel#cpartner,
 :root.sf-pg-hide body .sf-tm-panel#partners {display:none !important}
 
-/* (11/3) PC 헤더 '파트너 지원' 버튼: 헤더 꾸밈 규칙(r2/16·20 '#doz_header_wrap .sf-hd-partner.r2-pill' display:inline-flex!important)이 더 무거워 위 규칙이 안 먹었어요 → 같은 무게 + 스위치 클래스로 */
-html:root.sf-pg-hide body #doz_header_wrap .sf-hd-partner.r2-pill, html:root.sf-pg-hide body #doz_header_wrap a[href="/partner"] {display:none !important}
+/* (11/3) PC 헤더 '파트너 지원' 버튼: 헤더 꾸밈 규칙(r2/16·20 '#doz_header_wrap .sf-hd-partner.r2-pill' display:inline-flex!important)이 더 무거워 위 규칙이 안 먹었어요 → 같은 무게 + 스위치 클래스로. 로그인 버튼도 같은 class(sf-hd-partner r2-pill r3-login)라 주소가 /partner 인 것만 */
+html:root.sf-pg-hide body #doz_header_wrap .sf-hd-partner.r2-pill[href="/partner"]:not(.r3-login), html:root.sf-pg-hide body #doz_header_wrap .sf-hd-partner.r2-pill[href^="/partner?"]:not(.r3-login) {display:none !important}
