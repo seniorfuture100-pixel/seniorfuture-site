@@ -171,6 +171,10 @@ SFUI.register('internalLinks', function (root) {
 // (10/28 사장님) 홈 전문가 네트워크: 10명 → 20명(나머지는 '전문가 전체보기'). 늘어난 10명은 전문가 게시판 글에서 예전 위젯 순서대로
 SFUI.register('homeExperts20', function () {
   var ul = document.querySelector('.sf-experts10');
+  // 위젯 원본을 다시 게시하기 전에도 홈 제목의 영문 보조 문구를 제거해요(게시판 조회 실패와 무관).
+  [].forEach.call(document.querySelectorAll('.sf-home-expert .sf-sec-head__t > small'), function (s) {
+    if (s.textContent.trim() === 'EXPERT POOL') s.parentNode.removeChild(s);
+  });
   if (!ul || !SFUI.once(ul, 'Ex20') || !window.fetch || !window.DOMParser) return;
   var X = SFUI.experts, AMP = String.fromCharCode(38), tmp = document.createElement('div');
   function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML.replace(/"/g, AMP + '#34;'); }
