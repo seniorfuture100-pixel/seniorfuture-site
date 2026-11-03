@@ -56,7 +56,7 @@
   };
   var LABEL = { all: '전체 교육' };
   // (10/31 사장님) 아이콘 줄은 PC·휴대폰 모두 한 줄에 드는 짧은 이름(전체 이름은 aria-label) · 칩·메뉴는 전체 이름 그대로
-  var SHORT = { intro: '산업 이해', care: '요양/돌봄', housing: '주거/타운', finance: '금융/보험', commerce: '소비/커머스', health: '헬스케어', life: '여가/일', startup: '창업/사업', ai: 'AI/AX', all: '전체 보기' };
+  var SHORT = { intro: '산업 이해', care: '요양/돌봄', housing: '주거/부동산', finance: '금융/보험', commerce: '소비/커머스', health: '헬스케어', life: '여가/일', startup: '창업/사업', ai: 'AI/AX', all: '전체 보기' };
   SFUI.catIcon = function (k) { return ICON[k] ? '<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">' + ICON[k] + '</svg>' : ''; };
 
   // ① 홈 아이콘 줄
