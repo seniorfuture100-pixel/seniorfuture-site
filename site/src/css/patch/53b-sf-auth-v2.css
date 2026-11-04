@@ -369,12 +369,8 @@
   box-shadow:none;
 }
 #cocoaModal.sf-authm .sf-auth>.divider,
-#cocoaModal.sf-authm .sf-auth>p.txt_c.mb20:not(:has(._guest_payment)) {
+#cocoaModal.sf-authm .sf-auth>p.txt_c.mb20 {
   display:none!important;
-}
-#cocoaModal.sf-authm .sf-auth>p.txt_c.mb20:has(._guest_payment) {
-  display:block!important;
-  margin:16px 0 0!important;
 }
 #cocoaModal.sf-authm .sf-auth--join .divider {
   display:flex!important;

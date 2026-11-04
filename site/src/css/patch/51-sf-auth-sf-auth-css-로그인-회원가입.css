@@ -31,24 +31,6 @@
   vertical-align:middle;
 }
 :root .sf-auth>.divider,
-:root .sf-auth>p.txt_c.mb20:not(:has(._guest_payment)) {
+:root .sf-auth>p.txt_c.mb20 {
   display:none!important;
-}
-/* 비회원 주문(PG 요청, 11/4): 아임웹이 비회원 주문 허용일 때만 넣는 버튼 */
-:root .sf-auth>p.txt_c.mb20:has(._guest_payment) {
-  display:block!important;
-  margin:16px 0 0!important;
-}
-:root .sf-auth ._guest_payment {
-  display:flex!important;
-  align-items:center;
-  justify-content:center;
-  height:48px;
-  border:1px solid var(--sf-border)!important;
-  border-radius:12px;
-  background:#fff!important;
-  color:var(--sf-text,#1b1d21)!important;
-  font-size:15px;
-  font-weight:600;
-  text-decoration:none!important;
 }
