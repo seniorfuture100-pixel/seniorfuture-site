@@ -29,6 +29,7 @@ SFUI.register('learnRunSkin', function () {
     '.gnb-nav{scrollbar-width:none}.gnb-nav::-webkit-scrollbar{display:none}',
     '.gnb-label{font-size:16px!important}.gnb-link{min-height:44px}',
     '.gnb-link.is-active,.gnb-link.is-active .gnb-label{color:' + T + '!important;font-weight:700!important;border-bottom-color:' + T + '!important}',
+    '.gnb-underline.is-active{background:' + T + '!important}', // 런런이 파랑(#2a43a6)을 직접 써서 토큰으로 안 바뀌어요
     'a.gnb-staff-btn{background:' + T + '!important;color:#fff!important;border-radius:8px!important}',
 
     // 3) 제목: 화면 24px · 레슨 22px(사이트 휴대폰 h1 26 아래 단계)
@@ -57,6 +58,10 @@ SFUI.register('learnRunSkin', function () {
     '.lesson-no{font-size:15px!important}.lesson-name{font-size:17px!important;color:' + T + '!important}',
     '.lesson-item.is-current .lesson-name{color:' + OT + '!important;font-weight:700!important}',
     '.lesson-thumb-time{font-size:13px!important}',
+    // 휴대폰 '커리큘럼' 아래 시트: 제목 18px, 레슨 16px, '재생중' 14px 주황 글자
+    '.sheet-title{font-size:18px!important;font-weight:700!important;color:' + T + '!important}',
+    '.sheet-item{min-height:56px!important}.sheet-item-title{font-size:16px!important;color:' + T + '!important}',
+    '.sheet-item-meta{font-size:14px!important;color:' + T2 + '!important}.sheet-item-meta.is-current{color:' + OT + '!important;font-weight:700!important}',
     '.acc-label,.tab-label{font-size:17px!important}',
     '*:has(> .m-desc--empty),*:has(> .intro-desc--empty),.m-desc--empty,.intro-desc--empty{display:none!important}',
     '.post-photo-hint,.composer-count{font-size:13px!important}',
