@@ -53,6 +53,20 @@ SFUI.register('learnRunSkin', function () {
     'a.resume-link{min-height:48px!important;display:flex!important;align-items:center;justify-content:center;gap:4px;background:' + BG + '!important;color:' + T + '!important;font-size:16px!important;font-weight:700!important;border:0!important;border-radius:8px!important}',
     'a.resume-link .resume-icon{color:inherit!important;font-size:18px!important}',
     '.mobile-card:first-of-type a.resume-link{background:' + O + '!important;color:#fff!important}',
+    // PC 내 학습(카드 + 위 숫자 칸)
+    '.stat-value{color:' + T + '!important}',
+    '.lr-card .card-title{font-size:18px!important;line-height:1.4;color:' + T + '!important}',
+    '.lr-card .duration{font-size:13px!important;color:#fff!important}',
+    '.tab-count{background:' + T2 + '!important}',
+    // 내 과제
+    '.course-name{font-size:14px!important;color:' + T2 + '!important}',
+    'button.submit-btn{min-height:44px;font-size:15px!important;font-weight:700!important;background:' + O + '!important;color:#fff!important;border-radius:8px!important}',
+    // 수강 등록 안 된(끝난·취소된) 레슨: 안내 크게, '수강 신청하기' = 주황 48px(우리 상품 상세로 가요)
+    '.locked-title{font-size:18px!important;font-weight:700!important;color:' + T + '!important}',
+    '.locked-desc{font-size:15px!important;color:' + T2 + '!important}',
+    'a.locked-link{display:inline-flex!important;align-items:center;min-height:48px;padding:0 24px!important;background:' + O + '!important;color:#fff!important;font-size:16px!important;font-weight:700!important;border-radius:8px!important}',
+    '.post-lock{font-size:15px!important}',
+    '.lesson-progress-fill{background:' + O + '!important}.lesson-chip{font-size:14px!important}',
 
     // 6) 영상 화면: 레슨 목록 글자, 빈 '강의 설명이 없습니다' 칸 숨김, 댓글 버튼 44px
     '.lesson-no{font-size:15px!important}.lesson-name{font-size:17px!important;color:' + T + '!important}',
@@ -85,15 +99,14 @@ SFUI.register('learnRunSkin', function () {
       root.appendChild(st); // 런런 style 뒤 = 같은 무게면 이쪽이 이겨요
     }
     if (!opened && root.querySelector('.gnb-link')) {
-      // 첫 화면이 그려진 그때 한 번만 봐요: 런런이 지난번 레슨을 다시 열면(메뉴 칸 선택 없음) 그대로 두고,
-      // 손님이 나중에 '강좌목록'을 누르면 건드리지 않아요
+      // 첫 화면이 그려진 그때 한 번만: '내 학습'이 아니면 '내 학습'으로.
+      // 런런은 지난번 보던 레슨을 다시 여는데, 수강이 끝났거나 취소된 레슨이면 '수강 등록이 필요합니다'부터 떠서 헷갈려요(11/5 일반 회원 점검).
+      // 손님이 그 뒤에 다른 메뉴를 누르면 건드리지 않아요.
       opened = true;
       var act = root.querySelector('.gnb-link.is-active');
-      if (act) {
-        if (/강좌\s*목록/.test(act.textContent)) {
-          var links = root.querySelectorAll('.gnb-link');
-          for (var i = 0; i < links.length; i++) if (/내\s*학습/.test(links[i].textContent)) { links[i].click(); break; }
-        }
+      if (!act || !/내\s*학습/.test(act.textContent)) {
+        var links = root.querySelectorAll('.gnb-link');
+        for (var i = 0; i < links.length; i++) if (/내\s*학습/.test(links[i].textContent)) { links[i].click(); break; }
       }
     }
     return true;
