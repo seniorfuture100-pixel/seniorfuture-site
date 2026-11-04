@@ -7,6 +7,10 @@
 SFUI.register('learnRunSkin', function () {
   if (!/^\/learn-run\/?$/.test(location.pathname)) return;
   var ID = 'sf-lr-skin';
+  // 떠 있는 '1:1 문의' 버튼이 휴대폰에서 영상 조작줄·카드 버튼을 가려요(11/4 점검) → 강의실에선 숨겨요(푸터 '1:1 문의하기'는 그대로)
+  var fabCss = document.createElement('style');
+  fabCss.textContent = 'html:root body .sf-fab.sf-fab,html:root body .sf-fab.r2-fab.r2-fab{display:none!important}';
+  document.head.appendChild(fabCss);
   var O = '#ff6f0f', T = '#212124', T2 = '#555d6d', T3 = '#6b7280', LINE = '#eaebee', BG = '#f2f3f6', TINT = '#fff5f0', OT = '#c94400';
   var CSS = [
     // 1) 토큰: 런런 파랑 → 시니어퓨처 주황, 회색 글자 → 사이트 글자색(흰 바탕 대비 4.5 이상)
