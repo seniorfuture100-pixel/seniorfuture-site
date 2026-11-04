@@ -28,6 +28,9 @@
     meet: { h: '참여 신청이 완료됐어요!', p: '마이페이지에서 일시와 모임 정보를 확인할 수 있어요.' },
     order: { h: '주문이 완료됐어요!', p: '마이페이지에서 주문 내역을 확인할 수 있어요.' }
   }[kind];
+  // (11/4) 비회원 주문은 마이페이지가 없어요 → 주문번호·연락처로 찾는 '비회원 주문배송 조회'(로그인 화면 아래 버튼)로 안내
+  var guest = !/(^|;\s*)_imweb_login_state=Y/.test(document.cookie);
+  if (guest) C = { h: C.h, p: '주문번호와 주문할 때 적은 연락처로 비회원 주문 조회에서 확인할 수 있어요. 주문번호를 꼭 적어 두세요.' };
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
   var clean = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
   // 아임웹 완료 화면의 '이름 · 값' 줄 읽기(주문번호 · 결제정보 · 결제금액)
@@ -45,7 +48,7 @@
     c.className = 'sf-done sf-done--' + kind; c.setAttribute('aria-labelledby', 'sf-done-h');
     c.innerHTML = '<span class="sf-done-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' +
       '<h1 id="sf-done-h">' + C.h + '</h1><p>' + C.p + '</p><dl class="sf-done-info" hidden></dl>' +
-      '<div class="sf-done-btns"><a class="sf-done-home" href="/">홈으로</a><a class="sf-done-main" href="' + room + '">마이페이지</a></div>';
+      '<div class="sf-done-btns"><a class="sf-done-home" href="/">홈으로</a><a class="sf-done-main" href="' + (guest ? '/login' : room) + '">' + (guest ? '주문 조회' : '마이페이지') + '</a></div>';
     host.parentNode.insertBefore(c, host);
     document.documentElement.classList.add('sf-done-on');
   };

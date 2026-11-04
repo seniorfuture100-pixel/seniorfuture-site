@@ -30,7 +30,23 @@
   background:var(--sf-border);
   vertical-align:middle;
 }
-:root .sf-auth>.divider,
-:root .sf-auth>p.txt_c.mb20 {
+:root .sf-auth>.divider {
   display:none!important;
+}
+/* (11/4) 비회원 구매를 열어서 아임웹 '비회원 주문배송 조회'(·비회원 주문) 버튼을 보여요 — 비회원이 주문을 다시 찾는 길 */
+:root .sf-auth>p.txt_c.mb20 {
+  margin:16px 0 0!important;
+}
+:root .sf-auth>p.txt_c.mb20 a.non_btn {
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  height:44px;
+  border:1px solid var(--sf-border)!important;
+  border-radius:12px;
+  background:#fff!important;
+  color:var(--sf-text-2)!important;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none!important;
 }

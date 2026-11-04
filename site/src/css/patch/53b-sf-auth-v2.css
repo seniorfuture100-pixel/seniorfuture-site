@@ -368,8 +368,7 @@
   border-radius:0;
   box-shadow:none;
 }
-#cocoaModal.sf-authm .sf-auth>.divider,
-#cocoaModal.sf-authm .sf-auth>p.txt_c.mb20 {
+#cocoaModal.sf-authm .sf-auth>.divider {
   display:none!important;
 }
 #cocoaModal.sf-authm .sf-auth--join .divider {
