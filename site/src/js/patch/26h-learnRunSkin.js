@@ -4,6 +4,10 @@
 //  시니어 가독성: 보조 글자 최소 14px(캡션 13px), 본문 16px, 누르는 곳 44~48px.
 //  ② 처음 들어오면 '강좌 목록'(남의 강좌까지 전부) 대신 '내 학습'을 한 번 열어요(나의 강의실 '강의실 입장'에서 바로 내 강의).
 //  런런을 빼면 #learnrun-app 이 없어 아무 일도 안 해요.
+// 런런은 이 탭에서 마지막에 본 화면(sessionStorage widget_last_path)을 다시 열어요 → 그 레슨이 비공개·삭제되면
+// '레슨을 불러오지 못했습니다' 창에서 멈추고, 아니어도 레슨 → 내 학습으로 화면이 한 번 바뀌어 보여요(11/5 측정).
+// 위젯이 뜨기 전(이 파일은 위젯 스크립트보다 먼저 실행)에 '내 학습'으로 바꿔 둬요.
+if (/^\/learn-run\/?$/.test(location.pathname)) try { sessionStorage.setItem('widget_last_path', '/student/my-learning'); } catch (e) {}
 SFUI.register('learnRunSkin', function () {
   if (!/^\/learn-run\/?$/.test(location.pathname)) return;
   var ID = 'sf-lr-skin';
@@ -84,6 +88,7 @@ SFUI.register('learnRunSkin', function () {
     '*:has(> .m-desc--empty),*:has(> .intro-desc--empty),.m-desc--empty,.intro-desc--empty{display:none!important}',
     '.post-photo-hint,.composer-count{font-size:13px!important}',
     'button.composer-submit{min-height:44px;min-width:64px;font-size:15px!important;font-weight:700!important;background:' + O + '!important;border-radius:8px!important}',
+    'button.lr-alert-modal__confirm{min-height:48px;background:' + O + '!important;color:#fff!important;font-size:16px!important;font-weight:700!important}', // 오류 창 '확인'(런런 파랑 직접 지정)
     '.list-empty,.lr-empty__desc{font-size:15px!important;color:' + T2 + '!important}',
 
     // 7) 고르기 칸·누르는 곳
