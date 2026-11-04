@@ -79,10 +79,12 @@ SFUI.register('learnRunSkin', function () {
       st.textContent = CSS;
       root.appendChild(st); // 런런 style 뒤 = 같은 무게면 이쪽이 이겨요
     }
-    if (!opened) {
+    if (!opened && root.querySelector('.gnb-link')) {
+      // 첫 화면이 그려진 그때 한 번만 봐요: 런런이 지난번 레슨을 다시 열면(메뉴 칸 선택 없음) 그대로 두고,
+      // 손님이 나중에 '강좌목록'을 누르면 건드리지 않아요
+      opened = true;
       var act = root.querySelector('.gnb-link.is-active');
       if (act) {
-        opened = true; // 한 번만: 손님이 '강좌목록'을 다시 누르면 그대로 둬요
         if (/강좌\s*목록/.test(act.textContent)) {
           var links = root.querySelectorAll('.gnb-link');
           for (var i = 0; i < links.length; i++) if (/내\s*학습/.test(links[i].textContent)) { links[i].click(); break; }
