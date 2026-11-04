@@ -95,10 +95,22 @@ SFUI.register('learnRunSkin', function () {
   // '내 학습'이 아니면 누르고, 1.5초 뒤에도 아니면 다시(최대 3번) — 런런이 지난 화면을 늦게 되살려 덮는 때가 있어요
   function toMine(root, k) {
     var act = root.querySelector('.gnb-link.is-active');
-    if ((act && /내\s*학습/.test(act.textContent)) || k > 2) return;
+    if (act && /내\s*학습/.test(act.textContent)) return emptyToList(root);
+    if (k > 2) return;
     var links = root.querySelectorAll('.gnb-link');
     for (var i = 0; i < links.length; i++) if (/내\s*학습/.test(links[i].textContent)) { links[i].click(); break; }
     setTimeout(function () { toMine(root, k + 1); }, 1500);
+  }
+  // '내 학습'이 비어 있으면 '강좌 목록'으로 — 런런은 관리자가 직접 넣은 수강(무통장 입금 확인 뒤 수동 등록 등)을
+  // '내 학습'에 안 보여 줘요(11/5 확인). 빈 화면에 멈추지 않게, 목록이 다 그려질 시간(2.5초)을 두고 한 번만 봐요
+  function emptyToList(root) {
+    setTimeout(function () {
+      var act = root.querySelector('.gnb-link.is-active');
+      if (!act || !/내\s*학습/.test(act.textContent)) return;
+      if (root.querySelector('.mobile-card, .lr-card')) return;
+      var links = root.querySelectorAll('.gnb-link');
+      for (var i = 0; i < links.length; i++) if (/강좌\s*목록/.test(links[i].textContent)) { links[i].click(); break; }
+    }, 2500);
   }
   function put() {
     var host = document.getElementById('learnrun-app');
