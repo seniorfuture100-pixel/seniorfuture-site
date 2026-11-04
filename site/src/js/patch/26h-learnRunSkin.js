@@ -88,6 +88,14 @@ SFUI.register('learnRunSkin', function () {
   ].join('\n');
 
   var opened = false;
+  // '내 학습'이 아니면 누르고, 1.5초 뒤에도 아니면 다시(최대 3번) — 런런이 지난 화면을 늦게 되살려 덮는 때가 있어요
+  function toMine(root, k) {
+    var act = root.querySelector('.gnb-link.is-active');
+    if ((act && /내\s*학습/.test(act.textContent)) || k > 2) return;
+    var links = root.querySelectorAll('.gnb-link');
+    for (var i = 0; i < links.length; i++) if (/내\s*학습/.test(links[i].textContent)) { links[i].click(); break; }
+    setTimeout(function () { toMine(root, k + 1); }, 1500);
+  }
   function put() {
     var host = document.getElementById('learnrun-app');
     var root = host && host.shadowRoot;
@@ -98,16 +106,13 @@ SFUI.register('learnRunSkin', function () {
       st.textContent = CSS;
       root.appendChild(st); // 런런 style 뒤 = 같은 무게면 이쪽이 이겨요
     }
-    if (!opened && root.querySelector('.gnb-link')) {
+    // 메뉴만 그려졌을 땐 런런이 아직 지난 화면을 되살리는 중이라 누른 게 덮여요 → 본문(제목·레슨·잠김)이 뜬 뒤에 봐요
+    if (!opened && root.querySelector('.gnb-link') && root.querySelector('h1.title, .lesson-title, .locked')) {
       // 첫 화면이 그려진 그때 한 번만: '내 학습'이 아니면 '내 학습'으로.
       // 런런은 지난번 보던 레슨을 다시 여는데, 수강이 끝났거나 취소된 레슨이면 '수강 등록이 필요합니다'부터 떠서 헷갈려요(11/5 일반 회원 점검).
       // 손님이 그 뒤에 다른 메뉴를 누르면 건드리지 않아요.
       opened = true;
-      var act = root.querySelector('.gnb-link.is-active');
-      if (!act || !/내\s*학습/.test(act.textContent)) {
-        var links = root.querySelectorAll('.gnb-link');
-        for (var i = 0; i < links.length; i++) if (/내\s*학습/.test(links[i].textContent)) { links[i].click(); break; }
-      }
+      toMine(root, 0);
     }
     return true;
   }

@@ -54,9 +54,9 @@ if (window.SF_PG_HIDE) {
 // (11/3 사장님) Microsoft Clarity 히트맵 끔 — 휴대폰 스크롤 때마다 화면 위치를 다시 계산해 0.1~0.2초씩 멈췄어요.
 //   다시 켜려면 v1.0.208 의 이 자리 블록(프로젝트 z7cxscbz9h)을 되살려 배포. Clarity 계정·프로젝트는 그대로 있어요
 </script>
-<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.221/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
+<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.222/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
 <style id="sf-patch-css" data-sf-stage></style>
-<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.221/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){document.readyState!=='loading'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
+<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@v1.0.222/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){document.readyState!=='loading'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
 <script id="sf-early" data-sf-stage>/* sf-early.js — 첫 화면부터 꾸민 모습 (아임웹 원본이 한 번도 그려지지 않게)
    배치: 공통 코드 Header Code 맨 끝, 꾸밈 JS 묶음(sf-ui-js · sf-patch-js · sf-r2-js · sf-r3-js) 바로 뒤.
    ① 본문: MutationObserver 콜백은 화면을 그리기 전에 실행돼요. 본문·푸터를 다 읽은 순간 꾸밈을 한 번 돌려요.
