@@ -232,7 +232,7 @@
     function f() {
       var e = a && a.querySelector("[data-cat].is-active"), t = e ? e.getAttribute("data-cat") : "all", r = "all" !== t;
       n.classList.toggle("r2-ins-cat", r), c && (c.hidden = r);
-      var k = (a && a.getAttribute("data-sf-count") || "").split(":"), i = k[0] === t ? +k[1] : o('[data-widget-type="board"] ._post_item_wrap:not(.sf-hidden)').length; // (11/3) r3InsightAll 이 12개씩 나눠 붙여, 화면에 붙은 수 대신 전체 수
+      var k = (a && a.getAttribute("data-sf-total") || "").split(":"), i = k[0] === t ? +k[1] : o('[data-widget-type="board"] ._post_item_wrap:not(.sf-hidden)').length; // (11/3) r3InsightAll 이 12개씩 나눠 붙여, 화면에 붙은 수 대신 전체 수
       d && (d.innerHTML = r ? s(t) + ' <span class="r2-count">' + i + "개의 글</span>" : "전체 글");
     }
   })), SFUI.register("r2Motion", (function() {

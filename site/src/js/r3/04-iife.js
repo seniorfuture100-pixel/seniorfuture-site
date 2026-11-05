@@ -266,7 +266,8 @@
               return e ? e.textContent.trim() : "";
             }(t) === e);
           })).length + todo.length;
-          r.setAttribute("data-sf-count", e + ":" + u); // 아직 안 붙인 글까지 센 수 — r2 분류 제목이 다시 그릴 때 이 수를 써요
+          r.setAttribute("data-sf-total", e + ":" + u); // 아직 안 붙인 글까지 센 수 — r2 분류 제목이 다시 그릴 때 이 수를 써요
+          // (11/5) 이름이 data-sf-count 이던 때 소개 페이지 '숫자 올라가기'(ui/16)가 이 탭 줄을 숫자로 알고 글자를 '0'으로 덮었어요
           a(".r2-count").forEach((function(t) {
             t.textContent = u + "개의 글";
           }));
