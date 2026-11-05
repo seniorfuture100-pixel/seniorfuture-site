@@ -34,8 +34,7 @@ SFUI.register('shareReward', function (root) {
     return legacy();
   }
   function kakao(u, title) {
-    var K = window.Kakao;
-    if (K && K.isInitialized && K.isInitialized() && K.Share) { K.Share.sendScrap({ requestUrl: u }); return; }
+    if (SFUI.kakaoShare(u)) return;
     if (navigator.share) { navigator.share({ title: title || document.title, url: u }).catch(function () {}); return; }
     copy(u).then(function () { toast('카카오톡을 열 수 없어 링크를 복사했어요. 대화창에 붙여 넣어 주세요'); });
   }

@@ -5,6 +5,31 @@
    - data-url 을 주면 그 주소를, 없으면 지금 페이지 주소를 공유해요.
    - 카카오톡 공유는 카카오 JavaScript SDK가 페이지에 있고 Kakao.init('앱 키')가 끝났을 때 동작해요.
      (카카오 개발자 콘솔에서 사이트 도메인 등록 필요). SDK가 없으면 휴대폰 기본 공유 창 → 그것도 없으면 링크 복사로 대신해요. */
+/* 카카오톡 공유 도우미 SFUI.kakaoShare(url) → 보냈으면 true
+   아임웹이 넣은 window.Kakao(1.x, 아임웹 앱 키·카카오 로그인용)는 우리 도메인으로 공유가 안 돼서 건드리지 않아요.
+   공유는 시니어퓨처 카카오 앱(ID 1615215)의 JavaScript 키로 따로 띄운 SDK 2.x 로 보내요.
+   - 이 키는 브라우저용 공개 키예요(카카오 콘솔 'JS SDK 도메인'에 등록한 seniorfuture.kr·seniorfuture.imweb.me 에서만 동작). REST·어드민 키는 쓰지 않아요.
+   - 공유 버튼에 손이 가면(마우스 올림·터치·포커스) 미리 받아 둬요. 아직 못 받았으면 false → 부르는 쪽이 휴대폰 공유 창·링크 복사로 대신해요. */
+(function () {
+  var KEY = '535551552f5d62d8b063cbee4a4f7482', SRC = 'https://t1.kakaocdn.net/kakao_js_sdk/2.8.4/kakao.min.js', SRI = 'sha384-BGX7Wb16GmRFagri4bLJV2DgipVZaU2AI812GZtHtHzzDQJnfHasDXN5houxv45w';
+  var K = null, busy = false, SEL = '[data-sf-share-kakao], [data-act="kakao"], .sf-pv-share, .sf-rw, [data-sf-reward-share], .r3-share';
+  // <script>로 넣으면 SDK가 이미 있는 window.Kakao(아임웹 것)에 덮어써서 카카오 로그인이 깨져요 → 받은 코드를 exports 객체 안에서만 실행
+  function load() {
+    if (K || busy || !window.fetch) return; busy = true;
+    fetch(SRC, { integrity: SRI, mode: 'cors' }).then(function (r) { return r.text(); }).then(function (code) {
+      var k = {}; new Function('exports', 'module', code)(k, { exports: k });
+      k.init(KEY); K = k;
+    }).catch(function () { busy = false; });
+  }
+  SFUI.kakaoShare = function (url) {
+    if (K && K.Share) { try { K.Share.sendScrap({ requestUrl: url }); return true; } catch (e) {} }
+    load(); return false;
+  };
+  ['pointerover', 'touchstart', 'focusin'].forEach(function (t) {
+    document.addEventListener(t, function (e) { var x = e.target; x && x.closest && x.closest(SEL) && load(); }, { capture: true, passive: true });
+  });
+  setTimeout(function () { document.querySelector(SEL) && load(); }, 3000); // 글 보기처럼 버튼이 바로 보이는 화면
+})();
 SFUI.register('share', function (root) {
   function url(btn) { return btn.getAttribute('data-url') || location.href.split('#')[0]; }
   function toast(msg) {
@@ -41,8 +66,7 @@ SFUI.register('share', function (root) {
   root.querySelectorAll('[data-sf-share-kakao]').forEach(function (b) {
     if (!SFUI.once(b, 'ShareKakao')) return;
     b.addEventListener('click', function () {
-      var K = window.Kakao;
-      if (K && K.isInitialized && K.isInitialized() && K.Share) { K.Share.sendScrap({ requestUrl: url(b) }); return; }
+      if (SFUI.kakaoShare(url(b))) return;
       if (navigator.share) { navigator.share({ title: document.title, url: url(b) }).catch(function () {}); return; }
       copyLink(b);
     });

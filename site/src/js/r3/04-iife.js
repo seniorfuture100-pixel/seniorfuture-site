@@ -1401,10 +1401,7 @@
               ref: a || "",
               live: e ? 1 : 0
             });
-            var i = window.Kakao;
-            if (i && i.isInitialized && i.isInitialized() && i.Share) return i.Share.sendScrap({
-              requestUrl: r
-            }), void l();
+            if (SFUI.kakaoShare(r)) return void l();
             if (navigator.share) return navigator.share({
               title: document.title,
               url: r
