@@ -1,22 +1,37 @@
-/* 화면 묶음: pages-r3 | 원본: src/r3.css · 무료 라이브 공유 아이콘: 뱃지 줄 오른쪽 끝에 맞춤 (10/21) */
-:root body .sf-pv.sf-pv--live .goods_form header .sf-pv-tags {
+/* 화면 묶음: pages-r3 | 원본: src/r3.css · 상품 공유 아이콘 자리 통일 (11/5, 월부식)
+   교육·라이브·멤버십, PC·휴대폰 모두: 배지 줄 아래 '제목 줄'의 오른쪽 끝, 제목 첫 줄과 윗선 맞춤, 44px.
+   (아임웹 기본 .pay_detail.full-width .comment_num_warp { translateY(-50%) } 이 22px 위로 끌어올려 교육은 제목 위, 멤버십은 상자 밖으로 떴었어요.
+    10/21 라이브만 배지 줄 오른쪽에 맞추던 규칙은 이 규칙으로 바꿈) */
+:root body .sf-pv .goods_form header .view_tit {
   grid-column:1!important;
+}
+:root body .sf-pv .goods_form header .sf-pv-tags {
+  grid-column:1/-1!important;
   grid-row:1!important;
   align-self:center;
 }
+:root body .sf-pv .goods_form header .comment_num_warp,
 :root body .sf-pv.sf-pv--live .goods_form header .comment_num_warp {
   grid-column:2!important;
-  grid-row:1!important;
-  align-self:center!important;
+  align-self:start!important;
   justify-self:end;
+  position:static!important;
   margin:0!important;
   transform:none!important;
   translate:none!important;
   top:auto!important;
 }
+/* 라이브는 배지 → 남은 시간 → 제목 순서라 제목이 셋째 줄(남은 시간 상자가 없으면 둘째 줄) */
+:root body .sf-pv.sf-pv--live .goods_form header .comment_num_warp {
+  grid-row:2!important;
+}
+:root body .sf-pv.sf-pv--live .goods_form header:has(.sf-pv-cd) .comment_num_warp {
+  grid-row:3!important;
+}
+:root body .sf-pv .goods_form header .comment_num_warp .comment_num,
 :root body .sf-pv.sf-pv--live .goods_form header .comment_num_warp .comment_num {
-  width:36px!important;
-  height:36px!important;
+  width:44px!important;
+  height:44px!important;
   margin:0!important;
   transform:none!important;
 }
