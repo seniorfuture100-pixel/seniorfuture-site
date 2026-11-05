@@ -28,6 +28,11 @@
 :root body .sf-pv.sf-pv--live .goods_form header:has(.sf-pv-cd) .comment_num_warp {
   grid-row:3!important;
 }
+/* 라이브 제목 아래 구분선은 상자 전체 폭으로(제목 칸만 줄면 공유 아이콘 아래가 비어 보여요) — 칸 사이 16px + 아이콘 44px */
+:root body .sf-pv.sf-pv--live .goods_form header .view_tit {
+  margin-right:-60px!important;
+  padding-right:60px!important;
+}
 :root body .sf-pv .goods_form header .comment_num_warp .comment_num,
 :root body .sf-pv.sf-pv--live .goods_form header .comment_num_warp .comment_num {
   width:44px!important;
