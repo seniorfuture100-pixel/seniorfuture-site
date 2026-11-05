@@ -139,9 +139,10 @@
     // 주문자 정보: 값이 다 있으면 숨기고, 안내 문구(환불 기준)는 상품 카드 아래로 복사
     var hBuy = hd(root, '주문자 정보'), secBuy = box(hBuy);
     if (secBuy) {
-      var inputs = $$('input', secBuy).filter(function (i) { return i.type !== 'hidden' && i.type !== 'checkbox' && i.offsetParent !== null; });
+      var inputs = $$('input', secBuy).filter(function (i) { return i.type !== 'hidden' && i.type !== 'checkbox' && i.type !== 'radio'; });
       var empty = inputs.some(function (i) { return !clean(i.value); });
-      secBuy.classList.toggle('r3pay-hide', !empty);
+      // Collapsed summaries have no inputs: keep the native contact review/edit action.
+      secBuy.classList.toggle('r3pay-hide', inputs.length > 0 && !empty);
       $$('blockquote', secBuy).forEach(function (q) { q.classList.add('r3pay-hide'); });
     }
 
@@ -157,9 +158,13 @@
     // 결제 수단: 왼쪽에 타일, 아임웹 원래 칸은 숨김(라디오는 그대로 동작)
     var hMeth = hd(root, '결제 수단'), secMeth = box(hMeth);
     if (secMeth) {
-      secMeth.classList.add('r3pay-hide');
       var tiles = $('.r3pay-methods', left), n = $$('input[type=radio]', secMeth).length;
-      if (!tiles || tiles.__n !== n) {
+      // Subscription checkout has a native billing-registration button, not radios.
+      // Hide native methods only when replacement tiles can actually be drawn.
+      secMeth.classList.toggle('r3pay-hide', n > 0);
+      secMeth.classList.toggle('r3pay-native-method', !n);
+      if (!n) { if (tiles) tiles.remove(); }
+      else if (!tiles || tiles.__n !== n) {
         if (tiles) tiles.remove();
         tiles = methodTiles(secMeth);
         var extra = box(hd(root, '추가정보'));
@@ -173,7 +178,8 @@
     $$('span', box(hSum)).forEach(function (s) { var v = clean(s.textContent); if (v === '총 주문금액') setText(s, '총 결제 금액'); if (v === '상품가격') setText(s, '상품 금액'); });
     var hTerm = hd(root, '이용 및 정보 제공 약관'), tb = box(hTerm);
     if (tb) { tb.classList.add('r3pay-box--terms'); if (!$('input[type=checkbox]', tb)) tb.classList.add('r3pay-terms-quiet'); }
-    var sub = $('button[type=submit]', root);
+    var sub = $$('button[type=submit]', root).filter(function (b) { return /^(결제하기|신청하기)$/.test(clean(b.textContent)); })[0];
+    if (sub) sub.classList.add('r3pay-submit');
     if (sub && !(sub.nextElementSibling && sub.nextElementSibling.classList.contains('r3pay-agree'))) {
       var old = $('.r3pay-agree', root); if (old) old.remove();
       var ag = document.createElement('p'); ag.className = 'r3pay-agree';

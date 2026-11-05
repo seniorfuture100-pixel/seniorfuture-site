@@ -45,7 +45,7 @@ SFUI.register('copyFix', function () {
       var m = /idx=(\d+)/.exec(a.getAttribute('href') || '');
       if (!m || !H[m[1]] || a.closest(SKIP)) return; // 글 본문 안 링크는 그대로
       // 줄 전체(목록 줄 ul.li_body · 카드 · 표 줄)를 숨겨요 — closest 하나로 찾으면 더 가까운 제목 칸(li.tit)만 숨겨져서 하나씩 찾아요
-      var row = a.closest('ul.li_body') || a.closest('._post_item_wrap') || a.closest('tr') || a.closest('[data-widget-type="board"] li, .li_board li, .sf-help li, .r3-bellp li'); // 목록 칸 안의 줄만(Codex)
+      var row = a.closest('ul.li_body') || a.closest('._post_item_wrap') || a.closest('tr') || a.closest('[data-widget-type="board"] li, .li_board li, .sf-help li, .r3-bellp li') || (a.closest('.comment_section .list_tap') ? a : null); // Lists and previous/next navigation only; keep article body links intact.
       row && row.style.setProperty('display', 'none', 'important'); // 공지 목록 CSS 의 display:flex!important 를 이겨야 해요
     });
   }

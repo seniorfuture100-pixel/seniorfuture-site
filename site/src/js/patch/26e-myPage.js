@@ -304,13 +304,16 @@
       hero.innerHTML = '<span class="sf-room-next__k">다음 일정</span><div class="sf-room-next__tx"><em>' + (pre ? (SFUI.roomLeft(st(nx)) || '곧') + ' · 교육 개강' : '수강 중 · 교육') + '</em><strong>' + esc((nx.querySelector('h2') || {}).textContent) + '</strong><span>' + esc(pre ? md(st(nx)) + ' 개강' : wh.replace(/\s*D-\d+\s*/, ' ').trim()) + '</span></div>' + (cp ? cp.outerHTML : '');
     }
     // 탭(전체 · 교육 · 무료 라이브 · 커뮤니티) — 개수는 진행 중만
-    var nav = t.querySelector('.sf-room-tabs'), cur = nav ? nav.getAttribute('data-on') : 'all';
+    // r3Rooms can replace the card markup after async product/order refresh.
+    // Keep this view's choice on the stable container, not the replaced tab bar.
+    var nav = t.querySelector('.sf-room-tabs'), cur = nav ? nav.getAttribute('data-on') : t.__sfRoomTab || 'all';
     if (!nav) {
       nav = document.createElement('div'); nav.className = 'sf-room-tabs'; nav.setAttribute('role', 'tablist');
       ul.parentNode.insertBefore(nav, ul);
       nav.addEventListener('click', function (e) {
         var b = e.target.closest('button[data-k]'); if (!b) return;
-        nav.setAttribute('data-on', b.getAttribute('data-k')); apply();
+        t.__sfRoomTab = b.getAttribute('data-k');
+        nav.setAttribute('data-on', t.__sfRoomTab); apply();
       });
     }
     var cnt = function (k) { return [].filter.call(ul.children, function (li) { return k === 'all' || li.getAttribute('data-ty') === k; }).length; };

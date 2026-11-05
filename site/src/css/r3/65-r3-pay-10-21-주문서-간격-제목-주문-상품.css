@@ -35,7 +35,7 @@ html.r3pay-on body .r3pay-sec__h {
 }
 html.r3pay-on body .r3pay-card__title { font-size:21px; }
 html.r3pay-on body .r3pay-tile { font-size:16px; min-height:50px; border-radius:8px; }
-html.r3pay-on body .r3pay-right button[type=submit],
+html.r3pay-on body .r3pay-right button.r3pay-submit,
 html.r3pay-on body .r3pay-mbtn { font-size:19px!important; }
 /* 제목 오른쪽 보조 정보 */
 html.r3pay-on body .r3pay-w--coupon header,

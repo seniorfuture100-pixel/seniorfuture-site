@@ -23,7 +23,7 @@ html.r3pay-on body .r3pay-box--terms * {
   font-size:12px!important;
   line-height:1.6!important;
 }
-html.r3pay-on body .r3pay-right button[type=submit] {
+html.r3pay-on body .r3pay-right button.r3pay-submit {
   width:100%!important;
   height:56px!important;
   margin:4px 0 12px!important;
@@ -33,7 +33,7 @@ html.r3pay-on body .r3pay-right button[type=submit] {
   color:#fff!important;
   font:700 17px/1 var(--sf-font)!important;
 }
-html.r3pay-on body .r3pay-right button[type=submit]:hover {
+html.r3pay-on body .r3pay-right button.r3pay-submit:hover {
   filter:brightness(.96);
 }
 @media (max-width:1023.98px) {
@@ -66,7 +66,7 @@ html.r3pay-on body .r3pay-right button[type=submit]:hover {
   html.r3pay-on body .r3pay-tiles {
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
-  html.r3pay-on body .r3pay-right button[type=submit] {
+  html.r3pay-on body .r3pay-right button.r3pay-submit {
     position:fixed!important;
     left:16px!important;
     right:16px!important;
@@ -76,4 +76,12 @@ html.r3pay-on body .r3pay-right button[type=submit]:hover {
     margin:0!important;
     box-shadow:0 8px 24px rgba(17,24,39,.18)!important;
   }
+}
+/* Native subscription billing registration is an inline action, not payment. */
+html.r3pay-on body .r3pay-native-method button {
+  position:static!important;
+  min-height:44px;
+  padding:12px 16px;
+  border-radius:8px;
+  font-size:16px;
 }

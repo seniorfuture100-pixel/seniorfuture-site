@@ -1,0 +1,57 @@
+/* SeniorFuture Learn Run theme - app Settings > Custom CSS.
+   Student UI only. No content, entitlement or player controls are hidden. */
+.lr-app, .page-container {
+  --color-primary: #c94400;
+  --color-btn-primary: #c94400;
+  --color-badge: #c94400;
+  --color-bg-primary: #ffffff;
+  --color-bg-card: #ffffff;
+  --color-bg-light: #f2f3f6;
+  --color-text-dark: #212124;
+  --color-text-body: #3d4350;
+  --color-gray-light: #d5d9e0;
+  --color-fg-brand: #c94400;
+  --color-stroke-focus-ring: #c94400;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+  color: #212124;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.lr-app .gnb-link { min-height: 44px; }
+.lr-app .gnb-label { font-size: 16px; }
+.lr-app .gnb-link.is-active { color: #212124; font-weight: 700; }
+.lr-app .gnb-underline.is-active { background: #212124; }
+.lr-app .gnb-nav { overflow-x: auto; scrollbar-width: thin; }
+.lr-app .page-header h1, .lr-app h1.title { font-size: 24px; line-height: 1.4; letter-spacing: -.02em; }
+.lr-app .lesson-title { font-size: 22px; line-height: 1.4; overflow-wrap: anywhere; }
+.lr-app .card-title, .lr-app .mobile-card-title { font-size: 18px; line-height: 1.5; }
+.lr-app .card-desc, .lr-app .meta-label, .lr-app .mobile-card-meta,
+.lr-app .locked-desc, .lr-app .course-name { font-size: 14px; line-height: 1.6; color: #555d6d; }
+.lr-app .lr-card, .lr-app .mobile-card { border: 1px solid #eaebee; border-radius: 12px; }
+.lr-app .lr-btn, .lr-app .lr-input { min-height: 44px; font-size: 16px; border-radius: 8px; }
+.lr-app .lr-textarea { font-size: 16px; line-height: 1.6; border-radius: 8px; }
+.lr-app .page-container button.submit-btn,
+.lr-app .page-container button.composer-submit,
+.lr-app .page-container a.locked-link,
+.lr-app .page-container .mobile-card:first-of-type a.resume-link,
+.lr-app button.lr-alert-modal__confirm {
+  background: #c94400 !important;
+  color: #ffffff !important;
+  min-height: 48px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+.lr-app .lr-btn--critical { background: #c94400; color: #ffffff; }
+.lr-app .lr-btn--critical:hover { background: #a33700; }
+.lr-app .lesson-item.is-current .lesson-name,
+.lr-app .sheet-item-meta.is-current { color: #c94400; font-weight: 700; }
+.lr-app .sheet-title { font-size: 18px; }
+.lr-app .sheet-item { min-height: 56px; }
+.lr-app .sheet-item-title { font-size: 16px; line-height: 1.5; }
+.lr-app .sheet-item-meta { font-size: 14px; }
+.lr-app .progress-fill, .lr-app .lesson-progress-fill { background: #ff6f0f; }
+.lr-app :focus-visible { outline: 2px solid #c94400; outline-offset: 3px; }
+@media (max-width: 767px) {
+  .lr-app .page-container { padding-left: 16px; padding-right: 16px; }
+  .lr-app .lr-modal { max-width: calc(100vw - 32px); }
+}
