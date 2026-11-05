@@ -1360,22 +1360,31 @@
     }
     i && (t(), setTimeout(t, 1500));
   })), SFUI.register("r3SharePop", (function() {
-    var t = n(".sf-pv .comment_num_warp .comment_num");
-    if (t && SFUI.once(t, "R3Pop")) {
+    // (11/5) PC·휴대폰 화면에 공유 아이콘이 따로 있어서 첫 번째만 바꾸면 나머지는 아임웹 기본 창(카카오톡 없음)이 떴어요 → 상품 화면의 공유 아이콘 전부
+    var SEL = '.sf-pv .comment_num_warp .comment_num, .sf-pv [onclick*="showDefalutSnsShareList"]';
+    var T = [].slice.call(document.querySelectorAll(SEL)).filter((function(x) { // 아래 var a(추천 코드)가 바깥 a()를 가려서 직접 찾음
+      return !(x.parentElement && x.parentElement.closest(SEL)) && SFUI.once(x, "R3Pop");
+    })), t = T[0];
+    if (t) {
       var e = !!n(".sf-pv--live"), a = e ? null : i;
-      t.setAttribute("aria-label", "공유하기"), t.setAttribute("aria-haspopup", "dialog");
+      T.forEach((function(x) {
+        x.setAttribute("aria-label", "공유하기"), x.setAttribute("aria-haspopup", "dialog");
+      }));
       var r = document.createElement("div");
       r.className = "r3-spop", r.hidden = !0, r.setAttribute("role", "dialog"), r.setAttribute("aria-labelledby", "r3-spop-h"), 
       r.innerHTML = '<div class="r3-spop__head"><h3 id="r3-spop-h">' + (e ? "이 라이브를 친구에게 알려 주세요" : a ? "내 추천 링크로 공유해 보세요" : "이 강의를 공유해 보세요") + '</h3><button type="button" class="r3-spop__x" aria-label="닫기"></button></div><p class="r3-spop__p">' + (e ? "함께 들으면 더 좋아요. 링크를 복사하거나 카카오톡으로 바로 보내 보세요." : a ? "친구가 내 링크로 들어와 결제하면 나에게 적립금이 쌓여요." : "로그인하면 나만의 추천 링크가 만들어지고, 친구가 결제하면 적립금이 쌓여요.") + "</p>" + (e ? "" : '<a class="r3-spop__more" href="/partners">자세히 보기</a>') + '<div class="r3-spop__btns"><button type="button" class="r3-spop__b" data-act="copy"><i class="r3-spop__ic r3-spop__ic--copy" aria-hidden="true"></i>' + (a ? "내 추천 링크 복사" : "링크 복사") + '</button><button type="button" class="r3-spop__b" data-act="kakao"><i class="r3-spop__ic r3-spop__ic--kakao" aria-hidden="true"></i>카카오톡 공유</button></div>', 
-      document.body.appendChild(r), t.addEventListener("click", (function(e) {
-        e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), r.hidden ? function() {
-          c(), r.hidden = !1, t.setAttribute("aria-expanded", "true");
-          var e = n("[data-act=copy]", r);
-          e && e.focus(), window.SFT && SFT.track("select_content", {
+      // 열 때 '링크 복사'에 초점을 주면 주황 테두리(초점 표시)가 떠 보여서 → 창 자체에 초점(키보드는 Tab으로 버튼 이동)
+      r.tabIndex = -1, r.style.outline = "none", document.body.appendChild(r), T.forEach((function(x) {
+        x.addEventListener("click", (function(ev) {
+          if (ev.preventDefault(), ev.stopPropagation(), ev.stopImmediatePropagation(), !r.hidden && t === x) return l(!0);
+          r.hidden || t.setAttribute("aria-expanded", "false"), t = x, c(), r.hidden = !1, t.setAttribute("aria-expanded", "true"),
+          r.focus({
+            preventScroll: !0
+          }), window.SFT && SFT.track("select_content", {
             content_type: "share_popover"
           });
-        }() : l(!0);
-      }), !0), r.addEventListener("click", (function(t) {
+        }), !0);
+      })), r.addEventListener("click", (function(t) {
         if (t.target.closest(".r3-spop__x")) return l(!0);
         var n = t.target.closest("[data-act]");
         if (n) {
