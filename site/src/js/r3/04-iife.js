@@ -911,7 +911,8 @@
             }
             if (li) {
               // (10/29) 강의실 = 공용 강의실 /class?idx=상품번호(자동). 예전 방식 [강의실]·SF_SITE.classrooms 주소가 있으면 그쪽
-              var p = roomPer(x.L, x.idx, o && o.period), rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || "/class?idx=" + x.idx, go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
+              // (11/5 사장님) 기본값을 런런(/learn-run)으로 — 상품 설명에 [강의실]을 안 적어도 런런. 예전 /class 로 되돌리려면 SF_SITE.roomClass = true (백업 태그 backup-room-class-1105)
+              var p = roomPer(x.L, x.idx, o && o.period), rg = SFUI.roomRange(p, x.paid), st = roomState(rg), lb = SFUI.roomLabel(p, x.paid), rm = CR[x.idx] || o && o.room || (e.roomClass ? "/class?idx=" + x.idx : "/learn-run"), go = n(".r3-ord__go", li), bd = n(".sf-badge", li);
               n(".sf-room-when", li).innerHTML = lb ? "수강 기간 <b>" + r(lb) + "</b>" + ("on" === st && rg.e ? " <em>" + roomDday(rg) + "</em>" : "") : "수강 기간은 교육 정보에서 확인해 주세요";
               st && (bd.textContent = "end" === st ? "수강 종료" : "pre" === st ? "개강 전" : "수강 중", bd.className = "sf-badge " + ("end" === st ? "sf-badge--neutral" : "sf-badge--brand"));
               // (10/31) 교육 탭의 '다음 일정'(patch/26e)이 쓰는 개강일 · 상태
