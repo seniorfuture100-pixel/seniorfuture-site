@@ -35,3 +35,7 @@ Header Code 안의 `@v1.0.1` 두 군데를 예전 버전(`@v1.0.0`)으로 바꿔
 ## 안전
 - 이 저장소는 공개예요. 비밀번호·키·개인정보는 절대 넣지 않아요(사이트 화면에 이미 보이는 공개 주소만 있어요).
 - jsDelivr 가 안 될 때는 깃허브 Pages(`seniorfuture100-pixel.github.io/seniorfuture-site`)에서 대신 받아요.
+
+## CDN 배포용 태그
+전체 저장소는 검수 이미지 때문에 jsDelivr 50MB 제한을 넘을 수 있어요. 소스 버전 태그(vX.Y.Z)는 그대로 보존하고, 배포 파일 3개만 담은 `cdn-vX.Y.Z` 태그를 별도로 사용해요.
+소스·생성물 커밋 후 `node tools/site/cdn-release.js` → `git push origin cdn-vX.Y.Z`를 수동 실행해요. 이 도구는 main과 기존 태그·작업 파일을 바꾸지 않아요. CDN 파일과 로컬 dist의 해시가 같은지 확인한 뒤 Header Code를 저장해요. 자동 배포 설정은 바꾸지 않아요.

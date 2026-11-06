@@ -10,7 +10,8 @@ const fs = require('fs'), path = require('path'), terser = require('terser');
 const root = path.resolve(__dirname, '..', '..'), site = path.join(root, 'site');
 const ver = process.argv[2]; if (!/^v\d+\.\d+\.\d+$/.test(ver || '')) { console.log('버전을 v1.0.0 처럼 주세요'); process.exit(1); }
 const REPO = 'seniorfuture100-pixel/seniorfuture-site';
-const CDN = 'https://cdn.jsdelivr.net/gh/' + REPO + '@' + ver + '/dist/';
+// 검수 이미지가 포함된 전체 저장소는 CDN 용량 제한에 걸려요. dist 전용 태그는 cdn-release.js로 만들어요.
+const CDN = 'https://cdn.jsdelivr.net/gh/' + REPO + '@cdn-' + ver + '/dist/';
 // jsDelivr 가 안 될 때 대신 받을 곳(깃허브 Pages, 저장소의 같은 파일)
 const ALT = 'https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/';
 const rd = p => fs.readFileSync(path.join(site, p), 'utf8');
