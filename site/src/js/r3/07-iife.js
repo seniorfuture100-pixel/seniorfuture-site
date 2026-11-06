@@ -136,14 +136,16 @@
       cards.innerHTML = productCard(secProd); cards.setAttribute('data-sig', sig);
     }
 
-    // 주문자 정보: 값이 다 있으면 숨기고, 안내 문구(환불 기준)는 상품 카드 아래로 복사
+    // 주문자 정보: (11/6 사장님) 늘 보여요 — 예전엔 값이 다 채워지면 숨겨서, 회원이 '수정'을 누르면 칸이 사라졌어요
+    //   입력칸마다 위에 이름표(이름·연락처·이메일 · 필수 *)를 달아요(아임웹 칸 감싸개에 data-label + CSS ::before)
     var hBuy = hd(root, '주문자 정보'), secBuy = box(hBuy);
     if (secBuy) {
-      var inputs = $$('input', secBuy).filter(function (i) { return i.type !== 'hidden' && i.type !== 'checkbox' && i.type !== 'radio'; });
-      var empty = inputs.some(function (i) { return !clean(i.value); });
-      // Collapsed summaries have no inputs: keep the native contact review/edit action.
-      secBuy.classList.toggle('r3pay-hide', inputs.length > 0 && !empty);
+      secBuy.classList.remove('r3pay-hide'); secBuy.classList.add('r3pay-box--buyer');
       $$('blockquote', secBuy).forEach(function (q) { q.classList.add('r3pay-hide'); });
+      buyerFields(secBuy).forEach(function (i) {
+        var w = i.parentElement, lb = BUYER[i.name];
+        if (w && w.getAttribute('data-label') !== lb) { w.setAttribute('data-label', lb); w.classList.add('r3pay-bfield'); }
+      });
     }
 
     // (10/29) 강의·라이브·모임은 받을 물건이 없어요 → 아임웹 '방문수령 위치'·'배송지' 칸 숨김
@@ -253,6 +255,8 @@
     }
     // 적립금(아임웹 이름 '포인트')
     var hP = hd(root, '포인트') || hd(root, '적립금 사용'), wpt = wrap(hP);
+    // (11/6 사장님) 라이브 신청은 적립금 칸도 숨겨요(추천인 코드와 같이)
+    if (wpt && /LIVE|라이브/i.test(clean(secProd.textContent))) { wpt.classList.add('r3pay-hide'); wpt = null; }
     if (wpt) {
       wpt.classList.add('r3pay-w--point');
       setText(hP, '적립금 사용');
@@ -284,6 +288,35 @@
       $$('div, p', $('.r3pay-right') || sumBox).forEach(function (d) { if (d.children.length > 3) return; if (/^0\s*포인트\s*적립\s*예정$/.test(clean(d.textContent))) d.classList.add('r3pay-hide'); });
     }
   }
+
+  // (11/6 사장님) 주문자 이름·연락처·이메일은 필수 — 칸이 보일 때(비회원·회원 수정 중) 비어 있거나 형식이 틀리면 신청·결제를 막고 그 칸을 알려요
+  //   아임웹보다 먼저(문서 capture 단계) 확인해요. 칸이 안 보이면(회원 요약 화면) 아임웹 저장값을 쓰니 막지 않아요
+  var BUYER = { ordererName: '이름', ordererCall: '연락처', ordererEmail: '이메일' };
+  function buyerFields(sec) { return $$('input', sec).filter(function (i) { return BUYER[i.name] && i.getBoundingClientRect().height > 0; }); }
+  function buyerBad(i) {
+    var v = clean(i.value);
+    if (!v) return '입력해 주세요';
+    if (i.name === 'ordererCall' && v.replace(/\D/g, '').length < 9) return '번호를 확인해 주세요';
+    if (i.name === 'ordererEmail' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return '이메일 형식을 확인해 주세요';
+    return '';
+  }
+  function buyerCheck(e) {
+    var b = e.target.closest && e.target.closest('button');
+    if (!b || !/^(결제하기|신청하기|무료로 신청하기)$/.test(clean(b.textContent))) return;
+    var root = document.getElementById('oms-shop-payment'), sec = root && box(hd(root, '주문자 정보'));
+    if (!sec) return;
+    var first = null;
+    buyerFields(sec).forEach(function (i) {
+      var w = i.parentElement, msg = buyerBad(i);
+      w.classList.toggle('is-err', !!msg); w.setAttribute('data-err', msg ? BUYER[i.name] + ' ' + msg : '');
+      if (msg && !first) first = i;
+    });
+    if (!first) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    first.scrollIntoView({ block: 'center', behavior: 'smooth' }); setTimeout(function () { first.focus(); }, 300);
+  }
+  document.addEventListener('click', buyerCheck, true);
+  document.addEventListener('input', function (e) { var w = e.target && e.target.parentElement; if (w && w.classList.contains('is-err') && !buyerBad(e.target)) { w.classList.remove('is-err'); w.setAttribute('data-err', ''); } }, true);
 
   var busy = false, t = 0;
   function run() { if (busy) return; busy = true; try { dress(); } catch (e) { } busy = false; }

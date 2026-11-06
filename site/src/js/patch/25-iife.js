@@ -53,7 +53,17 @@
       '<div class="sf-done-btns"><a class="sf-done-home" href="/">홈으로</a><a class="sf-done-main" href="' + (guest ? '/login' : room) + '">' + (guest ? '주문 조회' : C.b || '마이페이지') + '</a></div>';
     host.parentNode.insertBefore(c, host);
     document.documentElement.classList.add('sf-done-on');
+    // (11/6 사장님) 주문번호·결제 금액이 늦게 뜨던 것 → 무료 신청은 주소의 order_no 와 '무료'로 바로 채워요(아임웹이 그리면 같은 값으로 다시 채움)
+    var on0 = (/^\d{12,20}$/.exec(new URLSearchParams(location.search).get('order_no') || '') || [])[0];
+    early && on0 && rowsTo([['주문번호', on0], ['결제 금액', paid0 === '0' ? '0원' : '무료']]);
+    // (11/6 사장님) 푸터는 페이지 전체 로드 뒤에 보이는데(ui/30) 완료 화면은 아임웹 결제 스크립트로 로드가 늦어요 → 카드가 자리를 잡으면 바로 보여요
+    document.documentElement.classList.add('sf-ft-ready');
     chat();
+  };
+  var rowsTo = function (rows) {
+    var dl = c.querySelector('.sf-done-info');
+    dl.innerHTML = rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('');
+    dl.hidden = !rows.length;
   };
   // (11/6 사장님) 상품 글에 [톡방]이 있으면: 안내 문구를 톡방 입장 안내로 바꾸고, 홈으로·마이페이지 위에 노란 '소통방 입장' 한 줄
   var KK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.8 5.2 4.6 6.6l-.9 3.5c-.1.4.3.7.7.5l4.1-2.7c.5.1 1 .1 1.5.1 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/></svg>';
@@ -95,9 +105,7 @@
     /^(0\s*원|무료)$/.test(amt) && (amt = paid0 === '0' ? '0원' : '무료');
     var rows = [['주문번호', no], ['결제 금액', amt + (how && !/^무료/.test(how) ? ' · ' + how : '')]].filter(function (r) { return r[1]; });
     c || make(host);
-    var dl = c.querySelector('.sf-done-info');
-    dl.innerHTML = rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('');
-    dl.hidden = !rows.length;
+    rows.length && rowsTo(rows);
     return true;
   };
   // 못 그리면(6초) 아임웹 화면을 보여 줘요 — 무료 신청 카드를 이미 띄웠으면 카드는 그대로 둬요

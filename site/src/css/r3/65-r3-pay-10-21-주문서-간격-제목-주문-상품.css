@@ -54,6 +54,28 @@ html.r3pay-on body .r3pay-hinfo b {
   color:#111827;
   font-weight:700;
 }
+/* (11/6 사장님) 주문자 정보: 칸마다 위에 이름표(필수 *) · 2칸 줄(이름 | 연락처) + 이메일 한 줄 · 다른 입력칸과 같은 50px·8px·#DADDE2 */
+html.r3pay-on body .r3pay-box--buyer form { display:flex!important; flex-direction:column; gap:16px!important; margin:0!important; }
+html.r3pay-on body .r3pay-box--buyer form>div { display:grid!important; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px 16px!important; margin:0!important; }
+html.r3pay-on body .r3pay-box--buyer .r3pay-bfield { display:flex!important; flex-direction:column; gap:8px; width:auto!important; margin:0!important; }
+html.r3pay-on body .r3pay-box--buyer .r3pay-bfield::before { content:attr(data-label) " *"; font:600 15px/1.4 var(--sf-font); color:#111827; }
+html.r3pay-on body .r3pay-box--buyer .r3pay-bfield input {
+  width:100%!important;
+  height:50px!important;
+  margin:0!important;
+  padding:0 16px!important;
+  border:1px solid #DADDE2!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  outline:0!important;
+  color:#111827!important;
+  font:400 16px/1.4 var(--sf-font)!important;
+}
+html.r3pay-on body .r3pay-box--buyer .r3pay-bfield input:focus { border-color:#111827!important; }
+html.r3pay-on body .r3pay-box--buyer .r3pay-bfield input::placeholder { color:#9CA3AF; }
+html.r3pay-on body .r3pay-box--buyer .r3pay-bfield.is-err input { border-color:#DC2626!important; }
+html.r3pay-on body .r3pay-box--buyer .r3pay-bfield.is-err::after { content:attr(data-err); font:400 14px/1.4 var(--sf-font); color:#DC2626; }
 /* 입력칸 공통 */
 html.r3pay-on body .r3pay-w--coupon label { display:block!important; width:100%!important; }
 html.r3pay-on body :is(.r3pay-w--coupon label>button,.r3pay-w--point form>div),
