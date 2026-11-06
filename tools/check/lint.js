@@ -71,7 +71,9 @@ if (fs.existsSync(cssf)) {
 
 // ⑤ (10/31) 크기 한도 — jsDelivr 가 보내는 brotli 크기 기준. 느린 망에선 이 파일이 다 와야 첫 화면이 그려져요(10/31 측정: 1KB ≈ 5ms)
 //    넘으면 실패: 늘어난 이유를 확인하고, 꼭 필요하면 한도를 올리며 이유를 여기 적기
-const BUDGET = { 'dist/sf.min.js': 145, 'dist/sf.min.css': 62 };
+// (11/6) 첫 신청 기본정보 보완·회원 저장·주문서 재사용을 위한 공통 helper가 추가돼요.
+// 외부 SDK 추가 없이 brotli 약 146KB: 기존 145KB → 147KB(2KB)만 허용해요.
+const BUDGET = { 'dist/sf.min.js': 147, 'dist/sf.min.css': 62 };
 Object.keys(BUDGET).forEach(f => {
   const p = path.join(root, f); if (!fs.existsSync(p)) return;
   const kb = Math.round(require('zlib').brotliCompressSync(fs.readFileSync(p)).length / 1024);

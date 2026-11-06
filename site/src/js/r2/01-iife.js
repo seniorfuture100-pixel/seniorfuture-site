@@ -539,13 +539,15 @@
         if (!ev.target.closest || ev.target.closest("._join_btn") !== btn) return;
         ev.preventDefault(), ev.stopImmediatePropagation();
         if (btn.disabled) return;
+        if (btn.form && btn.form.__sfContactCheck && !btn.form.__sfContactCheck()) return;
+        var savedLabel = btn.textContent;
         btn.disabled = !0, btn.textContent = "저장 중…";
         SFUI.__joinDone = function(j) {
-          btn.disabled = !1, btn.textContent = "저장";
-          if (j && j.flag) {
+          btn.disabled = !1, btn.textContent = savedLabel;
+          if (!j || j.msg !== 'SUCCESS') {
             // 아임웹이 '현재 비밀번호'(passwdorg) 등을 요구 → 그 칸을 열고 안내
             cur && cur.classList.remove("r2-hide");
-            hint && (hint.hidden = !1, hint.textContent = /passwd/i.test(j.flag) ? (org && org.value ? "현재 비밀번호가 맞지 않아요. 다시 확인해 주세요." : "본인 확인을 위해 현재 비밀번호를 넣고 저장을 다시 눌러 주세요.") : j.msg || "저장하지 못했어요. 입력한 내용을 확인해 주세요.");
+            hint && (hint.hidden = !1, hint.textContent = j && /passwd/i.test(j.flag) ? (org && org.value ? "현재 비밀번호가 맞지 않아요. 다시 확인해 주세요." : "본인 확인을 위해 현재 비밀번호를 넣고 저장을 다시 눌러 주세요.") : "저장하지 못했어요. 입력한 내용을 확인하고 다시 시도해 주세요.");
             org && (org.scrollIntoView({ block: "center", behavior: "smooth" }), org.focus({ preventScroll: !0 }));
             return;
           }
@@ -553,7 +555,7 @@
           SFUI.toast ? SFUI.toast("프로필을 저장했어요") : alert("프로필을 저장했어요");
         };
         SITE_MEMBER.joinSubmit(!1);
-        setTimeout((function() { btn.disabled && (btn.disabled = !1, btn.textContent = "저장"); }), 15e3);
+        setTimeout((function() { btn.disabled && (btn.disabled = !1, btn.textContent = savedLabel); }), 15e3);
       }), !0);
     }
     // 아임웹 저장 응답(/backpg/join.cm)을 읽어 위 저장 버튼에 알려요(이 페이지에서만)
@@ -575,7 +577,7 @@
       var e = S.querySelector(".r2-prof"), t = 0;
       !function r() {
         var a = i(".modal_site_join"), s = a && a.querySelector("article.modal_article");
-        if (!s) return t % 5 == 0 && window.SITE_MEMBER && SITE_MEMBER.editProfile && SITE_MEMBER.editProfile(btoa("/shop_mypage/?sf=profile")), 
+        if (!s) return t % 5 == 0 && window.SITE_MEMBER && SITE_MEMBER.editProfile && SITE_MEMBER.editProfile(btoa(SFUI.checkoutProfile && SFUI.checkoutProfile.returnTo() || "/shop_mypage/?sf=profile")),
         ++t < 150 ? setTimeout(r, 100) : (n.classList.remove("r2-prof-wait"), void (e.innerHTML = "프로필을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요."));
         e.innerHTML = "", e.appendChild(s), setTimeout((function() {
           n.classList.remove("r2-prof-wait");
@@ -686,6 +688,7 @@
             P && (P.placeholder = "새 비밀번호 (바꿀 때만)");
           }
           r2ProfTidy(c, l, d, f, j, F);
+          if (SFUI.checkoutProfile) SFUI.checkoutProfile.setupForm(c, F, j);
         }
         function O(e) {
           var t = c.querySelector(e);

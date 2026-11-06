@@ -418,3 +418,19 @@ html.r3pay-on body .r3pay-right .r3pay-box header ~ div > div > div + div > span
 @media (min-width:768px) {
   html.r3pay-on body .r3pay-card { grid-template-columns:clamp(180px,55%,360px) minmax(0,1fr); }
 }
+
+/* 첫 신청 기본 정보: 회원 저장값 확인 → 누락만 보완 → 원래 주문서 복귀 */
+.r3pay-contact { margin-top:16px; padding:16px; border-radius:12px; background:#F5F6F8; color:#374151; }
+.r3pay-contact p { margin:0 0 10px!important; font-size:14px; line-height:1.6; overflow-wrap:anywhere; }
+.r3pay-contact a, .r3pay-contact button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 12px; font:600 14px/1.5 var(--sf-font); color:#1F2937; background:#FFF; border:1px solid #DADDE2; border-radius:8px; white-space:normal; text-align:center; text-decoration:none; cursor:pointer; }
+.r3pay-contact .r3pay-contact__next { background:#1F2937; color:#FFF; border-color:#1F2937; }
+.r3pay-contact a:focus-visible, .r3pay-contact button:focus-visible { outline:2px solid #EA580C; outline-offset:3px; }
+.sf-contact-complete .sf-contact-extra { display:none!important; }
+.sf-contact-complete .r2-my-nav, .sf-contact-complete .r2-my-side { display:none!important; }
+.sf-contact-complete .sf-contact-intro { margin:0 0 24px; }
+.sf-contact-complete .sf-contact-intro h3 { margin:0 0 10px; font-size:22px; line-height:1.4; }
+.sf-contact-complete .sf-contact-intro p { font-size:15px; line-height:1.7; color:#4B5563; }
+.sf-contact-complete .sf-contact-intro a { display:inline-flex; align-items:center; min-height:44px; color:#374151; text-decoration:underline; }
+.sf-contact-complete .sf-contact-error { color:#B91C1C!important; }
+.sf-contact-complete .r2-prof { max-width:620px; margin-left:auto; margin-right:auto; }
+.sf-contact-complete .sf-contact-password:not(.r2-hide) { display:block!important; }
