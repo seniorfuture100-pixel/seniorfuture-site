@@ -93,10 +93,33 @@ SFUI.register('learnRunSkin', function () {
 
     // 7) 고르기 칸·누르는 곳
     '.lr-select__trigger{min-height:44px!important;font-size:15px!important}.lr-select__label{font-size:15px!important}',
-    '.curriculum-btn,.acc-toggle,.intro-toggle{min-height:44px}'
+    '.curriculum-btn,.acc-toggle,.intro-toggle{min-height:44px}',
+    '.sf-lr-empty-guide{max-width:1120px;margin:16px auto;padding:16px 20px;border:1px solid ' + LINE + ';border-radius:12px;background:' + TINT + ';color:' + T + ';font-size:15px;line-height:1.6;box-sizing:border-box}',
+    '.sf-lr-empty-guide[hidden]{display:none!important}.sf-lr-empty-guide p{margin:0}.sf-lr-empty-guide strong{font-size:16px}',
+    '.sf-lr-empty-guide nav{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:8px}.sf-lr-empty-guide a{display:inline-flex;align-items:center;min-height:44px;color:' + OT + ';font-size:15px;font-weight:700;text-decoration:underline}',
+    '@media(max-width:767px){.sf-lr-empty-guide{margin:12px 16px;padding:12px 16px}}'
   ].join('\n');
 
   var opened = false;
+  // 내 학습이 비어 목록으로 이동했을 때, 구매 상태를 확인할 다음 행동을 남겨요.
+  // 권한을 추정하거나 수강을 등록하지 않고 기존 구매 목록으로 연결만 해요.
+  function emptyGuide(root) {
+    var guide = root.getElementById('sf-lr-empty-guide');
+    if (guide) return;
+    guide = document.createElement('aside');
+    guide.id = 'sf-lr-empty-guide';
+    guide.className = 'sf-lr-empty-guide';
+    guide.setAttribute('aria-label', '강의실 이용 안내');
+    guide.innerHTML = '<p><strong>구매한 강의가 보이지 않나요?</strong></p><p>구매 목록에서 신청·결제 상태를 확인해 주세요. 결제가 완료됐는데도 강의가 없으면 고객센터로 문의해 주세요.</p><nav aria-label="강의실 도움말"><a href="/shop_mypage/?sf=room">구매 목록 확인</a><a href="/help#faq">이용 안내</a></nav>';
+    root.insertBefore(guide, root.getElementById('learnrun-root') || null);
+    // 강좌·과제 등으로 이동한 뒤에는 빈 학습 안내가 따라다니지 않아요.
+    root.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest && e.target.closest('a[href]');
+      if (!a) return;
+      var h = a.getAttribute('href');
+      if (/^\/student\//.test(h || '')) guide.hidden = !/^\/student\/courses\/?$/.test(h);
+    });
+  }
   // '내 학습'이 아니면 누르고, 1.5초 뒤에도 아니면 다시(최대 3번) — 런런이 지난 화면을 늦게 되살려 덮는 때가 있어요
   function toMine(root, k) {
     var act = root.querySelector('.gnb-link.is-active');
@@ -114,7 +137,7 @@ SFUI.register('learnRunSkin', function () {
       if (!act || !/내\s*학습/.test(act.textContent)) return;
       if (root.querySelector('.mobile-card, .lr-card')) return;
       var links = root.querySelectorAll('.gnb-link');
-      for (var i = 0; i < links.length; i++) if (/강좌\s*목록/.test(links[i].textContent)) { links[i].click(); break; }
+      for (var i = 0; i < links.length; i++) if (/강좌\s*목록/.test(links[i].textContent)) { emptyGuide(root); links[i].click(); break; }
     }, 2500);
   }
   function put() {
