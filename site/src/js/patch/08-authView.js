@@ -58,6 +58,10 @@ SFUI.register('authView', function () {
     var at = sns; // 긴 버튼이 없으면(지금) 빈 목록은 넣지 않고 동그라미 줄을 카카오 바로 아래에(Codex)
     if (list.children.length) { sns.parentNode.insertBefore(list, sns.nextSibling); at = list; }
     if (row.children.length) at.parentNode.insertBefore(row, at.nextSibling);
+    [].forEach.call(sns.querySelectorAll('.login_lately'), function (b) { b.parentNode.removeChild(b); });
+    [].forEach.call(sns.querySelectorAll('p'), function (p) {
+      if (!p.children.length && !p.textContent.replace(/\s/g, '')) p.parentNode.removeChild(p);
+    });
   }
   function decorate(w, isLogin) {
     if (w.querySelector('.sf-auth__head')) return;
@@ -94,11 +98,31 @@ SFUI.register('authView', function () {
     var btn = w.querySelector('form .btn-primary');
     if (btn) btn.textContent = '로그인';
     var over = w.querySelector('.over_h, .sf-auth__links');
+    if (!over) { over = document.createElement('div'); w.appendChild(over); }
     if (over) {
-      var join = over.querySelector('a[onclick*="openJoin"], a.float_l'), find = over.querySelector('a[onclick*="FindPassword"], a.float_r');
+      var join = over.querySelector('a[onclick*="openJoin"], a[href*="site_join"], a.sf-auth__join'), find = over.querySelector('a[onclick*="FindPassword"], a[href*="find_password"]');
       over.className = 'sf-auth__links';
       if (find) { find.className = ''; find.textContent = '비밀번호 찾기'; over.insertBefore(find, over.firstChild); }
-      if (join) { join.className = ''; join.textContent = '이메일 회원가입'; }
+      if (!join) {
+        // 아임웹 로그인 폼에 가입 링크가 없어도 기본 가입 선택 화면으로 연결해요.
+        join = document.createElement('a');
+        var back = /(?:^|[?&])back_url=([^&]*)/.exec(location.search);
+        join.href = '/site_join_pattern_choice' + (back ? '?back_url=' + back[1] : '');
+        over.appendChild(join);
+      }
+      join.className = 'sf-auth__join';
+      join.textContent = '회원가입';
+    }
+    var guest = w.querySelector('a.non_btn, a[onclick*="openGuestLogin"]');
+    if (guest) {
+      var old = guest.parentNode, guestRow = document.createElement('div');
+      guestRow.className = 'sf-auth__guest-row';
+      guest.classList.remove('btn', 'btn-block', '!tw-block');
+      guest.classList.add('sf-auth__guest');
+      guest.textContent = '비회원 주문조회';
+      guestRow.appendChild(guest);
+      w.appendChild(guestRow);
+      if (old.tagName === 'P' && !old.children.length) old.parentNode.removeChild(old);
     }
   }
   // 팝업 창: 로그인(.modal_site_login) · 가입 선택(.modal_site_join 안 .widget.login)

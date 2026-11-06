@@ -446,3 +446,34 @@
     padding:44px 20px 24px!important;
   }
 }
+
+/* 가입 경로는 작은 화면에서도 숨기거나 잘라내지 않아요. */
+:root body .sf-auth .sf-auth__links { flex-wrap:wrap; gap:12px 20px; }
+:root body .sf-auth .sf-auth__join { display:inline-flex!important; align-items:center; min-height:44px; color:var(--sf-text); font-weight:700; }
+
+
+/* 최근 로그인 표시는 페이지·팝업 모두 숨겨요. */
+:root body .sf-auth .login_lately { display:none!important; }
+:root body .sf-auth .sf-auth__guest-row {
+  display:flex;
+  justify-content:center;
+  margin-top:16px;
+}
+:root body .sf-auth a.sf-auth__guest {
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  width:auto!important;
+  height:auto!important;
+  min-height:44px;
+  padding:8px 12px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:var(--sf-muted, #667085)!important;
+  font:500 13px/1.5 var(--sf-font)!important;
+  text-decoration:none;
+}
+:root body .sf-auth a.sf-auth__guest:hover { text-decoration:underline; }
+:root body .sf-auth a.sf-auth__guest:focus-visible { outline:2px solid var(--sf-primary); outline-offset:2px; }

@@ -570,8 +570,8 @@ html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x) {
     font-size:13px!important;
     white-space:nowrap;
   }
-  /* 접수 완료는 강의실 목록에서 중복 안내. 입금 대기·진행·종료 등은 유지. */
-  html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="plan"]:not(#sf-x) {
+  /* 휴대폰 상태칩은 입금 대기만 표시. 날짜·D-N과 입장 버튼은 유지. */
+  html:root body [data-sf-rooms] .sf-room-meta .sf-badge:not([data-tone="wait"]):not(#sf-x) {
     display:none!important;
   }
   html:root body [data-sf-rooms] .sf-room-meta small:not(#sf-x),
