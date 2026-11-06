@@ -176,6 +176,8 @@
     // 오른쪽: '결제 금액'
     setText(hSum, '결제 금액');
     $$('span', box(hSum)).forEach(function (s) { var v = clean(s.textContent); if (v === '총 주문금액') setText(s, '총 결제 금액'); if (v === '상품가격') setText(s, '상품 금액'); });
+    // (11/6) 아임웹 '개인정보 수집 및 이용 동의'(비회원 주문서)는 숨겨져 있어서 우리 문구에 개인정보 동의를 함께 적어요 — 카카오·네이버페이 심사
+    var AGREE = '강의 및 결제 정보를 확인했으며, <a href="/terms#terms" target="_blank" rel="noopener">이용약관</a>·<a href="/terms#refund" target="_blank" rel="noopener">환불 규정</a> 및 주문·결제 처리를 위한 <a href="/terms#privacy" target="_blank" rel="noopener">개인정보 수집·이용</a>에 동의합니다.';
     var hTerm = hd(root, '이용 및 정보 제공 약관'), tb = box(hTerm);
     if (tb) { tb.classList.add('r3pay-box--terms'); if (!$('input[type=checkbox]', tb)) tb.classList.add('r3pay-terms-quiet'); }
     var sub = $$('button[type=submit]', root).filter(function (b) { return /^(결제하기|신청하기)$/.test(clean(b.textContent)); })[0];
@@ -183,7 +185,7 @@
     if (sub && !(sub.nextElementSibling && sub.nextElementSibling.classList.contains('r3pay-agree'))) {
       var old = $('.r3pay-agree', root); if (old) old.remove();
       var ag = document.createElement('p'); ag.className = 'r3pay-agree';
-      ag.innerHTML = '강의 및 결제 정보를 확인했으며, <a href="/terms#terms" target="_blank" rel="noopener">이용약관</a> 및 <a href="/terms#refund" target="_blank" rel="noopener">환불 규정</a>에 동의합니다.';
+      ag.innerHTML = AGREE;
       sub.parentNode.insertBefore(ag, sub.nextSibling);
     }
     var extraBox = box(hd(root, '추가정보')); if (extraBox) extraBox.classList.add('r3pay-box--extra');
@@ -194,7 +196,7 @@
       var bar = mb.parentElement; if (!bar) return;
       bar.classList.add('r3pay-mbar');
       [].slice.call(bar.children).forEach(function (c) { if (c !== mb && !c.classList.contains('r3pay-agree')) c.classList.add('r3pay-hide'); });
-      if (!$('.r3pay-agree', bar)) { var ag2 = document.createElement('p'); ag2.className = 'r3pay-agree r3pay-agree--m'; ag2.innerHTML = '강의 및 결제 정보를 확인했으며, <a href="/terms#terms" target="_blank" rel="noopener">이용약관</a> 및 <a href="/terms#refund" target="_blank" rel="noopener">환불 규정</a>에 동의합니다.'; bar.appendChild(ag2); }
+      if (!$('.r3pay-agree', bar)) { var ag2 = document.createElement('p'); ag2.className = 'r3pay-agree r3pay-agree--m'; ag2.innerHTML = AGREE; bar.appendChild(ag2); }
       document.documentElement.classList.add('r3pay-hasm');
     });
     // (10/30) 무료 상품(상품 금액 0원 — 무료 라이브·무료 모임)만 '무료'·'신청하기'
