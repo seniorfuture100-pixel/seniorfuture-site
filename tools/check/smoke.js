@@ -28,6 +28,23 @@ const html = p => `<!doctype html><html lang="ko"><head><meta charset="utf-8"><m
       const tag = p + ' @' + w, q = [];
       if (!r.sfui) q.push('SFUI 없음');
       if (r.wide > 2) q.push('가로 넘침 ' + r.wide + 'px');
+      if (p === '/shop_mypage') {
+        const mobile = await page.evaluate(() => {
+          const box = document.createElement('div'); box.setAttribute('data-sf-rooms', '');
+          box.innerHTML = '<ul class="sf-rooms"><li class="sf-room-card" data-ty="live"><div class="sf-room-meta"><small>무료 라이브</small><span class="sf-badge">신청 완료</span></div><h2>시험 강의</h2><p class="sf-room-when">일시 <em>D-6</em><b>11월 12일 (목) 19:30</b></p></li><li class="sf-room-card is-pending" data-ty="course"><div class="sf-room-meta"><small>교육</small><span class="sf-badge">입금 대기</span></div><h2>입금 대기 시험</h2></li></ul>';
+          document.body.appendChild(box); SFUI.roomTidy(box, [], []);
+          const badges = box.querySelectorAll('.sf-room-meta .sf-badge'), when = box.querySelector('.sf-room-when');
+          const order = document.createElement('div'); order.className = 'sf-oc';
+          order.innerHTML = '<div class="sf-oc__top">결제 완료</div><div class="sf-oc__body"><span class="sf-oc__th"></span><div class="sf-oc__tx"><strong>시니어 산업의 사업 기회를 이해하는 아주 긴 시험 상품명</strong><p class="sf-oc__sum"><b>150,000원</b><span>무통장입금</span></p></div></div><div class="sf-oc__bank">입금 안내</div><div class="sf-oc__act"><a class="sf-oc__btn">주문 상세</a></div>';
+          document.body.appendChild(order);
+          const result = { doneHidden: getComputedStyle(badges[0]).display === 'none', waitingVisible: getComputedStyle(badges[1]).display !== 'none', matchingSize: getComputedStyle(badges[1]).fontSize === getComputedStyle(badges[1].previousElementSibling).fontSize, dateBeforeDday: when.textContent.indexOf('19:30') < when.textContent.indexOf('D-6'), actionBelow: order.querySelector('.sf-oc__act').getBoundingClientRect().top >= order.querySelector('.sf-oc__bank').getBoundingClientRect().bottom, actionRow: getComputedStyle(order.querySelector('.sf-oc__act')).gridRowStart };
+          order.remove(); box.remove(); return result;
+        });
+        if (!mobile.dateBeforeDday || !mobile.waitingVisible) q.push('강의실 날짜 순서/입금 대기 상태 회귀');
+        if (w < 768 && (!mobile.doneHidden || !mobile.matchingSize || !mobile.actionBelow)) q.push('모바일 상태칩 크기/중복 상태/주문 상세 하단 배치 실패: ' + JSON.stringify(mobile));
+        if (w >= 768 && (mobile.doneHidden || mobile.actionRow !== '2')) q.push('PC 배치 변경');
+      }
+
       errs.forEach(e => q.push('오류: ' + e));
       console.log((q.length ? '✗ ' : '✓ ') + tag + (q.length ? ' — ' + q.join(' / ') : ''));
       if (q.length) bad.push(tag);

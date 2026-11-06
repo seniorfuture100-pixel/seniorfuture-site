@@ -243,15 +243,21 @@
     });
     // (10/31 사장님) 상태 칸 색을 상황마다(디자인 가이드 색): 수강 중·진행 중 초록 · 예정(신청 완료·참여 예정·개강 전) 주황 · 입금 대기 진회색 · 종료 회색
     // (11/2 사장님) 예정도 종류마다 다른 색: 신청 완료(라이브) 주황 · 참여 예정(모임) 보라 · 개강 전(교육) 파랑
-    //   · D-day 는 '일시'·'수강 기간' 글자 바로 옆에 작게. 상태 글자는 강의 정보를 받은 뒤 바뀌므로 바뀔 때마다 다시 맞춰요
+    //   · D-day 는 날짜 뒤에 작게. 상태 글자는 강의 정보를 받은 뒤 바뀌므로 바뀔 때마다 다시 맞춰요
     function tone() {
       [].forEach.call(t.querySelectorAll('.sf-room-meta .sf-badge'), function (b) {
         var s = b.textContent, v = /수강 중|진행 중/.test(s) ? 'on' : /입금/.test(s) ? 'wait' : /종료/.test(s) ? 'end' : /참여 예정/.test(s) ? 'meet' : /개강 전/.test(s) ? 'pre' : 'plan';
         b.getAttribute('data-tone') !== v && b.setAttribute('data-tone', v);
       });
       [].forEach.call(t.querySelectorAll('.sf-room-when em'), function (em) {
-        var p = em.parentNode, f = p.firstChild;
-        f && f.nodeType === 3 && f.nextSibling !== em && p.insertBefore(em, f.nextSibling);
+        var p = em.parentNode, date = p.querySelector('b');
+        var first = p.firstChild;
+        if (date && first && first.nodeType === 3 && /^\s*일시\s*$/.test(first.nodeValue)) {
+          var label = document.createElement('span');
+          label.className = 'sf-room-when__label'; label.textContent = first.nodeValue;
+          p.replaceChild(label, first);
+        }
+        date && date.parentNode === p && p.lastChild !== em && p.appendChild(em);
       });
     }
     tone();

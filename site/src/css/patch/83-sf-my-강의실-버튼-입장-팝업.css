@@ -525,10 +525,10 @@ html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x) {
   height:44px!important;
   min-height:44px!important;
 }
-/* (10/31 사장님) 휴대폰도 PC처럼 한 줄: 사진 64 | 상품명·금액 | 주문 상세(오른쪽 끝 = 주문번호 끝) */
+/* (11/6) 휴대폰은 사진 | 상품명·금액, 주문 상세는 카드 맨 아래. */
 @media (max-width:767.98px) {
   html:root body .sf-oc:not(#sf-x) {
-    grid-template-columns:auto minmax(0,1fr) auto;
+    grid-template-columns:auto minmax(0,1fr);
     column-gap:10px;
     align-items:center;
   }
@@ -537,16 +537,69 @@ html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x) {
     height:64px!important;
   }
   html:root body .sf-oc > .sf-oc__act:not(#sf-x) {
-    justify-content:flex-end!important;
+    grid-column:1 / -1;
+    grid-row:4;
+    justify-content:stretch!important;
+    margin-top:12px!important;
+  }
+  html:root body .sf-oc .sf-oc__tx > strong:not(#sf-x) {
+    display:block!important;
+    white-space:normal!important;
+    overflow:visible!important;
+    -webkit-line-clamp:unset!important;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  html:root body .sf-oc .sf-oc__sum:not(#sf-x) {
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px 4px;
+  }
+  html:root body .sf-oc .sf-oc__sum > b:not(#sf-x) {
+    flex:none;
+    white-space:nowrap;
   }
   html:root body .sf-oc .sf-oc__act .sf-oc__btn:not(#sf-x) {
-    flex:none!important;
+    flex:1!important;
+    width:100%;
     min-width:0;
-    height:34px!important;
-    min-height:34px!important;
+    height:44px!important;
+    min-height:44px!important;
     padding:0 12px!important;
     border-radius:8px!important;
     font-size:13px!important;
     white-space:nowrap;
+  }
+  /* 접수 완료는 강의실 목록에서 중복 안내. 입금 대기·진행·종료 등은 유지. */
+  html:root body [data-sf-rooms] .sf-room-meta .sf-badge[data-tone="plan"]:not(#sf-x) {
+    display:none!important;
+  }
+  html:root body [data-sf-rooms] .sf-room-meta small:not(#sf-x),
+  html:root body [data-sf-rooms] .sf-room-meta .sf-badge:not(#sf-x) {
+    font-size:12px!important;
+    font-weight:600!important;
+    line-height:1.4!important;
+  }
+  html:root body [data-sf-rooms] .sf-room-when:not(#sf-x) {
+    display:block;
+  }
+  html:root body [data-sf-rooms] .sf-room-when__label {
+    display:none;
+  }
+  html:root body [data-sf-rooms] .sf-room-when b:not(#sf-x) {
+    font-weight:500;
+  }
+  html:root body [data-sf-rooms] .sf-room-when em:not(#sf-x) {
+    margin-left:0;
+    white-space:nowrap;
+    font-size:12px!important;
+    font-weight:600;
+  }
+}
+/* 가장 좁은 휴대폰에서는 날짜·D-N과 제목의 읽기 공간을 확보해요. */
+@media (max-width:359.98px) {
+  html:root body [data-sf-rooms] ul.sf-rooms:not(#sf-x),
+  html:root body [data-sf-rooms] .sf-room-past ul:not(#sf-x) {
+    grid-template-columns:minmax(0,1fr)!important;
   }
 }
