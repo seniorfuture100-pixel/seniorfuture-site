@@ -60,7 +60,9 @@
   var chat = function () {
     if (!pidx || !SFUI.roomInfo) return;
     SFUI.roomInfo(pidx, function (o) {
-      if (!o || !/^https?:\/\//.test(o.chat || '') || !c || c.querySelector('.sf-done-chat')) return;
+      // (11/6 사장님) 라이브는 [톡방]이 아직 없어도 버튼을 보여요 — 그동안은 예시로 시니어퓨처 카카오톡 채널. 상품에 [톡방]을 넣으면 그 주소로 바뀌어요
+      if (!/^https?:\/\//.test(o && o.chat || '')) o = kind === 'live' ? { chat: 'https://pf.kakao.com/_ZYaLG' } : null;
+      if (!o || !c || c.querySelector('.sf-done-chat')) return;
       var btns = c.querySelector('.sf-done-btns'), a = document.createElement('a');
       a.className = 'sf-done-chat'; a.href = o.chat; a.target = '_blank'; a.rel = 'noopener';
       a.innerHTML = KK + '소통방 입장';

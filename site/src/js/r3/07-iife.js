@@ -191,6 +191,11 @@
       sub.parentNode.insertBefore(ag, sub.nextSibling);
     }
     var extraBox = box(hd(root, '추가정보')); if (extraBox) extraBox.classList.add('r3pay-box--extra');
+    // (11/6 사장님) 라이브 신청은 추천인 코드(추가정보 · 선택 입력)를 받지 않아요 → 칸과 감싸는 줄을 숨겨요
+    if (extraBox && /LIVE|라이브/i.test(clean(secProd.textContent))) {
+      extraBox.classList.add('r3pay-hide');
+      extraBox.parentElement && extraBox.parentElement.parentElement === left && extraBox.parentElement.classList.add('r3pay-hide');
+    }
     benefits(root, left, secProd);
     // 모바일: 아임웹이 따로 그리는 아래 고정 '결제하기' 줄 — 버튼은 주황, 아래 문구는 우리 동의 문구(링크)로 (10/21)
     $$('button[type=button]').filter(function (b) { return clean(b.textContent) === '결제하기' && b.offsetParent; }).forEach(function (mb) {
