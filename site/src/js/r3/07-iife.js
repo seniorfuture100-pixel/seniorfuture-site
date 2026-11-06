@@ -295,8 +295,8 @@
   function buyerFields(sec) { return $$('input', sec).filter(function (i) { return BUYER[i.name] && i.getBoundingClientRect().height > 0; }); }
   function buyerBad(i) {
     var v = clean(i.value);
-    if (!v) return '입력해 주세요';
-    if (i.name === 'ordererCall' && v.replace(/\D/g, '').length < 9) return '번호를 확인해 주세요';
+    if (!v) return { ordererName: '이름을', ordererCall: '연락처를', ordererEmail: '이메일을' }[i.name] + ' 입력해 주세요';
+    if (i.name === 'ordererCall' && v.replace(/\D/g, '').length < 9) return '연락처를 확인해 주세요';
     if (i.name === 'ordererEmail' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return '이메일 형식을 확인해 주세요';
     return '';
   }
@@ -308,7 +308,7 @@
     var first = null;
     buyerFields(sec).forEach(function (i) {
       var w = i.parentElement, msg = buyerBad(i);
-      w.classList.toggle('is-err', !!msg); w.setAttribute('data-err', msg ? BUYER[i.name] + ' ' + msg : '');
+      w.classList.toggle('is-err', !!msg); w.setAttribute('data-err', msg);
       if (msg && !first) first = i;
     });
     if (!first) return;
