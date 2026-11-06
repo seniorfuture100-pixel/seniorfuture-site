@@ -76,6 +76,12 @@ html.r3pay-on body .r3pay-box--buyer .r3pay-bfield input:focus { border-color:#1
 html.r3pay-on body .r3pay-box--buyer .r3pay-bfield input::placeholder { color:#9CA3AF; }
 html.r3pay-on body .r3pay-box--buyer .r3pay-bfield.is-err input { border-color:#DC2626!important; }
 html.r3pay-on body .r3pay-box--buyer .r3pay-bfield.is-err::after { content:attr(data-err); font:400 14px/1.4 var(--sf-font); color:#DC2626; }
+/* (11/6 사장님) 로그인 회원: 아임웹 요약 그대로 + 카드 모양(이름표 | 값) · '수정'은 오른쪽 위 작은 버튼 */
+html.r3pay-on body .r3pay-bsum { position:relative; display:grid!important; gap:10px; margin:0!important; padding:20px 80px 20px 20px!important; border:1px solid #EAEBEE; border-radius:12px; background:#F7F8FA; }
+html.r3pay-on body .r3pay-bsum>p { display:grid!important; grid-template-columns:64px 1fr; gap:12px; margin:0!important; color:#111827!important; font:500 16px/1.5 var(--sf-font)!important; word-break:break-all; }
+html.r3pay-on body .r3pay-bsum>p::before { content:attr(data-label); color:#6B7280; font-weight:400; }
+html.r3pay-on body .r3pay-bsum .r3pay-bsum__edit { position:absolute!important; top:16px; right:16px; height:32px!important; padding:0 12px!important; border:1px solid #DADDE2!important; border-radius:8px!important; background:#fff!important; color:#374151!important; font:600 14px/1 var(--sf-font)!important; cursor:pointer; }
+html.r3pay-on body .r3pay-bsum .r3pay-bsum__edit:hover { border-color:#9CA3AF!important; }
 /* 입력칸 공통 */
 html.r3pay-on body .r3pay-w--coupon label { display:block!important; width:100%!important; }
 html.r3pay-on body :is(.r3pay-w--coupon label>button,.r3pay-w--point form>div),

@@ -146,6 +146,19 @@
         var w = i.parentElement, lb = BUYER[i.name];
         if (w && w.getAttribute('data-label') !== lb) { w.setAttribute('data-label', lb); w.classList.add('r3pay-bfield'); }
       });
+      // (11/6 사장님) 로그인 회원은 아임웹 요약(이름·연락처·이메일 + '수정')을 그대로 쓰고 모양만 — 줄마다 이름표
+      //   연락처·이메일이 비어 있으면(예전 간편 로그인 가입자 등) 아임웹 '수정'을 한 번 눌러 입력칸을 열어요 → 위 필수 확인이 채우게 해요
+      var sum = $$('button', secBuy).filter(function (b) { return clean(b.textContent) === '수정'; })[0], sb = sum && sum.parentElement;
+      if (sb && !$('input', sb)) {
+        sb.classList.add('r3pay-bsum'); sum.classList.add('r3pay-bsum__edit');
+        var has = { n: 0, c: 0, e: 0 };
+        $$('p', sb).forEach(function (p) {
+          var v = clean(p.textContent), k = /@/.test(v) ? 'e' : /^[\d\s()+-]{8,}$/.test(v) ? 'c' : 'n';
+          if (v) has[k] = 1;
+          var lb = { n: '이름', c: '연락처', e: '이메일' }[k]; p.getAttribute('data-label') !== lb && p.setAttribute('data-label', lb);
+        });
+        if ((!has.c || !has.e || !has.n) && !secBuy.__sfOpened) { secBuy.__sfOpened = 1; sum.click(); }
+      }
     }
 
     // (10/29) 강의·라이브·모임은 받을 물건이 없어요 → 아임웹 '방문수령 위치'·'배송지' 칸 숨김

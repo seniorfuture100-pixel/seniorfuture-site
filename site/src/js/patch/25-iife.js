@@ -12,6 +12,12 @@
   if (p !== '/shop_payment_complete') {
     document.addEventListener('click', function (e) {
       if (!e.target.closest || !e.target.closest('a._btn_buy, ._btn_buy')) return;
+      // (11/6 사장님) 라이브는 회원만 신청 — 아임웹엔 상품별 '회원 전용 구매'가 없어서(전체 비회원 구매를 끄면 교육 결제까지 막혀요) 비회원이 누르면 로그인 화면으로, 로그인 뒤 이 상품으로 돌아와요
+      if (kindNow() === 'live' && !/(^|;\s*)_imweb_login_state=Y/.test(document.cookie)) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        location.href = '/login?back_url=' + encodeURIComponent(btoa(unescape(encodeURIComponent(location.pathname + location.search))));
+        return;
+      }
       // (11/6) 상품 번호도 적어 둬요 → 완료 화면이 그 상품 글의 [톡방] 주소로 '소통방 입장' 버튼을 만들어요
       try { sessionStorage.setItem(KEY, kindNow() + '|' + Date.now() + '|' + (new URLSearchParams(location.search).get('idx') || '')); } catch (x) {}
     }, true);
