@@ -12,13 +12,14 @@
   if (p !== '/shop_payment_complete') {
     document.addEventListener('click', function (e) {
       if (!e.target.closest || !e.target.closest('a._btn_buy, ._btn_buy')) return;
-      try { sessionStorage.setItem(KEY, kindNow() + '|' + Date.now()); } catch (x) {}
+      // (11/6) 상품 번호도 적어 둬요 → 완료 화면이 그 상품 글의 [톡방] 주소로 '소통방 입장' 버튼을 만들어요
+      try { sessionStorage.setItem(KEY, kindNow() + '|' + Date.now() + '|' + (new URLSearchParams(location.search).get('idx') || '')); } catch (x) {}
     }, true);
     return;
   }
   var v = ''; try { v = sessionStorage.getItem(KEY) || ''; } catch (x) {}
-  var m = /^(live|meet|course)\|(\d+)$/.exec(v) || /^()(\d+)$/.exec(v); // 예전 표시(시각만)는 라이브
-  var kind = m && Date.now() - +m[2] < 7200000 ? (m[1] || 'live') : 'order';
+  var m = /^(live|meet|course)\|(\d+)(?:\|(\d*))?$/.exec(v) || /^()(\d+)$/.exec(v); // 예전 표시(시각만)는 라이브
+  var kind = m && Date.now() - +m[2] < 7200000 ? (m[1] || 'live') : 'order', pidx = kind !== 'order' && m[3] || '';
   var room = '/shop_mypage/?sf=room';
   // (10/29) 버튼은 모든 종류 같게 두 개: 홈으로 | 마이페이지(주황 → 나의 강의실 탭: 강의·라이브·모임이 모두 카드로 나와요)
   //   톡방은 상품에 [톡방]이 있을 때만 생겨서 문구에 약속하지 않아요
@@ -52,6 +53,24 @@
       '<div class="sf-done-btns"><a class="sf-done-home" href="/">홈으로</a><a class="sf-done-main" href="' + (guest ? '/login' : room) + '">' + (guest ? '주문 조회' : C.b || '마이페이지') + '</a></div>';
     host.parentNode.insertBefore(c, host);
     document.documentElement.classList.add('sf-done-on');
+    chat();
+  };
+  // (11/6 사장님) 상품 글에 [톡방]이 있으면: 안내 문구를 톡방 입장 안내로 바꾸고, 홈으로·마이페이지 위에 노란 '소통방 입장' 한 줄
+  var KK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.8 5.2 4.6 6.6l-.9 3.5c-.1.4.3.7.7.5l4.1-2.7c.5.1 1 .1 1.5.1 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/></svg>';
+  var chat = function () {
+    if (!pidx || !SFUI.roomInfo) return;
+    SFUI.roomInfo(pidx, function (o) {
+      if (!o || !/^https?:\/\//.test(o.chat || '') || !c || c.querySelector('.sf-done-chat')) return;
+      var btns = c.querySelector('.sf-done-btns'), a = document.createElement('a');
+      a.className = 'sf-done-chat'; a.href = o.chat; a.target = '_blank'; a.rel = 'noopener';
+      a.innerHTML = KK + '소통방 입장';
+      btns.parentNode.insertBefore(a, btns);
+      o.chatPw && a.insertAdjacentHTML('beforebegin', '<p class="sf-done-pw">입장 비밀번호 <b>' + esc(o.chatPw) + '</b></p>');
+      if (!guest) {
+        c.querySelector('#sf-done-h').textContent = '신청이 완료되었습니다!';
+        c.querySelector('#sf-done-h + p').innerHTML = '강의 안내는 톡방에서 제공드릴 예정이니<br>마감 전 꼭 바로 입장해주세요!';
+      }
+    });
   };
   var draw = function () {
     var host = document.getElementById('oms-shop-payment-complete');

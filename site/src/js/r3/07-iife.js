@@ -163,6 +163,8 @@
       // Hide native methods only when replacement tiles can actually be drawn.
       secMeth.classList.toggle('r3pay-hide', n > 0);
       secMeth.classList.toggle('r3pay-native-method', !n);
+      // (11/6 사장님) 0원 신청(무료 라이브·모임)은 고를 결제 수단이 없어요 → 아임웹 '결제금액이 0원 입니다 · 포인트 사용금액 변경' 칸 숨김
+      !n && /결제\s*금액이\s*0\s*원/.test(clean(secMeth.textContent)) && secMeth.classList.add('r3pay-hide');
       if (!n) { if (tiles) tiles.remove(); }
       else if (!tiles || tiles.__n !== n) {
         if (tiles) tiles.remove();

@@ -77,6 +77,41 @@ html body .sf-done-info dd {
   font-weight:600;
   text-align:right;
 }
+/* (11/6 사장님) 상품에 [톡방]이 있으면 홈으로·마이페이지 위에 카카오 노랑 '소통방 입장' 한 줄 */
+html body .sf-done-chat {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  height:60px;
+  margin-bottom:8px;
+  border-radius:999px;
+  background:#fee500;
+  color:#191919!important;
+  font-size:18px;
+  font-weight:700;
+  text-decoration:none;
+  transition:background .2s var(--sf-ease),transform .2s var(--sf-ease);
+}
+html body .sf-done-chat:hover {
+  background:#f5dc00;
+  transform:translateY(-1px);
+}
+html body .sf-done-chat svg {
+  width:22px;
+  height:22px;
+}
+html body .sf-done .sf-done-pw {
+  margin:0 0 16px;
+  font-size:15px;
+  color:var(--sf-text-2);
+}
+@media (max-width:767.98px) {
+  html body .sf-done-chat {
+    height:56px;
+    font-size:17px;
+  }
+}
 /* (10/29) 버튼 두 개 한 줄: 홈으로(테두리) | 마이페이지(주황) */
 html body .sf-done-btns {
   display:grid;
