@@ -1,7 +1,5 @@
-/* 화면 묶음: common | 원본: src/r3-nav.css · 미리 그려지지 않은 페이지로 넘어갈 때: 0.12초 안에 안 바뀌면 이전 본문을 지우고 맨 위 진행 막대만(r3-detail.js가 html.sf-leaving을 붙임) */
-html.sf-leaving body #doz_header_wrap~*:not(.sf-tabbar):not(script):not(style) {
-  visibility:hidden!important;
-}
+/* 다음 화면을 받는 동안 현재 본문과 진행 막대를 함께 표시해요. */
+
 html.sf-leaving body::before {
   content:"";
   position:fixed;

@@ -40,6 +40,9 @@ SFUI.register('siteHeader', function () {
   var joinA = loginW && [].slice.call(loginW.querySelectorAll('a')).filter(function (a) { return /회원가입|join/i.test(a.textContent + a.getAttribute('href')); })[0];
   var loginHref = (loginA && loginA.getAttribute('href')) || '/login';
   var joinHref = (joinA && joinA.getAttribute('href')) || '/site_join_pattern_choice';
+  // 아임웹 PC 로그인은 onclick으로 모달을 열어요. href만 복사하면 모바일에서 아무 동작도 하지 않아요.
+  if (!/^\/(?!\/)/.test(loginHref)) loginHref = '/login?back_url=' + encodeURIComponent(btoa(location.pathname + location.search + location.hash));
+  if (!/^\/(?!\/)/.test(joinHref)) joinHref = '/site_join_pattern_choice';
 
   // ① 띠배너 (헤더 위)
   var tb = cfg.topbanner === false ? null : (cfg.topbanner || { key: '2026-11-open', text: '11월 신규 교육 오픈 · 얼리버드 모집 중', href: '/course' });

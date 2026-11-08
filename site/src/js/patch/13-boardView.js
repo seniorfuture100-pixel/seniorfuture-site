@@ -91,15 +91,12 @@ SFUI.register('boardView', function () {
   function insertAfterBody(node) { if (bodyEl) bodyEl.parentNode.insertBefore(node, after); }
   {
     insertAfterBody(el('div', 'sf-bv-shareline', '<span>이 글이 도움이 됐다면 공유해 주세요</span><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button>'));
-    // 관련 강의: 분야 이름 → 강의
-    var MAP = { '전문가 인사이트': 5, '기업 사례 분석': 3, '트렌드': 4, '뉴스레터': 4 };
-    var items = SFUI.shopItems ? SFUI.shopItems() : {}, ci = MAP[cat], key;
-    var nk = function (s) { return String(s || '').replace(/[\s&\/·]/g, ''); }; // (10/31) 분야 이름 '&'→'/' 바뀌어도 같은 분야로
-    var catKey = (SFUI.cats || []).filter(function (c) { return nk(c[1]) === nk(cat); })[0];
-    if (!ci && catKey) for (key in items) if (items[key].type === 'course' && items[key].cat === catKey[0]) { ci = key; break; }
-    var cc = !isNotice && ci && SFUI.courseCards[ci];
-    if (cc) insertAfterBody(el('a', 'sf-bv-course', '<img src="' + SFUI.courseImg + cc[2] + '" alt=""><span><small>' + (isReview ? '이 후기의 강의' : '이 글과 관련된 강의') + '</small><strong>' + esc(cc[0]) + '</strong><em>' + esc(cc[1]) + '</em></span><b>강의 보러 가기</b>'));
-    var cl = v.querySelector('.sf-bv-course'); if (cl && ci) cl.href = '/course/?idx=' + ci;
+    // 예시 상품 번호로 후기와 강의를 연결하지 않아요. 실제 연결 정보가 없으면 공개 교육 목록으로 안내해요.
+    if (!isNotice && !isExpert) {
+      var cl = el('a', 'sf-bv-course', '<span><small>시니어퓨처 교육</small><strong>모집 중인 교육을 확인해 보세요</strong></span><b>교육 둘러보기</b>');
+      cl.href = '/course';
+      insertAfterBody(cl);
+    }
     // 아래 카드: 같은 게시판 목록에서 가져오기
     var idx = new URLSearchParams(location.search).get('idx');
     if (!isNotice) fetch(path + '/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (t) {

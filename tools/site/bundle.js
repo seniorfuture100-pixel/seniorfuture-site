@@ -31,7 +31,10 @@ const CSS = ['ui', 'patch', 'r2', 'r3', 'r3p', 'nav', 'qa'], JS = ['ui', 'patch'
     const tag = st ? ' data-sf-stage' : '';
     return [
       st ? '' : '<script id="sf-stage">' + stage + '</script>',
-      '<link rel="expect" href="#doz_footer_wrap" blocking="render" id="sf-expect">',
+      // 하단 파싱을 기다리며 첫 화면까지 막지 않고 공통 파일을 먼저 받아요.
+      '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>',
+      '<link rel="preload" as="style" href="' + CDN + 'sf.min.css"' + tag + '>',
+      '<link rel="preload" as="script" href="' + CDN + 'sf.min.js"' + tag + '>',
       '<script id="sf-config"' + tag + '>' + config + '</script>',
       // 외부 CSS(한 번 받으면 브라우저에 저장돼 다음부터 바로 씀) + 다른 코드가 덧붙여 쓰는 빈 자리
       '<link rel="stylesheet" id="sf-css" href="' + CDN + 'sf.min.css" onerror="this.onerror=null;this.href=\'' + ALT + 'sf.min.css\'"' + tag + '>',

@@ -433,11 +433,14 @@
         var nm = t.shadowRoot.querySelector(".iw-shop-product-count-num");
         nm && (nm.textContent = n);
         var o = t.shadowRoot.getElementById("sf-shop-empty");
-        o || ((o = document.createElement("p")).id = "sf-shop-empty", o.className = "sf-shop-empty", 
-        o.innerHTML = (function() { // (10/26) 상품 없는 곳: 업데이트 예정 + 다른 분야 안내
+        o || ((o = document.createElement("p")).id = "sf-shop-empty", o.className = "sf-shop-empty",
+        t.shadowRoot.querySelector(".iw-shop-grid").after(o));
+        o.innerHTML = (function() { // 필터를 바꿀 때마다 해당 상태에 맞는 안내를 갱신해요.
           var w = /^\/live/.test(location.pathname) ? "라이브" : /^\/community/.test(location.pathname) ? "모임·이벤트" : "강의";
+          if (w === "라이브" && r.indexOf("ended") > -1) return "<strong>등록된 지난 라이브 다시보기가 없어요.</strong><span>전체 탭에서 신청 가능한 라이브를 확인해 보세요.</span>";
+          if (w === "라이브" && r.indexOf("live") > -1) return "<strong>지금 진행 중인 라이브가 없어요.</strong><span>모집 중 탭에서 다음 라이브 일정을 확인해 보세요.</span>";
           return "<strong>새로운 " + w + "를 준비하고 있어요. 곧 업데이트될 예정이에요.</strong><span>다른 분야도 둘러보세요</span>";
-        })(), t.shadowRoot.querySelector(".iw-shop-grid").after(o)), 
+        })();
         o.hidden = n > 0;
       }
     }

@@ -119,8 +119,8 @@
   window.SFUI && (SFUI.__insBest = { read: readPost, paint: paint }); // 점검용
   var n1 = 0;
   (function wait() {
-    // (11/2 속도) 페이지를 다 받은 뒤에 시작해요(첫 화면 그리는 동안 글 받기가 망을 같이 쓰지 않게)
-    if (document.querySelector('[data-widget-type="board"] ._post_item_wrap') && document.querySelector('.sf-cards4--ins')) return void (document.readyState === 'complete' ? setTimeout(run, 300) : window.addEventListener('load', function () { setTimeout(run, 300); }, { once: true }));
+    // 목록과 BEST 영역이 준비되면 바로 시작해 불필요한 load 대기를 없애요.
+    if (document.querySelector('[data-widget-type="board"] ._post_item_wrap') && document.querySelector('.sf-cards4--ins')) return void run();
     ++n1 < 60 && setTimeout(wait, 200);
   })();
 })()

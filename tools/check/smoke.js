@@ -32,11 +32,16 @@ const html = p => `<!doctype html><html lang="ko"><head><meta charset="utf-8"><m
         const mobile = await page.evaluate(() => {
           const box = document.createElement('div'); box.setAttribute('data-sf-rooms', '');
           box.innerHTML = '<ul class="sf-rooms"><li class="sf-room-card" data-ty="live"><div class="sf-room-meta"><small>무료 라이브</small><span class="sf-badge">신청 완료</span></div><h2>시험 강의</h2><p class="sf-room-when">일시 <em>D-6</em><b>11월 12일 (목) 19:30</b></p></li><li class="sf-room-card is-pending" data-ty="course"><div class="sf-room-meta"><small>교육</small><span class="sf-badge">입금 대기</span></div><h2>입금 대기 시험</h2></li></ul>';
+          const unreadable = document.createElement('li');
+          unreadable.className = 'sf-room-card';
+          unreadable.innerHTML = '<h2>구매한 교육</h2><p class="sf-room-when">교육 정보를 불러오지 못했어요.</p><span class="r3-ord__go">강의실 준비 중</span>';
+          box.querySelector('ul').appendChild(unreadable);
           document.body.appendChild(box); SFUI.roomTidy(box, [], []);
           const badges = box.querySelectorAll('.sf-room-meta .sf-badge'), when = box.querySelector('.sf-room-when');
           const order = document.createElement('div'); order.className = 'sf-oc';
           order.innerHTML = '<div class="sf-oc__top">결제 완료</div><div class="sf-oc__body"><span class="sf-oc__th"></span><div class="sf-oc__tx"><strong>시니어 산업의 사업 기회를 이해하는 아주 긴 시험 상품명</strong><p class="sf-oc__sum"><b>150,000원</b><span>무통장입금</span></p></div></div><div class="sf-oc__bank">입금 안내</div><div class="sf-oc__act"><a class="sf-oc__btn">주문 상세</a></div>';
           document.body.appendChild(order);
+          if (unreadable.classList.contains('is-end') || !unreadable.querySelector('.r3-ord__go') || !box.querySelector('ul.sf-rooms').contains(unreadable)) throw Error('상세 로딩 실패가 종료로 분류됨');
           const result = { doneHidden: getComputedStyle(badges[0]).display === 'none', waitingVisible: getComputedStyle(badges[1]).display !== 'none', matchingSize: getComputedStyle(badges[1]).fontSize === getComputedStyle(badges[1].previousElementSibling).fontSize, dateBeforeDday: when.textContent.indexOf('19:30') < when.textContent.indexOf('D-6'), actionBelow: order.querySelector('.sf-oc__act').getBoundingClientRect().top >= order.querySelector('.sf-oc__bank').getBoundingClientRect().bottom, actionRow: getComputedStyle(order.querySelector('.sf-oc__act')).gridRowStart };
           order.remove(); box.remove(); return result;
         });

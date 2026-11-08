@@ -7,7 +7,9 @@
     var mo = new MutationObserver(function (ms) {
       for (var i = 0; i < ms.length; i++) for (var j = 0; j < ms[i].addedNodes.length; j++) {
         var n = ms[i].addedNodes[j];
-        if (n.nodeType !== 1 || !n.id || !/^sf-/.test(n.id) || n.id === 'sf-stage' || n.hasAttribute('data-sf-stage')) continue;
+        if (n.nodeType !== 1 || !/^sf-(config|css|patch-css|js|early|expect|ui|patch|r2|r3|r3b|r3p|nav|qa)$/.test(n.id || '') || n.hasAttribute('data-sf-stage')) continue;
+        // 화면 부품(sf-drawer, sf-board-empty 등)은 새 코드가 만든 것이므로 이름을 보존해요.
+        if (!/^(SCRIPT|STYLE|LINK)$/.test(n.tagName)) continue;
         if (n.tagName === 'SCRIPT') n.type = 'text/sf-off';          // 저장된 JS는 실행 안 함
         else if (n.tagName === 'STYLE' || n.tagName === 'LINK') n.media = 'not all';           // 저장된 CSS는 끔
         n.id = n.id + '-off';   // 이름도 바꿔서 새 코드가 옛 블록 내용을 읽어 쓰지 못하게(10/22 상품 카드 CSS 사고 대책)

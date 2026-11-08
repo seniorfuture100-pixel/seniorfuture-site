@@ -18,8 +18,8 @@
 }
 
 /* 인사이트 BEST: 디자인에 든 4칸은 견본 글(예시 숫자)이라 숨겨요 — 진짜 인기글(patch/26b 가 채운 칸)만, 하나도 없으면 칸째 숨김 */
-.sf-cards4--ins > li:not([data-sf-pop]) { display: none !important; }
-.sf-sec:has(> .sf-cards4--ins:not([data-sf-pop="1"])) { display: none !important; }
+.sf-cards4--ins > li:not([data-sf-pop]) { visibility: hidden !important; }
+.sf-sec:has(> .sf-cards4--ins[data-sf-pop="0"]) { display: none !important; }
 .sf-sec.sf-ins-empty { display: none !important; } /* 따로 둬요: :has() 를 모르는 브라우저는 쉼표로 묶인 규칙 전체를 버려요 */
 
 /* 섹션 설명 줄: 휴대폰 13px → 14px(본문 다음 단계, 시니어 가독성) */

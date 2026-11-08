@@ -232,15 +232,6 @@
         });
       });
     }
-    // 판매가 끝난 강의(상세를 못 읽음)는 지난 일정으로
-    [].forEach.call(ul.parentNode.querySelectorAll('.sf-room-card'), function (li) {
-      var w = li.querySelector('.sf-room-when');
-      if (w && /불러오지 못했어요/.test(w.textContent)) {
-        w.textContent = '판매가 끝난 교육이에요. 궁금한 점은 고객센터로 문의해 주세요.';
-        var g = li.querySelector('.r3-ord__go'); g && g.remove();
-        li.classList.add('is-end');
-      }
-    });
     // (10/31 사장님) 상태 칸 색을 상황마다(디자인 가이드 색): 수강 중·진행 중 초록 · 예정(신청 완료·참여 예정·개강 전) 주황 · 입금 대기 진회색 · 종료 회색
     // (11/2 사장님) 예정도 종류마다 다른 색: 신청 완료(라이브) 주황 · 참여 예정(모임) 보라 · 개강 전(교육) 파랑
     //   · D-day 는 날짜 뒤에 작게. 상태 글자는 강의 정보를 받은 뒤 바뀌므로 바뀔 때마다 다시 맞춰요

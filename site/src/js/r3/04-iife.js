@@ -166,7 +166,7 @@
     if (/^\/insight/.test(t) && !e.get("bmode")) {
       var r = n("[data-sf-board-filter]");
       if (r && SFUI.once(r, "R3All")) {
-        var s = null, i = [], mio = null, gen = 0;
+        var s = null, pending = null, i = [], mio = null, gen = 0;
         r.addEventListener("click", (function() {
           requestAnimationFrame(l); // (10/26) 다음 그림 전에 채움 — 줄었다 커지던 것 없앰
         }));
@@ -185,6 +185,7 @@
     }
     function c() {
       if (s) return Promise.resolve(s);
+      if (pending) return pending;
       for (var n = function() {
         var t = 1;
         return a('[data-widget-type="board"] .pagination a').forEach((function(e) {
@@ -201,9 +202,10 @@
       })).catch((function() {
         return [];
       })));
-      return Promise.all(r).then((function(t) {
+      pending = Promise.all(r).then((function(t) {
         return s = [].concat.apply([], t);
       }));
+      return pending;
     }
     function l() {
       i.forEach((function(t) {
@@ -221,6 +223,7 @@
         }));
       };
       s(), setTimeout(s, 300), setTimeout(s, 1e3), c().then((function(t) {
+        if (g !== gen) return;
         var s, c = (s = a('[data-widget-type="board"] ._post_row'))[s.length - 1] || n('[data-widget-type="board"] ._list_wrap .list-style');
         if (c && ((r.querySelector("[data-cat].is-active") || {}).getAttribute ? r.querySelector("[data-cat].is-active").getAttribute("data-cat") : "all") === e) {
           var l = {};
@@ -905,7 +908,7 @@
             }
             if (li && !(o && o.title)) {
               // (10/29) 상품 상세를 못 읽음(삭제·숨김 상품 — 아임웹은 200 으로 빈 화면을 줘요) → 빈 강의실로 보내지 않아요
-              n(".sf-room-when", li).textContent = "교육 정보를 불러오지 못했어요. 판매가 끝난 교육이라면 고객센터로 문의해 주세요.";
+              n(".sf-room-when", li).textContent = "교육 정보를 불러오지 못했어요. 새로고침 후에도 같으면 고객센터로 문의해 주세요.";
               n(".r3-ord__go", li).textContent = "강의실 준비 중";
               return;
             }

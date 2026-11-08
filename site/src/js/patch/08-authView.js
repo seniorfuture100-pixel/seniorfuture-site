@@ -102,7 +102,7 @@ SFUI.register('authView', function () {
     if (over) {
       var join = over.querySelector('a[onclick*="openJoin"], a[href*="site_join"], a.sf-auth__join'), find = over.querySelector('a[onclick*="FindPassword"], a[href*="find_password"]');
       over.className = 'sf-auth__links';
-      if (find) { find.className = ''; find.textContent = '비밀번호 찾기'; over.insertBefore(find, over.firstChild); }
+      if (find) { find.className = ''; find.textContent = '아이디·비밀번호 찾기'; over.insertBefore(find, over.firstChild); }
       if (!join) {
         // 아임웹 로그인 폼에 가입 링크가 없어도 기본 가입 선택 화면으로 연결해요.
         join = document.createElement('a');
