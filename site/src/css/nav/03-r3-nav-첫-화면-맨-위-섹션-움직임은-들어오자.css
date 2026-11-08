@@ -30,11 +30,14 @@
 :root body .r2-hero .sf-pt-stats,
 :root body .r2-hero .r2-float {
   transition:none!important;
-  animation:sfNowIn .7s cubic-bezier(.2,.7,.2,1) .12s both!important;
+  animation:none!important;
+  opacity:1!important;
+  transform:none!important;
 }
 :root body .r2-hero .r2-lines .r2-ln>span {
   transition:none!important;
-  animation:sfNowUp .75s cubic-bezier(.2,.7,.2,1) var(--d,0s) both!important;
+  animation:none!important;
+  transform:none!important;
 }
 :root body .sf-scope main>section:first-of-type [data-sf-lines] .sf-line:nth-child(2),
 :root body .r2-hero .sf-kw,

@@ -22,6 +22,18 @@
 .sf-sec:has(> .sf-cards4--ins[data-sf-pop="0"]) { display: none !important; }
 .sf-sec.sf-ins-empty { display: none !important; } /* 따로 둬요: :has() 를 모르는 브라우저는 쉼표로 묶인 규칙 전체를 버려요 */
 
+/* 첫 방문과 스크롤에서 제목·설명을 기다리지 않고 바로 읽을 수 있게 해요. */
+:root body .sf-ab [data-sf-reveal],
+:root body .sf-biz [data-sf-reveal],
+:root body .r2-hero .r2-lines .r2-ln>span,
+:root body .r2-hero .sf-lead,
+:root body .r2-hero .sf-row {
+  opacity:1!important;
+  transform:none!important;
+  animation:none!important;
+  transition:none!important;
+}
+
 /* 섹션 설명 줄: 휴대폰 13px → 14px(본문 다음 단계, 시니어 가독성) */
 :root body .sf-sec-head .sf-sec-head__t p { font-size: var(--sf-fs-sub); } /* :root .sf-sec-head p(13px)·r3/44 보다 무겁게 */
 

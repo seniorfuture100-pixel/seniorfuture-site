@@ -23,6 +23,8 @@ html.r3pay-on body .r3pay-left {
 }
 html.r3pay-on body .r3pay-left>* { order:50; }
 html.r3pay-on body .r3pay-left>.r3pay-w--prod { order:0; }
+/* 주문자 필수 정보를 결제수단보다 먼저 확인해요. 아임웹 입력 요소는 그대로 유지해요. */
+html.r3pay-on body .r3pay-left>div:has(>.r3pay-box--buyer) { order:5; }
 html.r3pay-on body .r3pay-left>.r3pay-methods { order:10; }
 html.r3pay-on body .r3pay-left>.r3pay-w--coupon { order:20; }
 html.r3pay-on body .r3pay-left>.r3pay-w--point { order:30; }
