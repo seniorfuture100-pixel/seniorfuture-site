@@ -39,14 +39,13 @@
 
   var memberContact = { state: window.MEMBER_HASH ? 'idle' : 'guest', values: null, applied: false, editOpened: false };
   function contactNote(sec) {
-    if (!CP || memberContact.state === 'guest') return;
+    if (!CP || memberContact.state === 'guest' || memberContact.applied) return;
     var note = $('.r3pay-contact', sec);
     if (!note) { note = document.createElement('div'); note.className = 'r3pay-contact'; sec.appendChild(note); }
     var state = memberContact.state;
     if (note.getAttribute('data-state') !== state) {
       note.setAttribute('data-state', state); note.setAttribute('role', state === 'error' ? 'alert' : 'status');
-      if (state === 'ready') note.innerHTML = '<p>회원정보에서 불러왔어요. 이번 신청 정보는 아래에서 수정할 수 있어요.</p><a href="' + txt(CP.profileUrl(true)) + '">회원정보도 수정</a>';
-      else if (state === 'missing') note.innerHTML = '<p>처음 한 번만 기본 정보를 저장해 주세요. 마이페이지와 다음 신청에도 적용돼요.</p><a class="r3pay-contact__next" href="' + txt(CP.profileUrl(false)) + '">빠진 정보 입력하고 계속</a>';
+      if (state === 'missing') note.innerHTML = '<p>처음 한 번만 기본 정보를 저장해 주세요. 마이페이지와 다음 신청에도 적용돼요.</p><a class="r3pay-contact__next" href="' + txt(CP.profileUrl(false)) + '">빠진 정보 입력하고 계속</a>';
       else if (state === 'error') {
         note.innerHTML = '<p>기본 정보를 확인하지 못했어요. 저장 여부를 확인한 뒤 신청해 주세요.</p><button type="button">다시 확인</button><a href="' + txt(CP.profileUrl(false)) + '">회원정보 확인하기</a>';
         $('button', note).addEventListener('click', function () { memberContact.state = 'idle'; run(); });
@@ -56,14 +55,13 @@
       memberContact.state = 'loading';
       CP.read(function (err, v) { memberContact.values = v || null; memberContact.state = err ? 'error' : CP.missing(v).length ? 'missing' : 'ready'; run(); });
     }
-    if (state !== 'ready' || memberContact.applied) return;
+    if (state !== 'ready') return;
     var inputs = buyerFields(sec);
     if (inputs.length < 3) {
       var editButton = $$('button', sec).filter(function (b) { return clean(b.textContent) === '수정'; })[0];
       if (editButton && !memberContact.editOpened) { memberContact.editOpened = true; editButton.click(); }
       return;
     }
-    memberContact.applied = true;
     var v = memberContact.values, map = { ordererName: v.name, ordererCall: v.phone, ordererEmail: v.email };
     inputs.forEach(function (i) {
       if (!Object.prototype.hasOwnProperty.call(map, i.name) || i.value === map[i.name]) return;
@@ -71,6 +69,8 @@
       setter.call(i, map[i.name]);
       ['input', 'change'].forEach(function (type) { var e = document.createEvent('Event'); e.initEvent(type, true, false); i.dispatchEvent(e); });
     });
+    memberContact.applied = true;
+    note.remove();
   }
 
   function tagHTML(idx) {
