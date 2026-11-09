@@ -614,7 +614,8 @@
             }
           }));
           var h = D("소속"), v = D("직무") || D("직군"), g = D("경력");
-          if (g && g.classList.add("r2-hide"), h && v && v.parentNode.insertBefore(h, v), 
+          // (11/9 사장님) 경력·관심 분야도 다시 보여요(아임웹 가입 설정에서 직무·관심 분야·소속·경력·한 줄 소개 사용, 선택 입력)
+          if (h && v && v.parentNode.insertBefore(h, v),
           W(h || v, "직무 정보", "맞춤 강의 추천에 쓰여요 (선택)"), v) {
             var b = v.querySelector(".mini-tit, label");
             b && (b.textContent = "직급"); // (10/31 사장님) 소속 / 직급
@@ -630,7 +631,6 @@
             t && t.classList.add("r2-hide");
           }));
           var _ = D("관심분야");
-          _ && _.classList.add("r2-hide");
           var E = O("#join_home_page");
           if (E) {
             var L = E.querySelector(".mini-tit, label");
@@ -670,6 +670,13 @@
             var I = A.querySelector("input, textarea");
             I && (I.placeholder = "예: 요양기관 운영 10년차 · 시니어 주거에 관심");
           }
+          // (11/9) 직무 정보 순서: 소속 · 직급 · 관심 분야 · 경력 · 한 줄 소개
+          var R0 = A && A.parentNode === (v || h || {}).parentNode ? A : (v || h) && (v || h).nextSibling;
+          [ _, g ].forEach((function(e) {
+            e && R0 && R0.parentNode && R0.parentNode.insertBefore(e, R0);
+          }));
+          if (_) { var _i = _.querySelector("input:not([type=hidden]), textarea"); _i && !_i.placeholder && (_i.placeholder = "예: 요양·돌봄, 시니어 주거 (선택)"); }
+          if (g) { var gi = g.querySelector("input:not([type=hidden]), textarea"); gi && !gi.placeholder && (gi.placeholder = "예: 요양기관 운영 10년 (선택)"); }
           var N = c.querySelector("._recommend_code_wrap");
           if (N) {
             var H = N.closest(".form-group");
