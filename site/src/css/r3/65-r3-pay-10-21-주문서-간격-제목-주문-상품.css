@@ -84,6 +84,10 @@ html.r3pay-on body .r3pay-bsum>p { display:grid!important; grid-template-columns
 html.r3pay-on body .r3pay-bsum>p::before { content:attr(data-label); color:#6B7280; font-weight:400; }
 html.r3pay-on body .r3pay-bsum .r3pay-bsum__edit { position:absolute!important; top:16px; right:16px; height:32px!important; padding:0 12px!important; border:1px solid #DADDE2!important; border-radius:8px!important; background:#fff!important; color:#374151!important; font:600 14px/1 var(--sf-font)!important; cursor:pointer; }
 html.r3pay-on body .r3pay-bsum .r3pay-bsum__edit:hover { border-color:#9CA3AF!important; }
+/* (11/10 사장님) '수정' → 칸 아래 '저장' · 저장하면 칸은 숨기고 요약 카드로 */
+html.r3pay-on body .r3pay-box--buyer .r3pay-bsave { display:block; width:100%; height:48px; margin-top:16px; border:0; border-radius:8px; background:#1F2937; color:#fff; font:600 16px/1 var(--sf-font); cursor:pointer; }
+html.r3pay-on body .r3pay-box--buyer .r3pay-bsave:focus-visible { outline:2px solid #EA580C; outline-offset:3px; }
+html.r3pay-on body .r3pay-box--buyer.r3pay-bsaved form { display:none!important; }
 /* 입력칸 공통 */
 html.r3pay-on body .r3pay-w--coupon label { display:block!important; width:100%!important; }
 html.r3pay-on body :is(.r3pay-w--coupon label>button,.r3pay-w--point form>div),
@@ -421,12 +425,6 @@ html.r3pay-on body .r3pay-right .r3pay-box header ~ div > div > div + div > span
   html.r3pay-on body .r3pay-card { grid-template-columns:clamp(180px,55%,360px) minmax(0,1fr); }
 }
 
-/* 첫 신청 기본 정보: 회원 저장값 확인 → 누락만 보완 → 원래 주문서 복귀 */
-.r3pay-contact { margin-top:16px; padding:16px; border-radius:12px; background:#F5F6F8; color:#374151; }
-.r3pay-contact p { margin:0 0 10px!important; font-size:14px; line-height:1.6; overflow-wrap:anywhere; }
-.r3pay-contact a, .r3pay-contact button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 12px; font:600 14px/1.5 var(--sf-font); color:#1F2937; background:#FFF; border:1px solid #DADDE2; border-radius:8px; white-space:normal; text-align:center; text-decoration:none; cursor:pointer; }
-.r3pay-contact .r3pay-contact__next { background:#1F2937; color:#FFF; border-color:#1F2937; }
-.r3pay-contact a:focus-visible, .r3pay-contact button:focus-visible { outline:2px solid #EA580C; outline-offset:3px; }
 .sf-contact-complete .sf-contact-extra { display:none!important; }
 .sf-contact-complete .r2-my-nav, .sf-contact-complete .r2-my-side { display:none!important; }
 .sf-contact-complete .sf-contact-intro { margin:0 0 24px; }
