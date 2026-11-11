@@ -2,7 +2,7 @@
 :root .sf-homecats {
   max-width:1200px;
   margin:0 auto;
-  padding:44px 0 0;
+  padding:20px 0 0;
   font-family:var(--sf-font);
 }
 :root .sf-homecats ul {
@@ -77,11 +77,11 @@
   padding-bottom:0;
 }
 :root .sf-homecats + .sf-sec + .sf-sec--grid {
-  padding-top:24px;
+  padding-top:20px;
 }
 @media (max-width:767.98px) {
   :root .sf-homecats + .sf-sec + .sf-sec--grid {
-    padding-top:20px;
+    padding-top:16px;
   }
 }
 @media (max-width:1240px) and (min-width:768px) {
@@ -105,7 +105,7 @@
 /* 휴대폰: 칸 52px · 그림 32px · 글자 13px, 간격은 월부 기준(배너→아이콘 26 · 아이콘→이름 8 · 줄 사이 20 · 아래 제목까지 40 · 첫 칸 왼쪽 16) */
 @media (max-width:767.98px) {
   :root .sf-homecats {
-    padding:27px 6px 0;
+    padding:14px 6px 0;
   }
   :root .sf-homecats ul {
     grid-template-columns:repeat(5,minmax(0,1fr));

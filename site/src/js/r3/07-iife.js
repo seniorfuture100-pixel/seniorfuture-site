@@ -126,7 +126,8 @@
 
   // 결제 수단 타일
   function methodLabel(r, i) {
-    return clean((r.closest('label') || r.parentElement).textContent) || ('결제 수단 ' + (i + 1));
+    var label = clean((r.closest('label') || r.parentElement).textContent);
+    return /^신용\s*카드$/.test(label) ? '신용 체크 카드' : label || ('결제 수단 ' + (i + 1));
   }
   function methodIcon(label) {
     // Toss symbol from the supplied checkout reference.
