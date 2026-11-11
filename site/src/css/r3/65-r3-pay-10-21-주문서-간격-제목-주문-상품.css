@@ -42,6 +42,8 @@ html.r3pay-on body .r3pay-box--shipping select,
 html.r3pay-on body .r3pay-box--shipping textarea {
   min-width:0;
   min-height:48px;
+  max-width:100%;
+  box-sizing:border-box;
   padding:10px 12px;
   border:1px solid #dadde2;
   border-radius:8px;
@@ -53,14 +55,23 @@ html.r3pay-on body .r3pay-box--shipping :is(input,textarea,select,button):focus-
 }
 html.r3pay-on body .r3pay-box--shipping div:has(>input[name=zipcode]) {
   display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
+  width:100%!important;
+  min-width:0;
+  grid-template-columns:minmax(0,1fr) max-content;
+  align-items:stretch;
   gap:8px;
 }
-html.r3pay-on body .r3pay-box--shipping input[name=zipcode] {
-  width:100%;
+html.r3pay-on body .r3pay-box--shipping input[name=zipcode],
+html.r3pay-on body .r3pay-box--shipping :is(input[name=addr1],input[name=addr2]) {
+  width:100%!important;
+  margin:0!important;
 }
 html.r3pay-on body .r3pay-box--shipping input[name=zipcode]+button {
+  width:auto!important;
+  min-width:88px;
   min-height:48px;
+  margin:0!important;
+  box-sizing:border-box;
   padding:0 14px;
   border:1px solid #dadde2;
   border-radius:8px;

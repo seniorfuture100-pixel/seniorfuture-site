@@ -129,9 +129,16 @@
     return clean((r.closest('label') || r.parentElement).textContent) || ('결제 수단 ' + (i + 1));
   }
   function methodIcon(label) {
-    if (/카드/.test(label)) return '💳';
-    if (/계좌이체/.test(label)) return '🏦';
-    if (/입금|가상계좌/.test(label)) return '📥';
+    // Toss symbol from the supplied checkout reference.
+    if (/토스\s*페이|계좌\s*이체/.test(label)) {
+      return '<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAdCAYAAABSZrcyAAABnklEQVR42sXXMUgWYRzH8c97GCFSSRBEg+hgGIRjJdQgEYHiIKG5RIM2Bi4turjU0FIQLZVILglKLUoQQYNOilAkhEMtTfEWGBG1hC138HK8V3fH3b2/7f6//z1f/s/z3HP/p2ZqXwE6jZ2sL7XlhB3BNVzGIDpQKxt+HjcxHou/y1NBWwboHC4m+FtlwI/iISb+k1c4fATzOJZinM0i4bdwN+UYv/EWAzjYEP+Mj1nh9zCdoYB9fMfhJt4eVvAUG3EziD3fzgiG9gQwdGIK69jFpST4DcwoTyfxCsNxeC8eqUar6G+Ez6tWMxG8Hxcqhg9F8DHV6xC6A5zRGv0MUp5ghYNRD1BvAXwtWvPXLYAvRfAF/KgQvIEXEfwrJisC/8L1+Am3jCvhD6JMTeJTs7P9OU7hSbgbi9Z9PGsM1BK613aMhu1TLw40eF9wIvTS6g5m48FaztZ5CVdT5O2FXe5qMzPIOYUDKXJeoi8JnBd+HF3/8L+FO3ooXCJFws8lxP/gAXqwWNaN5WyTShfxGB/Kvi7VQ9h7bONN3m/vL+yQSIz35i5cAAAAAElFTkSuQmCC">';
+    }
+    if (/카드/.test(label)) {
+      return '<svg viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="3" fill="#e4ecfa" stroke="#6184bb" stroke-width="1.5"/><path d="M2 10h20M6 15h4" stroke="#6184bb" stroke-width="1.5" stroke-linecap="round"/></svg>';
+    }
+    if (/입금|가상계좌/.test(label)) {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="#6184bb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-7h14l2 7v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5h5l2 3h4l2-3h5" fill="#e4ecfa"/><path d="M12 5v7m-3-3 3 3 3-3"/></svg>';
+    }
     return '';
   }
   function methodTiles(radios) {
@@ -144,7 +151,7 @@
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'r3pay-tile'; b.setAttribute('role', 'radio');
       var label = methodLabel(r, i), icon = methodIcon(label);
-      b.innerHTML = (icon ? '<span class="r3pay-tile__icon" aria-hidden="true">' + icon + '</span>' : '') +
+      b.innerHTML = '<span class="r3pay-tile__icon" aria-hidden="true">' + icon + '</span>' +
         '<span class="r3pay-tile__label">' + txt(label) + '</span><span class="r3pay-tile__check" aria-hidden="true"></span>';
       b.addEventListener('click', function () {
         var input = radios[i];
@@ -298,12 +305,11 @@
     summary.classList.add('r3pay-summary');
     setText(hSum, '결제 금액');
     $$('span', summary).forEach(function (s) { var v = clean(s.textContent); if (v === '총 주문금액') setText(s, '총 결제 금액'); if (v === '상품가격') setText(s, '상품 금액'); });
-    var AGREE = (SHIP ? '상품' : '강의') + ' 및 결제 정보를 확인했으며,<br><a href="/terms#terms" target="_blank" rel="noopener">운영정책</a> 및 <a href="/terms#refund" target="_blank" rel="noopener">환불규정</a>에 동의합니다.';
+    var AGREE = '상품 및 결제 정보를 확인했으며,<br><a href="/terms#terms" target="_blank" rel="noopener">운영정책</a> 및 <a href="/terms#refund" target="_blank" rel="noopener">환불규정</a>에 동의합니다.';
     var hTerm = hd(root, '이용 및 정보 제공 약관'), tb = box(hTerm);
     if (tb) {
       tb.classList.add('r3pay-box--terms');
-      var hasPrivacyNotice = /개인정보\s*수집/.test(clean(tb.textContent));
-      tb.classList.toggle('r3pay-terms-quiet', !$('input[type=checkbox]', tb) && !hasPrivacyNotice);
+        tb.classList.toggle('r3pay-terms-quiet', !$('input:not([type=hidden]), [role=checkbox], button, select, textarea', tb));
     }
     var sub = $$('button[type=submit]', root).filter(isPayAction)[0];
     if (sub) sub.classList.add('r3pay-submit');

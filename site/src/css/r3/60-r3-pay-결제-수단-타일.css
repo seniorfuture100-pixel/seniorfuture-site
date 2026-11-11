@@ -3,8 +3,9 @@
 html.r3pay-on body .r3pay-tile {
   display:flex;
   align-items:center;
-  justify-content:center;
-  gap:8px;
+  justify-content:flex-start;
+  gap:10px;
+  text-align:left;
   min-height:52px;
   padding:0 12px;
   border:0;
@@ -22,7 +23,17 @@ html.r3pay-on body .r3pay-tile__label {
   overflow-wrap:anywhere;
 }
 html.r3pay-on body .r3pay-tile__icon {
-  flex:none;
+  display:grid;
+  place-items:center;
+  flex:0 0 24px;
+  width:24px;
+  height:24px;
+}
+html.r3pay-on body .r3pay-tile__icon :is(img,svg) {
+  display:block;
+  width:24px;
+  height:24px;
+  object-fit:contain;
 }
 html.r3pay-on body .r3pay-tile__check {
   display:none;
