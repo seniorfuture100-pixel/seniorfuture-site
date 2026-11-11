@@ -179,7 +179,7 @@
   var yq = 0;
   window.addEventListener('scroll', function () { yq || (yq = requestAnimationFrame(function () { yq = 0; saveY(); })); }, { passive: true });
 
-  function swap(u, nd, oldDoc, push, y) {
+  function swap(u, nd, oldDoc, push, y, scriptsReady) {
     var nl = mid(nd), cl = mid(document);
     if (!safeDoc(nl) || !cl) throw 'unsafe';
     var oldServer = bodyClasses(oldDoc), ref = shown;
@@ -193,7 +193,8 @@
     var a = document.querySelector('meta[name="description"]'), b = nd.querySelector('meta[name="description"]'); if (a && b) a.setAttribute('content', b.getAttribute('content'));
     headerActive(nd);
     if (push) { eid = newId(); history.pushState({ sfSoft: 1, id: eid }, '', u.href); }
-    return loadScripts(nd).then(function () { runPageScripts(nd, oldDoc, ref, false); after(u, y); });
+    function finish() { runPageScripts(nd, oldDoc, ref, false); after(u, y); }
+    return scriptsReady ? finish() : loadScripts(nd).then(finish);
   }
   function restore(u, k, oldDoc, push, y) {
     var oldServer = bodyClasses(oldDoc), ref = shown;
@@ -230,7 +231,11 @@
     }
     Promise.all([get(u), oldP]).then(function (r) {
       if (!safeDoc(mid(r[0])) || !mid(document)) return fail(!mid(document) ? 'no-mid-current' : 'unsafe-target');
-      return swap(u, r[0], r[1], push, y).then(done);
+      // 인사이트는 게시판 스크립트가 준비된 뒤 본문 교체와 꾸밈을 한 번에 끝내요.
+      if (/^\/insight\/?$/.test(u.pathname)) {
+        return loadScripts(r[0]).then(function () { swap(u, r[0], r[1], push, y, true); }).then(done);
+      }
+      return swap(u, r[0], r[1], push, y, false).then(done);
     }).catch(fail);
   }
 

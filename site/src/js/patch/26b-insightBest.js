@@ -2,9 +2,9 @@
 //   인사이트 BEST의 지정 순위를 채우고, 빈 순위는 게시판 조회수로 채워요.
 //   번호를 제목이 아니라 본문 끝에 두는 까닭: 제목은 카톡·검색 미리보기 제목이 되고, 미리보기 설명은 본문 앞부분이라 끝 줄은 안 나와요
 //   글 보기 화면에서는 '#인기N' 글자를 숨겨요
-(function () {
+SFUI.register('insightBest', function () {
   var RE = /#\s*인기\s*(\d{1,2})/, p = location.pathname, q = new URLSearchParams(location.search), KEY = 'sf_inspop1';
-  if (!/^\/insight/.test(p)) return;
+  if (!/^\/insight\/?$/.test(p)) return;
   var pv = /preview_mode=1/.test(location.search) ? '&preview_mode=1' : '';
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; };
 
@@ -26,7 +26,7 @@
     (function go() { if (!hideTag() && ++n0 < 40) setTimeout(go, 150); })();
     return;
   }
-  if (q.get('bmode') || !/^\/insight\/?$/.test(p)) return;
+  if (q.get('bmode')) return;
   // (11/2) 목록 카드 요약 글 다듬기: 아임웹이 본문 앞 100자를 자르면서 원문 태그('<title>…</title>')·잘린 문자 코드('&#', '&quo')·
   //   블로그에서 옮긴 사진 설명 자리('사진 설명을 입력하세요.')가 그대로 보였어요 → 화면 글자만 고쳐요(글 자체는 그대로)
   var ta = document.createElement('textarea'), ENT = ['quot', 'amp', 'lt', 'gt', 'nbsp', 'apos', 'hellip', 'middot', 'lsquo', 'rsquo', 'ldquo', 'rdquo', 'ndash', 'mdash'];
@@ -38,16 +38,13 @@
     ta.innerHTML = t.replace(/</g, '&lt;'); // 문자 코드만 풀어요(태그는 위에서 지움)
     return ta.value.replace(/사진 설명을 입력하세요\.?/g, ' ').replace(/\s+/g, ' ').trim();
   }
-  function tidyAll() {
-    [].forEach.call(document.querySelectorAll('.show_body > span:not([data-sf-tidy])'), function (s) {
+  function tidyAll(board) {
+    [].forEach.call(board.querySelectorAll('.show_body > span:not([data-sf-tidy])'), function (s) {
       var t = s.textContent, c = tidy(t);
       c !== t.trim() && (s.textContent = c);
       s.setAttribute('data-sf-tidy', '');
     });
   }
-  tidyAll(); document.addEventListener('DOMContentLoaded', tidyAll); window.addEventListener('load', tidyAll);
-  var bw = 0; (function watch() { var b = document.querySelector('[data-widget-type="board"]'); if (b) return void new MutationObserver(tidyAll).observe(b, { childList: true, subtree: true }); ++bw < 50 && setTimeout(watch, 200); })();
-
   // 글 하나 읽기: 본문 끝 '#인기N' + 미리보기 제목·설명·사진
   function readPost(idx) {
     return fetch('/insight/?bmode=view&idx=' + idx + pv, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
@@ -66,18 +63,16 @@
       (x.img ? '<img src="' + esc(x.img) + '" alt="" class="sf-fade is-loaded">' : '') + '</span><span class="sf-ccard__body">' +
       (x.cat ? '<span class="sf-icat">' + esc(x.cat) + '</span>' : '') + '<strong>' + esc(x.title) + '</strong>' + (ds ? '<p>' + esc(ds) + '</p>' : '') + '</span></a></li>';
   }
-  function paint(list) {
-    var ul = document.querySelector('.sf-cards4--ins');
-    if (!ul) return;
+  function paint(ul, list) {
     var html = list.map(card).join('');
     if (ul.innerHTML !== html) ul.innerHTML = html;
     ul.setAttribute('data-sf-pop', list.length ? '1' : '0');
     var sec = ul.closest('section'); sec && sec.classList.toggle('sf-ins-empty', !list.length); // :has() 못 쓰는 브라우저용
   }
   // 공지의 본문을 확인하는 동안 게시판의 조회수 상위 글을 먼저 보여 줘요.
-  function byViews() {
+  function byViews(board) {
     var seen = {}, out = [];
-    [].forEach.call(document.querySelectorAll('[data-widget-type="board"] ._post_item_wrap'), function (it) {
+    [].forEach.call(board.querySelectorAll('._post_item_wrap'), function (it) {
       var a = it.querySelector('a[href*="idx="]'), m = a && /[?&;]idx=(\d+)/.exec(a.getAttribute('href'));
       if (!m || seen[m[1]] || it.querySelector('.card.secret')) return;
       seen[m[1]] = 1;
@@ -106,12 +101,16 @@
     }
     return slots.filter(Boolean);
   }
-  function run() {
+  function run(ul, board) {
+    if (!SFUI.once(ul, 'InsightBest')) return;
     var C = null;
     try { C = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (x) {}
     var cached = C && Date.now() - C.at < 3e5 && C.list.length;
     var pinned = cached ? C.list : [];
-    function refresh() { paint(fillRanked(pinned, byViews())); }
+    function refresh() {
+      tidyAll(board);
+      paint(ul, fillRanked(pinned, byViews(board)));
+    }
     refresh();
     // 모바일 목록은 처음 세 편 뒤에 다음 페이지 글을 이어 붙여요.
     new MutationObserver(function (records) {
@@ -120,11 +119,11 @@
           return n.nodeType === 1 && (n.matches('._post_item_wrap') || n.querySelector('._post_item_wrap'));
         });
       })) refresh();
-    }).observe(document.querySelector('[data-widget-type="board"]'), { childList: true, subtree: true });
+    }).observe(board, { childList: true, subtree: true });
     if (cached) return;
     // 공지로 체크한 글만 후보(아임웹은 공지 글에만 '공지' 딱지를 보여 줘요)
     //   다른 페이지에서 가져와 붙인 글(r3-ins-more, r3InsightAll)은 숨김 표시가 지워져 있어 빼요
-    var items = [].slice.call(document.querySelectorAll('[data-widget-type="board"] ._post_item_wrap')), cand = [], seen = {};
+    var items = [].slice.call(board.querySelectorAll('._post_item_wrap')), cand = [], seen = {};
     items.forEach(function (it) {
       var nb = it.querySelector('.notice-block'), a = it.querySelector('a[href*="idx="]'), m = a && /[?&;]idx=(\d+)/.exec(a.getAttribute('href'));
       if (!nb || nb.style.display === 'none' || it.closest('.r3-ins-more') || !m || seen[m[1]]) return;
@@ -144,11 +143,12 @@
       readPost(cand[i].idx).then(function (x) { x && (x.cat = cand[i].cat, got.push(x), ranks[x.rank] = 1); next(i + 1); });
     })(0);
   }
-  window.SFUI && (SFUI.__insBest = { read: readPost, paint: paint }); // 점검용
+  var ul = document.querySelector('.sf-cards4--ins');
+  if (!ul || !SFUI.once(ul, 'InsightBestWait')) return;
   var n1 = 0;
   (function wait() {
-    // 목록과 BEST 영역이 준비되면 바로 시작해 불필요한 load 대기를 없애요.
-    if (document.querySelector('[data-widget-type="board"] ._post_item_wrap') && document.querySelector('.sf-cards4--ins')) return void run();
-    ++n1 < 60 && setTimeout(wait, 200);
+    var row = document.querySelector('[data-widget-type="board"] ._post_item_wrap');
+    if (row) return run(ul, row.closest('[data-widget-type="board"]'));
+    if (ul.isConnected && ++n1 < 60) setTimeout(wait, 200);
   })();
-})()
+});
