@@ -127,15 +127,17 @@
   // 결제 수단 타일
   function methodLabel(r, i) {
     var label = clean((r.closest('label') || r.parentElement).textContent);
-    return /^신용\s*카드$/.test(label) ? '신용 체크 카드' : label || ('결제 수단 ' + (i + 1));
+    if (/^신용\s*카드$/.test(label)) return '신용/체크카드';
+    if (/^실시간\s*계좌\s*이체$/.test(label)) return '퀵계좌이체';
+    return label || ('결제 수단 ' + (i + 1));
   }
   function methodIcon(label) {
-    // Toss symbol from the supplied checkout reference.
-    if (/토스\s*페이|계좌\s*이체/.test(label)) {
-      return '<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAdCAYAAABSZrcyAAABnklEQVR42sXXMUgWYRzH8c97GCFSSRBEg+hgGIRjJdQgEYHiIKG5RIM2Bi4turjU0FIQLZVILglKLUoQQYNOilAkhEMtTfEWGBG1hC138HK8V3fH3b2/7f6//z1f/s/z3HP/p2ZqXwE6jZ2sL7XlhB3BNVzGIDpQKxt+HjcxHou/y1NBWwboHC4m+FtlwI/iISb+k1c4fATzOJZinM0i4bdwN+UYv/EWAzjYEP+Mj1nh9zCdoYB9fMfhJt4eVvAUG3EziD3fzgiG9gQwdGIK69jFpST4DcwoTyfxCsNxeC8eqUar6G+Ez6tWMxG8Hxcqhg9F8DHV6xC6A5zRGv0MUp5ghYNRD1BvAXwtWvPXLYAvRfAF/KgQvIEXEfwrJisC/8L1+Am3jCvhD6JMTeJTs7P9OU7hSbgbi9Z9PGsM1BK613aMhu1TLw40eF9wIvTS6g5m48FaztZ5CVdT5O2FXe5qMzPIOYUDKXJeoi8JnBd+HF3/8L+FO3ooXCJFws8lxP/gAXqwWNaN5WyTShfxGB/Kvi7VQ9h7bONN3m/vL+yQSIz35i5cAAAAAElFTkSuQmCC">';
+    // Toss Brand Resource Center, Toss_Symbol_Primary.
+    if (/토스\s*페이|퀵계좌이체/.test(label)) {
+      return '<span class="r3pay-toss-icon"></span>';
     }
     if (/카드/.test(label)) {
-      return '<svg viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="3" fill="#e4ecfa" stroke="#6184bb" stroke-width="1.5"/><path d="M2 10h20M6 15h4" stroke="#6184bb" stroke-width="1.5" stroke-linecap="round"/></svg>';
+      return '<span class="r3pay-card-icon"></span>';
     }
     if (/입금|가상계좌/.test(label)) {
       return '<svg viewBox="0 0 24 24" fill="none" stroke="#6184bb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-7h14l2 7v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5h5l2 3h4l2-3h5" fill="#e4ecfa"/><path d="M12 5v7m-3-3 3 3 3-3"/></svg>';

@@ -35,6 +35,22 @@ html.r3pay-on body .r3pay-tile__icon :is(img,svg) {
   height:24px;
   object-fit:contain;
 }
+html.r3pay-on body .r3pay-tile__icon > span {
+  width:24px;
+  height:24px;
+  background-position:center;
+  background-size:contain;
+  background-repeat:no-repeat;
+}
+html.r3pay-on body .r3pay-toss-icon {
+  background-image:url("data:image/webp;base64,UklGRvwEAABXRUJQVlA4WAoAAAAQAAAALwAALAAAQUxQSCMCAAABoGxtu2k7+ub8V2zbtm3bdnIDtroZadkp265W6gJs22as+c//K2yteQURMQGooM8ANFt8+o3LX9SDQ+5egHrLn/iFJG+1hs/LC9Dz8I8kTZUXG8Pl4zJgwAO3SFUjI3+qmZMHOt6lZDD+P/IDh1wzVNl9kVRjYeUF+Bycx7DXyMASA+9AVjkP7LjNYCxtt68mIt5VQlD3CZqydOVMFJXMlSFo/zaDsdw4dcDE6dPG9G4KAOJLEfT8joHl200WvPj+/etbAeKKCLr/zMCKWlSN/P/FB4cDUsCjxddUVtRY0GJQkvc2gwBwUuVlBuZuavx2FAQQHOdtJhl4fRxEMImBiSr/bON81Y+oqTDwKWAdlelGGy5vWUrKs2PNmHDkR0epKZGX32BM6/YftJSMl24y6cgPrqalducXtJSMsx42TSjaZ9VmMSYUuBHyGjWZaN/U8hjJYKkEzocINjHGNALvhQAZNpEhJqB8r6Y4AIJJH5IaouWj/KUjPP4vqLntc5KMoWCsiPLvQRAUFqDGvLs/vc2iVoHA34ciQ3EnALJOUzZs279/2/rl12jlBH7eCxlKdiIo3tWMpcfIC00hKNt5ybIsq56tYijJAnnQQVDxDAdKU/LjKXAeedxdihpvHqqNDHl6vEQtYIHkE30AQc7vMZKmStqzYwBxyNWh2rdUjST/ODcY8B45OzS4SJJ/vrihKeA9cneu+rvX3r1rdRsA4lFBAFZQOCCyAgAAcBAAnQEqMAAtAD5FHIlDoqGhGq1VVCgERLYATpmAAdfafxN5tfdHu9+IHNInIRa+qr5jv1u3wD/d+ht6qvPNfsb8Cn7jftV7QBgYvWfne5Nf0bqJqFzc1WbtKzmYYko1oMEjPqubmQDsuQ08D7mrW5JoAFn+ewQgn2YbjFjcL/2qlF17j84hIKeVJAAA/lHnOhG5Vs5caSDaoHghdEPaPklcTVK+VAAYDIGms1P4ZygZMNqqCQHvXKOHTVK70xbsTLvl6TAmyvEd4DqrcKXds14djMy7Ml45s3jC1kaJHOtHdNMxu/4Q0r2p/8koRXpUja9nLJvZ7on3HbJD1lNWwETjffBf54Kn/oinEIfzG4rXXLpFX+lvU2iP0J+Z6PSEY513W9Z/DbDRL6yr/5tYEhpBPs2hEVAvhXQuGisD/OF0neNXDaRLC7E7dalNPE1/9ltu6vc1QR552V6Hf/yr01GqBEzfCpiXg092xAHDW4TT3m88i9Q7g3aqlmF8iMVEHst1cplELrcUwox6ptYENLh2M3teALcKciNYGBMrsmMxK2LdYv+VsXpWjSH4zsmB8kYLPidVoRqBI48iI70WSPM1mbSUfNh3biWD/1cIFbr/EagstNdFvaj8sI80tT/HQ2E1eTE2e0J53I9ycWStBlP0aCNMsTi4hIP+scW2/vWGypLBpBu+q9346iAW7oMvG/CmcZ4Zod/wcGQxiquqo861LUm9PToUg2ZNug5CpFgYSO1H8wbbd8QH6qym/U/t//0AfSA+kccue41P+4O8X6WEPH/6WcfbLk74Nq7xo7yErSUMhqhMlqtb1Q624qmHOqiLevpOb60jY6Ten8VuiKwFjpQL/ddlQOi/4uCnvLf6p6Nc2dhY2fsjlVDGxjN56BmoNDrR+jpkstB86pf5IAAA");
+}
+html.r3pay-on body .r3pay-card-icon {
+  background-image:url("data:image/webp;base64,UklGRtAAAABXRUJQVlA4WAoAAAAQAAAAHwAAFwAAQUxQSHYAAAABcFtr25p8HdJnDg4D5HwjoAvoEFTfCPgIofURMgOlu7vzVdgfp4yICQDwoYayF6QBa3qOp1hjNcMV0DDAazNokYblF43/Dk2i7I5vJSKi7E7A0wUACqvwVhHAacRgm1dRRMRgW4RAHaS0UqWpNucYgB81lD0AVlA4IDQAAADQAgCdASogABgAPkkijkUioiEUBAAoBISzgAAe0dAAAP78DaP90sIbrX/0HxYoVQsuAAAA");
+}
+html.r3pay-on body .r3pay-tile.is-on .r3pay-card-icon {
+  filter:invert(1);
+}
 html.r3pay-on body .r3pay-tile__check {
   display:none;
 }
