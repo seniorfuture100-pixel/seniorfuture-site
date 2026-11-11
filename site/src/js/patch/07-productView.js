@@ -339,7 +339,9 @@ SFUI.register('productView', SFUI.__pv = function() {
         // (10/30 사장님) 0원 상품은 가격 자리에 '무료'(교육·라이브·커뮤니티 모두 · 아래 고정 바·휴대폰 시트도 이 글을 읽어요)
         T && /^\s*0\s*원\s*$/.test(T.textContent) && (T.textContent = "무료");
       }
-      var z = s.querySelector(".buy_btns.pc ._btn_buy"), P = o ? "무료로 신청하기" : p ? "참가 신청하기" : "수강 신청하기";
+      // (11/11 사장님) 실물 배송 상품(본문 '상품 유형: 실물…')은 '구매하기' — 네이버페이 심사용 교안·워크북
+      var PH = /상품\s*유형\s*:\s*실물/.test((document.getElementById("prod_detail_body") || s).textContent || "");
+      var z = s.querySelector(".buy_btns.pc ._btn_buy"), P = o ? "무료로 신청하기" : p ? "참가 신청하기" : PH ? "구매하기" : "수강 신청하기";
       z && (z.textContent = P), s.querySelectorAll(".buy_btns.mobile ._btn_buy:not(.im-regularly), .buy_btns.mobile .defualt.buy:not(.im-regularly)").forEach((function(e) {
         e.textContent = P;
       }));
