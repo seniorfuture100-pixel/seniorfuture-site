@@ -450,6 +450,9 @@
     buyerFields(sec).forEach(function (i) {
       var w = i.parentElement, msg = buyerBad(i);
       w.classList.toggle('is-err', !!msg); w.setAttribute('data-err', msg);
+      i.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      if (msg) i.setAttribute('aria-description', msg);
+      else i.removeAttribute('aria-description');
       if (msg && !first) first = i;
     });
     if (!first) return;
@@ -457,7 +460,7 @@
     first.scrollIntoView({ block: 'center', behavior: 'smooth' }); setTimeout(function () { first.focus(); }, 300);
   }
   document.addEventListener('click', buyerCheck, true);
-  document.addEventListener('input', function (e) { var w = e.target && e.target.parentElement; if (w && w.classList.contains('is-err') && !buyerBad(e.target)) { w.classList.remove('is-err'); w.setAttribute('data-err', ''); } }, true);
+  document.addEventListener('input', function (e) { var w = e.target && e.target.parentElement; if (w && w.classList.contains('is-err') && !buyerBad(e.target)) { w.classList.remove('is-err'); w.setAttribute('data-err', ''); e.target.setAttribute('aria-invalid', 'false'); e.target.removeAttribute('aria-description'); } }, true);
 
   var busy = false, t = 0;
   function run() { if (busy) return; busy = true; try { dress(); } catch (e) { } busy = false; }
