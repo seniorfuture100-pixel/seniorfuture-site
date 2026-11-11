@@ -9,9 +9,9 @@ const SITE = process.env.SITE_URL || 'https://seniorfuture.imweb.me';
 const PAGES = [['홈', '/'], ['교육', '/course'], ['무료 라이브', '/live'], ['인사이트', '/insight'], ['커뮤니티', '/community'], ['기업·기관', '/business'],
   ['소개', '/about'], ['파트너 지원', '/partner'], ['파트너', '/partners'], ['전문가', '/experts'], ['고객센터', '/help'], ['수강평', '/review'],
   ['검색', '/search'], ['로그인', '/login'], ['회원가입', '/site_join_type_choice'],
-  // (11/2) 상품 상세 = 지금 판매중인 4개만(94·97·99·102 는 11/1 숨김 → 매일 점검이 '신청 버튼 없음'으로 거짓 실패했어요) / 인사이트 글
-  ['상품 교육 82', '/shop_view/?idx=82'], ['상품 교육 83', '/shop_view/?idx=83'], ['상품 라이브 84', '/shop_view/?idx=84'],
-  ['상품 커뮤니티 85', '/shop_view/?idx=85'], ['인사이트 글', '/insight/?bmode=view&idx=175163304']];
+  // 11/12 공개 목록에서 확인한 상품. 숨김 상품 83/85의 홈 이동을 판매 오류로 보고하지 않아요.
+  ['상품 교육 82', '/shop_view/?idx=82'], ['상품 멤버십 103', '/shop_view/?idx=103'], ['상품 라이브 84', '/shop_view/?idx=84'],
+  ['상품 핸드북 113', '/shop_view/?idx=113'], ['인사이트 글', '/insight/?bmode=view&idx=175163304']];
 // (11/1) 상품 상세만 더 보는 것: 신청 버튼, 구조화 데이터(#sf-ld), 숨긴 칸 주소가 화면에 안 보임, 꾸민 뒤 첫 그림
 async function productChecks(page) {
   return page.evaluate(() => {
@@ -74,7 +74,7 @@ const out = path.resolve('report'); fs.mkdirSync(out, { recursive: true });
   if (process.env.IPHONE !== '0') try {
     const { webkit, devices } = require('playwright'), wb = await webkit.launch();
     const wctx = await wb.newContext(Object.assign({}, devices['iPhone 13'], { locale: 'ko-KR' }));
-    for (const [name, url] of [['상품 교육 82', '/shop_view/?idx=82'], ['상품 라이브 84', '/shop_view/?idx=84'], ['상품 커뮤니티 85', '/shop_view/?idx=85']]) {
+    for (const [name, url] of [['상품 교육 82', '/shop_view/?idx=82'], ['상품 라이브 84', '/shop_view/?idx=84'], ['상품 핸드북 113', '/shop_view/?idx=113']]) {
       const page = await wctx.newPage(), errs = []; page.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
       let st = 0;
       const open = async () => { await new Promise(z => setTimeout(z, 4000)); const r = await page.goto(SITE + url, { waitUntil: 'load', timeout: 45000 }); await page.waitForTimeout(2500); return r ? r.status() : 0; };

@@ -19,7 +19,7 @@ const P = (LOCAL ? a[1] : a[0]) || '/shop_view/?idx=82';
       window.__lcpE = [];
       new PerformanceObserver(l => l.getEntries().forEach(e => window.__lcpE.push([Math.round(e.startTime), e.element ? (e.element.tagName + '.' + String(e.element.className).slice(0, 40) + ' ' + (e.url || '').slice(-40)) : '?']))).observe({ type: 'largest-contentful-paint', buffered: true });
     });
-    await page.goto('https://seniorfuture.imweb.me' + P, { waitUntil: 'load', timeout: 120000 }).catch(() => {});
+    await page.goto((process.env.SITE_URL || 'https://seniorfuture.imweb.me') + P, { waitUntil: 'load', timeout: 120000 }).catch(() => {});
     await page.waitForTimeout(4000);
     const r = await page.evaluate(() => {
       const R = e => Math.round(e);
