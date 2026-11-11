@@ -16,6 +16,9 @@
   color:var(--sf-text-2);
   font:400 13px/1 var(--sf-font);
 }
+:root .sf-pv--live .sf-pv-mobile-when {
+  display:none;
+}
 :root .sf-pv-cd__t b {
   margin:0 2px 0 6px;
   color:var(--sf-text);
@@ -156,6 +159,26 @@
   height:32px;
 }
 @media (max-width:767.98px) {
+  :root .sf-pv--live .sf-pv-mobile-when {
+    display:flex;
+    align-items:flex-start;
+    margin:0;
+    color:var(--sf-text);
+    font:600 15px/1.5 var(--sf-font);
+  }
+  :root .sf-pv--live .sf-pv-mobile-when svg {
+    margin-top:3px;
+  }
+  :root .sf-pv--live .sf-pv-mobile-when__text {
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px 8px;
+    min-width:0;
+    word-break:keep-all;
+  }
+  :root .sf-pv--live .sf-pv__side .sf-pv-when {
+    display:none;
+  }
   :root .sf-pv--live .sf-pv__side .goods_form {
     padding:0!important;
     box-shadow:none;

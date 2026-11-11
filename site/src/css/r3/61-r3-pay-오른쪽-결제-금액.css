@@ -63,9 +63,6 @@ html.r3pay-on body .r3pay-right button.r3pay-submit:hover {
   html.r3pay-on body .r3pay-card__price {
     font-size:20px;
   }
-  html.r3pay-on body .r3pay-tiles {
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
   html.r3pay-on body .r3pay-right button.r3pay-submit {
     position:fixed!important;
     left:16px!important;

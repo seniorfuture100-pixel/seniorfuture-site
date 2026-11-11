@@ -23,6 +23,12 @@ html.r3pay-on body .r3pay-right {
   margin:0!important;
   padding:0!important;
 }
+@media (min-width:1024px) {
+  /* 고정 상자가 스크롤할 수 있도록 오른쪽 열은 주문서 전체 높이로 늘려요. */
+  html.r3pay-on body .r3pay-right {
+    align-self:stretch;
+  }
+}
 html.r3pay-on body .r3pay-right>div {
   position:sticky!important;
   top:calc(var(--sf-header-h,72px) + 24px)!important;

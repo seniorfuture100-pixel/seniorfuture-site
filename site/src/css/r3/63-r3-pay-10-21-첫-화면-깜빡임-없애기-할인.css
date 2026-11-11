@@ -44,8 +44,3 @@ html.r3pay-on body .r3pay-agree a {
   text-decoration:underline;
   text-underline-offset:2px;
 }
-@media (max-width:767.98px) {
-  html.r3pay-on body .r3pay-agree {
-    text-align:left;
-  }
-}

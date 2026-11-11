@@ -125,8 +125,16 @@
   }
 
   // 결제 수단 타일
-  function methodTiles(methodBox) {
-    var radios = $$('input[type=radio]', methodBox);
+  function methodLabel(r, i) {
+    return clean((r.closest('label') || r.parentElement).textContent) || ('결제 수단 ' + (i + 1));
+  }
+  function methodIcon(label) {
+    if (/카드/.test(label)) return '💳';
+    if (/계좌이체/.test(label)) return '🏦';
+    if (/입금|가상계좌/.test(label)) return '📥';
+    return '';
+  }
+  function methodTiles(radios) {
     if (!radios.length) return null;
     var wrap = document.createElement('section');
     wrap.className = 'r3pay-sec r3pay-methods';
@@ -135,13 +143,62 @@
     radios.forEach(function (r, i) {
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'r3pay-tile'; b.setAttribute('role', 'radio');
-      b.textContent = clean((r.closest('label') || r.parentElement).textContent) || ('결제 수단 ' + (i + 1));
-      b.addEventListener('click', function () { var l = r.closest('label'); (l || r).click(); setTimeout(sync, 30); });
+      var label = methodLabel(r, i), icon = methodIcon(label);
+      b.innerHTML = (icon ? '<span class="r3pay-tile__icon" aria-hidden="true">' + icon + '</span>' : '') +
+        '<span class="r3pay-tile__label">' + txt(label) + '</span><span class="r3pay-tile__check" aria-hidden="true"></span>';
+      b.addEventListener('click', function () {
+        var input = radios[i];
+        if (!input || !document.documentElement.contains(input) || input.disabled || input.checked) return;
+        input.click();
+        sync(radios);
+      });
       tiles.appendChild(b);
     });
-    function sync() { $$('.r3pay-tile', tiles).forEach(function (b, i) { var on = !!(radios[i] && radios[i].checked); b.classList.toggle('is-on', on); b.setAttribute('aria-checked', on ? 'true' : 'false'); }); }
-    sync(); wrap.__sync = sync; wrap.__n = radios.length;
+    function sync(current) {
+      radios = current;
+      var tabStop = radios.filter(function (r) { return r.checked && !r.disabled; })[0] ||
+        radios.filter(function (r) { return !r.disabled; })[0];
+      $$('.r3pay-tile', tiles).forEach(function (b, i) {
+        var input = radios[i], on = input.checked ? 'true' : 'false';
+        b.classList.toggle('is-on', input.checked);
+        if (b.getAttribute('aria-checked') !== on) b.setAttribute('aria-checked', on);
+        if (b.disabled !== input.disabled) b.disabled = input.disabled;
+        b.tabIndex = input === tabStop ? 0 : -1;
+      });
+    }
+    tiles.addEventListener('keydown', function (e) {
+      var step = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[e.key];
+      if (!step) return;
+      var enabled = $$('.r3pay-tile:not(:disabled)', tiles), index = enabled.indexOf(e.target);
+      if (index < 0) return;
+      e.preventDefault();
+      var next = enabled[(index + step + enabled.length) % enabled.length];
+      next.focus();
+      next.click();
+    });
+    sync(radios); wrap.__sync = sync;
     return wrap;
+  }
+
+  function isPayAction(button) {
+    return /^(?:[\d,]+\s*원\s*)?결제하기$|^(?:무료로 )?신청하기$/.test(clean(button.textContent));
+  }
+  // 금액은 쿠폰·적립금·배송비가 이미 반영된 아임웹 주문 요약에서 읽어요.
+  function orderAmount(summary, label) {
+    var name = $$('span, p, div', summary).filter(function (el) {
+      return !el.children.length && label.test(clean(el.textContent));
+    })[0];
+    var amount = name && name.nextElementSibling, value = clean(amount && amount.textContent);
+    if (/^[\d,]+\s*원$/.test(value)) return { node: amount, value: num(value) };
+    if (value === '무료') return { node: amount, value: 0 };
+    return null;
+  }
+  function setPayAction(button, label) {
+    if (!button || clean(button.textContent) === label) return;
+    var node = [button].concat($$('*', button)).filter(function (el) {
+      return !el.children.length && isPayAction(el);
+    })[0];
+    if (node) setText(node, label);
   }
 
   function dress() {
@@ -149,7 +206,9 @@
     var hProd = hd(root, '주문 상품'), hSum = hd(root, '주문 요약') || hd(root, '결제 금액');
     if (!hProd || !hSum) return;
     document.documentElement.classList.add('r3pay-on');
-    setTimeout(function () { document.documentElement.classList.add('r3pay-ready'); }, 0);
+    if (!document.documentElement.classList.contains('r3pay-ready')) {
+      setTimeout(function () { document.documentElement.classList.add('r3pay-ready'); }, 0);
+    }
     var sw = root.closest('.section_wrap'); if (sw) sw.classList.add('r3pay-bg');
     var secProd = box(hProd), left = secProd.parentElement && secProd.parentElement.parentElement;
     var flex = left && left.parentElement;
@@ -203,42 +262,53 @@
     var SHIP = /배송비\s*\+?\s*[1-9][\d,]*\s*원/.test(clean(root.textContent));
     ['방문수령', '배송지', '배송 정보', '배송 요청'].forEach(function (t) {
       var b = box(hd(root, t));
-      if (!b || !SHIP && $$('input[required], textarea[required]', b).some(function (i) { return !clean(i.value); })) return;
-      b.classList.toggle('r3pay-hide', !SHIP);
-      if (b.parentElement && b.parentElement.parentElement === left) b.parentElement.classList.toggle('r3pay-hide', !SHIP);
+      if (!b) return;
+      var show = SHIP || $$('input[required], textarea[required]', b).some(function (i) { return !clean(i.value); });
+      b.classList.toggle('r3pay-box--shipping', show);
+      b.classList.toggle('r3pay-hide', !show);
+      if (b.parentElement && b.parentElement.parentElement === left) b.parentElement.classList.toggle('r3pay-hide', !show);
     });
 
     // 결제 수단: 왼쪽에 타일, 아임웹 원래 칸은 숨김(라디오는 그대로 동작)
     var hMeth = hd(root, '결제 수단'), secMeth = box(hMeth);
+    var tiles = $('.r3pay-methods', left), radios = secMeth ? $$('input[type=radio]', secMeth) : [];
     if (secMeth) {
-      var tiles = $('.r3pay-methods', left), n = $$('input[type=radio]', secMeth).length;
       // Subscription checkout has a native billing-registration button, not radios.
       // Hide native methods only when replacement tiles can actually be drawn.
-      secMeth.classList.toggle('r3pay-hide', n > 0);
-      secMeth.classList.toggle('r3pay-native-method', !n);
+      secMeth.classList.toggle('r3pay-hide', radios.length > 0);
+      secMeth.classList.toggle('r3pay-native-method', !radios.length);
       // (11/6 사장님) 0원 신청(무료 라이브·모임)은 고를 결제 수단이 없어요 → 아임웹 '결제금액이 0원 입니다 · 포인트 사용금액 변경' 칸 숨김
-      !n && /결제\s*금액이\s*0\s*원/.test(clean(secMeth.textContent)) && secMeth.classList.add('r3pay-hide');
-      if (!n) { if (tiles) tiles.remove(); }
-      else if (!tiles || tiles.__n !== n) {
+      !radios.length && /결제\s*금액이\s*0\s*원/.test(clean(secMeth.textContent)) && secMeth.classList.add('r3pay-hide');
+    }
+    if (!radios.length) {
+      if (tiles) tiles.remove();
+    } else {
+      var buttons = tiles ? $$('.r3pay-tile', tiles) : [];
+      if (buttons.length !== radios.length || radios.some(function (r, i) { return $('.r3pay-tile__label', buttons[i]).textContent !== methodLabel(r, i); })) {
         if (tiles) tiles.remove();
-        tiles = methodTiles(secMeth);
+        tiles = methodTiles(radios);
         var extra = box(hd(root, '추가정보'));
         var anchor = extra ? extra.parentElement : null;
-        if (tiles) { if (anchor && anchor.parentElement === left) left.insertBefore(tiles, anchor); else left.appendChild(tiles); }
-      } else if (tiles.__sync) tiles.__sync();
+        if (anchor && anchor.parentElement === left) left.insertBefore(tiles, anchor); else left.appendChild(tiles);
+      } else tiles.__sync(radios);
     }
 
     // 오른쪽: '결제 금액'
+    var summary = box(hSum);
+    summary.classList.add('r3pay-summary');
     setText(hSum, '결제 금액');
-    $$('span', box(hSum)).forEach(function (s) { var v = clean(s.textContent); if (v === '총 주문금액') setText(s, '총 결제 금액'); if (v === '상품가격') setText(s, '상품 금액'); });
-    // (11/6) 아임웹 '개인정보 수집 및 이용 동의'(비회원 주문서)는 숨겨져 있어서 우리 문구에 개인정보 동의를 함께 적어요 — 카카오·네이버페이 심사
-    var AGREE = '강의 및 결제 정보를 확인했으며, <a href="/terms#terms" target="_blank" rel="noopener">이용약관</a>·<a href="/terms#refund" target="_blank" rel="noopener">환불 규정</a> 및 주문·결제 처리를 위한 <a href="/terms#privacy" target="_blank" rel="noopener">개인정보 수집·이용</a>에 동의합니다.';
+    $$('span', summary).forEach(function (s) { var v = clean(s.textContent); if (v === '총 주문금액') setText(s, '총 결제 금액'); if (v === '상품가격') setText(s, '상품 금액'); });
+    var AGREE = (SHIP ? '상품' : '강의') + ' 및 결제 정보를 확인했으며,<br><a href="/terms#terms" target="_blank" rel="noopener">운영정책</a> 및 <a href="/terms#refund" target="_blank" rel="noopener">환불규정</a>에 동의합니다.';
     var hTerm = hd(root, '이용 및 정보 제공 약관'), tb = box(hTerm);
-    if (tb) { tb.classList.add('r3pay-box--terms'); if (!$('input[type=checkbox]', tb)) tb.classList.add('r3pay-terms-quiet'); }
-    var sub = $$('button[type=submit]', root).filter(function (b) { return /^(결제하기|신청하기)$/.test(clean(b.textContent)); })[0];
+    if (tb) {
+      tb.classList.add('r3pay-box--terms');
+      var hasPrivacyNotice = /개인정보\s*수집/.test(clean(tb.textContent));
+      tb.classList.toggle('r3pay-terms-quiet', !$('input[type=checkbox]', tb) && !hasPrivacyNotice);
+    }
+    var sub = $$('button[type=submit]', root).filter(isPayAction)[0];
     if (sub) sub.classList.add('r3pay-submit');
     if (sub && !(sub.nextElementSibling && sub.nextElementSibling.classList.contains('r3pay-agree'))) {
-      var old = $('.r3pay-agree', root); if (old) old.remove();
+      var old = $('.r3pay-agree:not(.r3pay-agree--m)', root); if (old) old.remove();
       var ag = document.createElement('p'); ag.className = 'r3pay-agree';
       ag.innerHTML = AGREE;
       sub.parentNode.insertBefore(ag, sub.nextSibling);
@@ -251,21 +321,27 @@
     }
     benefits(root, left, secProd);
     // 모바일: 아임웹이 따로 그리는 아래 고정 '결제하기' 줄 — 버튼은 주황, 아래 문구는 우리 동의 문구(링크)로 (10/21)
-    $$('button[type=button]').filter(function (b) { return clean(b.textContent) === '결제하기' && b.offsetParent; }).forEach(function (mb) {
+    var mobile = $$('button[type=button]').filter(function (b) {
+      return b.classList.contains('r3pay-mbtn') ||
+        b.offsetParent && !b.closest('header, footer, [role=dialog]') && /^결제하기$/.test(clean(b.textContent));
+    });
+    mobile.forEach(function (mb) {
       mb.classList.add('r3pay-mbtn');
       var bar = mb.parentElement; if (!bar) return;
       bar.classList.add('r3pay-mbar');
       [].slice.call(bar.children).forEach(function (c) { if (c !== mb && !c.classList.contains('r3pay-agree')) c.classList.add('r3pay-hide'); });
       if (!$('.r3pay-agree', bar)) { var ag2 = document.createElement('p'); ag2.className = 'r3pay-agree r3pay-agree--m'; ag2.innerHTML = AGREE; bar.appendChild(ag2); }
-      document.documentElement.classList.add('r3pay-hasm');
     });
-    // (10/30) 무료 상품(상품 금액 0원 — 무료 라이브·무료 모임)만 '무료'·'신청하기'
-    //   (10/30 사장님) 쿠폰·적립금으로 0원이 된 유료 주문은 아임웹이 '무료'로 보여줘도 '0원' · 버튼은 '결제하기' 그대로
-    var sumBox = box(hSum), sumTxt = clean((sumBox || {}).textContent), prod0 = /상품 금액\s*(무료|0\s*원)/.test(sumTxt);
-    if (prod0 && /총 결제 금액\s*(무료|0\s*원)/.test(sumTxt)) {
-      [sub].concat($$('button.r3pay-mbtn')).forEach(function (b) { b && clean(b.textContent) === '결제하기' && setText(b, '신청하기'); });
+    document.documentElement.classList.toggle('r3pay-hasm', mobile.some(function (b) { return !!b.offsetParent; }));
+    var total = orderAmount(summary, /^총\s*(결제|주문)\s*금액$/);
+    var product = orderAmount(summary, /^상품\s*(금액|가격)$/);
+    var prod0 = !!product && product.value === 0;
+    var label = '결제하기';
+    if (total) {
+      label = total.value === 0 && prod0 ? '무료로 신청하기' : won(total.value) + ' 결제하기';
+      if (total.value === 0 && product && !prod0 && clean(total.node.textContent) === '무료') setText(total.node, '0원');
     }
-    // ('0원'으로 바꾸기·버튼 되돌리기는 글자만 바뀌어도 도는 r3b/06 에서)
+    [sub].concat(mobile).forEach(function (button) { setPayAction(button, label); });
     // 완료 화면(patch/25)이 '무료'를 쓸지 정하도록 적어 둬요
     try { sessionStorage.setItem('sf-pay-free', prod0 ? '1' : '0'); } catch (x) {}
   }
@@ -285,7 +361,12 @@
     // 쿠폰 창 제목 띄어쓰기 '쿠폰적용' → '쿠폰 적용' (창은 주문서 바깥에 그려져요)
     $$('.ReactModal__Content span').forEach(function (s) { if (clean(s.textContent) === '쿠폰적용') setText(s, '쿠폰 적용'); });
     var we = wrap(hd(root, '추가정보')); if (we) we.classList.add('r3pay-w--extra');
-    if (we) $$('p', we).forEach(function (p) { if (/^추천인 코드/.test(clean(p.textContent))) p.classList.add('r3pay-xlabel'); else p.classList.add('r3pay-xhelp'); });
+    if (we) $$('blockquote, p', we).forEach(function (p) {
+      var copy = clean(p.textContent);
+      if (/^추천인 코드/.test(copy)) p.classList.add('r3pay-xlabel');
+      else if (/^(추천해 준 분이 있다면 알려 주세요|공유 링크로 들어오면 자동으로 입력돼요\..*추천해 준 분)/.test(copy)) p.classList.add('r3pay-hide');
+      else if (p.tagName === 'P') p.classList.add('r3pay-xhelp');
+    });
     // 쿠폰
     var hC = hd(root, '쿠폰'), wc = wrap(hC);
     if (wc) {
@@ -353,7 +434,7 @@
   }
   function buyerCheck(e) {
     var b = e.target.closest && e.target.closest('button');
-    if (!b || !/^(결제하기|신청하기|무료로 신청하기)$/.test(clean(b.textContent))) return;
+    if (!b || !isPayAction(b)) return;
     var root = document.getElementById('oms-shop-payment'), sec = root && box(hd(root, '주문자 정보'));
     if (!sec) return;
     var first = null;
@@ -376,6 +457,26 @@
   var n = 0;
   (function wait() { run(); if (!document.querySelector('.r3pay-cards') && n++ < 60) setTimeout(wait, 250); })();
   // (10/27) 아임웹이 주문서를 다시 그리면(전액 사용 등) 화면에 그려지기 전에 바로 다시 꾸며요(예전 모양이 잠깐 보이던 것). 우리 변경은 문구·class 뿐이라 다시 불리지 않아요
-  new MutationObserver(function () { if (busy) return; clearTimeout(t); if (document.getElementById('oms-shop-payment')) run(); else t = setTimeout(run, 80); }).observe(document.documentElement, { childList: true, subtree: true });
-  document.addEventListener('change', function (e) { if (e.target && e.target.type === 'radio') setTimeout(run, 30); }, true);
+  var checkoutHost = '#oms-shop-payment, .ReactModal__Content, .r3pay-mbar';
+  new MutationObserver(function (records) {
+    if (records.some(function (record) {
+      if (record.type === 'characterData') {
+        return record.target.parentElement && record.target.parentElement.closest('.r3pay-summary, .r3pay-submit, .r3pay-mbtn');
+      }
+      return record.target.closest && record.target.closest(checkoutHost) ||
+        [].some.call(record.addedNodes, function (node) {
+          return node.nodeType === 1 && (node.matches(checkoutHost) || node.querySelector(checkoutHost) ||
+            [node].concat($$('button[type=button]', node)).some(function (el) {
+              return el.matches('button[type=button]') && clean(el.textContent) === '결제하기';
+            }));
+        });
+    })) run();
+  }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  window.addEventListener('resize', run);
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.type === 'radio' && e.target.closest('#oms-shop-payment')) {
+      clearTimeout(t);
+      t = setTimeout(run, 0);
+    }
+  }, true);
 })()

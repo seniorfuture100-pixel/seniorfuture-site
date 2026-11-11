@@ -372,6 +372,15 @@ SFUI.register('productView', SFUI.__pv = function() {
         K && (K.setAttribute("data-sf-countdown", ""), K.setAttribute("data-deadline", i.deadline), 
         K.setAttribute("data-ended-text", "신청이 마감되었어요"), d && U.insertBefore(K, d)), B && V && V.parentNode.insertBefore(pe("p", "sf-pv-when", h + "<span>" + le(B) + " " + fe(B) + (E ? " – " + fe(E) : "") + "</span>"), V), 
         V && V.parentNode.insertBefore(pe("button", "sf-pv-sharebtn", "공유하기"), V.nextSibling);
+        if (B) {
+          var startDay = le(B), endDay = E && le(E);
+          var startTime = liveTime(B), endTime = E && liveTime(E);
+          var sameDay = E && new Date(B).toDateString() === new Date(E).toDateString();
+          if (sameDay && startTime.slice(0, 2) === endTime.slice(0, 2)) endTime = endTime.slice(3);
+          var when = '<span>' + startDay + '</span> <span>' + startTime + (sameDay ? ' ~ ' + endTime : '') + '</span>';
+          if (E && !sameDay) when += ' <span>~ ' + endDay + ' ' + endTime + '</span>';
+          S.insertBefore(pe("p", "sf-pv-when sf-pv-mobile-when", h + '<span class="sf-pv-mobile-when__text">' + when + '</span>'), S.firstChild);
+        }
         var Z = s.querySelector(".sf-pv-sharebtn");
         Z && (Z.type = "button", Z.setAttribute("data-sf-share-link", "")), M && z && (z.textContent = "신청이 마감되었어요", 
         z.classList.add("is-disabled"));
@@ -786,6 +795,10 @@ SFUI.register('productView', SFUI.__pv = function() {
   function fe(e) {
     var s = new Date(e);
     return de(s.getHours()) + ":" + de(s.getMinutes());
+  }
+  function liveTime(e) {
+    var s = new Date(e), hours = s.getHours();
+    return (hours < 12 ? "오전 " : "오후 ") + (hours % 12 || 12) + ":" + de(s.getMinutes());
   }
   function ve(e) {
     return SFUI.shopTags ? e.map((function(e) {
