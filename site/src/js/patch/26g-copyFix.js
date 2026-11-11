@@ -7,9 +7,7 @@ SFUI.register('copyFix', function () {
   // [주소 규칙, 바꿀 글자, 새 글자]  — 주소 규칙 null = 모든 화면
   var R = [
     // 무료 라이브: 실제 일정(11/19 목)과 다른 '매주 수요일', 보내지 않는 문자·이메일 안내를 사실대로
-    // (11/2 사장님) 설명 = 홈과 같은 문장, 주황 안내 상자의 굵은 줄은 빼요(아래 run 에서 숨김)
     [/^\/live$/, '매주 수요일 저녁, 현업 전문가에게 무료로 배우고 바로 질문해요', '인사이트를 습득하고, 궁금한 점은 바로 물어보세요'],
-    [/^\/live$/, '신청하면 시작 30분 전에 입장 링크를 문자와 이메일로 보내드려요', '신청한 라이브는 마이페이지 › 나의 강의실에서 입장할 수 있어요'],
     // 파트너 지원: 활동 이름을 신청서 분야(교육 강사·라이브 연사·인사이트 기고·커뮤니티 운영)와 같게, 버튼 이름 하나로
     [/^\/partner$/, '교육 집필', '교육 강사'],
     [/^\/partner$/, '교육 콘텐츠 참여하기', '교육 강사 지원하기'],
@@ -69,8 +67,6 @@ SFUI.register('copyFix', function () {
   function run() {
     [].forEach.call(document.querySelectorAll('.sf-scope'), fixText); hideSamples();
     homeCopy();
-    // (11/2 사장님) 무료 라이브 주황 안내 상자: 굵은 줄('매주 수요일…')만 빼고 강의실 안내 줄은 남겨요
-    /^\/live\/?$/.test(location.pathname) && [].forEach.call(document.querySelectorAll('.sf-notice-box > strong'), function (s) { /매주 수요일 저녁/.test(s.textContent) && s.style.setProperty('display', 'none', 'important'); });
   }
   run();
   // 게시판 목록은 아임웹이 본문을 다 읽은 뒤에 그려요 → 조금 뒤에 한 번 더

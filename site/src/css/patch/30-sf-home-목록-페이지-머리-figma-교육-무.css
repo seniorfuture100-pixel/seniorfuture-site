@@ -38,3 +38,23 @@
   color:var(--sf-text-2);
   font:400 13px/1.5 var(--sf-font);
 }
+
+/* 무료 라이브 머리는 본문으로 옮겨져 교육 목록 섹션의 5px 여백이 빠져요. */
+:root body._body_menu_m2026101726bddd1e96ab3 > ._widget_data > .sf-scope > .sf-page {
+  margin-top:5px;
+}
+:root body._body_menu_m2026101726bddd1e96ab3 .sf-page > .sf-notice-box {
+  display:none;
+}
+@media (min-width:768px) {
+  :root body._body_menu_m2026101726bddd1e96ab3 > ._widget_data > .sf-scope > .sf-page {
+    width:calc(100% - 30px);
+    padding-inline:0!important;
+  }
+}
+/* 커뮤니티는 PC에서 헤더가 겹쳐요. 교육의 헤더 72px + 목록 위 5px에 맞춰요. */
+@media (min-width:992px) {
+  :root body.new_header_overlay #s20261017579d7df30b77e {
+    padding-top:77px!important;
+  }
+}

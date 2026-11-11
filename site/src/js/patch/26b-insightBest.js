@@ -1,5 +1,5 @@
 // (10/30 사장님) 인사이트 인기글: 게시판에서 '공지'로 체크한 글 중 본문 맨 끝에 '#인기1'~'#인기4'가 있는 글을
-//   인사이트 맨 위 'BEST 이번 주 많이 읽은 인사이트' 4칸에 번호 순서대로 채워요(모자란 칸은 비우고, 하나도 없으면 칸째 숨김)
+//   인사이트 BEST의 지정 순위를 채우고, 빈 순위는 게시판 조회수로 채워요.
 //   번호를 제목이 아니라 본문 끝에 두는 까닭: 제목은 카톡·검색 미리보기 제목이 되고, 미리보기 설명은 본문 앞부분이라 끝 줄은 안 나와요
 //   글 보기 화면에서는 '#인기N' 글자를 숨겨요
 (function () {
@@ -66,15 +66,15 @@
       (x.img ? '<img src="' + esc(x.img) + '" alt="" class="sf-fade is-loaded">' : '') + '</span><span class="sf-ccard__body">' +
       (x.cat ? '<span class="sf-icat">' + esc(x.cat) + '</span>' : '') + '<strong>' + esc(x.title) + '</strong>' + (ds ? '<p>' + esc(ds) + '</p>' : '') + '</span></a></li>';
   }
-  // (11/2) 디자인에 들어 있는 4칸은 견본 글(예시 숫자)이라 채우지 않아요 → 진짜 인기글만, 하나도 없으면 칸 전체를 숨겨요(CSS r3/12)
   function paint(list) {
     var ul = document.querySelector('.sf-cards4--ins');
-    if (!ul || ul.getAttribute('data-sf-pop')) return;
-    ul.innerHTML = list.slice(0, 4).map(card).join('');
+    if (!ul) return;
+    var html = list.map(card).join('');
+    if (ul.innerHTML !== html) ul.innerHTML = html;
     ul.setAttribute('data-sf-pop', list.length ? '1' : '0');
     var sec = ul.closest('section'); sec && sec.classList.toggle('sf-ins-empty', !list.length); // :has() 못 쓰는 브라우저용
   }
-  // (11/2 사장님) '#인기N' 글이 없으면 칸을 숨기지 말고, 목록에 보이는 글 중 조회수 높은 4편으로 채워요
+  // 공지의 본문을 확인하는 동안 게시판의 조회수 상위 글을 먼저 보여 줘요.
   function byViews() {
     var seen = {}, out = [];
     [].forEach.call(document.querySelectorAll('[data-widget-type="board"] ._post_item_wrap'), function (it) {
@@ -88,12 +88,40 @@
       var em = it.querySelector('.r2-icat') || it.querySelector('.title em:not(.notice-block):not(.addon-badge)'), sb = it.querySelector('.show_body > span');
       out.push({ idx: m[1], rank: 0, views: vw ? +(vw.textContent.replace(/\D/g, '') || 0) : 0, title: tc ? tc.textContent.replace(/\s+/g, ' ').trim() : '', img: im && !/no-image/.test(im[1]) ? im[1] : '', desc: sb ? tidy(sb.textContent) : '', cat: em ? em.textContent.trim() : '' });
     });
-    return out.filter(function (x) { return x.title; }).sort(function (a, b) { return b.views - a.views; }).slice(0, 4).map(function (x, i) { x.rank = i + 1; return x; });
+    return out.filter(function (x) { return x.title; }).sort(function (a, b) { return b.views - a.views; });
+  }
+  function fillRanked(pinned, fallback) {
+    var slots = [], used = {};
+    pinned.forEach(function (x) {
+      if (x.rank < 1 || x.rank > 4 || slots[x.rank - 1] || used[x.idx]) return;
+      slots[x.rank - 1] = x;
+      used[x.idx] = true;
+    });
+    var remaining = fallback.filter(function (x) { return !used[x.idx]; });
+    for (var i = 0; i < 4 && remaining.length; i++) {
+      if (slots[i]) continue;
+      var x = remaining.shift();
+      x.rank = i + 1;
+      slots[i] = x;
+    }
+    return slots.filter(Boolean);
   }
   function run() {
     var C = null;
     try { C = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (x) {}
-    if (C && Date.now() - C.at < 3e5 && C.list.length) return paint(C.list);
+    var cached = C && Date.now() - C.at < 3e5 && C.list.length;
+    var pinned = cached ? C.list : [];
+    function refresh() { paint(fillRanked(pinned, byViews())); }
+    refresh();
+    // 모바일 목록은 처음 세 편 뒤에 다음 페이지 글을 이어 붙여요.
+    new MutationObserver(function (records) {
+      if (records.some(function (r) {
+        return [].some.call(r.addedNodes, function (n) {
+          return n.nodeType === 1 && (n.matches('._post_item_wrap') || n.querySelector('._post_item_wrap'));
+        });
+      })) refresh();
+    }).observe(document.querySelector('[data-widget-type="board"]'), { childList: true, subtree: true });
+    if (cached) return;
     // 공지로 체크한 글만 후보(아임웹은 공지 글에만 '공지' 딱지를 보여 줘요)
     //   다른 페이지에서 가져와 붙인 글(r3-ins-more, r3InsightAll)은 숨김 표시가 지워져 있어 빼요
     var items = [].slice.call(document.querySelectorAll('[data-widget-type="board"] ._post_item_wrap')), cand = [], seen = {};
@@ -104,14 +132,14 @@
       var em = it.querySelector('.r2-icat') || it.querySelector('.title em:not(.notice-block):not(.addon-badge)');
       cand.push({ idx: m[1], cat: em ? em.textContent.trim() : '' });
     });
-    if (!cand.length) return paint(byViews());
+    if (!cand.length) return;
     // (11/2 속도) 10개를 한꺼번에 받던 것 → 하나씩 받다가 4칸이 차면 멈춰요(느린 망에서 3MB 넘게 받았어요)
     var got = [], ranks = {};
     (function next(i) {
       if (i >= Math.min(cand.length, 10) || (ranks[1] && ranks[2] && ranks[3] && ranks[4])) { // 1~4위가 모두 찼을 때만 일찍 멈춰요
-        var list = got.sort(function (a, b) { return a.rank - b.rank; });
-        try { list.length && sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), list: list })); } catch (x) {}
-        return paint(list.length ? list : byViews());
+        try { got.length && sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), list: got })); } catch (x) {}
+        pinned = got;
+        return refresh();
       }
       readPost(cand[i].idx).then(function (x) { x && (x.cat = cand[i].cat, got.push(x), ranks[x.rank] = 1); next(i + 1); });
     })(0);
