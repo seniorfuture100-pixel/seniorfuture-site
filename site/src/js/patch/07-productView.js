@@ -340,7 +340,7 @@ SFUI.register('productView', SFUI.__pv = function() {
         T && /^\s*0\s*원\s*$/.test(T.textContent) && (T.textContent = "무료");
       }
       // (11/11 사장님) 실물 배송 상품(본문 '상품 유형: 실물…')은 '구매하기' — 네이버페이 심사용 교안·워크북
-      var PH = /상품\s*유형\s*:\s*실물/.test((document.getElementById("prod_detail_body") || s).textContent || "");
+      var PHt = document.getElementById("prodDetailPC") || document.getElementById("prodDetailMobile"), PH = /상품\s*유형\s*:\s*실물/.test((PHt && PHt.content ? PHt.content.textContent : "") + ((document.getElementById("prod_detail_body") || {}).textContent || ""));
       var z = s.querySelector(".buy_btns.pc ._btn_buy"), P = o ? "무료로 신청하기" : p ? "참가 신청하기" : PH ? "구매하기" : "수강 신청하기";
       z && (z.textContent = P), s.querySelectorAll(".buy_btns.mobile ._btn_buy:not(.im-regularly), .buy_btns.mobile .defualt.buy:not(.im-regularly)").forEach((function(e) {
         e.textContent = P;
@@ -355,7 +355,7 @@ SFUI.register('productView', SFUI.__pv = function() {
       })));
       // (10/30) 휴대폰: 옵션 시트를 열면 아임웹이 아래 버튼 글자를 '결제 이동하기'로 바꿔요(무료 라이브에도) → 종류에 맞는 글자로 되돌려요
       var MW = s.querySelector(".buy_btns.mobile"), fixM = function() {
-        MW && !PE && [].forEach.call(MW.querySelectorAll("._btn_buy"), (function(e) { /(결제|신청)\s*이동|구매하기/.test(e.textContent) && (e.textContent = P); }));
+        MW && !PE && [].forEach.call(MW.querySelectorAll(PH ? "._btn_buy, .defualt.buy:not(.im-regularly)" : "._btn_buy"), (function(e) { (PH ? e.textContent !== P : /(결제|신청)\s*이동|구매하기/.test(e.textContent)) && (e.textContent = P); }));
       };
       MW && (fixM(), new MutationObserver(fixM).observe(MW, { childList: !0, subtree: !0, characterData: !0 }));
       // (10/30) 커뮤니티: 신청 마감이 지나 '종료'면 신청 버튼도 막아요(PC·휴대폰)
