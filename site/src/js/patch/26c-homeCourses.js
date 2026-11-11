@@ -5,16 +5,17 @@
 //   - 기억해 두지 않아요: 관리자가 저장하면 다음에 홈을 열 때 바로 반영
 //   - 자리 규칙: 번호 자리에 그 상품 · 같은 번호가 여럿이면 최근 등록(번호 큰 상품)이 그 자리, 나머지는 다음 빈자리
 //               · 빈 자리는 지금 홈에 있는 강의 순서로 채움 · 품절·판매 종료 상품은 빼요
-(function () {
+SFUI.register('homeCourses', function () {
   var p = location.pathname.replace(/\/$/, '');
   if (p && p !== '/index') return;
+  var heading = document.getElementById('h-course');
+  if (!heading || !SFUI.once(heading, 'HomeCourses')) return;
   var pv = /preview_mode=1/.test(location.search) ? '?preview_mode=1' : '';
   var esc = function (s) { var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; };
   var clean = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
   // 라이브 칸 = 라이브 카드(.sf-lcard)가 든 ul.sf-cards4 (:has 를 못 쓰는 브라우저도 있어서 직접 골라요)
   var LV = function () { return [].filter.call(document.querySelectorAll('ul.sf-cards4'), function (u) { return u.querySelector('.sf-lcard'); }); };
   var MT = function () { return [].slice.call(document.querySelectorAll('ul.sf-cards4--meet')); };
-  document.documentElement.classList.add('sf-hc-wait'); // 라이브·커뮤니티 칸도 정리 끝날 때까지 가려요(css patch/21)
   // 교육 목록 받기(페이지가 열리자마자 · 페이지가 여럿이면 모두)
   // (10/30) 무료 라이브·커뮤니티도 같은 방식으로 받아서, 목록에 없는(숨김·삭제) 상품 카드는 홈에서 빼요
   var fetchList = function (path) { return fetch(path + pv, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
@@ -86,7 +87,7 @@
   // (10/30) 홈 칸은 지금 교육 목록에 보이는 상품만 — 숨김·삭제한 상품은 홈 코드에 카드가 남아 있어도 빼고,
   //   빈 자리는 남은 홈 카드 순서 → 목록의 다른 상품(최근 등록 순)으로 채워요 · 하나도 없으면 '준비 중' 안내
   var none = function (w) { var li = document.createElement('li'); li.className = 'sf-hc-none'; li.textContent = '새로운 ' + w + '를 준비하고 있어요. 곧 업데이트될 예정이에요.'; return li; };
-  function paint(list) {
+  function paint(list, ul, ol) {
     var by = {}, items = SFUI.shopItems ? SFUI.shopItems() : {};
     list.forEach(function (x) { by[x.id] = x; });
     var live = function (base) {
@@ -95,8 +96,7 @@
       return base;
     };
     // ① 가장 주목받는 강의
-    var ul = document.querySelector('ul.sf-cards4--grid');
-    if (ul && ul.querySelector('li[data-sf-filter-item]')) {
+    if (ul) {
       var old = [].slice.call(ul.children), keep = {}, base = old.map(function (li) { var i = idOf(li); keep[i] = li; return i; });
       var ids = slots(list, 'focus', 8, live(base)), grp = (old[0] && old[0].getAttribute('data-sf-filter-item')) || 'home-edu';
       var frag = document.createDocumentFragment();
@@ -114,11 +114,10 @@
       old.forEach(function (li) { li.parentNode === ul && ul.removeChild(li); });
       ul.appendChild(frag);
       // 홈 분야 칩이 이미 눌려 있으면 다시 걸러요
-      var on = document.querySelector('[data-sf-filter-group="' + grp + '"] .is-active');
+      var on = ul.isConnected && document.querySelector('[data-sf-filter-group="' + grp + '"] .is-active');
       on && on.getAttribute('data-sf-filter') !== 'all' && on.click();
     }
     // ② 이달의 BEST 강의 TOP 5
-    var ol = document.querySelector('ol.sf-top5');
     if (ol) {
       var o2 = [].slice.call(ol.children), k2 = {}, b2 = o2.map(function (li) { var i = idOf(li); k2[i] = li; return i; });
       var f2 = document.createDocumentFragment(), i2 = slots(list, 'best', 5, live(b2));
@@ -134,13 +133,11 @@
     }
   }
   // 라이브·커뮤니티 칸: 목록에 없는 상품 카드만 빼요(새 상품 카드를 만들어 넣지는 않아요 — 카드 모양이 상품마다 달라서)
-  function prune(list, sel, w) {
+  function prune(list, ul, w) {
     var has = {};
     list.forEach(function (x) { has[x.id] = 1; });
-    sel().forEach(function (ul) {
-      [].slice.call(ul.children).forEach(function (li) { var i = idOf(li); i && !has[i] && ul.removeChild(li); });
-      ul.querySelector('a[href*="idx="]') || ul.querySelector('.sf-hc-none') || ul.appendChild(none(w));
-    });
+    [].slice.call(ul.children).forEach(function (li) { var i = idOf(li); i && !has[i] && ul.removeChild(li); });
+    ul.querySelector('a[href*="idx="]') || ul.querySelector('.sf-hc-none') || ul.appendChild(none(w));
   }
   // (10/30 사장님) 라이브·커뮤니티 칸도 목록에서 바로 만들어요 — 새 상품을 올리면 홈에도 저절로(4칸)
   //   일시·마감·구분·장소: 코드 표(예전 상품) → 없으면 상품 상세 [라이브 안내]·[모임 안내](SFUI.roomInfo, 5분 기억)
@@ -201,42 +198,39 @@
       ul.classList.add('r3-meet-ok', 'sf-hc-on'); // r3HomeMeet(예전 고정 목록)가 다시 덮지 않게
     });
   }
-  SFUI.__homeBuild = { live: buildLive, meet: buildMeet }; // 점검용
-  var done = false, t0 = Date.now();
-  function go() {
-    if (done) return;
-    // (10/30 사장님) 홈 칸 이름: '커뮤니티 모임 · 이벤트' → '커뮤니티' (홈 코드 위젯 글자는 디자인 모드에서 바꾸기 전까지 여기서)
-    var hm = document.getElementById('h-meet');
-    hm && hm.textContent !== '커뮤니티' && (hm.textContent = '커뮤니티');
-    var ready = EDU().length === 2;
-    if (!ready && document.readyState !== 'complete' && Date.now() - t0 <= 6000) return void setTimeout(go, 40);
-    done = true;
-    // (11/2) 예전엔 4초 뒤(+CSS 3초 뒤) 무조건 보여서, 받기가 늦거나 실패하면 디자인 예시 카드(없는 상품)가 보였어요
-    //  → 칸마다 따로: 받아서 다 그리면 보이고, 실패·예외·12초 넘김이면 그 칸만 숨겨요(Codex)
-    // 다시 그리기 전에 칸을 잡아 둬요(안내만 남으면 LV()가 못 찾아요) + 받기가 끝날 때 늦게 붙은 칸도 같이(Codex)
-    var lv0 = LV(), mt0 = MT();
-    var join = function (a, f) { return function () { var r = a.slice(); f().forEach(function (u) { r.indexOf(u) < 0 && r.push(u); }); return r; }; };
-    finish(got, EDU, function (x) { paint(x); return true; });
-    // 라이브·모임은 만들기 함수가 일정 정보를 받은 뒤(최대 2초) 스스로 보이게 해요 → 예외면 없는 상품만 빼고 보이고, 5초 안에 안 보여도 같게
-    //   ok = 보일 때 붙일 표시(모임은 r3-meet-ok — 없으면 r3HomeMeet 가 예전 고정 목록으로 덮어요)
-    var side = function (els, build, w, ok) { return function (x) {
-      var fall = function (u) { prune(x, function () { return [u]; }, w); u.classList.add.apply(u.classList, ok); };
-      try { els().forEach(function (u) { build(x, u); }); } catch (e) { els().forEach(fall); return false; }
-      setTimeout(function () { els().forEach(function (u) { u.classList.contains('sf-hc-on') || fall(u); }); }, 5000); return false; }; };
-    var lv = join(lv0, LV), mt = join(mt0, MT);
-    finish(gotLive, lv, side(lv, buildLive, '라이브', ['sf-hc-on']));
-    finish(gotMeet, mt, side(mt, buildMeet, '모임·이벤트', ['r3-meet-ok', 'sf-hc-on']));
+  var grid = heading.closest('section').nextElementSibling;
+  var ul = grid && grid.querySelector('ul.sf-cards4--grid');
+  var ol = document.querySelector('ol.sf-top5');
+  // 현재 홈의 노드를 잡아 두면 이동 중에 응답이 와도 뒤로 가기로 되살릴 홈에 반영돼요.
+  var hm = document.getElementById('h-meet');
+  if (hm && hm.textContent !== '커뮤니티') hm.textContent = '커뮤니티';
+  finish(got, [ul, ol].filter(Boolean), function (x) { paint(x, ul, ol); return true; });
+  finish(gotLive, LV(), side(buildLive, '라이브', ['sf-hc-on']));
+  finish(gotMeet, MT(), side(buildMeet, '모임·이벤트', ['r3-meet-ok', 'sf-hc-on']));
+  function side(build, w, ok) {
+    return function (x, els) {
+      els.forEach(function (u) {
+        function fall() {
+          if (u.classList.contains('sf-hc-on')) return;
+          prune(x, u, w);
+          u.classList.add.apply(u.classList, ok);
+        }
+        try { build(x, u); } catch (e) { fall(); }
+        setTimeout(fall, 5000);
+      });
+      return false;
+    };
   }
-  // 홈 교육 칸 = 분야 칩이 붙은 '가장 주목받는 강의'(첫 sf-cards4--grid) + TOP 5 — 유튜브 영상 목록(같은 sf-cards4--grid)은 빼요(Codex)
-  function EDU() { var g = document.querySelector('ul.sf-cards4--grid'); return [g && g.querySelector('li[data-sf-filter-item]') ? g : null, document.querySelector('ol.sf-top5')].filter(Boolean); }
   function finish(p, els, build) {
-    var cap = new Promise(function (ok) { setTimeout(function () { ok(null); }, 12000); });
-    var hide = function () { els().forEach(function (e) { var s = e.closest('section, .sf-sec'); (s || e).style.display = 'none'; }); };
+    if (!els.length) return;
+    var timer, cap = new Promise(function (ok) { timer = setTimeout(function () { ok(null); }, 12000); });
+    var hide = function () { els.forEach(function (e) { (e.closest('section, .sf-sec') || e).style.display = 'none'; }); };
     Promise.race([p, cap]).then(function (x) {
+      clearTimeout(timer);
       if (!x) return hide();
-      var showNow; try { showNow = build(x); } catch (e) { return hide(); }
-      showNow && els().forEach(function (e) { e.classList.add('sf-hc-on'); }); // build 가 true 면 지금 보이고, false 면 build 쪽이 스스로 보여요
+      var showNow;
+      try { showNow = build(x, els); } catch (e) { return hide(); }
+      if (showNow) els.forEach(function (e) { e.classList.add('sf-hc-on'); });
     });
   }
-  go();
-})()
+});
