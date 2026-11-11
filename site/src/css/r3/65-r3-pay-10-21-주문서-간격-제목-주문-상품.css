@@ -66,6 +66,9 @@ html.r3pay-on body .r3pay-box--shipping :is(input[name=addr1],input[name=addr2])
   width:100%!important;
   margin:0!important;
 }
+html.r3pay-on body .r3pay-box--shipping input[name=addr2] {
+  margin-top:8px!important;
+}
 html.r3pay-on body .r3pay-box--shipping input[name=zipcode]+button {
   width:auto!important;
   min-width:88px;
