@@ -104,6 +104,13 @@
   letter-spacing:-.01em;
 }
 /* Shadow DOM에도 들어가야 모바일 상품 카드 버튼에 적용돼요. */
+@media (min-width:768px) and (max-width:1099px) {
+  /* 아임웹의 0.85배 축소 후에도 44px 이상 */
+  :root .sf-shop .iw-shop-wishlist, :root .sf-shop .iw-shop-page {
+    min-width:52px!important;
+    min-height:52px!important;
+  }
+}
 @media (max-width:767.98px) {
   :root .sf-shop .iw-shop-wishlist {
     min-width:44px!important;

@@ -1,5 +1,14 @@
 /* 화면 묶음: common | 원본: src/r3-qa.css · r3-qa.css (10/22) — PC·모바일 전체 점검(360·390·768·1280·1440)에서 나온 수정
    함께 들어 있음: r3-qa · 상세 페이지 썸네일: 아임웹은 슬라이드 준비 전까지 정사각형 칸(모바일 375px·PC 776px)을 잡았다가 16:9로 줄여서, r3-qa · 푸터 '1:1 문의하기'(흰 버튼): 마우스를 올리면 푸터 링크 규칙 때문에 흰 글자가 돼 안 보이던 것, r3-qa · 헤더 전환 기준 하나로: 1000px 이상은 PC 헤더, 미만은 모바일 헤더(976~991px에서 둘이 겹쳐 보이던 것 — 사장님 결정), r3-qa · 992~999px 모바일 헤더 모양(원래 991px 이하에만 있던 것): 높이·좌우 여백·가운데 정렬·흰 배경·메뉴 버튼 오른쪽 끝, r3-qa · 하단 탭바: 스크롤해도 항상 고정(내리면 숨던 것 끔 — 사장님 결정), r3-qa · 라이브 카드 버튼만 다른 글꼴(Pretendard 고정판)을 불러 글꼴 파일 11개를 더 받던 것 → 사이트 글꼴로, r3-qa · 키보드(Tab)로 이동할 때 지금 위치가 보이게 — 배너·전체보기·탭바·로고 등 표시가 없던 곳 */
+@media (min-width:768px) and (max-width:1099px) {
+  :root body .sf-chips>.sf-chip,
+  :root body .pagination>li>a,
+  :root body .sf-terms nav>a,
+  :root body .sf-tm nav>a,
+  :root body .sf-sr-tabs a,
+  :root body .sw2-tabs a { min-height:52px!important; }
+  :root body .pagination>li>a { min-width:52px!important; }
+}
 @media (max-width:767.98px) {
   :root body .sf-topbanner>button {
     min-width:44px!important;
