@@ -170,7 +170,8 @@ SFUI.register('siteHeader', function () {
 
   // ⑧ 하단 탭바 (모바일) — 상세·결제·로그인 화면에선 숨김
   var hideBar = /shop_payment|shop_cart|login|site_join|\/(course|live|community)\/?$/.test(path) && /idx=/.test(location.search) ||
-    /shop_payment|shop_cart|login|site_join|shop_view/.test(path);
+    /shop_payment|shop_cart|login|site_join|shop_view/.test(path) ||
+    (/^\/shop_mypage\/?$/.test(path) && /[?&](cancel_idx|return_idx|exchange_idx)=/.test(location.search));
   if (!hideBar) {
     var tabs = [['홈', '/', '^/(index)?$', ICON.home], ['교육', '/course', '^/course', ICON.edu], ['무료 라이브', '/live', '^/live', ICON.live],
       ['커뮤니티', '/community', '^/community', ICON.team], ['MY', loggedIn ? '/classroom' : loginHref, '^/(classroom|class-|shop_mypage)', ICON.user]];
