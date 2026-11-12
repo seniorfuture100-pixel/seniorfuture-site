@@ -190,7 +190,7 @@ SFUI.register('homeExperts20', function () {
     cards.forEach(function (c) {
       if (have.length >= 20 || have.indexOf(c.name) >= 0) return;
       have.push(c.name);
-      var ph = c.img ? '<span class="sf-expert10__ph" style="background:#eef0f3"><img src="' + esc(c.img) + '" alt="' + esc(c.name) + ' 사진" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block"></span>'
+      var ph = c.img ? '<span class="sf-expert10__ph" style="background:#eef0f3"><img src="' + esc(c.img) + '" alt="' + esc(c.name) + ' 사진" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block"></span>'
         : '<span class="sf-expert10__ph sf-expert10__ini" role="img" aria-label="' + esc(c.name) + '" style="' + X.tile(c.name, ti++) + '">' + esc(c.name.charAt(0)) + '</span>';
       html += '<li class="sf-expert10"><a href="' + esc(X.url(c.idx)) + '">' + ph + '<span class="sf-expert10__t"><strong>' + esc(c.name) + '</strong><span class="sf-expert10__c">' + esc(c.org) + (c.act ? '<br>' + esc(c.act) : '') + '</span></span></a></li>';
     });
@@ -202,6 +202,10 @@ SFUI.register('homeExperts20', function () {
     if (HO && HO.length) {
       var by = {}; cards.forEach(function (c) { by[c.name] = c; });
       var list = HO.map(function (n) { return by[n]; }).filter(Boolean);
+      // 지정한 순서를 먼저 보존하고, 게시판 순서로 20명까지 채워요.
+      cards.forEach(function (c) {
+        if (list.length < 20 && !list.some(function (x) { return x.name === c.name; })) list.push(c);
+      });
       if (list.length >= 10) { ul.innerHTML = ''; ul.setAttribute('data-sf-n', list.length); return add(list); } // 게시판을 못 읽었으면 홈 디자인 그대로 · 칸 수는 CSS(qa/11)가 맞춤
     }
     add(cards);
