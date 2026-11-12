@@ -103,3 +103,14 @@
   font:400 13px/1.5 var(--sf-font);
   letter-spacing:-.01em;
 }
+/* Shadow DOM에도 들어가야 모바일 상품 카드 버튼에 적용돼요. */
+@media (max-width:767.98px) {
+  :root .sf-shop .iw-shop-wishlist {
+    min-width:44px!important;
+    min-height:44px!important;
+  }
+  :root .sf-shop .iw-shop-page {
+    min-width:44px;
+    min-height:44px;
+  }
+}

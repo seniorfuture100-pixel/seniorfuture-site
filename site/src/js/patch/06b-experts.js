@@ -190,7 +190,7 @@ SFUI.register('homeExperts20', function () {
     cards.forEach(function (c) {
       if (have.length >= 20 || have.indexOf(c.name) >= 0) return;
       have.push(c.name);
-      var ph = c.img ? '<span class="sf-expert10__ph" role="img" aria-label="' + esc(c.name) + ' 사진" style="background:#eef0f3 url(' + esc(c.img) + ') 50% 30%/cover no-repeat"></span>'
+      var ph = c.img ? '<span class="sf-expert10__ph" style="background:#eef0f3"><img src="' + esc(c.img) + '" alt="' + esc(c.name) + ' 사진" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block"></span>'
         : '<span class="sf-expert10__ph sf-expert10__ini" role="img" aria-label="' + esc(c.name) + '" style="' + X.tile(c.name, ti++) + '">' + esc(c.name.charAt(0)) + '</span>';
       html += '<li class="sf-expert10"><a href="' + esc(X.url(c.idx)) + '">' + ph + '<span class="sf-expert10__t"><strong>' + esc(c.name) + '</strong><span class="sf-expert10__c">' + esc(c.org) + (c.act ? '<br>' + esc(c.act) : '') + '</span></span></a></li>';
     });

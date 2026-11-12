@@ -17,7 +17,7 @@
   }
   :root body .sf-chips>button.sf-chip,
   :root body .sf-chips>.sf-chip {
-    min-height:40px!important;
+    min-height:44px!important;
   }
   :root body .sf-pv-crumb>a {
     display:inline-flex;
@@ -36,8 +36,8 @@
   }
   :root body .pagination>li>a,
   :root body .pagination>li>span {
-    min-width:40px!important;
-    min-height:40px!important;
+    min-width:44px!important;
+    min-height:44px!important;
     display:inline-flex!important;
     align-items:center;
     justify-content:center;
@@ -73,7 +73,7 @@
   }
   :root body .sf-terms nav>a,
   :root body .sf-tm nav>a {
-    min-height:40px!important;
+    min-height:44px!important;
     display:inline-flex!important;
     align-items:center;
   }
@@ -86,7 +86,7 @@
   }
   :root body .sf-sr-tabs a,
   :root body .sw2-tabs a {
-    min-height:40px!important;
+    min-height:44px!important;
   }
   :root body .sf-tags>.sf-tag {
     font-size:12px!important;

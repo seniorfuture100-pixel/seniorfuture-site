@@ -42,6 +42,13 @@
   var buyerSaved = false;
   function buyerSave(sec) {
     var form = $('form', sec), inputs = form ? $$('input', form).filter(function (i) { return BUYER[i.name]; }) : [];
+    // 이번 주문 입력과 회원 저장은 별개. 회원 저장은 기존 인증 폼을 통해서만 진행해요.
+    if (!$('.r3pay-profile-link', sec) && window.SFUI && SFUI.checkoutProfile) {
+      var help = document.createElement('p'); help.className = 'r3pay-profile-link';
+      help.appendChild(document.createTextNode('다음 신청에도 사용할 정보는 '));
+      var edit = document.createElement('a'); edit.href = SFUI.checkoutProfile.profileUrl(true); edit.textContent = '회원정보에서 수정';
+      help.appendChild(edit); sec.appendChild(help);
+    }
     sec.classList.toggle('r3pay-bsaved', buyerSaved && inputs.length > 0);
     var mine = $('.r3pay-bsum--mine', sec);
     if (!buyerSaved || !inputs.length) { if (mine) mine.remove(); }
@@ -57,12 +64,14 @@
       return;
     }
     if ($('.r3pay-bsave', form)) return;
-    var b = document.createElement('button'); b.type = 'button'; b.className = 'r3pay-bsave'; b.textContent = '저장';
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'r3pay-bsave'; b.textContent = '이번 주문에 적용';
     b.addEventListener('click', function () {
       var first = null;
       buyerFields(sec).forEach(function (i) {
         var w = i.parentElement, msg = buyerBad(i);
         w.classList.toggle('is-err', !!msg); w.setAttribute('data-err', msg);
+        i.setAttribute('aria-invalid', msg ? 'true' : 'false');
+        if (msg) i.setAttribute('aria-description', msg); else i.removeAttribute('aria-description');
         if (msg && !first) first = i;
       });
       if (first) { first.focus(); return; }

@@ -1,12 +1,12 @@
 // 첫 화면 시간표 (10/31): node tools/check/timeline.js [local] [경로]
 //   휴대폰 느린 4G·CPU 4배에서 우리 CSS/JS 도착 시각, 꾸밈(sf-early-init) 시각, 첫 그림(FCP)·가장 큰 그림(LCP)과 그 요소를 보여 줘요.
-const { chromium } = require('playwright'), fs = require('fs'), path = require('path');
+const { chromium, devices } = require('playwright'), fs = require('fs'), path = require('path');
 const root = path.resolve(__dirname, '..', '..'), a = process.argv.slice(2), LOCAL = a[0] === 'local';
 const P = (LOCAL ? a[1] : a[0]) || '/shop_view/?idx=82';
 (async () => {
   const br = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
   for (let run = 0; run < 2; run++) {
-    const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, locale: 'ko-KR', isMobile: true, hasTouch: true });
+    const ctx = await br.newContext({ ...devices['Pixel 7'], viewport: { width: 390, height: 844 }, locale: 'ko-KR', isMobile: true, hasTouch: true });
     const page = await ctx.newPage(), cdp = await ctx.newCDPSession(page);
     await cdp.send('Network.enable');
     await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 150, downloadThroughput: 1.6e6 / 8, uploadThroughput: 750e3 / 8 });

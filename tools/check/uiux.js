@@ -3,7 +3,7 @@
 //  copy: 화면 문구(헤더·푸터 뺀 본문 innerText) / tabs: 탭을 하나씩 눌렀을 때 바뀐 문구
 //  type: 글자 크기·굵기·줄간격 조합별 개수 / btn: 버튼 높이·모서리·배경 / card: 카드 모서리·그림자 / input: 입력칸 높이·테두리
 //  gaps: 본문 섹션 사이 빈칸 / small: 14px 미만 글자 / tap: 휴대폰 44px 미만 누르는 곳 / dead: href 없는(또는 #) 링크
-const { chromium } = require('playwright'), fs = require('fs'), path = require('path');
+const { chromium, devices } = require('playwright'), fs = require('fs'), path = require('path');
 const SITE = process.env.SITE_URL || 'https://seniorfuture.imweb.me';
 const PAGES = (process.env.PAGES ? process.env.PAGES.split(',') : null) || ['/', '/course', '/live', '/insight', '/community', '/business', '/about', '/partner', '/partners', '/experts', '/help', '/review', '/search', '/login', '/site_join_type_choice',
   '/shop_view/?idx=82', '/shop_view/?idx=83', '/shop_view/?idx=84', '/shop_view/?idx=85', '/insight/?bmode=view&idx=175163304', '/terms'];
@@ -13,7 +13,9 @@ const collect = () => {
   const skip = e => e.closest('#doz_header_wrap, #doz_footer_wrap, .sf-mh, .sf-tabbar, .sf-hd, header, footer, script, style, noscript');
   const own = e => [].some.call(e.childNodes, n => n.nodeType === 3 && n.nodeValue.trim());
   const nm = e => e.tagName.toLowerCase() + (e.id ? '#' + e.id : '') + (e.classList[0] ? '.' + e.classList[0] : '');
-  const all = [].filter.call(document.querySelectorAll('body *'), e => !skip(e) && vis(e));
+  const elements = Array.from(document.querySelectorAll('body *'));
+  for (let i=0;i<elements.length;i++) if(elements[i].shadowRoot) elements.push(...elements[i].shadowRoot.querySelectorAll('*'));
+  const all = elements.filter(e => !skip(e) && vis(e));
   const cnt = (m, k, ex) => { m[k] = m[k] || { n: 0, ex: [] }; m[k].n++; if (m[k].ex.length < 3 && ex) m[k].ex.push(ex); };
   const type = {}, btn = {}, card = {}, input = {}, small = [], tap = [], dead = [];
   all.forEach(e => {
@@ -30,7 +32,7 @@ const collect = () => {
     if ((s.boxShadow !== 'none' || (parseFloat(s.borderTopLeftRadius) >= 8 && parseFloat(s.borderTopWidth) > 0)) && r.width > 120 && r.height > 80) cnt(card, 'r' + s.borderTopLeftRadius + ' ' + (s.boxShadow === 'none' ? 'b' + s.borderTopWidth + ' ' + s.borderTopColor : s.boxShadow.slice(0, 50)), nm(e));
   });
   // 섹션 사이 빈칸: 본문 안 '블록 덩어리' — 너비 60% 이상이고 높이 40 이상인 최상위 덩어리들의 세로 간격
-  const W = innerWidth, blocks = all.filter(e => { const r = e.getBoundingClientRect(); return r.width > W * 0.6 && r.height > 40 && !e.parentElement.closest('*') === false; })
+  const W = innerWidth, blocks = all.filter(e => { const r = e.getBoundingClientRect(); return r.width > W * 0.6 && r.height > 40 && e.parentElement; })
     .filter(e => { const p = e.parentElement; const pr = p && p.getBoundingClientRect(); return !(p && pr.width > W * 0.6 && Math.abs(pr.height - e.getBoundingClientRect().height) < 2); });
   const tops = [];
   [].forEach.call(document.querySelectorAll('.doz_row, section, .sf-sec, [class*=section]'), e => { if (!skip(e) && vis(e)) { const r = e.getBoundingClientRect(); if (r.height > 40 && r.width > W * 0.6) tops.push([r.top + scrollY, r.bottom + scrollY, nm(e)]); } });
@@ -41,12 +43,16 @@ const collect = () => {
   ink.forEach(([t, b]) => { if (t - end > (W < 768 ? 72 : 120)) gaps.push(Math.round(end) + '→' + Math.round(t) + ' (' + Math.round(t - end) + 'px)'); end = Math.max(end, b); });
   const main = document.querySelector('#doz_body, main, body');
   const txt = [].filter.call(main.querySelectorAll('*'), e => !skip(e) && vis(e) && own(e)).map(e => e.textContent.trim().replace(/\s+/g, ' ')).filter((t, i, a) => t && a.indexOf(t) === i);
-  return { h: document.documentElement.scrollHeight, copy: txt, type, btn, card, input, small: small.slice(0, 40), tap: tap.slice(0, 40), dead: dead.slice(0, 30), gaps, sec: tops.length };
+  return { viewport: innerWidth, version:window.SF_VER, url:location.pathname+location.search, h: document.documentElement.scrollHeight, copy: txt, type, btn, card, input, small: small.slice(0, 40), tap: tap.slice(0, 40), dead: dead.slice(0, 30), gaps, sec: tops.length };
 };
 (async () => {
   const br = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {}), all = {};
   for (const [w, h, mobile] of [[390, 844, true], [1280, 860, false]].filter(x => (process.env.WIDTHS || '390,1280').split(',').map(Number).includes(x[0]))) {
-    const ctx = await br.newContext({ viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile, locale: 'ko-KR' });
+    const ctx = await br.newContext({ ...(mobile ? devices['Pixel 7'] : {}), viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile, locale: 'ko-KR' });
+    if(process.env.LOCAL === '1') await ctx.route(/seniorfuture-site@[^/]+\/dist\/(sf\.min\.(?:css|js))/, r => {
+      const file=r.request().url().match(/sf\.min\.(?:css|js)/)[0];
+      return r.fulfill({path:path.resolve(__dirname,'../../dist',file),contentType:file.endsWith('.css')?'text/css':'application/javascript'});
+    });
     for (const url of PAGES) {
       const page = await ctx.newPage(), errs = [];
       page.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
@@ -56,6 +62,7 @@ const collect = () => {
       if (st === 429) { await new Promise(z => setTimeout(z, 60000)); try { const r = await page.goto(SITE + url, { waitUntil: 'load', timeout: 60000 }); st = r ? r.status() : 0; } catch (e) {} }
       const load = Date.now() - t0;
       await page.waitForTimeout(2000);
+      await page.screenshot({path:path.join(out,(url.replace(/[^\w]+/g,'_')||'home')+'@'+w+'-top.png')});
       // 끝까지 천천히 내리기(늦게 붙는 칸까지)
       for (let i = 0; i < 40; i++) { const done = await page.evaluate(() => { scrollTo({ top: scrollY + innerHeight * 0.9, behavior: 'instant' }); return scrollY + innerHeight >= document.documentElement.scrollHeight - 4; }); await page.waitForTimeout(350); if (done) break; }
       await page.waitForTimeout(1500); await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(500);
@@ -65,7 +72,7 @@ const collect = () => {
       r.tabs = [];
       try {
         const tabs = await page.$$('[role=tab], [class*=tab] > button, [class*=tab] > li > button, [class*=tab] > li > a[href^="#"], [class*=Tab] button, .sf-chip, [class*=chip]');
-        for (const t of tabs.slice(0, 14)) {
+        for (const t of (process.env.NO_TABS === '1' ? [] : tabs.slice(0, 14))) {
           const label = (await t.innerText().catch(() => '')).trim().slice(0, 20); if (!label || !(await t.isVisible().catch(() => false))) continue;
           const before = page.url(); await t.click({ timeout: 3000 }).catch(() => {}); await page.waitForTimeout(900);
           if (page.url().split('#')[0] !== before.split('#')[0]) { r.tabs.push(label + ' → 이동 ' + page.url().replace(SITE, '')); await page.goBack().catch(() => {}); await page.waitForTimeout(1500); continue; }

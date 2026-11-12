@@ -484,6 +484,7 @@ html.r3pay-on body .r3pay-right .r3pay-box header ~ div > div > div + div > span
 }
 
 .sf-contact-complete .sf-contact-extra { display:none!important; }
+.sf-contact-complete .r2-noti, .sf-contact-complete .r2-pw-toggle { display:none!important; }
 .sf-contact-complete .r2-my-nav, .sf-contact-complete .r2-my-side { display:none!important; }
 .sf-contact-complete .sf-contact-intro { margin:0 0 24px; }
 .sf-contact-complete .sf-contact-intro h3 { margin:0 0 10px; font-size:22px; line-height:1.4; }
@@ -492,3 +493,5 @@ html.r3pay-on body .r3pay-right .r3pay-box header ~ div > div > div + div > span
 .sf-contact-complete .sf-contact-error { color:#B91C1C!important; }
 .sf-contact-complete .r2-prof { max-width:620px; margin-left:auto; margin-right:auto; }
 .sf-contact-complete .sf-contact-password:not(.r2-hide) { display:block!important; }
+html.r3pay-on body .r3pay-profile-link { margin:12px 0 0; color:#4B5563; font-size:14px; line-height:1.5; }
+html.r3pay-on body .r3pay-profile-link a { display:inline-flex; align-items:center; min-height:44px; color:#1F2937; font-weight:600; text-decoration:underline; text-underline-offset:3px; }
