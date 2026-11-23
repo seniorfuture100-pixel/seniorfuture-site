@@ -49,7 +49,7 @@
     var c = cfg(), cats = SFUI.cats || [], items = SFUI.shopItems ? SFUI.shopItems() : {};
     pane.innerHTML = head() +
       // (10/31 사장님) 코드 바로 옆에 복사
-      '<div class="sf-myp-code"><div><small>내 추천 코드</small><span class="sf-myp-codev"><b>' + esc(c.code || '-') + '</b>' + (c.code ? '<button type="button" class="sf-myp-cp" data-v="' + esc(c.code) + '">복사</button>' : '') + '</span></div><p>교육 링크 뒤에 내 코드가 붙어요. 이 링크로 들어온 분이 결제하면 결제 금액의 <em>' + c.rate + '%</em>를 포인트로 받을 수 있어요.</p></div>' +
+      '<div class="sf-myp-code"><div><small>내 추천 코드</small><span class="sf-myp-codev"><b>' + esc(c.code || '-') + '</b>' + (c.code ? '<button type="button" class="sf-myp-cp" data-v="' + esc(c.code) + '">복사</button>' : '') + '</span></div><p>교육 링크 뒤에 내 코드가 붙어요. 이 링크로 들어온 분이 구매를 확정하면 결제 금액의 <em>' + c.rate + '%</em>를 포인트로 받을 수 있어요.</p></div>' +
       '<div class="sf-myp-flt"><select aria-label="분야"><option value="">전체 분야</option>' + cats.map(function (k) { return '<option value="' + k[0] + '">' + esc(k[1]) + '</option>'; }).join('') + '</select>' +
             '</div>' +
       // (10/31 사장님) 가격 · 예상 포인트를 한 칸으로(수익률은 수익 옆에) — 휴대폰에서는 표가 카드로 바뀌어요(css patch/80)

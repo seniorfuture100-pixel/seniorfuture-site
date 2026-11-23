@@ -74,7 +74,7 @@ SFUI.register('shareReward', function (root) {
     var c = cfg();
     state.opener = btn; state.title = btn.getAttribute('data-title') || document.title;
     if (!c.member) {
-      loginBox.querySelector('.sf-rw-desc').innerHTML = '로그인하면 내 링크로 친구가 결제할 때<br>결제 금액의 ' + esc(c.rate) + '를 포인트로 받을 수 있어요.';
+      loginBox.querySelector('.sf-rw-desc').innerHTML = '로그인하면 내 링크로 친구가 구매를 확정하면<br>결제 금액의 ' + esc(c.rate) + '를 포인트로 받을 수 있어요.';
       loginBox.querySelectorAll('[data-rw-login]').forEach(function (a) { a.href = back(c.login[a.getAttribute('data-rw-login')]); });
       show(loginBox, loginBox.querySelector('.sf-rw-x'));
       return;
@@ -82,7 +82,7 @@ SFUI.register('shareReward', function (root) {
     var u = new URL(btn.getAttribute('data-url') || location.href); u.hash = ''; u.searchParams.set('ref', c.member); // 남이 준 ref는 내 코드로 바꿔요
     state.url = u.toString();
     copy(state.url).then(function () {
-      doneBox.querySelector('.sf-rw-done-p').innerHTML = '이 링크로 들어온 친구가 결제하면<br>결제 금액의 ' + esc(c.rate) + '가 적립금으로 쌓여요.';
+      doneBox.querySelector('.sf-rw-done-p').innerHTML = '이 링크로 들어온 친구가 구매를 확정하면<br>결제 금액의 ' + esc(c.rate) + '가 적립금으로 쌓여요.';
       doneBox.querySelector('[data-rw-partners]').href = c.partners;
       show(doneBox, doneBox.querySelector('[data-rw-kakao]'));
     }, function () { toast('복사하지 못했어요. 주소창의 주소를 길게 눌러 복사해 주세요'); });

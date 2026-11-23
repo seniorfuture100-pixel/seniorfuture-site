@@ -1376,7 +1376,7 @@
       }));
       var r = document.createElement("div");
       r.className = "r3-spop", r.hidden = !0, r.setAttribute("role", "dialog"), r.setAttribute("aria-labelledby", "r3-spop-h"), 
-      r.innerHTML = '<div class="r3-spop__head"><h3 id="r3-spop-h">' + (e ? "이 라이브를 친구에게 알려 주세요" : a ? "내 추천 링크로 공유해 보세요" : "이 강의를 공유해 보세요") + '</h3><button type="button" class="r3-spop__x" aria-label="닫기"></button></div><p class="r3-spop__p">' + (e ? "함께 들으면 더 좋아요. 링크를 복사하거나 카카오톡으로 바로 보내 보세요." : a ? "친구가 내 링크로 들어와 결제하면 나에게 적립금이 쌓여요." : "로그인하면 나만의 추천 링크가 만들어지고, 친구가 결제하면 적립금이 쌓여요.") + "</p>" + (e ? "" : '<a class="r3-spop__more" href="/partners">자세히 보기</a>') + '<div class="r3-spop__btns"><button type="button" class="r3-spop__b" data-act="copy"><i class="r3-spop__ic r3-spop__ic--copy" aria-hidden="true"></i>' + (a ? "내 추천 링크 복사" : "링크 복사") + '</button><button type="button" class="r3-spop__b" data-act="kakao"><i class="r3-spop__ic r3-spop__ic--kakao" aria-hidden="true"></i>카카오톡 공유</button></div>', 
+      r.innerHTML = '<div class="r3-spop__head"><h3 id="r3-spop-h">' + (e ? "이 라이브를 친구에게 알려 주세요" : a ? "내 추천 링크로 공유해 보세요" : "이 강의를 공유해 보세요") + '</h3><button type="button" class="r3-spop__x" aria-label="닫기"></button></div><p class="r3-spop__p">' + (e ? "함께 들으면 더 좋아요. 링크를 복사하거나 카카오톡으로 바로 보내 보세요." : a ? "친구가 내 링크로 구매하고 구매를 확정하면, 실결제 금액의 " + (window.SF_SHARE.rate) + "를 추천인 포인트로 받을 수 있어요." : "로그인하면 내 추천 링크가 생겨요. 친구가 구매를 확정하면 실결제 금액의 " + (window.SF_SHARE.rate) + "를 추천인 포인트로 받을 수 있어요.") + "</p>" + (e ? "" : '<a class="r3-spop__more" href="/partners">자세히 보기</a>') + '<div class="r3-spop__btns"><button type="button" class="r3-spop__b" data-act="copy"><i class="r3-spop__ic r3-spop__ic--copy" aria-hidden="true"></i>' + (a ? "내 추천 링크 복사" : "링크 복사") + '</button><button type="button" class="r3-spop__b" data-act="kakao"><i class="r3-spop__ic r3-spop__ic--kakao" aria-hidden="true"></i>카카오톡 공유</button></div>',
       // 열 때 '링크 복사'에 초점을 주면 주황 테두리(초점 표시)가 떠 보여서 → 창 자체에 초점(키보드는 Tab으로 버튼 이동)
       r.tabIndex = -1, r.style.outline = "none", document.body.appendChild(r), T.forEach((function(x) {
         x.addEventListener("click", (function(ev) {
@@ -1526,7 +1526,7 @@
     }
     function l() {
       var e = n(".sf-rw-done-p", t);
-      e && (e.innerHTML = "내 링크로 들어온 친구가 강의를 결제하면<br>결제 금액의 <em>" + r(window.SF_SHARE && SF_SHARE.rate || "10%") + "</em>를 포인트로 받을 수 있어요!");
+      e && (e.innerHTML = "내 링크로 들어온 친구가 강의 구매를 확정하면<br>결제 금액의 <em>" + r(window.SF_SHARE && SF_SHARE.rate || "10%") + "</em>를 포인트로 받을 수 있어요!");
     }
   })), SFUI.register("r3LoginPill", (function() {
     if (!SFUI.loggedIn) {
