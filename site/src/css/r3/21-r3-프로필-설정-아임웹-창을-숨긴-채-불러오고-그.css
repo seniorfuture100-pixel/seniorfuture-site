@@ -24,3 +24,10 @@
   height:88px;
   border-radius:50%;
 }
+
+/* Reserve the mobile editor height while the profile form loads. */
+@media (max-width: 767px) {
+  body.shop_mypage .r2-prof:has(.r2-prof-skel, form) {
+    min-height: 900px;
+  }
+}
