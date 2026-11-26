@@ -141,6 +141,9 @@
     return label || ('결제 수단 ' + (i + 1));
   }
   function methodIcon(label) {
+    if (/^(?:n\s*pay|네이버\s*페이)$/i.test(label)) {
+      return '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#03c75a"/><path transform="translate(4 4)" fill="#fff" d="M15.6 12.6 8.1 2H2v20h6.4V11.4L15.9 22H22V2h-6.4z"/></svg>';
+    }
     // Toss Brand Resource Center, Toss_Symbol_Primary.
     if (/토스\s*페이|퀵계좌이체/.test(label)) {
       return '<span class="r3pay-toss-icon"></span>';
