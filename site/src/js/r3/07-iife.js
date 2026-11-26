@@ -336,12 +336,15 @@
       sub.parentNode.insertBefore(ag, sub.nextSibling);
     }
     var extraBox = box(hd(root, '추가정보')); if (extraBox) extraBox.classList.add('r3pay-box--extra');
-    // (11/6 사장님) 라이브 신청은 추천인 코드(추가정보 · 선택 입력)를 받지 않아요 → 칸과 감싸는 줄을 숨겨요
-    if (extraBox && /LIVE|라이브/i.test(clean(secProd.textContent))) {
-      extraBox.classList.add('r3pay-hide');
-      extraBox.parentElement && extraBox.parentElement.parentElement === left && extraBox.parentElement.classList.add('r3pay-hide');
+    var product = orderAmount(summary, /^상품\s*(금액|가격)$/);
+    var prod0 = !!product && product.value === 0;
+    var titles = $$('.r3pay-card__title', secProd);
+    var freeLive = prod0 && titles.length > 0 && titles.every(function (t) { return /라이브|\blive\b/i.test(clean(t.textContent)); });
+    if (extraBox) {
+      extraBox.classList.toggle('r3pay-hide', freeLive);
+      if (extraBox.parentElement && extraBox.parentElement.parentElement === left) extraBox.parentElement.classList.toggle('r3pay-hide', freeLive);
     }
-    benefits(root, left, secProd);
+    benefits(root, left, secProd, freeLive);
     // 모바일: 아임웹이 따로 그리는 아래 고정 '결제하기' 줄 — 버튼은 주황, 아래 문구는 우리 동의 문구(링크)로 (10/21)
     var mobile = $$('button[type=button]').filter(function (b) {
       return b.classList.contains('r3pay-mbtn') ||
@@ -356,8 +359,6 @@
     });
     document.documentElement.classList.toggle('r3pay-hasm', mobile.some(function (b) { return !!b.offsetParent; }));
     var total = orderAmount(summary, /^총\s*(결제|주문)\s*금액$/);
-    var product = orderAmount(summary, /^상품\s*(금액|가격)$/);
-    var prod0 = !!product && product.value === 0;
     var label = '결제하기';
     if (total) {
       label = total.value === 0 && prod0 ? '무료로 신청하기' : won(total.value) + ' 결제하기';
@@ -377,7 +378,7 @@
     if (!s) { s = document.createElement('span'); s.className = 'r3pay-hinfo'; h.appendChild(s); }
     if (s.innerHTML !== html) s.innerHTML = html;
   }
-  function benefits(root, left, secProd) {
+  function benefits(root, left, secProd, freeLive) {
     function wrap(h) { var b = box(h); return b && b.parentElement && b.parentElement.parentElement === left ? b.parentElement : null; }
     var wp = secProd.parentElement; if (wp && wp.parentElement === left) wp.classList.add('r3pay-w--prod');
     // 쿠폰 창 제목 띄어쓰기 '쿠폰적용' → '쿠폰 적용' (창은 주문서 바깥에 그려져요)
@@ -409,9 +410,8 @@
     }
     // 적립금(아임웹 이름 '포인트')
     var hP = hd(root, '포인트') || hd(root, '적립금 사용'), wpt = wrap(hP);
-    // (11/6 사장님) 라이브 신청은 적립금 칸도 숨겨요(추천인 코드와 같이)
-    if (wpt && /LIVE|라이브/i.test(clean(secProd.textContent))) { wpt.classList.add('r3pay-hide'); wpt = null; }
-    if (wpt) {
+    if (wpt) wpt.classList.toggle('r3pay-hide', freeLive);
+    if (wpt && !freeLive) {
       wpt.classList.add('r3pay-w--point');
       setText(hP, '적립금 사용');
       // '전액 사용'은 form 바로 아래 버튼. 입력칸 안 지우기(×) 버튼(전액 사용 누르면 생김)은 제외
