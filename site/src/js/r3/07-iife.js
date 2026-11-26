@@ -142,7 +142,8 @@
   }
   function methodIcon(label) {
     if (/^(?:n\s*pay|네이버\s*페이)$/i.test(label)) {
-      return '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#03c75a"/><path transform="translate(4 4)" fill="#fff" d="M15.6 12.6 8.1 2H2v20h6.4V11.4L15.9 22H22V2h-6.4z"/></svg>';
+      // Official Naver N icon, https://www.naver.com/favicon.ico?1
+      return '<img alt="" width="24" height="24" src="data:image/webp;base64,UklGRqQBAABXRUJQVlA4TJgBAAAvH8AHEN/iOADbNJJU/Lf7TwjHfJYOlnAjSZIapVj6/9vYY3J1jI4bSVKkzCX/nWS6F0MXQbZNAYd7vxNM0lTbMfnneX7lUwL8x2u+eT8+0h+u51P7/nle3tDNrufTi4bPT5Wjw+Mjx12gqPMzvv94LRQUUEjQiIaAQgAKCUQiQUMiUQMiYItHSBr3d0CYLAKmgMkQpaAgAkIAQZD4v0AkEJEMLewNAgaQgUpphQwmQ8gAbM4+TcWABNi1batObnB3iCtOgmvc5SkOkf4bee+sj9NBRP8FBIUO2FG8Uipeql2onaudqZ2qnagdqxWgNA1c5wqF7GwaKBUgD3ETWE7k8xkTiuchDbYJrcfSSZGdhhSMRJHtaFQ04s8RDI2weHgrGvLnBgZGWrVEA/7cQd/AlqjPn3vosQVRjz8P0BXNGejy5xE6og3W4c8TtEUHa6jNn2doiXYnS7IWf16gKdp73ZkXNfnjQEO077xtihoOuFCXuW5tJazugg/laqDy4ftepRoo+/Cu9qn2pfat9qP2q/anNv5XGgM=">';
     }
     // Toss Brand Resource Center, Toss_Symbol_Primary.
     if (/토스\s*페이|퀵계좌이체/.test(label)) {
