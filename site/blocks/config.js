@@ -28,6 +28,18 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
     name: '시니어퓨처 (SeniorFuture)', ceo: '정동호', biz: '858-27-01782', report: '2026-서울관악-0090',
     tel: '010-3237-4502', mail: 'seniorfuture100@gmail.com', addr: '서울특별시 관악구 관악로 144, 우남네오폴리스 2층'
   },
+  partnerOfferCopy: [
+['.pt2-lead', '<b>신규 고객 한정 · 첫 유료 구매 시 실결제액의 10% 적립</b>시니어퓨처 회원이라면 추천 링크를 공유하고 포인트를 받을 수 있어요.'],
+    ['.pt2-stats li:first-child span', '신규 고객 첫 유료 구매 기준'],
+    ['.pt3-cmp__b > span:last-child', '신규 고객의 첫 유료 구매가 확정되면 적립돼요'],
+    ['.pt3-cmp + .pt3-note', '신규 고객은 시니어퓨처에서 유료 구매 이력이 없는 분이에요.'],
+    ['.pt3-steps li:last-child p', '신규 고객의 첫 유료 구매가 확정되면 포인트가 쌓여요.'],
+    ['.pt3-pop p', '추천 링크로 첫 유료 구매를 한 신규 고객의<br>실결제액 중 <em>10%</em>를 포인트로 받아요.'],
+    ['.pt3-ben__a > small', '신규 고객 한정'],
+    ['.pt3-ben__a > p', '추천 링크·코드가 적용된 첫 유료 구매의 <strong>실결제액 10%</strong>가 적립돼요.'],
+    ['.pt3-faq [data-sf-acc-item]:first-child [data-sf-acc-panel]', '신규 고객이 내 추천 링크로 첫 유료 구매를 하고 구매가 확정되면, 실결제액의 10%를 포인트로 받는 프로그램이에요.'],
+    ['.pt3-faq [data-sf-acc-item]:nth-child(4) [data-sf-acc-panel]', '수강 시작 후 환불 기간이 지나 구매가 확정되면 적립돼요. 취소·환불된 주문은 적립 대상에서 빠지며, 이미 받은 포인트는 취소될 수 있어요.']
+  ],
   pressHref: 'https://apply.seniorfuture.kr/press',
   press: [
     { o: '머니투데이', t: '"돌봄 공백, 기술로 메운다"…경기도 창업 \'에이지테크\'로 회춘', d: '2026-10-14', href: 'https://n.news.naver.com/mnews/article/008/0005426331', g: 'g-o' },

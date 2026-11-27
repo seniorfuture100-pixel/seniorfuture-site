@@ -1,6 +1,6 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@cdn-v1.0.300/dist/sf.min.css" data-sf-stage>
-<link rel="preload" as="script" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@cdn-v1.0.300/dist/sf.min.js" data-sf-stage>
+<link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@cdn-v1.0.301/dist/sf.min.css" data-sf-stage>
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@cdn-v1.0.301/dist/sf.min.js" data-sf-stage>
 <script id="sf-config" data-sf-stage>/* sf-config.js — 사이트 설정 (공통 코드 Header 맨 위 <script id="sf-config">). 다른 코드보다 먼저 읽혀야 해요.
    모든 주소·수치는 공식 채널(apply.seniorfuture.kr · 링크트리)에서 확인한 값이에요. (2026-10-19) */
 window.SF_SITE = Object.assign(window.SF_SITE || {}, {
@@ -31,6 +31,18 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
     name: '시니어퓨처 (SeniorFuture)', ceo: '정동호', biz: '858-27-01782', report: '2026-서울관악-0090',
     tel: '010-3237-4502', mail: 'seniorfuture100@gmail.com', addr: '서울특별시 관악구 관악로 144, 우남네오폴리스 2층'
   },
+  partnerOfferCopy: [
+['.pt2-lead', '<b>신규 고객 한정 · 첫 유료 구매 시 실결제액의 10% 적립</b>시니어퓨처 회원이라면 추천 링크를 공유하고 포인트를 받을 수 있어요.'],
+    ['.pt2-stats li:first-child span', '신규 고객 첫 유료 구매 기준'],
+    ['.pt3-cmp__b > span:last-child', '신규 고객의 첫 유료 구매가 확정되면 적립돼요'],
+    ['.pt3-cmp + .pt3-note', '신규 고객은 시니어퓨처에서 유료 구매 이력이 없는 분이에요.'],
+    ['.pt3-steps li:last-child p', '신규 고객의 첫 유료 구매가 확정되면 포인트가 쌓여요.'],
+    ['.pt3-pop p', '추천 링크로 첫 유료 구매를 한 신규 고객의<br>실결제액 중 <em>10%</em>를 포인트로 받아요.'],
+    ['.pt3-ben__a > small', '신규 고객 한정'],
+    ['.pt3-ben__a > p', '추천 링크·코드가 적용된 첫 유료 구매의 <strong>실결제액 10%</strong>가 적립돼요.'],
+    ['.pt3-faq [data-sf-acc-item]:first-child [data-sf-acc-panel]', '신규 고객이 내 추천 링크로 첫 유료 구매를 하고 구매가 확정되면, 실결제액의 10%를 포인트로 받는 프로그램이에요.'],
+    ['.pt3-faq [data-sf-acc-item]:nth-child(4) [data-sf-acc-panel]', '수강 시작 후 환불 기간이 지나 구매가 확정되면 적립돼요. 취소·환불된 주문은 적립 대상에서 빠지며, 이미 받은 포인트는 취소될 수 있어요.']
+  ],
   pressHref: 'https://apply.seniorfuture.kr/press',
   press: [
     { o: '머니투데이', t: '"돌봄 공백, 기술로 메운다"…경기도 창업 \'에이지테크\'로 회춘', d: '2026-10-14', href: 'https://n.news.naver.com/mnews/article/008/0005426331', g: 'g-o' },
@@ -56,9 +68,9 @@ if (window.SF_PG_HIDE) {
 // (11/3 사장님) Microsoft Clarity 히트맵 끔 — 휴대폰 스크롤 때마다 화면 위치를 다시 계산해 0.1~0.2초씩 멈췄어요.
 //   다시 켜려면 v1.0.208 의 이 자리 블록(프로젝트 z7cxscbz9h)을 되살려 배포. Clarity 계정·프로젝트는 그대로 있어요
 </script>
-<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@cdn-v1.0.300/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
+<link rel="stylesheet" id="sf-css" href="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@cdn-v1.0.301/dist/sf.min.css" onerror="this.onerror=null;this.href='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.css'" data-sf-stage>
 <style id="sf-patch-css" data-sf-stage></style>
-<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@cdn-v1.0.300/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){document.readyState!=='loading'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
+<script id="sf-js" src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@cdn-v1.0.301/dist/sf.min.js" onerror="var s=document.createElement('script');s.src='https://seniorfuture100-pixel.github.io/seniorfuture-site/dist/sf.min.js';s.onload=function(){document.readyState!=='loading'&&window.SFUI&&SFUI.init(document)};document.head.appendChild(s)" data-sf-stage></script>
 <script id="sf-early" data-sf-stage>/* sf-early.js — 첫 화면부터 꾸민 모습 (아임웹 원본이 한 번도 그려지지 않게)
    배치: 공통 코드 Header Code 맨 끝, 꾸밈 JS 묶음(sf-ui-js · sf-patch-js · sf-r2-js · sf-r3-js) 바로 뒤.
    ① 본문: MutationObserver 콜백은 화면을 그리기 전에 실행돼요. 본문·푸터를 다 읽은 순간 꾸밈을 한 번 돌려요.
