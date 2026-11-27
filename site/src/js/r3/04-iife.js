@@ -213,7 +213,7 @@
       var s = function() {
         a('[data-widget-type="board"] ._card_wrap').forEach((function(t) {
           var e = t.querySelector("._post_item_wrap");
-          t.style.display = e && e.classList.contains("sf-hidden") ? "none" : "";
+          t.style.display = !e || e.classList.contains("sf-hidden") || e.querySelector(".card.secret") ? "none" : "";
         }));
       };
       s(), setTimeout(s, 300), setTimeout(s, 1e3), c().then((function(t) {
@@ -225,7 +225,7 @@
             t.classList.contains("sf-hidden") || (l[o(t)] = 1);
           })), t.forEach((function(t) {
             var n = t.querySelector("._post_item_wrap");
-            if (n) {
+            if (n && !n.querySelector(".card.secret")) {
               var r = o(n);
               if (r && !l[r]) {
                 var s = (n.querySelector(".title em:not(.notice-block):not(.addon-badge)") || {}).textContent;
@@ -258,7 +258,7 @@
             }
           }));
           var u = a('[data-widget-type="board"] ._post_item_wrap').filter((function(t) {
-            return !t.classList.contains("sf-hidden") && ("all" === e || function(t) {
+            return !t.classList.contains("sf-hidden") && !t.querySelector(".card.secret") && ("all" === e || function(t) {
               var e = t.querySelector(".title em:not(.notice-block):not(.addon-badge)");
               return e ? e.textContent.trim() : "";
             }(t) === e);

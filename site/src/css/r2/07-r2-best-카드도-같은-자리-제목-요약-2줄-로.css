@@ -13,7 +13,9 @@
   max-width:none!important;
   float:none!important;
 }
-:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap:has(>._post_item_wrap.sf-hidden) {
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap:has(>._post_item_wrap.sf-hidden),
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap:has(.card.secret),
+:root.r2-ins body [data-widget-type=board] .list-style.type_grid ._card_wrap:not(:has(._post_item_wrap)) {
   display:none!important;
 }
 :root.r2-ins body [data-widget-type=board] .btn.float_r,
