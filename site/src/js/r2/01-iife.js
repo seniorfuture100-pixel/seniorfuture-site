@@ -473,7 +473,7 @@
             })), S.querySelector(".r2-my-load").replaceWith(n), SFUI.init(n);
           })).catch((function() {
             S.querySelector(".r2-my-load").innerHTML = '강의 목록을 불러오지 못했어요. <a href="/classroom">나의 강의실에서 보기</a>';
-          }))), "room" === c && (S.innerHTML = '<h2 class="r2-my-h">나의 강의실</h2><div class="sf-room-viewport" role="region" aria-label="내 강의 목록" tabindex="0"><div class="r3-orders" data-sf-rooms><div class="r2-my-load">불러오는 중…</div></div></div>'),
+          }))), "room" === c && (S.innerHTML = '<h2 class="r2-my-h">나의 강의실</h2><div class="r3-orders" data-sf-rooms><div class="r2-my-load">불러오는 중…</div></div>'),
           "orders" === c && (S.innerHTML = '<h2 class="r2-my-h">결제 내역</h2><div class="r3-orders" data-sf-orders><div class="r2-my-load">불러오는 중…</div></div>'), 
           "recent" === c) {
             var x = [];

@@ -35,7 +35,11 @@
       cards.forEach(dress);
       var em = box.querySelector('.sf-bn-empty');
       if (!cards.length && !em && !(has > 0)) { em = document.createElement('div'); em.className = 'sf-bn-empty sf-scope r3-wish--empty'; em.innerHTML = '<strong>지금 쓸 수 있는 쿠폰이 없어요</strong><span>새 쿠폰이 생기면 여기에 보여요. 결제할 때 주문서에서 골라 쓸 수 있어요</span><a class="sf-btn sf-btn--s" href="/course">교육 둘러보기</a>'; box.appendChild(em); }
-      em && (em.hidden = !!cards.length);
+      if (em) {
+        em.hidden = !!cards.length;
+        var notice = box.querySelector('._coupon_list .body_font_color_40');
+        if (notice && clean(notice.textContent) === '받을 수 있는 쿠폰이 없습니다.') notice.hidden = !em.hidden;
+      }
     };
     var q = 0;
     new MutationObserver(function () { q || (q = requestAnimationFrame(function () { q = 0; deco(); })); }).observe(box, { childList: true, subtree: true });

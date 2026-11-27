@@ -24,7 +24,7 @@ SFUI.register('boardView', function () {
   if (catEl) (catEl.closest('a') || catEl).remove();
   if (h1) [].forEach.call(h1.querySelectorAll('.sticker'), function (s) { s.remove(); }); // (10/28) 고정 공지의 '공지' 딱지가 제목 앞에 붙던 것('공지 공지사항!!!')
   var title = h1 ? h1.textContent.trim() : '';
-  var boardName = isFaq ? '자주 묻는 질문' : (v.querySelector('.board_name a') || {}).textContent || (isReview ? '수강평' : isNotice ? '공지사항' : '인사이트');
+  var boardName = isFaq ? '자주 묻는 질문' : isReview ? '참가후기' : (v.querySelector('.board_name a') || {}).textContent || (isNotice ? '공지사항' : '인사이트');
   var listHref = isFaq ? '/help#faq' : path; // (10/28) 자주 묻는 질문 목록은 고객센터 안에 있어요
   var sum = v.querySelector('.board_summary');
   var name = sum && sum.querySelector('.write') ? sum.querySelector('.write').textContent.trim() : '';
@@ -124,7 +124,7 @@ SFUI.register('boardView', function () {
         return a && { href: a.getAttribute('href'), img: (function () { var cw = c.querySelector('.card_wrapper'), m = cw && /url\(["']?([^"')]+)/.exec(cw.getAttribute('style') || ''); return m ? m[1] : img && (img.getAttribute('src') || img.getAttribute('data-src')); })(), cat: em ? em.textContent.trim() : '', title: ttl, text: tx ? tx.textContent.trim() : '', date: dt ? dt.textContent.trim() : '' };
       }).filter(function (c) { return c && c.href.indexOf('idx=' + idx) < 0 && c.title; }).slice(0, isReview ? 3 : 4);
       if (!cards.length) return;
-      var sec = el('section', 'sf-bv-more', '<div class="sf-bv-more__in"><h2>' + (isReview ? '다른 수강평' : '함께 읽으면 좋은 글') + '</h2><ul class="sf-bv-more__list' + (isReview ? ' is-3' : '') + '">' + cards.map(function (c) {
+      var sec = el('section', 'sf-bv-more', '<div class="sf-bv-more__in"><h2>' + (isReview ? '다른 참가후기' : '함께 읽으면 좋은 글') + '</h2><ul class="sf-bv-more__list' + (isReview ? ' is-3' : '') + '">' + cards.map(function (c) {
         return '<li><a href="' + esc(c.href) + '"><span class="sf-bv-more__th">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '') + '</span>' + (c.cat ? '<small>' + esc(c.cat) + '</small>' : '') + '<strong>' + esc(c.title) + '</strong><p>' + esc(c.text) + '</p>' + (isReview ? '' : '<time>' + esc(c.date) + '</time>') + '</a></li>'; // (10/28) 수강평은 날짜 없이
       }).join('') + '</ul></div>');
       var widget = v.closest('[id^="w20"]') || v;

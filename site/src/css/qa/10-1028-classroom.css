@@ -330,15 +330,8 @@
   margin-top:0!important;
 }
 
-/* Reserve the same reading area for loading, filters and the populated list. */
-.sf-room-viewport {
-  box-sizing: border-box;
-  height: clamp(20rem, 72vh, 54rem);
-  height: clamp(20rem, 72svh, 54rem);
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-}
-.sf-room-viewport:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+/* Keep space while orders load, then let the list scroll with the page. */
+.r2-my-pane [data-sf-rooms] > .r2-my-load {
+  min-height: clamp(20rem, 72vh, 54rem);
+  min-height: clamp(20rem, 72svh, 54rem);
 }

@@ -34,7 +34,7 @@ SFUI.register('reviewMeta', function (root) {
   if (/bmode=/.test(location.search)) return;
   // (10/26) 게시판 이름: 수강평 → 참가자 후기
   var h1 = document.querySelector('.sf-page h1'), sub = document.querySelector('.sf-page .sf-page__sub');
-  if (h1 && h1.textContent.trim() === '수강평') h1.textContent = '참가자 후기';
+  if (h1 && /^(수강평|참가자 후기)$/.test(h1.textContent.trim())) h1.textContent = '참가후기';
   if (sub && /솔직한 후기/.test(sub.textContent)) sub.textContent = '시니어퓨처와 함께한 멤버들의 이야기예요';
   var fetched = 0, L = {}; (SFUI.reviewData || []).forEach(function (r) { L[r[1].replace(/^“|”$/g, '')] = r[0]; });
   root.querySelectorAll('._post_item_wrap').forEach(function (it) {

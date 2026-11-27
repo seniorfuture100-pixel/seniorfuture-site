@@ -63,6 +63,9 @@ html:not(.sf-pt-on) body.shop_mypage .table-wrap:has(#shop_mypage_pointlist) {
 html.sf-cp-on body #couopn_list > .table-wrap > h6 {
   display:none!important;
 }
+html.sf-cp-on body #couopn_list ._coupon_list .body_font_color_40[hidden] {
+  display:none!important;
+}
 :root .sf-bn-head p {
   margin:-6px 0 18px;
   color:#6b7280;
