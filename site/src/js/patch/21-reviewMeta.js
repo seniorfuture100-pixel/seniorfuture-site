@@ -9,6 +9,75 @@ var PHOTO = {
   '승현님 (서울대 보건대학원)': '18', '태훈님 (행정사)': '18', '종수님 (MYSC 심사역)': '36',
   '태영님 (블루포인트파트너스 심사역)': '36', '기호님 (행복한삶 대표)': '33'
 };
+// 원래 목록 이력으로 돌아가고, 브라우저가 페이지를 다시 만들면 후기 카드 위치를 복원해요.
+SFUI.reviewNavigation = (function () {
+  var key = 'sfReviewReturn';
+  function plainClick(event, link) {
+    return !event.button && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+      && (!link.target || link.target === '_self');
+  }
+  return {
+    list: function (list) {
+      var navigation = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      var saved = navigation && navigation.type === 'back_forward' && history.state && history.state[key];
+      var inputEvents = ['wheel', 'touchstart', 'pointerdown', 'keydown'];
+      var scrollMode = history.scrollRestoration;
+      function stopRestore() {
+        saved = null;
+        history.scrollRestoration = scrollMode;
+        inputEvents.forEach(function (type) { removeEventListener(type, stopRestore); });
+      }
+      if (saved) {
+        history.scrollRestoration = 'manual';
+        inputEvents.forEach(function (type) { addEventListener(type, stopRestore, { passive: true }); });
+      }
+      list.addEventListener('click', function (event) {
+        var link = event.target.closest('a.post_link_wrap');
+        if (!link || !plainClick(event, link)) return;
+        var detail = new URL(link.href);
+        var id = detail.searchParams.get('idx');
+        if (!id || detail.origin !== location.origin || !/^\/review\/?$/.test(detail.pathname)) return;
+        var card = link.closest('._post_item_wrap') || link;
+        try {
+          var state = Object.assign({}, history.state);
+          state[key] = { id: id, top: card.getBoundingClientRect().top };
+          history.replaceState(state, '');
+          sessionStorage.setItem(key, location.href + '#' + id);
+        } catch (error) {}
+      });
+      return function () {
+        if (!saved) return;
+        var link = [].filter.call(list.querySelectorAll('a.post_link_wrap'), function (item) {
+          return new URL(item.href).searchParams.get('idx') === saved.id;
+        })[0];
+        var card = link && (link.closest('._post_item_wrap') || link);
+        function restore() {
+          if (saved && card) window.scrollTo({ top: window.scrollY + card.getBoundingClientRect().top - saved.top, behavior: 'instant' });
+        }
+        restore();
+        requestAnimationFrame(restore);
+        setTimeout(function () {
+          if (saved) { restore(); stopRestore(); }
+        }, 300);
+      };
+    },
+    detail: function (links) {
+      var params = new URLSearchParams(location.search);
+      var href = '/review' + (params.get('preview_mode') === '1' ? '?preview_mode=1' : '');
+      [].forEach.call(links, function (link) {
+        link.href = href;
+        link.addEventListener('click', function (event) {
+          if (history.length < 2 || !plainClick(event, link)) return;
+          try {
+            if (sessionStorage.getItem(key) !== document.referrer + '#' + params.get('idx')) return;
+          } catch (error) { return; }
+          event.preventDefault();
+          history.back();
+        });
+      });
+    }
+  };
+})();
 // (10/28 사장님) 새 수강평은 [제목] · [내용] · 마지막 줄 'OO님 (소속)'으로 써요 → 목록 카드 이름 자리에 그 줄을 보여 줘요
 SFUI.rvSign = {
   end: /(?:^|\s)-?\s*([가-힣A-Za-z○·]{1,12}님(?:\s*\([^()]{1,40}\))?)\s*$/,

@@ -2003,13 +2003,14 @@
       // (10/26) 카드 하나(_card_wrap)가 아니라 목록 칸 전체에 이어 붙여요 — 안내 문구가 첫 카드 자리를 차지하고 새 후기가 첫 카드 안에 들어가던 것
       var r = n('[data-widget-type="board"] .list-style') || (n("._card_wrap") || {}).parentElement;
       if (r) {
+        var restoreReview = SFUI.reviewNavigation && SFUI.reviewNavigation.list(r);
         var s = n(".pagination") || n('[class*="paging"]');
         if (s) {
           window.__r3RvMore = 1, s.style.display = "none";
           var i = 1, o = !1, c = !1, l = document.createElement("div");
           l.className = "r3-rv-more", l.setAttribute("aria-live", "polite"), r.parentNode.insertBefore(l, r.nextSibling), 
           setTimeout(d, 0); // (10/26) 스크롤 기다리지 않고 처음부터 끝까지 차례로 불러와요
-        }
+        } else if (restoreReview) restoreReview();
       }
     }
     function d() {
@@ -2036,6 +2037,7 @@
       function finish() {
         c = !0;
         window.removeEventListener("scroll", noteScroll);
+        if (restoreReview) restoreReview();
       }
       function afterScroll(job) {
         setTimeout(function run() {

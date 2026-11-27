@@ -45,6 +45,13 @@ SFUI.register('boardView', function () {
       + '<span class="sf-bv-share"><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗 링크 복사</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button></span></div>';
   }
   if (h1) { var bt = h1.closest('.board-title') || h1; bt.parentNode.insertBefore(head, bt); bt.classList.add('sf-bv-hide'); }
+  if (isReview && SFUI.reviewNavigation) {
+    var reviewListLinks = [head.querySelector('.sf-bv-crumb a')];
+    [].forEach.call(v.querySelectorAll('.table_bottom a[href]'), function (link) {
+      if (link.textContent.trim() === '목록') reviewListLinks.push(link);
+    });
+    SFUI.reviewNavigation.detail(reviewListLinks);
+  }
   if (sum) sum.classList.add('sf-bv-sum');
   // (10/27) 전문가 글 본문: 첫 사진을 맨 위 큰 사진으로, '[함께한 활동]' 같은 칸 제목 → 굵은 제목, 내용 없는 칸은 제목째 빼요
   if (isExpert && bodyEl) {
@@ -122,10 +129,10 @@ SFUI.register('boardView', function () {
         if (tc) [].forEach.call(tc.querySelectorAll('em, .icons, .addon-badge'), function (x) { x.remove(); });
         var ttl = tc ? tc.textContent.replace(/\s+/g, ' ').trim() : '';
         return a && { href: a.getAttribute('href'), img: (function () { var cw = c.querySelector('.card_wrapper'), m = cw && /url\(["']?([^"')]+)/.exec(cw.getAttribute('style') || ''); return m ? m[1] : img && (img.getAttribute('src') || img.getAttribute('data-src')); })(), cat: em ? em.textContent.trim() : '', title: ttl, text: tx ? tx.textContent.trim() : '', date: dt ? dt.textContent.trim() : '' };
-      }).filter(function (c) { return c && c.href.indexOf('idx=' + idx) < 0 && c.title; }).slice(0, isReview ? 3 : 4);
+      }).filter(function (c) { return c && c.href.indexOf('idx=' + idx) < 0 && c.title; }).slice(0, 4);
       if (!cards.length) return;
-      var sec = el('section', 'sf-bv-more', '<div class="sf-bv-more__in"><h2>' + (isReview ? '다른 참가후기' : '함께 읽으면 좋은 글') + '</h2><ul class="sf-bv-more__list' + (isReview ? ' is-3' : '') + '">' + cards.map(function (c) {
-        return '<li><a href="' + esc(c.href) + '"><span class="sf-bv-more__th">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '') + '</span>' + (c.cat ? '<small>' + esc(c.cat) + '</small>' : '') + '<strong>' + esc(c.title) + '</strong><p>' + esc(c.text) + '</p>' + (isReview ? '' : '<time>' + esc(c.date) + '</time>') + '</a></li>'; // (10/28) 수강평은 날짜 없이
+      var sec = el('section', 'sf-bv-more', '<div class="sf-bv-more__in"><h2>함께 읽으면 좋은 글</h2><ul class="sf-bv-more__list">' + cards.map(function (c) {
+        return '<li><a href="' + esc(c.href) + '"><span class="sf-bv-more__th">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '') + '</span>' + (c.cat ? '<small>' + esc(c.cat) + '</small>' : '') + '<strong>' + esc(c.title) + '</strong><p>' + esc(c.text) + '</p><time>' + esc(c.date) + '</time></a></li>';
       }).join('') + '</ul></div>');
       var widget = v.closest('[id^="w20"]') || v;
       widget.parentNode.insertBefore(sec, widget.nextSibling);
