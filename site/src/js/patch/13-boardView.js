@@ -10,7 +10,7 @@ SFUI.register('boardView', function () {
   root.classList.add('sf-bv-on', 'sf-bv--article'); // (10/28 사장님) 공지도 인사이트 글과 같은 모양(경로·글쓴이·공유·목록 알약). 아래 '함께 읽으면 좋은 글'만 빼요
   if (isNotice) root.classList.add('sf-bv--ntc');
   if (isExpert) root.classList.add('sf-bv--expert');
-  if (G) root.classList.add('sf-bv--gal'); // (10/27) 전문가 글: 글쓴이·날짜 줄 없이, 사진 → 칸 제목(내용 있는 칸만) → 다른 전문가
+  if (G) root.classList.add('sf-bv--gal'); // 갤러리 본문 구성은 유지하고 작성자 표시는 공통 적용
   var AMP = String.fromCharCode(38), tmp = document.createElement('div');
   function esc(s) { tmp.textContent = s == null ? '' : String(s); return tmp.innerHTML.replace(/"/g, AMP + '#34;'); }
   function el(t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
@@ -37,12 +37,11 @@ SFUI.register('boardView', function () {
   var head = el('header', 'sf-bv-head');
   {
     var avatar = sum && sum.querySelector('.avatar img') ? '<img src="' + esc(sum.querySelector('.avatar img').getAttribute('src')) + '" alt="">' : '';
-    if (isFaq) { // (10/28) 자주 묻는 질문 게시판은 글쓴이 칸을 꺼 둬서 비어요 → 공지 글처럼 '시니어퓨처'(patch/22 가 관리자→시니어퓨처) + 기본 사진
-      if (!name) name = '관리자';
-      if (!avatar) avatar = '<img src="/common/img/default_profile.png" alt="">';
-    }
+    // 모든 게시물에 작성자를 표시하고 날짜와 읽기 시간은 생략합니다.
+    if (!name || name === '관리자') name = '시니어퓨처';
+    if (!avatar) avatar = '<img src="https://cdn.imweb.me/upload/S20261016dceb77aecc2e2/5500ff3d4826c.png" alt="">';
     head.innerHTML = '<nav class="sf-bv-crumb" aria-label="현재 위치"><a href="' + listHref + '">' + esc(boardName.trim()) + '</a>' + (cat ? '<span aria-hidden="true">›</span>' + (isFaq ? '<span class="is-cat">' + esc(cat) + '</span>' : '<a class="is-cat" href="' + path + '?tab=' + encodeURIComponent(cat) + '">' + esc(cat) + '</a>') : '') + '</nav><h1>' + esc(title) + '</h1>'
-      + '<div class="sf-bv-by">' + (isExpert || isReview ? '' : /* (10/28 사장님) 자주 묻는 질문 글은 공지 글과 같은 배치(글쓴이·날짜 + 오른쪽 공유) */ /* (10/28 사장님) 수강평 글도 글쓴이 사진·이름·날짜 없이(이름은 본문 끝 'OO님 (소속)') */ '<span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong><small>' + esc(String(dateFull).split(' ')[0]) + ' · ' + mins + '분 읽기</small></span>')
+      + '<div class="sf-bv-by"><span class="sf-bv-avatar">' + avatar + '</span><span class="sf-bv-who"><strong>' + esc(name) + '</strong></span>'
       + '<span class="sf-bv-share"><button type="button" class="sf-bv-link" data-sf-share-link aria-label="링크 복사">🔗 링크 복사</button><button type="button" class="sf-bv-kakao" data-sf-share-kakao>카카오톡 공유</button></span></div>';
   }
   if (h1) { var bt = h1.closest('.board-title') || h1; bt.parentNode.insertBefore(head, bt); bt.classList.add('sf-bv-hide'); }

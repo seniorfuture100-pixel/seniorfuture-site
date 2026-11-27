@@ -210,7 +210,10 @@ html.sf-sr-on body .prod_icon.sold_out::after {
   font:600 13px/1 var(--sf-font);
 }
 
-/* Keep the member footer in place while the page loads. */
-html:not(.sf-ft-ready) body.shop_mypage #doz_footer_wrap {
-  transform: none !important;
+/* 마이페이지 탭 이동: 이미 보인 푸터에 로딩 후 fade-in을 다시 적용하지 않습니다. */
+html body.shop_mypage #doz_footer_wrap {
+  transform:none!important;
+  animation:none!important;
+  transition:none!important;
+  opacity:1!important;
 }
