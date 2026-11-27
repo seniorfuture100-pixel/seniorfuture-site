@@ -24,6 +24,14 @@
 :root body .sf-fab.r2-fab:hover {
   background:#000;
 }
+/* Keep the keyboard focus cue neutral; pointer presses need no outline. */
+:root body .sf-fab.r2-fab:focus-visible {
+  outline:2px solid #555!important;
+}
+:root body .sf-fab.r2-fab:active,
+:root body .sf-fab.r2-fab:focus:not(:focus-visible) {
+  outline:none!important;
+}
 @media (max-width:767.98px) {
   :root body .sf-fab.r2-fab {
     display:inline-flex;

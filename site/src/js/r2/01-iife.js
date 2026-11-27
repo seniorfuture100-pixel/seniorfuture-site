@@ -114,6 +114,9 @@
       }), 800), setTimeout(E, 2500), o(".sf-fab").forEach((function(e) {
         e.classList.add("r2-fab"), e.textContent = "1:1 문의", e.setAttribute("aria-label", "1:1 문의 (카카오톡 채널)"), 
         d(e);
+        e.addEventListener("click", function(event) {
+          if (event.detail > 0) e.blur();
+        });
       })), o(".sf-menu__sub a, .sf-navdrop a").forEach((function(e) {
         "창업·사업개발" === e.textContent.trim() && (e.textContent = "창업 & 사업개발");
       })), o(".sf-menu__foot a").forEach((function(e) {
