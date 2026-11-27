@@ -73,7 +73,8 @@ if (fs.existsSync(cssf)) {
 //    넘으면 실패: 늘어난 이유를 확인하고, 꼭 필요하면 한도를 올리며 이유를 여기 적기
 // (11/6) 첫 신청 기본정보 보완·회원 저장·주문서 재사용을 위한 공통 helper가 추가돼요.
 // 외부 SDK 추가 없이 brotli 약 146KB: 기존 145KB → 147KB(2KB)만 허용해요.
-const BUDGET = { 'dist/sf.min.js': 147, 'dist/sf.min.css': 62 };
+// (11/27) Profile consent buttons reuse the native checkbox and add about 0.4 KiB.
+const BUDGET = { 'dist/sf.min.js': 148, 'dist/sf.min.css': 62 };
 Object.keys(BUDGET).forEach(f => {
   const p = path.join(root, f); if (!fs.existsSync(p)) return;
   const kb = Math.round(require('zlib').brotliCompressSync(fs.readFileSync(p)).length / 1024);
