@@ -39,7 +39,7 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
     { o: '서울경제', t: '"초고령사회는 위기이자 기회…AI·실행력 갖춘 청년이 시니어 산업 주역"', d: '2025-12-17', href: 'https://n.news.naver.com/mnews/article/011/0004568306', g: 'g-g' },
     { o: '서울경제', t: '청년, AI로 초고령사회 해법 찾다… \'시니어퓨처 아이디어톤\' 성료', d: '2025-07-28', href: 'https://n.news.naver.com/mnews/article/011/0004514156', g: 'g-d' },
     { o: '브라보마이라이프', t: '시니어 비즈니스, 청년이 이끈다… MYSC·시니어퓨처 MOU 체결', d: '2025-07-03', href: 'https://bravo.etoday.co.kr/view/atc_view/16568', g: 'g-o' },
-    { o: '매일경제', t: '"시니어 비즈니스 지금이 기회" 기업과 청년의 새로운 전장으로', d: '2025-04-30', href: 'https://n.news.naver.com/article/030/0003308822', g: 'g-b' }
+    { o: '전자신문', t: '"시니어 비즈니스 지금이 기회" 기업과 청년의 새로운 전장으로', d: '2025-04-30', href: 'https://www.etnews.com/20250430000460', g: 'g-b' }
   ]
 });
 // (11/2) PG 재심사 스위치 — true 면 파트너 모집·추천 수익 안내를 가려요(코드·내용은 그대로). 심사 통과 뒤 false 로 바꿔 배포하면 원래 화면으로 돌아와요.
