@@ -278,11 +278,15 @@ html body .sf-pv-secs .sf-pv-sechead h2 {
 :root body .sf-gal .sf-ex-card:hover .sf-ex-ph {
   transform:translateY(-4px);
 }
-:root body .sf-gal .sf-exb-card strong {
-  display:-webkit-box;
-  overflow:hidden;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
+/* 언론 기사 제목과 프로젝트명은 카드 안에서 끝까지 읽을 수 있게 줄바꿈합니다. */
+:root body .sf-gal .sf-exb-card strong,
+:root body .sf-gal .sf-exb-card em,
+html.sf-bv--gal body .sf-bv-more__list strong,
+html.sf-bv--gal body .sf-bv-more__list p {
+  display:block;
+  overflow:visible;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
 }
 @media (max-width:991.98px) {
   :root body .sf-gal .sf-ex-grid {
