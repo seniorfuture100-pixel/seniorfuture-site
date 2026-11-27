@@ -120,6 +120,9 @@ SFUI.register('reviewMeta', function (root) {
     }
     var tt = it.querySelector('.r2-ttl') || it.querySelector('.title'), lab = tt && L[(tt.classList.contains('r2-ttl') ? tt.textContent : [].filter.call(tt.childNodes, function (x) { return x.nodeType === 3; }).map(function (x) { return x.textContent; }).join('')).trim()];
     if (wr && lab) wr.textContent = lab; // 참가자 후기: 9기 · 규동님 (더힐실버타운)
+    // 아임웹 요약 길이에서 서명의 &middot;이 잘려도 카드 본문에 노출하지 않아요.
+    // 확인된 후기 서명이 있는 카드만 처리하고 원문 게시글은 보존합니다.
+    if (sp && lab) sp.textContent = sp.textContent.replace(/\s+\d+\s*기\s*(?:·|&(?:amp;)?mid)[\s\S]*$/, '').trim();
     if (wr && !lab && sp) { // (10/28) 새 후기: 본문 끝 'OO님 (소속)' → 이름 자리, 카드 글에서는 빼요
       var se = SFUI.rvSign.end.exec(sp.textContent.trim());
       if (se) { lab = SFUI.rvSign.line(se[1]); wr.textContent = lab; sp.textContent = sp.textContent.trim().slice(0, se.index).trim(); }
