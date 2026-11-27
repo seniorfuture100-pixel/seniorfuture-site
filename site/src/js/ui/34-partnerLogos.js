@@ -9,7 +9,7 @@ SFUI.register('partnerLogos', function () {
     original.parentNode.insertBefore(canvas, original); canvas.appendChild(original);
     if (/cefe122e312d9/.test(original.src)) {
       var toyota = document.createElement('span'); toyota.className = 'sf-partner-toyota';
-      toyota.innerHTML = '<img src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@ed17f74d30298c2e59605e546141b189659b442f/site/assets/partners/toyota-official.svg" alt="TOYOTA">'; canvas.appendChild(toyota);
+      toyota.innerHTML = '<img src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@052145921a682cb69966f35e0ef426b4a651095f/site/assets/partners/toyota-user-emblem.png" alt="TOYOTA">'; canvas.appendChild(toyota);
     }
     var caredoc = document.createElement('div'); caredoc.className = 'sf-partner-caredoc';
     caredoc.innerHTML = '<img src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@ed17f74d30298c2e59605e546141b189659b442f/site/assets/partners/caredoc-official.svg" alt="케어닥" width="140" height="36">';
@@ -18,4 +18,3 @@ SFUI.register('partnerLogos', function () {
     if (label.indexOf('케어닥') < 0) wall.setAttribute('aria-label', label + ', 케어닥');
   });
 });
-
