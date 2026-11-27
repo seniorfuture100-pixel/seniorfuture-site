@@ -72,6 +72,8 @@ if (window.SF_PG_HIDE) {
   // ② 상품 목록 자리: 꾸밈 전엔 투명하게
   var st = d.createElement('style'); st.id = 'sf-early-css';
   st.textContent = 'html:not(.sf-shop-free) div.js-custom-widget-container:not([data-sf-shop]){visibility:hidden!important}';
+  // Keep the footer anchored when payment or points history changes during loading.
+  st.textContent += '.sf-oc-list,.sf-pt-list{overflow-anchor:none}';
   (d.head || html).appendChild(st);
   setTimeout(function () { html.classList.add('sf-shop-free'); }, 4000);
   var A = w.Element && Element.prototype.attachShadow;
