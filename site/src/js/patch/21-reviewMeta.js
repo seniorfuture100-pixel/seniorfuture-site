@@ -15,15 +15,17 @@ SFUI.rvSign = {
   line: function (t) { var m = /^\s*-?\s*([가-힣A-Za-z○·]{1,12}님(?:\s*\([^()]{1,40}\))?)\s*$/.exec(t || ''); return m ? m[1].replace(/님\s*\(/, '님 (') : ''; },
   // 목록 글자에 이름 줄이 잘려 안 보이면 글 보기에서 마지막 줄을 읽어 와요(한 번 읽으면 sessionStorage)
   fetch: function (id, done) {
-    var k = 'sf_rvsign_' + id, c = null;
+    var k = 'sf_rvsign_v2_' + id, c = null;
     try { c = sessionStorage.getItem(k); } catch (e) {}
-    if (c !== null) { done(c); return; }
+    if (c) { done(c); return; }
     fetch('/review/?bmode=view' + String.fromCharCode(38) + 'idx=' + id + (/preview_mode=1/.test(location.search) ? String.fromCharCode(38) + 'preview_mode=1' : ''), { credentials: 'same-origin' })
       .then(function (r) { return r.text(); }).then(function (t) {
         var b = new DOMParser().parseFromString(t, 'text/html').querySelector('.board_txt_area');
         var ls = b ? [].filter.call(b.querySelectorAll('p, div'), function (x) { return !x.querySelector('p, div') && x.textContent.trim(); }) : [];
-        var s = ls.length ? SFUI.rvSign.line(ls[ls.length - 1].textContent) : '';
-        try { sessionStorage.setItem(k, s); } catch (e) {}
+        var s = '';
+        // 출처 안내가 마지막에 있어도 독립된 이름/소속 줄을 뒤에서 찾아요.
+        for (var j = ls.length - 1; j >= 0 && !s; j--) s = SFUI.rvSign.line(ls[j].textContent);
+        try { if (s) sessionStorage.setItem(k, s); } catch (e) {}
         done(s);
       }).catch(function () {});
   }

@@ -139,15 +139,11 @@
         }), {
           passive: !0
         }), !f) {
-          var v = 0, g = !0;
-          window.addEventListener("scroll", (function() {
-            v = performance.now();
-          }), {
-            passive: !0
-          }), "IntersectionObserver" in window && new IntersectionObserver((function(t) {
+          var g = !0;
+          "IntersectionObserver" in window && new IntersectionObserver((function(t) {
             g = t[0].isIntersecting;
           })).observe(s), function t(e) {
-            h && !m && !document.hidden && g && e - v > 400 && ((p += 40 * Math.min(.05, (e - h) / 1e3)) >= d && (p -= d), 
+            h && !m && !document.hidden && g && ((p += 72 * Math.min(.05, (e - h) / 1e3)) >= d && (p -= d),
             s.scrollLeft = p), h = e, requestAnimationFrame(t);
           }(0);
         }
@@ -157,9 +153,7 @@
       m = !0, clearTimeout(u);
     }
     function _() {
-      clearTimeout(u), u = setTimeout((function() {
-        m = !1, p = s.scrollLeft;
-      }), 1500);
+      clearTimeout(u), m = !1, p = s.scrollLeft;
     }
   })), SFUI.register("r3InsightAll", (function() {
     var t = location.pathname, e = new URLSearchParams(location.search);
