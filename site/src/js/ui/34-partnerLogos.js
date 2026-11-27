@@ -13,8 +13,9 @@ SFUI.register('partnerLogos', function () {
     }
     var caredoc = document.createElement('div'); caredoc.className = 'sf-partner-caredoc';
     caredoc.innerHTML = '<img src="https://cdn.jsdelivr.net/gh/seniorfuture100-pixel/seniorfuture-site@ed17f74d30298c2e59605e546141b189659b442f/site/assets/partners/caredoc-official.svg" alt="케어닥" width="140" height="36">';
-    wall.appendChild(caredoc);
-    var label = wall.getAttribute('aria-label') || '함께한 기업·기관';
+    canvas.appendChild(caredoc);
+    var label = (wall.getAttribute('aria-label') || '함께한 기업·기관').replace(/, 한국액티브시니어협회/g, '');
     if (label.indexOf('케어닥') < 0) wall.setAttribute('aria-label', label + ', 케어닥');
   });
 });
+
