@@ -98,8 +98,9 @@ SFUI.register('boardView', function () {
       if (isExpert) { // (10/27) 다른 전문가: 예전 위젯 순서로 이 글 다음 5명(사진 1:1 · 이름 소속 · 함께한 활동)
         var EX = SFUI.experts, all = G ? SFUI.galCards(G, d) : EX.sort([].map.call(d.querySelectorAll('._post_item_wrap'), EX.card).filter(Boolean)), me = -1;
         all.forEach(function (c, i) { if (String(c.idx) === String(idx)) me = i; });
-        var pick = []; for (var k = 1; k < all.length && pick.length < 5; k++) pick.push(all[(me + k + all.length) % all.length]);
-        if (me < 0) pick = all.slice(0, 5);
+        var limit = G ? 4 : 5;
+        var pick = []; for (var k = 1; k < all.length && pick.length < limit; k++) pick.push(all[(me + k + all.length) % all.length]);
+        if (me < 0) pick = all.slice(0, limit);
         if (!pick.length) return;
         var xs = el('section', 'sf-bv-more sf-bv-more--ex', '<div class="sf-bv-more__in"><h2>' + (G ? G.more : '다른 전문가') + '</h2><ul class="sf-bv-more__list is-5">' + pick.map(function (c, i) {
           var href = G ? path + '/?bmode=view' + AMP + 'idx=' + c.idx : EX.url(c.idx), sub = G ? c.line : c.act;
