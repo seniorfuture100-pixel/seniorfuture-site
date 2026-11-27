@@ -28,12 +28,7 @@ SFUI.register('boardView', function () {
   var listHref = isFaq ? '/help#faq' : path; // (10/28) 자주 묻는 질문 목록은 고객센터 안에 있어요
   var sum = v.querySelector('.board_summary');
   var name = sum && sum.querySelector('.write') ? sum.querySelector('.write').textContent.trim() : '';
-  var date = sum && sum.querySelector('.date') ? sum.querySelector('.date').textContent.trim() : '';
-  var dateFull = sum && sum.querySelector('.date') ? (sum.querySelector('.date').getAttribute('title') || date) : date;
-  var hit = sum && sum.querySelector('.hit-count') ? sum.querySelector('.hit-count').textContent.trim() : '';
   var bodyEl = v.querySelector('.board_txt_area');
-  var words = bodyEl ? bodyEl.textContent.replace(/\s+/g, ' ').length : 0;
-  var mins = Math.max(1, Math.round(words / 500));
   var head = el('header', 'sf-bv-head');
   {
     var avatar = sum && sum.querySelector('.avatar img') ? '<img src="' + esc(sum.querySelector('.avatar img').getAttribute('src')) + '" alt="">' : '';

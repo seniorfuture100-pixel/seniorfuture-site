@@ -130,5 +130,9 @@
   {
     "file": "33-hiddenProducts.js",
     "stmt": false
+  },
+  {
+    "file": "34-partnerLogos.js",
+    "stmt": false
   }
 ]
