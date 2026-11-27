@@ -694,6 +694,36 @@
             var P = c.querySelector("input[name=passwd]");
             P && (P.placeholder = "새 비밀번호 (바꿀 때만)");
           }
+          var couponBenefits = O('input[name="coupon_subscription_agree"]');
+          if (couponBenefits) couponBenefits.classList.add('r2-hide');
+
+          var consent = c.querySelector('input[type="checkbox"][name="third_party"]');
+          var consentField = consent && consent.closest('._use_third_party');
+          var nativeChoice = consentField && consentField.querySelector('.float-block');
+          if (nativeChoice && !consent.disabled) {
+            var choices = document.createElement('div');
+            choices.className = 'r2-consent-choice';
+            choices.setAttribute('role', 'group');
+            choices.setAttribute('aria-label', '개인정보 제3자 제공 동의');
+            choices.innerHTML = '<button type="button">동의</button><button type="button">미동의</button>';
+            var agree = choices.firstElementChild, decline = choices.lastElementChild;
+            function syncConsent() {
+              agree.setAttribute('aria-pressed', String(consent.checked));
+              decline.setAttribute('aria-pressed', String(!consent.checked));
+            }
+            agree.addEventListener('click', function () {
+              if (!consent.checked) consent.click();
+            });
+            decline.addEventListener('click', function () {
+              if (consent.checked) consent.click();
+            });
+            consent.addEventListener('change', syncConsent);
+            c.addEventListener('reset', function () { setTimeout(syncConsent, 0); });
+            syncConsent();
+            nativeChoice.classList.add('r2-hide');
+            nativeChoice.parentNode.insertBefore(choices, nativeChoice);
+          }
+
           r2ProfTidy(c, l, d, f, j, F);
           if (SFUI.checkoutProfile) SFUI.checkoutProfile.setupForm(c, F, j);
         }
