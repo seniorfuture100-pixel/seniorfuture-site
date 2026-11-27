@@ -2030,23 +2030,47 @@
           return "";
         })));
       }
-      Promise.all(u).then((function(t) {
-        var e = document.createDocumentFragment(), i = 0;
-        t.some((function(t) {
-          var l = a('[data-widget-type="board"] ._card_wrap', (new DOMParser).parseFromString(t, "text/html")).filter((function(t) {
-            var e = x(t);
-            return e && !(SFUI.reviewHide || {})[e] && s.indexOf(e) < 0 && (s.push(e), !0);
-          }));
-          return l.forEach((function(t) {
-            var n = document.importNode(t, !0);
-            [ n ].concat(a('[style*="display"]', n)).forEach((function(t) {
-              /display:\s*none/.test(t.getAttribute("style") || "") && (t.style.display = "");
-            })), e.appendChild(n), i++;
-          })), !l.length;
-        })), i && (r.appendChild(e), SFUI.init(r)), c = !0;
-      })).catch((function() {
+      var lastScroll = 0;
+      function noteScroll() { lastScroll = Date.now(); }
+      window.addEventListener("scroll", noteScroll, { passive: true });
+      function finish() {
         c = !0;
-      }));
+        window.removeEventListener("scroll", noteScroll);
+      }
+      function afterScroll(job) {
+        setTimeout(function run() {
+          var wait = 160 - (Date.now() - lastScroll);
+          if (wait > 0) setTimeout(run, wait);
+          else job();
+        }, 0);
+      }
+      Promise.all(u).then(function (pages) {
+        var fragment = document.createDocumentFragment(), page = 0;
+        function render() {
+          try {
+            if (!r.isConnected) return finish();
+            var cards = page < pages.length ? a('[data-widget-type="board"] ._card_wrap', (new DOMParser).parseFromString(pages[page++], "text/html")).filter(function (card) {
+              var id = x(card);
+              return id && !(SFUI.reviewHide || {})[id] && s.indexOf(id) < 0 && (s.push(id), !0);
+            }) : [];
+            if (cards.length) {
+              cards.forEach(function (card) {
+                var copy = document.importNode(card, !0);
+                [copy].concat(a('[style*="display"]', copy)).forEach(function (el) {
+                  if (/display:\s*none/.test(el.getAttribute("style") || "")) el.style.display = "";
+                });
+                fragment.appendChild(copy);
+              });
+              afterScroll(render);
+            } else {
+              try {
+                if (fragment.firstChild) { r.appendChild(fragment); SFUI.init(r); }
+              } finally { finish(); }
+            }
+          } catch (error) { finish(); }
+        }
+        afterScroll(render);
+      }).catch(finish);
     }
   })), SFUI.register("r3RefOrder", (function() {
     if (/^\/shop_payment\/?$/.test(location.pathname) && !window.__r3RefOrder) {

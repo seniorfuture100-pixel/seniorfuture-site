@@ -140,12 +140,24 @@
     try { window.SFUI && SFUI.init(document); } catch (e) {}
     try { window.WidgetRuntime && WidgetRuntime.init(); } catch (e) {}
     try { window.__r3apInit && window.__r3apInit(); } catch (e) {}
-    // 사이트가 부드러운 스크롤이라 순간 이동으로, 다른 코드가 위치를 바꿔도 잠깐 동안 다시 맞춰요(사용자가 그새 스크롤하면 멈춤)
-    var want = scrollY || 0, moved = false, mark = function () { moved = true; };
-    var jump = function () { if (!moved && Math.abs(window.scrollY - want) > 2) window.scrollTo({ top: want, left: 0, behavior: 'instant' }); };
+    var want = scrollY || 0;
     window.scrollTo({ top: want, left: 0, behavior: 'instant' });
-    ['wheel', 'touchmove', 'keydown'].forEach(function (t) { window.addEventListener(t, mark, { once: true, passive: true }); });
-    [50, 200, 600, 1300].forEach(function (ms) { setTimeout(jump, ms); });
+    // 뒤로/앞으로 이동에서 목록 높이가 아직 부족할 때에만 복원을 보정합니다.
+    if (want > window.scrollY + 2) {
+      var inputs = ['wheel', 'touchmove', 'pointerdown', 'keydown'];
+      var timers = [];
+      function stopRestore() {
+        timers.forEach(function (timer) { clearTimeout(timer); });
+        inputs.forEach(function (type) { window.removeEventListener(type, stopRestore, true); });
+      }
+      inputs.forEach(function (type) { window.addEventListener(type, stopRestore, { capture: true, passive: true }); });
+      timers = [50, 200, 600, 1300].map(function (ms) {
+        return setTimeout(function () {
+          if (want > window.scrollY + 2) window.scrollTo({ top: want, left: 0, behavior: 'instant' });
+          if (ms === 1300 || Math.abs(window.scrollY - want) <= 2) stopRestore();
+        }, ms);
+      });
+    }
     [0, 300, 1200, 3000].forEach(function (ms) { setTimeout(function () { try { window.dispatchEvent(new Event('resize')); } catch (e) {} }, ms); });   // 아래 여백 계산 등이 목록이 다 그려진 뒤 다시 맞도록
     try { if (window.gtag) gtag('event', 'page_view', { page_location: u.href, page_path: u.pathname, page_title: document.title }); } catch (e) {}
     try { (window.dataLayer = window.dataLayer || []).push({ event: 'sf_soft_view', page_path: u.pathname }); } catch (e) {}

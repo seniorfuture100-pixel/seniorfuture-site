@@ -8,7 +8,12 @@ SFUI.register('boardView', function () {
   if (G) isExpert = true;
   var root = document.documentElement;
   root.classList.add('sf-bv-on', 'sf-bv--article'); // (10/28 사장님) 공지도 인사이트 글과 같은 모양(경로·글쓴이·공유·목록 알약). 아래 '함께 읽으면 좋은 글'만 빼요
-  if (isNotice) root.classList.add('sf-bv--ntc');
+  if (isNotice) {
+    root.classList.add('sf-bv--ntc');
+    [].forEach.call(v.querySelectorAll('.table_bottom a[href*="bmode=write"]'), function (link) {
+      if (link.textContent.trim() === '글쓰기') link.remove();
+    });
+  }
   if (isExpert) root.classList.add('sf-bv--expert');
   if (G) root.classList.add('sf-bv--gal'); // 갤러리 본문 구성은 유지하고 작성자 표시는 공통 적용
   var AMP = String.fromCharCode(38), tmp = document.createElement('div');
@@ -93,7 +98,7 @@ SFUI.register('boardView', function () {
     }
     // 아래 카드: 같은 게시판 목록에서 가져오기
     var idx = new URLSearchParams(location.search).get('idx');
-    if (!isNotice) fetch(path + '/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (t) {
+    if (!isNotice && !isReview) fetch(path + '/' + (/preview_mode=1/.test(location.search) ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (t) {
       var d = new DOMParser().parseFromString(t, 'text/html');
       if (isExpert) { // (10/27) 다른 전문가: 예전 위젯 순서로 이 글 다음 5명(사진 1:1 · 이름 소속 · 함께한 활동)
         var EX = SFUI.experts, all = G ? SFUI.galCards(G, d) : EX.sort([].map.call(d.querySelectorAll('._post_item_wrap'), EX.card).filter(Boolean)), me = -1;
