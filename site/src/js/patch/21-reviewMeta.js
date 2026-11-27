@@ -39,8 +39,6 @@ SFUI.register('reviewMeta', function (root) {
   if (h1 && /^(수강평|참가자 후기)$/.test(h1.textContent.trim())) h1.textContent = '참가후기';
   if (sub && /솔직한 후기/.test(sub.textContent)) sub.textContent = '시니어퓨처와 함께한 멤버들의 이야기예요';
   var fetched = 0, L = {}; (SFUI.reviewData || []).forEach(function (r) { L[r[1].replace(/^“|”$/g, '')] = r[0]; });
-  // 이어 붙이기 전에 이미 화면에 배치된 카드 수를 기억합니다.
-  var placed = document.querySelectorAll('[data-sf-ph]').length;
   root.querySelectorAll('._post_item_wrap').forEach(function (it) {
     if (!SFUI.once(it, 'RvMeta')) return;
     var lk = it.querySelector('a.post_link_wrap'), id = lk && ((lk.getAttribute('href') || '').match(/idx=(\d+)/) || [])[1];
@@ -76,19 +74,5 @@ SFUI.register('reviewMeta', function (root) {
     }
     else if (wr && !/님 \(|님$|^\d+기|수강생|○○/.test(wr.textContent)) { var n = wr.textContent.trim(); wr.textContent = n === '관리자' ? '수강생' : n.charAt(0) + '○○'; } // (10/26) 이미 넣은 기수·이름은 다시 가리지 않아요
   });
-  // (10/27) 같은 사진 카드가 붙어 보이지 않게 섞어요(바로 앞 3장과 사진이 다르게, 나머지 순서는 그대로)
-  // 카드는 첫 줄 묶음(_post_row)과 큰 격자에 나뉘어 있어요 → 전체 순서를 정한 뒤 원래 자리(표시)에 차례로 넣어요
-  var all = [].slice.call(document.querySelectorAll('[data-sf-ph]'));
-  if (placed >= all.length) return;
-  var pool = all.slice(placed), out = all.slice(0, placed);
-  while (pool.length) {
-    var recent = out.slice(-3).map(function (c) { return c.getAttribute('data-sf-ph'); });
-    var k = 0; for (var i = 0; i < pool.length; i++) if (recent.indexOf(pool[i].getAttribute('data-sf-ph')) < 0) { k = i; break; }
-    out.push(pool.splice(k, 1)[0]);
-  }
-  if (out.some(function (c, i) { return c !== all[i]; })) {
-    var marks = all.slice(placed).map(function (c) { var m = document.createComment('sf-rv'); c.parentNode.insertBefore(m, c); return m; });
-    out.slice(placed).forEach(function (c, i) { marks[i].parentNode.insertBefore(c, marks[i]); });
-    marks.forEach(function (m) { m.parentNode.removeChild(m); });
-  }
+  // 게시판 순서를 그대로 유지합니다. 추가 후기도 기존 카드 뒤에 이어 붙입니다.
 })
