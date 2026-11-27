@@ -26,7 +26,7 @@ window.SF_SITE = Object.assign(window.SF_SITE || {}, {
   ],
   company: {
     name: '시니어퓨처 (SeniorFuture)', ceo: '정동호', biz: '858-27-01782', report: '2026-서울관악-0090',
-    tel: '010-3237-4502', mail: 'seniorfuture100@gmail.com', addr: '서울특별시 관악구 남부순환로170길 66-4, 1동 2층 202호 (신림동, 디딤하우스)'
+    tel: '010-3237-4502', mail: 'seniorfuture100@gmail.com', addr: '서울특별시 관악구 관악로 144, 우남네오폴리스 2층'
   },
   pressHref: 'https://apply.seniorfuture.kr/press',
   press: [
