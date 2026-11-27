@@ -29,12 +29,18 @@
     // (11/2 사장님) 쿠폰이 없으면 바로 빈 카드(찜한 내역과 같은 모양) — 아임웹 요약의 '쿠폰 보유 N'이 0이면 카드를 기다리지 않아요
     var sumT = ((document.getElementById('mypage-summary') || {}).textContent || '').replace(/\s+/g, ' ');
     var has = +((sumT.match(/쿠폰\s*보유\s*([\d,]+)/) || [])[1] || '').replace(/,/g, '');
+    var em;
     var deco = function () {
       var cards = [].slice.call(box.querySelectorAll('.mypage-coupon-wrap'));
       h.querySelector('b').textContent = (cards.length || (has > 0 ? has : 0)) + '장';
       cards.forEach(dress);
-      var em = box.querySelector('.sf-bn-empty');
-      if (!cards.length && !em && !(has > 0)) { em = document.createElement('div'); em.className = 'sf-bn-empty sf-scope r3-wish--empty'; em.innerHTML = '<strong>지금 쓸 수 있는 쿠폰이 없어요</strong><span>새 쿠폰이 생기면 여기에 보여요. 결제할 때 주문서에서 골라 쓸 수 있어요</span><a class="sf-btn sf-btn--s" href="/course">교육 둘러보기</a>'; box.appendChild(em); }
+      if (!cards.length && !em && !has) {
+        em = document.createElement('div');
+        em.className = 'sf-bn-empty sf-scope r3-wish--empty';
+        em.innerHTML = '<strong>지금 쓸 수 있는 쿠폰이 없어요</strong><span>새 쿠폰이 생기면 여기에 보여요. 결제할 때 주문서에서 골라 쓸 수 있어요</span><a class="sf-btn sf-btn--s" href="/course">교육 둘러보기</a>';
+        // 기본 목록이 비어 있을 때도 차지하는 공간에 밀리지 않도록 설명 바로 아래에 표시해요.
+        box.parentNode.insertBefore(em, box);
+      }
       if (em) {
         em.hidden = !!cards.length;
         var notice = box.querySelector('._coupon_list .body_font_color_40');
