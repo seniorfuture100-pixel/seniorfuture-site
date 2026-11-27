@@ -756,10 +756,11 @@
         s && (o("a", s).forEach((function(e) {
           e.hasAttribute("data-sf-kakao-channel") && e.remove();
         })), s.setAttribute("role", "tablist"), s.removeAttribute("data-sf-anchor-tabs"));
-        var c = o(".sf-help-card", e);
+        var c = o(".sf-help-cards > [data-sf-kakao-channel]", e);
         c[0] && (c[0].querySelector("b").textContent = "1:1 문의", c[0].querySelector("small").textContent = "카카오톡 채널로 바로 연결 · 확인되는 대로 답변드려요", 
-        c[0].removeAttribute("data-sf-kakao-channel"), d(c[0])), c[1] && (c[1].removeAttribute("data-sf-kakao-channel"), 
-        d(c[1])), o(".sf-help-more a", e).forEach((function(e) {
+        c[0].removeAttribute("data-sf-kakao-channel"), d(c[0]));
+        c.slice(1).forEach(function (card) { card.remove(); });
+        o(".sf-help-more a", e).forEach((function(e) {
           e.textContent = "1:1 문의하기", e.removeAttribute("data-sf-kakao-channel"), d(e);
         }));
         var l = i('[data-widget-type="board"]'), f = l && (l.closest('[doz_type="widget"]') || l);
