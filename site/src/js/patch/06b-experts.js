@@ -104,8 +104,8 @@ SFUI.register('expertsBoard', function (root) {
 SFUI.gals = [
   { re: /^\/projects/, board: 'b202610285c90f80f8a1fd', title: '기업 협업 프로젝트', more: '다른 프로젝트',
     sub: '기업·공공기관·언론과 함께한 교육, 리서치, 프로젝트 사례를 소개합니다.',
-    heads: ['협업 기관', '과제', '수행 내용', '주요 결과', '관련 링크'],
-    line: function (o) { return o['협업기관'] || ''; } },
+    heads: ['협업 기관', '출처', '과제', '수행 내용', '주요 결과', '관련 링크'],
+    line: function (o) { return o['협업기관'] || o['출처'] || ''; } },
   { re: /^\/news/, board: 'b2026102875a68be683cab', title: '언론보도', more: '다른 언론보도',
     sub: '언론에 소개된 시니어퓨처의 활동과 프로젝트를 모았습니다.',
     heads: ['매체', '날짜', '내용', '기사 링크'],

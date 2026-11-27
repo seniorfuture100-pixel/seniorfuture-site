@@ -14,6 +14,15 @@
   function ph(g, t) { [].forEach.call(g.querySelectorAll('input[type=text],input[type=tel],input[type=email]'), function (x, k) { if (!x.placeholder) x.placeholder = typeof t === 'string' ? t : t[k] || ''; }); }
   function setup() {
     if (!/^\/partners\/?$/.test(location.pathname)) return true;
+    var offer = document.querySelector('.sf-pt');
+    var copy = (window.SF_SITE || {}).partnerOfferCopy;
+    if (offer && copy && !offer.__sfPartnerOffer) {
+      offer.__sfPartnerOffer = 1;
+      copy.forEach(function (item) {
+        var el = offer.querySelector(item[0]);
+        if (el) el.innerHTML = item[1];
+      });
+    }
     var f = document.querySelector('#partners-form [data-widget-type="form"]');
     if (!f) return false;
     if (f.__sfJoin) return true;
