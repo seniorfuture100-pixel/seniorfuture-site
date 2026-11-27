@@ -182,7 +182,7 @@ SFUI.register('siteHeader', function () {
   }
 
   // ⑨ 카톡 상담 버튼 (PC 오른쪽 아래)
-  if (cfg.fab !== false && !/shop_payment/.test(path)) {
+  if (cfg.fab !== false && !/shop_payment/.test(path) && !/^\/(help|faq)(\/|$)/.test(path)) {
     var fab = el('a', 'sf-fab', ICON.chat + '<span>카톡 상담</span>');
     fab.href = kakao;
     if (/^https?:/.test(kakao)) { fab.target = '_blank'; fab.rel = 'noopener'; }
