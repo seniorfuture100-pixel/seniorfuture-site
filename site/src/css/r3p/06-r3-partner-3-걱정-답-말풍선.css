@@ -46,3 +46,54 @@
   font-size:16px;
   line-height:1.6;
 }
+/* 파트너 고민과 지원 내용을 한 카드 안에서 연결합니다. */
+:root body .r3ap .pa-worry .pa-notes-t {
+  margin:56px 0 28px!important;
+  font-size:30px!important;
+  line-height:1.4;
+  letter-spacing:-.03em;
+  color:#191f28!important;
+}
+:root body .r3ap .pa-worry .pa-notes { display:none!important; }
+:root body .r3ap .pa-worry .pa-ans {
+  max-width:1000px;
+  margin:0 auto!important;
+  gap:20px;
+}
+:root body .r3ap .pa-worry .pa-an {
+  padding:32px!important;
+  border:1px solid rgba(25,31,40,.06);
+  border-radius:24px;
+  gap:24px;
+  box-shadow:0 8px 24px rgba(25,31,40,.035);
+}
+:root body .r3ap .pa-worry .pa-an>div { flex:1; min-width:0; }
+:root body .r3ap .pa-worry .pa-an small {
+  font-size:19px!important;
+  line-height:1.6;
+  color:#4e5968;
+  padding-bottom:16px;
+  margin-bottom:16px;
+  border-bottom:1px solid rgba(25,31,40,.1);
+  word-break:keep-all;
+}
+:root body .r3ap .pa-worry .pa-an b {
+  font-size:24px!important;
+  line-height:1.45;
+  margin-top:0;
+  word-break:keep-all;
+}
+:root body .r3ap .pa-worry .pa-an b::before {
+  content:'\2192';
+  color:#e75d00;
+  margin-right:10px;
+}
+:root body .r3ap .pa-worry .pa-an p { font-size:17px!important; line-height:1.7; margin-top:10px; }
+@media(max-width:767.98px) {
+  :root body .r3ap .pa-worry .pa-notes-t { font-size:24px!important; margin:36px 0 22px!important; }
+  :root body .r3ap .pa-worry .pa-an { padding:24px 20px!important; gap:12px; position:relative; }
+  :root body .r3ap .pa-worry .pa-an .pa-emo { display:none; }
+  :root body .r3ap .pa-worry .pa-an small { font-size:16px!important; }
+  :root body .r3ap .pa-worry .pa-an b { font-size:20px!important; }
+  :root body .r3ap .pa-worry .pa-an p { font-size:15px!important; }
+}

@@ -39,3 +39,5 @@
   line-height:1.6;
   word-break:keep-all;
 }
+/* 파트너 혜택 하단의 중복 운영 지원 띠는 표시하지 않습니다. */
+:root body .r3ap .pa-bens .pa-ben--wide { display:none!important; }
