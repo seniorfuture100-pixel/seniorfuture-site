@@ -1,6 +1,6 @@
 <style>
 /* 10/25 파트너 지원 02~08 새 디자인(참고: 인프런 지식공유) — 첫 화면은 그대로 */
-:root body .r3ap .r3ap-nums ul{grid-template-columns:repeat(4,1fr)!important}
+:root body .r3ap .r3ap-nums ul{grid-template-columns:repeat(5,minmax(0,1fr))!important}
 :root body .r3ap .pa-sec{padding:120px 0;background:#fff;text-align:center}
 :root body .r3ap .pa-sec--gray{width:var(--r2-vw,100vw);margin-left:calc(50% - var(--r2-vw,100vw)/2);box-sizing:border-box;background:#f5f6f8}
 :root body .r3ap .pa-h{margin:0;color:#191f28!important;font-size:44px;line-height:1.3;font-weight:800;letter-spacing:-.03em}
@@ -106,6 +106,37 @@
 :root body .r3ap .pa-final h2{font-size:24px}
 :root body .r3ap .pa-btn{height:48px;padding:0 22px;font-size:15px}
 }
+
+/* Partner update 2026-11-27 */
+:root body .r3ap .r3ap-nums[aria-label] ul{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+:root body .r3ap .r3ap-nums[aria-label] li{min-width:0}
+:root body .r3ap .r3ap-nums[aria-label] b{font-size:32px;white-space:nowrap}
+:root body .r3ap .pa-concerns{margin:64px auto 0;padding:56px 32px 64px;max-width:1080px;border-radius:32px;background:radial-gradient(ellipse at 15% 10%,#fff1d5,transparent 65%),linear-gradient(125deg,#fff9f1,#f0edff)}
+:root body .r3ap .pa-concerns h3{margin:0 0 44px;font-size:32px;font-weight:800;color:#191f28;line-height:1.4}
+:root body .r3ap .pa-concerns ul{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:800px;margin:0 auto;padding:0;list-style:none}
+:root body .r3ap .pa-concern{display:flex;gap:14px;align-items:center;max-width:94%;padding:24px 28px;border-radius:20px;background:#fff;font-size:22px;font-weight:700;line-height:1.5;color:#252b36;box-shadow:0 10px 28px #29223d0b;word-break:keep-all;text-align:left}
+:root body .r3ap .pa-concern--1{align-self:flex-start;transform:rotate(-3deg);background:#fff8dc}
+:root body .r3ap .pa-concern--2{align-self:flex-end;transform:rotate(2deg)}
+:root body .r3ap .pa-concern--3{align-self:flex-start;transform:rotate(-2deg);background:#e9efff}
+:root body .r3ap .pa-concern--4{align-self:flex-end;transform:rotate(2deg)}
+:root body .r3ap .pa-concern--5{transform:rotate(-2deg);background:#f5edff}
+:root body .r3ap .pa-bridge{max-width:760px;margin:64px auto 36px}
+:root body .r3ap .pa-bridge:before{content:'↓';display:block;color:#ff6a0f;font-size:30px;margin-bottom:24px}
+:root body .r3ap .pa-bridge h3{font-size:32px;line-height:1.4;font-weight:800;color:#191f28;margin:0}
+:root body .r3ap .pa-bridge p{font-size:17px;line-height:1.8;color:#4e5968;margin:18px 0 0}
+:root body .r3ap .pa-way b{word-break:keep-all;line-height:1.4}
+@media(max-width:767.98px){
+:root body .r3ap .r3ap-nums[aria-label] ul{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+:root body .r3ap .r3ap-nums[aria-label] li:last-child{grid-column:1/-1;border-left:0}
+:root body .r3ap .r3ap-nums[aria-label] b{font-size:30px}
+:root body .r3ap .pa-concerns{margin-top:36px;padding:32px 16px 40px;border-radius:24px}
+:root body .r3ap .pa-concerns h3{font-size:25px;margin-bottom:28px}
+:root body .r3ap .pa-concerns ul{gap:18px}
+:root body .r3ap .pa-concern{font-size:18px;padding:18px 16px;gap:10px;max-width:100%;transform:none;border-radius:16px}
+:root body .r3ap .pa-bridge{margin:40px auto 28px}
+:root body .r3ap .pa-bridge h3{font-size:26px}
+:root body .r3ap .pa-bridge p{font-size:15px}
+}
 </style>
 <div class="sf-scope">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -135,7 +166,7 @@
     </div>
     <div class="sf-wrap">
       <span class="r3ap-pill">시니어퓨처 파트너 모집</span>
-      <h1 id="ap-h1">현장에서 쌓은 경험이<br><em>수익과 보람</em>으로</h1>
+      <h1 id="ap-h1">현장에서 쌓은 경험이<br><em>새로운 기회와 보람</em>으로</h1>
       <p class="r3ap-lead">요양·주거·금융·헬스케어·여가·일자리 등 현장에서 쌓아 온 노하우, <br>시니어 산업에 들어오는 사람들이 기다리고 있어요.</p>
       <a class="sf-btn sf-btn--primary sf-btn--l r3ap-cta" href="/partner-apply">파트너 지원하기 <span aria-hidden="true">→</span></a>
       <p class="r3ap-micro">강의 준비는 신청한 뒤에 매니저와 천천히 시작해도 괜찮아요</p>
@@ -146,10 +177,11 @@
   <section class="r3ap-nums" aria-label="시니어퓨처 숫자">
     <div class="sf-wrap">
       <ul>
-        <li><b>200만 회+</b><span>SNS 누적 조회수</span></li>
+        <li><b>200만 회+</b><span>누적 조회</span></li>
         <li><b>2,000명+</b><span>누적 참여</span></li>
+        <li><b>30건+</b><span>기업 협력</span></li>
         <li><b>50회+</b><span>전문가 세미나·포럼</span></li>
-        <li><b>650명+</b><span>비즈니스 커뮤니티</span></li>
+        <li><b>30건+</b><span>언론보도</span></li>
       </ul>
       <p class="r3ap-note">2023.09 ~ 2026.10 · 시니어퓨처 집계</p>
     </div>
@@ -160,23 +192,21 @@
     <div class="sf-wrap">
       <h2 id="ap-worry" class="pa-h r3ap-rv">전문성은 있지만<br>이를 확장할 기회가 부족하셨나요?</h2>
       <p class="pa-sub r3ap-rv">현장에서 축적한 경험과 노하우가 더 많은 사람에게 전달되고, 새로운 비즈니스 기회로 이어질 수 있도록 시니어퓨처가 함께합니다.</p>
-      <p class="pa-notes-t r3ap-rv">전문가들이 겪는 고민</p>
-      <div class="pa-notes" aria-hidden="true"><span class="pa-note pa-note--1"><i></i>현장 경험과 노하우를 강의나 콘텐츠로 만들고 싶습니다.</span><span class="pa-note pa-note--2"><i></i>전문성을 알릴 수 있는 채널과 기회가 부족합니다.</span><span class="pa-note pa-note--3"><i></i>시니어 산업의 다양한 기업·전문가와 교류하고 싶습니다.</span><span class="pa-note pa-note--4"><i></i>일회성 활동을 넘어 지속적인 협업 기회를 만들고 싶습니다.</span><span class="pa-note pa-note--5"><i></i>만든 콘텐츠를 어떻게 홍보하고 판매할지 막막합니다.</span></div>
-      <div class="pa-ans"><article class="pa-an is-a r3ap-rv"><div><small>현장 경험과 노하우를 강의나 콘텐츠로 만들고 싶습니다.</small><b>실무에서 쌓은 전문성이 있다면 충분합니다.</b><p>교육 경험이 없어도 콘텐츠 구성과 진행 방식을 함께 고민합니다.</p></div><span class="pa-emo" aria-hidden="true">🎓</span></article><article class="pa-an is-b r3ap-rv"><div><small>전문성을 알릴 수 있는 채널과 기회가 부족합니다.</small><b>전문성을 알릴 무대를 함께 만듭니다.</b><p>강의·세미나·칼럼 등 다양한 활동으로 전문 분야의 경험과 관점을 선보일 기회를 만듭니다.</p></div><span class="pa-emo" aria-hidden="true">🎤</span></article><article class="pa-an is-c r3ap-rv"><div><small>시니어 산업의 다양한 기업·전문가와 교류하고 싶습니다.</small><b>산업 네트워크로 연결합니다.</b><p>세미나·포럼과 비즈니스 커뮤니티에서 기업 관계자와 전문가들을 만나 교류할 수 있습니다.</p></div><span class="pa-emo" aria-hidden="true">🌐</span></article><article class="pa-an is-d r3ap-rv"><div><small>일회성 활동을 넘어 지속적인 협업 기회를 만들고 싶습니다.</small><b>다음 기회까지 함께 모색합니다.</b><p>교육과 콘텐츠 활동을 시작으로 전문가 브랜딩, 업계 네트워킹, 후속 협업 기회를 함께 모색합니다.</p></div><span class="pa-emo" aria-hidden="true">🚀</span></article><article class="pa-an is-e r3ap-rv"><div><small>만든 콘텐츠를 어떻게 홍보하고 판매할지 막막합니다.</small><b>제작부터 홍보까지 함께 준비합니다.</b><p>마케팅 디자인과 상세페이지 구성, 세일즈 방법까지 함께 준비하고, 시니어퓨처 SNS 채널을 통해 알립니다.</p></div><span class="pa-emo" aria-hidden="true">🎨</span></article></div>
+      <div class="pa-concerns"><h3>혹시, 이런 고민이 있으신가요?</h3><ul><li class="pa-concern pa-concern--1"><span aria-hidden="true">💭</span>현장 경험을 강의로 어떻게 풀어낼까요?</li><li class="pa-concern pa-concern--2"><span aria-hidden="true">✨</span>제 전문성을 더 많은 사람에게 알리고 싶어요.</li><li class="pa-concern pa-concern--3"><span aria-hidden="true">🏢</span>기업교육으로도 활동을 넓힐 수 있을까요?</li><li class="pa-concern pa-concern--4"><span aria-hidden="true">🤝</span>함께 협업할 기업과 전문가를 만나고 싶어요.</li><li class="pa-concern pa-concern--5"><span aria-hidden="true">📘</span>교육 준비와 운영, 어디서부터 시작할까요?</li></ul></div><div class="pa-bridge"><h3>쌓아온 전문성,<br>다음 기회로 이어지도록.</h3><p>교육 콘텐츠를 구체화하는 일부터 기업교육과 협업 가능성을 찾는 일까지, 함께 논의합니다.</p></div><div class="pa-ans"><article class="pa-an is-a r3ap-rv"><div><b>실무에서 쌓은 전문성이 있다면 충분합니다.</b><p>교육 경험이 없어도 콘텐츠 구성과 진행 방식을 함께 고민합니다.</p></div><span class="pa-emo" aria-hidden="true">🎓</span></article><article class="pa-an is-b r3ap-rv"><div><b>전문성을 알릴 무대를 함께 만듭니다.</b><p>강의·세미나·칼럼 등 다양한 활동으로 전문 분야의 경험과 관점을 선보일 기회를 만듭니다.</p></div><span class="pa-emo" aria-hidden="true">🎤</span></article><article class="pa-an is-c r3ap-rv"><div><b>기업의 교육 수요와 전문가의 경험을 연결합니다.</b><p>기업·기관이 필요로 하는 주제와 파트너님의 전문성을 살펴, 특강·실무 워크숍·맞춤 교육으로 함께할 기회를 논의합니다.</p></div><span class="pa-emo" aria-hidden="true">🌐</span></article><article class="pa-an is-d r3ap-rv"><div><b>다음 기회까지 함께 모색합니다.</b><p>교육과 콘텐츠 활동을 시작으로 전문가 브랜딩, 업계 네트워킹, 후속 협업 기회를 함께 모색합니다.</p></div><span class="pa-emo" aria-hidden="true">🚀</span></article><article class="pa-an is-e r3ap-rv"><div><b>주제와 구성부터 진행 방식까지 함께 정리합니다.</b><p>사전 미팅에서 교육 주제와 커리큘럼, 일정과 진행 방식을 논의하고 필요한 지원 범위를 정합니다.</p></div><span class="pa-emo" aria-hidden="true">🎨</span></article></div>
     </div>
   </section>
   <section class="pa-sec pa-sec--gray" aria-labelledby="ap-ways">
     <div class="sf-wrap">
       <h2 id="ap-ways" class="pa-h r3ap-rv">당신의 전문성을,<br>다양한 방식으로 나누세요.</h2>
       <p class="pa-sub r3ap-rv">강의부터 콘텐츠 기고까지, 전문 분야와 활동 방식에 맞는 참여 기회를 제안합니다.</p>
-      <div class="pa-ways"><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">📘</span><small>01</small><b>교육 집필</b><p>실무 경험과 전문지식을 체계적인 교육 콘텐츠로 만들어보세요.</p><em>주요 활동</em><ul><li>교육 커리큘럼 및 교안 개발</li><li>실무 중심 교육 콘텐츠 제작</li></ul><span class="pa-way__go">교육 콘텐츠 참여하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">🎤</span><small>02</small><b>라이브 연사</b><p>현장에서 얻은 인사이트를 강연과 온라인 세미나를 통해 공유하세요.</p><em>주요 활동</em><ul><li>온라인·오프라인 강연</li><li>실무 세미나 및 전문가 토론</li></ul><span class="pa-way__go">강연 파트너 신청하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">✍️</span><small>03</small><b>인사이트 기고</b><p>현장의 변화와 산업의 흐름을 전문 콘텐츠로 전달하세요.</p><em>주요 활동</em><ul><li>시니어 산업 트렌드 및 사례 분석</li><li>전문 칼럼·인사이트 콘텐츠 기고</li></ul><span class="pa-way__go">콘텐츠 기고 참여하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">👥</span><small>04</small><b>커뮤니티 운영</b><p>공통 관심사를 가진 산업 관계자들과 함께 배우고 교류하는 자리를 만들어보세요.</p><em>주요 활동</em><ul><li>전문 스터디 및 네트워킹 모임</li><li>산업별 토론·교류 프로그램 운영</li></ul><span class="pa-way__go">커뮤니티 파트너 신청하기 →</span></a></div>
+      <div class="pa-ways"><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">📘</span><small>01</small><b>교육 집필</b><p>실무 경험과 전문지식을 체계적인 교육 콘텐츠로 만들어보세요.</p><em>주요 활동</em><ul><li>교육 커리큘럼 및 교안 개발</li><li>실무 중심 교육 콘텐츠 제작</li></ul><span class="pa-way__go">교육 콘텐츠 참여하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">🎤</span><small>02</small><b>세미나 및 전문가 토론</b><p>현장에서 얻은 인사이트를 강연과 온라인 세미나를 통해 공유하세요.</p><em>주요 활동</em><ul><li>온라인·오프라인 강연</li><li>실무 세미나 및 전문가 토론</li></ul><span class="pa-way__go">세미나·토론 참여하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">✍️</span><small>03</small><b>인사이트 기고</b><p>현장의 변화와 산업의 흐름을 전문 콘텐츠로 전달하세요.</p><em>주요 활동</em><ul><li>시니어 산업 트렌드 및 사례 분석</li><li>전문 칼럼·인사이트 콘텐츠 기고</li></ul><span class="pa-way__go">콘텐츠 기고 참여하기 →</span></a><a class="pa-way r3ap-rv" href="/partner-apply"><span class="pa-way__ic" aria-hidden="true">👥</span><small>04</small><b>커뮤니티 운영</b><p>공통 관심사를 가진 산업 관계자들과 함께 배우고 교류하는 자리를 만들어보세요.</p><em>주요 활동</em><ul><li>전문 스터디 및 네트워킹 모임</li><li>산업별 토론·교류 프로그램 운영</li></ul><span class="pa-way__go">커뮤니티 파트너 신청하기 →</span></a></div>
     </div>
   </section>
   <section class="pa-sec" aria-labelledby="ap-steps">
     <div class="sf-wrap">
       <h2 id="ap-steps" class="pa-h r3ap-rv">파트너 참여는<br>이렇게 진행됩니다.</h2>
       <p class="pa-sub r3ap-rv">전문 분야와 활동 목적에 맞는 협업 방식을 논의하고, 콘텐츠 기획부터 운영까지 함께합니다.</p>
-      <ol class="pa-steps"><li class="r3ap-rv"><span class="pa-step">STEP 01</span><b>전문가 참여 신청</b><p>전문 분야와 주요 경력, 희망하는 활동 방식을 작성해 주세요.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 02</span><b>참여 검토 및 협업 논의</b><p>전문성과 활동 방향을 검토한 후 적합한 협업 방식을 논의합니다.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 03</span><b>콘텐츠·프로그램 공동 기획</b><p>강의, 콘텐츠, 커뮤니티 등 참여 형태에 맞춰 주제와 운영 방향을 구체화합니다.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 04</span><b>활동 진행 및 결과 공유</b><p>기획된 프로그램을 운영하고 활동 결과를 공유합니다. 유료 프로젝트는 사전 협의한 조건에 따라 정산합니다.</p></li></ol>
+      <ol class="pa-steps"><li class="r3ap-rv"><span class="pa-step">STEP 01</span><b>전문가 참여 신청</b><p>전문 분야와 주요 경력, 희망하는 활동 방식을 작성해 주세요.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 02</span><b>참여 검토 및 협업 논의</b><p>전문성과 활동 방향을 검토한 후 적합한 협업 방식을 논의합니다.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 03</span><b>강의 기획 및 용역 계약</b><p>시니어퓨처가 기획한 과정에 맞춰 주제·일정·분량과 강사료를 정하고 강의 용역 계약을 맺습니다.</p></li><li class="r3ap-rv"><span class="pa-step">STEP 04</span><b>강의 진행 및 강사료 지급</b><p>계약한 일정에 따라 강의를 진행하고, 시니어퓨처는 계약에서 정한 강사료를 지급합니다.</p></li></ol>
       <div class="pa-center"><a class="pa-btn pa-btn--dark" href="/partner-apply">전문가 참여 신청하기 →</a></div>
     </div>
   </section>
@@ -184,7 +214,7 @@
     <div class="sf-wrap">
       <h2 id="ap-ben" class="pa-h r3ap-rv">강의를 넘어,<br>전문가로서의 가능성을 확장하세요.</h2>
       <p class="pa-sub r3ap-rv">시니어퓨처는 전문가의 경험과 지식이 새로운 콘텐츠와 협업, 비즈니스 기회로 이어질 수 있도록 연결합니다.</p>
-      <div class="pa-bens"><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">💰</span><small>01</small><b>전문성의 수익화 기회</b><p>유료 교육과 강연, 프로젝트 등 전문성을 활용한 다양한 수익 창출 기회를 모색할 수 있습니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">🏢</span><small>02</small><b>기업·기관 협업 기회</b><p>전문성을 필요로 하는 기업과 기관의 교육·자문·프로젝트에 참여할 기회를 연결합니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">🌐</span><small>03</small><b>산업 네트워크 확대</b><p>시니어 산업의 다양한 전문가와 기업 관계자들을 만나 교류할 수 있습니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">⭐</span><small>04</small><b>전문가 브랜딩 강화</b><p>콘텐츠와 강연 활동을 통해 전문 분야의 경험과 관점을 알리고 활동 이력을 축적합니다.</p></article><article class="r3ap-rv pa-ben--wide"><span class="pa-emo" aria-hidden="true">🎨</span><small>05</small><b>콘텐츠 제작·홍보 지원</b><p>마케팅 디자인과 상세페이지 구성, 세일즈 방법까지 함께 준비하고, 시니어퓨처 SNS 채널을 통해 더 많은 사람에게 알립니다.</p></article></div>
+      <div class="pa-bens"><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">💰</span><small>01</small><b>전문성을 살리는 활동 기회</b><p>유료 교육과 강연, 프로젝트 등 전문성을 활용한 다양한 활동 기회를 만들 수 있습니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">🏢</span><small>02</small><b>기업·기관 협업 기회</b><p>전문성을 필요로 하는 기업과 기관의 교육·자문·프로젝트에 참여할 기회를 연결합니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">🌐</span><small>03</small><b>산업 네트워크 확대</b><p>시니어 산업의 다양한 전문가와 기업 관계자들을 만나 교류할 수 있습니다.</p></article><article class="r3ap-rv"><span class="pa-emo" aria-hidden="true">⭐</span><small>04</small><b>전문가 브랜딩 강화</b><p>콘텐츠와 강연 활동을 통해 전문 분야의 경험과 관점을 알리고 활동 이력을 축적합니다.</p></article><article class="r3ap-rv pa-ben--wide" style="background:#fff!important;border-color:#e5e7eb!important"><span class="pa-emo" aria-hidden="true">🎨</span><small style="color:#58606c!important">05</small><b>교육 콘텐츠·운영 지원</b><p>강사는 학습관리 시스템에서 강의 콘텐츠와 수강생을 관리할 수 있습니다. 시니어퓨처는 강의 페이지 제작과 홍보, 수강생 모집과 문의 응대를 지원합니다.</p></article></div>
     </div>
   </section>
   <section class="pa-sec" aria-labelledby="ap-ex">
@@ -208,7 +238,7 @@
   <section class="pa-dark pa-dark--end" aria-labelledby="ap-faq">
     <div class="sf-wrap">
       <h2 id="ap-faq" class="pa-h">자주 묻는 질문</h2>
-      <div class="sf-pt-faq pa-faq" data-sf-accordion data-single><div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger>Q1. 어떤 사람이 파트너로 참여할 수 있나요?</button><div data-sf-acc-panel>시니어 산업과 관련된 실무 경험이나 전문지식을 보유한 분이라면 신청할 수 있습니다. 현장 실무자, 기업 관계자, 연구자, 전문직 등 다양한 분야의 참여를 환영합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q2. 강의 경험이 없어도 신청할 수 있나요?</button><div data-sf-acc-panel>네. 강의 경력뿐 아니라 현장에서 축적한 실무 경험과 전문성을 중요하게 생각합니다. 참여 방식과 콘텐츠 구성은 미팅을 통해 함께 논의합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q3. 어떤 방식으로 활동할 수 있나요?</button><div data-sf-acc-panel>온라인 강의, 오프라인 특강, 실무 교육 콘텐츠 제작, 전문 칼럼 기고, 커뮤니티 모임 등 다양한 형태로 참여할 수 있습니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q4. 콘텐츠 제작과 운영을 지원하나요?</button><div data-sf-acc-panel>교육 및 콘텐츠의 주제 기획, 구성, 홍보, 운영 등 필요한 지원 범위를 협업 형태에 따라 논의합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q5. 수익이나 정산 조건은 어떻게 결정되나요?</button><div data-sf-acc-panel>활동 유형과 역할, 콘텐츠 운영 방식에 따라 조건을 사전에 협의합니다. 유료 프로그램의 경우 수익 배분 또는 지급 기준을 확정한 후 진행합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q6. 신청 후에는 어떤 절차로 진행되나요?</button><div data-sf-acc-panel>신청서를 검토한 뒤 협업 가능성이 있는 분께 개별적으로 연락드립니다. 이후 미팅을 통해 참여 분야와 구체적인 활동 방식을 협의합니다.</div></div></div>
+      <div class="sf-pt-faq pa-faq" data-sf-accordion data-single><div data-sf-acc-item class="is-open"><button type="button" data-sf-acc-trigger>Q1. 어떤 사람이 파트너로 참여할 수 있나요?</button><div data-sf-acc-panel>시니어 산업과 관련된 실무 경험이나 전문지식을 가진 분이라면 신청하실 수 있습니다. 현장 실무자, 기업 관계자, 연구자 등 자신의 경험을 교육과 콘텐츠, 협업으로 넓혀가고 싶은 분들을 기다립니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q2. 어떤 분야의 교육을 제안할 수 있나요?</button><div data-sf-acc-panel>요양·돌봄, 주거, 금융, 헬스케어, 여가, 일자리 등 시니어 산업과 관련된 분야를 제안하실 수 있습니다. 마케팅, 서비스 기획, AI 활용 등도 시니어 고객의 특성과 수요를 이해하고 현장에 적용할 수 있는 내용이라면 함께 논의할 수 있습니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q3. 교육은 어떤 방식으로 진행되나요?</button><div data-sf-acc-panel>교육은 온라인 강의를 중심으로 진행합니다. 오프라인 교육을 희망하시는 경우, 강사님께서 진행하기 편한 장소를 직접 마련해 운영하실 수 있습니다. 교육 대상과 프로그램 구성에 맞춰 일정과 진행 방식, 필요한 지원 범위를 사전에 협의합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q4. 콘텐츠 제작과 운영은 어떻게 진행되나요?</button><div data-sf-acc-panel>파트너의 전문성과 현장 경험을 바탕으로 교육 주제와 구성을 함께 설계합니다. 커리큘럼 기획, 촬영, 소개 페이지 제작, 홍보와 운영 등 필요한 사항을 논의하고, 프로그램에 맞춰 각자의 역할과 지원 범위를 정합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q5. 강사료는 어떻게 정해지나요?</button><div data-sf-acc-panel>사전 미팅에서 교육 주제와 프로그램 구성, 강의 시간·회차, 진행 방식 등을 논의한 뒤 협의하여 정합니다. 강의 준비 범위와 참여 역할을 함께 고려하며, 지급 금액과 일정은 진행 전에 안내하고 합의합니다.</div></div><div data-sf-acc-item><button type="button" data-sf-acc-trigger>Q6. 신청 후에는 어떤 절차로 진행되나요?</button><div data-sf-acc-panel>신청 내용을 검토한 뒤 협업 방향을 논의할 분께 개별적으로 연락드립니다. 미팅에서 전문 분야와 제안 주제를 나누고, 프로그램 구성과 일정, 역할 및 강사료 등 세부 조건을 협의합니다. 이후 합의한 내용을 바탕으로 준비와 진행 일정을 확정합니다.</div></div></div>
     </div>
   </section>
 </main>
