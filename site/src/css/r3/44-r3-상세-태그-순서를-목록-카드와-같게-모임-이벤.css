@@ -73,6 +73,14 @@ html.sf-pv-on body .buy_btns.pc .like_box.active i::before {
 :root body .sf-scope h3 {
   word-break:keep-all;
 }
+:root body .sf-help-cards > [data-sf-kakao-channel] ~ [data-sf-kakao-channel] {
+  display:none;
+}
+@media (min-width:768px) {
+  :root body .sf-scope .sf-help-cards {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
 @media (max-width:767.98px) {
   :root body .sf-help-card.is-biz {
     display:flex!important;
