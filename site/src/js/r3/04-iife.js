@@ -1219,6 +1219,7 @@
       }, c = [], l = [];
       i.forEach((function(t) {
         var e = t.textContent.trim();
+        if (e === "카카오톡 채널") t.href = "https://open.kakao.com/o/gatyJ8hh";
         o[e] ? c.push([ e, t.href ]) : l.push([ e, t.href ]);
       }));
       var d = document.createElement("div");
