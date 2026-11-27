@@ -44,28 +44,12 @@
   }
 }
 
-/* 목록(수강평·인사이트·장바구니 등)이 늦게 채워질 때 푸터가 화면 가운데 보였다가 밀려나던 것
-   → 내용이 다 불러와질 때까지 푸터는 자리만 지키고 안 보이게(ui/30-footerReady.js). 스크립트가 실패해도 4초 뒤엔 보여요. */
-/* (10/31) 숨기던(visibility) 것을 화면 아래 바깥으로 내려 두는 것으로 바꿈: 보이는 모습은 같고,
-   숨겼다 보이면 '가장 늦게 나타난 큰 글자'(LCP)로 잡혀 인사이트·교육 목록 LCP가 23초로 계산됐어요.
-   transform 이동은 화면 밀림(CLS)에도 잡히지 않아요. */
-html:not(.sf-ft-ready) body #doz_footer_wrap {
-  transform:translateY(100vh);
-  animation:sfFtLate 0s 4s forwards;
-}
-@keyframes sfFtLate {
-  to {
-    transform:none;
-  }
-}
-/* (11/2 사장님) 짧은 화면(신청 완료·마이페이지)에서 푸터가 아래에서 툭 올라와 '줄었다 당겨지는' 것처럼 보였어요 → 제자리에서 살짝 나타나게 */
-html.sf-ft-ready body #doz_footer_wrap {
-  animation:sfFtIn .3s ease-out both;
-}
-@keyframes sfFtIn {
-  from {
-    opacity:0;
-  }
+/* (11/27) 모든 페이지에서 푸터는 처음부터 제자리에 표시해요. */
+html body #doz_footer_wrap {
+  transform:none!important;
+  animation:none!important;
+  opacity:1!important;
+  transition:none!important;
 }
 
 /* 1·5번: 767~1024px 에서 아임웹이 body 를 85%로 줄여요(custom.cm: body{zoom:.85}).
