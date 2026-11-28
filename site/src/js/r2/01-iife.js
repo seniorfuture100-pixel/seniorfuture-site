@@ -767,6 +767,16 @@
           e.textContent = "1:1 문의하기", e.removeAttribute("data-sf-kakao-channel"), d(e);
         }));
         var l = i('[data-widget-type="board"]'), f = l && (l.closest('[doz_type="widget"]') || l);
+        var faq = i('#faq', e), panels = i('.sf-help-panels', e);
+        if (faq && f && !panels) {
+          panels = document.createElement('div');
+          panels.className = 'sf-help-panels';
+          faq.parentNode.insertBefore(panels, faq);
+          panels.appendChild(faq);
+          f.classList.add('sf-help-notice-panel');
+          panels.appendChild(f);
+        }
+
         s && s.addEventListener("click", (function(e) {
           var t = e.target.closest('a[href^="#"]');
           if (t) {
@@ -774,27 +784,25 @@
             var r = t.getAttribute("href").slice(1);
             v(r), history.replaceState(null, "", "#" + r);
           }
-        }), !0), v(/notice/.test(location.hash) || /keyword=|page=/.test(location.search) ? "notice" : "faq"), 
-        window.addEventListener("hashchange", (function() {
-          if (/^#(notice|faq)$/.test(location.hash)) {
-            v(location.hash.slice(1));
-            var e = i(".sf-help-tabs");
-            e && e.scrollIntoView({
-              block: "start"
-            });
-          }
-        })), document.addEventListener("click", (function(e) {
-          var t = e.target.closest && e.target.closest('a[href="/help#notice"], a[href="/help#faq"]');
-          if (t) {
-            e.preventDefault(), history.replaceState(null, "", t.getAttribute("href").slice(5)), 
-            v(t.getAttribute("href").slice(6));
-            var r = i(".sf-help-tabs");
-            r && window.scrollTo({
-              top: r.getBoundingClientRect().top + window.scrollY - 120,
-              behavior: a ? "auto" : "smooth"
-            });
-          }
-        }));
+        }), !0), v(/notice/.test(location.hash) || /keyword=|page=/.test(location.search) ? "notice" : "faq");
+        // Global handlers are rebound by soft navigation; remove the previous closures.
+        if (window.__sfHelpHash) window.removeEventListener('hashchange', window.__sfHelpHash);
+        if (window.__sfHelpClick) document.removeEventListener('click', window.__sfHelpClick);
+        window.__sfHelpHash = function () {
+          if (!e.isConnected || !/^\/help\/?$/.test(location.pathname)) return;
+          if (/^#(notice|faq)$/.test(location.hash)) v(location.hash.slice(1));
+        };
+        window.__sfHelpClick = function (ev) {
+          if (!e.isConnected || !/^\/help\/?$/.test(location.pathname)) return;
+          var link = ev.target.closest && ev.target.closest('a[href="/help#notice"], a[href="/help#faq"]');
+          if (!link) return;
+          ev.preventDefault();
+          history.replaceState(null, '', link.getAttribute('href').slice(5));
+          v(link.getAttribute('href').slice(6));
+          if (s) window.scrollTo({top: s.getBoundingClientRect().top + window.scrollY - 120, behavior: 'auto'});
+        };
+        window.addEventListener('hashchange', window.__sfHelpHash);
+        document.addEventListener('click', window.__sfHelpClick);
         var u = i('[data-widget-type="board"] .li_board');
         if (u && !u.classList.contains("r2-ntable")) {
           u.classList.add("r2-ntable");
@@ -830,7 +838,16 @@
       s && o("a", s).forEach((function(t) {
         var r = t.getAttribute("href") === "#" + e;
         t.classList.toggle("is-active", r), t.setAttribute("role", "tab"), t.setAttribute("aria-selected", String(r));
-      })), f && (f.hidden = "notice" !== e);
+      }));
+      if (f) {
+        f.hidden = !panels && "notice" !== e;
+        f.setAttribute('aria-hidden', String("notice" !== e));
+        if ("notice" !== e) f.setAttribute('inert', ''); else f.removeAttribute('inert');
+      }
+      if (faq) {
+        faq.setAttribute('aria-hidden', String("notice" === e));
+        if ("notice" === e) faq.setAttribute('inert', ''); else faq.removeAttribute('inert');
+      }
     }
   }));
 })()

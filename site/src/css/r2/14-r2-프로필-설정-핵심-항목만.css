@@ -188,6 +188,6 @@
 :root.r2-help body [data-widget-type=board] .board-head .heading,
 :root.r2-help body [data-widget-type=board] .btn-write,
 :root.r2-help body [data-widget-type=board] a[href*=bmode\=write],
-:root.r2-help-notice body #faq {
+:root.r2-help-notice body .sf-help:not(:has(.sf-help-panels)) #faq {
   display:none!important;
 }

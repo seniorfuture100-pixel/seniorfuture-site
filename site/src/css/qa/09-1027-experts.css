@@ -353,21 +353,15 @@ html body .sf-faq-list.is-open ul.li_body.sf-faq-fold {
 :root.r2-help body .sf-help #faq-h {
   display:none!important; /* 공지사항 탭처럼 표 머리 줄이 제목 역할 */
 }
-/* (10/28 사장님) 공지사항 탭 여백을 자주 묻는 질문 탭과 같게: 탭 아래 24px, 표·버튼 아래 120px
-   (공지 표는 고객센터 코드 위젯 아래 따로 놓인 게시판이라 위젯 아래 여백 24 + 칸 사이 15 + 빈 게시판 바닥 줄 39 가 더 있었어요) */
-:root.r2-help-notice body .sf-help {
-  padding-bottom:0!important;
-}
-:root.r2-help-notice body [data-widget-type=board] {
-  margin-top:-15px!important;
-  padding-bottom:9px!important;
-}
-@media (max-width:767.98px) {
-  :root.r2-help-notice body [data-widget-type=board] {
-    margin-top:-8px!important;
-    padding-bottom:1px!important;
-  }
-}
+/* FAQ and notice share one grid cell. Hidden panels keep their height, so
+   switching tabs does not collapse the page or move the footer. */
+:root.r2-help body .sf-help-panels { display:grid; min-height:216px; overflow-anchor:none; }
+:root.r2-help body .sf-help-panels > * { grid-area:1 / 1; min-width:0; align-self:start; }
+:root.r2-help body .sf-help-panels > [aria-hidden="true"] { visibility:hidden; pointer-events:none; }
+:root.r2-help body .sf-help-panels #faq { display:block!important; margin:0; }
+:root.r2-help body .sf-help-panels [data-widget-type=board] { margin-top:0!important; padding-bottom:0!important; }
+:root.r2-help body .sf-help-panels .sf-help-notice-panel { margin:0!important; }
+:root.r2-help body [data-sf-faq-board] { min-height:216px; }
 /* 넓은 화면(1250px 넘음)에서 공지 표가 아임웹 칸 폭 1250 으로 좌우 25px 더 넓던 것 → 자주 묻는 질문 표와 같은 1200 */
 :root.r2-help body [data-widget-type=board] {
   max-width:1200px;

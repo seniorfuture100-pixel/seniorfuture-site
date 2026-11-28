@@ -42,9 +42,10 @@ SFUI.register('noticeList', function () {
   var slot = !isFaq && document.querySelector('[data-sf-faq-board]');
   if (slot && SFUI.once(slot, 'Faq')) {
     document.documentElement.classList.add('sf-nl-on');
-    fetch('/faq/' + (pv ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (t) {
+    fetch('/faq/' + (pv ? '?preview_mode=1' : ''), { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw new Error('FAQ load failed'); return r.text(); }).then(function (t) {
       var src = new DOMParser().parseFromString(t, 'text/html').querySelector('[data-widget-type="board"] .li_board');
-      if (!src || !src.querySelector('ul.li_body')) return;
+      if (!src) throw new Error('FAQ board missing');
+      if (!src.querySelector('ul.li_body')) { slot.innerHTML = '<p class="sf-help-faq__wait">등록된 질문이 없습니다.</p>'; return; }
       var fb = document.importNode(src, true);
       fb.classList.add('sf-faq-list');
       [].forEach.call(fb.querySelectorAll('a[href]'), function (a) {
@@ -75,7 +76,7 @@ SFUI.register('noticeList', function () {
         });
         slot.appendChild(mb);
       }
-    }).catch(function () {});
+    }).catch(function () { slot.innerHTML = '<p class="sf-help-faq__wait">질문을 불러오지 못했습니다. 잠시 후 새로고침해 주세요.</p>'; });
   }
   var box = document.querySelector('[data-widget-type="board"] .li_board');
   if (!box || !SFUI.once(box, 'Notice')) return;
